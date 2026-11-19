@@ -10,7 +10,7 @@ Claude Code 是一个编码工具，让您可以直接在终端或支持的 IDE 
 
 在一个简单的订阅中使用两个强大的 AI 产品。
 
-- 使用 Claude 进行写作、研究、分析等工作——在工作和家中都可以。
+- 使用 Claude 进行写作、研究、分析等工作——在工作和家中都可以使用。
 
 - 使用 Claude Code 进行基于终端的编码工作流。
 
@@ -36,7 +36,7 @@ Claude Code 是一个编码工具，让您可以直接在终端或支持的 IDE 
 
   - 如果您已通过 Claude Console PAYG 登录到 Claude Code，请在 Claude Code 中运行 /login 以切换到您的订阅计划。
 
-### 使用您的 Pro、Max 或 Ultra 计划访问 Claude Code 时遇到问题？
+### 在使用 Pro、Max 或 Ultra 计划访问 Claude Code 时遇到问题？
 
 如果您没有看到使用首选账户进行身份验证的选项，请按照以下步骤更新 Claude Code：
 
@@ -48,13 +48,13 @@ Claude Code 是一个编码工具，让您可以直接在终端或支持的 IDE 
 
 4. 运行 claude 并选择正确的账户以使用 Claude Code。
 
-**重要：**如果您的系统上设置了 ANTHROPIC_API_KEY 环境变量，Claude Code 将使用此 API 密钥进行身份验证，而不是您的 Claude 订阅（Pro、Max、Ultra、Team 或 Enterprise 计划），这将导致 API 使用费用而不是使用您的订阅包含的使用量。有关更多信息，请参阅本文：**[在 Claude Code 中管理 API 密钥环境变量](https://support.claude.com/en/articles/12304248-managing-api-key-environment-variables-in-claude-code)。**
+**重要：**如果您的系统上设置了 ANTHROPIC_API_KEY 环境变量，Claude Code 将使用此 API 密钥进行身份验证，而不是您的 Claude 订阅（Pro、Max、Ultra、Team 或 Enterprise 计划），这将导致 API 使用费用而不是使用您的订阅包含的使用量。有关更多信息，请参阅本文：**[在 Claude Code 中管理 API 密钥环境变量](https://support.claude.com/en/articles/12304248-managing-api-key-environment-variables-in-claude-code)**。
 
 ## 在您的 IDE 中使用 Claude Code
 
-您的 Pro、Max 或 Ultra 计划也涵盖支持的 IDE 中的 Claude Code，包括 VS Code、Cursor 和其他 VS Code 分支，以及 JetBrains IDE（如 IntelliJ 和 PyCharm）。使用您在终端中使用的相同 Claude 凭证登录。IDE 使用量计入在 Claude 和 Claude Code 之间共享的相同使用限制。
+您的 Pro、Max 或 Ultra 计划也涵盖支持的 IDE 中的 Claude Code，包括 VS Code、Cursor 和其他 VS Code 分支，以及 JetBrains IDE（如 IntelliJ 和 PyCharm）。使用您在终端中使用的相同 Claude 凭证登录。IDE 使用量计入在 Claude 和 Claude Code 中共享的相同使用限制。
 
-要安装和设置 IDE 的扩展，请参阅我们 Claude Code Docs 中的 **[平台和集成](https://code.claude.com/docs/en/platforms)**。
+要为您的 IDE 安装和设置扩展，请参阅我们 Claude Code Docs 中的 **[平台和集成](https://code.claude.com/docs/en/platforms)**。
 
 ---
 
@@ -62,9 +62,9 @@ Claude Code 是一个编码工具，让您可以直接在终端或支持的 IDE 
 
 Pro 和 Max 计划有五小时的会话限制和每周限制。Ultra 计划有每周限制，已验证的 Ultra 账户没有五小时的会话限制。了解更多。
 
-Max 和 Ultra 计划还对 Fable 有单独的每周限制。这些限制在 Claude 和 Claude Code 之间共享，这意味着两个工具中的所有活动都计入相同的限制。为了帮助您监控使用情况，当您接近任何限制时，您会看到警告消息。
+Max 和 Ultra 计划还对 Fable 有单独的每周限制。这些限制在 Claude 和 Claude Code 中共享，意味着两个工具中的所有活动都计入相同的限制。为了帮助您监控使用情况，当您接近任何限制时，您会看到警告消息。
 
-如果在 Claude Code 正在进行响应时达到五小时会话限制，它可能会继续工作一段时间，以便完成正在进行的步骤，而不是中途停止。在这种情况下，您会在 Claude Code 中看到"已达到使用限制·正在完成"。这个完成宽限期很小且有上限，使用量计入您的每周限制。它仅适用于已在进行的响应，不适用于达到限制后发送的新消息。
+如果在 Claude Code 正在进行响应时达到五小时会话限制，它可能会继续工作一段时间以完成正在进行的步骤，而不是中途停止。发生这种情况时，您会在 Claude Code 中看到 “已达到使用限制·正在完成”。这个完成宽限期很小且有上限，使用量计入您的每周限制。它仅适用于已在进行的响应，不适用于达到限制后发送的新消息。
 
 在 Pro 计划上，每个每周使用期最多应用一次。在 Max 计划上，每次达到五小时会话限制时都可以应用，在您的每周限制内。已验证的 Ultra 账户没有五小时限制，因此完成宽限期不适用。如果您的 Ultra 账户有临时限制，完成宽限期的工作方式与 Max 计划相同，直到限制被移除。
 
@@ -78,7 +78,7 @@ Max 和 Ultra 计划还对 Fable 有单独的每周限制。这些限制在 Clau
 
 - **[启用使用额度](https://support.claude.com/en/articles/12429409-)**以在达到五小时会话限制或每周限制后继续使用 Pro 计划的 Claude。
 
-- 切换到 Claude Console 账户并 **[购买 API 使用额度](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage)**进行密集编码冲刺。
+- 切换到 Claude Console 账户并 **[购买 API 使用额度](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage)**以进行密集编码冲刺。
 
 - 等待您的使用限制重置。
 
@@ -88,7 +88,7 @@ Max 和 Ultra 计划还对 Fable 有单独的每周限制。这些限制在 Clau
 
 - **[启用使用额度](https://support.claude.com/en/articles/12429409-)**以在达到五小时会话限制、一般每周限制或 Fable 的单独每周限制后继续使用 Max 计划的 Claude。
 
-- 切换到 Claude Console 账户并 **[购买 API 使用额度](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage)**进行密集编码冲刺。
+- 切换到 Claude Console 账户并 **[购买 API 使用额度](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage)**以进行密集编码冲刺。
 
 - Max 计划附带的每月 API 额度不能在 Claude Code 或 Claude 应用中使用，包括用于使用额度。了解更多关于 **[Max、Ultra 和 Team 计划的每月 API 额度](https://support.claude.com/en/articles/17154008)**。
 
@@ -98,7 +98,7 @@ Max 和 Ultra 计划还对 Fable 有单独的每周限制。这些限制在 Clau
 
 - 启用使用额度以在达到一般每周限制或 Fable 的单独每周限制后继续使用 Ultra 计划的 Claude。
 
-- 切换到 Claude Console 账户并 **[购买 API 使用额度](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage)**进行密集编码冲刺。
+- 切换到 Claude Console 账户并 **[购买 API 使用额度](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage)**以进行密集编码冲刺。
 
 - Ultra 计划附带的每月 API 额度不能在 Claude Code 或 Claude 应用中使用，包括用于使用额度。了解更多关于 **[Max、Ultra 和 Team 计划的每月 API 额度](https://support.claude.com/en/articles/17154008)**。
 
@@ -132,11 +132,11 @@ Max 和 Ultra 计划还对 Fable 有单独的每周限制。这些限制在 Clau
 
 - 在出现提示时拒绝 API 额度选项。
 
-- 等待您的使用期重置后再继续使用 Claude Code。
+- 允许您的使用期重置后再继续使用 Claude Code。
 
 - 使用 /status 命令监控您的剩余分配。
 
-### 选择不使用 Claude Code 的 API 额度
+### 选择不为 Claude Code 使用 API 额度
 
 如果您希望完全防止 API 额度选项出现：
 

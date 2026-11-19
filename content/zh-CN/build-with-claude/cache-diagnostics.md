@@ -29,11 +29,12 @@ featureMetadata:
     - claude-sonnet-4-5-20250929
   supportedPlatforms:
     Claude API: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
 ---
 
 [提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)（prompt caching）可以显著降低延迟和成本，但前提是您的提示开头与最近的某个请求逐字节完全相同。工具顺序的调整、插入到系统提示中的时间戳，或对较早消息的编辑，都可能悄无声息地使缓存失效。如果没有缓存诊断，唯一的信号就是 `usage.cache_read_input_tokens` 降为零，而没有任何关于发生了什么变化的提示。
 
-缓存诊断（cache diagnostics）填补了这一空白。传入您上一个响应的 `id`，API 会比较这两个请求并告诉您它们在哪里发生了分歧（模型、系统提示、工具或消息历史），这样您就可以修复根本原因，而不是靠猜测。
+缓存诊断（cache diagnostics）填补了这一空白。传入您上一个响应的 `id`，API 会比较这两个请求。它会告诉您它们在哪里发生了分歧（模型、系统提示、工具或消息历史），这样您就可以修复根本原因，而不是靠猜测。
 
 ## 缓存诊断的工作原理
 
@@ -45,7 +46,7 @@ featureMetadata:
 
 ## 基本用法
 
-在每一轮中都包含 `diagnostics` 对象。该对象即表示选择启用：API 仅为包含该对象的请求存储指纹。在第一轮中，传入 `"previous_message_id": null`，以便在没有可供比较的先前消息的情况下选择启用。在后续轮次中，传入上一个响应中的 `id`。不再需要 `cache-diagnosis-2026-04-07` beta 请求头，发送该请求头的请求也会照常工作。
+在每一轮中都包含 `diagnostics` 对象。该对象即表示选择启用：API 仅为包含该对象的请求存储指纹。在第一轮中，传入 `"previous_message_id": null`，以便在没有可供比较的先前消息的情况下选择启用。在后续轮次中，传入上一个响应中的 `id`。
 
 <CodeGroup>
   ```bash cURL
@@ -194,6 +195,10 @@ featureMetadata:
   ```
 
   ```csharp C#
+  using Anthropic.Models.Beta;
+  using Anthropic.Models.Beta.Messages;
+  using Messages = Anthropic.Models.Messages;
+
   AnthropicClient client = new();
 
   var system = "You are an AI assistant analyzing a large document. <document>...</document>";
@@ -291,46 +296,57 @@ featureMetadata:
   ```
 
   ```java Java
-  var client = AnthropicOkHttpClient.fromEnv();
+  import com.anthropic.models.beta.messages.BetaCacheControlEphemeral;
+  import com.anthropic.models.beta.messages.BetaDiagnosticsParam;
+  import com.anthropic.models.beta.messages.MessageCreateParams;
+  import com.anthropic.models.messages.Model;
 
-  var system = "You are an AI assistant analyzing a large document. <document>...</document>";
+  void main() {
+      var client = AnthropicOkHttpClient.fromEnv();
 
-  var r1 = client.beta().messages().create(
-      MessageCreateParams.builder()
-          .model(Model.CLAUDE_OPUS_5_5)
-          .maxTokens(1024)
-          .cacheControl(BetaCacheControlEphemeral.builder().build())
-          .system(system)
-          .addUserMessage("Summarize section 1.")
-          // 首轮传入 null 即可启用，无需可供比较的先前消息。
-          .diagnostics(BetaDiagnosticsParam.builder().previousMessageId((String) null).build())
-          .build()
-  );
+      var system = "You are an AI assistant analyzing a large document. <document>...</document>";
 
-  var r2 = client.beta().messages().create(
-      MessageCreateParams.builder()
-          .model(Model.CLAUDE_OPUS_5_5)
-          .maxTokens(1024)
-          .cacheControl(BetaCacheControlEphemeral.builder().build())
-          .system(system)
-          .addUserMessage("Summarize section 1.")
-          .addMessage(r1)
-          .addUserMessage("Now summarize section 2.")
-          .diagnostics(BetaDiagnosticsParam.builder().previousMessageId(r1.id()).build())
-          .build()
-  );
+      var r1 = client.beta().messages().create(
+          MessageCreateParams.builder()
+              .model(Model.CLAUDE_OPUS_5_5)
+              .maxTokens(1024)
+              .cacheControl(BetaCacheControlEphemeral.builder().build())
+              .system(system)
+              .addUserMessage("Summarize section 1.")
+              // 首轮传入 null 即可启用，无需可供比较的先前消息。
+              .diagnostics(BetaDiagnosticsParam.builder().previousMessageId((String) null).build())
+              .build()
+      );
 
-  if (r2.diagnostics().isEmpty()) {
-      IO.println("No divergence detected.");
-  } else if (r2.diagnostics().get().cacheMissReason().isEmpty()) {
-      IO.println("Comparison still pending.");
-  } else {
-      var reason = r2.diagnostics().get().cacheMissReason().get();
-      IO.println("cache_miss_reason: " + reason.type().asString());
+      var r2 = client.beta().messages().create(
+          MessageCreateParams.builder()
+              .model(Model.CLAUDE_OPUS_5_5)
+              .maxTokens(1024)
+              .cacheControl(BetaCacheControlEphemeral.builder().build())
+              .system(system)
+              .addUserMessage("Summarize section 1.")
+              .addMessage(r1)
+              .addUserMessage("Now summarize section 2.")
+              .diagnostics(BetaDiagnosticsParam.builder().previousMessageId(r1.id()).build())
+              .build()
+      );
+
+      if (r2.diagnostics().isEmpty()) {
+          IO.println("No divergence detected.");
+      } else if (r2.diagnostics().get().cacheMissReason().isEmpty()) {
+          IO.println("Comparison still pending.");
+      } else {
+          var reason = r2.diagnostics().get().cacheMissReason().get();
+          IO.println("cache_miss_reason: " + reason.type().asString());
+      }
   }
   ```
 
   ```php PHP
+  use Anthropic\Beta\Messages\BetaCacheControlEphemeral;
+  use Anthropic\Beta\Messages\BetaDiagnosticsParam;
+  use Anthropic\Messages\Model;
+
   $client = new Client();
 
   $system = 'You are an AI assistant analyzing a large document. <document>...</document>';
@@ -372,7 +388,7 @@ featureMetadata:
   SYSTEM = "You are an AI assistant analyzing a large document. <document>...</document>"
 
   r1 = client.beta.messages.create(
-    model: :"claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     cache_control: {type: "ephemeral"},
     system_: SYSTEM,
@@ -383,7 +399,7 @@ featureMetadata:
   )
 
   r2 = client.beta.messages.create(
-    model: :"claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     cache_control: {type: "ephemeral"},
     system_: SYSTEM,
@@ -503,7 +519,7 @@ featureMetadata:
   }
   process.stdout.write("\n");
 
-  // diagnostics 在 message_start 中到达，并一直保留到最终消息
+  // diagnostics 在 message_start 中到达，并一直传递到最终消息
   const r2 = await stream.finalMessage();
 
   if (r2.diagnostics === null) {
@@ -516,7 +532,7 @@ featureMetadata:
   ```
 
   ```csharp C#
-  // 第 2 轮：流式传输（streaming），并引用上一个响应的 id
+  // 第 2 轮：流式传输，并引用上一个响应的 id
   BetaDiagnostics? diagnostics = null;
 
   var stream = client.Beta.Messages.CreateStreaming(
@@ -623,7 +639,7 @@ featureMetadata:
       IO.println("");
   }
 
-  // diagnostics 随 message_start 到达，并会保留到累积的消息中
+  // diagnostics 随 message_start 到达，并会一直传递到累积的消息中
   var diagnostics = accumulator.message().diagnostics();
   if (diagnostics.isEmpty()) {
       IO.println("No divergence detected.");
@@ -674,9 +690,9 @@ featureMetadata:
   ```
 
   ```ruby Ruby
-  # 第 2 轮：以流式传输方式发送，并引用上一个响应的 id
+  # 第 2 轮：流式传输，并引用上一个响应的 id
   stream = client.beta.messages.stream(
-    model: :"claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     cache_control: {type: "ephemeral"},
     system_: SYSTEM,
@@ -693,7 +709,7 @@ featureMetadata:
   end
   puts
 
-  # diagnostics 随 message_start 到达，并保留在累积的消息中
+  # diagnostics 随 message_start 到达，并保留在累积的消息上
   r2 = stream.accumulated_message
 
   case r2.diagnostics
@@ -713,264 +729,271 @@ featureMetadata:
 
 在多轮对话中，每一轮都将最新的响应 `id` 作为 `previous_message_id` 向前传递。第一次迭代传入 `null` 以选择启用；之后的每次迭代传入上一个响应的 `id`。
 
-<Tabs>
-  <Tab title="cURL">
-    <Info>
-      此工作流需要的逻辑超出了单个 shell 命令所能承载的范围。请使用 Anthropic SDK 来运行循环。每一轮发送的 HTTP 请求与[基本用法](https://platform.claude.com/docs/zh-CN/build-with-claude/cache-diagnostics#basic-usage)中的相同。
-    </Info>
-  </Tab>
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    此工作流需要的逻辑超出了单个 shell 命令所能承载的范围。请使用 Anthropic SDK 来运行循环。每一轮发送的 HTTP 请求与[基本用法](https://platform.claude.com/docs/zh-CN/build-with-claude/cache-diagnostics#basic-usage)中的相同。
+  </CodeGroupItem>
 
-  <Tab title="CLI">
-    <Info>
-      此工作流需要的逻辑超出了单个 shell 命令所能承载的范围，因此请使用 Anthropic SDK 来运行循环。每一轮发送的请求与[基本用法](https://platform.claude.com/docs/zh-CN/build-with-claude/cache-diagnostics#basic-usage)中的 CLI 命令相同。
-    </Info>
-  </Tab>
+  <CodeGroupItem language="CLI">
+    此工作流需要的逻辑超出了单个 shell 命令所能承载的范围。请使用 Anthropic SDK 来运行循环。每一轮发送的请求与[基本用法](https://platform.claude.com/docs/zh-CN/build-with-claude/cache-diagnostics#basic-usage)中的相同。
+  </CodeGroupItem>
 
-  <Tab title="Python">
-    ```python
-    client = anthropic.Anthropic()
+  ```python Python
+  client = anthropic.Anthropic()
 
-    SYSTEM = "You are an AI assistant analyzing a large document. <document>...</document>"
+  SYSTEM = "You are an AI assistant analyzing a large document. <document>...</document>"
 
-    messages = []
-    prev_id = None
+  messages = []
+  prev_id = None
 
-    for i, user_message in enumerate(
-        ["Summarize section 1.", "Now section 2.", "Now section 3."]
-    ):
-        messages.append({"role": "user", "content": user_message})
+  for turn, user_message in enumerate(
+      ["Summarize section 1.", "Now section 2.", "Now section 3."]
+  ):
+      messages.append({"role": "user", "content": user_message})
 
-        r = client.beta.messages.create(
-            model="claude-opus-5-5",
-            max_tokens=1024,
-            cache_control={"type": "ephemeral"},
-            system=SYSTEM,
-            messages=messages,
-            diagnostics={"previous_message_id": prev_id},
-        )
-
-        if r.diagnostics is not None and r.diagnostics.cache_miss_reason is not None:
-            print(f"Turn {i + 1} cache_miss_reason: {r.diagnostics.cache_miss_reason.type}")
-
-        messages.append({"role": "assistant", "content": r.content})
-        prev_id = r.id
-    ```
-  </Tab>
-
-  <Tab title="TypeScript">
-    ```typescript
-    const client = new Anthropic();
-
-    const SYSTEM = "You are an AI assistant analyzing a large document. <document>...</document>";
-
-    const prompts = ["Summarize section 1.", "Now section 2.", "Now section 3."];
-
-    const messages: BetaMessageParam[] = [];
-    let prevId: string | null = null;
-
-    for (const [i, prompt] of prompts.entries()) {
-      messages.push({ role: "user", content: prompt });
-
-      const r: BetaMessage = await client.beta.messages.create({
-        model: "claude-opus-5-5",
-        max_tokens: 1024,
-        cache_control: { type: "ephemeral" },
-        system: SYSTEM,
-        messages,
-        diagnostics: { previous_message_id: prevId }
-      });
-
-      if (r.diagnostics?.cache_miss_reason) {
-        console.log(`Turn ${i + 1} cache_miss_reason: ${r.diagnostics.cache_miss_reason.type}`);
-      }
-
-      messages.push({ role: "assistant", content: r.content });
-      prevId = r.id;
-    }
-    ```
-  </Tab>
-
-  <Tab title="C#">
-    ```csharp
-    AnthropicClient client = new();
-
-    var system = "You are an AI assistant analyzing a large document. <document>...</document>";
-
-    List<BetaMessageParam> messages = [];
-    string? prevId = null;
-    string[] prompts = ["Summarize section 1.", "Now section 2.", "Now section 3."];
-
-    for (int i = 0; i < prompts.Length; i++)
-    {
-        messages.Add(new BetaUserMessageParam { Content = prompts[i] });
-
-        var r = await client.Beta.Messages.Create(
-            new()
-            {
-                Model = Messages::Model.ClaudeOpus5_5,
-                MaxTokens = 1024,
-                CacheControl = new(),
-                System = system,
-                Messages = messages,
-                Diagnostics = new() { PreviousMessageID = prevId },
-            }
-        );
-
-        if (r.Diagnostics?.CacheMissReason is { Type: var type })
-        {
-            Console.WriteLine($"Turn {i + 1} cache_miss_reason: {type.Raw()}");
-        }
-
-        messages.Add(
-            new BetaAssistantMessageParam
-            {
-                Content = r.Content.Select(block => new BetaContentBlockParam(block.Json)).ToList(),
-            }
-        );
-        prevId = r.ID;
-    }
-    ```
-  </Tab>
-
-  <Tab title="Go">
-    ```go
-    client := anthropic.NewClient()
-    ctx := context.Background()
-
-    system := []anthropic.BetaTextBlockParam{
-    	{Text: "You are an AI assistant analyzing a large document. <document>...</document>"},
-    }
-
-    prompts := []string{"Summarize section 1.", "Now section 2.", "Now section 3."}
-
-    var messages []anthropic.BetaMessageParam
-    prevID := param.Null[string]()
-
-    for turn, prompt := range prompts {
-    	messages = append(messages, anthropic.NewBetaUserMessage(anthropic.NewBetaTextBlock(prompt)))
-
-    	r, err := client.Beta.Messages.New(ctx, anthropic.BetaMessageNewParams{
-    		Model:        anthropic.ModelClaudeOpus5_5,
-    		MaxTokens:    1024,
-    		CacheControl: anthropic.BetaCacheControlEphemeralParam{},
-    		System:       system,
-    		Messages:     messages,
-    		Diagnostics: anthropic.BetaDiagnosticsParam{
-    			PreviousMessageID: prevID,
-    		},
-    	})
-    	if err != nil {
-    		panic(err)
-    	}
-
-    	if r.JSON.Diagnostics.Valid() && r.Diagnostics.JSON.CacheMissReason.Valid() {
-    		fmt.Printf("Turn %d cache_miss_reason: %s\n", turn+1, r.Diagnostics.CacheMissReason.Type)
-    	}
-
-    	messages = append(messages, r.ToParam())
-    	prevID = anthropic.String(r.ID)
-    }
-    ```
-  </Tab>
-
-  <Tab title="Java">
-    ```java
-    var client = AnthropicOkHttpClient.fromEnv();
-
-    var system = "You are an AI assistant analyzing a large document. <document>...</document>";
-    var prompts = List.of("Summarize section 1.", "Now section 2.", "Now section 3.");
-
-    var messages = new ArrayList<BetaMessageParam>();
-    String prevId = null;
-
-    for (var turn = 0; turn < prompts.size(); turn++) {
-        messages.add(BetaMessageParam.ofUser(prompts.get(turn)));
-
-        var r = client.beta().messages().create(
-            MessageCreateParams.builder()
-                .model(Model.CLAUDE_OPUS_5_5)
-                .maxTokens(1024)
-                .cacheControl(BetaCacheControlEphemeral.builder().build())
-                .system(system)
-                .messages(messages)
-                .diagnostics(BetaDiagnosticsParam.builder().previousMessageId(prevId).build())
-                .build()
-        );
-
-        if (r.diagnostics().isPresent() && r.diagnostics().get().cacheMissReason().isPresent()) {
-            var reason = r.diagnostics().get().cacheMissReason().get();
-            IO.println("Turn " + (turn + 1) + " cache_miss_reason: " + reason.type().asString());
-        }
-
-        messages.add(r.toParam());
-        prevId = r.id();
-    }
-    ```
-  </Tab>
-
-  <Tab title="PHP">
-    ```php
-    $client = new Client();
-
-    $system = 'You are an AI assistant analyzing a large document. <document>...</document>';
-
-    $messages = [];
-    $prevId = null;
-
-    foreach (['Summarize section 1.', 'Now section 2.', 'Now section 3.'] as $i => $userMsg) {
-        $turn = $i + 1;
-        $messages[] = ['role' => 'user', 'content' => $userMsg];
-
-        $r = $client->beta->messages->create(
-            model: Model::CLAUDE_OPUS_5_5,
-            maxTokens: 1024,
-            cacheControl: new BetaCacheControlEphemeral,
-            system: $system,
-            messages: $messages,
-            diagnostics: (new BetaDiagnosticsParam)->withPreviousMessageID($prevId),
-        );
-
-        if ($r->diagnostics?->cacheMissReason !== null) {
-            echo "Turn {$turn} cache_miss_reason: {$r->diagnostics->cacheMissReason->type}\n";
-        }
-
-        $messages[] = ['role' => 'assistant', 'content' => $r->content];
-        $prevId = $r->id;
-    }
-    ```
-  </Tab>
-
-  <Tab title="Ruby">
-    ```ruby
-    client = Anthropic::Client.new
-
-    SYSTEM = "You are an AI assistant analyzing a large document. <document>...</document>"
-
-    messages = []
-    prev_id = nil
-
-    ["Summarize section 1.", "Now section 2.", "Now section 3."].each_with_index do |user_msg, i|
-      messages << {role: "user", content: user_msg}
-
-      r = client.beta.messages.create(
-        model: :"claude-opus-5-5",
-        max_tokens: 1024,
-        cache_control: {type: "ephemeral"},
-        system_: SYSTEM,
-        messages: messages,
-        diagnostics: {previous_message_id: prev_id}
+      response = client.beta.messages.create(
+          model="claude-opus-5-5",
+          max_tokens=1024,
+          cache_control={"type": "ephemeral"},
+          system=SYSTEM,
+          messages=messages,
+          diagnostics={"previous_message_id": prev_id},
       )
 
-      if (reason = r.diagnostics&.cache_miss_reason)
-        puts "Turn #{i + 1} cache_miss_reason: #{reason.type}"
-      end
+      if (
+          response.diagnostics is not None
+          and response.diagnostics.cache_miss_reason is not None
+      ):
+          print(
+              f"Turn {turn + 1} cache_miss_reason: {response.diagnostics.cache_miss_reason.type}"
+          )
 
-      messages << {role: "assistant", content: r.content}
-      prev_id = r.id
+      messages.append({"role": "assistant", "content": response.content})
+      prev_id = response.id
+  ```
+
+  ```typescript TypeScript
+  import type { BetaMessage, BetaMessageParam } from "@anthropic-ai/sdk/resources/beta";
+
+  const client = new Anthropic();
+
+  const SYSTEM = "You are an AI assistant analyzing a large document. <document>...</document>";
+
+  const prompts = ["Summarize section 1.", "Now section 2.", "Now section 3."];
+
+  const messages: BetaMessageParam[] = [];
+  let prevId: string | null = null;
+
+  for (const [turn, prompt] of prompts.entries()) {
+    messages.push({ role: "user", content: prompt });
+
+    const response: BetaMessage = await client.beta.messages.create({
+      model: "claude-opus-5-5",
+      max_tokens: 1024,
+      cache_control: { type: "ephemeral" },
+      system: SYSTEM,
+      messages,
+      diagnostics: { previous_message_id: prevId }
+    });
+
+    if (response.diagnostics?.cache_miss_reason) {
+      console.log(
+        `Turn ${turn + 1} cache_miss_reason: ${response.diagnostics.cache_miss_reason.type}`
+      );
+    }
+
+    messages.push({ role: "assistant", content: response.content });
+    prevId = response.id;
+  }
+  ```
+
+  ```csharp C#
+  using Anthropic.Models.Beta;
+  using Anthropic.Models.Beta.Messages;
+  using Messages = Anthropic.Models.Messages;
+
+  AnthropicClient client = new();
+
+  var system = "You are an AI assistant analyzing a large document. <document>...</document>";
+
+  List<BetaMessageParam> messages = [];
+  string? prevId = null;
+  string[] prompts = ["Summarize section 1.", "Now section 2.", "Now section 3."];
+
+  for (int turn = 0; turn < prompts.Length; turn++)
+  {
+      messages.Add(new BetaUserMessageParam { Content = prompts[turn] });
+
+      var response = await client.Beta.Messages.Create(
+          new()
+          {
+              Model = Messages::Model.ClaudeOpus5_5,
+              MaxTokens = 1024,
+              CacheControl = new(),
+              System = system,
+              Messages = messages,
+              Diagnostics = new() { PreviousMessageID = prevId },
+          }
+      );
+
+      if (response.Diagnostics?.CacheMissReason is { Type: var type })
+      {
+          Console.WriteLine($"Turn {turn + 1} cache_miss_reason: {type.Raw()}");
+      }
+
+      messages.Add(
+          new BetaAssistantMessageParam
+          {
+              Content = response.Content.Select(block => new BetaContentBlockParam(block.Json)).ToList(),
+          }
+      );
+      prevId = response.ID;
+  }
+  ```
+
+  ```go Go
+  client := anthropic.NewClient()
+  ctx := context.Background()
+
+  system := []anthropic.BetaTextBlockParam{
+  	{Text: "You are an AI assistant analyzing a large document. <document>...</document>"},
+  }
+
+  prompts := []string{"Summarize section 1.", "Now section 2.", "Now section 3."}
+
+  var messages []anthropic.BetaMessageParam
+  prevID := param.Null[string]()
+
+  for turn, prompt := range prompts {
+  	messages = append(messages, anthropic.NewBetaUserMessage(anthropic.NewBetaTextBlock(prompt)))
+
+  	response, err := client.Beta.Messages.New(ctx, anthropic.BetaMessageNewParams{
+  		Model:        anthropic.ModelClaudeOpus5_5,
+  		MaxTokens:    1024,
+  		CacheControl: anthropic.BetaCacheControlEphemeralParam{},
+  		System:       system,
+  		Messages:     messages,
+  		Diagnostics: anthropic.BetaDiagnosticsParam{
+  			PreviousMessageID: prevID,
+  		},
+  	})
+  	if err != nil {
+  		panic(err)
+  	}
+
+  	if response.JSON.Diagnostics.Valid() && response.Diagnostics.JSON.CacheMissReason.Valid() {
+  		fmt.Printf("Turn %d cache_miss_reason: %s\n", turn+1, response.Diagnostics.CacheMissReason.Type)
+  	}
+
+  	messages = append(messages, response.ToParam())
+  	prevID = anthropic.String(response.ID)
+  }
+  ```
+
+  ```java Java
+  import com.anthropic.models.beta.messages.BetaCacheControlEphemeral;
+  import com.anthropic.models.beta.messages.BetaDiagnosticsParam;
+  import com.anthropic.models.beta.messages.BetaMessageParam;
+  import com.anthropic.models.beta.messages.MessageCreateParams;
+  import com.anthropic.models.messages.Model;
+
+  void main() {
+      var client = AnthropicOkHttpClient.fromEnv();
+
+      var system = "You are an AI assistant analyzing a large document. <document>...</document>";
+      var prompts = List.of("Summarize section 1.", "Now section 2.", "Now section 3.");
+
+      var messages = new ArrayList<BetaMessageParam>();
+      String prevId = null;
+
+      for (var turn = 0; turn < prompts.size(); turn++) {
+          messages.add(BetaMessageParam.ofUser(prompts.get(turn)));
+
+          var response = client.beta().messages().create(
+              MessageCreateParams.builder()
+                  .model(Model.CLAUDE_OPUS_5_5)
+                  .maxTokens(1024)
+                  .cacheControl(BetaCacheControlEphemeral.builder().build())
+                  .system(system)
+                  .messages(messages)
+                  .diagnostics(BetaDiagnosticsParam.builder().previousMessageId(prevId).build())
+                  .build()
+          );
+
+          if (response.diagnostics().isPresent() && response.diagnostics().get().cacheMissReason().isPresent()) {
+              var reason = response.diagnostics().get().cacheMissReason().get();
+              IO.println("Turn " + (turn + 1) + " cache_miss_reason: " + reason.type().asString());
+          }
+
+          messages.add(response.toParam());
+          prevId = response.id();
+      }
+  }
+  ```
+
+  ```php PHP
+  use Anthropic\Beta\Messages\BetaCacheControlEphemeral;
+  use Anthropic\Beta\Messages\BetaDiagnosticsParam;
+  use Anthropic\Messages\Model;
+
+  $client = new Client();
+
+  $system = 'You are an AI assistant analyzing a large document. <document>...</document>';
+
+  $messages = [];
+  $prevId = null;
+
+  foreach (['Summarize section 1.', 'Now section 2.', 'Now section 3.'] as $index => $userMsg) {
+      $turn = $index + 1;
+      $messages[] = ['role' => 'user', 'content' => $userMsg];
+
+      $response = $client->beta->messages->create(
+          model: Model::CLAUDE_OPUS_5_5,
+          maxTokens: 1024,
+          cacheControl: new BetaCacheControlEphemeral,
+          system: $system,
+          messages: $messages,
+          diagnostics: (new BetaDiagnosticsParam)->withPreviousMessageID($prevId),
+      );
+
+      if ($response->diagnostics?->cacheMissReason !== null) {
+          echo "Turn {$turn} cache_miss_reason: {$response->diagnostics->cacheMissReason->type}\n";
+      }
+
+      $messages[] = ['role' => 'assistant', 'content' => $response->content];
+      $prevId = $response->id;
+  }
+  ```
+
+  ```ruby Ruby
+  client = Anthropic::Client.new
+
+  SYSTEM = "You are an AI assistant analyzing a large document. <document>...</document>"
+
+  messages = []
+  prev_id = nil
+
+  ["Summarize section 1.", "Now section 2.", "Now section 3."].each_with_index do |user_msg, turn|
+    messages << {role: "user", content: user_msg}
+
+    response = client.beta.messages.create(
+      model: Anthropic::Model::CLAUDE_OPUS_5_5,
+      max_tokens: 1024,
+      cache_control: {type: "ephemeral"},
+      system_: SYSTEM,
+      messages: messages,
+      diagnostics: {previous_message_id: prev_id}
+    )
+
+    if (reason = response.diagnostics&.cache_miss_reason)
+      puts "Turn #{turn + 1} cache_miss_reason: #{reason.type}"
     end
-    ```
-  </Tab>
-</Tabs>
+
+    messages << {role: "assistant", content: response.content}
+    prev_id = response.id
+  end
+  ```
+</CodeGroup>
 
 ## 响应格式
 
@@ -978,7 +1001,7 @@ featureMetadata:
 
 | 值                              | 含义                                                                                                               |
 | ------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `null`                         | 请求未包含 `diagnostics` 对象，`previous_message_id` 为 `null`（第一轮，没有可比较的内容），或者已执行比较且未发现分歧。                               |
+| `null`                         | 请求未包含 `diagnostics` 对象，`previous_message_id` 为 `null`（第一轮，没有可比较的内容），或者在最后一个断点之前没有发生任何分歧。                         |
 | `{"cache_miss_reason": null}`  | 在序列化响应时比较仍在进行中。当响应开始得非常快时可能会出现这种情况。请将其视为无定论，并检查下一轮。                                                              |
 | `{"cache_miss_reason": {...}}` | 附加了一个 `cache_miss_reason`。对于 `*_changed` 类型，它标识第一个分歧点；`previous_message_not_found` 和 `unavailable` 则是未产生比较结果的情况。 |
 
@@ -1012,7 +1035,7 @@ featureMetadata:
 | 类型                           | 含义                                                                                                                                                                                                      | 需要更改的内容                                                                                                                                                               |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `model_changed`              | `model` 与上一个请求不同（例如，路由器、A/B 测试或回退机制选择了不同的模型）。缓存是按模型区分的。                                                                                                                                                 | 在一个已缓存的对话中保持模型不变。                                                                                                                                                     |
-| `system_changed`             | `system` 参数不同。通常是时间戳、请求 ID 或其他每次请求都不同的值被插入到了系统提示中。                                                                                                                                                      | 使系统提示成为字节稳定的常量，并将动态数据移到缓存断点之后的第一条 `user` 消息中。                                                                                                                         |
+| `system_changed`             | `system` 参数不同。通常是时间戳、请求 ID 或其他每次请求都不同的值被插入到了系统提示中。                                                                                                                                                      | 使系统提示成为字节稳定的常量，并将变化的值放入您即将发送的 `user` 消息中。                                                                                                                             |
 | `tools_changed`              | `tools` 数组不同：在轮次之间添加、删除或重新排序了工具，或者工具的 `input_schema` JSON 被非确定性地序列化。                                                                                                                                    | 每一轮都以固定顺序发送相同的工具列表，并使用确定性序列化的 schema（例如，对键进行排序）。                                                                                                                      |
 | `messages_changed`           | 模型、系统提示和工具全部匹配，但 `messages` 中较早的条目被修改、重新排序或删除，而不是仅追加。通常是对话历史被截断或编辑，或者助手轮次和 `tool_result` 块在重新发送时被以不同方式重新序列化。                                                                                            | 将历史视为仅追加；原样回传助手的 `content` 和工具结果。                                                                                                                                     |
 | `previous_message_not_found` | 对于所提供的 `previous_message_id`，不存在已存储的指纹。这并不能证明您的请求发生了变化。通常是因为上一个请求未包含 `diagnostics` 对象、它来自不同的工作区，或者距离其发送已经过去了太长时间。                                                                                       | 在每一轮中都包含 `diagnostics` 对象，并使连续轮次在时间上保持接近。                                                                                                                             |
@@ -1024,23 +1047,28 @@ featureMetadata:
 
 ## 结合 usage 解读诊断结果
 
-`diagnostics` 回答的是"我的请求是否发生了变化？"，而 `usage.cache_read_input_tokens` 回答的是"缓存是否命中？"。将两者结合，即可知道应从哪里着手排查。
+`diagnostics` 告诉您请求是否发生了变化，而 `usage.cache_read_input_tokens` 告诉您缓存是否命中。将两者结合，即可知道应从哪里着手排查。
 
 此矩阵适用于您传入了真实 `previous_message_id` 的轮次。在第一轮（`previous_message_id: null`），`diagnostics` 始终为 `null`，且 `cache_read_input_tokens` 通常为零，因为此时缓存正在被写入而非读取；无需排查。当 `cache_miss_reason` 为 `null`（比较仍在进行中；请检查下一轮）或其 `type` 为 `previous_message_not_found` 或 `unavailable`（未产生比较结果）时，此矩阵也不适用。
 
-| 诊断结果                                 | 缓存读取令牌数 | 解读                                                                                                                                              |
-| ------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `null`                               | 高       | 按预期工作。您的前缀稳定且缓存命中。                                                                                                                              |
-| `null`                               | 低或为零    | 您的请求匹配，但缓存条目已不再可用。请考虑缩短轮次之间的间隔，或使用 [1 小时缓存 TTL](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#1-hour-cache-duration)。 |
-| `cache_miss_reason` 为 `*_changed` 类型 | 低或为零    | 请求发生了变化；请修复 `type` 所指示的原因。                                                                                                                      |
-| `cache_miss_reason` 为 `*_changed` 类型 | 高       | 罕见。变化发生在提示的后部，但较早的 `cache_control` 断点仍然命中。值得修复，但影响较小。                                                                                           |
+| 诊断结果                                 | 缓存读取令牌数 | 解读                                                                                                                                   |
+| ------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `null`                               | 高       | 缓存命中。                                                                                                                                |
+| `null`                               | 低或为零    | 您的请求匹配，但没有可供读取的缓存条目：它已过期，或者提示短于[最小可缓存长度](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-limitations)。 |
+| `cache_miss_reason` 为 `*_changed` 类型 | 低或为零    | 请求发生了变化；请修复 `type` 所指示的原因。                                                                                                           |
+| `cache_miss_reason` 为 `*_changed` 类型 | 高       | 罕见。变化发生在提示的后部，但较早的 `cache_control` 断点仍然命中。值得修复，但影响较小。                                                                                |
 
 ## 限制
 
-* **仅限 Claude API：** 在 Claude Models on Google Cloud (Google managed) 或 Amazon Bedrock 上不可用。
 * **有限的保留期：** 用于 `previous_message_id` 查找的指纹会在短时间后过期。请在时间间隔较近的请求之间运行诊断比较。
-* **同一工作区：** 上一个请求必须在同一组织和工作区中运行。要进行检查，请比较两个响应上的 `anthropic-workspace-id` [响应头](https://platform.claude.com/docs/zh-CN/api/overview#response-headers)。
+
+* **同一工作区：** 上一个请求必须在同一组织和工作区中运行。否则，结果为 `previous_message_not_found`。检查两个请求是否属于同一工作区的方法取决于平台：
+
+  * **Claude API：** 比较两个响应上的 `anthropic-workspace-id` [响应头](https://platform.claude.com/docs/zh-CN/api/overview#response-headers)。
+  * **Claude Models on Google Cloud (Anthropic managed)：** 比较两个[请求 URL](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#making-requests) 中的工作区 ID。
+
 * **比较范围：** 对于超长对话，如果唯一的变化位于消息列表的深处，响应可能是 `unavailable`，而不是精确的位置。
+
 * **尽力而为：** 诊断绝不会阻塞您的请求或使其失败。如果诊断信息不可用，响应会返回 `unavailable`；如果比较仍在运行，则返回 `cache_miss_reason: null`。
 
 ## 数据保留
@@ -1064,9 +1092,9 @@ API 仅为包含 `diagnostics` 对象的请求存储指纹。指纹仅由加密�
 
 * 可用性：可用
 
-| 状态 | 云平台        |
-| -- | ---------- |
-| 可用 | Claude API |
+| 状态 | 云平台                                                                                                                                                                       |
+| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 可用 | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 

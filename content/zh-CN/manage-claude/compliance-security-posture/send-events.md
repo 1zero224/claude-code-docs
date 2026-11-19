@@ -40,7 +40,7 @@ curl --fail-with-body -sS -G \
   "organization_uuid": "91012d09-e48b-438e-a489-1bebfd8fa6f9",
   "actor": {
     "type": "user_actor",
-    "email_address": "jane.doe@example.com",
+    "email_address": "priya@example.com",
     "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
     "ip_address": "192.0.2.34",
     "user_agent": "Mozilla/5.0..."

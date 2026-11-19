@@ -577,9 +577,9 @@ Here are the functions available in JSONSchema format:
 
 ### 要求和限制
 
-* **模式验证** - 每个示例都必须符合工具的 `input_schema`。无效的示例会返回 400 错误。
-* **不支持服务器端工具或客户端工具集** - 输入示例适用于用户定义的工具以及除[计算机使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)和[浏览器使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool)工具集之外的 Anthropic 模式客户端工具，但不适用于网络搜索或代码执行等服务器工具。
-* **令牌成本** - 示例会增加提示令牌：简单示例约 20–50 个令牌，复杂嵌套对象约 100–200 个令牌。
+* **有效示例：** 请自行根据工具的 `input_schema` 验证每个示例。对于无效示例，API 通常会返回 400 错误。在某些情况下（例如包含 `pattern` 的模式），API 会跳过检查，Claude 会看到该无效示例。
+* **支持的工具：** 输入示例适用于用户定义的工具和部分 Anthropic 模式客户端工具。要查看哪些类型的工具接受输入示例，请参阅工具参考中[工具定义属性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#tool-definition-properties)表的 `input_examples` 行。
+* **令牌成本：** 每个示例都会增加输入令牌：包含少量扁平值的示例约 100 个令牌，包含嵌套对象的示例约 200 个令牌。
 
 ## 控制 Claude 的输出
 
@@ -880,13 +880,13 @@ Here are the functions available in JSONSchema format:
   使用[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)时，对 `tool_choice` 参数的更改会使已缓存的消息块失效。工具定义和系统提示仍保持缓存，但消息内容必须重新处理。
 </Note>
 
-下图说明了每个选项的工作方式：
+下图说明了 `auto`、`any` 和 `tool` 选项的工作方式：
 
 <Frame>
   ![三种 tool\_choice 选项的示意图：auto（调用工具或返回纯文本响应）、any（调用其中一个工具）和 tool（调用指定名称的工具）](https://platform.claude.com/docs/zh-CN/images/tool_choice.svg)
 </Frame>
 
-请注意，当您将 `tool_choice` 设置为 `any` 或 `tool` 时，API 会预填充助手消息以强制使用工具。这意味着模型不会在 `tool_use` 内容块之前输出自然语言响应或解释，即使被明确要求这样做。
+当 `tool_choice` 为 `any` 或 `tool` 时，API 会让 Claude 的响应以工具调用开始。因此，Claude 不会在 `tool_use` 内容块之前输出自然语言响应或解释，即使您要求它这样做。
 
 测试表明这不会降低性能。如果您希望模型在仍被要求使用特定工具的同时提供自然语言上下文或解释，可以将 `tool_choice` 设为 `{"type": "auto"}`（默认值），并在 `user` 消息中添加明确的指令。例如：`What's the weather like in London? Use the get_weather tool in your response.`
 
@@ -962,6 +962,6 @@ Here are the functions available in JSONSchema format:
 * 可用性：可用
 * 用法：在智能体上以 `type` `"custom"` 声明它们。调用以 `agent.custom_tool_use` 事件送达，您以 `user.custom_tool_result` 事件进行回复。
 
-| 状态 | 云平台                                                                                                                   |
-| -- | --------------------------------------------------------------------------------------------------------------------- |
-| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
+| 状态 | 云平台                                                                                                                                                                                                                                                                                  |
+| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |

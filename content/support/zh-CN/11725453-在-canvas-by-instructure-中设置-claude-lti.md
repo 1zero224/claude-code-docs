@@ -44,7 +44,7 @@
 
 5. 点击"Install"并刷新课程页面。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1611422430/c8e0875feac1f2c7cb033be74fc9/AD_4nXfLU_bui3EXcCjQ0qm70HD97neqjGayKeDer_t76utlci8gZSUjYRhw6ZSOlDdqSEcwXBzd_shAh7pQEJ-8OoE0O21DM5coOgxmO_WD5hlwiuwtS2iYXcTavhIRyQT5zKFWvfn3NA?expires=1794465900&amp;signature=0fd42da1fbee090d7af29b94aeda49299f24afe4addb0c04fb38f90b457ba76f&amp;req=dSYmF818n4VcWfMW1HO4zTEDa%2B8anfaIEv2ojHLMylawrvaSY4yCEqKHeyij%0AMhioygkpWbO4aH2OExs%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1611422430/c8e0875feac1f2c7cb033be74fc9/AD_4nXfLU_bui3EXcCjQ0qm70HD97neqjGayKeDer_t76utlci8gZSUjYRhw6ZSOlDdqSEcwXBzd_shAh7pQEJ-8OoE0O21DM5coOgxmO_WD5hlwiuwtS2iYXcTavhIRyQT5zKFWvfn3NA?expires=1795099500&amp;signature=d1c53de356ee606fcb4720539749d454a8f1470e3e0fb12d28be5567dfc07b0f&amp;req=dSYmF818n4VcWfMW1HO4zTEDa%2B4ekvqEEv2ojHLMylZiK6sJ%2FVPNUWNmkPmn%0ARa52E4Lz5BkLw12m5BE%3D%0A)
 
 # 在Claude for Education组织设置中启用Claude LTI集成
 

@@ -1085,9 +1085,9 @@ Web fetch 工具在所有模型上可用，并具备零数据保留资格。
 * 可用性：可用
 * 用法：属于智能体工具集，添加工具集后默认开启。域名列表（不含路径）和 `max_content_tokens` 放在工具集的 `web_fetch` 条目上；`max_uses`、`citations` 和 `cache_control` 不可用。
 
-| 状态 | 云平台                                                                                                                   |
-| -- | --------------------------------------------------------------------------------------------------------------------- |
-| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
+| 状态 | 云平台                                                                                                                                                                                                                                                                                  |
+| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
 
 ### 数据处理
 

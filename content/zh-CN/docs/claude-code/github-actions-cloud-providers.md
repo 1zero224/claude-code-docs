@@ -39,7 +39,7 @@ Claude Code GitHub Action 支持三个提供商，下面的设置步骤仅在云
 
 **1. 选择 GitHub 身份**
 
-Claude Code GitHub Action 通过 GitHub 身份推送提交和发布评论。[快速设置](https://code.claude.com/docs/zh-CN/github-actions.md#quick-setup) 为此安装了官方 Claude GitHub App。使用云提供商时，您可以自己选择身份：
+Claude Code GitHub Action 通过 GitHub 身份推送提交和发布评论。使用云提供商时，您可以自己选择身份：
 
 * **官方 [Claude GitHub App](https://github.com/apps/claude)**: 在存储库上安装它，或如果已经安装，请跳到下一步
 * **自定义 GitHub App**: 当您只想要 Claude Code GitHub Action 使用的三个权限而不是[官方应用的完整权限集](https://code.claude.com/docs/zh-CN/github-actions.md#github-app-permissions)时，创建您自己的应用
@@ -83,8 +83,8 @@ Claude Code GitHub Action 通过 GitHub 身份推送提交和发布评论。[快
 >
 > 创建一个 Microsoft Entra 应用程序，其中包含您的存储库的联合凭证，遵循 [Microsoft 的 GitHub Actions 身份验证指南](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect)：
 >
-> * 注册一个 Microsoft Entra 应用程序，并添加一个联合身份凭证，该凭证信任 GitHub 向您的存储库颁发的令牌。用户分配的托管身份可以代替应用程序。两者都有您在下面记下的客户端 ID
-> * 在您的 Foundry 资源上为应用程序分配 `Azure AI User` 角色。有关更窄的自定义角色，请参阅 [Azure RBAC 配置](https://code.claude.com/docs/zh-CN/microsoft-foundry.md#azure-rbac-configuration)
+> * 注册一个 Microsoft Entra 应用程序，并添加一个联合身份凭据，该凭据信任 GitHub 向您的仓库颁发的令牌。用户分配的托管身份可以代替应用程序。两者都有您在下面记下的客户端 ID
+> * 在您的 Foundry 资源上为应用程序分配 `Foundry User` 角色。有关另一个内置角色和自定义角色，请参阅 [Azure RBAC 配置](https://code.claude.com/docs/zh-CN/microsoft-foundry.md#azure-rbac-configuration)
 >
 > 记下应用程序的客户端 ID、您的租户 ID 和您的订阅 ID。您将在下一步中将它们添加为密钥。
 

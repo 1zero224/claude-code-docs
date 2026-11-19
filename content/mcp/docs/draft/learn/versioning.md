@@ -44,7 +44,7 @@ Features that are currently Deprecated are listed in the
 
 Every request declares the protocol version it is using via the
 `io.modelcontextprotocol/protocolVersion` key in its
-[`_meta`](https://modelcontextprotocol.io/specification/draft/basic/index#meta) field, and the server accepts or
+[`_meta`](https://modelcontextprotocol.io/specification/draft/basic/index#_meta) field, and the server accepts or
 rejects each request independently. On Streamable HTTP, the same value is also carried
 in the
 [`MCP-Protocol-Version` header](https://modelcontextprotocol.io/specification/draft/basic/transports/streamable-http#protocol-version-header).
@@ -64,3 +64,6 @@ and handle a version error if one comes back.
 For interoperability with servers and clients that implement the
 handshake-based protocol revisions (`2025-11-25` and earlier), see
 [Backward Compatibility](https://modelcontextprotocol.io/specification/draft/basic/versioning.md#backward-compatibility-with-initialization-based-versions).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

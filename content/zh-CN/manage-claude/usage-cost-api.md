@@ -1,7 +1,7 @@
 ---
 title: 用量和成本 API
 url: https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api
-description: 面向 Claude Console 组织的旧版 Admin API 用量和成本报告端点。对于新的集成，请使用用量和成本分析 API。
+description: 旧版 Admin API 用量和成本报告端点。对于新的集成，请使用用量和成本分析 API。
 ---
 
 <Tip>
@@ -12,7 +12,7 @@ description: 面向 Claude Console 组织的旧版 Admin API 用量和成本报�
   用量和成本 API（`/v1/organizations/usage_report/messages` 和 `/v1/organizations/cost_report`）是一个旧版 API，目前仍受支持。对于新的集成，请使用[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)，它以更多的分组和筛选维度报告用量和成本。要迁移现有集成，请参阅[从用量和成本 API 迁移](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#migrate-from-usage-cost-api)。
 </Note>
 
-用量和成本 Admin API 为您的组织提供对历史 API 用量和成本数据的编程式、细粒度访问。这些数据与 Claude Console 中[用量](https://platform.claude.com/usage)页面（`platform.claude.com/usage`）和[费用](https://platform.claude.com/cost)页面（`platform.claude.com/cost`）上提供的信息类似。
+用量和成本 API 为您的组织提供对历史 API 用量和成本数据的编程式、细粒度访问。对于 Claude Console 组织，这些数据与 Claude Console 中[用量](https://platform.claude.com/usage)页面（`platform.claude.com/usage`）和[费用](https://platform.claude.com/cost)页面（`platform.claude.com/cost`）上显示的信息类似。
 
 此 API 可帮助您更好地监控、分析和优化您的 Claude 实现：
 
@@ -23,10 +23,18 @@ description: 面向 Claude Console 组织的旧版 Admin API 用量和成本报�
 * **高级分析：** 执行比 Console 中可用的更深入的数据分析
 
 <Check>
-  **需要 Admin API 凭证。** 这些端点属于 Admin API 的一部分。您可以使用 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)、具有 `org:admin` 作用域的 OAuth 令牌，或未限定于某个工作区的个人或服务账户密钥来访问它们；工作区 API 密钥无法使用。详情请参阅[身份验证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication)。
-</Check>
+  **身份验证**
 
-Claude Enterprise 组织使用 Analytics API 密钥配合不同的 API；请参阅[您需要哪个 API？](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api#which-api-do-you-need)。
+  这些端点属于 Admin API。Claude Console 组织可以使用以下任一凭证访问它们：
+
+  * [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)
+  * 具有 `org:admin` 范围的 OAuth 令牌
+  * 未限定于某个工作区的个人或服务账户密钥
+
+  工作区 API 密钥无法使用。详情请参阅[身份验证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication)。
+
+  Claude Enterprise 组织使用 Analytics API 密钥，且用量端点会遗漏其部分用量；请参阅 [Claude Enterprise 组织](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api#claude-enterprise-organizations)。
+</Check>
 
 <Note>
   **Claude Platform on AWS：** 用量和成本 API 端点不可用。请使用[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)。
@@ -38,14 +46,29 @@ Claude Enterprise 组织使用 Analytics API 密钥配合不同的 API；请参�
 
 ## 您需要哪个 API？
 
-要使用的 API 取决于您的组织使用哪个 Claude 产品：
+您可以调用哪些 API，以及每个 API 使用哪种密钥，取决于您的组织使用哪个 Claude 产品：
 
-| 您的组织                            | API                                                                                                                                                                                                                       | 密钥类型                                                                                                                                |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| Claude Console（Claude Platform） | [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)（推荐），或本页面介绍的旧版用量和成本 Admin API                                                                                                 | Admin API 密钥（`sk-ant-admin01-...`）或其他 [Admin API 凭证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication) |
-| Claude Enterprise（claude.ai）    | [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)（推荐），或 [Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/api/beta/organization/analytics) 的成本和用量端点（旧版） | Analytics API 密钥                                                                                                                    |
+| API                                                                                                                    | Claude Console（Claude Platform）                                                                                                     | Claude Enterprise（claude.ai） |
+| ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)（推荐）                       | Admin API 密钥（`sk-ant-admin01-...`）或其他 [Admin API 凭证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication) | Analytics API 密钥             |
+| 用量和成本 API（旧版），即本页面介绍的 API                                                                                              | Admin API 密钥或其他 Admin API 凭证                                                                                                        | Analytics API 密钥             |
+| [Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/api/beta/organization/analytics) 的成本和用量端点（旧版） | 不可用                                                                                                                                 | Analytics API 密钥             |
 
 Claude Enterprise 父组织不会出现在 Claude Console 中，也不携带 Admin API 密钥，因此对它们而言，Analytics API 密钥是访问此数据的唯一途径。请参阅[分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api) 了解如何创建每种密钥类型以及 Claude Enterprise 成本数据适用于哪些计划。
+
+### Claude Enterprise 组织
+
+Claude Enterprise 组织使用一个 [Analytics API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api)调用表中的全部三个 API。对于这些 API，该密钥只能读取创建它的组织。请在 `x-api-key` 标头中发送该密钥，就像本页面示例中使用 Admin API 密钥那样。
+
+对于这些组织，两个端点覆盖的用量并不相同，因此您无法用其中一个与另一个进行对账：
+
+* **[用量端点](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api#usage-api)：** 它会遗漏部分 Claude 产品的用量，因此其总计可能低于组织的实际用量。例如，它不统计以下内容：
+
+  * Cowork
+  * 终端、IDE 和桌面应用中的 Claude Code
+  * 网页版、桌面版和移动版 Claude 中的文本聊天
+
+* **[成本端点](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api#cost-api)：** 当 `starting_at` 为 2025 年 10 月 1 日或之后时，它涵盖各 Claude 产品中基于用量的费用，包括上一列表中的三项。它不包括席位费，也不包括席位所涵盖的用量。
 
 ## 合作伙伴解决方案
 

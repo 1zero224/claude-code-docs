@@ -23,13 +23,17 @@ Anthropic 使用以下术语来描述模型生命周期：
 
 本页上的日期适用于 Anthropic 运营的平台：Claude API、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)、[Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 和 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)。合作伙伴运营的平台（Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock）自行设定退役时间表，因此模型的生命周期状态和日期可能有所不同。请参阅 [Amazon Bedrock（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#supported-models)、[Amazon Bedrock（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#api-model-ids) 和 [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#api-model-ids) 模型表。
 
+[Claude Code](https://code.claude.com/docs/zh-CN/overview) 使用 Claude API，包括您使用 Claude 套餐登录时，因此本页上的日期适用。如果 Claude Code 设置为使用其他平台或网关，则适用的日期为处理其请求的平台的日期。
+
 ## 迁移到替代方案
 
-一旦模型被弃用，请在退役日期之前将所有使用迁移到合适的替代方案。在退役日期之后对模型的请求将会失败。
+一旦模型被弃用，请在退役日期之前将所有使用迁移到合适的替代方案。模型退役后，对其的请求将会失败。
 
 为了帮助衡量替代模型在您的任务上的性能，请考虑在退役日期之前尽早使用新模型对您的应用程序进行全面测试。
 
 有关迁移到最新 Claude 模型的具体说明，请参阅[迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)。
+
+如果您使用 Claude Code，请先更新它，因为较新的模型可能需要较新版本的 Claude Code。然后，[检查您正在使用的模型](https://code.claude.com/docs/zh-CN/model-config#checking-your-current-model)，即使您没有设置模型或使用的是 `sonnet` 等 [Claude Code 别名](https://code.claude.com/docs/zh-CN/model-config#model-aliases)。如果该模型已被弃用或已退役，请将其[推荐替代方案](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#deprecation-history)设置为您的模型。此外，请在[您设置模型的所有位置](https://code.claude.com/docs/zh-CN/model-config#setting-your-model)更改旧模型，包括子代理定义，并请您的管理员更改他们设置的任何模型。
 
 ## 通知
 
@@ -105,6 +109,10 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 | 退役日期             | 已弃用模型                        | 推荐替代方案              |
 | ---------------- | ---------------------------- | ------------------- |
 | 2026 年 11 月 30 日 | `claude-sonnet-4-5-20250929` | `claude-sonnet-5-5` |
+
+此次退役包括 `claude-sonnet-4-5`，即同一模型不带日期的 ID。
+
+如果您使用 Claude Code，请参阅[概述](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)了解适用的日期，并参阅[迁移到替代方案](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#migrating-to-replacements)了解需要更改的内容。该模型退役后，Claude API 上的 Claude Code 会显示一条以 [`There's an issue with the selected model`](https://code.claude.com/docs/zh-CN/errors#theres-an-issue-with-the-selected-model) 开头的错误。如果您设置了[回退模型链](https://code.claude.com/docs/zh-CN/model-config#fallback-model-chains)，Claude Code 则会切换到链中的下一个模型。在您发送下一条消息时，它会再次尝试 Claude Sonnet 4.5。
 
 ### 2026-06-05：Claude Opus 4.1 模型
 

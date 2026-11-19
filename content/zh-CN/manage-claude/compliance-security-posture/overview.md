@@ -12,7 +12,7 @@ claude.ai **组织设置**中的 **Security posture** 页面会将您组织的 C
 
 ## 选择您的路径
 
-要将该页面上的变更导入您的安全信息和事件管理（security information and event management，SIEM）系统，请从[将 Security posture 事件发送到您的 SIEM](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/send-events) 开始。如果您已经在摄取整个活动源，那么您已经拥有这些事件；请[检查两件事](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/send-events#if-you-already-ingest-the-full-feed)。
+要将该页面上的变更导入您的安全信息和事件管理（security information and event management，SIEM）系统，请从[将 Security posture 事件发送到您的 SIEM](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/send-events) 开始。如果您已经在摄取整个活动源，那么您已经拥有这些事件；请检查[如果您已在摄取完整的活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/send-events#if-you-already-ingest-the-full-feed)部分中的两件事。
 
 * 要针对有风险的变更发出告警，请参阅[检测 Security posture 中的变更](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/detect-changes)。
 * 要规范化为开放网络安全架构框架（Open Cybersecurity Schema Framework，OCSF），请参阅[将 Security posture 事件映射到 OCSF](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/ocsf-mapping)。
@@ -48,7 +48,9 @@ Security posture 会评估一系列控制项，并为每个控制项给出一个
 * “已接受风险”（`accepted_risk`）：该控制项未落实，且组织接受该风险。
 * “未通过”（`control_failed`）：该控制项未落实。
 
-有权进行声明的人员在页面上进行声明。API 可以读取声明，但无法创建声明。当有人进行声明时，页面可以提出一个问题，有时会要求作答，并将回答作为该声明的[备注](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/overview#what-anthropic-stores-when-someone-attests)随声明存储，最多 2,000 个字符。活动源中的活动从不包含该备注，也不会显示存在备注。端点也不返回备注。
+有权进行声明的人员在页面上进行声明。API 可以读取声明，但无法创建声明。当有人进行声明时，页面可以提出一个问题，有时会要求作答。页面会将回答作为该声明的备注随声明存储，最多 2,000 个字符（请参阅[有人进行声明时 Anthropic 存储的内容](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/overview#what-anthropic-stores-when-someone-attests)）。活动源中的活动从不包含该备注，也不会显示存在备注。端点也不返回备注。
+
+当有人保存声明时，Security posture 会为该声明设置一个结束日期，即保存后的第 90 天。如果此人选择在不设结束日期的情况下保存该声明，则该声明没有结束日期。
 
 ### 结果
 
@@ -68,7 +70,7 @@ Security posture 会评估一系列控制项，并为每个控制项给出一个
 声明会一直生效，直到发生以下三种情况之一：
 
 * 有人撤销或更改该声明。
-* 到达其结束日期（`review_date`）。进行声明的人员可选择 90 天或不设结束日期。
+* 到达其结束日期（`review_date`）。
 * 在自动控制项或仅供参考控制项上，当前值发生变化；对于部分自动控制项上的已接受风险，则为自动检查通过。
 
 没有生效中的声明时，自动控制项的结果取决于其检查，手动控制项则为“未声明”。
@@ -111,10 +113,21 @@ Security posture 处于 beta 阶段。
 
 ## 有人进行声明时 Anthropic 存储的内容
 
-Anthropic 为每个控制项存储一条声明，包括其值、做出声明的时间、结束日期（如有）以及进行声明的人员的账户等内容。再次进行声明会替换该声明。
+Anthropic 为每个控制项存储一条声明，包括其值、做出声明的时间、结束日期（如有）以及进行声明的人员的账户等内容。再次进行声明会替换该声明，除非保存被拒绝，如本节后文所述的情况。
 
 在声明到达其结束日期或[自动终止](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/overview#what-ends-an-attestation)之后，Anthropic 会继续存储该声明，直到有人撤销该声明或 Anthropic 在删除该组织时一并删除该声明。如果进行声明的人员的账户被删除，Anthropic 会继续存储该声明，但该声明将不再注明由谁进行了声明。活动源中由此人引起的任何活动仍会注明此人。撤销或替换声明不会从活动源中移除任何内容（请参阅[谁可以看到声明者](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/overview#who-can-see-who-attested)）。
 
-[客户管理的加密密钥（CMEK）](https://platform.claude.com/docs/zh-CN/manage-claude/cmek)、[Claude Code 的零数据保留（ZDR）](https://code.claude.com/docs/en/zero-data-retention)以及 [HIPAA 就绪的 Enterprise 计划](https://support.claude.com/en/articles/13296973-hipaa-ready-enterprise-plans)，都不会改变 Anthropic 就声明的控制项、值、日期和账户存储哪些内容。这三者中的任何一项都不会缩短 Anthropic 存储这四项内容的时长。CMEK 不会加密声明的这四项内容。
+[客户管理的加密密钥（CMEK）](https://platform.claude.com/docs/zh-CN/manage-claude/cmek)、[Claude Code 的零数据保留（ZDR）](https://code.claude.com/docs/en/zero-data-retention)以及 [HIPAA 就绪的 Enterprise 计划](https://support.claude.com/en/articles/13296973-hipaa-ready-enterprise-plans)，都不会改变 Anthropic 就声明的控制项、值、日期和账户存储哪些内容。这三者中的任何一项都不会缩短 Anthropic 存储这四项内容的时长。CMEK 不会加密这些字段。
 
-Anthropic 会存储声明的备注，直到有人撤销该声明或 Anthropic 在删除该组织时一并删除该备注。再次进行声明可能会替换或移除该备注。在 Security posture 对某个组织不可用期间，Anthropic 会继续存储该组织的声明和备注，并且任何人都无法在 Security posture 页面上查看或撤销它们。自定义对话保留期不会缩短 Anthropic 存储该声明或该备注的时长。活动源中的活动从不包含该备注（请参阅[活动源不记录的内容](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#what-the-feed-does-not-record)）。
+声明的备注是对 Security posture 页面在有人进行声明时可能提出的问题的回答。Anthropic 会存储声明的备注，直到有人撤销该声明或 Anthropic 在删除该组织时一并删除该备注。再次进行声明可能会替换或移除该备注。自定义对话保留期不会缩短 Anthropic 存储该声明或该备注的时长。活动源中的活动从不包含该备注（请参阅[活动源不记录的内容](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#what-the-feed-does-not-record)）。
+
+某些组织由于其数据处理设置（例如 CMEK 或 ZDR）而无法随声明保存备注。对于这些组织，Security posture 页面在有人进行声明时不会显示备注框，也不会要求作答。
+
+如果某个组织在这些设置对其生效之前已保存了备注，该备注会继续随其声明一起存储。Security posture 页面不会显示该备注。其声明带有该备注的控制项的处理方式如下：
+
+* 页面会拒绝再次保存该声明，无论是使用其他值，还是为续期而使用相同的值，但本列表最后一项所述情况除外。活动源不会为被拒绝的保存记录任何活动。
+* 被拒绝的保存会使该声明保持原样。如果该声明有结束日期，被拒绝的续期不会变更该日期，因此该声明会在该日期到达时终止。在结束日期到达之后，页面仍会拒绝再次保存该声明，直到有人撤销该声明。请参阅[什么会终止声明](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/overview#what-ends-an-attestation)。
+* 撤销该声明会删除该备注，且删除后无法恢复。此后，上述拒绝不再适用。
+* 在某些情况下，页面不会拒绝保存。此时，再次进行声明可能会在不先显示该备注的情况下将其删除。
+
+在 Security posture 对某个组织不可用期间，Anthropic 会继续存储该组织的声明和备注。在此期间，任何人都无法在 Security posture 页面上查看或撤销它们。

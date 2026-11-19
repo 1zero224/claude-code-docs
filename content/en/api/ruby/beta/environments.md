@@ -135,23 +135,11 @@ Create a new environment with the specified configuration.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -163,15 +151,11 @@ Create a new environment with the specified configuration.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -186,8 +170,6 @@ Create a new environment with the specified configuration.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -217,8 +199,6 @@ Create a new environment with the specified configuration.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -246,6 +226,48 @@ Create a new environment with the specified configuration.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -383,6 +405,22 @@ Create a new environment with the specified configuration.
 
     - `:account`
 
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
+- `BetaEnvironmentCreateDisabledError` (HTTP status 403, error code `environment_create_disabled`)
+
+  Anthropic has turned off creating environments for this organization. Existing environments still work.
+
 ### Example
 
 ```ruby
@@ -411,21 +449,11 @@ puts(beta_environment)
       "type": "limited"
     },
     "packages": {
-      "apt": [
-        "string"
-      ],
-      "cargo": [
-        "string"
-      ],
-      "gem": [
-        "string"
-      ],
-      "go": [
-        "string"
-      ],
-      "npm": [
-        "string"
-      ],
+      "apt": [],
+      "cargo": [],
+      "gem": [],
+      "go": [],
+      "npm": [],
       "pip": [
         "pandas",
         "numpy"
@@ -474,23 +502,11 @@ List environments with pagination support.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -502,15 +518,11 @@ List environments with pagination support.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -525,8 +537,6 @@ List environments with pagination support.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -556,8 +566,6 @@ List environments with pagination support.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -585,6 +593,48 @@ List environments with pagination support.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -722,6 +772,18 @@ List environments with pagination support.
 
     - `:account`
 
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
 ### Example
 
 ```ruby
@@ -752,21 +814,11 @@ puts(page)
           "type": "limited"
         },
         "packages": {
-          "apt": [
-            "string"
-          ],
-          "cargo": [
-            "string"
-          ],
-          "gem": [
-            "string"
-          ],
-          "go": [
-            "string"
-          ],
-          "npm": [
-            "string"
-          ],
+          "apt": [],
+          "cargo": [],
+          "gem": [],
+          "go": [],
+          "npm": [],
           "pip": [
             "pandas",
             "numpy"
@@ -806,23 +858,11 @@ Retrieve a specific environment by ID.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -834,15 +874,11 @@ Retrieve a specific environment by ID.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -857,8 +893,6 @@ Retrieve a specific environment by ID.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -888,8 +922,6 @@ Retrieve a specific environment by ID.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -917,6 +949,48 @@ Retrieve a specific environment by ID.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1054,6 +1128,18 @@ Retrieve a specific environment by ID.
 
     - `:account`
 
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
 ### Example
 
 ```ruby
@@ -1082,21 +1168,11 @@ puts(beta_environment)
       "type": "limited"
     },
     "packages": {
-      "apt": [
-        "string"
-      ],
-      "cargo": [
-        "string"
-      ],
-      "gem": [
-        "string"
-      ],
-      "go": [
-        "string"
-      ],
-      "npm": [
-        "string"
-      ],
+      "apt": [],
+      "cargo": [],
+      "gem": [],
+      "go": [],
+      "npm": [],
       "pip": [
         "pandas",
         "numpy"
@@ -1247,23 +1323,11 @@ Update an existing environment's configuration.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1275,15 +1339,11 @@ Update an existing environment's configuration.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1298,8 +1358,6 @@ Update an existing environment's configuration.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1329,8 +1387,6 @@ Update an existing environment's configuration.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1358,6 +1414,48 @@ Update an existing environment's configuration.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1495,6 +1593,30 @@ Update an existing environment's configuration.
 
     - `:account`
 
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `BetaEnvironmentArchivedError` (HTTP status 400, error code `environment_archived`)
+
+  The environment is archived, so it cannot be updated.
+
+- `BetaInvalidConfigTypeChangeError` (HTTP status 400, error code `invalid_config_type_change`)
+
+  `config.type` differs from the environment's stored type, which cannot change after creation.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
+- `BetaEnvironmentUpdateDisabledError` (HTTP status 403, error code `environment_update_disabled`)
+
+  Anthropic has turned off updating environments for this organization. Existing environments still work as they are.
+
 ### Example
 
 ```ruby
@@ -1523,21 +1645,11 @@ puts(beta_environment)
       "type": "limited"
     },
     "packages": {
-      "apt": [
-        "string"
-      ],
-      "cargo": [
-        "string"
-      ],
-      "gem": [
-        "string"
-      ],
-      "go": [
-        "string"
-      ],
-      "npm": [
-        "string"
-      ],
+      "apt": [],
+      "cargo": [],
+      "gem": [],
+      "go": [],
+      "npm": [],
       "pip": [
         "pandas",
         "numpy"
@@ -1574,23 +1686,11 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1602,15 +1702,11 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1625,8 +1721,6 @@ Delete an environment by ID. Returns a confirmation of the deletion.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1656,8 +1750,6 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1686,6 +1778,48 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
   - `:"experimental-claude-tag-2026-10-21"`
 
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
 - `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1705,6 +1839,18 @@ Delete an environment by ID. Returns a confirmation of the deletion.
   - `id: String`
 
     Environment identifier
+
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
 
 ### Example
 
@@ -1745,23 +1891,11 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1773,15 +1907,11 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1796,8 +1926,6 @@ Archive an environment by ID. Archived environments cannot be used to create new
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1827,8 +1955,6 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1856,6 +1982,48 @@ Archive an environment by ID. Archived environments cannot be used to create new
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1993,6 +2161,18 @@ Archive an environment by ID. Archived environments cannot be used to create new
 
     - `:account`
 
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
 ### Example
 
 ```ruby
@@ -2021,21 +2201,11 @@ puts(beta_environment)
       "type": "limited"
     },
     "packages": {
-      "apt": [
-        "string"
-      ],
-      "cargo": [
-        "string"
-      ],
-      "gem": [
-        "string"
-      ],
-      "go": [
-        "string"
-      ],
-      "npm": [
-        "string"
-      ],
+      "apt": [],
+      "cargo": [],
+      "gem": [],
+      "go": [],
+      "npm": [],
       "pip": [
         "pandas",
         "numpy"
@@ -2344,15 +2514,11 @@ puts(beta_environment)
 
 - `class BetaEnvironmentArchivedErrorDetails`
 
-  The environment is archived, so it cannot be updated.
-
   - `error_code: :environment_archived`
 
 ### Beta Environment Create Disabled Error Details
 
 - `class BetaEnvironmentCreateDisabledErrorDetails`
-
-  Anthropic has turned off creating environments for this organization. Existing environments still work.
 
   - `error_code: :environment_create_disabled`
 
@@ -2374,15 +2540,11 @@ puts(beta_environment)
 
 - `class BetaEnvironmentNotFoundErrorDetails`
 
-  `settings.environment_id` names no Environment within the organization's reach.
-
   - `error_code: :environment_not_found`
 
 ### Beta Environment Update Disabled Error Details
 
 - `class BetaEnvironmentUpdateDisabledErrorDetails`
-
-  Anthropic has turned off updating environments for this organization. Existing environments still work as they are.
 
   - `error_code: :environment_update_disabled`
 
@@ -2390,15 +2552,11 @@ puts(beta_environment)
 
 - `class BetaInvalidConfigTypeChangeErrorDetails`
 
-  `config.type` differs from the environment's stored type, which cannot change after creation.
-
   - `error_code: :invalid_config_type_change`
 
 ### Beta Invalid Metadata Error Details
 
 - `class BetaInvalidMetadataErrorDetails`
-
-  `metadata` has too many keys, a key or value that is too long, or a reserved key. The message names each problem.
 
   - `error_code: :invalid_metadata`
 
@@ -2551,6 +2709,92 @@ puts(beta_environment)
 
     Network policy type
 
+## Errors
+
+### BetaEnvironmentArchivedError
+
+HTTP status 400, error code `environment_archived`
+
+- `class BetaEnvironmentArchivedError < Anthropic::Errors::BadRequestError`
+
+  The environment is archived, so it cannot be updated.
+
+  - `error_code: :environment_archived`
+
+  - `details: BetaEnvironmentArchivedErrorDetails`
+
+    - `error_code: :environment_archived`
+
+### BetaInvalidConfigTypeChangeError
+
+HTTP status 400, error code `invalid_config_type_change`
+
+- `class BetaInvalidConfigTypeChangeError < Anthropic::Errors::BadRequestError`
+
+  `config.type` differs from the environment's stored type, which cannot change after creation.
+
+  - `error_code: :invalid_config_type_change`
+
+  - `details: BetaInvalidConfigTypeChangeErrorDetails`
+
+    - `error_code: :invalid_config_type_change`
+
+### BetaInvalidMetadataError
+
+HTTP status 400, error code `invalid_metadata`
+
+- `class BetaInvalidMetadataError < Anthropic::Errors::BadRequestError`
+
+  `metadata` has too many keys, a key or value that is too long, or a reserved key. The message names each problem.
+
+  - `error_code: :invalid_metadata`
+
+  - `details: BetaInvalidMetadataErrorDetails`
+
+    - `error_code: :invalid_metadata`
+
+### BetaEnvironmentCreateDisabledError
+
+HTTP status 403, error code `environment_create_disabled`
+
+- `class BetaEnvironmentCreateDisabledError < Anthropic::Errors::PermissionDeniedError`
+
+  Anthropic has turned off creating environments for this organization. Existing environments still work.
+
+  - `error_code: :environment_create_disabled`
+
+  - `details: BetaEnvironmentCreateDisabledErrorDetails`
+
+    - `error_code: :environment_create_disabled`
+
+### BetaEnvironmentUpdateDisabledError
+
+HTTP status 403, error code `environment_update_disabled`
+
+- `class BetaEnvironmentUpdateDisabledError < Anthropic::Errors::PermissionDeniedError`
+
+  Anthropic has turned off updating environments for this organization. Existing environments still work as they are.
+
+  - `error_code: :environment_update_disabled`
+
+  - `details: BetaEnvironmentUpdateDisabledErrorDetails`
+
+    - `error_code: :environment_update_disabled`
+
+### BetaEnvironmentNotFoundError
+
+HTTP status 404, error code `environment_not_found`
+
+- `class BetaEnvironmentNotFoundError < Anthropic::Errors::NotFoundError`
+
+  `settings.environment_id` names no Environment within the organization's reach.
+
+  - `error_code: :environment_not_found`
+
+  - `details: BetaEnvironmentNotFoundErrorDetails`
+
+    - `error_code: :environment_not_found`
+
 ## Environments › Work
 
 ### Get Work Item
@@ -2575,23 +2819,11 @@ Retrieve detailed information about a specific work item.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -2603,15 +2835,11 @@ Retrieve detailed information about a specific work item.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -2626,8 +2854,6 @@ Retrieve detailed information about a specific work item.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -2657,8 +2883,6 @@ Retrieve detailed information about a specific work item.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -2686,6 +2910,48 @@ Retrieve detailed information about a specific work item.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -2773,6 +3039,18 @@ Retrieve detailed information about a specific work item.
 
     RFC 3339 timestamp when work execution stopped
 
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
 #### Example
 
 ```ruby
@@ -2842,23 +3120,11 @@ Long poll for work items in the queue.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -2870,15 +3136,11 @@ Long poll for work items in the queue.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -2893,8 +3155,6 @@ Long poll for work items in the queue.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -2924,8 +3184,6 @@ Long poll for work items in the queue.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -2953,6 +3211,48 @@ Long poll for work items in the queue.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `anthropic_worker_id: optional String` (header parameter)
 
@@ -3097,23 +3397,11 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -3125,15 +3413,11 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -3148,8 +3432,6 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -3179,8 +3461,6 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -3208,6 +3488,48 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 #### Returns
 
@@ -3356,23 +3678,11 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -3384,15 +3694,11 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -3407,8 +3713,6 @@ Record a heartbeat for a work item to maintain the lease.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -3438,8 +3742,6 @@ Record a heartbeat for a work item to maintain the lease.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -3467,6 +3769,48 @@ Record a heartbeat for a work item to maintain the lease.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 #### Returns
 
@@ -3503,6 +3847,14 @@ Record a heartbeat for a work item to maintain the lease.
   - `ttl_seconds: Integer`
 
     Effective TTL applied to the lease
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `BetaHeartbeatPreconditionFailedError` (HTTP status 412, error code `heartbeat_precondition_failed`)
+
+  `expected_last_heartbeat` does not match the stored heartbeat, so another worker may hold the lease.
 
 #### Example
 
@@ -3554,23 +3906,11 @@ Stop a work item, initiating graceful or forced shutdown.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -3582,15 +3922,11 @@ Stop a work item, initiating graceful or forced shutdown.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -3605,8 +3941,6 @@ Stop a work item, initiating graceful or forced shutdown.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -3636,8 +3970,6 @@ Stop a work item, initiating graceful or forced shutdown.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -3665,6 +3997,48 @@ Stop a work item, initiating graceful or forced shutdown.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -3752,6 +4126,18 @@ Stop a work item, initiating graceful or forced shutdown.
 
     RFC 3339 timestamp when work execution stopped
 
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
 #### Example
 
 ```ruby
@@ -3819,23 +4205,11 @@ List work items in an environment.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -3847,15 +4221,11 @@ List work items in an environment.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -3870,8 +4240,6 @@ List work items in an environment.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -3901,8 +4269,6 @@ List work items in an environment.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -3930,6 +4296,48 @@ List work items in an environment.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 #### Returns
 
@@ -4079,23 +4487,11 @@ Update work item metadata with merge semantics.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -4107,15 +4503,11 @@ Update work item metadata with merge semantics.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -4130,8 +4522,6 @@ Update work item metadata with merge semantics.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -4161,8 +4551,6 @@ Update work item metadata with merge semantics.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -4190,6 +4578,48 @@ Update work item metadata with merge semantics.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -4277,6 +4707,22 @@ Update work item metadata with merge semantics.
 
     RFC 3339 timestamp when work execution stopped
 
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `BetaInvalidMetadataError` (HTTP status 400, error code `invalid_metadata`)
+
+  `metadata` has too many keys, a key or value that is too long, or a reserved key. The message names each problem.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
 #### Example
 
 ```ruby
@@ -4336,23 +4782,11 @@ Get statistics about the work queue for an environment.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -4364,15 +4798,11 @@ Get statistics about the work queue for an environment.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -4387,8 +4817,6 @@ Get statistics about the work queue for an environment.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -4418,8 +4846,6 @@ Get statistics about the work queue for an environment.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -4447,6 +4873,48 @@ Get statistics about the work queue for an environment.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -4479,6 +4947,18 @@ Get statistics about the work queue for an environment.
   - `workers_polling: Integer | nil`
 
     Number of workers that have polled for work in the last 30 seconds. Requires worker_id to be sent with poll requests.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
 
 #### Example
 

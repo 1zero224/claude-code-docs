@@ -17,7 +17,7 @@ So we built a buying agent on Claude Managed Agents (beta) that takes a prospect
 ![](https://assets.claude.com/b67a0e1a023590767c2fd9b4cbb9a94aba1cc82d.png)
 ## **Why the old inbound process broke**
 Before building the buying agent, our inbound process was fairly straightforward. A buyer filled out a form. The lead was routed to a business development rep, who qualified it and passed it to an account executive. That still works well when a team can talk to everyone who’s interested in the product.
-We had tens of thousands of inbound requests every month, and our inbound BDR team couldn’t keep up. Reps spent their days answering questions the docs already covered, and we didn’t have an effective way to reach all of the customers in the queue. This wasn't the experience we wanted for our customers.
+We had tens of thousands of inbound requests every month, and our [inbound BDR team](https://claude.com/resources/articles/how-anthropics-business-development-team-uses-claude-to-run-inbound-and-outbound-at-scale) couldn’t keep up. Reps spent their days answering questions the docs already covered, and we didn’t have an effective way to reach all of the customers in the queue. This wasn't the experience we wanted for our customers.
 We wanted every customer to get a knowledgeable answer at any hour and in any language, and to be able to buy however they preferred, which often means without talking to a sales rep. We wanted our reps to spend their time on the conversations where they can change the trajectory of the outcome.
 ## **A buying agent that closes the gap**
 We deployed the agent where customers were already asking questions: on our [Contact Sales](https://claude.com/contact-sales) and [Pricing](https://claude.com/pricing#team-&-enterprise) pages, inside the product, and in our emails. Any customer can find the buying agent within our [Claude.ai](http://claude.ai) product, it’s a simple chat experience to help customers understand what plan is best for them. A customer describes what their team needs, the agent asks a few follow-up questions, and it then answers the ones about pricing, security and data before recommending a plan and seat count. Each conversation ends one of three ways:
@@ -27,7 +27,7 @@ We deployed the agent where customers were already asking questions: on our [Con
 We built the agent to follow the same work of our sales reps, which means understanding what the customer is trying to solve, what their current Claude usage looks like, and how we can best help them.
 ![](https://assets.claude.com/7c281bb3ea8a03950ee0130275034a17b32b111a.png)
 ## **Why did we use Claude Managed Agents?**
-Under the hood, the buying agent is simple: a prompt, a handful of tools, and Claude, running on Claude Managed Agents. Because the platform takes care of hosting, session management and tool orchestration, our engineers spent their time with sales designing the buying experience instead of building the infrastructure.
+Under the hood, the buying agent is simple: a prompt, a handful of tools, and Claude, running on Claude Managed Agents. Because the platform takes care of [hosting, session management and tool orchestration](https://claude.com/resources/articles/building-with-claude-managed-agents), our engineers spent their time with sales designing the buying experience instead of building the infrastructure.
 We ultimately landed on Managed Agents for the following reasons:
   - **Fast to production.** One engineer built the initial buying agent on Managed Agents in just a few weeks.
   - **Tech & non-tech contributors. **Engineering owned the code, but sales and content leads reviewed and edited the system prompt directly in the Console. Changes went to our staging agent first, so anyone could try a tweak before it reached customers.
@@ -38,13 +38,13 @@ We ultimately landed on Managed Agents for the following reasons:
 ## **What we learned building the buying agent**
 **Give Claude a goal, not rules.** Explaining the goal of the agent worked better than a detailed list of instructions. For example, something as simple as "Your goal is to understand customer requirements, qualify prospects, and recommend the best plan" was more effective than listing out every qualification requirement in a flowchart.
 **Less is more. **We experimented with prompts of varying lengths, complexity, and structure, and found the maxim of 'less is more' works best. Models today can understand complex, nuanced goals and work backwards from them. In practice, that has meant getting out of Claude's way by giving it the knowledge and context it needs to be successful, such as what seat-based pricing covers or when billing cycles run.
-**Use SMEs in the development loop. **This is something that is becoming increasingly valuable in a world where agent coding is speeding up development cycles. By virtue of saving time using Managed Agents and Claude Code, our engineers were able to spend more time with the sales team to shape a customer-centric experience . We were able to test the agent early and often, leading to quick iterations.
+**Use SMEs in the development loop. **This is something that is becoming increasingly valuable in a world where agent coding is speeding up development cycles. By virtue of saving time using Managed Agents and Claude Code, our engineers were able to spend more time with the sales team to shape a customer-centric experience. We were able to test the agent early and often, leading to quick iterations.
 **Focus on what’s right for the customer.** The agent often points small teams to our Team plan instead of Enterprise, because that's the right answer for them in some cases. We decided that's a feature. A buyer who lands on the right plan instead of being upsold is more likely to stay and have a better experience.
 **Treat every agent to rep escalation as feedback.** Each time the agent passes a buyer to a rep, it explains why. Early on, most of those reasons were things customers couldn't yet do on their own with our self-service products. Those reasons shaped how we improve the experience, and the share of conversations that needed a person to help close the deal has fallen by about half.
 ## **What changed for customers**
 The agent now holds thousands of conversations a day, around the clock. Customers get their questions answered instantly instead of waiting for a scheduled call or exchanging emails over multiple days. A lot of our customers actually prefer to talk to an agent rather than a human, because it can give them quick, informed answers as questions arise. Many of our new self-serve Enterprise customers talk to the buying agent before they buy, and we've found that those who talked to the agent beforehand had a better understanding of what they were buying.
 ## **How the agent changed our sales organization**
-The agent changed what our reps spend their days. We've now been able to focus the majority of the team's time and energy on educating customers earlier in their buying journey, having more live customer conversations and spending time in person at events.
+The agent changed how our reps spend their days. We've now been able to focus the majority of the team's time and energy on educating customers earlier in their buying journey, having more live customer conversations and spending time in person at events.
 The most impactful change has been that our reps now get more informed leads, convert leads to sales opportunities more often than our old contact form, and they close about five days faster. A rep starts the conversation already knowing what the customer needs, what they've been told, and how we can best help them.
 For example, one of our inside sales reps, Ojas, used to exchange about 10 emails to close a deal; now it takes about six. He’s been able to 2.5x his output on closed won deals since launching the Buying Agent as it allowed him to focus on highly educated and ready customers who just needed help getting across the line.
 Not long ago, inbound was a queue our team couldn't keep up with. Now it's a conversation any buyer can start at any hour, and our reps spend their time more efficiently. The buying agent is our first step toward agents across the whole customer relationship.
@@ -53,22 +53,23 @@ Not long ago, inbound was a queue our team couldn't keep up with. Now it's a con
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

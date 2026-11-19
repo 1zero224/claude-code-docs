@@ -1,14 +1,14 @@
 ---
 title: 思考功能故障排查
 url: https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting
-description: 诊断并修复最常见的思考功能故障：配置导致的 400 错误、空的或缺失的思考块、max_tokens 停止以及缓存未命中。
+description: 诊断并修复思考功能故障：配置导致的 400 错误、空的或缺失的思考块、max_tokens 停止以及缓存未命中。
 ---
 
 <Note>
   要了解"zero data retention"（零数据保留），即 ZDR 如何适用于此功能，请参阅 [API 与数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)。
 </Note>
 
-本页涵盖配置思考功能或往返传递思考块（即在后续请求中将返回的思考块发送回去）时最常见的故障。第一部分列出了每个模型所支持的思考配置以及它会拒绝的配置；其后的各部分均从您观察到的症状出发，以便您可以将错误消息或意外响应直接对应到其原因和修复方法。要了解思考功能的工作原理，请参阅[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)概述。
+本页涵盖配置思考功能或往返传递思考块（即在后续请求中将返回的思考块发送回去）时出现的故障。第一部分列出了每个模型所支持的思考配置以及它会拒绝的配置。其后的各部分均从您观察到的症状出发，以便您可以将错误消息或意外响应直接对应到其原因和修复方法。要了解思考功能的工作原理，请参阅[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)概述。
 
 ## 各模型的思考支持、默认值和被拒绝的配置
 
@@ -56,7 +56,7 @@ description: 诊断并修复最常见的思考功能故障：配置导致的 400
 "thinking.type.enabled" is not supported for this model. Use "thinking.type.adaptive" and "output_config.effort" to control thinking behavior.
 ```
 
-出现此错误是因为您请求的模型已移除扩展思考（请参阅[各模型配置表](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#rejected-configurations)）。
+出现此错误是因为您请求的模型不支持扩展思考（请参阅[各模型配置表](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#rejected-configurations)）。
 
 将请求切换为 `thinking: {type: "adaptive"}`，并使用 `effort` 而非 `budget_tokens` 来控制思考深度。[迁移到自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#migrating-to-adaptive-thinking)详细介绍了转换过程。
 
@@ -108,7 +108,7 @@ To turn thinking off on this model, send "thinking": {"type": "between_tools"} i
 output_config.effort 'xhigh' is not supported when thinking is disabled on this model. Use effort 'high' or below, or enable thinking.
 ```
 
-出现此错误是因为 Claude Sonnet 5.5 仅在 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 为 `high` 或更低时接受 `between_tools`。消息中说思考已禁用，是因为 `between_tools` 没有前置思考，即使请求并未发送 `"disabled"`。消息会指出请求发送的级别。
+出现此错误是因为 Claude Sonnet 5.5 仅在 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 为 `high` 或更低时接受 `between_tools`。错误消息中说思考已禁用，是因为 `between_tools` 没有前置思考，即使请求并未发送 `"disabled"`。消息会指出请求发送的级别。
 
 将 effort 降低到 `high` 或更低。要以 `xhigh` 或 `max` 运行，请使用自适应思考：省略 `thinking` 字段或发送 `thinking: {"type": "adaptive"}`。这就是消息中"enable thinking"的含义。Claude Sonnet 5.5 会以 400 错误拒绝 `"enabled"`。
 
@@ -122,11 +122,11 @@ output_config.effort 'xhigh' is not supported when thinking is disabled on this 
 messages.N: output_config.effort 'low' differs from the 'high' in effect before it; effort cannot change when thinking is disabled on this model. Use effort 'high', or enable thinking.
 ```
 
-消息称思考已禁用，是因为 `between_tools` 没有前置思考。使用 `between_tools` 时，effort 不能在对话中途更改：与当前生效级别不同的按消息设置的 `output_config.effort` 会返回 400 错误。`messages.N` 是设置新级别的消息所在的位置。
+错误消息称思考已禁用，是因为 `between_tools` 没有前置思考。使用 `between_tools` 时，effort 不能在对话中途更改：与当前生效级别不同的按消息设置的 `output_config.effort` 会返回 400 错误。`messages.N` 是设置新级别的消息所在的位置。
 
-移除该每条消息 effort，或将其设置为当前生效的级别。要在每个轮次中改变 effort，请使用自适应思考：省略 `thinking` 字段或发送 `thinking: {"type": "adaptive"}`。这就是消息中"enable thinking"的含义。
+移除该按消息设置的 effort，或将其设置为当前生效的级别。要在每个轮次中改变 effort，请使用自适应思考：省略 `thinking` 字段或发送 `thinking: {"type": "adaptive"}`。这就是消息中"enable thinking"的含义。
 
-当使用 `thinking: {type: "disabled"}` 的请求设置了与当前生效级别不同的每条消息 effort 时，Claude Haiku 5.5 会返回相同的消息。请移除该每条消息 effort，或将 `thinking` 设置为 `{"type": "adaptive"}` 以在每个轮次中改变 effort。
+当使用 `thinking: {type: "disabled"}` 的请求设置了与当前生效级别不同的按消息设置的 effort 时，Claude Haiku 5.5 会返回相同的消息。请移除该按消息设置的 effort，或将 `thinking` 设置为 `{"type": "adaptive"}` 以在每个轮次中改变 effort。
 
 ## 400 错误提示不支持自适应思考
 
@@ -148,51 +148,53 @@ adaptive thinking is not supported on this model
 `thinking` or `redacted_thinking` blocks in the latest assistant message cannot be modified
 ```
 
-在多轮对话和工具使用对话中，您会将之前的助手消息（包括其 `thinking` 和 `redacted_thinking` 块）发送回 API，API 会验证它们是否未经修改。当您发送回的助手消息与 API 返回的不同时，就会出现此错误，最常见的原因是您的代码按类型过滤内容块并丢弃了 `redacted_thinking` 块，或者重新构建了助手消息而不是原样回传。
+在多轮对话和工具使用对话中，您会将之前的助手消息发送回 API，包括其 `thinking` 和 `redacted_thinking` 块。API 会验证它们的签名。
+
+此错误可能表示请求中的思考块与 API 返回的内容不匹配。不匹配可能出现在任何助手轮次中，尽管错误消息中写的是"latest"。
 
 请将助手轮次原样回传，包括思考块。有关规则，请参阅[保留思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)；有关各 SDK 中的正确代码，请参阅[工具和多轮工作流中的思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-tool-workflows#two-turn-tool-use-round-trip)中的完整往返示例。
 
 ## 400 错误提示思考块签名无效
 
-向 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 或 Claude Haiku 5.5 重放先前思考块（thinking blocks）的请求可能会失败，并返回 400 `invalid_request_error`，其消息内容为：
+向 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 或 Claude Haiku 5.5 重放先前思考块的请求可能会失败，并返回 400 `invalid_request_error`，其消息内容为：
 
 ```text wrap
 messages.{i}.content.{j}: Invalid `signature` in `thinking` block. The block is bound to a different conversation. Remove the block, or set `thinking.block_binding.prefix_mismatch_behavior` to "drop_block".
 ```
 
-如果请求未发送 `thinking-binding-controls-2026-08-01` beta 标头，消息会附加 ``That setting requires the `thinking-binding-controls-2026-08-01` value in the `anthropic-beta` header.``
+如果请求未发送 `thinking-binding-controls-2026-08-01` beta 标头，错误消息会附加 ``That setting requires the `thinking-binding-controls-2026-08-01` value in the `anthropic-beta` header.``
 
-消息通常以一句说明更改内容的句子结尾：`system` 提示、`tools` 列表、第一个不同的消息或块、缺失或新增的内容，或者缺失或顺序错乱的早期思考块。这句话是供人阅读和记录日志用的。其措辞可能会变化，因此不要在代码中对其进行匹配。
+错误消息可能以一句说明更改内容的句子结尾：`system` 提示、`tools` 列表、第一个不同的消息或块、缺失或新增的内容，或者缺失或顺序错乱的早期思考块。这句话是供人阅读和记录日志用的。其措辞可能会变化，因此不要在代码中对其进行匹配。
 
-如果消息在 ``Invalid `signature` in `thinking` block`` 之后就结束了，说明签名本身未通过验证：它被截断、修改或以空值发送回来，此时 `prefix_mismatch_behavior` 不适用。编辑过的思考文本会返回不同的错误。请参阅[400 错误提示思考块不能被修改](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-blocks-modified)。
+如果错误消息在 ``Invalid `signature` in `thinking` block`` 之后就结束了，说明签名本身未通过验证：它被截断、修改或以空值发送回来，此时 `prefix_mismatch_behavior` 不适用。
 
-这些模型仅在其之前的 `system` 提示、`tools` 和消息保持不变时，才接受重放的思考块。请参阅[保持前缀不变](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)。该错误表示对话中较早的某些内容在两次请求之间发生了变化。常见原因包括以下几种：
+重放的思考块只有在其之前的 `system` 提示、`tools` 和消息保持不变时，才能通过 “prefix check”（前缀检查）。请参阅[哪些内容必须保持不变，以及原因](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)。该错误表示对话中较早的某些内容在两次请求之间发生了变化。原因包括以下几种：
 
 * 某个轮次被编辑、重新排序或删除
 * 某个按轮次注入的提醒后来被移除
 * `system` 提示或 `tools` 数组被重新构建
 * 客户端压缩原样保留了最近的轮次及其思考内容
 
-服务器端[在令牌阈值处压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-threshold)和[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)永远不会触发此错误。使用[按需压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-on-demand)时，如果某个[保留思考的条件](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-thinking-blocks#conditions-for-kept-thinking-to-stay-valid)不成立，您在摘要之后保留的轮次中的思考内容就会触发此错误。对于未设置 `thinking.block_binding.prefix_mismatch_behavior` 的请求，请参阅[未设置 `prefix_mismatch_behavior` 时](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#enforcement)。
+服务器端[在令牌阈值处压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-threshold)和[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)永远不会触发此错误。使用[按需压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-on-demand)时，如果某个[保留的思考的条件](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-thinking-blocks#conditions-for-kept-thinking-to-stay-valid)不成立，您在摘要之后保留的轮次中的思考内容就会触发此错误。对于未设置 `thinking.block_binding.prefix_mismatch_behavior` 的请求，请参阅[哪些模型会运行前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#enforcement)。
 
-重试相同的请求体并不能清除该错误。修复您的代码也不能，因为存储的历史记录中保留了该编辑。要继续对话，请执行以下操作之一：
+重试相同的请求体并不能清除该错误。如果存储的历史记录中包含该编辑，修复您的代码也无法清除。要继续对话，请执行以下操作之一：
 
 * 发送 `thinking-binding-controls-2026-08-01` beta 标头，并在重试请求及之后的每个请求上将 `thinking.block_binding.prefix_mismatch_behavior` 设置为 `"drop_block"`。这样请求就会成功，且不包含已失效的推理。在 Claude Sonnet 5.5 和 Claude Haiku 5.5 上，`block_binding` 仅适用于 `thinking: {"type": "adaptive"}`。在这些模型上使用任何其他思考设置时，您无法发送 `block_binding`，因此请使用下一个选项。
-* 删除错误中指明的块以及之后的所有 `thinking` 和 `redacted_thinking` 块，保留每个轮次的其他块，然后重试一次。
+* 删除错误中指明的块以及之后的所有 `thinking` 和 `redacted_thinking` 块，保留每个轮次的其他块不变。然后重试，并在之后的请求中不再包含已删除的块。
 
-然后修复根本原因，以免新的对话再遇到该错误。保持历史记录仅追加：按照发送和接收时的原样传回之前的轮次，使用[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)添加指令，而不是编辑 `system` 或 `tools`，并让服务器端的[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)或[压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction)来完成任何裁剪。
+然后修复根本原因，以免新的对话再遇到该错误。保持历史记录 “append-only”（仅追加）：按照发送和接收时的原样传回之前的轮次，使用[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)添加指令，而不是编辑 `system` 或 `tools`，并让服务器端的[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)或[压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction)来完成任何裁剪。
 
-来自目标模型无法读取的模型的块永远不会产生此错误：API 会丢弃它，并在使用 beta 标头时在 `input_transformations` 中报告。
+来自目标模型无法读取的模型的块永远不会产生此错误：API 会在该请求中丢弃它，并在使用 beta 标头时在 `input_transformations` 中报告。
 
 ## 响应中的 thinking 字段为空
 
 响应包含 `thinking` 块，但其 `thinking` 字段为空字符串，只有 `signature` 字段有值。
 
-出现这种情况是因为在较新的模型上 `display` 默认为 `"omitted"`，这会返回不含文本的思考块。
+出现这种情况是因为在某些模型上 `display` 默认为 `"omitted"`（请参阅[控制思考显示](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display)），这会返回不含文本的思考块。
 
-在思考配置中设置 `display: "summarized"` 以接收摘要后的思考文本。有关各模型的默认值，请参阅[控制思考显示](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display)。如果您只想要某些模型在工具调用之间写出的简短状态行，而不需要推理内容，请改为设置 `display: "updates"`（beta）。请参阅[工具调用之间的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)。
+在思考配置中设置 `display: "summarized"` 以接收摘要后的思考文本。有关各模型的默认值，请参阅[控制思考显示](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display)。如果您只想要某些模型在工具调用之间写出的简短状态行，而不需要推理内容，请改为设置 `display: "updates"`（该设置处于 beta 阶段）。请参阅[工具调用之间的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)。
 
-`thinking` 字段为空的块仍然是完整的：`signature` 中保存着推理内容。请像处理其他块一样，将其随轮次一起发回。请参阅[按返回时的原样发回助手轮次](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#append-assistant-turns-exactly-as-returned)。
+`thinking` 字段为空的块仍然是完整的：`signature` 中保存着推理内容。请像处理其他块一样，将其随轮次一起发回。请参阅[原样发回助手轮次](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#append-assistant-turns-exactly-as-returned)。
 
 ## 某些轮次没有出现思考块
 
@@ -224,7 +226,7 @@ messages.{i}.content.{j}: Invalid `signature` in `thinking` block. The block is 
 
 在之前命中缓存的请求上，`cache_read_input_tokens` 降为零。
 
-出现这种情况是因为思考配置和 effort 级别（或其默认值）是缓存提示前缀的一部分，因此更改其中任何一项都会开始一个新的前缀：切换思考模式、更改 effort 值以及更改 `budget_tokens` 都会使消息缓存断点失效，并且根据模型渲染配置的位置，还可能使工具和系统提示断点失效。
+出现这种情况是因为思考配置和 effort 级别（或其默认值）是缓存提示前缀的一部分，因此更改其中任何一项都会开始一个新的前缀。切换思考模式和更改 `budget_tokens` 会使消息缓存断点失效，更改 effort 值也可能如此。根据模型渲染配置的位置，它们还可能使工具和系统提示断点失效。
 
 请在共享同一对话的请求之间保持思考配置和 effort 级别不变；将参数显式设置为其默认值等同于省略它，不会导致失效。请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。
 

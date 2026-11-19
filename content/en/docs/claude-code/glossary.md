@@ -283,7 +283,7 @@ Learn more: [Organize rules with `.claude/rules/`](https://code.claude.com/docs/
 
 ### Sandboxing
 
-OS-level filesystem and network isolation for the Bash tool. Commands run inside a boundary you define upfront, so Claude can work freely within it without per-command approval prompts. Sandboxing is a separate layer from [permission rules](#permission-rule).
+OS-level filesystem and network isolation for the Bash tool. Commands run inside a boundary you define upfront. Sandboxing is a separate layer from [permission rules](#permission-rule).
 
 Learn more: [Sandboxing](https://code.claude.com/docs/en/sandboxing.md)
 
@@ -295,7 +295,7 @@ Learn more: [Work with sessions](https://code.claude.com/docs/en/how-claude-code
 
 ### Settings layers
 
-The hierarchy Claude Code reads configuration from, in precedence order from highest to lowest: [managed policy](#managed-settings), settings you pass with the `--settings` flag, local settings at `.claude/settings.local.json`, project settings at `.claude/settings.json`, then user settings at `~/.claude/settings.json`. Arrays merge across layers; scalars at a higher layer override lower ones. See [Settings precedence](https://code.claude.com/docs/en/settings.md#settings-precedence).
+The hierarchy Claude Code reads configuration from. From highest to lowest precedence, the layers are [managed policy](#managed-settings), settings you pass with the `--settings` flag, local settings at `.claude/settings.local.json`, project settings at `.claude/settings.json`, and user settings at `~/.claude/settings.json`. Most lists, such as `permissions.allow`, [merge across files](https://code.claude.com/docs/en/settings.md#lists-merge-instead-of-overriding). See [Settings precedence](https://code.claude.com/docs/en/settings.md#settings-precedence).
 
 Learn more: [Settings files](https://code.claude.com/docs/en/settings.md#where-settings-live)
 
@@ -331,13 +331,13 @@ Learn more: [System prompt flags](https://code.claude.com/docs/en/cli-reference.
 
 ### System reminder
 
-A message that Claude Code, as the [harness](#agentic-harness), adds to the conversation to give Claude context. You don't send system reminders yourself. Claude Code inserts them as a session runs, for example when the session starts, when a hook returns text, or when a file changes on disk. Claude reads them alongside your messages. The following all reach Claude as system reminders:
+A message that Claude Code, as the [harness](#agentic-harness), adds to the conversation to give Claude context. You don't send system reminders yourself. Claude Code inserts them as a session runs, for example when the session starts or when a hook returns text. Claude reads them alongside your messages. The following all reach Claude as system reminders:
 
 * Your [CLAUDE.md](#claude-md) files
 * The instructions of your [output style](#output-style)
 * Text a [hook](#hook) returns as `additionalContext`
 * The list of available [skills](#skill)
-* A note that a file Claude read earlier has changed on disk
+* A note that a file Claude edited earlier has since changed on disk
 * The commit and pull request attribution lines
 
 In a logged API request, a system reminder appears wrapped in `<system-reminder>` tags inside a user message, or on some models as a separate message with the `system` role.

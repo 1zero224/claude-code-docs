@@ -16,7 +16,7 @@ prompts, retrieve their contents, and provide arguments to customize them.
 > `io.modelcontextprotocol/clientInfo`, and
 > `io.modelcontextprotocol/clientCapabilities`). Every request **MUST** include
 > the required `_meta` fields; see
-> [`_meta`](https://modelcontextprotocol.io/specification/draft/basic/index#meta).
+> [`_meta`](https://modelcontextprotocol.io/specification/draft/basic/index#_meta).
 
 ## User Interaction Model
 
@@ -334,3 +334,6 @@ Servers **SHOULD** return standard JSON-RPC errors for common failure cases:
 
 Implementations **MUST** carefully validate all prompt inputs and outputs to prevent
 injection attacks or unauthorized access to resources.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

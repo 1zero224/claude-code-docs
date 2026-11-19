@@ -34,7 +34,7 @@ Claude Opus 4.6 是最后一个包含 `-v1` 后缀的 Bedrock 模型 ID（`anthr
 
 在 `bedrock-runtime` 端点上，AWS 通过跨区域推理提供的模型（包括 Claude Fable 5.2 和 Claude Mythos 5.2）需要使用推理配置文件 ID：即在基础模型 ID 前加上 `global.` 或 `us.` 等前缀，例如 `global.anthropic.claude-fable-5-2`。请参阅 [API 模型 ID](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#api-model-ids)。
 
-在 Claude Models on Google Cloud (Google managed) 上，格式与 Claude API 一致。
+在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 和 [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) 上，格式均与 Claude API 一致。
 
 ### 4.6 代之前
 
@@ -53,6 +53,8 @@ anthropic.claude-{name}-{major}-{minor}-{YYYYMMDD}-v1:0
 ```
 
 例如：`anthropic.claude-sonnet-4-5-20250929-v1:0`
+
+在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#api-model-ids) 上，格式与 Claude API 一致。
 
 在 Claude Models on Google Cloud (Google managed) 上，日期以 `@` 分隔：
 
@@ -82,4 +84,4 @@ claude-{name}-{major}-{minor}@{YYYYMMDD}
 
 ## 当前模型 ID
 
-有关当前模型 ID 的完整列表及其在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上的对应 ID，请参阅[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)。
+有关各平台上的当前模型 ID，请参阅[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)。

@@ -158,7 +158,7 @@ Go to **[Organization settings > Connectors](https://claude.ai/admin-settings/co
 
 For Microsoft Teams specifically, set each Teams write tool individually: the send, post, and reply tools can be set to **Needs approval** or **Blocked** (members confirm each send), and starting a new chat can also be set to **Always allow**. If your organization added the Microsoft 365 connector for the first time after November 9, 2026, the send, post, and reply tools can also be set to **Always allow**, and members can then choose **Always allow** for them. Removing the connector and adding it again usually keeps your organization's original install date.
 
-If you see a notice about these tools, you can set them to **Always allow** now in **Review write tools**, in **Review tool restrictions**, or on the **Tools** tab. The limit ends right away for each tool you set to **Always allow**, and members can then choose **Always allow** for it. Some members may have chosen **Always allow** for that tool in the past. That earlier choice can take effect right away, so Claude can stop asking them. Claude asks everyone else by default until they choose it.
+If you see a notice about these tools, you can set them to **Always allow** now in **Review write tools**, in **Review tool restrictions**, or on the **Tools** tab. The limit ends right away for each tool you set to **Always allow**, and members can then choose **Always allow** for it. Some members may have chosen **Always allow** for that tool in the past. That earlier choice can take effect right away, so Claude can stop asking them. Outside "Automatically approve" mode, Claude asks everyone else by default until they choose it.
 
 If you have more than one Microsoft 365 connector, save the tool on each one. An **Always allow** saved before November 9, 2026 doesn't end the limit until you save it again. For the rest of these tools, members must still approve each use until the limit is removed on or after December 9, 2026. Any of these tools you haven't set by then will change to **Needs approval**, unless the whole connector is set to **Blocked**.
 
@@ -293,6 +293,8 @@ During authentication, the integration requests the following permissions:
 - `OnlineMeetingArtifact.Read.All`: Read meeting recordings and artifacts
 
 - `OnlineMeetingRecording.Read.All`: Read meeting recordings
+
+**Note:** By default, Microsoft doesn't let apps access Teams meeting transcripts, whatever permissions they've been granted. To let Claude read transcripts, have a Teams admin go to **Meetings > Meeting settings** in the Teams admin center and turn on **Microsoft Graph access** under **Transcript API access**. To include speaker attribution, select “Configure” and turn on **Include speaker attribution**, which is also off by default. Learn more in **[Microsoft's guide to transcript API access](https://learn.microsoft.com/en-us/microsoftteams/meeting-transcript-api-access)**.
 
 **Files (OneDrive and SharePoint)**
 

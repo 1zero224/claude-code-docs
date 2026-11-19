@@ -48,7 +48,7 @@ featureMetadata:
 * **[自动缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#automatic-caching)：** 在请求的顶层添加单个 `cache_control` 字段。系统会自动将缓存断点应用于最后一个可缓存的块，并随着对话增长向前移动。最适合需要自动缓存不断增长的消息历史的多轮对话。
 * **[显式缓存断点](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#explicit-cache-breakpoints)：** 将 `cache_control` 直接放在各个内容块上，以精细控制具体缓存哪些内容。
 
-最简单的入门方式是使用自动缓存：
+一种入门方式是使用自动缓存：
 
 <CodeGroup>
   ```bash cURL
@@ -240,17 +240,9 @@ featureMetadata:
 
 生命周期从写入或读取缓存条目的请求开始时计算，而不是从其响应结束时计算。生成响应所花费的时间也计入生命周期：如果一个响应需要 4 分钟进行流式传输，那么重用相同缓存前缀的后续请求必须在该响应完成后大约 1 分钟内开始。
 
-<Note>
-  如果您觉得 5 分钟太短，Anthropic 还提供 1 小时的缓存时长，[需支付额外费用](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#pricing)。
+如果 5 分钟太短，您可以使用 [1 小时缓存时长](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#1-hour-cache-duration)，需支付额外费用（请参阅[定价](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#pricing)）。
 
-  更多信息，请参阅 [1 小时缓存时长](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#1-hour-cache-duration)。
-</Note>
-
-<Tip>
-  **提示缓存会缓存完整的前缀**
-
-  提示缓存引用整个提示：`tools`、`system` 和 `messages`（按此顺序），直到并包括标记了 `cache_control` 的块。
-</Tip>
+提示缓存涵盖完整的前缀：`tools`、`system` 和 `messages`（按此顺序），直到并包括标记了 `cache_control` 的块。
 
 ***
 
@@ -309,7 +301,7 @@ featureMetadata:
 
 ## 自动缓存
 
-自动缓存是启用提示缓存的最简单方式。无需在各个内容块上放置 `cache_control`，只需在请求体的顶层添加单个 `cache_control` 字段。系统会自动将缓存断点应用于最后一个可缓存的块。
+自动缓存只需一个字段即可启用提示缓存。无需在各个内容块上放置 `cache_control`，只需在请求体的顶层添加单个 `cache_control` 字段。系统会自动将缓存断点应用于最后一个可缓存的块。
 
 <CodeGroup>
   ```bash cURL
@@ -628,19 +620,19 @@ featureMetadata:
 * Claude Opus 4.8、Claude Sonnet 5、Claude Sonnet 4.6、Claude Sonnet 4.5（[已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）、Claude Opus 4.1（[已停用，Claude Models on Google Cloud (Google managed) 和 Bedrock 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）、Claude Opus 4（[已停用，Claude Models on Google Cloud (Google managed) 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）和 Claude Sonnet 4（[已停用，Claude Models on Google Cloud (Google managed) 和 Bedrock 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）为 1,024 个令牌
 * Claude Haiku 4.5 为 4,096 个令牌
 
-这些最小值适用于每个模型可用的所有平台。
+这些最小值适用于上述每个平台中该模型可用的平台。
 
 较短的提示无法被缓存，即使标记了 `cache_control` 也是如此。任何缓存少于此令牌数的请求都将在不缓存的情况下处理，并且不会返回错误。要检查提示是否已被缓存，请查看[响应用量字段](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#tracking-cache-performance)：如果 `cache_creation_input_tokens` 和 `cache_read_input_tokens` 均为 0，则说明提示未被缓存（很可能是因为未达到最小长度要求）。
 
 如果您的提示仅略低于您的模型和平台的最小值，那么扩展缓存内容以达到阈值通常是值得的。缓存读取的成本远低于未缓存的输入令牌，因此达到最小值可以降低频繁重用的提示的成本。
 
 <Note>
-  [Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) 是由 AWS 运营的平台。在 Bedrock 上，有关适用的各模型最小值、失败行为和用量字段名称，请参阅 [Bedrock 提示缓存文档](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html)。
+  [Amazon Bedrock（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) 是由 AWS 运营的平台。在 Amazon Bedrock 上，有关适用的各模型最小值、失败行为和用量字段名称，请参阅 [Bedrock 提示缓存文档](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-caching.html)。
 </Note>
 
 对于并发请求，请注意缓存条目只有在第一个响应开始后才可用。如果您需要并行请求的缓存命中，请等待第一个响应后再发送后续请求。
 
-目前，`ephemeral` 是唯一支持的缓存类型，其默认生命周期为 5 分钟。
+`ephemeral` 是唯一支持的缓存类型，其默认生命周期为 5 分钟。
 
 ### 可以缓存的内容
 
@@ -674,18 +666,18 @@ featureMetadata:
 
 下表显示了不同类型的更改会使缓存的哪些部分失效。✘ 表示缓存失效，而 ✓ 表示缓存保持有效。
 
-| 更改内容                | 工具缓存  | 系统缓存  | 消息缓存  | 影响                                                                                                                                                                                                                                                                                                                                 |
-| ------------------- | ----- | ----- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **工具定义**            | ✘     | ✘     | ✘     | 修改工具定义（名称、描述、参数）会使整个缓存失效                                                                                                                                                                                                                                                                                                           |
-| **网络搜索开关**          | ✓     | ✘     | ✘     | 启用/禁用网络搜索会修改系统提示                                                                                                                                                                                                                                                                                                                   |
-| **引用开关**            | ✓     | ✘     | ✘     | 启用/禁用引用会修改系统提示                                                                                                                                                                                                                                                                                                                     |
-| **速度设置**            | ✓     | ✘     | ✘     | 在 [`speed: "fast"` 和标准速度](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)之间切换会使系统和消息缓存失效                                                                                                                                                                                                                       |
-| **工具选择**            | ✓     | ✓     | ✘     | 对 `tool_choice` 参数的更改只影响消息块                                                                                                                                                                                                                                                                                                        |
-| **图像**              | ✓     | ✓     | ✘     | 在提示中任何位置添加/删除图像都会影响消息块                                                                                                                                                                                                                                                                                                             |
-| **思考参数**            | 因模型而异 | 因模型而异 | ✘     | 思考配置（模式，以及扩展模式中的 `budget_tokens`）会被渲染到提示中，因此更改它总是会使消息块失效；在将该配置渲染在工具和系统之前的模型上，工具和系统缓存也会失效。请参阅[思考和提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。                                                                                                                              |
-| **Effort 设置**       | 因模型而异 | 因模型而异 | ✘     | 更改 [`output_config.effort`](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 值总是会使消息块失效，对工具和系统缓存的影响与思考参数一样因模型而异。将 effort 显式设置为模型的默认值等同于省略它，不会导致失效。在支持[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 的模型上，通过 `messages` 中的 `role: "system"` 消息传递的 effort 更改会使缓存前缀保持不变。 |
-| **向启用思考的请求传递非工具结果** | ✓     | ✓     | 因模型而异 | 在 Opus 4.5+、Sonnet 4.6+ 和 Haiku 5.5 上，思考块默认会被保留，因此缓存保持有效（✓）。在较早的 Opus/Sonnet 模型以及截至 Claude Haiku 4.5 的 Haiku 模型上，所有先前缓存的思考块都会从上下文中剥离，并且这些思考块之后的所有消息都会从缓存中移除（✘）。更多详情，请参阅[使用思考块进行缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#caching-with-thinking-blocks)。                                          |
-| **被丢弃的思考块**         | ✓     | ✓     | ✘     | 当 API 丢弃在该请求中未被[保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-thinking)的思考块时，该请求中从该块位置开始的缓存前缀都会发生变化。接收模型可以读取且原样传回的块会使缓存保持完整。                                                                                                                                                                     |
+| 更改内容                | 工具缓存  | 系统缓存  | 消息缓存  | 影响                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------------- | ----- | ----- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **工具定义**            | ✘     | ✘     | ✘     | 修改工具定义（名称、描述、参数）会使整个缓存失效                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| **网络搜索开关**          | ✓     | ✘     | ✘     | 启用/禁用网络搜索会修改系统提示                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| **引用开关**            | ✓     | ✘     | ✘     | 启用/禁用引用会修改系统提示                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| **速度设置**            | ✓     | ✘     | ✘     | 在 [`speed: "fast"` 和标准速度](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)之间切换会使系统和消息缓存失效                                                                                                                                                                                                                                                                                                                                |
+| **工具选择**            | ✓     | ✓     | ✘     | 对 `tool_choice` 参数的更改只影响消息块                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| **图像**              | ✓     | ✓     | ✘     | 在提示中任何位置添加/删除图像都会影响消息块                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| **思考参数**            | 因模型而异 | 因模型而异 | ✘     | 思考配置（模式，以及扩展模式中的 `budget_tokens`）会被渲染到提示中，因此更改它总是会使消息块失效；在将该配置渲染在工具和系统之前的模型上，工具和系统缓存也会失效。请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。                                                                                                                                                                                                                                       |
+| **Effort 设置**       | 因模型而异 | 因模型而异 | ✘     | 更改 [`output_config.effort`](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 值可能会使消息块失效，在某些模型上还可能使工具和系统缓存失效（请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)）。将 effort 显式设置为模型的默认值等同于省略它，不会导致失效。在支持[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 的模型上，通过 `messages` 中的 `role: "system"` 消息传递的 effort 更改会使缓存前缀保持不变。 |
+| **向启用思考的请求传递非工具结果** | ✓     | ✓     | 因模型而异 | 在 Claude Opus 4.5 及更高版本的 Opus 模型、Claude Sonnet 4.6 及更高版本的 Sonnet 模型、Claude Haiku 5.5 以及所有 Claude Fable 和 Claude Mythos 模型上，思考块默认会被保留，因此缓存保持有效（✓）。在其他模型上，所有先前缓存的思考块都会从上下文中剥离，并且这些思考块之后的所有消息都会从缓存中移除（✘）。更多详情，请参阅[使用思考块进行缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#caching-with-thinking-blocks)。                                                                                                            |
+| **被丢弃的思考块**         | ✓     | ✓     | ✘     | 当 API 丢弃在该请求中未被[保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-thinking)的思考块时，该请求中从该块位置开始的缓存前缀都会发生变化。接收模型可以读取且原样传回的块会使缓存保持完整。                                                                                                                                                                                                                                                                              |
 
 在支持[对话中途更改工具](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#mid-conversation-tool-changes)的模型上，`inline-tools-2026-09-15` beta 头允许您在对话进行中添加工具或更改工具的定义，而无需编辑 `tools`。在对话中途的系统消息中通过 `tool_addition` 块发送定义，并使 `tools` 与您首次发送时完全相同。缓存前缀仍然匹配，因此只有追加的消息会作为新输入处理。唯一的例外是 `tools` 数组中没有非延迟工具的情况，此时以这种方式定义的第一个工具会在该请求上造成一次完整的缓存未命中。请参阅[在消息中定义工具](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#define-tools-in-a-message-beta)。
 
@@ -739,8 +731,8 @@ featureMetadata:
 **缓存失效模式：**
 
 * 当仅提供工具结果作为用户消息时，缓存保持有效。
-* 在 Opus 4.5+、Sonnet 4.6+ 和 Haiku 5.5 上，即使添加了非工具结果的用户内容，思考块默认也会被保留，因此缓存保持有效。
-* 在较早的 Opus/Sonnet 模型以及截至 Claude Haiku 4.5 的 Haiku 模型上，添加非工具结果的用户内容时缓存会失效，导致所有先前的思考块从上下文中剥离。
+* 在 Claude Opus 4.5 及更高版本的 Opus 模型、Claude Sonnet 4.6 及更高版本的 Sonnet 模型、Claude Haiku 5.5 以及所有 Claude Fable 和 Claude Mythos 模型上，即使添加了非工具结果的用户内容，思考块默认也会被保留，因此缓存保持有效。
+* 在其他模型上，添加非工具结果的用户内容会使缓存失效，并从上下文中剥离所有先前的思考块。
 * 即使没有显式的 `cache_control` 标记，也会发生这种缓存行为。
 
 有关缓存失效的更多详情，请参阅[导致缓存失效的因素](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)。
@@ -768,17 +760,17 @@ User: [Text response, cache=True]
 # Depending on the model, this non-tool-result user block either keeps prior thinking blocks or strips them (see the next paragraph)
 ```
 
-在较早的 Opus/Sonnet 模型以及截至 Claude Haiku 4.5 的 Haiku 模型上，此时所有先前的思考块都会从上下文中移除。在 Opus 4.5+、Sonnet 4.6+ 和 Haiku 5.5 上，先前的思考块默认会被保留，并仍是缓存前缀的一部分。
+在[保留先前思考的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#caching-with-thinking-blocks)上，先前的思考块默认会保留在上下文中，并仍是缓存前缀的一部分。在其他模型上，此时所有先前的思考块都会从上下文中移除。
 
-更多详细信息，请参阅[思考和提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。
+更多详细信息，请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。
 
 ### 缓存存储和共享
 
-<Warning>
-  提示缓存使用[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)级别的隔离。缓存按工作区隔离，确保同一组织内不同工作区之间的数据分离。这适用于 Claude API、Claude Platform on AWS 和 Microsoft Foundry；Claude Models on Google Cloud (Google managed) 和 Bedrock 保持组织级别的缓存隔离。如果您使用多个工作区，请检查您的缓存策略以考虑这一差异。
-</Warning>
+提示缓存遵循以下规则：
 
-* **组织和工作区隔离：** 缓存在组织之间是隔离的。不同的组织永远不会共享缓存，即使它们使用相同的提示。在 Claude API、Claude Platform on AWS 和 Microsoft Foundry 上，缓存还会在组织内按工作区隔离；Claude Models on Google Cloud (Google managed) 和 Bedrock 仅使用组织级别的隔离。
+* **组织隔离：** 不同的组织永远不会共享缓存，即使它们使用相同的提示。
+
+* **工作区隔离：** 在 Claude API、Claude Platform on AWS 和 Microsoft Foundry 上，缓存还会在[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)之间隔离。在这些平台上，每个工作区都会构建自己的缓存。在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上，缓存仅按组织隔离。
 
 * **精确匹配：** 缓存命中需要 100% 相同的提示片段，包括直到并包括标记了缓存控制的块的所有文本和图像。
 
@@ -831,11 +823,7 @@ User: [Text response, cache=True]
 
 ## 1 小时缓存时长
 
-如果您觉得 5 分钟太短，Anthropic 还提供 1 小时的缓存时长，[需支付额外费用](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#pricing)。
-
-<Note>
-  1 小时缓存时长可在 Claude API、[Amazon Bedrock（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)、[Amazon Bedrock（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)、[Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) 和 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 上使用。
-</Note>
+如果您觉得 5 分钟太短，Anthropic 还提供 1 小时的缓存时长，需支付额外费用（请参阅[定价](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#pricing)）。1 小时缓存时长可在[所有支持提示缓存的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#feature-availability)上使用。
 
 要使用扩展缓存，请在 `cache_control` 定义中包含 `ttl`，如下所示：
 
@@ -923,7 +911,7 @@ User: [Text response, cache=True]
 
 在请求中设置 `max_tokens: 0`。API 会将您的提示读入模型，并在任何 `cache_control` 断点处写入缓存，然后立即返回，不生成任何输出。响应包含一个空的 `content` 数组、`stop_reason: "max_tokens"` 以及一个完整填充的 `usage` 块。
 
-将 `cache_control` 断点放在与后续请求共享的最后一个块上（通常是您的系统提示或工具定义），而不是放在占位用户消息上。否则，缓存条目将以占位消息为键，后续请求将无法命中它。同时，请使用与后续请求相同的思考配置和 `output_config.effort`：这些值会被渲染到提示中（请参阅[什么会使缓存失效](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)），因此使用不同配置的预热可能会写入一个您的真实流量永远不会命中的条目。这意味着需要使用[显式缓存断点](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#explicit-cache-breakpoints)而不是[自动缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#automatic-caching)，因为自动缓存会将断点放在最后一个块上，而此处最后一个块是占位消息。占位用户消息可以是任何包含非空白内容的字符串（此处的示例使用 `"warmup"`）；其内容会被读入模型，但永远不会得到回答。
+将 `cache_control` 断点放在与后续请求共享的最后一个块上（通常是您的系统提示或工具定义），而不是放在占位用户消息上。否则，缓存条目将以占位消息为键，后续请求将无法命中它。同时，请使用与后续请求相同的思考配置和 `output_config.effort`：这些值会被渲染到提示中（请参阅[导致缓存失效的因素](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)），因此使用不同配置的预热可能会写入一个您的真实流量永远不会命中的条目。这意味着需要使用[显式缓存断点](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#explicit-cache-breakpoints)而不是[自动缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#automatic-caching)，因为自动缓存会将断点放在最后一个块上，而此处最后一个块是占位消息。占位用户消息可以是任何包含非空白内容的字符串（此处的示例使用 `"warmup"`）；其内容会被读入模型，但永远不会得到回答。
 
 <Note>
   如果前缀尚未被缓存，预热请求会产生**缓存写入**费用，与任何其他请求相同。检查响应中的 `usage.cache_creation_input_tokens` 以确认是否发生了写入。输出令牌计费为零。
@@ -2493,12 +2481,32 @@ API 返回一个空的 `content` 数组：
           system=[
               {
                   "type": "text",
-                  "text": "You are a helpful research assistant with access to a document knowledge base.\n\n# Instructions\n- Always search for relevant documents before answering\n- Provide citations for your sources\n- Be objective and accurate in your responses\n- If multiple documents contain relevant information, synthesize them\n- Acknowledge when information is not available in the knowledge base",
+                  "text": """You are a helpful research assistant with access to a document knowledge base.
+
+      # Instructions
+      - Always search for relevant documents before answering
+      - Provide citations for your sources
+      - Be objective and accurate in your responses
+      - If multiple documents contain relevant information, synthesize them
+      - Acknowledge when information is not available in the knowledge base""",
                   "cache_control": {"type": "ephemeral"},
               },
               {
                   "type": "text",
-                  "text": "# Knowledge Base Context\n\nHere are the relevant documents for this conversation:\n\n## Document 1: Solar System Overview\nThe solar system consists of the Sun and all objects that orbit it...\n\n## Document 2: Planetary Characteristics\nEach planet has unique features. Mercury is the smallest planet...\n\n## Document 3: Mars Exploration\nMars has been a target of exploration for decades...\n\n[Additional documents...]",
+                  "text": """# Knowledge Base Context
+
+      Here are the relevant documents for this conversation:
+
+      ## Document 1: Solar System Overview
+      The solar system consists of the Sun and all objects that orbit it...
+
+      ## Document 2: Planetary Characteristics
+      Each planet has unique features. Mercury is the smallest planet...
+
+      ## Document 3: Mars Exploration
+      Mars has been a target of exploration for decades...
+
+      [Additional documents...]""",
                   "cache_control": {"type": "ephemeral"},
               },
           ],
@@ -2592,12 +2600,32 @@ API 返回一个空的 `content` 数组：
         system: [
           {
             type: "text",
-            text: "You are a helpful research assistant with access to a document knowledge base.\n\n# Instructions\n- Always search for relevant documents before answering\n- Provide citations for your sources\n- Be objective and accurate in your responses\n- If multiple documents contain relevant information, synthesize them\n- Acknowledge when information is not available in the knowledge base",
+            text: `You are a helpful research assistant with access to a document knowledge base.
+
+      # Instructions
+      - Always search for relevant documents before answering
+      - Provide citations for your sources
+      - Be objective and accurate in your responses
+      - If multiple documents contain relevant information, synthesize them
+      - Acknowledge when information is not available in the knowledge base`,
             cache_control: { type: "ephemeral" }
           },
           {
             type: "text",
-            text: "# Knowledge Base Context\n\nHere are the relevant documents for this conversation:\n\n## Document 1: Solar System Overview\nThe solar system consists of the Sun and all objects that orbit it...\n\n## Document 2: Planetary Characteristics\nEach planet has unique features. Mercury is the smallest planet...\n\n## Document 3: Mars Exploration\nMars has been a target of exploration for decades...\n\n[Additional documents...]",
+            text: `# Knowledge Base Context
+
+      Here are the relevant documents for this conversation:
+
+      ## Document 1: Solar System Overview
+      The solar system consists of the Sun and all objects that orbit it...
+
+      ## Document 2: Planetary Characteristics
+      Each planet has unique features. Mercury is the smallest planet...
+
+      ## Document 3: Mars Exploration
+      Mars has been a target of exploration for decades...
+
+      [Additional documents...]`,
             cache_control: { type: "ephemeral" }
           }
         ],
@@ -2696,12 +2724,36 @@ API 返回一个空的 `content` 数组：
           {
               new TextBlockParam()
               {
-                  Text = "You are a helpful research assistant with access to a document knowledge base.\n\n# Instructions\n- Always search for relevant documents before answering\n- Provide citations for your sources\n- Be objective and accurate in your responses\n- If multiple documents contain relevant information, synthesize them\n- Acknowledge when information is not available in the knowledge base",
+                  Text = """
+                      You are a helpful research assistant with access to a document knowledge base.
+
+                      # Instructions
+                      - Always search for relevant documents before answering
+                      - Provide citations for your sources
+                      - Be objective and accurate in your responses
+                      - If multiple documents contain relevant information, synthesize them
+                      - Acknowledge when information is not available in the knowledge base
+                      """,
                   CacheControl = new CacheControlEphemeral(),
               },
               new TextBlockParam()
               {
-                  Text = "# Knowledge Base Context\n\nHere are the relevant documents for this conversation:\n\n## Document 1: Solar System Overview\nThe solar system consists of the Sun and all objects that orbit it...\n\n## Document 2: Planetary Characteristics\nEach planet has unique features. Mercury is the smallest planet...\n\n## Document 3: Mars Exploration\nMars has been a target of exploration for decades...\n\n[Additional documents...]",
+                  Text = """
+                      # Knowledge Base Context
+
+                      Here are the relevant documents for this conversation:
+
+                      ## Document 1: Solar System Overview
+                      The solar system consists of the Sun and all objects that orbit it...
+
+                      ## Document 2: Planetary Characteristics
+                      Each planet has unique features. Mercury is the smallest planet...
+
+                      ## Document 3: Mars Exploration
+                      Mars has been a target of exploration for decades...
+
+                      [Additional documents...]
+                      """,
                   CacheControl = new CacheControlEphemeral(),
               },
           }),
@@ -2757,73 +2809,93 @@ API 返回一个空的 `content` 数组：
       ```
 
       ```go Go
-      client := anthropic.NewClient()
+      	client := anthropic.NewClient()
 
-      response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-      	Model:     anthropic.ModelClaudeOpus5_5,
-      	MaxTokens: 1024,
-      	Tools: []anthropic.ToolUnionParam{
-      		{OfTool: &anthropic.ToolParam{
-      			Name:        "search_documents",
-      			Description: anthropic.String("Search through the knowledge base"),
-      			InputSchema: anthropic.ToolInputSchemaParam{
-      				Properties: map[string]any{
-      					"query": map[string]any{
-      						"type":        "string",
-      						"description": "Search query",
+      	response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
+      		Model:     anthropic.ModelClaudeOpus5_5,
+      		MaxTokens: 1024,
+      		Tools: []anthropic.ToolUnionParam{
+      			{OfTool: &anthropic.ToolParam{
+      				Name:        "search_documents",
+      				Description: anthropic.String("Search through the knowledge base"),
+      				InputSchema: anthropic.ToolInputSchemaParam{
+      					Properties: map[string]any{
+      						"query": map[string]any{
+      							"type":        "string",
+      							"description": "Search query",
+      						},
       					},
+      					Required: []string{"query"},
       				},
-      				Required: []string{"query"},
-      			},
-      		}},
-      		{OfTool: &anthropic.ToolParam{
-      			Name:        "get_document",
-      			Description: anthropic.String("Retrieve a specific document by ID"),
-      			InputSchema: anthropic.ToolInputSchemaParam{
-      				Properties: map[string]any{
-      					"doc_id": map[string]any{
-      						"type":        "string",
-      						"description": "Document ID",
+      			}},
+      			{OfTool: &anthropic.ToolParam{
+      				Name:        "get_document",
+      				Description: anthropic.String("Retrieve a specific document by ID"),
+      				InputSchema: anthropic.ToolInputSchemaParam{
+      					Properties: map[string]any{
+      						"doc_id": map[string]any{
+      							"type":        "string",
+      							"description": "Document ID",
+      						},
       					},
+      					Required: []string{"doc_id"},
       				},
-      				Required: []string{"doc_id"},
+      				CacheControl: anthropic.NewCacheControlEphemeralParam(),
+      			}},
+      		},
+      		System: []anthropic.TextBlockParam{
+      			{
+      				Text: `You are a helpful research assistant with access to a document knowledge base.
+
+      # Instructions
+      - Always search for relevant documents before answering
+      - Provide citations for your sources
+      - Be objective and accurate in your responses
+      - If multiple documents contain relevant information, synthesize them
+      - Acknowledge when information is not available in the knowledge base`,
+      				CacheControl: anthropic.NewCacheControlEphemeralParam(),
       			},
-      			CacheControl: anthropic.NewCacheControlEphemeralParam(),
-      		}},
-      	},
-      	System: []anthropic.TextBlockParam{
-      		{
-      			Text:         "You are a helpful research assistant with access to a document knowledge base.\n\n# Instructions\n- Always search for relevant documents before answering\n- Provide citations for your sources\n- Be objective and accurate in your responses\n- If multiple documents contain relevant information, synthesize them\n- Acknowledge when information is not available in the knowledge base",
-      			CacheControl: anthropic.NewCacheControlEphemeralParam(),
+      			{
+      				Text: `# Knowledge Base Context
+
+      Here are the relevant documents for this conversation:
+
+      ## Document 1: Solar System Overview
+      The solar system consists of the Sun and all objects that orbit it...
+
+      ## Document 2: Planetary Characteristics
+      Each planet has unique features. Mercury is the smallest planet...
+
+      ## Document 3: Mars Exploration
+      Mars has been a target of exploration for decades...
+
+      [Additional documents...]`,
+      				CacheControl: anthropic.NewCacheControlEphemeralParam(),
+      			},
       		},
-      		{
-      			Text:         "# Knowledge Base Context\n\nHere are the relevant documents for this conversation:\n\n## Document 1: Solar System Overview\nThe solar system consists of the Sun and all objects that orbit it...\n\n## Document 2: Planetary Characteristics\nEach planet has unique features. Mercury is the smallest planet...\n\n## Document 3: Mars Exploration\nMars has been a target of exploration for decades...\n\n[Additional documents...]",
-      			CacheControl: anthropic.NewCacheControlEphemeralParam(),
+      		Messages: []anthropic.MessageParam{
+      			anthropic.NewUserMessage(anthropic.NewTextBlock("Can you search for information about Mars rovers?")),
+      			anthropic.NewAssistantMessage(anthropic.NewToolUseBlock(
+      				"tool_1",
+      				map[string]any{"query": "Mars rovers"},
+      				"search_documents",
+      			)),
+      			anthropic.NewUserMessage(anthropic.NewToolResultBlock(
+      				"tool_1",
+      				"Found 3 relevant documents: Document 3 (Mars Exploration), Document 7 (Rover Technology), Document 9 (Mission History)",
+      				false,
+      			)),
+      			anthropic.NewAssistantMessage(anthropic.NewTextBlock("I found 3 relevant documents about Mars rovers. Let me get more details from the Mars Exploration document.")),
+      			anthropic.NewUserMessage(anthropic.ContentBlockParamUnion{OfText: &anthropic.TextBlockParam{
+      				Text:         "Yes, please tell me about the Perseverance rover specifically.",
+      				CacheControl: anthropic.NewCacheControlEphemeralParam(),
+      			}}),
       		},
-      	},
-      	Messages: []anthropic.MessageParam{
-      		anthropic.NewUserMessage(anthropic.NewTextBlock("Can you search for information about Mars rovers?")),
-      		anthropic.NewAssistantMessage(anthropic.NewToolUseBlock(
-      			"tool_1",
-      			map[string]any{"query": "Mars rovers"},
-      			"search_documents",
-      		)),
-      		anthropic.NewUserMessage(anthropic.NewToolResultBlock(
-      			"tool_1",
-      			"Found 3 relevant documents: Document 3 (Mars Exploration), Document 7 (Rover Technology), Document 9 (Mission History)",
-      			false,
-      		)),
-      		anthropic.NewAssistantMessage(anthropic.NewTextBlock("I found 3 relevant documents about Mars rovers. Let me get more details from the Mars Exploration document.")),
-      		anthropic.NewUserMessage(anthropic.ContentBlockParamUnion{OfText: &anthropic.TextBlockParam{
-      			Text:         "Yes, please tell me about the Perseverance rover specifically.",
-      			CacheControl: anthropic.NewCacheControlEphemeralParam(),
-      		}}),
-      	},
-      })
-      if err != nil {
-      	log.Fatal(err)
-      }
-      fmt.Println(response.Usage.RawJSON())
+      	})
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	fmt.Println(response.Usage.RawJSON())
       ```
 
       ```java Java
@@ -2855,7 +2927,7 @@ API 返回一个空的 `content` 数组：
           MessageCreateParams params = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
               .maxTokens(1024)
-              // 工具列表，最后一个设置缓存控制
+              // 在最后一个工具上设置缓存控制的工具列表
               .addTool(
                   Tool.builder()
                       .name("search_documents")
@@ -2871,18 +2943,40 @@ API 返回一个空的 `content` 数组：
                       .cacheControl(CacheControlEphemeral.builder().build())
                       .build()
               )
-              // 系统提示，分别对指令和上下文设置缓存控制
+              // 分别对指令和上下文设置缓存控制的系统提示
               .systemOfTextBlockParams(
                   List.of(
                       TextBlockParam.builder()
                           .text(
-                              "You are a helpful research assistant with access to a document knowledge base.\n\n# Instructions\n- Always search for relevant documents before answering\n- Provide citations for your sources\n- Be objective and accurate in your responses\n- If multiple documents contain relevant information, synthesize them\n- Acknowledge when information is not available in the knowledge base"
+                              """
+                              You are a helpful research assistant with access to a document knowledge base.
+
+                              # Instructions
+                              - Always search for relevant documents before answering
+                              - Provide citations for your sources
+                              - Be objective and accurate in your responses
+                              - If multiple documents contain relevant information, synthesize them
+                              - Acknowledge when information is not available in the knowledge base"""
                           )
                           .cacheControl(CacheControlEphemeral.builder().build())
                           .build(),
                       TextBlockParam.builder()
                           .text(
-                              "# Knowledge Base Context\n\nHere are the relevant documents for this conversation:\n\n## Document 1: Solar System Overview\nThe solar system consists of the Sun and all objects that orbit it...\n\n## Document 2: Planetary Characteristics\nEach planet has unique features. Mercury is the smallest planet...\n\n## Document 3: Mars Exploration\nMars has been a target of exploration for decades...\n\n[Additional documents...]"
+                              """
+                              # Knowledge Base Context
+
+                              Here are the relevant documents for this conversation:
+
+                              ## Document 1: Solar System Overview
+                              The solar system consists of the Sun and all objects that orbit it...
+
+                              ## Document 2: Planetary Characteristics
+                              Each planet has unique features. Mercury is the smallest planet...
+
+                              ## Document 3: Mars Exploration
+                              Mars has been a target of exploration for decades...
+
+                              [Additional documents...]"""
                           )
                           .cacheControl(CacheControlEphemeral.builder().build())
                           .build()
@@ -2996,12 +3090,36 @@ API 返回一个空的 `content` 数组：
           system: [
               [
                   'type' => 'text',
-                  'text' => "You are a helpful research assistant with access to a document knowledge base.\n\n# Instructions\n- Always search for relevant documents before answering\n- Provide citations for your sources\n- Be objective and accurate in your responses\n- If multiple documents contain relevant information, synthesize them\n- Acknowledge when information is not available in the knowledge base",
+                  'text' => <<<'TEXT'
+                      You are a helpful research assistant with access to a document knowledge base.
+
+                      # Instructions
+                      - Always search for relevant documents before answering
+                      - Provide citations for your sources
+                      - Be objective and accurate in your responses
+                      - If multiple documents contain relevant information, synthesize them
+                      - Acknowledge when information is not available in the knowledge base
+                      TEXT,
                   'cache_control' => ['type' => 'ephemeral']
               ],
               [
                   'type' => 'text',
-                  'text' => "# Knowledge Base Context\n\nHere are the relevant documents for this conversation:\n\n## Document 1: Solar System Overview\nThe solar system consists of the Sun and all objects that orbit it...\n\n## Document 2: Planetary Characteristics\nEach planet has unique features. Mercury is the smallest planet...\n\n## Document 3: Mars Exploration\nMars has been a target of exploration for decades...\n\n[Additional documents...]",
+                  'text' => <<<'TEXT'
+                      # Knowledge Base Context
+
+                      Here are the relevant documents for this conversation:
+
+                      ## Document 1: Solar System Overview
+                      The solar system consists of the Sun and all objects that orbit it...
+
+                      ## Document 2: Planetary Characteristics
+                      Each planet has unique features. Mercury is the smallest planet...
+
+                      ## Document 3: Mars Exploration
+                      Mars has been a target of exploration for decades...
+
+                      [Additional documents...]
+                      TEXT,
                   'cache_control' => ['type' => 'ephemeral']
               ]
           ],
@@ -3081,12 +3199,36 @@ API 返回一个空的 `content` 数组：
         system_: [
           {
             type: "text",
-            text: "You are a helpful research assistant with access to a document knowledge base.\n\n# Instructions\n- Always search for relevant documents before answering\n- Provide citations for your sources\n- Be objective and accurate in your responses\n- If multiple documents contain relevant information, synthesize them\n- Acknowledge when information is not available in the knowledge base",
+            text: <<~TEXT.chomp,
+              You are a helpful research assistant with access to a document knowledge base.
+
+              # Instructions
+              - Always search for relevant documents before answering
+              - Provide citations for your sources
+              - Be objective and accurate in your responses
+              - If multiple documents contain relevant information, synthesize them
+              - Acknowledge when information is not available in the knowledge base
+            TEXT
             cache_control: { type: "ephemeral" }
           },
           {
             type: "text",
-            text: "# Knowledge Base Context\n\nHere are the relevant documents for this conversation:\n\n## Document 1: Solar System Overview\nThe solar system consists of the Sun and all objects that orbit it...\n\n## Document 2: Planetary Characteristics\nEach planet has unique features. Mercury is the smallest planet...\n\n## Document 3: Mars Exploration\nMars has been a target of exploration for decades...\n\n[Additional documents...]",
+            text: <<~TEXT.chomp,
+              # Knowledge Base Context
+
+              Here are the relevant documents for this conversation:
+
+              ## Document 1: Solar System Overview
+              The solar system consists of the Sun and all objects that orbit it...
+
+              ## Document 2: Planetary Characteristics
+              Each planet has unique features. Mercury is the smallest planet...
+
+              ## Document 3: Mars Exploration
+              Mars has been a target of exploration for decades...
+
+              [Additional documents...]
+            TEXT
             cache_control: { type: "ephemeral" }
           }
         ],
@@ -3183,7 +3325,9 @@ API 返回一个空的 `content` 数组：
 
 提示缓存（包括自动缓存和显式缓存）符合 ZDR 资格。Anthropic 不会存储您的提示或 Claude 响应的原始文本。
 
-已缓存内容的 KV（键值）缓存表示和加密哈希仅保存在内存中，不会进行静态存储。缓存条目的最短生命周期为 5 分钟（标准）或 1 小时（扩展），之后会被及时（但不是立即）删除。缓存条目在组织之间相互隔离；在 Claude API、Claude Platform on AWS 和 Microsoft Foundry 上，还会在组织内的工作区之间相互隔离。
+已缓存内容的 KV（键值）缓存表示和加密哈希仅保存在内存中，不会进行静态存储。缓存条目的最短生命周期为 5 分钟（标准）或 1 小时（扩展），之后会被及时（但不是立即）删除。
+
+缓存条目在组织之间相互隔离；在[某些平台](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-storage-and-sharing)上，还会在组织内的工作区之间相互隔离。
 
 ***
 
@@ -3256,9 +3400,9 @@ API 返回一个空的 `content` 数组：
   </Accordion>
 
   <Accordion title="提示缓存如何与思考功能配合使用？">
-    更改思考参数（切换模式，或在扩展模式下更改预算）会使已缓存的消息前缀失效，并且也可能使已缓存的系统提示和工具失效，因为思考配置会被渲染到提示中。[`output_config.effort`](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 值的行为方式相同。
+    更改思考参数（切换模式，或在扩展模式下更改预算）会使已缓存的消息前缀失效，并且也可能使已缓存的系统提示和工具失效，因为思考配置会被渲染到提示中。更改 [`output_config.effort`](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 值也可能产生同样的效果。
 
-    有关缓存失效的更多详细信息，请参阅[什么会使缓存失效](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)。
+    有关缓存失效的更多详细信息，请参阅[导致缓存失效的因素](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)。
 
     有关思考的更多信息，包括其与工具使用和提示缓存的交互，请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。
   </Accordion>
@@ -3270,7 +3414,7 @@ API 返回一个空的 `content` 数组：
   <Accordion title="我可以将提示缓存与其他 API 功能一起使用吗？">
     可以，提示缓存可以与其他 API 功能（例如工具使用和视觉功能）一起使用。但是，更改提示中是否包含图像或修改工具使用设置会破坏缓存。
 
-    有关缓存失效的更多详细信息，请参阅[什么会使缓存失效](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)。
+    有关缓存失效的更多详细信息，请参阅[导致缓存失效的因素](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)。
   </Accordion>
 
   <Accordion title="提示缓存如何影响定价？">
@@ -3278,7 +3422,7 @@ API 返回一个空的 `content` 数组：
   </Accordion>
 
   <Accordion title="我可以手动清除缓存吗？">
-    目前，无法手动清除缓存。已缓存的前缀在至少 5 分钟无活动后会自动过期。
+    无法手动清除缓存。已缓存的前缀在至少 5 分钟无活动后会自动过期。
   </Accordion>
 
   <Accordion title="如何跟踪我的缓存策略的有效性？">
@@ -3286,7 +3430,7 @@ API 返回一个空的 `content` 数组：
   </Accordion>
 
   <Accordion title="什么会破坏缓存？">
-    有关缓存失效的更多详细信息，包括需要创建新缓存条目的更改列表，请参阅[什么会使缓存失效](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)。
+    有关缓存失效的更多详细信息，包括需要创建新缓存条目的更改列表，请参阅[导致缓存失效的因素](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#what-invalidates-the-cache)。
   </Accordion>
 
   <Accordion title="提示缓存如何处理隐私和数据隔离？">
@@ -3294,7 +3438,7 @@ API 返回一个空的 `content` 数组：
 
     1. 缓存键是使用截至缓存控制点的提示的加密哈希生成的。这意味着只有具有相同提示的请求才能访问特定的缓存。
 
-    2. 在 Claude API、Claude Platform on AWS 和 Microsoft Foundry 上，缓存在组织内按工作区隔离。在 Claude Models on Google Cloud (Google managed) 和 Bedrock 上，缓存按组织隔离。在任何情况下，缓存都不会在组织之间共享，即使提示完全相同也是如此。有关详细信息，请参阅[缓存存储与共享](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-storage-and-sharing)。
+    2. 缓存永远不会在组织之间共享，即使提示完全相同也是如此。在[某些平台](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-storage-and-sharing)上，缓存还会在组织内按工作区隔离。
 
     3. 缓存机制旨在维护每个唯一对话或上下文的完整性和隐私性。
 

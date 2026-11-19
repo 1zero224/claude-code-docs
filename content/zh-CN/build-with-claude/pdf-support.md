@@ -84,19 +84,15 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
 
 ### 发送您的第一个 PDF 请求
 
-从一个使用 Messages API 的简单示例开始。您可以通过三种方式向 Claude 提供 PDF：
+从一个使用 Messages API 的示例开始。要向 Claude 提供 PDF，请在 [`document` 内容块](https://platform.claude.com/docs/zh-CN/api/messages#document_block_param)中发送它，并使用三种来源类型之一。您的平台决定了您可以使用哪些类型（请参阅[可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support#feature-availability)）。在这些类型中，请根据 PDF 所在的位置、大小以及使用频率进行选择：
 
-1. 作为指向在线托管 PDF 的 URL 引用
-2. 作为 `document` 内容块中的 base64 编码 PDF
-3. 通过来自 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) 的 `file_id`
-
-<Note>
-  在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上，仅支持 base64 编码的来源。在 Microsoft Foundry 上，托管在 Azure 上的部署不支持 Files API。
-</Note>
+1. **在线托管的 PDF：**&#x901A;过其 URL 引用它（[选项 1：基于 URL 的 PDF 文档](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support#option-1-url-based-pdf-document)）。
+2. **位于您本地系统上或没有 URL 的 PDF：**&#x5C06;其作为 base64 编码的数据发送（[选项 2：Base64 编码的 PDF 文档](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support#option-2-base64-encoded-pdf-document)）。
+3. **大型 PDF 或您将重复使用的 PDF：**&#x4F7F;用 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) 上传它，并通过其 `file_id` 引用它（[选项 3：Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support#option-3-files-api)）。
 
 #### 选项 1：基于 URL 的 PDF 文档
 
-最简单的方法是直接从 URL 引用 PDF：
+通过其 URL 引用 PDF：
 
 <CodeGroup>
   ```bash cURL
@@ -252,7 +248,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
   ```java Java
   AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-  // 创建带有 URL 的文档块
+  // 使用 URL 创建文档块
   DocumentBlockParam documentParam = DocumentBlockParam.builder()
       .source(
           UrlPdfSource.builder()
@@ -280,7 +276,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
       .build();
 
   Message message = client.messages().create(params);
-  System.out.println(message.content());
+  IO.println(message.content());
   ```
 
   ```php PHP
@@ -306,7 +302,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
               ],
           ],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo $message;
@@ -316,7 +312,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
   anthropic = Anthropic::Client.new
 
   message = anthropic.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
       {
@@ -363,7 +359,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
 
 #### 选项 2：Base64 编码的 PDF 文档
 
-如果您需要从本地系统发送 PDF，或者在没有可用 URL 的情况下：
+在请求本身中将 PDF 作为 base64 编码的数据发送。以下大多数示例会下载一个示例 PDF 并对其进行编码，因此不需要本地文件。要在这些示例中发送本地文件，请将下载和编码 PDF 的代码行替换为被注释掉的代码行：
 
 <CodeGroup>
   ```bash cURL
@@ -550,7 +546,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
   }
   pdfBase64 := base64.StdEncoding.EncodeToString(pdfBytes)
 
-  // 替代方案：从本地文件加载（需在导入中添加 "os"）
+  // 替代方案：从本地文件加载（需在导入中将 "io" 和 "net/http" 替换为 "os"）
   // pdfBytes, err := os.ReadFile("document.pdf")
   // pdfBase64 := base64.StdEncoding.EncodeToString(pdfBytes)
 
@@ -578,7 +574,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
   ```java Java
   AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-  // 方法 1：下载远程 PDF 并进行编码
+  // 方法 1：下载并编码远程 PDF
   String pdfUrl =
       "https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf";
   HttpClient httpClient = HttpClient.newBuilder()
@@ -623,7 +619,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
       .build();
 
   Message message = client.messages().create(params);
-  System.out.println(message.content());
+  IO.println(message.content());
   ```
 
   ```php PHP
@@ -631,10 +627,14 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
 
   // 首先，加载 PDF 并进行编码
   $pdf_url = 'https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf';
-  $pdf_data = base64_encode(file_get_contents($pdf_url));
+  $pdf_bytes = file_get_contents($pdf_url)
+      ?: throw new \RuntimeException('Could not fetch the PDF.');
+  $pdf_data = base64_encode($pdf_bytes);
 
   // 替代方案：从本地文件加载
-  // $pdf_data = base64_encode(file_get_contents('document.pdf'));
+  // $pdf_bytes = file_get_contents('document.pdf')
+  //     ?: throw new \RuntimeException('Could not read document.pdf.');
+  // $pdf_data = base64_encode($pdf_bytes);
 
   // 使用 base64 编码发送给 Claude
   $message = $client->messages->create(
@@ -647,7 +647,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
                       'type' => 'document',
                       'source' => [
                           'type' => 'base64',
-                          'media_type' => 'application/pdf',
+                          'mediaType' => 'application/pdf',
                           'data' => $pdf_data,
                       ],
                   ],
@@ -658,7 +658,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
               ],
           ],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo $message;
@@ -669,7 +669,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
 
   # 首先，加载 PDF 并进行编码
   pdf_url = "https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf"
-  pdf_bytes = URI.open(pdf_url, "rb") { |f| f.read }
+  pdf_bytes = URI.open(pdf_url, "rb", &:read)
   pdf_data = [pdf_bytes].pack("m0") # Encode as base64 without newlines
 
   # 替代方案：从本地文件加载
@@ -933,7 +933,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
       .build();
 
   Message message = client.messages().create(params);
-  System.out.println(message.content());
+  IO.println(message.content());
   ```
 
   ```php PHP
@@ -942,8 +942,11 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
   $client = new Client();
 
   // 上传 PDF 文件
+  $document = fopen('/path/to/document.pdf', 'rb')
+      ?: throw new \RuntimeException('Could not open /path/to/document.pdf.');
+
   $file_upload = $client->files->upload(
-      file: FileParam::fromResource(fopen('/path/to/document.pdf', 'r'), contentType: 'application/pdf'),
+      file: FileParam::fromResource($document, contentType: 'application/pdf'),
   );
 
   // 在消息中使用已上传的文件
@@ -967,7 +970,7 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
               ],
           ],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo $message;
@@ -977,9 +980,9 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
   anthropic = Anthropic::Client.new
 
   # 上传 PDF 文件
-  file_upload = File.open("/path/to/document.pdf", "rb") do |f|
+  file_upload = File.open("/path/to/document.pdf", "rb") do |pdf_file|
     anthropic.files.upload(
-      file: Anthropic::FilePart.new(f, filename: "document.pdf", content_type: "application/pdf")
+      file: Anthropic::FilePart.new(pdf_file, filename: "document.pdf", content_type: "application/pdf")
     )
   end
 
@@ -1012,20 +1015,16 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
 <Steps>
   <Step title="系统提取文档的内容。">
     * 系统将文档的每一页转换为图像。
-    * 每一页的文本会被提取出来，并与每一页的图像一起提供。
+    * 系统从每一页提取文本，并将其与该页的图像一起提供。
   </Step>
 
   <Step title="Claude 同时分析文本和图像。">
-    * 文档以文本和图像组合的形式提供以供分析。
-    * 这使用户能够就 PDF 的视觉元素（如图表、示意图和其他非文本内容）寻求见解。
+    * Claude 以文本和图像组合的形式接收每个文档。
+    * 由于 Claude 会接收每一页的图像，您可以就 PDF 的视觉元素（如图表、示意图和其他非文本内容）寻求见解。
   </Step>
 
-  <Step title="Claude 作出响应，并在相关时引用 PDF 的内容。">
-    Claude 在响应时可以同时引用文本和视觉内容。您可以通过将 PDF 支持与以下功能集成来进一步提升性能：
-
-    * [使用提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support#use-prompt-caching)：提升重复分析的性能。
-    * [处理文档批次](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support#process-document-batches)：大批量处理文档。
-    * [工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)：从文档中提取特定信息以用作工具输入。
+  <Step title="Claude 在相关时于响应中使用 PDF 的内容。">
+    Claude 在响应中可以同时利用文本和视觉内容。
   </Step>
 </Steps>
 
@@ -1034,11 +1033,17 @@ Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求
 PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
 
 * 文本令牌成本：根据内容密度，每页通常使用 1,500–3,000 个令牌。适用标准 API 定价，无额外的 PDF 费用。
-* 图像令牌成本：由于每页都会被转换为图像，因此适用相同的[基于图像的成本计算](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#evaluate-image-size)。
+* 图像令牌成本：在所有模型上，每页图像最多使用 1,568 个视觉令牌，因为 API 会将页面图像调整到标准分辨率层级的限制范围内。有关如何计算图像的视觉令牌，请参阅[分辨率和令牌费用](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#evaluate-image-size)。
 
 您可以使用[令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting)来估算您特定 PDF 的成本。
 
 ## 优化 PDF 处理
+
+您可以将 PDF 支持与其他功能结合使用：
+
+* [使用提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support#use-prompt-caching)，以提升重复分析的性能。
+* [处理文档批次](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support#process-document-batches)，以大批量处理文档。
+* [使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)，让 Claude 从文档中提取特定信息以用作工具输入。
 
 ### 提升性能
 
@@ -1302,7 +1307,7 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
       .build();
 
   Message message = client.messages().create(params);
-  System.out.println(message);
+  IO.println(message);
   ```
 
   ```php PHP
@@ -1310,7 +1315,9 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
 
   // 加载 PDF 并进行编码
   $pdf_url = 'https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf';
-  $pdf_data = base64_encode(file_get_contents($pdf_url));
+  $pdf_bytes = file_get_contents($pdf_url)
+      ?: throw new \RuntimeException('Could not fetch the PDF.');
+  $pdf_data = base64_encode($pdf_bytes);
 
   $message = $client->messages->create(
       maxTokens: 1024,
@@ -1322,10 +1329,10 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
                       'type' => 'document',
                       'source' => [
                           'type' => 'base64',
-                          'media_type' => 'application/pdf',
+                          'mediaType' => 'application/pdf',
                           'data' => $pdf_data,
                       ],
-                      'cache_control' => ['type' => 'ephemeral'],
+                      'cacheControl' => ['type' => 'ephemeral'],
                   ],
                   [
                       'type' => 'text',
@@ -1334,7 +1341,7 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
               ],
           ],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo $message;
@@ -1343,9 +1350,9 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
   ```ruby Ruby
   require "open-uri"
 
-  # 加载 PDF 并进行编码
+  # 加载并编码 PDF
   pdf_url = "https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf"
-  pdf_bytes = URI.open(pdf_url, "rb") { |f| f.read }
+  pdf_bytes = URI.open(pdf_url, "rb", &:read)
   pdf_data = [pdf_bytes].pack("m0") # Encode as base64 without newlines
 
   anthropic = Anthropic::Client.new
@@ -1745,7 +1752,7 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
   ```java Java
   AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-  // 下载并编码 PDF
+  // 下载 PDF 并进行编码
   String pdfUrl =
       "https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf";
   HttpClient httpClient = HttpClient.newBuilder()
@@ -1822,7 +1829,7 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
       .build();
 
   MessageBatch batch = client.messages().batches().create(params);
-  System.out.println(batch);
+  IO.println(batch);
   ```
 
   ```php PHP
@@ -1830,15 +1837,17 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
 
   // 加载 PDF 并进行编码
   $pdf_url = 'https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf';
-  $pdf_data = base64_encode(file_get_contents($pdf_url));
+  $pdf_bytes = file_get_contents($pdf_url)
+      ?: throw new \RuntimeException('Could not fetch the PDF.');
+  $pdf_data = base64_encode($pdf_bytes);
 
   $batch = $client->messages->batches->create(
       requests: [
           [
-              'custom_id' => 'my-first-request',
+              'customID' => 'my-first-request',
               'params' => [
-                  'model' => 'claude-opus-5-5',
-                  'max_tokens' => 1024,
+                  'model' => Model::CLAUDE_OPUS_5_5,
+                  'maxTokens' => 1024,
                   'messages' => [
                       [
                           'role' => 'user',
@@ -1847,7 +1856,7 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
                                   'type' => 'document',
                                   'source' => [
                                       'type' => 'base64',
-                                      'media_type' => 'application/pdf',
+                                      'mediaType' => 'application/pdf',
                                       'data' => $pdf_data,
                                   ],
                               ],
@@ -1861,10 +1870,10 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
               ],
           ],
           [
-              'custom_id' => 'my-second-request',
+              'customID' => 'my-second-request',
               'params' => [
-                  'model' => 'claude-opus-5-5',
-                  'max_tokens' => 1024,
+                  'model' => Model::CLAUDE_OPUS_5_5,
+                  'maxTokens' => 1024,
                   'messages' => [
                       [
                           'role' => 'user',
@@ -1873,7 +1882,7 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
                                   'type' => 'document',
                                   'source' => [
                                       'type' => 'base64',
-                                      'media_type' => 'application/pdf',
+                                      'mediaType' => 'application/pdf',
                                       'data' => $pdf_data,
                                   ],
                               ],
@@ -1897,7 +1906,7 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
 
   # 加载 PDF 并进行编码
   pdf_url = "https://assets.anthropic.com/m/1cd9d098ac3e6467/original/Claude-3-Model-Card-October-Addendum.pdf"
-  pdf_bytes = URI.open(pdf_url, "rb") { |f| f.read }
+  pdf_bytes = URI.open(pdf_url, "rb", &:read)
   pdf_data = [pdf_bytes].pack("m0") # Encode as base64 without newlines
 
   anthropic = Anthropic::Client.new
@@ -1969,7 +1978,7 @@ PDF 文件的令牌数取决于从文档中提取的文本总量和页数：
 
 <CardGroup cols={2}>
   <Card title="视觉" icon="image" href="https://platform.claude.com/docs/zh-CN/build-with-claude/vision">
-    Claude 的视觉能力使其能够处理和分析图像，为多模态交互开辟了令人兴奋的可能性。
+    了解如何计算图像的视觉令牌，以及 PDF 与其他视觉任务共有哪些限制。
   </Card>
 
   <Card title="尝试 PDF 示例" icon="file" href="https://platform.claude.com/cookbook/multimodal-getting-started-with-vision">

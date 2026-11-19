@@ -14,7 +14,9 @@ To add custom tools, connect an [MCP server](https://code.claude.com/docs/en/mcp
 
 > [!NOTE]
 >
-> In [auto mode](https://code.claude.com/docs/en/permission-modes.md#eliminate-prompts-with-auto-mode), a classifier decides most permission prompts instead of you. The `Permission required` column shows whether the tool prompts in [Manual mode](https://code.claude.com/docs/en/permission-modes.md) for paths inside the working directory. File-access tools marked No, including `Read`, `Grep`, and `Glob`, still prompt for paths outside the [working directory and additional directories](https://code.claude.com/docs/en/permissions.md#working-directories). `Bash` is marked Yes but runs a built-in set of [read-only commands](https://code.claude.com/docs/en/permissions.md#read-only-commands) without prompting.
+> In [auto mode](https://code.claude.com/docs/en/permission-modes.md#eliminate-prompts-with-auto-mode), a classifier decides most permission prompts instead of you. The `Permission required` column shows whether the tool prompts in [Manual mode](https://code.claude.com/docs/en/permission-modes.md) for paths inside the working directory. File-access tools marked No, including `Read`, `Grep`, and `Glob`, still prompt for paths outside the [working directory and additional directories](https://code.claude.com/docs/en/permissions.md#working-directories), apart from files Claude Code itself needs.
+>
+> `Bash` is marked Yes but runs a built-in set of [read-only commands](https://code.claude.com/docs/en/permissions.md#read-only-commands) without prompting.
 
 | Tool | Description | Permission required |
 | :- | :- | :- |
@@ -49,7 +51,7 @@ To add custom tools, connect an [MCP server](https://code.claude.com/docs/en/mcp
 | `SendMessage` | Sends a message to another agent: an [agent team](https://code.claude.com/docs/en/agent-teams.md) teammate, a [subagent it resumes](https://code.claude.com/docs/en/sub-agents.md#resume-subagents) by agent ID or name, or one of your other Claude Code sessions, on this machine or beyond it. Messaging other sessions requires Claude Code v2.1.224 or later. [Cross-session messaging](https://code.claude.com/docs/en/cross-session-messaging.md) covers which sessions Claude can reach, [what a message looks like when it arrives](https://code.claude.com/docs/en/cross-session-messaging.md#what-a-message-looks-like), and [how Claude gets a notice when another session goes idle](https://code.claude.com/docs/en/cross-session-messaging.md#get-a-notice-when-another-session-goes-idle). Claude can include an optional `summary` input, typically 5-10 words, that Claude Code shows as a one-line preview. When Claude omits it on a [plain-text message](https://code.claude.com/docs/en/cross-session-messaging.md#limitations), Claude Code uses the first line of the message as the summary. Claude Code truncates a summary longer than 200 characters with an ellipsis | No |
 | `SendUserFile` | Sends files from the session to you with an optional caption, so a generated report, diagram, screenshot, or built artifact reaches your device instead of only being mentioned in the transcript. The optional `display` input controls presentation: `render` opens the file inline in the client, `attach` shows a download card only, and when unset the client decides by file type. Available when a [Remote Control](https://code.claude.com/docs/en/remote-control.md) client is connected or in a [cloud session](https://code.claude.com/docs/en/claude-code-on-the-web.md). Delivery runs through Anthropic-hosted infrastructure, so the tool is not available on Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry | No |
 | `ShareOnboardingGuide` | Uploads `ONBOARDING.md` and returns a share link teammates can open in Claude Code. Called from `/team-onboarding` after the guide is written. Available to claude.ai subscribers on Team and Enterprise plans | Yes |
-| `Skill` | Executes a [skill](https://code.claude.com/docs/en/skills.md#control-who-invokes-a-skill) within the main conversation | Yes |
+| `Skill` | Executes a [skill](https://code.claude.com/docs/en/skills.md#control-who-invokes-a-skill) within the main conversation. Can prompt for skills that set `allowed-tools`, `disallowed-tools`, or `hooks` | Some skills |
 | `SubagentHandback` | Delivers a subagent's final report to whichever conversation receives that subagent's result. Provided only in [auto mode](https://code.claude.com/docs/en/permission-modes.md#eliminate-prompts-with-auto-mode), to subagents that the Agent tool runs locally other than [forks](https://code.claude.com/docs/en/sub-agents.md#fork-the-current-conversation), and available in the terminal CLI, IDE extensions, cloud sessions, and the Agent SDK; the classifier reviews the report before it's delivered. Requires Claude Code v2.1.271 or later | No |
 | `TaskCreate` | Creates a new task in the task list. Provided by default only on the models listed under [Task tool availability](#task-tool-availability), and on other models when you opt in | No |
 | `TaskGet` | Retrieves full details for a specific task. Provided by default only on the models listed under [Task tool availability](#task-tool-availability), and on other models when you opt in | No |
@@ -127,8 +129,6 @@ To [limit what a subagent can reach](https://code.claude.com/docs/en/sub-agents.
 
 Claude uses `AskUserQuestion` to ask you multiple-choice questions when it needs a decision or a clarification. Answer by picking an option, or type your own text through the `Other` row or the notes field.
 
-When you answer by typing your own text, Claude Code relays the answer with neutral wording so Claude follows what you wrote, including a request to wait or explain first.
-
 ### Question auto-continue timeout
 
 Questions stay open until you answer them. If you want a question you leave unanswered to eventually close and let Claude continue without you, set the [`askUserQuestionTimeout`](https://code.claude.com/docs/en/settings-reference#askuserquestiontimeout) setting to `60s`, `5m`, or `10m`, either in your user `settings.json` or from the **Question auto-continue timeout** row in `/config`.
@@ -148,7 +148,7 @@ The Bash tool runs each command in a separate process.
   * If `cd` lands outside those directories, Claude Code resets to the project directory and appends `Shell cwd was reset to <dir>` to the tool result.
   * To disable this carry-over so every Bash command starts in the project directory, set `CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1`.
 * Environment variables don't persist. An `export` in one command won't be available in the next.
-* Aliases and shell functions defined in your shell startup file are available. At session start, Claude Code sources `~/.zshrc`, `~/.bashrc`, or `~/.profile` depending on your shell, captures the resulting aliases, functions, and shell options, and applies them to every Bash command.
+* Claude Code starts a non-interactive shell, sources `~/.zshrc` for Zsh or `~/.bashrc` for Bash, and applies the aliases, functions, and shell options it captures to Bash commands.
 
 Activate your virtualenv or conda environment before launching Claude Code. To make environment variables persist across Bash commands, set [`CLAUDE_ENV_FILE`](https://code.claude.com/docs/en/env-vars) to a shell script before launching Claude Code, or use a [SessionStart hook](https://code.claude.com/docs/en/hooks.md#persist-environment-variables) to populate it dynamically.
 
@@ -199,7 +199,7 @@ The time limit counts from the moment the command enters the background:
 * A command that Claude starts in the background gets 30 minutes, or the `timeout` Claude passes with `run_in_background`, up to a maximum of 2 hours
 * A command that starts in the foreground and then moves to the background at its timeout gets 30 minutes from the move
 
-In a run with the `-p` flag whose prompt you pass as text rather than with `--input-format stream-json`, both defaults are 10 minutes instead of 30, because the run [waits for background commands after its result](https://code.claude.com/docs/en/headless.md#background-tasks-at-exit).
+In a run with the `-p` flag whose prompt you pass as text rather than with `--input-format stream-json`, both defaults are 10 minutes instead of 30.
 
 When a background command reaches its time limit, Claude Code stops it and tells Claude why, and Claude can start the command again with a longer `timeout` if the work still needs it. The stop notice reads `Background command "<description>" was stopped after reaching its background time limit`.
 
@@ -261,6 +261,10 @@ A file that changed on disk after Claude last read it can still be edited when `
 Claude can also edit a file without a separate Read after viewing it with a Bash command such as `cat` or `grep`. Those commands are `cat`, `nl`, `bat`, `batcat`, `head`, `tail`, `sed -n 'X,Yp'`, `grep`, `egrep`, `fgrep`, and `rg`, each run on one file with no pipes or redirects. If the command printed none of the file's text, as when a search matches nothing, the read-before-edit check still applies.
 
 When Claude views a file this way, Claude Code also loads any [subdirectory `CLAUDE.md`](https://code.claude.com/docs/en/memory#how-claude-md-files-load) and [path-scoped rules](https://code.claude.com/docs/en/memory.md#path-specific-rules) that apply to that file. See [Read and Edit permission rules](https://code.claude.com/docs/en/permissions.md#read-and-edit) for which Bash commands your `Read` and `Edit` deny rules cover.
+
+### Protect read-only files in Perforce
+
+To keep Edit, Write, and NotebookEdit from overwriting read-only files in a Perforce workspace, set [`CLAUDE_CODE_PERFORCE_MODE`](https://code.claude.com/docs/en/env-vars#variables) to `1`. Those tools then refuse to change read-only files and tell Claude to run `p4 edit` first.
 
 ### Non-UTF-8 files
 
@@ -448,6 +452,10 @@ NotebookEdit refuses a notebook file that doesn't decode as UTF-8, under the [sa
 
 Permission rules use the `Edit(...)` path format. A rule like `Edit(notebooks/**)` covers NotebookEdit calls on files in that directory.
 
+### Replacing a cell clears its saved outputs in the file
+
+When NotebookEdit replaces a code cell, its execution count and saved outputs are cleared. To get the output back, re-run the cell and any cells that use the functions or variables it defines. See [Work with Jupyter notebooks](https://code.claude.com/docs/en/vs-code.md#work-with-jupyter-notebooks) for the VS Code workflow.
+
 ## PowerShell tool
 
 The PowerShell tool lets Claude run PowerShell commands natively. On Windows, this means commands run in PowerShell instead of routing through Git Bash. How the tool becomes available depends on your platform:
@@ -525,7 +533,7 @@ The PowerShell tool has the following known limitations during the preview:
 
 ## Read tool behavior
 
-The Read tool takes a file path and returns the contents with line numbers. Claude is instructed to always pass absolute paths.
+The Read tool takes a file path and returns the contents with line numbers.
 
 Reading an empty file returns a notice that the file exists but its contents are empty, and an `offset` past the last line returns a notice giving the file's line count.
 
@@ -694,7 +702,7 @@ The search backend is not configurable. To search with a different provider, add
 
 > [!NOTE]
 >
-> WebSearch is available on the Claude API, [Claude Platform on AWS](https://code.claude.com/docs/en/claude-platform-on-aws.md), and Microsoft Foundry. On Google Cloud's Agent Platform it works with Opus 4, Sonnet 4, Haiku 4.5, and later models. Amazon Bedrock doesn't expose the server-side web search tool.
+> WebSearch is available on the Claude API, [Claude Platform on AWS](https://code.claude.com/docs/en/claude-platform-on-aws.md), [Claude Models on Google Cloud (Anthropic managed)](https://code.claude.com/docs/en/claude-models-on-google-cloud-anthropic-managed.md), and Microsoft Foundry. On Google Cloud's Agent Platform it works with Opus 4, Sonnet 4, Haiku 4.5, and later models. Amazon Bedrock doesn't expose the server-side web search tool.
 
 ### Session search limit
 
@@ -720,7 +728,7 @@ Whether Claude must read an existing file in the current conversation before ove
 * Newer models can overwrite a file they never read this session under the same conditions as [read-before-edit](#edit-tool-behavior): reading it wouldn't need a permission prompt and the Read tool is available.
 * Jupyter notebooks, and files Claude has read only partially with a [`PARTIAL view` notice](#large-files), require the read on every model.
 
-This constraint doesn't apply to new files. Before v2.1.228, every model required the read before overwriting an existing file.
+This constraint doesn't apply to new files.
 
 Viewing the file with Bash also satisfies this requirement under the same rules described in [Edit tool behavior](#edit-tool-behavior).
 

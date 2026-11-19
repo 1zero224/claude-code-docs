@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -41,7 +41,7 @@ featureMetadata:
 
 ## 可选：让离线审查器阅读每份会话记录
 
-“Offline reviewer”（离线审查器）是您运行的一个作业，它独立于其所审查的会话，在每个会话的事件写入后读取这些事件。长会话的事件太多，人工无法逐一阅读，因此该作业让 Claude 来读取它们。审查会标记超出智能体被授予权限范围的行为。有关审查提示、设置步骤和可运行的代码，请参阅 Claude Cookbook 中的[安全审查示例](https://platform.claude.com/cookbook/managed-agents-cma-agent-security-review)。
+“Offline reviewer”（离线审查器）是您运行的一个作业，它独立于其所审查的会话，在每个会话的事件写入后读取这些事件。长会话的事件太多，人工无法逐一阅读，因此该作业让 Claude 来读取它们。审查会标记超出您授予智能体权限范围的行为。有关审查提示、设置步骤和可运行的代码，请参阅 Claude Cookbook 中的[安全审查示例](https://platform.claude.com/cookbook/managed-agents-cma-agent-security-review)。
 
 ## 监控会话并查看保留策略
 
@@ -53,13 +53,13 @@ featureMetadata:
 | 达到预算或终止的会话         | `session.budget_reached` 和 `session.status_terminated` webhook                                                                                                                                |
 | 未能启动会话的计划运行        | `deployment_run.failed` 和 `deployment.paused` webhook                                                                                                                                         |
 | 无法刷新的 MCP OAuth 凭据 | `vault_credential.refresh_failed` webhook                                                                                                                                                     |
-| 服务器拒绝或暂停的工具调用      | `agent.tool_use` 和 `agent.mcp_tool_use` 事件上的 `evaluated_permission`。在多智能体会话中，还要列出每个线程的事件                                                                                                      |
+| 服务器拒绝或暂停的工具调用      | `agent.tool_use` 和 `agent.mcp_tool_use` 事件上的 `evaluated_permission` (java, php: `evaluatedPermission`; csharp, go: `EvaluatedPermission`)。在多智能体会话中，还要列出每个线程的事件                                |
 | 智能体在会话中执行的操作       | Claude Console 会话查看器                                                                                                                                                                          |
-| 超出智能体被授予权限的行为      | 您运行的可选离线审查作业，用于读取每个会话的事件。请参阅[可选：让离线审查器阅读每份会话记录](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) |
+| 超出您授予智能体权限的行为      | 您运行的可选离线审查作业，用于读取每个会话的事件。请参阅[可选：让离线审查器阅读每份会话记录](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) |
 
-要查看会话进入空闲状态的原因，请列出其事件，并将 `types` 设置为 `session.status_idle`、`order` 设置为 `desc`、`limit` 设置为 `1`。该事件名为 `session.status_idle`，而 webhook 名为 `session.status_idled`。如果 `stop_reason.type` 为 `requires_action`，则会话正在等待您处理，`stop_reason.event_ids` 会列出它正在等待的事件。要响应这些事件，请参阅[回答使会话暂停的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session)。在自托管沙箱中，`agent.tool_use` 事件可能正在等待您的沙箱返回工具结果。当工作流运行处于打开状态时，工具调用可能会在会话保持 `running` 状态的同时等待您的响应。请在每个调用的事件到达时进行响应。请参阅[运行处于打开状态时](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#while-a-run-is-open)。
+要查看会话进入空闲状态的原因，请列出其事件，并将 `types` (curl: `types[]`; cli: `--type`; csharp, go: `Types`) 设置为 `session.status_idle`、`order` (csharp, go: `Order`) 设置为 `desc`、`limit` (csharp, go: `Limit`) 设置为 `1`。该事件名为 `session.status_idle`，而 webhook 名为 `session.status_idled`。如果 `stop_reason.type` 为 `requires_action`，则会话正在等待您处理，`stop_reason.event_ids` 会列出它正在等待的事件。要响应这些事件，请参阅[回答使会话暂停的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session)。在自托管沙箱中，`agent.tool_use` 事件可能正在等待您的沙箱返回工具结果。当工作流运行处于打开状态时，工具调用可能会在会话保持 `running` 状态的同时等待您的响应。请在每个调用的事件到达时进行响应。请参阅[运行处于打开状态时](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#while-a-run-is-open)。
 
-webhook 投递可能会丢失，因此还要按计划列出您的会话并检查空闲的会话。
+您可能会错过 webhook 投递，因此还要按计划列出您的会话并检查空闲的会话。
 
 请参阅[订阅 webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks) 和[检查会话并跟踪用量](https://platform.claude.com/docs/zh-CN/managed-agents/session-observability#inspect-a-session-in-the-console)。
 

@@ -48,7 +48,7 @@ description: 跨轮次缓存工具定义，并了解哪些操作会使您的缓�
 
 延迟加载的工具不会包含在系统提示前缀中。当模型通过[工具搜索](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)发现某个延迟加载的工具时，其定义会作为 `tool_reference` 块内联追加到对话历史中。前缀保持不变，因此提示缓存得以保留。
 
-这意味着通过工具搜索动态添加工具不会破坏您的缓存。您可以用一小组始终加载的工具（已缓存）开始对话，让模型按需发现其他工具，并在每一轮中保持相同的缓存命中。
+您可以用一小组始终加载的工具（已缓存）开始对话，让模型按需发现其他工具，并在每一轮中保持相同的缓存命中。
 
 `defer_loading` 的作用也独立于[严格模式](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/strict-tool-use)的语法构建。无论哪些工具被延迟加载，语法都会基于完整的工具列表构建，因此在工具动态加载时，提示缓存和语法缓存都会得到保留。
 
@@ -64,7 +64,7 @@ description: 跨轮次缓存工具定义，并了解哪些操作会使您的缓�
 | 更改 `disable_parallel_tool_use` | messages 缓存                                                                                                                                                                       |
 | 切换图像的有/无                       | messages 缓存                                                                                                                                                                       |
 | 更改思考参数                         | messages 缓存始终失效；在将思考配置渲染在 tools 和 system 之前的模型上，tools 和 system 缓存也会失效（参见[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)） |
-| 更改 `output_config.effort`      | 与思考参数相同；显式设置模型的默认值等同于省略该参数                                                                                                                                                        |
+| 更改 `output_config.effort`      | 可能会使 messages 缓存失效，在某些模型上还可能使 tools 和 system 缓存失效（参见[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)）；显式发送默认值等同于省略该参数     |
 
 <Note>
   如果您需要在对话中途更改 `tool_choice`，请考虑将缓存断点放置在变化点之前。

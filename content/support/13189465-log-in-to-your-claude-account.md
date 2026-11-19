@@ -2,7 +2,7 @@
 
 When you open Claude on a web browser ([claude.ai](https://claude.ai)), the desktop app, or a mobile app, you will see two different options for logging in to your Claude account.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1893216804/f2209c3ec6cf4fc2e803d13bbc9d/40520c9e-ff82-4a7c-adca-5a064fe18d8c?expires=1794465900&amp;signature=7ff4801e77928f5918ef45ab4fdcef34f1e847281d7c666173f7fc933cc47840&amp;req=dSguFct%2Fm4lfXfMW1HO4zXg5B4aI5Re9zWhrqpWiTMle4mLNFkaEU92EZkHy%0Asq17ioVJu1Qk0wy3aRY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1893216804/f2209c3ec6cf4fc2e803d13bbc9d/40520c9e-ff82-4a7c-adca-5a064fe18d8c?expires=1795099500&amp;signature=d4fb3f48fd5878a00f312abdb68ba8001049086ecaa72ead1d8ee100afb441a4&amp;req=dSguFct%2Fm4lfXfMW1HO4zXg5B4eM6huxzWhrqpWiTMkREAOQN4TMX3xkTOzg%0AyS0YrpkqaWugoJlseLI%3D%0A)
 
 ## Continue with Google
 
@@ -24,11 +24,11 @@ If you requested the login email and clicked the link using a different device (
 
 Claude offers subscription plans (Free, Pro, Max, Ultra, Team, Enterprise) that let subscribers authenticate using OAuth tokens or other methods. Subscription plans can only be used by subscribers, and the usage included in these plans is designed to support ordinary use of native Anthropic applications, including the Claude web, desktop, and mobile applications and Claude Code.
 
-The preferred way to access Anthropic services using third-party software, tools, or services (“third-party tools”), including open-source projects, is through API key authentication through Claude Console or a supported cloud provider. Anthropic may at its discretion allow paid subscribers who have enabled **[usage credits](https://support.claude.com/en/articles/12429409-)** to use certain third-party tools to access Anthropic services included in paid subscription plans, but reserves the right to draw use of such third-party tools from usage credits rather than subscription limits. Users are responsible for any usage credit charges incurred this way. Use of third-party tools that misrepresent their identity to Anthropic’s servers, attempt to route third-party traffic against subscription limits, or otherwise violate applicable terms or policies is prohibited and such use may be enforced against.
+The preferred way to access Anthropic services using third-party software, tools, or services (“third-party tools”), including open-source projects, is through API key authentication through Claude Console or a supported cloud provider, or through **[linked billing](https://support.claude.com/en/articles/18467110)** in apps that offer it. Anthropic may at its discretion allow paid subscribers who have enabled **[usage credits](https://support.claude.com/en/articles/12429409-)** to use certain third-party tools to access Anthropic services included in paid subscription plans, but reserves the right to draw use of such third-party tools from usage credits rather than subscription limits. Users are responsible for any usage credit charges incurred this way. Use of third-party tools that misrepresent their identity to Anthropic’s servers, attempt to route third-party traffic against subscription limits, or otherwise violate applicable terms or policies is prohibited and such use may be enforced against.
 
 ## Developers
 
-If you’re building a product, application, or tool for others, use API key authentication through Claude Console or a supported cloud provider. Applications that misrepresent their identity to Anthropic’s servers, attempt to route third-party traffic against subscription limits, or otherwise violate applicable terms or policies are prohibited and may be enforced against.
+If you’re building a product, application, or tool for others, use API key authentication through Claude Console or a supported cloud provider. You can also offer **[linked billing](https://support.claude.com/en/articles/18467110)**, which lets your customers link their own Claude Console organization to your app and pay Anthropic directly, without sharing an API key. Applications that misrepresent their identity to Anthropic’s servers, attempt to route third-party traffic against subscription limits, or otherwise violate applicable terms or policies are prohibited and may be enforced against.
 
 ---
 

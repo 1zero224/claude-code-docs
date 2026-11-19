@@ -21,24 +21,24 @@ description: Claude Haiku 5.5 特有的提示模式：effort、搜索、结合�
 <Note>
   有关从 Claude Haiku 4.5 迁移时的破坏性 API 变更，请参阅[Claude Haiku 5.5 迁移指南](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide)。
 
-  本页的多个部分建议了可添加到系统提示中的文本。请仅将其添加到新对话中。如果在 `system` 更改后发送回思考块，请求可能会返回 400 错误，因此使用新系统提示恢复的已存储对话可能会失败。要在对话进行中更改指令，请[将其放入最新的轮次中](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#changing-context)。在 Claude API、Amazon Bedrock、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed) 和 Claude Models on Google Cloud (Google managed) 上，您也可以改为[向对话追加一条系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#new-instructions)。
+  本页的多个部分建议了可添加到系统提示中的文本。请仅将其添加到新对话中。如果您使用新的系统提示恢复已存储的对话并发送回其思考块，请求可能会返回 400 错误。要在对话进行中更改指令，请[将其放入最新的轮次中](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#changing-context)。在[支持对话中途系统消息的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#feature-availability)上，您也可以改为[向对话追加一条系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#new-instructions)。
 </Note>
 
 ## 使用 effort 控制思考
 
-[Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)（努力程度）是控制 Claude Haiku 5.5 思考量的主要手段。它取代了 Claude Haiku 4.5 使用的思考预算（`budget_tokens`），因此没有需要沿用的旧设置。请在您自己的评估中比较其中两到三个级别：
+[Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)（努力程度）是控制 Claude Haiku 5.5 思考量的主要手段。Claude Haiku 4.5 使用的是思考预算（`budget_tokens`），因此没有需要沿用的 effort 设置。在 Claude Haiku 5.5 上，设置了 `budget_tokens` 的请求会返回 400 错误。请在您自己的评估中比较其中两到三个级别：
 
 * `low` 是最便宜、最快的级别。适用于聊天、简短的工具任务以及简单的大批量请求。在较长的智能体提示中，模型在此级别下更有可能跳过搜索、过早停止或跳过检查。
 * `medium` 是默认级别。大多数工作（包括智能体编码）都可以从这里开始。
 * `high` 适用于知识型工作、较长的智能体任务以及严格的指令遵循。
 * `xhigh` 和 `max` 适用于在您的评估中质量提升足以证明成本合理的工作。在这些级别下，思考和回复会变得长得多，因此也请在 Claude Sonnet 5.5 上运行您的评估，并比较性能、成本和速度。
 
-Claude Haiku 5.5 是第一个具有 effort 级别的 Haiku 模型。思考的工作方式如下：
+思考的工作方式如下：
 
 * 思考默认开启，并计入 `max_tokens`，该值最高可达 128,000。如果 `max_tokens` 值是按照未启用思考的 Claude Haiku 4.5 请求来设定的，可能会导致回复被截断，因此请为思考预留空间。
 * 要减少思考，请降低 effort（努力程度）级别。在 Anthropic 的测试中，在提示中告诉模型直接回答并不能阻止其进行思考。您也可以使用 `thinking: {"type": "disabled"}` 关闭思考。此方式仅在 `low`、`medium` 和 `high` 级别下有效。在 `xhigh` 和 `max` 级别下，请求会返回 400 错误。
 * 在多轮对话中使用 `xhigh` effort 时，模型有时会将整个回答写在思考内容中，并在没有可见文本的情况下结束该轮次。如果您遇到这种行为，请检查每个响应是否为空回复。
-* 在请求之间更改顶层 `effort` 值会使对话消息的 “prompt cache”（提示缓存）失效。在您的平台支持的情况下，您可以通过[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)更改在对话中途更改级别，这种方式会保留缓存。一次更改会对之后的每一轮生效，直到被另一次更改替代。它需要 `mid-conversation-output-config-2026-07-01` beta 请求头以及自适应思考（即默认设置）。在关闭思考的情况下，按消息更改 effort 会返回 400 错误。
+* 在请求之间更改顶层 `output_config.effort` 值会使对话消息的 “prompt cache”（提示缓存）失效。在[受支持的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message#feature-availability)上，您可以通过[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)在对话中途更改级别，这种方式会保留缓存。一次更改会对之后的每一轮生效，直到被另一次更改替代。它需要 `mid-conversation-output-config-2026-07-01` beta 请求头以及自适应思考（即默认的思考模式）。在关闭思考的情况下，按消息更改 effort 会返回 400 错误。
 
 ## 准确的搜索结果
 
@@ -48,7 +48,7 @@ Claude Haiku 5.5 是第一个具有 effort 级别的 Haiku 模型。思考的工
 The current date is {{current_date}}.
 ```
 
-在对话开始时渲染一次日期，并在该对话的每个后续请求中发送相同的 `system` 和 `tools`（请参阅[保持较早的轮次不变](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#keep-earlier-turns-unchanged)）。当对话在之后的某一天继续时，请改为[在最新的轮次中提供新日期](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#changing-context)。
+在对话开始时渲染一次日期，并在该对话的每个后续请求中发送相同的 `system` 和 `tools`（请参阅[保持较早的轮次不变](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#keep-earlier-turns-unchanged)）。当对话在之后的某一天继续时，请改为[在最新的轮次中提供新日期](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#changing-context)。
 
 模型有时还需要额外的提示才会进行搜索。这种情况在 `low` effort 和较长的系统提示下最为常见。要解决此问题，请在日期之后直接添加以下文本：
 
@@ -60,7 +60,7 @@ Your training data ends well before today's date. Records, office holders, price
 
 如果您的系统提示较短，可以省略这段文本。在 `medium` effort 下使用较短的提示时，仅提供日期就能让模型更频繁地搜索。
 
-避免使用笼统的指令，例如"对于任何关于当下的事实性问题都要搜索，无论您有多确定"。在 Anthropic 的测试中，该指令使模型在一半不需要搜索的提示上进行了搜索，却并没有产生更多正确答案。
+避免使用笼统的指令，例如"对于任何关于当下的事实性问题都要搜索，无论您有多确定"。在 Anthropic 的测试中，该指令使模型在一半不需要搜索的提示上进行了搜索。它并没有产生更多正确答案。
 
 ## 结合 JSON 输出和您自己的工具使用自适应思考
 
@@ -87,7 +87,7 @@ Keep working until everything the user asked for is done, and only stop to ask w
 When the work the user asked for is done and checked, stop and report. Don't add new features, docs, or refactors that weren't asked for. If you think one would help, mention it at the end instead of doing it.
 ```
 
-提高 effort 也能减少过早停止，无论是单独使用还是与这段文本结合使用，但成本更高。在 Anthropic 不使用该文本的测试中，从 `low` 提高到 `medium` effort 大约使过早停止减少了一半，同时也使每次尝试的输出令牌增加了一倍以上。
+提高 effort 也能减少过早停止，无论是单独使用还是与这段文本结合使用，但成本更高。在 Anthropic 不使用该文本的测试中，从 `low` 提高到 `medium` effort 大约使过早停止减少了一半。它也使每次尝试的输出令牌增加了一倍以上。
 
 ## 告诉编码智能体验证其更改
 
@@ -101,7 +101,7 @@ When you change code that can be run, built, or type-checked, run a real check t
 
 ## 轮次中途的用户消息
 
-Claude Haiku 5.5 经过训练，能够抵御通过工具结果进行的 “prompt injection”（提示注入）。假设用户在任务中途输入的消息出现在 `tool_result` 块中，或者作为紧跟在工具结果之后的[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)出现，模型可能会将其视为不可信文本并忽略它。为避免这种情况：
+Claude Haiku 5.5 经过训练，能够抵御通过工具结果进行的 “prompt injection”（提示注入）。假设用户在任务中途输入的消息出现在 `tool_result` 块中，或者作为紧跟在工具结果之后的[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)出现。此时模型可能会将其视为不可信文本并忽略它。为避免这种情况：
 
 * 切勿将用户文本放入 `tool_result` 块中。
 * 将轮次中途的用户输入作为用户轮次传递。在同一条用户消息中，将用户的话作为文本块附加在最后一个 `tool_result` 之后。
@@ -132,6 +132,6 @@ Claude Haiku 5.5 运行的安全分类器可能会拒绝请求。被拒绝的请
 * `bio`：该请求可能导致生物危害，例如危险的实验室方法。日常健康和教育类问题不受影响。如果 `bio` 分类器阻止了您组织的生命科学工作，您可以申请加入[生命科学验证计划](https://www.anthropic.com/news/life-sciences-verification-program)。
 * `general_harms`：该请求属于上述三类之外的使用政策领域。良性工作也可能触发此类别。
 
-如果您是从 Claude Haiku 4.5 迁移过来的，这些拒绝是新增的。
+Claude Haiku 4.5 不会返回这些拒绝。
 
 Claude Haiku 5.5 没有[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)。如果请求被拒绝，请在您的客户端中处理 `stop_reason: "refusal"`。再次向 Claude Haiku 5.5 发送相同的请求通常会再次返回拒绝。

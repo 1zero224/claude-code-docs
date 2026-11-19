@@ -38,7 +38,7 @@ When an unbiased review of an implementation is the goal, a subagent provides a 
 **The benefit:** Cleaner, more objective feedback.
 **Pro-tip:** The /clear command also resets context and conversation history, providing a similarly unbiased slate, but at the cost of losing that history entirely. A subagent achieves the same fresh perspective while the main conversation stays intact.
 ### Verification before committing
-Before finalizing changes, an independent subagent can verify the implementation isn't overfitting to tests or missing edge cases.
+Before finalizing changes, an independent subagent can [verify the implementation](https://claude.com/resources/articles/building-verification-loops-in-claude-code-with-skills) isn't overfitting to tests or missing edge cases.
 **The signal:** A second opinion is warranted before committing code.
 **The benefit:** Catches issues that familiarity with the code might obscure.
 ### Pipeline workflows
@@ -86,8 +86,8 @@ Here’s an example of a simple CLAUDE.md file that triggers a subagent given sp
 With the above CLAUDE.md file, every code review request automatically uses the defined pattern, eliminating the need to specify it each time.
 For more on CLAUDE.md files, see [Customizing Claude Code for your codebase: setting up a CLAUDE.md file](https://claude.com/resources/articles/using-claude-md-files) and our Claude Code [CLAUDE.md](http://claude.md)[ file docs](https://code.claude.com/docs/en/memory#claude-md-files).
 ### Skills
-For complex multi-step workflows that run repeatedly, skills provide a reusable interface. Define a skill once in .claude/skills/, then invoke it with /skill-name or let Claude load it automatically when a task matches its description.
-Skills differ from CLAUDE.md files in scope. CLAUDE.md files are always loaded and shapes every interaction. A skill is loaded on demand, either because it was invoked explicitly or because Claude matched the current task to the skill's description field. That makes skills the right place for workflows that should be available but not applied to every prompt.
+For complex multi-step workflows that run repeatedly, [skills](https://claude.com/resources/articles/skills-explained) provide a reusable interface. Define a skill once in .claude/skills/, then invoke it with /skill-name or let Claude load it automatically when a task matches its description.
+Skills differ from CLAUDE.md files in scope. CLAUDE.md files are always loaded and shape every interaction. A skill is loaded on demand, either because it was invoked explicitly or because Claude matched the current task to the skill's description field. That makes skills the right place for workflows that should be available but not applied to every prompt.
 Skills fit well when:
   - Certain actions get run regularly
   - Different team members need access to the same complex operation
@@ -136,22 +136,23 @@ When using subagents, start with conversational prompts. Notice which requests k
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

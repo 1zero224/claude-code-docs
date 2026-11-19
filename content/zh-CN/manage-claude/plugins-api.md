@@ -18,7 +18,7 @@ description: 清点和管理您的 Claude Enterprise 组织中的插件：上传
 <Check>
   **需要带作用域的 Admin API 密钥**
 
-  这些端点需要具有 `read:plugins` “scope”（作用域）的 Admin API 密钥（用于 `GET` 端点，包括归档下载），或具有 `write:plugins` 作用域的 Admin API 密钥（用于 `POST` 和 `DELETE` 端点，但市场验证除外，两种作用域均可用于市场验证）；[作用域](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#scopes)部分提供了详细信息，包括另外两个同样适用的读取作用域。有关主所有者在何处创建密钥，请参阅[创建 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys#create-a-key-for-a-claude-enterprise-organization)。请在每个请求的 `x-api-key` 标头中传递该密钥，同时附带 [`anthropic-version`](https://platform.claude.com/docs/zh-CN/api/versioning) 标头以及下方说明中所示的 beta 标头。
+  这些端点需要具有 `read:plugins` “scope”（作用域）的 Admin API 密钥（用于 `GET` 端点，包括归档下载），或具有 `write:plugins` 作用域的 Admin API 密钥（用于 `POST` 和 `DELETE` 端点，但市场验证除外，两种作用域均可用于市场验证）；[作用域](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#scopes)部分提供了详细信息，包括另外两个同样适用的读取作用域。有关主要所有者在何处创建密钥，请参阅[创建 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys#create-a-key-for-a-claude-enterprise-organization)。请在每个请求的 `x-api-key` 标头中传递该密钥，同时附带 [`anthropic-version`](https://platform.claude.com/docs/zh-CN/api/versioning) 标头以及下方说明中所示的 beta 标头。
 </Check>
 
 <Note>
@@ -40,6 +40,8 @@ description: 清点和管理您的 Claude Enterprise 组织中的插件：上传
 | **插件市场：** 查找市场的 ID、查询某个市场、为其插件设置默认安装设置、在连接市场之前检查其内容  | `GET /v1/organizations/plugin_marketplaces`<br />`GET /v1/organizations/plugin_marketplaces/{marketplace_id}`<br />`POST /v1/organizations/plugin_marketplaces/{marketplace_id}`<br />`POST /v1/organizations/plugin_marketplaces/validate_repository`<br />`POST /v1/organizations/plugin_marketplaces/validate_archive` |
 
 Anthropic 发布的插件不会被清点；其使用情况由 [Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api) 报告。市场的创建、与代码仓库的连接以及删除均在 claude.ai 中进行，而不是通过此 API。
+
+成员和管理员可以在 claude.ai 中添加插件，因此清单中可能会列出并非由您的任何流水线创建的插件。
 
 ## 前提条件
 
@@ -204,7 +206,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 }
 ```
 
-在此示例中，插件被固定到较早的版本：一个较新的版本（`latest_version_id`）已存储，但尚未提供给成员。
+在此示例中，插件被固定到较早的版本：一个较新的版本（`latest_version_id`）已存储，但未提供给成员。
 
 ## 作用域
 
@@ -219,7 +221,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 访问成员的插件文件
 
-这些读取作用域（`read:plugins`、`read:org_audit` 和 `read:compliance_org_data`）中的每一个都可以下载成员个人市场中插件的文件，包括 claude.ai 管理设置中不显示的文件；而绑定到您的父组织的 `read:org_audit` 或 `read:compliance_org_data` 密钥，可以通过传递 `organization_id`，在其下任何有权访问此 API 的组织中执行此操作（请参阅[读取同一父组织下的其他组织](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#reading-another-organization-under-the-same-parent)）。每次此类下载都会在 [Compliance API 活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)上记录一个 `claude_plugin_archive_accessed` 事件，标识密钥、插件、版本和成员（请参阅[活动源事件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#activity-feed-events)）。下载组织拥有的插件不会被记录。
+以下每个读取作用域都可以下载成员个人市场中插件的文件：`read:plugins`、`read:org_audit` 和 `read:compliance_org_data`。这包括 claude.ai 管理设置中不显示的文件。绑定到您的父组织的 `read:org_audit` 或 `read:compliance_org_data` 密钥，可以在其下任何有权访问此 API 的组织中执行此操作。为此，请传递 `organization_id`（请参阅[读取同一父组织下的其他组织](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#reading-another-organization-under-the-same-parent)）。每次通过此 API 下载成员拥有的插件的文件，都会在 Compliance API 活动源上记录一个 `claude_plugin_archive_accessed` 事件（请参阅[查询活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)）。该事件标识密钥、插件、版本和成员（请参阅[活动源事件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#activity-feed-events)）。下载组织拥有的插件不会被记录。
 
 ### 读取同一父组织下的其他组织
 
@@ -236,7 +238,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 | Skill（技能）           | Claude 在任务需要时加载的指令和文件。                             |
 | Command（命令）         | 成员通过输入 `/` 加命令名称来运行的已保存提示。                         |
 | Agent（代理）           | 拥有自己指令的辅助助手，Claude 可以将部分任务交给它处理。                   |
-| 钩子                  | 在会话中发生某个事件时（例如在 Claude 使用工具之前）自动运行的命令。             |
+| Hook（钩子）            | 在会话中发生某个事件时（例如在 Claude 使用工具之前）自动运行的操作。             |
 | MCP server（MCP 服务器） | 从 Claude 到另一个系统中的工具和数据的连接（Model Context Protocol）。 |
 | CLI                 | 插件允许 Claude 运行的命令行程序。                              |
 
@@ -262,20 +264,47 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 版本和提供的版本
 
-每次上传都会创建一个新的、不可变的 “version”（版本），无论它来自此 API、claude.ai 还是 Git 同步。插件有两个指向其版本的指针：
+每次上传都会创建一个新的、不可变的**版本**，无论它来自此 API、claude.ai 还是 Git 同步。插件有两个指向其版本的指针：
 
 * `latest_version_id`：最新版本
 * `served_version_id`：向成员提供的版本
 
 默认情况下 `served_version_pinned` 为 `false`：提供的版本通常跟随最新版本。当内容扫描开启时，在 claude.ai 中保存的版本可能会**等待**其内容扫描：它会被存储，但不会立即提供。本页面中的"等待"仅用于在 claude.ai 中保存的版本，而不用于成员或管理员发布到插件中的版本。在扫描开启期间，只有当等待中的版本的 `content_scan` 显示为 `completed` 且结果为 `pass` 或 `warn` 时，它才会被提供。当某个版本处于等待状态时，`served_version_id` 指向的版本比 `latest_version_id` 更早。不要轮询直到两个 ID 匹配：它们可能一直不同，例如在扫描失败时。
 
-使用 `POST /v1/organizations/plugins/{plugin_id}` 选择版本会**固定**（pin）该插件（`served_version_pinned: true`）。管理员在 claude.ai 中选择版本，或接受成员发布到该插件的请求，也会产生同样的效果。此后，新上传的内容会被存储并推进 `latest_version_id`，但成员会一直使用固定的版本，直到您将 `served_version_id` 指向另一个版本。两个指针不同的插件，表示有一个已存储但未被提供的版本。
+本节中的规则描述的是组织拥有的插件。成员拥有的插件所提供的版本由其所有者在 claude.ai 中控制。
 
-这使发布流水线可以上传每个构建、对其进行测试，然后再提升它。要让您的流水线决定每个构建何时被提供，请通过将 `served_version_id` 设置为其当前版本来固定插件一次；此后，提升您想要提供的每个构建。在内容扫描开启的情况下，当前版本的 `content_scan` 显示为 `processing` 时，首次固定会返回 `409 scan_pending`；如果扫描显示为 `fail`、`unknown` 或 `errored`，则返回 `400 scan_failed`（`warn` 会被接受）。已固定的插件无法取消固定，无论是在此处还是在 claude.ai 中。
+#### 固定
+
+插件在以下任一情况下会被**固定**（pin）到某个版本（`served_version_pinned: true`）：
+
+* 您使用 `POST /v1/organizations/plugins/{plugin_id}` 选择该版本。
+* 管理员在 claude.ai 中选择该版本。
+* 成员或管理员将该版本发布到该插件，且发布生效。
+
+插件会永久保持固定状态：无法取消固定。之后，上述任一操作都可以再次固定它，固定到同一版本或另一个版本。
+
+在插件被固定期间，来自此 API 或 Git 同步的新版本会被存储并推进 `latest_version_id`。在有人选择它之前，它不会被提供。
+
+下表显示了管理员在 claude.ai 中保存的版本会发生什么。结果取决于固定最后是在何处设置的，以及保存之前插件的最新版本。
+
+| 固定最后的设置位置     | 保存之前插件的最新版本          | 在 claude.ai 中保存的版本                                     |
+| ------------- | -------------------- | ------------------------------------------------------ |
+| 通过此 API       | 任何版本                 | 会被存储，在有人选择它之前不会被提供。                                    |
+| 在 claude.ai 中 | 提供的版本或等待中的版本         | 可能在无人选择的情况下成为提供的版本。`served_version_pinned` 保持为 `true`。 |
+| 在 claude.ai 中 | 其他版本（例如，您上传的尚未提供的版本） | 会被存储，在有人选择它之前不会被提供。                                    |
+
+在 2026 年 11 月 8 日之前通过此 API 设置的固定，请视为在 claude.ai 中设置的固定。要替换它，请使用此 API 设置您希望提供的版本。
+
+没有任何字段显示固定最后是在何处设置的。如果应由您的流水线决定提供哪个版本，请在每次运行时通过此 API [设置提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#change-the-served-version)。请使用您希望提供的版本发送该请求，即使该版本已被提供也是如此。要替换在 2026 年 11 月 8 日之前通过此 API 设置的固定，也请执行相同操作。
+
+每个成功的请求还具有两个效果：
+
+* **它会再次通过此 API 设置固定。** 在有人在 claude.ai 中选择某个版本，或者向该插件的发布生效之前，固定会一直保持为通过此 API 设置。此后，插件仍处于固定状态。但是，在您下次运行之前，在 claude.ai 中的保存可能会再次更改提供的版本。
+* **它会取消任何等待。** 原本在等待内容扫描的版本仍保持存储状态。只有在有人选择它时，它才会被提供。
+
+固定使发布流水线可以上传每个构建、对其进行测试，然后再升级它。要让您的流水线决定每个构建何时被提供，请固定插件。将 [`served_version_id` 设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#change-the-served-version)为您希望提供的版本，即使该版本已被提供也是如此。此后，升级您想要提供的每个构建。在内容扫描开启的情况下，当该版本的 `content_scan` 显示为 `processing` 时，固定插件的请求会返回 `409 scan_pending`。如果扫描显示为 `fail`、`unknown` 或 `errored`，则返回 `400 scan_failed`（`warn` 会被接受）。之后任何更改提供版本的请求都会经过相同的检查（请参阅[内容扫描](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#content-scanning)）。
 
 要回滚，请将 `served_version_id` 设置为较早的版本。前滚的方式相同。
-
-这些规则描述的是组织拥有的插件。成员拥有的插件的提供版本由其所有者在 claude.ai 中控制。
 
 ### 安装设置
 
@@ -306,11 +335,11 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 内容扫描
 
-内容扫描是 claude.ai 中的一项组织设置。开启后，新存储的版本会被扫描（claude.ai 会豁免少数版本），结果报告在 `content_scan` 中；未被扫描的版本（例如在开启扫描之前存储的版本）的 `content_scan: null`。使用客户管理的加密密钥或零数据保留的组织无法使用扫描功能。
+内容扫描是 claude.ai 中的一项组织设置。开启后，新存储的版本会被扫描（claude.ai 会豁免部分版本），结果报告在 `content_scan` 中。未被扫描的版本具有 `content_scan: null`。例如，它可能是在开启扫描之前存储的。使用客户管理的加密密钥或零数据保留的组织无法使用扫描功能。
 
 在扫描开启期间，只有当插件所提供版本的扫描为 `completed` 且结果为 `pass` 或 `warn` 时，才会向成员提供该插件。当扫描处于 `processing` 或 `errored` 状态，或结果为 `fail` 或 `unknown` 时，插件会对成员隐藏，也不会用较早的版本代替它。从未被扫描的版本（`content_scan: null`）会正常提供。
 
-您通过此 API 上传的版本从不等待其内容扫描。当它成为提供的版本时，成员会失去该插件，直到其 `content_scan` 显示为 `completed` 且结果为 `pass` 或 `warn`。如果希望成员在新版本扫描期间继续使用当前版本，请先固定插件（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）。
+您通过此 API 上传的版本从不等待其内容扫描。当它成为提供的版本时，成员会失去该插件，直到其 `content_scan` 显示为 `completed` 且结果为 `pass` 或 `warn`。如果希望成员在新版本扫描期间继续使用当前版本，请先固定插件（请参阅[固定](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pins)）。
 
 当在 claude.ai 中保存的版本等待其扫描时，提供的版本不会改变。当您的 API 上传成为提供的版本时，任何等待都会结束：等待中的版本只有在有人选择它时才会提供。要查看等待中版本的扫描，请读取该版本（请参阅[列出插件的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-a-plugins-versions)）。
 
@@ -324,17 +353,40 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 `reach`（影响范围）用一个值概括某个版本在成员计算机上及更远范围内的影响程度：
 
-| 值            | 含义                                                                                                                                                                                                                                                         |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `remote`     | 声明了 MCP 服务器或 CLI，无论它还声明了什么。                                                                                                                                                                                                                                |
-| `privileged` | 未声明 MCP 服务器或 CLI，但声明了钩子、监视器（在会话期间持续运行的后台命令）、"Language Server Protocol"（语言服务器协议），即 LSP 服务器，工作流（Claude Code 可以运行的脚本；插件根目录下 `workflows/` 文件夹中的任何文件都算作一个工作流），或插件应用于成员应用的设置，或包含其 frontmatter 预先批准工具（`allowed-tools`）的技能、命令或任何其他 Markdown 文件。这些会在成员自己的计算机上运行或生效。 |
-| `contained`  | 未声明 MCP 服务器、CLI、钩子、监视器、LSP 服务器、工作流或应用设置，且其 Markdown 文件均未预先批准工具（例如，仅包含技能、命令和代理且均无 `allowed-tools` 的插件）。                                                                                                                                                     |
+| 值            | 含义                                                                    |
+| ------------ | --------------------------------------------------------------------- |
+| `remote`     | 声明了 MCP 服务器、CLI 或算作其中之一的内容，无论它还声明了什么。                                 |
+| `privileged` | 不是 `remote`，但满足此表之后列表中的至少一个条件。                                        |
+| `contained`  | 既不是 `remote` 也不是 `privileged`（通常是仅包含技能、命令和代理且均无 `allowed-tools` 的插件）。 |
 
-`reach` 会计入版本声明的所有内容，包括 `components` 未列出的监视器、LSP 服务器、工作流和应用设置，因此 `components` 列表为空的版本仍可能是 `privileged`。对于在记录组件之前存储的版本，以及由于其某个技能的 `SKILL.md` 或某个命令文件无法读取而无法确定影响范围的版本，它为 `null`；请将 `null` 视为未分类。该值通常在存储版本时根据当时的规则计算得出。因此，较旧的版本可能是 `contained`，而如今存储的相同文件则会是 `privileged`。
+`privileged` 版本至少满足以下条件之一：
+
+* 声明了任何类型的钩子，即使是向 URL 发送 POST 请求的钩子（请参阅 [Claude Code 钩子参考](https://code.claude.com/docs/en/hooks)）。
+* 声明了监视器（在会话期间持续运行的后台命令）。
+* 声明了 LSP（Language Server Protocol，语言服务器协议）服务器。
+* 声明了工作流（Claude Code 可以运行的脚本）。插件根目录下 `workflows/` 文件夹中的任何文件都算作一个工作流。
+* 声明了插件应用于成员应用的设置。
+* 包含其 frontmatter 预先批准工具（`allowed-tools`）的 Markdown 文件。该文件可以是技能、命令或任何其他 Markdown 文件。如果 `allowed-tools` 的值为空，或仅列出 `AskUserQuestion`、`TodoWrite` 和 `ToolSearch` 中的一个或多个而不含其他内容，则不计入此条件。
+
+以上这些都会在成员自己的计算机上运行或生效。其中一些仍可以从成员的计算机将数据发送到其他地方，例如向 URL 发送 POST 请求的钩子。
+
+`reach` 会计入版本声明的所有内容。其中包括监视器、LSP 服务器、工作流和应用设置，而 `components` 不会列出这些内容。因此，`components` 列表为空的版本仍可能是 `privileged`。如果该版本声明的其他内容使其成为 `remote`，它也可能是 `remote`。
+
+对于以下版本，`reach` 可能为 `null`：
+
+* 在记录组件之前存储的版本
+* 因其某个技能的 `SKILL.md` 或其某个命令文件无法读取而无法确定影响范围的版本
+
+声明了 MCP 服务器或 CLI 的版本，即使某个 `SKILL.md` 或命令文件无法读取，也是 `remote`。根据当前的规则，包含无法读取的 `SKILL.md` 或命令文件的版本永远不会是 `contained`：如果它不是 `remote`，则为 `null` 或 `privileged`。请将 `null` 视为未分类，而不是 `contained`。
+
+服务器通常在存储版本时根据当时的规则计算该值。因此，较旧版本的值可能与相同文件如今会获得的值不同：
+
+* 较旧的版本可能是 `contained`，而如今存储的相同文件则会是 `privileged`、`remote` 或 `null`。
+* 较旧的版本可能是 `privileged`，而如今存储的相同文件则会是 `remote`。
 
 ### 上传要求
 
-上传遵循与 claude.ai 中插件上传相同的规则，因此两处接受相同的归档文件。
+通过此 API 进行的上传遵循以下规则：
 
 * 上传内容可以是一个 `.zip` 或 `.plugin` 归档文件，也可以是一组单独的文件。归档文件可以将所有内容包裹在一个顶层文件夹中。
 * 它必须恰好包含一个清单，位于 `.claude-plugin/plugin.json`，且该清单必须声明 `name`。没有清单的单独 `SKILL.md` 会被拒绝。
@@ -353,13 +405,59 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 从发布流水线发布每个构建
 
-从 CI 上传每个带标签的构建，并让流水线决定构建何时被提供。
+从 CI 上传每个带标签的构建，并让流水线决定构建何时被提供。密钥需要 `read:plugins` 和 `write:plugins` 作用域。
 
-1. 使用 `GET /v1/organizations/plugin_marketplaces?owner_type=organization` 查找要上传到的市场，或省略 `marketplace_id` 以使用库市场。
-2. 首次发布时，使用 `POST /v1/organizations/plugins` [创建插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#create-a-plugin)。之后的每次发布，先记录插件的 `latest_version_id`，然后使用 `POST /v1/organizations/plugins/{plugin_id}/versions` [上传版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#create-a-version)。如果上传的响应丢失，请读取插件，仅当 `latest_version_id` 未变化时才重试（请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)）。
-3. 若要在检查每个新构建期间让成员继续使用当前版本，请将 `served_version_id` 设置为插件的当前版本，从而一次性固定该插件。此后每次上传都会被存储但不会被提供，并且固定无法撤销：您希望提供的每个构建都需要执行第 5 步。
-4. 启用内容扫描时，轮询 `GET /v1/organizations/plugins/{plugin_id}/versions/{version}`，直到 `content_scan.status` 不再是 `processing`，并且仅在其为 `completed` 且结果为 `pass` 或 `warn` 时才进行升级。
-5. 使用 `POST /v1/organizations/plugins/{plugin_id}` 和 `{"served_version_id": "<the new version's ID>"}` [升级该构建](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#change-the-served-version)。要回滚，请以相同方式发送上一个版本的 ID。
+此工作流包含一次性设置，以及针对每个新构建的步骤。从何处开始取决于插件：
+
+* **新插件：** 从设置的第 1 步开始。
+* **现有插件（无论是否已固定）：** 确定您希望提供的版本（请参阅[列出插件的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-a-plugins-versions)）并保留其 ID。然后从设置的第 3 步开始。
+
+对插件执行一次设置：
+
+<Steps>
+  <Step title="查找市场">
+    使用 `GET /v1/organizations/plugin_marketplaces?owner_type=organization&source=manual` 查找要上传到的市场。在第 2 步中将其 ID 作为 `marketplace_id` 传递。要使用库市场，请省略 `marketplace_id`。
+  </Step>
+
+  <Step title="创建插件">
+    使用 `POST /v1/organizations/plugins` 从您的第一个构建[创建插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#create-a-plugin)。您的第一个构建会成为提供的版本。它就是您希望提供的版本，因此请保留其 ID。响应中的 `latest_version_id` 即为该 ID。如果响应丢失，请在再次发送请求之前参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)。
+  </Step>
+
+  <Step title="检查您希望提供的版本的扫描">
+    启用内容扫描时，轮询 `GET /v1/organizations/plugins/{plugin_id}/versions/{version}`，直到您希望提供的版本的 `content_scan.status` 不再是 `processing`。然后根据结果采取行动：
+
+    * **`content_scan` 为 `null`：** 该版本没有可检查的扫描。继续执行第 4 步。
+    * **`completed` 且结果为 `pass` 或 `warn`：** 继续执行第 4 步。
+    * **`errored`：** 几分钟后再次读取，因为之后的读取可能会报告结果。
+    * **`fail`、`unknown` 或仍为 `errored`：** 确定另一个版本并对其重复此步骤。如果没有其他合适的版本，请[上传新版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#create-a-version)。该新版本现在就是您希望提供的版本，因此请对其重复此步骤。如果插件未被固定（`served_version_pinned: false`），上传的版本通常会立即被提供。在这种情况下，在该版本的扫描显示为 `completed` 且结果为 `pass` 或 `warn` 之前，成员无法获得该插件。
+
+    内容扫描关闭时，继续执行第 4 步。
+  </Step>
+
+  <Step title="固定插件">
+    若要在检查每个新构建期间让成员继续使用同一个版本，请固定插件。将 [`served_version_id` 设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#change-the-served-version)为您希望提供的版本，即使该版本已被提供也是如此。保留该版本的 ID。如果插件已被固定，无论之前固定是如何设置的，此请求都会通过此 API 设置固定（请参阅[固定](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pins)）。设置固定后，每次上传都会被存储但不会被提供。插件无法取消固定，因此之后您希望提供的每个构建都必须进行升级。
+  </Step>
+</Steps>
+
+然后针对每个新构建执行以下步骤：
+
+<Steps>
+  <Step title="上传构建">
+    记录插件的 `latest_version_id`。然后使用 `POST /v1/organizations/plugins/{plugin_id}/versions` [上传版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#create-a-version)。如果上传的响应丢失，请读取插件，仅当 `latest_version_id` 未变化时才重试（请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)）。
+  </Step>
+
+  <Step title="检查新版本的扫描">
+    启用内容扫描时，轮询 `GET /v1/organizations/plugins/{plugin_id}/versions/{version}`，直到 `content_scan.status` 不再是 `processing`。如果 `content_scan` 为 `null`，则没有可检查的扫描，因此您可以升级该构建。否则，仅当扫描为 `completed` 且结果为 `pass` 或 `warn` 时才升级该构建。如果扫描显示为 `errored`，请在几分钟后再次读取，因为之后的读取可能会报告结果。即使您不会升级该构建，也请继续执行下一步。
+  </Step>
+
+  <Step title="设置提供的版本">
+    要[升级该构建](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#change-the-served-version)，请使用 `{"served_version_id": "<the new version's ID>"}` 发送 `POST /v1/organizations/plugins/{plugin_id}`。要回滚，请以相同方式发送较早版本的 ID。如果某次运行没有升级任何构建，仍请发送该请求。请使用您希望提供的版本发送该请求，即使该版本已被提供也是如此。保留您设置的每个版本的 ID。当某次运行没有升级任何构建时，您的流水线需要用到它。不要从 `served_version_id` 获取该 ID，因为它可能指向在 claude.ai 中保存的版本。每个成功的请求都会再次通过此 API 设置固定，并取消任何等待（请参阅[固定](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pins)）。
+  </Step>
+</Steps>
+
+固定始终会阻止您自己的上传被提供。但它并不总是会阻止管理员在 claude.ai 中保存的版本被提供。[固定](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pins)说明了此类版本何时可能成为提供的版本，以及应如何处理。
+
+提供某个版本并不会使插件对成员可用。通过此 API 创建的插件会继承其市场的默认值，除非有人设置了默认值，否则为 `not_available`（请参阅[安装设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#installation-settings)）。
 
 ### 先向试点组推出插件，再推广到所有人
 
@@ -504,12 +602,46 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 保持安全清单同步
 
-运行一个夜间作业，标记影响范围超出成员会话的插件，或内容扫描结果为 `warn`、`fail` 或 `unknown` 的插件。
+请将以下步骤作为夜间作业运行：
 
-1. 分页遍历 [`GET /v1/organizations/plugins?limit=100`](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-plugins)，直到 `next_page` 为 `null`（请参阅[分页](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pagination)）。每次运行时都从该列表中读取每个插件的 `reach` 和 `content_scan`：仅 `content_scan` 的变化（例如稍后到达的结论）不会更新 `updated_at`。`updated_at` 通常可以告诉您自上次运行以来哪些插件有新内容或新的提供版本（值得重新下载归档）。等待中的版本（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）在成为提供的版本时才会更新 `updated_at`，而不一定是在存储时。要发现这类版本，请将 `latest_version_id` 与上次运行时的值进行比较。完整的重新列出也能捕获移除情况，因为被 Git 同步或账户删除所移除的插件会在没有事件的情况下消失。
-2. 标记 `reach` 为 `remote`（声明了 MCP 服务器或 CLI）或 `content_scan.assessment` 为 `warn`、`fail` 或 `unknown` 的每个插件。`warn` 也可能是[在 claude.ai 中被允许的失败扫描](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#failed-scans-allowed-in-claude-ai)。仅当您接受在那里被允许的每个失败扫描时，才可以排除 `warn`。这些字段描述的是提供的版本。如果还要检查未被提供的较新版本，请在 `latest_version_id` 与 `served_version_id` 不同时列出插件的版本（请参阅[列出插件的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-a-plugins-versions)）。
-3. 对于每个被标记的插件，使用 `GET /v1/organizations/plugins/{plugin_id}/versions/{served_version_id}/content` 下载提供版本的归档以供审查（请参阅[下载版本的文件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#download-a-versions-files)）。同时按 ID 下载任何符合第 2 步检查条件的未提供版本。
-4. 若要在审查期间让成员无法使用某个插件，请参阅[删除插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#delete-a-plugin)，了解可逆（组织拥有的插件）和永久的选项。
+<Steps>
+  <Step title="列出每个插件">
+    分页遍历 [`GET /v1/organizations/plugins?limit=100`](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-plugins)，直到 `next_page` 为 `null`（请参阅[分页](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pagination)）。从该列表中读取每个插件的 `reach` 和 `content_scan`。
+
+    每次运行时都对每个插件执行此操作。`updated_at` 通常可以告诉您自上次运行以来哪些插件有新内容或新的提供版本。但它可能会遗漏以下变化：
+
+    * **仅 `content_scan` 的变化：** 此变化不会更新 `updated_at`。例如稍后到达的结论。
+    * **等待中的版本：** 等待中的版本（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）在成为提供的版本时会更新 `updated_at`。它在被存储时不一定会更新 `updated_at`。要发现这类版本，请将 `latest_version_id` 与上次运行时的值进行比较。
+    * **被移除的插件：** 当 Git 同步或账户删除移除某个插件时，该插件会在没有事件的情况下消失。完整列表才能显示它已被移除。
+  </Step>
+
+  <Step title="标记需要审查的插件">
+    标记满足以下任一检查条件的每个插件：
+
+    * 其 `reach` 为 `remote`。例如，声明了 MCP 服务器或 CLI。
+    * 其 `content_scan.assessment` 为 `warn`、`fail` 或 `unknown`。`warn` 也可能是[在 claude.ai 中被允许的失败扫描](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#failed-scans-allowed-in-claude-ai)。仅当您接受在那里被允许的每个失败扫描时，才可以排除 `warn`。
+
+    若要更严格，请添加以下检查条件中的一个或两个：
+
+    * 其 `reach` 不为 `contained`（请参阅[影响范围](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#reach)）。此检查会额外涵盖 `privileged`、`null`（未分类），以及将来新增的任何值。
+    * 其 `content_scan` 或 `content_scan.assessment` 为 `null`，即未报告任何已完成的扫描。在内容扫描关闭的情况下，此检查可能会标记每个插件。
+
+    此步骤中的检查有两个局限：
+
+    * 针对 `reach` 的检查读取的是存储的值。对于较旧的版本，该值可能会低估其影响范围（请参阅[影响范围](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#reach)）。
+    * `reach` 和 `content_scan` 描述的是提供的版本。如果还要检查未被提供的较新版本，请在 `latest_version_id` 与 `served_version_id` 不同时列出插件的版本（请参阅[列出插件的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-a-plugins-versions)）。
+  </Step>
+
+  <Step title="下载被标记的版本">
+    对于每个被标记的插件，使用 `GET /v1/organizations/plugins/{plugin_id}/versions/{served_version_id}/content` 下载提供版本的归档以供审查（请参阅[下载版本的文件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#download-a-versions-files)）。同时下载任何符合您在第 2 步所用检查条件之一的未提供版本。请使用该版本的 ID 代替 `{served_version_id}`。
+
+    版本的文件从不改变。您可以跳过已审查过的版本，除非其 `content_scan` 自那以后发生了变化。
+  </Step>
+
+  <Step title="必要时让成员无法使用某个插件">
+    若要在审查期间让成员无法使用某个插件，请参阅[删除插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#delete-a-plugin)。该部分提供两种选项：一种是适用于组织拥有的插件的可逆选项，另一种是永久选项。
+  </Step>
+</Steps>
 
 ## 插件
 
@@ -521,19 +653,19 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 | `name`                                                                                  | 来自清单。在其市场内唯一，而非在整个组织内唯一。对于组织拥有的插件是固定的；如果成员在 claude.ai 中重命名自己的插件，则会发生变化。                                                                                                                                                                                                                                                                                |
 | `display_name`、`description`、`manifest_version`                                         | 所提供版本的清单中的 `displayName`、`description` 和 `version`；当清单未声明时，各自为 `null`。`description` 可能是某个技能的 `description`，而不是清单的（在此表之后说明）。`manifest_version` 会为显示进行规范化：去掉一个前导 `v` 或 `V`，因此清单 `version` 为 `"v1.4.0"` 时返回 `"1.4.0"`。对于看起来不像版本号的值（例如 `"latest"`），以及在 claude.ai 于 2026 年 8 月开始记录此字段之前创建的插件版本，它也为 `null`。上传绝不会因为其 `version` 而被拒绝，且 `manifest_version` 不唯一。 |
 | `served_version_id`、`latest_version_id`                                                 | 前缀为 `pluginver_`：分别为向成员提供的版本和最新版本。请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)。                                                                                                                                                                                                     |
-| `served_version_pinned`                                                                 | 在插件被固定之前为 `false`（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）；此后为 `true`。                                                                                                                                                                                                         |
+| `served_version_pinned`                                                                 | 在插件被固定之前为 `false`（请参阅[固定](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pins)）；此后为 `true`。                                                                                                                                                                                                                                          |
 | `owner`                                                                                 | `{"type": "organization"}`，或对于成员的个人市场为 `{"type": "user", "user_id": "user_..."}`。                                                                                                                                                                                                                                                                      |
 | `marketplace_id`                                                                        | 前缀为 `marketplace_`。                                                                                                                                                                                                                                                                                                                                    |
 | `created_by`                                                                            | 插件的创建者：对于在 claude.ai 中的用户为 `{"type": "user_actor", "user_id": "user_...", "email_address": "..."}`（`email_address` 可能为 `null`），对于 API 密钥为 `{"type": "api_actor", "api_key_id": "apikey_..."}`。可能会出现其他操作者类型。未记录创建者时为 `null`，例如从 Git 同步的插件。                                                                                                              |
 | `organization_installation_preference`、`organization_installation_preference_inherited` | 组织拥有的插件：组织范围的值，以及该值是否来自市场的默认值（请参阅[安装设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#installation-settings)）。成员拥有的插件：两者均为 `null`。                                                                                                                                                                                                  |
 | `content_scan`                                                                          | 提供版本的扫描结果，一个包含 `status`、`assessment` 和 `reason` 的对象（在此表之后说明）。从未扫描时为 `null`。                                                                                                                                                                                                                                                                            |
 | `components`                                                                            | 提供版本的组件，每个组件为 `{"type", "name", "description"}`，其中 `type` 为 `skill`、`mcp_server`、`command`、`agent`、`hook` 或 `cli` 之一，先按该类型顺序排列，再按名称排列。对于 MCP 服务器，`name` 是其在清单中的键；对于钩子，是其运行时所对应的事件；对于 CLI，是可执行文件的名称。对于 MCP 服务器、钩子和 CLI，`description` 始终为 `null`。未记录时为 `null`。                                                                                           |
-| `reach`                                                                                 | `contained`、`privileged` 或 `remote`。请参阅[影响范围](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#reach)。                                                                                                                                                                                                                                 |
-| `updated_at`                                                                            | 在所提供的版本变更时、插件被固定时更改，通常在存储新版本时也会更改。等待中的版本（请参阅[版本与提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）在其成为所提供的版本时更改此值，而不一定在其被存储时更改。安装设置、共享或仅 `content_scan` 的变更不会更改此值。                                                                                                                              |
+| `reach`                                                                                 | `contained`、`privileged`、`remote` 或 `null`。请参阅[影响范围](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#reach)。                                                                                                                                                                                                                          |
+| `updated_at`                                                                            | 在所提供的版本变更时、插件被固定时更改，通常在存储新版本时也会更改。等待中的版本（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）在其成为所提供的版本时更改此值，而不一定在其被存储时更改。安装设置、共享或仅 `content_scan` 的变更不会更改此值。                                                                                                                              |
 
 `description` 并不总是清单中的描述。清单从顶层 `SKILL.md` 获取的 `description` 会被截断为前 500 个字符（请参阅[上传要求](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#upload-requirements)）。如果 `components` 的技能 `description` 中（内容相同的只算一个）恰好只有一个以清单的 `description` 作为前 500 个字符，API 将改为返回该技能的 `description`。因此：
 
-* 您读取到的 `description` 可能超过 500 个字符，即上传清单的限制。如果上传的 `plugin.json` 设置了这样的 `description`，将返回 `400`。
+* 您读取到的 `description` 可能超过 500 个字符，即上传的清单中 `description` 的限制。如果上传的 `plugin.json` 设置了这样的 `description`，将返回 `400`。
 * 在[您下载的文件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#download-a-versions-files)中，`.claude-plugin/plugin.json` 可能具有不同的 `description`，或者没有。
 
 `content_scan` 对象：
@@ -568,6 +700,8 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 ### 列出插件
 
 `GET /v1/organizations/plugins` 列出您组织中的插件，包括组织市场中的插件和成员个人市场中的插件，按 `created_at` 降序排列。可按 `owner_type`（`organization` 或 `user`）、`owner_user_id`（以 `user_` 为前缀的 ID，用于查找某位成员的插件，包括该成员离开组织之后）、`marketplace_id` 以及 `created_at[gte]`、`created_at[gt]`、`created_at[lte]`、`created_at[lt]`（RFC 3339 时间戳）进行筛选。筛选条件以 AND 组合。在您的组织中不匹配任何内容的 `marketplace_id` 或 `owner_user_id` 返回空页面，而不是错误。响应的结构如[快速入门](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#quick-start)中所示。需要 `read:plugins` 作用域。
+
+要查找自上次列出以来新增的插件，请将完整列表中的 `id` 值与之前列表中的值进行比较。不要为此依赖 `created_at[gt]`：插件进入此列表时，其 `created_at` 可能早于您上次列出的时间。
 
 <CodeGroup>
   ```bash cURL
@@ -852,7 +986,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 }
 ```
 
-将单个文件上传到指定的市场。将每个文件附加在其在插件中的路径下（cURL 示例中的 `;filename=` 后缀，SDK 示例中的文件名参数）；仅以基本名称发送的文件会导致找不到清单。TypeScript 和 Java SDK 以及 `ant` CLI 目前还无法在路径下附加文件，因此这些示例改为将插件作为一个归档文件上传到市场：
+要上传单个文件，请将每个文件附加在其在插件中的路径下。每个部分的文件名决定该路径。仅以基本名称（`plugin.json`）发送的清单将无法被找到。在无法设置文件路径的情况下，改为将插件作为一个归档文件上传。上传到指定的市场：
 
 <CodeGroup>
   ```bash cURL
@@ -899,7 +1033,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
   const client = new Anthropic();
 
-  // TypeScript SDK 会以基本文件名（base name）发送每个文件，
+  // TypeScript SDK 会以 base name（基本文件名）发送每个文件，
   // 因此请将插件打包为单个归档文件上传。
   const plugin = await client.beta.organization.plugins.create({
     files: [fs.createReadStream("dist/sales-toolkit.zip")],
@@ -982,7 +1116,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
       // PluginCreateParams 上的 `files` setter 只为整个
       // 列表接受一个文件名，因此改为将插件作为单个归档上传：即一个手动构建的
-      // 部分，携带上传所需的归档文件名。
+      // part，携带上传所需的归档文件名。
       var archive = MultipartField.<List<InputStream>>builder()
           .value(List.of(Files.newInputStream(Path.of("dist/sales-toolkit.zip"))))
           .filename("sales-toolkit.zip")
@@ -1059,7 +1193,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 获取插件
 
-`GET /v1/organizations/plugins/{plugin_id}` 返回一个插件。需要 `read:plugins` 范围。
+`GET /v1/organizations/plugins/{plugin_id}` 返回一个插件。需要 `read:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -1153,7 +1287,15 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 更改提供版本
 
-`POST /v1/organizations/plugins/{plugin_id}` 更改组织拥有的插件向成员提供的版本。传入较早的版本可回滚，传入较新的版本可推广一个已存储但未提供的构建。此操作会固定该插件，而已固定的插件无法取消固定，无论在此处还是在 claude.ai 中（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）。唯一可更新的字段是 `served_version_id`，且为必填项。更改会在响应返回之前到达成员，且不会创建版本。启用内容扫描时，该版本必须是可以提供给成员的版本（请参阅[内容扫描](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#content-scanning)）。对已固定的插件传入当前已提供的版本不会产生任何变化；对未固定的插件传入该版本会将插件固定在该版本，因此之后的上传将不再自动提供。固定也会结束任何等待：正在等待内容扫描的版本仍保持存储状态，只有在有人选择它时才会被提供。返回该插件。需要 `write:plugins` 作用域。
+`POST /v1/organizations/plugins/{plugin_id}` 更改组织拥有的插件向成员提供的版本。传入较早的版本可回滚，传入较新的版本可升级一个已存储但未提供的构建。唯一可更新的字段是 `served_version_id`，且为必填项。更改会在响应返回之前到达成员，且不会创建版本。启用内容扫描时，该版本必须是可以提供给成员的版本（请参阅[内容扫描](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#content-scanning)）。返回该插件。需要 `write:plugins` 作用域。
+
+每个成功的请求还具有以下效果：
+
+* 它会将插件固定到该版本，而已固定的插件无法取消固定，无论在此处还是在 claude.ai 中。传入当前已提供的版本会固定未固定的插件，因此之后的上传将不再自动提供。
+* 它通过此 API 设置固定。此后，在 claude.ai 中的保存不会更改提供的版本，直到有人在 claude.ai 中选择某个版本，或者向该插件的发布生效（请参阅[固定](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pins)）。无论哪种情况，插件都会保持固定。
+* 它会取消任何等待（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）。原本在等待内容扫描的版本仍保持存储状态。只有在有人选择它时，它才会被提供。
+
+如果插件已被固定且没有等待中的版本，传入当前已提供的版本不会更改任何字段，也不会记录任何事件。它仍会通过此 API 设置固定，但没有任何字段会显示这一点。
 
 <CodeGroup>
   ```bash cURL
@@ -1304,20 +1446,22 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 }
 ```
 
-除了共享响应（成员所有的插件返回 `403`，无法提供给成员的版本返回 `409 scan_pending` 或 `400 scan_failed`；请参阅[错误响应](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#error-responses)）之外，该请求还可能因以下原因失败：
+除了通用响应（成员拥有的插件返回 `403`，无法提供给成员的版本返回 `409 scan_pending` 或 `400 scan_failed`；请参阅[错误响应](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#error-responses)）之外，该请求还可能因以下原因失败：
 
 | 状态                     | 原因                                                                                   | 处理方法                                                                                                       |
 | ---------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | 400                    | 请求体省略了 `served_version_id`、将其设置为 `null` 或包含任何其他字段；或者该值缺少 `pluginver_` 前缀或为 `latest`。 | 仅发送 `{"served_version_id": "pluginver_..."}`。                                                              |
 | 404                    | `served_version_id` 不是此插件的版本。                                                        | 从[列出插件的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-a-plugins-versions)获取 ID。 |
 | 409（无 `error_code`）    | 对此插件的上传或另一个提供版本更改仍在进行中。                                                              | 稍后重试。                                                                                                      |
-| 409 `skill_name_taken` | 该插件位于库市场中，且该版本包含一个名称现已被某个组织技能使用的技能。                                                  | 选择另一个版本，或重命名其中一个技能。                                                                                        |
+| 409 `skill_name_taken` | 该插件位于库市场中，且该版本包含一个名称现已被某个组织技能使用的技能。                                                  | 选择另一个版本、上传一个已重命名该技能的版本，或在 claude.ai 中移除该组织技能。                                                              |
 
 ### 删除插件
 
-`DELETE /v1/organizations/plugins/{plugin_id}` 永久删除插件及其包含的每个版本，效果与管理员在 claude.ai 中执行删除相同。它适用于 `manual` 市场中的任何插件，包括成员的插件，即使该成员此后已离开组织。删除返回时，该插件、其版本及其文件将从所有读取结果中消失，并且不再向成员提供。组织所有插件的安装设置会随之移除；成员所有插件的共享会被撤回，并且该插件对其所有者也会消失。从 Git 同步的市场中的插件会返回 `400`：请从存储库中移除它，或在 claude.ai 中移除该市场。需要 `write:plugins` 范围。
+`DELETE /v1/organizations/plugins/{plugin_id}` 永久删除插件及其包含的每个版本，效果与管理员在 claude.ai 中执行删除相同。它适用于 `manual` 市场中的任何插件，包括成员的插件，即使该成员此后已离开组织。删除返回时，该插件、其版本及其文件将从所有读取结果中消失，并且不再向成员提供。组织拥有插件的安装设置会随之移除；成员拥有插件的共享会被撤回，并且该插件对其所有者也会消失。从 Git 同步的市场中的插件会返回 `400`：请从存储库中移除它，或在 claude.ai 中移除该市场。需要 `write:plugins` 作用域。
 
 删除无法撤销，且不支持按版本删除。如果要以可逆方式停止提供组织拥有的插件，请将其组织范围的安装设置设为 `not_available`（原本继承其市场默认值的插件将获得自己的设置，之后[移除该组织范围设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#remove-an-installation-setting)即可让插件恢复为默认值），并移除（或设为 `not_available`）`GET /v1/organizations/plugins/{plugin_id}/installation_settings` 列出的每个组设置，因为组的设置会为其成员覆盖组织范围的值。请依次发送这些写入请求，而不是并行发送（请参阅[设置安装设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#set-an-installation-setting)）。成员拥有的插件无法通过此 API 停止提供，只能将其删除，且仅当其市场为 `manual` 时才可删除。
+
+不要仅仅因为某个插件不是由您的流水线创建的就将其删除：它可能是成员或管理员在 claude.ai 中添加的。在脚本因某个插件是由您的流水线创建的而将其删除之前，请检查该插件的 `created_by` 是否为带有您流水线某个密钥的 `api_key_id` 的 `api_actor`。如果为任何其他值（包括 `null`），请勿假定该插件是由您的流水线创建的。删除操作还会移除其他人添加到该插件的任何版本。请对每个版本的 `created_by` 执行相同的检查，并读取[列出插件的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-a-plugins-versions)返回结果的每一页。如果有任何版本未通过检查（包括 `created_by` 为 `null` 的版本），请勿自动删除该插件。
 
 <CodeGroup>
   ```bash cURL
@@ -1417,7 +1561,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 列出插件的版本
 
-`GET /v1/organizations/plugins/{plugin_id}/versions` 列出插件的版本，按 `created_at` 降序排列；第一项是 `latest_version_id` 所标识的版本。`limit` 为 1 到 1,000。需要 `read:plugins` 范围。
+`GET /v1/organizations/plugins/{plugin_id}/versions` 列出插件的版本，按 `created_at` 降序排列；第一项是 `latest_version_id` 所标识的版本。`limit` 为 1 到 1,000。需要 `read:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -1538,7 +1682,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 创建版本
 
-`POST /v1/organizations/plugins/{plugin_id}/versions` 向 `manual` 市场中组织拥有的插件添加一个版本。请求体为 `multipart/form-data`，其 `files[]` 和 `release_notes` 字段、[上传要求](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#upload-requirements)以及文件、清单、归档和大小错误均与[创建插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#create-a-plugin)相同。上传的名称（清单中的 `name`）必须与插件的 `name` 相同。如果插件未固定，新版本通常在存储后立即提供；如果已固定，该版本会被存储但不会提供，直到您将提供的版本更改为它。要进行检查，请将响应的 `id` 与插件的 `served_version_id` 进行比较。返回该版本。需要 `write:plugins` 范围。
+`POST /v1/organizations/plugins/{plugin_id}/versions` 向 `manual` 市场中组织拥有的插件添加一个版本。请求体为 `multipart/form-data`，其 `files[]` 和 `release_notes` 字段、[上传要求](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#upload-requirements)以及文件、清单、归档和大小错误均与[创建插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#create-a-plugin)相同。上传的名称（清单中的 `name`）必须与插件的 `name` 相同。如果插件未固定，新版本通常在存储后立即提供。在这种情况下，启用内容扫描时，成员会失去该插件，直到该版本的 `content_scan` 显示为 `completed` 且结果为 `pass` 或 `warn`（请参阅[内容扫描](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#content-scanning)）。如果插件已固定，该版本会被存储但不会提供，直到有人选择它（请参阅[更改提供版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#change-the-served-version)）。要进行检查，请将响应的 `id` 与插件的 `served_version_id` 进行比较。返回该版本。需要 `write:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -1727,7 +1871,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 获取版本
 
-`GET /v1/organizations/plugins/{plugin_id}/versions/{version}` 返回一个版本。`{version}` 是版本 ID，或者是 `latest`，表示请求时 `latest_version_id` 所标识的版本。需要 `read:plugins` 范围。
+`GET /v1/organizations/plugins/{plugin_id}/versions/{version}` 返回一个版本。`{version}` 是版本 ID，或者是 `latest`，表示请求时 `latest_version_id` 所标识的版本。需要 `read:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -1840,7 +1984,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 `GET /v1/organizations/plugins/{plugin_id}/versions/{version}/content` 以存储的 `.zip` 归档文件形式（`Content-Type: application/zip`）下载版本的文件。无论内容扫描结果如何，都会返回该归档文件，因此您可以检查未向成员提供的版本。它按存储的原样提供，因此对于 `manual` 市场中组织拥有的插件，只要它满足当前的上传要求，您就可以将其原封不动地作为新版本重新上传。`{version}` 必须是版本 ID，而不是 `latest`：请先读取插件的 `served_version_id` 或 `latest_version_id`，或使用 `GET /v1/organizations/plugins/{plugin_id}/versions/latest` 解析 `latest`。`Content-Disposition` 文件名源自插件名称，且不唯一；请按插件和版本 ID 为保存的文件命名。需要 `read:plugins` 作用域。
 
-下载**成员所有**插件的归档文件会在 Compliance API 活动源上记录一个 `claude_plugin_archive_accessed` 事件，通过 ID 标识密钥（作为 `api_actor`）、插件及其市场、版本以及所属成员；该事件不包含任何名称。下载组织所有插件的归档文件不会记录任何内容。
+下载**成员拥有**插件的归档文件会在 Compliance API 活动源上记录一个 `claude_plugin_archive_accessed` 事件，通过 ID 标识密钥（作为 `api_actor`）、插件及其市场、版本以及所属成员；该事件不包含任何名称。下载组织拥有插件的归档文件不会记录任何内容。
 
 <CodeGroup>
   ```bash cURL
@@ -1986,7 +2130,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 列出插件的安装设置
 
-`GET /v1/organizations/plugins/{plugin_id}/installation_settings` 列出组织所有插件持有的设置，按 `created_at` 降序排列：其自身的组织范围设置（在继承其市场默认值期间不存在）以及每个组的设置。可按 `target_type`（`organization` 或 `rbac_group`）筛选。需要 `read:plugins` 范围。
+`GET /v1/organizations/plugins/{plugin_id}/installation_settings` 列出组织拥有的插件持有的设置，按 `created_at` 降序排列：其自身的组织范围设置（在继承其市场默认值期间不存在）以及每个组的设置。可按 `target_type`（`organization` 或 `rbac_group`）筛选。需要 `read:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -2094,7 +2238,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 设置安装设置
 
-`POST /v1/organizations/plugins/{plugin_id}/installation_settings/{target}` 为组织拥有的插件设置某个目标的安装设置，可创建该设置或更改其已有的值。请求体的唯一字段是 `installation_preference`（`required`、`auto_install`、`available` 或 `not_available`），且为必填。设置为目标已有的值不会产生任何更改。设置 `organization` 目标会使插件停止继承其市场的默认值（`organization_installation_preference_inherited` 变为 `false`），即使该值与默认值相同也是如此，因此插件将不再跟随市场默认值的后续更改。要让插件恢复为其市场的默认值，请[移除组织范围设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#remove-an-installation-setting)；组设置不受影响。组目标必须是您的组织在 `GET /v1/organizations/rbac_groups` 中可见的组，否则请求返回 `404`。该更改不会改变插件的 `updated_at`；它会记录在活动源上。返回该设置。需要 `write:plugins` 范围。
+`POST /v1/organizations/plugins/{plugin_id}/installation_settings/{target}` 为组织拥有的插件设置某个目标的安装设置，可创建该设置或更改其已有的值。请求体的唯一字段是 `installation_preference`（`required`、`auto_install`、`available` 或 `not_available`），且为必填。设置为目标已有的值不会产生任何更改。设置 `organization` 目标会使插件停止继承其市场的默认值（`organization_installation_preference_inherited` 变为 `false`），即使该值与默认值相同也是如此，因此插件将不再跟随市场默认值的后续更改。要让插件恢复为其市场的默认值，请[移除组织范围设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#remove-an-installation-setting)；组设置不受影响。组目标必须是您的组织在 `GET /v1/organizations/rbac_groups` 中可见的组，否则请求返回 `404`。该更改不会改变插件的 `updated_at`；它会记录在活动源上。返回该设置。需要 `write:plugins` 作用域。
 
 请逐个发送同一插件的安装设置写入请求。如果同一插件的多个写入请求同时到达，服务器会依次处理它们，并可能对其中一些返回 `503` 而不应用它们。该 `503` 带有 `x-should-retry: true`，并且该写入可以安全地重复：等待一两秒，然后再次发送。
 
@@ -2243,7 +2387,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 移除安装设置
 
-`DELETE /v1/organizations/plugins/{plugin_id}/installation_settings/{target}` 移除组织拥有插件的某个目标的安装设置。当 `{target}` 为 `organization` 时，它会移除插件自身的组织范围设置。之后插件将再次继承其市场的默认值（`organization_installation_preference_inherited` 变为 `true`），并跟随该默认值的后续更改；组设置不受影响。当使用组的 `rbac_group_` ID 时，它会移除该组的设置：该组的成员将回退到组织范围的值，或回退到其所属其他组的设置。没有自身设置的目标会返回 `404`；这包括已继承其市场默认值的插件的 `organization` 目标。该更改不会改变插件的 `updated_at`；它会记录在活动源上。响应以复合键代替 `id`；对于 `organization` 目标，其 `target` 为 `{"type": "organization"}`。需要 `write:plugins` 范围。
+`DELETE /v1/organizations/plugins/{plugin_id}/installation_settings/{target}` 移除组织拥有插件的某个目标的安装设置。当 `{target}` 为 `organization` 时，它会移除插件自身的组织范围设置。之后插件将再次继承其市场的默认值（`organization_installation_preference_inherited` 变为 `true`），并跟随该默认值的后续更改；组设置不受影响。当使用组的 `rbac_group_` ID 时，它会移除该组的设置：该组的成员将回退到组织范围的值，或回退到其所属其他组的设置。没有自身设置的目标会返回 `404`；这包括已继承其市场默认值的插件的 `organization` 目标。该更改不会改变插件的 `updated_at`；它会记录在活动源上。响应以复合键代替 `id`；对于 `organization` 目标，其 `target` 为 `{"type": "organization"}`。需要 `write:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -2360,11 +2504,13 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ## 插件共享
 
-共享仅存在于成员所有的插件上，并且在此 API 中为只读（请参阅[共享](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#shares)）。
+共享仅存在于成员拥有的插件上，并且在此 API 中为只读（请参阅[共享](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#shares)）。
 
 ### 列出插件的共享
 
-`GET /v1/organizations/plugins/{plugin_id}/shares` 列出成员所有插件的所有者已将其共享给了谁，按 `granted_at` 降序排列：所有成员（`organization`）、某个组（`rbac_group`）或指定成员（`organization_member`）。可按 `target_type` 筛选。所有者未共享的插件返回空列表；组织所有的插件返回 `404`。共享在此 API 上为只读，并且列出的共享仅在您的组织在 claude.ai 中启用了该类共享时才授予访问权限（请参阅[共享](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#shares)）。`granted_at` 是授予共享的时间；如果所有者之后在 claude.ai 中更改了该共享，则为该更改的时间。需要 `read:plugins` 范围。
+`GET /v1/organizations/plugins/{plugin_id}/shares` 列出成员拥有插件的所有者已将其共享给了谁，按 `granted_at` 降序排列：所有成员（`organization`）、某个组（`rbac_group`）或指定成员（`organization_member`）。可按 `target_type` 筛选。所有者未共享的插件返回空列表；组织拥有的插件返回 `404`。共享在此 API 上为只读，并且列出的共享仅在您的组织在 claude.ai 中启用了该类共享时才授予访问权限（请参阅[共享](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#shares)）。`granted_at` 是授予共享的时间；如果所有者之后在 claude.ai 中更改了该共享，则为该更改的时间。需要 `read:plugins` 作用域。
+
+仅当空页面的 `next_page` 为 `null` 时，它才是完整的列表（请参阅[分页](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pagination)）。
 
 <CodeGroup>
   ```bash cURL
@@ -2513,7 +2659,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 列出市场
 
-`GET /v1/organizations/plugin_marketplaces` 列出您组织的市场和成员的个人市场，按 `created_at` 降序排列。您可以使用它在市场包含任何插件之前找到其 ID，以便按该市场筛选插件列表或向其上传。库市场会在首次在其中创建内容（无论是在 claude.ai 中还是通过此 API）后出现。可按 `owner_type`（`organization` 或 `user`）和 `source` 筛选。`limit` 为 1 到 1,000。需要 `read:plugins` 范围。
+`GET /v1/organizations/plugin_marketplaces` 列出您组织的市场和成员的个人市场，按 `created_at` 降序排列。您可以使用它在市场包含任何插件之前找到其 ID，以便按该市场筛选插件列表或向其上传。库市场会在首次在其中创建内容（无论是在 claude.ai 中还是通过此 API）后出现。可按 `owner_type`（`organization` 或 `user`）和 `source` 筛选。`limit` 为 1 到 1,000。需要 `read:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -2631,7 +2777,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 获取市场
 
-`GET /v1/organizations/plugin_marketplaces/{marketplace_id}` 返回一个市场。需要 `read:plugins` 范围。
+`GET /v1/organizations/plugin_marketplaces/{marketplace_id}` 返回一个市场。需要 `read:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -2729,7 +2875,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 设置市场的默认安装设置
 
-`POST /v1/organizations/plugin_marketplaces/{marketplace_id}` 设置组织所有市场的默认安装设置。市场中每个没有自身组织范围设置的插件都会将此默认值报告为其 `organization_installation_preference`，包括之后添加的插件。它适用于 `manual` 市场和同步市场；成员的个人市场返回 `403`。唯一可更新的字段是 `default_installation_preference`，且为必填。它无法设回 `null`：市场一旦有了默认值，就会一直保留，这与 claude.ai 中相同。更改会记录为一个 `marketplace_updated` 事件，不会产生按插件的事件，也不会改变任何插件的 `updated_at`。设置为已设置的值不会产生任何更改，但有一个例外：从未设置默认值的市场会报告 `not_available`，但实际并不持有设置，因此其第一次写入（即使是 `not_available`）也算作更改。返回该市场。需要 `write:plugins` 范围。
+`POST /v1/organizations/plugin_marketplaces/{marketplace_id}` 设置组织拥有市场的默认安装设置。市场中每个没有自身组织范围设置的插件都会将此默认值报告为其 `organization_installation_preference`，包括之后添加的插件。它适用于 `manual` 市场和同步市场；成员的个人市场返回 `403`。唯一可更新的字段是 `default_installation_preference`，且为必填。它无法设回 `null`：市场一旦有了默认值，就会一直保留，这与 claude.ai 中相同。更改会记录为一个 `marketplace_updated` 事件，不会产生按插件的事件，也不会改变任何插件的 `updated_at`。设置为已设置的值不会产生任何更改，但有一个例外：从未设置默认值的市场会报告 `not_available`，但实际并不持有设置，因此其第一次写入（即使是 `not_available`）也算作更改。返回该市场。需要 `write:plugins` 作用域。
 
 <CodeGroup>
   ```bash cURL
@@ -3025,7 +3171,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 | `plugin_errors`                        | 同步会跳过的每个插件各对应一个 `{name, error, error_code}`。                                                                                             |
 | `plugin_warnings`                      | 同步时会遗漏部分内容的每个插件各对应一个 `{name, warnings: [{message, error_code}]}`。                                                                        |
 
-您也可以改为以 `.zip` 形式验证市场目录的本地副本；响应是相同的报告：
+或者，改为以 `.zip` 形式验证市场目录的本地副本；响应是相同的报告：
 
 <CodeGroup>
   ```bash cURL
@@ -3151,7 +3297,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 #### 报告代码
 
-报告中的每项发现都有一个稳定的代码：无法验证任何内容时为 `manifest_error_code`，每个 `plugin_errors` 条目上为 `error_code`，每个警告上也为 `error_code`。当一个插件存在多个问题时，`error_code` 是第一个问题的代码，`error` 则合并了所有问题的消息。可能会添加新代码；无法识别的 `manifest_error_code` 仍表示内容无法验证，`plugin_errors` 条目上无法识别的代码仍表示该插件会被跳过，警告上无法识别的代码仍表示该插件会被同步。以下代码表示临时状况，因此相同的请求稍后可能会成功：`marketplace_host_rate_limited`、`marketplace_host_server_error`、`marketplace_host_timeout`、`marketplace_host_unreachable`、`marketplace_repo_access_denied`、`marketplace_sync_transient_fetch_budget_exhausted`、`marketplace_validate_network_error`，以及通常情况下的 `marketplace_validate_deadline_exceeded`。
+报告中的每项发现都有一个稳定的代码：无法验证任何内容时为 `manifest_error_code`，每个 `plugin_errors` 条目上为 `error_code`，每个警告上也为 `error_code`。当一个插件存在多个问题时，`error_code` 是第一个问题的代码，`error` 则合并了所有问题的消息。可能会添加新代码。无法识别的 `manifest_error_code` 仍表示内容无法验证。`plugin_errors` 条目上无法识别的 `error_code` 仍表示该插件会被跳过。警告上无法识别的 `error_code` 仍表示该插件会被同步。以下代码表示临时状况，因此相同的请求稍后可能会成功：`marketplace_host_rate_limited`、`marketplace_host_server_error`、`marketplace_host_timeout`、`marketplace_host_unreachable`、`marketplace_repo_access_denied`、`marketplace_sync_transient_fetch_budget_exhausted`、`marketplace_validate_network_error`，以及通常情况下的 `marketplace_validate_deadline_exceeded`。
 
 ## 无法识别的值
 
@@ -3165,7 +3311,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ## 分页
 
-列表端点使用 **opaque cursor**（不透明游标）。第一个请求最多返回 `limit` 行以及一个 `next_page` 游标；在下一个请求中将该游标原样作为 `page` 参数传递，并重复此操作，直到 `next_page` 为 `null`。请将游标字符串视为不透明的：不要自行解析、修改或构造它。[列出插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-plugins)可能会返回少于 `limit` 个插件的页面，甚至是空页面，而 `next_page` 仍然被设置，因此请持续请求页面，直到 `next_page` 为 `null`。Python、TypeScript、C#、Go、Java 和 Ruby SDK 的列表迭代器以及 CLI（使用 `--format raw` 时除外）会为您完成此操作。只要设置了 `next_page`，它们就会请求下一页，因此较短的页面或空页面不会使其终止。在 PHP 和 curl 中，请自行请求每一页，并将其 `next_page` 作为 `page` 传递。
+列表端点使用 **opaque cursor**（不透明游标）。第一个请求最多返回 `limit` 行以及一个 `next_page` 游标。在下一个请求中将该游标原样作为 `page` 参数传递，并重复此操作，直到 `next_page` 为 `null`。请将游标字符串视为不透明的：不要自行解析、修改或构造它。[列出插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-plugins)可能会返回少于 `limit` 行的页面，甚至是没有任何行的页面，而 `next_page` 仍然被设置。因此，较短的页面或空页面并不一定是最后一页。Python、TypeScript、C#、Go、Java 和 Ruby SDK 中的列表迭代器考虑到了这一点。CLI 也考虑到了这一点，但使用 `--format raw` 时除外。只要设置了 `next_page`，两者都会请求下一页。在 PHP 和 cURL 中，请自行请求每一页，并将其 `next_page` 作为 `page` 传递。
 
 `limit` 默认为 20，最小值为 1。插件、安装设置和共享的最大值为 100，版本和市场的最大值为 1,000。每个列表都按从新到旧的顺序排列。
 
@@ -3177,7 +3323,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 400 | 输入无效，或该操作不适用于此插件或市场（请参阅各端点的相应章节）。当请求包含端点无法识别的查询参数，或组织不是 Claude Enterprise 组织时（`this endpoint is not supported for this organization type`），也会返回此状态。 |
 | 401 | 缺少 `x-api-key` 标头，或无法识别该密钥。                                                                                                                         |
-| 403 | 密钥缺少所需的 scope（作用域），或者请求试图向成员的插件或个人市场上传内容、更改其提供的版本或为其设置默认值。（允许删除成员的插件。）                                                                              |
+| 403 | 密钥缺少所需的作用域，或者请求试图向成员的插件或个人市场上传内容、更改其提供的版本或为其设置默认值。（允许删除成员的插件。）                                                                                      |
 | 404 | 未找到资源。当请求省略 `anthropic-beta` 值，或您的组织未启用该 API 时，也会返回此状态，使这些端点看起来不存在。                                                                                 |
 | 409 | 名称已被占用、某个版本的 `content_scan` 为 `processing`，或有冲突的上传正在进行中。                                                                                            |
 | 413 | 请求正文超出大小限制：上传为 200 MB，市场验证为 32 MB。                                                                                                                  |
@@ -3205,7 +3351,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 | `error_code`                                   | 状态  | 含义及处理方式                                                                                                                                                                                                                                          |
 | ---------------------------------------------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `plugin_name_taken`                            | 409 | 市场中已存在该名称。`details.plugin_id` 即为占用该名称的插件，它可能是其他人创建的。要查看创建者，请[获取该插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#get-a-plugin)并读取其 `created_by`，如果未记录创建者，则该值为 `null`。仅当它是您打算更新的插件时，才向其上传版本。否则，或当 `plugin_id` 不存在时，请使用其他名称上传。 |
-| `skill_name_taken`                             | 409 | 该插件位于库市场中，且其某个技能与某个组织技能（管理员在 claude.ai 中为整个组织上传的技能）同名。`details.skill_name` 给出了该名称。请重命名或移除其中之一。                                                                                                                                                   |
+| `skill_name_taken`                             | 409 | 该插件位于库市场中，且其某个技能与某个组织技能同名。`details.skill_name` 给出了该名称。请使用不含该名称技能的上传或版本重试。您也可以在 claude.ai 中移除该组织技能。                                                                                                                                               |
 | `registration_pending`                         | 503 | 文件已存储，但插件的技能尚未能提供给成员使用。请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)。                                                                                                                             |
 | `scan_pending`                                 | 409 | 该版本的 `content_scan` 为 `processing`。请在扫描完成后重试。                                                                                                                                                                                                    |
 | `scan_failed`                                  | 400 | 该版本的 `content_scan` 为 `fail`、`unknown` 或 `errored`，因此无法提供。请选择其他版本。                                                                                                                                                                               |
@@ -3227,7 +3373,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ## 活动源事件
 
-通过此 API 进行的每次写入都会记录在您组织的 [Compliance API Activity Feed（活动源）](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)中，并归属于该 API 密钥，表示为携带其 `apikey_` ID 的 `api_actor`。同一执行者也会出现在该密钥所创建的插件和版本的 `created_by` 中。
+通过此 API 进行的写入会记录在您组织的 Compliance API 活动源中（请参阅[查询活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)），并归属于该 API 密钥，表示为携带其 `apikey_` ID 的 `api_actor`。同一执行者也会出现在该密钥所创建的插件和版本的 `created_by` 中。未更改任何字段或设置的写入不会被记录。
 
 | 事件                                       | 触发时机                                                                                       |
 | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
@@ -3245,7 +3391,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 这些事件中的插件、版本和市场 ID 与此 API 返回的 ID 相同。事件也可能指向此 API 未列出的市场，例如由 Anthropic 发布的插件组成的市场。`plugin_installation_preference_updated` 通过插件的 `name` 和 `marketplace_id` 而不是其 `id` 来标识插件。在 `claude_plugin_security_scan_completed` 中，`plugin_version` 不是版本 ID，[插件版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#plugin-versions)中也没有与之对应的字段。
 
-更改市场的默认值只会记录一个 `marketplace_updated` 事件，不会记录针对单个插件的事件，即使这会改变所有继承该默认值的插件的值。读取操作不会被记录，但下载成员拥有的插件的归档文件除外。未产生任何更改的写入不会被记录。
+更改市场的默认安装设置会记录一个 `marketplace_updated` 事件。它不会记录针对单个插件的事件，即使每个继承该默认值的插件的组织范围值都会随之改变。读取操作不会被记录，但下载成员拥有的插件的归档文件除外。
 
 在 claude.ai 中授予或撤回的共享会以 `role_assignment_granted` 和 `role_assignment_revoked` 事件的形式出现在活动源中。此 API 不会报告删除操作：已删除的插件不会出现在下一次列表中。通过 Git 同步移除的插件、因删除其所在市场而移除的插件（一个 `marketplace_deleted` 事件），或因删除成员账户或组织而移除的插件，都不会触发针对单个插件的事件，因此请定期重新列出完整清单以发现移除情况。
 

@@ -12,14 +12,17 @@ This page walks an IT administrator through a Microsoft Foundry deployment: crea
 >
 > Microsoft Foundry offers Claude models in two hosting options, Hosted on Azure and Hosted on Anthropic, and you choose one when you configure the model deployment in Microsoft Foundry. Under both options, Anthropic operates the Claude models and handles conversation data as an independent processor for Microsoft. Your use of Claude through Microsoft Foundry is subject to Anthropic's data use terms.
 >
-> Deployments hosted on Azure run inference in an Anthropic-operated service on Azure infrastructure, not in your Azure tenant, and prompts and completions remain within Azure. The only data the service sends out of Azure to Anthropic is usage metadata and any content that Anthropic's safety systems flag. Deployments hosted on Anthropic send prompts and completions to Anthropic's own infrastructure for inference. See [hosting options for Claude in Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#hosting-options) for details.
+> * Deployments hosted on Azure run inference in an Anthropic-operated service on Azure infrastructure, not in your Azure tenant. For deployments hosted on Azure, Anthropic processes prompts and completions on Azure infrastructure and stores retained content there. Retained content includes content flagged by Anthropic's safety systems for Anthropic to review. Operational data that contains no prompts or completions is stored on Anthropic's systems outside Azure. Examples include safety classifier scores, identifiers, and usage and billing data.
+> * Deployments hosted on Anthropic send prompts and completions to Anthropic's own infrastructure for inference.
+>
+> See [hosting options for Claude in Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#hosting-options) for details.
 
 ## Choose an authentication approach
 
 | Scenario | Use | Per-user identity | Notes |
 | - | - | - | - |
 | Proof of concept, single team | [API key](#api-key) (`inferenceFoundryApiKey`) | No (shared key) | A long-lived secret distributed in the managed profile. Simplest to start. |
-| Broad rollout with per-user identity | [In-app Entra ID sign-in](#in-app-entra-id-sign-in) (`inferenceFoundryTenantId`, `inferenceFoundryClientId`, `inferenceFoundryAuthFlow`) | Yes | Users sign in with their Entra ID account inside the app, through a device code, the system browser, or the OS identity broker. The device-code flow requires app version 1.9255.0 or later; the browser flow requires app version 1.19367.0 or later. |
+| Broad rollout with per-user identity | [In-app Entra ID sign-in](#in-app-entra-id-sign-in) (`inferenceFoundryTenantId`, `inferenceFoundryClientId`, `inferenceFoundryAuthFlow`) | Yes | Users sign in with their Entra ID account inside the app, through a device code, the system browser, or the OS identity broker. |
 | Your organization already has tooling that obtains a Microsoft Foundry credential | [Credential helper](https://claude.com/docs/third-party/claude-desktop/configuration.md#inferencecredentialhelper) (`inferenceCredentialHelper`) | Depends on what the helper obtains | An executable that prints the credential to stdout at runtime. |
 
 ## Set up Azure
@@ -53,8 +56,6 @@ Record the **Directory (tenant) ID** and **Application (client) ID**.
 Grant the users or groups who will sign in a role on the Microsoft Foundry resource that permits inference (for example, **Cognitive Services User**).
 
 ## Prepare devices
-
-What each end-user device needs depends on the authentication approach you chose.
 
 ### API key
 
@@ -113,7 +114,7 @@ Then click **Export** to produce a `.mobileconfig` (macOS) or `.reg` (Windows) f
 
 ### Configuration keys
 
-The full set of `inferenceFoundry*` keys is below. Set `inferenceProvider` to `foundry`, supply the resource name, and provide exactly one credential source.
+Set `inferenceProvider` to `foundry`, supply the resource name, and provide exactly one credential source.
 
 [Entry labels](https://claude.com/docs/third-party/claude-desktop/configuration.md#entry-labels) says what each label means.
 
@@ -212,7 +213,7 @@ You must also set `inferenceModels` to a list of Microsoft Foundry deployment na
 
 To check each key's value and whether the provider settings are valid, or to find out why the app doesn't enter 3P mode, see [Verifying the deployment](https://claude.com/docs/third-party/claude-desktop/installation.md#verifying-the-deployment). Application log locations are listed in [User identity and local data](https://claude.com/docs/third-party/claude-desktop/data-storage.md#where-data-lives).
 
-If sign-in fails at the token step, confirm the **Azure Cognitive Services** permission is granted and consented on the app registration. For the device-code flow, also confirm **Allow public client flows** is enabled; Entra ID rejects device-code sign-in without it.
+If sign-in fails at the token step, confirm the **Azure Cognitive Services** permission is granted and consented on the app registration. For the device-code flow, also confirm **Allow public client flows** is enabled.
 
 If sign-in fails with error code `AADSTS650057`, the **user\_impersonation** permission is missing from the app registration. Add it under **API permissions**.
 

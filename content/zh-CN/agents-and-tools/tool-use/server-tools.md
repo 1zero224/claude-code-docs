@@ -262,8 +262,7 @@ API 在内部运行该工具。您可以在响应中看到调用及其结果，�
 
       Message response = client.messages().create(params);
 
-      if (response.stopReason().isPresent()
-              && response.stopReason().get().equals(StopReason.PAUSE_TURN)) {
+      if (response.stopReason().map(StopReason.PAUSE_TURN::equals).orElse(false)) {
           MessageCreateParams continuationParams = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
               .maxTokens(4096L)
@@ -1031,7 +1030,7 @@ API 会将您的结果附加到仍处于打开状态的助手轮次，运行被�
 
 这会将该工具限制为仅允许直接调用，从而绕过内部代码执行步骤。
 
-`allowed_callers` 控制工具的调用方式：由 Claude 直接调用（`"direct"`）、从代码执行容器内部调用（例如 `"code_execution_20260120"`），或两者兼有。网络工具的 `_20260209` 版本默认仅允许代码执行调用方；更早的版本默认为 `["direct"]`。在不支持程序化工具调用的模型上，这些版本需要设置 `allowed_callers: ["direct"]`；如果未设置，API 会返回一个提示您进行设置的验证错误。
+`allowed_callers` 控制工具的调用方式：由 Claude 直接调用（`"direct"`）、从代码执行容器内部调用（例如 `"code_execution_20260120"`），或两者兼有。网络工具的 `_20260209` 版本默认仅允许代码执行调用方；更早的版本默认为 `["direct"]`。在[不支持程序化工具调用的模型](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling#feature-availability)上，这些版本需要设置 `allowed_callers: ["direct"]`；如果未设置，API 会返回一个提示您进行设置的验证错误。
 
 <Note>
   即使在符合 ZDR 条件的配置中使用网络获取，如果 Claude 从网站获取内容，网站发布者也可能会保留传递给 URL 的任何参数。

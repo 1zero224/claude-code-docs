@@ -139,7 +139,6 @@ To request a language model generation during the processing of a client request
     },
     "temperature": 0.1,
     "systemPrompt": "You are a helpful assistant.",
-    "includeContext": "thisServer",
     "maxTokens": 100
   }
 }
@@ -677,3 +676,6 @@ When tools are used in sampling, additional security considerations apply:
 
 6. Servers **MUST** ensure that when replying to a `stopReason: "toolUse"`, each `ToolUseContent` item is responded to with a `ToolResultContent` item with a matching `toolUseId`, and that the user message contains only tool results (no other content types)
 7. Both parties **SHOULD** implement iteration limits for tool loops
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

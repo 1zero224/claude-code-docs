@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `path_prefixes` records content formats by URL path, and `review` lists uncovered surfaces.",
-  "updated": "2026-11-12",
+  "updated": "2026-11-19",
   "domains": {
     "anthropic.com": {
       "status": "frozen",
@@ -130,12 +130,12 @@
           "serves_html": true
         },
         "/legal/": {
-          "url_count": 26,
+          "url_count": 28,
           "serves_markdown": false,
           "serves_html": true
         },
         "/news/": {
-          "url_count": 281,
+          "url_count": 282,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -160,7 +160,7 @@
           "serves_html": true
         },
         "/research/": {
-          "url_count": 218,
+          "url_count": 221,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -223,7 +223,7 @@
           "serves_html": true
         },
         "/docs/": {
-          "url_count": 4433,
+          "url_count": 4686,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -288,7 +288,7 @@
           "serves_html": true
         },
         "/settings/": {
-          "url_count": 11,
+          "url_count": 13,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -316,7 +316,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 2413,
+          "url_count": 2437,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -329,62 +329,62 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/de/": {
-          "url_count": 387,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/en/": {
-          "url_count": 393,
+          "url_count": 403,
           "serves_markdown": true,
           "serves_html": true
         },
         "/es/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/fr/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/id/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/it/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ja/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ko/": {
-          "url_count": 388,
+          "url_count": 398,
           "serves_markdown": true,
           "serves_html": true
         },
         "/pt/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ru/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/zh-CN/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         },
         "/zh-TW/": {
-          "url_count": 389,
+          "url_count": 399,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -407,7 +407,7 @@
           "serves_html": true
         },
         "/docs/": {
-          "url_count": 116,
+          "url_count": 118,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -452,7 +452,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 290,
+          "url_count": 293,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -470,7 +470,7 @@
           "serves_html": true
         },
         "/blog/": {
-          "url_count": 18,
+          "url_count": 20,
           "serves_markdown": true,
           "serves_html": false
         },
@@ -536,15 +536,58 @@
           "url_count": 11,
           "serves_markdown": false,
           "serves_html": true
+        },
+        "/de/": {
+          "url_count": 808,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/es/": {
+          "url_count": 809,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/fr/": {
+          "url_count": 809,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/ja/": {
+          "url_count": 809,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/ko/": {
+          "url_count": 808,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/zh-CN/": {
+          "url_count": 809,
+          "serves_markdown": false,
+          "serves_html": true
+        },
+        "/zh-TW/": {
+          "url_count": 809,
+          "serves_markdown": false,
+          "serves_html": true
         }
       }
+    },
+    "trust.anthropic.com": {
+      "status": "UNKNOWN \u2014 seen only as a redirect target",
+      "serves_llms_txt": false,
+      "serves_sitemap": false,
+      "serves_markdown": false,
+      "path_prefixes": {}
     }
   },
   "redirect_targets": [
     "academy.claude.com",
     "claude.com",
     "code.claude.com",
-    "platform.claude.com"
+    "platform.claude.com",
+    "trust.anthropic.com"
   ],
   "github_org_anthropics": {
     "fetched": [
@@ -573,6 +616,7 @@
       "anthropics/anthropic-sdk-ruby",
       "anthropics/apitools",
       "anthropics/argo-cd",
+      "anthropics/art-paper-data",
       "anthropics/axt-verify",
       "anthropics/beam",
       "anthropics/blobfile",
@@ -659,10 +703,17 @@
     "academy.claude.com/all/: serves html, but that path is not fetched",
     "academy.claude.com/collections/: serves html, but that path is not fetched",
     "academy.claude.com/courses/: serves html, but that path is not fetched",
+    "academy.claude.com/de/: serves html, but that path is not fetched",
+    "academy.claude.com/es/: serves html, but that path is not fetched",
+    "academy.claude.com/fr/: serves html, but that path is not fetched",
     "academy.claude.com/help/: serves html, but that path is not fetched",
+    "academy.claude.com/ja/: serves html, but that path is not fetched",
+    "academy.claude.com/ko/: serves html, but that path is not fetched",
     "academy.claude.com/products/: serves html, but that path is not fetched",
     "academy.claude.com/tutorials/: serves html, but that path is not fetched",
     "academy.claude.com/use-cases/: serves html, but that path is not fetched",
+    "academy.claude.com/zh-CN/: serves html, but that path is not fetched",
+    "academy.claude.com/zh-TW/: serves html, but that path is not fetched",
     "claude.com/docs/: serves html, but that path is not fetched",
     "claude.dev/: serves html, but that path is not fetched",
     "claude.dev/mods/: serves html, but that path is not fetched",

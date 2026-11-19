@@ -13,13 +13,13 @@ Claude Cowork is now generally available on all paid plans. Within companies, Cl
 Today, we’re introducing organization controls to help teams deploy Claude Cowork company-wide: role-based access controls for Enterprise, group spend limits, expanded OpenTelemetry observability, and usage analytics for admins to see Claude Cowork adoption.
 ## Early signals
 Claude Code helped developers transition from handing Claude questions to whole tasks, and we’re seeing the same pattern across the entire organization with Claude Cowork: the vast majority of Claude Cowork usage comes from outside engineering teams. Importantly, functions like operations, marketing, finance, and legal are not handing Claude their core work, but rather the work that surrounds their most critical tasks—project updates, collaboration decks, research sprints, etc.
-As early enterprise adopters of Claude Cowork have seen this pattern emerge in one team, they’ve often wanted to roll it out more broadly, opening questions like who gets access, spend management, and how to see what’s happening across teams.
+As early enterprise adopters of Claude Cowork have seen this pattern emerge in one team, they’ve often wanted to [roll it out more broadly](https://claude.com/resources/guides/deploying-claude-across-your-organization), opening questions like who gets access, spend management, and how to see what’s happening across teams.
 ## Controls for organization-wide deployment
 Deploying agents with Claude Cowork’s capabilities across an organization requires governance and visibility for admin teams. Today, we’re adding more of the controls organizations need:
 **Role-based access controls.** Admins on Claude Enterprise can now organize users into groups — manually or via SCIM from your identity provider — and assign each a custom role defining which Claude capabilities its members can use. Turn Claude Cowork on for specific teams and adjust as adoption grows.
-**Group spend limits.** Set per-team budgets from the admin console. Predictable costs, adjustable as you learn what each team needs.
+**[Group spend limits](https://claude.com/resources/articles/giving-admins-more-visibility-and-control-over-claude-usage-and-spend).** Set per-team budgets from the admin console. Predictable costs, adjustable as you learn what each team needs.
 **Usage analytics.** Claude Cowork activity now appears in the admin dashboard and the Analytics API. From the dashboard, admins can track Claude Cowork sessions and active users across various date ranges. The Analytics API goes deeper: per-user Claude Cowork activity, skill and connector invocations, and DAU/WAU/MAU alongside existing Chat and Claude Code figures. See which teams are adopting, which workflows are landing, and where to invest next.
-**Expanded OpenTelemetry support.** Claude Cowork now emits events for tool and connector calls, files read or modified, skills used, and whether each AI-initiated action was approved manually or automatically. Events are compatible with standard SIEM pipelines like Splunk and Cribl, and a shared user account identifier lets you correlate OTEL events with Compliance API records. OpenTelemetry is available on Team and Enterprise plans.
+**Expanded OpenTelemetry support.** Claude Cowork now emits events for tool and connector calls, files read or modified, skills used, and whether each AI-initiated action was approved manually or automatically. Events are compatible with standard SIEM pipelines like Splunk and Cribl, and a shared user account identifier lets you correlate OTEL events with [Compliance API](https://claude.com/resources/articles/compliance-api-cowork-and-claude-code) records. OpenTelemetry is available on Team and Enterprise plans.
 **Zoom MCP connector.** Claude Cowork integrates with the tools your teams already use. Today, Zoom is launching a connector that brings meeting intelligence directly into the Cowork experience. The Zoom connector delivers AI Companion meeting summaries and action items alongside transcripts and smart recordings — helping teams use their conversations on Zoom to create agentic workflows in Cowork. Add Zoom from the connector directory in Claude's settings.
 **Per tool connector controls.** Admins can now restrict which actions are available within each MCP connector across the organization — allowing read access but disabling write operations, for example. Permissions apply org-wide and are configured from the admin console.
 ## How organizations use Claude Cowork
@@ -57,29 +57,25 @@ Jackie Vullinghs, Partner
 1/4
 ## Getting started
 Claude Cowork and Claude Code on Desktop are generally available today on all paid plans on macOS and Windows. Download the Claude desktop app at [claude.com/download](http://claude.com/download).
-For admins deploying Claude across your organization: [configure role-based access controls](https://support.claude.com/en/articles/13930458-set-up-role-based-permissions-on-enterprise-plans), group spend limits and [OpenTelemetry](https://claude.com/docs/cowork/monitoring) from the[ admin console](https://claude.com/settings/admin). Claude Cowork usage data is available in the admin dashboard, and the Analytics API is documented [here](https://support.claude.com/en/articles/13694757-access-engagement-and-adoption-data-with-the-analytics-api).
+For admins deploying Claude across your organization: [configure role-based access controls](https://support.claude.com/en/articles/13930458-set-up-role-based-permissions-on-enterprise-plans), group spend limits and [OpenTelemetry](https://claude.com/docs/cowork/monitoring) from the admin console. Claude Cowork usage data is available in the admin dashboard, and the Analytics API is documented [here](https://support.claude.com/en/articles/13694757-access-engagement-and-adoption-data-with-the-analytics-api).
 For a deployment walkthrough, join our April 16th [webinar](https://claude.com/resources/webinars/deploying-cowork-across-the-enterprise-with-paypal) with PayPal.
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)[
-ArticleNov 9, 2026
-### Claude Fable 5.2 and Mythos 5.2
-Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
-Claude appsClaude Code
-1 more: Claude PlatformClaude Platform
-(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 12, 2026
+### Operate Claude Managed Agents inside your security perimeter
+Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
+Claude PlatformClaude Managed Agents
+](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
+ArticleNov 12, 2026
+### Introducing Claude for Manufacturing
+A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
+](https://claude.com/resources/articles/claude-for-manufacturing)[
+ArticleNov 12, 2026
+### Introducing Claude Meetings
+Add Claude to your video call and get the work started while you talk
+](https://claude.com/resources/articles/claude-meetings)

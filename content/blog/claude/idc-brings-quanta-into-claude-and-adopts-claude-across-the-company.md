@@ -25,7 +25,7 @@ Engineering was the first team to adopt Claude, and the rest of the company has 
   - **Building and testing software: **Product managers use Claude Code to build working prototypes before engineering starts, which has cut the time it takes a feature to reach engineering from months to weeks. Engineers use it to run tests in parallel, and a code review that once filled five days is done in about 30 minutes.
   - **Planning and strategy: **Product teams give Cowork their research and internal files, and it writes the first draft of the plan. Planning sprints that took three weeks now take three days. Writing a new test to check that code works now takes about 20 minutes, down from days.
   - **Optimizing sales: **IDC's sales team runs a tool built with Claude that reads an export from the company's CRM. In minutes, it tells each rep which of their deals have stalled and which are worth chasing.
-  - **Producing marketing content: **IDC's content marketing team built an assistant in Claude to draft much of its marketing content. It optimizes the content for search and AI answer engines (SEO/AEO), and checks it against buyer personas and IDC's own research. From there, the team edits, proofs, and publishes the work, publishing content faster than it could on its own
+  - **Producing marketing content: **IDC's content marketing team built an assistant in Claude to draft much of its marketing content. It optimizes the content for search and AI answer engines (SEO/AEO), and checks it against buyer personas and IDC's own research. From there, the team edits, proofs, and publishes the work, publishing content faster than it could on its own.
 “Assessing the impact of a competitor’s acquisition used to mean a market intelligence professional spending hours pulling multiple reports, synthesizing the findings, and turning them into an executive-ready brief. Now, they can open Claude, ask what that acquisition means for their business, and get a board-ready analysis in minutes, grounded in IDC’s research and more than 15 billion data points,” said Lorenzo Larini, CEO, IDC. “We brought IDC Quanta into Claude because that’s where many of our customers already work, giving them a faster, more intuitive way to put IDC’s trusted data and research to work.”
 “IDC has spent 60 years helping leaders make better technology decisions, and now it’s using Claude to rethink how its teams work and how it delivers value to its customers,” said Paul Smith, Chief Commercial Officer, Anthropic.
 ## **Getting started**
@@ -33,6 +33,11 @@ IDC Quanta customers who use Claude can add the IDC Quanta connector from within
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
+ArticleNov 12, 2026
+### J. Crew brings its signature approach to styling to life with Claude
+J.Crew's new Style Advisor uses Claude to offer a more personalized way to shop online, with complete looks instead of individual products.
+Claude Code
+](https://claude.com/resources/articles/j-crew-style-advisor-with-claude)[
 ArticleNov 9, 2026
 ### JPMorganChase expands Claude Code to more employees across the firm
 Claude Code
@@ -45,9 +50,4 @@ ArticleSep 28, 2026
 ### A new approach to agent security with Claude Managed Agents and NVIDIA
 Note: This blog has been updated from its original version to include additional technical details on Claude Managed Agents.
 Claude Platform
-](https://claude.com/resources/articles/giving-companies-more-control-over-their-ai-agents-with-nvidia)[
-ArticleSep 23, 2026
-### How CodeRabbit, Power Digital, and ThoughtSpot scale with Snowflake and Vercel on Claude Marketplace
-CodeRabbit expanded its Vercel plan through Claude Marketplace, and Power Digital and ThoughtSpot expanded their Snowflake capacity using their existing Anthropic commitment.
-Claude Platform
-](https://claude.com/resources/articles/how-coderabbit-power-digital-and-thoughtspot-scale-with-snowflake-and-vercel-on-claude-marketplace)
+](https://claude.com/resources/articles/giving-companies-more-control-over-their-ai-agents-with-nvidia)

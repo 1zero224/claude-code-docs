@@ -23,7 +23,7 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ## 操作
 
-操作遵循 AWS 的 `VerbNoun` 命名约定，并严格规范动词的使用，使 `Get*` 和 `List*` “wildcard”（通配符）能够形成清晰的只读边界。
+操作遵循 AWS 的 `VerbNoun` 命名约定，并采用严格的动词规范，使 `Get*` 和 `List*` “wildcard”（通配符）形成清晰的只读边界。
 
 ### 推理
 
@@ -298,11 +298,17 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 | --------------- | ----- |
 | `AssumeConsole` | （无）   |
 
-`AssumeConsole` 授权主体通过 AWS Console 联合登录流程为 Claude Platform on AWS 工作区打开 Claude Console。它不映射到任何路由。请将其授予应当能够在 AWS Console 中 Claude Platform on AWS 服务页面上点击 **Open Claude Console** 的主体。Claude Console 角色（Admin 或 Developer）由您的 Anthropic 客户代表单独分配；它并非从主体的 IAM 权限派生而来。有关登录流程和角色说明，请参阅[使用 Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#using-the-claude-console)。
+`AssumeConsole` 授权主体通过 AWS Console 联合登录流程为其 Claude Platform on AWS 组织打开 Claude Console。它不映射到任何路由，也不绑定到工作区 ARN，因此授予它的语句需要使用 `Resource: "*"`。请将其授予应当能够在 AWS Console 中 Claude Platform on AWS 服务页面上点击 **Open Claude Console** 的主体。有关登录流程以及每个 Claude Console 角色（Admin 或 Developer）可以执行的操作，请参阅[使用 Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#using-the-claude-console)。
+
+Claude Console 会话覆盖整个组织，而不是单个工作区，并且某些 Claude Console 页面会绕过 IAM 操作检查。在这些页面上，无论其 IAM 策略允许什么，拥有任一 Claude Console 角色的主体都可以查看整个组织的用量、成本和速率限制。拥有 Admin 角色时，它还可以在 **Logs** 页面上查看请求元数据。Admin 会话还可以更改 IAM 之外的设置，例如组织和每个工作区的支出限额。请仅将 `AssumeConsole` 授予可以查看整个组织并对其执行操作的主体。[Claude Platform on AWS 上可用的 Claude Console 页面](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#available-pages)列出了哪些页面会检查 IAM 操作、哪些页面会绕过检查。
+
+在**速率限制**页面上，查看限额会绕过 IAM 操作检查，但**申请更高限额**不会。`ListAccountRateLimitIncreaseRequests` 授权查看该按钮，`CreateAccountRateLimitIncreaseRequest` 授权发送申请。该按钮还需要 Admin 角色。这两项操作均为账户范围的操作。`Resource` 为工作区 ARN 的语句不会授予这些操作；请使用 `Resource: "*"`。它们没有公共 API 路由，因此[路由到操作映射](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#route-to-action-mapping)中的表格未列出它们。请参阅[速率限制和配额](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#rate-limits-and-quotas)。
 
 ## 路由到操作映射
 
-下表列出了 Claude Platform on AWS 上的每个路由以及调用它所需的 IAM 操作。每个 IAM 操作同时也授权使用 `anthropic-beta` 标头的请求；路由的 beta 变体不需要单独的 IAM 操作。CloudTrail 将每个操作分类为 Data 事件（高容量的数据平面操作）或 Management 事件（控制平面操作）。保管库和 webhook 操作被分类为 Management 事件，因为它们持有密钥（保管库凭证和 webhook 签名密钥），并受益于默认开启的审计日志记录。工作区、外部密钥、遥测目标和合规操作也被分类为 Management 事件，因为它们是组织范围的控制平面操作。所有其他操作，包括推理、批处理、模型、文件、技能、用户配置文件、用量和成本以及其余的 Claude Managed Agents 操作，均被分类为 Data 事件。
+下表列出了 Claude Platform on AWS 上的公共 API 路由以及调用每个路由所需的 IAM 操作。每个 IAM 操作同时也授权使用 `anthropic-beta` 标头的请求；路由的 beta 变体不需要单独的 IAM 操作。
+
+CloudTrail 将每个操作分类为 Data 事件（高容量的数据平面操作）或 Management 事件（控制平面操作）。它将保管库和 webhook 操作分类为 Management 事件，因为它们持有密钥（保管库凭证和 webhook 签名密钥），并受益于默认开启的审计日志记录。它还将工作区、外部密钥、遥测目标、合规以及速率限制提升请求操作分类为 Management 事件。这些操作是组织范围的控制平面操作。CloudTrail 将所有其他操作分类为 Data 事件。这些操作包括推理、批处理、模型、文件、技能、用户配置文件、用量和成本以及其余的 Claude Managed Agents 操作。
 
 | 方法       | 路由                                                                        | IAM 操作                                      | CloudTrail 事件类型 |
 | -------- | ------------------------------------------------------------------------- | ------------------------------------------- | --------------- |
@@ -433,7 +439,7 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 | `GET` | `/v1/organizations/analytics/usage` | `ListAccountUsage` | Data            |
 | `GET` | `/v1/organizations/analytics/cost`  | `ListAccountCost`  | Data            |
 
-不在这些表中的路由在 Claude Platform on AWS 上不可用。网关默认拒绝此处未列出的任何路由。
+不在这些表中的公共 API 路由在 Claude Platform on AWS 上不可用。网关会拒绝这些路由。
 
 <Note>
   工作区、外部密钥、遥测目标以及用量和成本分析 API 路由是 Claude Platform on AWS 上唯一可用的 Admin API 路由。您也可以在 AWS Console 中创建、更新或归档工作区，或者以 Admin 角色在 Claude Console 中进行这些操作。加密密钥也可以在 Claude Console 中注册和附加。
@@ -461,7 +467,7 @@ AWS 为 Claude Platform on AWS 提供五个托管策略。所有托管策略均�
 
 `AnthropicSelfHostedEnvironmentAccess` 是足以运行[自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes)工作进程的最窄托管策略。请将其附加到您的环境工作进程进行身份验证时所使用的主体。
 
-`AssumeConsole` 不包含在 `AnthropicReadOnlyAccess`、`AnthropicInferenceAccess`、`AnthropicLimitedAccess` 或 `AnthropicSelfHostedEnvironmentAccess` 中。需要 Claude Console 访问权限的主体需要 `AnthropicFullAccess` 或授予 `aws-external-anthropic:AssumeConsole` 的自定义策略。请参阅[控制台访问](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#console-access)。
+要打开 Claude Console，主体需要 `AssumeConsole`（请参阅[控制台访问](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#console-access)）。`AnthropicFullAccess` 通过 `aws-external-anthropic:*` 允许此操作。`AnthropicLimitedAccess` 仅在满足特定条件时允许此操作（请参阅 [AWS 托管策略参考中的 AnthropicLimitedAccess](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AnthropicLimitedAccess.html)）。自定义策略也可以授予 `aws-external-anthropic:AssumeConsole`。
 
 <Note>
   `CreateInference` 和 `CreateBatchInference` 是独立的操作。拒绝其中一个不会阻止另一个。如果您想阻止所有模型调用，请同时拒绝两者。
@@ -513,25 +519,24 @@ AWS 为 Claude Platform on AWS 提供五个托管策略。所有托管策略均�
     },
     {
       "Effect": "Allow",
-      "Action": [
-        "aws-external-anthropic:CallWithBearerToken",
-        "aws-external-anthropic:AssumeConsole"
-      ],
+      "Action": "aws-external-anthropic:CallWithBearerToken",
       "Resource": "*"
     }
   ]
 }
 ```
 
-<Note>
-  第一条语句中的 `aws-external-anthropic:*` 通配符包含账户范围的操作（`CreateWorkspace`、`ListWorkspaces`、`ListComplianceActivities`、外部密钥操作、账户范围的遥测目标操作、用户配置文件操作以及用量和成本操作），这些操作会被工作区 ARN 约束静默过滤掉。这与"隔离"的意图一致（该角色无法创建工作区、枚举工作区、管理加密密钥注册、读取合规活动源、读取用量或成本报告、读取或管理用户配置文件，也无法创建、读取或更改遥测目标；但它仍然可以通过 `UpdateWorkspace` 将已注册的密钥附加到自己的工作区，并且在给定目标 ID 的情况下，可以将自己的工作区添加到目标或从目标中移除），但该策略包含了不产生任何效果的权限。如果该角色需要用户配置文件或用量和成本报告，请为这些操作添加一条单独的 `Allow` 语句，并使用 `Resource: "*"`。有关账户范围的模式，请参阅[预配自动化](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#provisioning-automation)。
+第二条语句在 `Resource: "*"` 上授予 `CallWithBearerToken`，以便该角色可以使用 API 密钥进行身份验证。该操作不绑定到工作区 ARN，因此第一条语句不会授予它。如果该角色仅使用 SigV4，请省略第二条语句。
 
-  `CallWithBearerToken` 和 `AssumeConsole` 是无路由操作，不绑定到工作区 ARN。第二条语句在 `Resource: "*"` 上授予它们，以便该角色可以使用 API 密钥进行身份验证并打开 Claude Console。如果该角色仅使用 SigV4 且不需要 Claude Console 访问权限，请省略此语句。
-</Note>
+第一条语句中的 `aws-external-anthropic:*` 通配符包含账户范围的操作，例如 `CreateWorkspace` 和 `ListWorkspaces`。工作区 ARN 约束会静默过滤掉这些操作。
+
+[加密密钥操作](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#encryption-keys)和账户范围的[遥测目标操作](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#telemetry-destinations)都在被过滤掉的操作之列。该角色仍然可以通过 `UpdateWorkspace` 将已注册的加密密钥附加到自己的工作区。在给定遥测目标 ID 的情况下，它还可以将自己的工作区添加到该目标或从该目标中移除。
+
+与 `CallWithBearerToken` 一样，`AssumeConsole` 不绑定到工作区 ARN，因此第一条语句不会授予它。没有任何语句授予 `AssumeConsole`；有关仅限于单个工作区的角色为何不应拥有该权限，请参阅[控制台访问](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#console-access)。
 
 ### 针对 ZDR 敏感工作区的功能锁定
 
-在特定工作区上阻止批处理和文件上传，同时保留同步推理可用。当工作区处理不得在服务器端持久化的[零数据保留（ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)数据时非常有用。请将此策略与 Allow 策略（例如 `AnthropicInferenceAccess` 或[单工作区示例](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#synchronous-inference-on-a-single-workspace)）一起附加；仅包含 Deny 的策略本身不授予任何权限：
+在特定工作区上阻止批处理和文件上传，同时保留同步推理可用。适用于处理不得在服务器端持久保存的[零数据保留（ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)数据的工作区。请将此策略与 Allow 策略（例如 `AnthropicInferenceAccess` 或[单工作区示例](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#synchronous-inference-on-a-single-workspace)）一起附加；仅包含 Deny 的策略本身不授予任何权限：
 
 ```json
 {

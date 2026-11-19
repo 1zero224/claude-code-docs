@@ -28,7 +28,7 @@ Compliance API 根据会话的运行位置将其分为两个端点系列：用�
 | Claude for Microsoft 365（适用于 Excel、PowerPoint、Word 和 Outlook 的 Claude 加载项），在 Microsoft 365 桌面或 Web 应用中运行       | 本地会话端点                                        | `office_agents/excel`、`office_agents/powerpoint`、`office_agents/word` 或 `office_agents/outlook` |
 | 适用于 Google Docs、Google Sheets 和 Google Slides 的 Claude 加载项，在这些 Google 应用中运行                                    | 本地会话端点                                        | `office_agents/google_docs`、`office_agents/google_sheets` 或 `office_agents/google_slides`       |
 | Claude in Chrome（浏览器扩展的内置聊天），在用户机器上运行                                                                          | 本地会话端点                                        | `claude_in_chrome`                                                                              |
-| 在 claude.ai 网页版或移动端启动的 Cowork 会话，在 Anthropic 托管环境中于云端运行                                                        | 远程会话端点（`/v1/compliance/apps/sessions/remote`） | `cowork_remote`                                                                                 |
+| 在 Anthropic 托管环境中于云端运行的 Cowork 会话，包括在 claude.ai 网页版或移动端启动的会话以及 Cowork 计划任务的云端运行                                | 远程会话端点（`/v1/compliance/apps/sessions/remote`） | `cowork_remote`                                                                                 |
 | 在 Slack 中启动的 [Claude Tag](https://claude.com/docs/claude-tag/overview) 会话，在 Anthropic 托管环境中于云端运行，或在自托管的运行器池上运行 | 远程会话端点                                        | `claude_tag`                                                                                    |
 
 单独的 `office_agents` 并不能说明会话来自哪个应用，它可能来自 Claude for Microsoft 365 或 Google 加载项。请参阅[用户机器上的会话](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)下的 `product_surface` 说明。
@@ -348,12 +348,12 @@ curl --fail-with-body -sS -G \
     {
       "id": "cse_01TkNpRsUvWxYzAbCdEfGhJ4",
       "organization_uuid": "91012d09-e48b-438e-a489-1bebfd8fa6f9",
-      "user": null,
-      "agent_id": "cagt_01MnPqRsTuVwXyZaBcDeFgH8",
-      "started_by_user": {
+      "user": {
         "id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
         "email_address": "user@example.com"
       },
+      "agent_id": null,
+      "started_by_user": null,
       "status": "archived",
       "created_at": "2026-06-28T09:15:22Z",
       "updated_at": "2026-06-28T09:47:10Z",
@@ -367,15 +367,17 @@ curl --fail-with-body -sS -G \
 
 结果按 `created_at` 以时间倒序排列（最新的在前），每个响应最多返回 `limit` 条结果（默认 100，最大 500）。该端点使用 `page` 和 `next_page` 令牌进行分页（请参阅[对结果进行分页](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed#paginate-results)）：在下一个请求中将响应的 `next_page` 值作为 `page` 查询参数传回，并在 `next_page` 为 `null` 时停止。
 
-会话由用户或代理所有，绝不会同时由两者所有。对于用户拥有的会话，`user` 包含所有者的 ID 和电子邮件地址（当该用户不再是您的密钥可读取的组织的成员时，`email_address` 为 `null`），且 `agent_id` 为 `null`。对于代理拥有的会话（例如，Cowork 计划任务在云端的运行，或在 Slack 中通过提及启动的 Claude Tag 会话），`user` 为 `null`，`agent_id` 包含代理的 ID（前缀为 `cagt_`），`started_by_user` 在有记录时标识发起该运行的人员，因此在 Claude Tag 会话中它可能为 `null`；在用户拥有的会话中，`started_by_user` 为 `null`。计划任务的每次运行都是一个单独的会话，且没有任何会话字段包含任务的名称或计划。
+会话由用户或代理所有，绝不会同时由两者所有。对于用户拥有的会话，`user` 包含所有者的 ID 和电子邮件地址（当该用户不再是您的密钥可读取的组织的成员时，`email_address` 为 `null`），且 `agent_id` 为 `null`。对于代理拥有的会话（例如，在 Slack 中通过提及启动的 Claude Tag 会话），`user` 为 `null`，`agent_id` 包含代理的 ID（前缀为 `cagt_`）。在这些会话中，`started_by_user` 在有记录时标识启动该会话的人员，因此在 Claude Tag 会话中它可能为 `null`。在用户拥有的会话中，`started_by_user` 为 `null`。
+
+Cowork 计划任务在云端的每次运行都发生在一个与该任务所有者相同的会话中。当用户在 Cowork 中创建该任务时，这些会话由用户拥有：`user` 标识该用户，`agent_id` 和 `started_by_user` 为 `null`。指定该用户的 `user_ids[]` 筛选器会匹配这些会话。一次运行可以启动新会话，也可以继续现有会话。当一次运行继续现有会话时，该会话的 `created_at` 是会话开始的时间，而不是该次运行发生的时间。没有任何会话字段将会话标记为计划运行，也没有任何会话字段包含任务的名称或计划。
 
 `claude_project_id` 是会话所属的 claude.ai [项目](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-content-data#retrieve-projects-and-attachments)的 ID（前缀为 `claude_proj_`），当会话不属于任何项目时为 `null`。
 
 `status` 为 `pending`、`active`、`paused`、`archived` 或 `failed` 之一。会话在预配期间处于 `pending` 状态；`pending` 会话尚无对话记录，在预配完成之前，消息端点会对其返回 404。已删除的会话永远不会被返回。
 
-`product_surface`（字符串或 `null`）标识创建该会话的产品。该端点目前返回的会话带有以下两个 `product_surface` 值之一：`cowork_remote`，表示在 claude.ai 网页版或移动端启动的 Cowork 会话；`claude_tag`，表示在 Slack 中启动的 Claude Tag 会话。
+`product_surface`（字符串或 `null`）标识创建该会话的产品。该端点目前返回的会话带有以下两个 `product_surface` 值之一。`cowork_remote` 表示云端的 Cowork 会话，包括在 claude.ai 网页版或移动端启动的会话以及 Cowork 计划任务的云端运行。`claude_tag` 表示在 Slack 中启动的 Claude Tag 会话。
 
-若要检索统一 Claude 体验中的聊天（包括在云端运行的部分），请使用聊天端点（[获取聊天消息](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/messages/list)），而不是远程会话端点。
+若要检索统一 Claude 体验中的聊天（包括在云端运行的部分），请使用聊天端点（[获取聊天消息](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/messages/list)），而不是远程会话端点。远程会话列表还会以 `cowork_remote` 的形式返回此类聊天在其中继续进行的会话，因此同时导出聊天和远程会话时，该部分工作会出现两次。
 
 <Note>
   **构建向前兼容的处理程序。** 对于无法识别的 `status` 和 `product_surface` 值，请直接透传，并忽略处理程序未预期的字段，以便在新的状态和产品界面发布后，您的集成仍能正常工作。

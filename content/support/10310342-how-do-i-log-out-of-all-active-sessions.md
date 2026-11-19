@@ -34,7 +34,7 @@ This action will immediately sign you out of your account across all devices whe
 
 - Claude Code, including tokens created with `setup-token` for continuous integration (CI)
 
-- Claude in your tools, such as Claude in Chrome, Claude in Slack, and [placeholder: public names for what the thread calls “Claude for Sheets” and “Claude for Teams”]
+- Claude in your tools, such as Claude in Chrome and Claude in Slack
 
 To regain access to your account on any device, you'll need to authenticate again using either Google login or a login link sent to your email address.
 
@@ -45,8 +45,6 @@ To regain access to your account on any device, you'll need to authenticate agai
 Logging out of all active sessions also logs you out of Claude Code. To log out of Claude Code and stay signed in everywhere else, remove its authorization token instead.
 
 If you used your Claude account to authenticate into Claude Code, you can see and log out of those sign-ins in **Settings > Account**, where they're listed with your other sessions. If they aren't listed there, manage your authorization tokens in **Settings > Claude Code**. To remove a token and log out of Claude Code, click the trash can icon.
-
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1608263923/b4fa7d6f6f08f2adffb4ea63bc58/image+%287%29.png?expires=1794465900&amp;signature=7dad8a6365c95c85a54d6790bd5b08eea1065aea5c4b8578f2cecbf893306502&amp;req=dSYnHst4nohdWvMW1HO4zVuHixj50GKyAQofdwM8qVeDhbFU8di9VVe%2FSDBN%0AqeHD%2FtdvWp%2B6Y1rqo3w%3D%0A)
 
 ## Unable to access your account?
 

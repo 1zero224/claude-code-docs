@@ -98,7 +98,7 @@ Opus 4.7 不支持快速模式，因此切换到它会关闭快速模式。Opus 
 
 * **Pro、Max 和 Ultra**：您从使用额度中支付快速模式费用。转到 claude.ai 上的 [**Settings > Usage**](https://claude.ai/settings/usage)，其中 **Usage credits** 部分显示您本月在使用额度中花费了多少。该数字包括快速模式，但不单独列出。
 * **Team 和 Enterprise**：您的组织从其使用额度中支付您的快速模式使用费用。要查看您自己的使用额度支出，运行 [`/usage`](https://code.claude.com/docs/zh-CN/costs#check-your-usage-credits-spend)。有关您的组织在哪里看到该支出，请参阅 [Claude for Teams and Enterprise](https://code.claude.com/docs/zh-CN/costs.md#claude-for-teams-and-enterprise)。
-* **Claude Console**：您的组织使用其 API 使用的其余部分支付快速模式费用。在 Console [Usage](https://platform.claude.com/usage) 和 [Cost](https://platform.claude.com/cost) 页面上，在 **Group by** 菜单中选择 **Speed (research preview)** 以将快速模式与标准速度使用分开。只有当选定的日期范围包括快速模式使用时，您才会看到该选项。
+* **Claude Console**：您的组织使用其 API 使用的其余部分支付快速模式费用。在 Console [Usage](https://platform.claude.com/usage) 和 [Cost](https://platform.claude.com/cost) 页面上，在 **Group by** 菜单中选择 **Speed** 以将快速模式与标准速度使用分开。只有当选定的日期范围包括快速模式使用时，您才会看到该选项。
 
 ## 决定何时使用快速模式
 
@@ -183,7 +183,7 @@ export VERTEX_REGION_CLAUDE_FABLE_5_2=global
 如果 Agent Platform 拒绝快速模式，Claude Code 会回退到标准速度。此时交互式会话会显示以下终端消息之一：
 
 * `Using standard speed on Fable 5.2 · fast mode wasn't available`：运行 `/fast on` 以再次尝试快速模式
-* `Fast mode was refused for this project · trying again in 30m`：Agent Platform 对快速模式请求返回了 403 或 404 错误。要更早重试，请运行 `/fast on`。
+* `Fast mode paused: your cloud provider refused a fast request · trying again in 30m`：Agent Platform 对快速模式请求返回了 403 或 404 错误。要更早重试，请运行 `/fast on`。需要 Claude Code v2.1.323 或更高版本。
 
 ### 在代理和 LLM 网关后面使用快速模式
 

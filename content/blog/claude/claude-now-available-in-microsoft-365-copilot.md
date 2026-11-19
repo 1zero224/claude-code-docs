@@ -11,7 +11,7 @@ Reading time4 min
 ShareCopy link
 Today, Microsoft announced that Claude models are now available in Microsoft 365 Copilot, bringing Claude to millions of enterprise users through Microsoft's productivity platform.
 Starting with Microsoft's Researcher agent and Copilot Studio, enterprise customers can now choose Claude Sonnet 4 and Opus 4.1 alongside existing model options, giving organizations greater flexibility to select the right AI for their specific business needs.
-The addition of Claude Sonnet 4 and Claude Opus 4.1 help Microsoft bring the best AI innovation from across the industry to Microsoft 365 Copilot, tuned for work and tailored to your business needs.
+The addition of Claude Sonnet 4 and Claude Opus 4.1 helps Microsoft bring the best AI innovation from across the industry to Microsoft 365 Copilot, tuned for work and tailored to your business needs.
 **How Anthropic models now show up in Microsoft 365 Copilot:**
   - **Researcher agent**: Microsoft’s reasoning agent can now be powered by Claude Opus 4.1. Whether you’re building a detailed go-to-market strategy, analyzing emerging product trends, or creating a comprehensive quarterly report, you can now select your preferred model to power in-depth work. Researcher helps you tackle complex, multistep research—reasoning over not only the web and trusted third-party data, but all of your work content across your emails, chats, meetings, files, and more to deliver highly-skilled expertise on demand—and now you have model choice.
   - **Copilot Studio**: Claude Sonnet 4 and Claude Opus 4.1 models are now available as model options in Copilot Studio, enabling you to easily create and customize enterprise-grade agents. With this launch, you can build, orchestrate, and manage agents powered by Anthropic models for deep reasoning, workflow automation, and flexible agentic tasks. With multiagent systems and prompt tools in Copilot Studio, you can choose Claude for specialized tasks as you see fit.
@@ -23,22 +23,21 @@ Stay tuned for additional Claude experiences within the Microsoft 365 ecosystem,
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)[
-ArticleNov 9, 2026
-### JPMorganChase expands Claude Code to more employees across the firm
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 12, 2026
+### Operate Claude Managed Agents inside your security perimeter
+Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
+Claude PlatformClaude Managed Agents
+](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
+ArticleNov 12, 2026
+### J. Crew brings its signature approach to styling to life with Claude
+J.Crew's new Style Advisor uses Claude to offer a more personalized way to shop online, with complete looks instead of individual products.
 Claude Code
-](https://claude.com/resources/articles/jpmorganchase-expands-claude-code)
+](https://claude.com/resources/articles/j-crew-style-advisor-with-claude)[
+ArticleNov 12, 2026
+### Introducing Claude for Manufacturing
+A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
+](https://claude.com/resources/articles/claude-for-manufacturing)

@@ -24,7 +24,7 @@ Agents represent a fundamental shift in enterprise AI, replacing generative AI t
 This evolution is especially welcome in financial services, where data often lives in fragmented systems that don't talk to each other, making it harder to see the complete picture of a customer's financial health. Agentic systems can understand financial context, ingest information from multiple unrelated sources, process multiple kinds of data (transaction records, market data, regulatory documents), and apply all of these capabilities to taking meaningful actions within your customer’s existing financial workflows.
 What does this look like in practice? Instead of an analyst manually pulling data from five different systems, reviewing it, and then updating a risk assessment, an agent can monitor transaction patterns across those systems, recognize concerning trends, draft updated risk recommendations based on current regulations, and route them to the right analyst for approval. The agent handles the coordination and analysis, while the analyst makes the final decision.
 This shift from traditional AI to AI agents is particularly significant for financial services because it tackles the process completion problem. Financial workflows don't just need information, they need actions taken across multiple systems to actually complete transactions and maintain compliance. Agents can bridge those gaps.
-## **Real-world results AI agents in finance**
+## **Real-world results from AI agents in finance**
 AI-powered financial agents are already delivering real-world results in areas such as customer service, fraud detection, and workforce empowerment.
 ### **Transforming customer interactions**
 Customer service operations are a natural starting point because this area has already proven successful. Financial institutions implementing AI-powered customer service are seeing measurable improvements:
@@ -34,7 +34,7 @@ Customer service operations are a natural starting point because this area has a
 ### **Combating fraud and financial crime**
 In fraud detection and cybercrime prevention, AI agents excel at spotting patterns that may slip past human analysts due to sheer volume. When you consider that financial institutions currently[ catch only about 2%](https://www.mckinsey.com/capabilities/risk-and-resilience/our-insights/how-agentic-ai-can-change-the-way-banks-fight-financial-crime) of global financial crime, you can see why this matters.
 AI agents monitor millions of transactions in real-time, working around the clock without the fatigue or cognitive limitations that affect human teams. McKinsey found that[ a single team member](https://www.mckinsey.com/capabilities/risk-and-resilience/our-insights/how-agentic-ai-can-change-the-way-banks-fight-financial-crime) can effectively supervise more than 20 AI agents in financial crime-detection workflows.
-For [Brex](https://claude.com/customers/brex), a modern financial platform, Claude powers their AI anomaly detection, reviewing 100% percent of transactions and providing critical aircover for financial professionals by proactively grouping related expenses, flagging policy concerns, and providing explanations with recommended actions.
+For [Brex](https://claude.com/customers/brex), a modern financial platform, Claude powers their AI anomaly detection, reviewing 100% of transactions and providing critical aircover for financial professionals by proactively grouping related expenses, flagging policy concerns, and providing explanations with recommended actions.
 ### **Amplifying team capabilities**
 AI agents deliver tangible benefits right where your teams need them most. When implemented thoughtfully, these tools don't replace your workforce but rather amplify what they can accomplish and let them focus on the high-value work that requires their knowledge and expertise. Here's how financial services organizations like [Block](https://www.claude.com/customers/block) and [Campfire](https://claude.com/customers/campfire) are doing this:
   - Design teams turn ideas into working prototypes without coding barriers
@@ -107,22 +107,23 @@ Learn how organizations like NBIM, Brex, and Verisk build and deply AI agents at
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

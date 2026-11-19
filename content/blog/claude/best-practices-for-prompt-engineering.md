@@ -13,7 +13,7 @@ ShareCopy link
 ## What is prompt engineering?
 [Prompt engineering](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices) is the craft of structuring instructions to get better outputs from AI models. It's how you phrase queries, specify style, provide context, and guide the model's behavior to achieve your goals.
 The difference between a vague instruction and a well-crafted prompt can mean the gap between generic outputs and exactly what you need. A poorly structured prompt might require multiple back-and-forth exchanges to clarify intent, while a well-engineered prompt gets you there in one shot.
-It's also the essential building block of [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), which has emerged as an increasingly important part of working with LLMs. A poorly structured prompt might require multiple back-and-forth exchanges to clarify intent, while a well-engineered prompt gets you there in one shot. However, prompting is converging with [context engineering for Claude 5 generation models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models) — less scaffolding, more curation.
+It's also the essential building block of [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), which has emerged as an increasingly important part of working with LLMs. However, prompting is converging with [context engineering for Claude 5 generation models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models) — less scaffolding, more curation.
 To help you get started, we've assembled some of our team's best practices, including practical methods designed to improve your results right away. We'll start with simple habits you can use today, then scale up to advanced methods for complex projects.
 ## How to use prompt engineering
 At its most basic level, prompt engineering is just modifying the query you pass your LLM. Often it's simply adding information to the query before you make your actual request—but knowing *which* information is the *right* information to share is the secret to engineering a great and effective prompt.
@@ -284,22 +284,23 @@ In fact, prompt engineering is a fundamental building block within context engin
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

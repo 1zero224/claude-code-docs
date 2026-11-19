@@ -40,7 +40,7 @@ featureMetadata:
 * 您希望优化成本效率
 * 您正在运行大规模评估或分析
 
-Message Batches API 是 Anthropic 对这一模式的首个实现。
+Message Batches API 实现了这一模式。
 
 # Message Batches API
 
@@ -68,7 +68,7 @@ Message Batches API 是一种强大且经济高效的方式，用于异步处理
 * 一个消息批次最多包含 100,000 个 Message 请求或 256 MB 大小，以先达到者为准。
 * 系统会尽可能快地处理每个批次，大多数批次在 1 小时内完成。您可以在所有消息完成后或 24 小时后访问批次结果，以先到者为准。如果处理未在 24 小时内完成，批次将过期。
 * 批次结果在创建后 29 天内可用。之后，您仍然可以查看该批次，但其结果将无法再下载。
-* 批次的作用域限定在 Claude Console 中的某个[工作区](https://platform.claude.com/settings/workspaces)。您可以查看在您的请求所运行的工作区中创建的所有批次（及其结果）。
+* 批次的作用域限定在 [Claude Console 中的某个工作区](https://platform.claude.com/settings/workspaces)。您可以查看在您的请求所运行的工作区中创建的所有批次（及其结果）。
 * “Rate limit”（速率限制）同时适用于 Batches API HTTP 请求和批次中等待处理的请求数量。请参阅 [Message Batches API 速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#message-batches-api)。此外，处理速度可能会根据当前需求和您的请求量而减慢。在这种情况下，您可能会看到更多请求在 24 小时后过期。
 * 由于高吞吐量和并发处理，批次可能会略微超出您在 Claude Console 中为工作区配置的[支出限制](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#setting-workspace-limits)。
 * 每个批处理请求的 [`max_tokens`](https://platform.claude.com/docs/zh-CN/api/messages/create#create.max_tokens) 必须至少为 `1`。批次中不支持 `max_tokens: 0`（[缓存预热](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#pre-warming-the-cache)），因为在批处理期间写入的临时缓存条目很可能会在后续请求运行之前过期。
@@ -442,7 +442,7 @@ Batches API 可显著节省成本。所有用量均按标准 API 价格的 50% �
 <Tip>
   **使用 Messages API 测试您的批处理请求**
 
-  每个消息请求的 `params` 对象的验证是异步执行的，验证错误会在整个批次处理结束后返回。您可以先使用 [Messages API](https://platform.claude.com/docs/zh-CN/api/messages/create) 验证您的请求结构，以确保正确构建输入。
+  API 会异步验证每个消息请求的 `params` 对象，并在整个批次处理结束后返回验证错误。要检查您是否正确构建了输入，请先使用 [Messages API](https://platform.claude.com/docs/zh-CN/api/messages/create) 验证您的请求结构。
 </Tip>
 
 批次首次创建时，响应的处理状态为 `in_progress`。
@@ -622,7 +622,7 @@ Batches API 可显著节省成本。所有用量均按标准 API 价格的 50% �
 
 ### 列出所有消息批次
 
-您可以使用[列表端点](https://platform.claude.com/docs/zh-CN/api/messages/batches/list)列出工作区中的所有消息批次。该 API 支持分页，会根据需要自动获取更多页面：
+您可以使用[列表端点](https://platform.claude.com/docs/zh-CN/api/messages/batches/list)列出工作区中的所有消息批次。结果是分页的。SDK 会根据需要获取更多页面：
 
 <CodeGroup>
   ```bash cURL
@@ -741,7 +741,7 @@ Batches API 可显著节省成本。所有用量均按标准 API 价格的 50% �
 
 (See `message_batch.request_counts` on `messages/batches/retrieve` in [the API reference](https://platform.claude.com/docs/zh-CN/api/messages/batches/retrieve#message_batch.request_counts).)
 
-批次结果可通过消息批次上的 [`results_url`](https://platform.claude.com/docs/zh-CN/api/messages/batches/retrieve#message_batch.results_url) 属性下载，如果组织权限允许，也可以在 Console 中下载。由于结果可能很大，建议[以流式方式获取结果](https://platform.claude.com/docs/zh-CN/api/messages/batches/results)，而不是一次性全部下载。
+批次结果可通过消息批次上的 [`results_url`](https://platform.claude.com/docs/zh-CN/api/messages/batches/retrieve#message_batch.results_url) 属性下载，如果您组织的权限允许，也可以在 Console 中下载。由于结果可能很大，请[以流式方式获取结果](https://platform.claude.com/docs/zh-CN/api/messages/batches/results)，而不是一次性全部下载。
 
 <CodeGroup>
   ```bash cURL
@@ -1581,9 +1581,7 @@ Message Batches API 支持提示缓存，可能帮助您降低批处理请求的
 
 `output-300k-2026-03-24` beta 标头将使用 Claude Opus 5.5、Claude Opus 5、Claude Opus 4.8、Claude Opus 4.7、Claude Opus 4.6、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6 或 Claude Haiku 5.5 的批处理请求的 `max_tokens` 上限提高到 300,000。包含此标头即可在单轮中生成远超标准 128k `max_tokens` 限制的输出。
 
-<Note>
-  扩展输出仅在 Message Batches API 上可用，同步 Messages API 不支持。它在 Claude API 和 Claude Platform on AWS 上受支持，目前在 Amazon Bedrock、Claude Models on Google Cloud (Google managed) 或 Microsoft Foundry 上不可用。
-</Note>
+扩展输出仅在 Message Batches API 上可用，同步 Messages API 不支持。
 
 扩展输出适用于长篇内容生成，例如书籍篇幅的草稿和技术文档、详尽的结构化数据提取、大型代码生成脚手架以及长推理链。
 
@@ -1831,7 +1829,7 @@ Message Batches API 支持提示缓存，可能帮助您降低批处理请求的
 * 确认批处理请求的总大小不超过 256 MB。如果请求过大，您可能会收到 413 `request_too_large` 错误。
 * 检查批次中的所有请求是否都使用了[支持的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing#supported-models)。
 * 确保批次中的每个请求都有唯一的 `custom_id`。
-* 确保距离批次 `created_at`（而非处理 `ended_at`）时间不超过 29 天。如果已超过 29 天，结果将无法再查看。
+* 确保距离批次 `created_at`（而非处理 `ended_at`）时间不超过 29 天。超过 29 天后，结果将无法再下载。
 * 确认批次未被取消。
 
 请注意，批次中一个请求的失败不会影响其他请求的处理。

@@ -10,7 +10,7 @@ DateSeptember 2, 2026
 Reading time5 min
   -
 ShareCopy link
-Many of the world’s largest retailers, marketplaces, e-commerce platforms, and travel companies use Claude to build agents that make shopping easier. Enterprise customers like Shopify, Priceline, and others have agents that let consumers use AI to search for what they want in plain language, find it, compare it, and buy it.
+Many of the world’s largest [retailers](https://claude.com/resources/articles/j-crew-style-advisor-with-claude), marketplaces, e-commerce platforms, and travel companies use Claude to build agents that make shopping easier. Enterprise customers like Shopify, Priceline, and others have agents that let consumers use AI to search for what they want in plain language, find it, compare it, and buy it.
 Today, we're launching a blueprint to help build commerce agents on Claude. It contains the harnesses, patterns, and guardrails an engineering team needs to get a commerce agent running in days, with reference implementations of a shopping agent and a merchant agent for retail, travel, telecom, and ticketing platforms. It also includes a Claude Code plugin to get you started.
 The code deploys where you already build with Claude, including the Claude API, Amazon Bedrock, Microsoft Foundry, or Google Cloud Vertex AI. You can also work with our solutions and ecosystem partners such as Accenture, Mastercard, and Visa, who are working with us to enable clients and merchant communities to leverage the blueprints.
 It’s [available today](https://github.com/anthropics/commerce-agents), with [live demos](https://claude.com/solutions/commerce) for each vertical and an [engineering deep-dive](https://claude.com/resources/articles/the-anatomy-of-effective-commerce-agents) on how it was built, just in time for holiday season planning.
@@ -97,23 +97,22 @@ Register for our [webinar](https://claude.com/resources/webinars/building-claude
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
+Claude Code
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)

@@ -17,7 +17,7 @@ Today we’re introducing 20+ new MCP connectors that link Claude to the softwar
 ## Claude works where legal teams work
 Claude meets legal teams where they are, working directly inside Microsoft Word, Outlook, Excel, and PowerPoint while carrying context across all four apps. A redline finished in Word doesn’t need to be re-explained when it becomes a cover note in Outlook, a closing checklist in Excel, or a board summary in PowerPoint.
 In **Word**, Claude skills—reusable instructions that encode a team's playbooks and standards—handle drafting, redlining, and clause-by-clause comparisons against those playbooks, tracking every change and explaining the reasoning behind it. They also take on the rote work in between every turn: scrubbing internal comments before a draft goes to the counterparty, running a final formatting check on an execution copy, and pulling fallback language from approved playbooks.
-In **Outlook**, Claude triages incoming matter work: flagging contract requests, drafting responses and cover notes, and scheduling follow-ups so nothing pile ups.
+In **Outlook**, Claude triages incoming matter work: flagging contract requests, drafting responses and cover notes, and scheduling follow-ups so nothing piles up.
 In **Claude Cowork**, the same connectors and plugins are available for work that spans many documents: triaging a batch of contracts, clearing a product feature for launch, and drafting a note on regulatory developments for the board. Scheduled tasks can automate recurring work such as weekly regulatory update sweeps or intake triage.
 And with **Projects**, matter teams get a persistent workspace where precedents and prior drafts are retained across every conversation.
 ## New connectors across the legal stack
@@ -137,23 +137,22 @@ For legal aid and access-to-justice organizations who are interested in partneri
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
+Claude Code
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)

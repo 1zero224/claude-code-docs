@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -41,7 +41,7 @@ featureMetadata:
 
 ## 事件类型
 
-持久化的事件类型字符串遵循 `{domain}.{action}` 命名约定；仅限流的事件增量（请参阅**事件增量**选项卡）是例外。有关发送、流式传输和列出事件，请参阅[会话事件流](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。Webhook 事件类型单独列在[订阅 webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks#supported-event-types) 中，其中一些名称与流中的名称不同（例如，`session.status_idled` 而不是 `session.status_idle`）。
+持久化的事件类型字符串遵循 `{domain}.{action}` 命名约定；仅限流的事件增量（请参阅**事件增量**选项卡）是例外。有关发送、流式传输和列出事件，请参阅[会话事件流](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。[订阅 webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks#supported-event-types) 单独列出了 Webhook 事件类型，其中一些名称与流中的名称不同（例如，`session.status_idled` 而不是 `session.status_idle`）。
 
 <Tabs>
   <Tab title="用户事件">
@@ -66,10 +66,10 @@ featureMetadata:
     | `agent.mcp_tool_result`          | MCP 工具的执行结果。                                                                                                                                                                                                                                                                                            |
     | `agent.custom_tool_use`          | 智能体调用您的某个自定义工具。请以 `user.custom_tool_result` 事件进行响应。                                                                                                                                                                                                                                                     |
     | `agent.thread_context_compacted` | 对话历史已被压缩以适应上下文窗口。                                                                                                                                                                                                                                                                                       |
-    | `agent.thread_message_received`  | 在[多智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)会话中，来自另一个线程的消息到达了其流携带此事件的线程；在主线程上，表示某个智能体向会话所运行的智能体发送了报告或问题。                                                                                                                                                     |
-    | `agent.thread_message_sent`      | 在[多智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)会话中，其流携带此事件的线程向另一个线程发送了消息；在主线程上，表示会话所运行的智能体向另一个智能体发送了任务或后续消息。                                                                                                                                                    |
+    | `agent.thread_message_received`  | 在[多智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)会话中，来自另一个线程的消息到达了其流携带此事件的线程。在主线程上，表示某个智能体向会话所运行的智能体发送了报告或问题。                                                                                                                                                     |
+    | `agent.thread_message_sent`      | 在[多智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)会话中，其流携带此事件的线程向另一个线程发送了消息。在主线程上，表示会话所运行的智能体向另一个智能体发送了任务或后续消息。                                                                                                                                                    |
 
-    这些事件中的消息内容可能包含 `redacted` 内容块，即 `{"type": "redacted"}`：这是因 Anthropic 模型策略而被隐去的内容的占位符。该块不携带其他字段。Redacted 块仅出现在平台发出的内容中；包含此类块的用户事件将被拒绝并返回 400 错误。
+    这些事件中的消息内容可能包含 `redacted` 内容块，即 `{"type": "redacted"}`：这是因 Anthropic 模型策略而被隐去的内容的占位符。该块不携带其他字段。Redacted 块仅出现在平台发出的内容中。如果用户事件包含此类块，API 将拒绝该事件并返回 400 错误。
   </Tab>
 
   <Tab title="会话事件">
@@ -79,7 +79,7 @@ featureMetadata:
     | `session.status_idle`               | 智能体已完成当前任务，正在等待输入。包含一个 `stop_reason` (java, php: `stopReason`; csharp, go: `StopReason`)，指示智能体停止的原因。                                                                                                                                                                                                                                                                                              |
     | `session.status_rescheduled`        | 发生了瞬时错误，会话正在自动重试。                                                                                                                                                                                                                                                                                                                                                                                 |
     | `session.status_terminated`         | 会话已结束，原因是发生了不可恢复的错误或会话已被归档。                                                                                                                                                                                                                                                                                                                                                                       |
-    | `session.deleted`                   | 会话已被删除。结束所有活动的事件流；此会话不会再发出任何事件。                                                                                                                                                                                                                                                                                                                                                                   |
+    | `session.deleted`                   | 会话已被删除。结束所有活动的事件流。该会话不会再发出任何事件。                                                                                                                                                                                                                                                                                                                                                                   |
     | `session.updated`                   | 会话更新请求更改了至少一个字段。仅包含已更改的字段。更新将在下一轮生效。                                                                                                                                                                                                                                                                                                                                                              |
     | `session.error`                     | 处理过程中发生错误。包含一个带类型的 `error` (csharp, go: `Error`) 对象，其中带有 `retry_status` (java, php: `retryStatus`; csharp, go: `RetryStatus`)。                                                                                                                                                                                                                                                                    |
     | `session.usage`                     | 会话累计用量和跟踪的标价成本的快照。携带会话的用量总计，以及会话的[预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)（如果有）。                                                                                                                                                                                                                                                                                        |
@@ -94,7 +94,7 @@ featureMetadata:
     | 类型                            | 描述                                                                                                                                                                                                                                                                                                                                 |
     | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
     | `workflow_run.created`        | 已创建一个工作流运行。包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)、运行的 `name` (csharp, go: `Name`) 和 `description` (csharp, go: `Description`)，以及 `phases` (csharp, go: `Phases`)（为该运行声明的阶段）。随后会有一个状态事件，但在中断之后可能不会有。                                                                       |
-    | `workflow_run.status_running` | 工作流运行正在运行。在运行开始执行时发送（这可能在 `workflow_run.created` 之后一段时间），并在因预算暂停后恢复时再次发送。中断后的恢复可能不会发送此事件。从一开始就处于空闲状态的运行可能会先收到 `workflow_run.status_idle`。包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)。                                                                                          |
+    | `workflow_run.status_running` | 工作流运行正在运行。在运行开始时发送（这可能在 `workflow_run.created` 之后一段时间），并在因预算暂停后恢复时再次发送。中断后的恢复可能不会发送此事件。从一开始就处于空闲状态的运行可能会先收到 `workflow_run.status_idle`。包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)。                                                                                            |
     | `workflow_run.status_idle`    | 工作流运行进入空闲状态：它已暂停，例如因达到会话的预算。中断后的暂停可能不会发送此事件。包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)。                                                                                                                                                                                       |
     | `workflow_run.status_ended`   | 工作流运行已结束。包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 和 `result` (csharp, go: `Result`)，其 `type` (csharp, go: `Type`) 说明运行是如何结束的。                                                                                                                                               |
     | `workflow_run.error`          | 工作流运行的错误，或服务器拒绝的启动。以错误结束的运行会在其 `workflow_run.status_ended` 之前收到此事件，且错误相同。包含 `error` (csharp, go: `Error`) 和 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)，当未创建任何运行时，后者为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)。                                   |
@@ -115,13 +115,13 @@ featureMetadata:
   </Tab>
 
   <Tab title="系统事件">
-    | 类型               | 描述                                                                                                                                                                                                                         |
-    | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | `system.message` | 追加特权系统级上下文，该上下文适用于随附的轮次及所有后续轮次。有关接受此事件的模型，请参阅[受支持的模型](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#supported-models)。在不受支持的主模型上，该事件将被拒绝并返回 `model_does_not_support_mid_conversation_system`。 |
+    | 类型               | 描述                                                                                                                                                                                                                            |
+    | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | `system.message` | 追加特权系统级上下文，该上下文适用于随附的轮次及所有后续轮次。有关接受此事件的模型，请参阅[受支持的模型](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#supported-models)。在不受支持的主模型上，API 将拒绝该事件并返回 `model_does_not_support_mid_conversation_system`。 |
   </Tab>
 
   <Tab title="事件增量">
-    事件增量是仅限流式传输的预览事件。它们在通过 `event_deltas` (curl: `event_deltas[]`; cli: `--event-delta`; java, php: `eventDeltas`; csharp, go: `EventDeltas`) 参数选择启用的流连接（会话级或按线程）上发出，并且永远不会持久化到会话的事件历史中。有关如何选择启用、累积和协调它们，请参阅[使用事件增量预览响应](https://platform.claude.com/docs/zh-CN/managed-agents/event-deltas)。
+    事件增量是仅限流式传输的预览事件。服务器会在通过 `event_deltas` (curl: `event_deltas[]`; cli: `--event-delta`; java, php: `eventDeltas`; csharp, go: `EventDeltas`) 参数选择启用的流连接（会话级或按线程）上发出它们。服务器永远不会将它们持久化到会话的事件历史中。有关如何选择启用、累积和协调它们，请参阅[使用事件增量预览响应](https://platform.claude.com/docs/zh-CN/managed-agents/event-deltas)。
 
     | 类型            | 描述                                                                                               |
     | ------------- | ------------------------------------------------------------------------------------------------ |
@@ -132,11 +132,11 @@ featureMetadata:
 
 ## 自托管 worker
 
-有关驱动 `self_hosted` 环境的预构建 worker 的 `ant beta:worker` CLI 标志、环境变量、文件系统路径和 SDK 辅助工具选项，请参阅[自托管 worker 参考](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-reference)。
+有关驱动 `self_hosted` 环境的预构建 worker，请参阅[自托管 worker 参考](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-reference)。其中涵盖了它们的 `ant beta:worker` CLI 标志、环境变量、文件系统路径和 SDK 辅助工具选项。
 
 ## 支持的 MCP 服务器类型
 
-Claude Managed Agents 可连接到公开 HTTP 端点的[远程 MCP 服务器](https://platform.claude.com/docs/zh-CN/agents-and-tools/remote-mcp-servers)，或通过 [MCP 隧道](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview)连接到私有 MCP 服务器。服务器应支持 MCP 协议的 streamable HTTP 传输；仅支持已弃用的 SSE 传输的服务器仍可通过自动回退正常工作。有关在智能体上声明服务器的信息，请参阅 [MCP 连接器](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector)。
+Claude Managed Agents 可连接到公开 HTTP 端点的[远程 MCP 服务器](https://platform.claude.com/docs/zh-CN/agents-and-tools/remote-mcp-servers)，或通过 [MCP 隧道](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview)连接到私有 MCP 服务器。服务器应支持 MCP 的 streamable HTTP 传输；仅支持已弃用的 SSE 传输的服务器仍可通过自动回退正常工作。有关在智能体上声明服务器的信息，请参阅 [MCP 连接器](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector)。
 
 有关 MCP 及构建 MCP 服务器的更多信息，请参阅 [MCP 文档](https://modelcontextprotocol.io)。
 
@@ -153,7 +153,7 @@ Managed Agents 端点按组织进行速率限制：
 
 ## 品牌指南
 
-对于集成 Claude Managed Agents 的合作伙伴，使用 Claude 品牌是可选的。在您的产品中提及 Claude 时：
+对于集成 Claude Managed Agents 的合作伙伴，使用 Claude 品牌是可选的。当您在产品中提及 Claude 时，请遵循以下规则：
 
 **允许：**
 

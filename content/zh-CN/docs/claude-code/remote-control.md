@@ -67,13 +67,14 @@ Remote Control 将 [claude.ai/code](https://claude.ai/code) 或 Claude 应用（
 > | `--capacity <N>` | 最大并发会话数。默认为 32。不能与 `--spawn=session` 一起使用。 |
 > | `--[no-]create-session-in-dir` | 服务器启动时在当前目录中预先创建一个会话，以便您可以立即开始输入。在 `worktree` 模式下，此会话保留在当前目录中，而按需创建的会话则获得独立的 worktree。默认开启。如果您传入 `--no-create-session-in-dir` 以不带任何会话启动，Claude Code 会在您停止服务器时归档服务器的会话，因此将没有可[恢复](#resume-sessions-after-stopping-the-server)的会话。 |
 > | `--permission-mode <mode>` | 为服务器的会话设置初始[权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md)，例如 `acceptEdits`。接受 `manual` 作为 `default` 的别名；无法识别的模式会使服务器在启动时停止并列出有效模式。 |
+> | `--settings <file>` | 将 JSON 设置文件应用于服务器的会话，其[优先级](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)与 `claude --settings` 相同。请提供文件路径，而不是 JSON 字符串。需要 Claude Code v2.1.321 或更高版本。 |
 > | `--chrome` / `--no-chrome` | 在服务器创建的会话中打开或关闭 [Chrome 集成](https://code.claude.com/docs/zh-CN/chrome.md)，以便您在另一台设备上工作时 Claude 可以使用您机器上的 Chrome。如果不带任一标志，服务器预先创建的会话以及您自己从 claude.ai/code 或 Claude 应用启动的任何会话都会以关闭 Chrome 的状态开始，即使您已[默认启用 Chrome](https://code.claude.com/docs/zh-CN/chrome.md#enable-chrome-by-default)。服务器为您的某个[项目](https://code.claude.com/docs/zh-CN/claude-projects.md)线程启动的会话则遵循该设置，但 `bypassPermissions` 模式除外。需要 Claude Code v2.1.273 或更高版本。 |
 > | `-d`, `--debug[=<filter>]` | 为服务器开启调试日志，可选择按类别过滤。只能以 `=` 形式传入过滤器，例如 `--debug=api,hooks`。需要 Claude Code v2.1.282 或更高版本。 |
 > | `--debug-file <path>` | 将调试日志写入指定文件。 |
 > | `--verbose` | 显示详细的连接和会话日志。 |
 > | `--sandbox`, `--no-sandbox` | 已在 v2.1.300 中移除。如果您传入任一标志，服务器会[报错退出](https://code.claude.com/docs/zh-CN/errors.md#sandbox-is-not-supported-by-claude-remote-control)，而不是启动。 |
 >
-> 如果您在 `remote-control` 之前传入全局 `claude` 标志，或者包装脚本添加了此类标志，Claude Code 不会将该标志传递给服务器创建的会话。只有在确知丢弃该标志不会改变这些会话的能力时，Claude Code 才会放行该标志，例如 `--verbose` 或 `--model`。对于任何其他标志，例如 `--settings`，Claude Code 会[拒绝启动](https://code.claude.com/docs/zh-CN/errors.md#not-carried-over-to-the-sessions-remote-control-starts)并指出需要移除的标志。
+> 如果您在 `remote-control` 之前传入全局 `claude` 标志，或者包装脚本添加了此类标志，Claude Code 不会将该标志传递给服务器创建的会话。对于某些标志，例如 `--verbose` 或 `--model`，服务器仍会启动。对于任何其他标志，服务器[不会启动](https://code.claude.com/docs/zh-CN/errors.md#not-carried-over-to-the-sessions-remote-control-starts)。要传入设置文件，请将 `--settings` 放在 `remote-control` 之后。
 >
 > 要对服务器启动的会话进行沙箱隔离，请在设置文件中开启[沙箱隔离](https://code.claude.com/docs/zh-CN/sandboxing.md)。
 >
@@ -177,12 +178,13 @@ Remote Control 会话处于活动状态后，您可以通过以下几种方式�
 已连接的设备会实时显示终端中的对话。以下情况超出了普通消息的范畴：
 
 * **压缩和 `/clear`**：在 Claude Code [压缩对话](https://code.claude.com/docs/zh-CN/context-window.md#what-survives-compaction)时，已连接的设备会显示进度，然后显示对话被压缩的位置。当您运行 `/clear` 时，已连接设备上的对话也会重置。
+* **在 `/resume` 或 `/teleport` 后断开连接**：如果已连接的会话有[分享链接](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md#share-sessions)，或者 Claude Code 无法检查是否存在分享链接，则当这两个命令中的任一个打开另一个对话时，Remote Control 会断开连接。否则，持有该链接的人将会看到那个对话。要连接新对话，请在终端中运行 `/remote-control`。分享链接检查需要 Claude Code v2.1.324 或更高版本。
 * **使用 `/resume` 切换对话**：已连接的设备不会收到切换到的对话的标题或早期历史，但双向的新消息都会发往或来自终端中当前打开的对话。要再次从设备上处理原来的对话，请在终端中运行 `/resume` 并切换回该对话。
 * **使用 `/teleport` 拉取会话**：当您使用 `/teleport` 将[云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md#from-cloud-to-terminal)拉取到终端时，已连接的设备不会收到被拉取对话的早期历史。双向的新消息都会发往或来自被拉取的对话，该对话现在就是终端中打开的对话。
 * **来自您其他会话的消息**：借助[跨会话消息](https://code.claude.com/docs/zh-CN/cross-session-messaging.md)，同一连接会在您位于不同机器上的各个会话之间传递消息。
 * **您的更改的 diff**：当会话的目录位于 git 仓库中时，已连接设备的 diff 面板会显示您的更改。在领先于仓库默认分支的分支上，该面板会显示自该分支从默认分支分出以来的更改，包括您未提交的编辑。在默认分支本身或不领先于默认分支的分支上，该面板仅显示您未提交的更改。
 * **模型**：当您从已连接的设备选择[模型](https://code.claude.com/docs/zh-CN/model-config.md)时，Claude Code 会使用该模型运行会话。需要 Claude Code v2.1.238 或更高版本。从设备的模型控件中选择的模型仅适用于当前会话。当您从设备向交互式会话发送 `/model <name>` 时，Claude Code 还会设置新会话的默认模型。
-* **Effort 级别**：当您从已连接的设备使用 `/effort` 或设备的 effort 控件设置 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level)时，Claude Code 会将其应用到您机器上的会话。如果您已使用 `CLAUDE_CODE_EFFORT_LEVEL` 固定了级别，会话将保持该级别，Claude Code 会拒绝从 effort 控件中选择的其他级别。从 effort 控件中选择级别需要您机器上的 Claude Code 为 v2.1.234 或更高版本。
+* **Effort 级别**：当您从已连接的设备使用 `/effort` 或设备的 effort 控件设置 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level)时，Claude Code 会将其应用到您机器上的会话。如果您已使用 `CLAUDE_CODE_EFFORT_LEVEL` 固定了级别，会话将保持该级别。从 effort 控件中选择级别需要您机器上的 Claude Code 为 v2.1.234 或更高版本。
 * **连接失败后重新连接**：运行 `/remote-control` 即可重新连接。如果在此期间压缩重写了对话，或者您使用 `/resume` 切换了对话，Claude Code 会归档它一直在使用的服务器会话，而不是将其留在会话列表中。您仍然可以在 claude.ai/code 的[已归档会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md#find-an-archived-session)中找到该会话。在设备仍处于连接状态时切换对话不会归档该会话。
 
 ### 从浏览器分叉会话
@@ -262,8 +264,6 @@ Remote Control 连接时，会话记录（包括您的消息、Claude 的响应�
 ## 受信任的设备
 
 > [!NOTE]
->
-> 受信任的设备目前处于测试阶段。功能和特性可能会随着体验的完善而演变。
 >
 > 受信任的设备在 Pro、Max、Ultra、Team 和 Enterprise 计划中可用，默认处于关闭状态。在 Team 和 Enterprise 计划中，所有者为组织启用它。在 Pro、Max 和 Ultra 计划中，您可以在设置中的 Cowork 或 Account 页面上自行启用**需要受信任的设备**。
 
@@ -368,18 +368,18 @@ Claude Code 提供了多种方式在您不在终端时进行工作。它们在�
 * **服务器模式下崩溃的会话**：如果由 `claude remote-control` 提供服务的会话崩溃，请从已连接的设备向其发送一条消息。Claude Code 会重新为其提供服务。您无需重启服务器。需要 Claude Code v2.1.238 或更高版本。
 * **已连接会话上的 HTTP 403 拒绝**：交互式会话连接后，如果您的机器与 Anthropic 服务器之间的某个环节以 HTTP 403 响应（例如在 VPN 或网络变更之后可能发生），Claude Code 会持续重试最多三分钟。如果拒绝持续时间更长，Claude Code 将断开连接，并在原因中指明拒绝的来源：网络边缘，或您自身网络上的代理、VPN 或防火墙。
 * **长时间网络中断**：如果您的机器处于唤醒状态但无法访问网络，后续操作取决于所用模式：
-  * **服务器模式**：Claude Code 大约 10 分钟后放弃，`claude remote-control` 进程退出。再次运行 `claude remote-control` 以启动新会话。
+  * **服务器模式**：Claude Code 大约 10 分钟后放弃，`claude remote-control` 进程退出。要重启服务器，请参阅[停止服务器后恢复会话](#resume-sessions-after-stopping-the-server)。
   * **交互式会话**：继续在本地工作。Claude Code 会在中断期间持续重试，并在网络恢复时自动重新连接。
 * **无法下载的附件**：如果您从手机或浏览器附加的文件无法下载到您的机器，Claude 仍会收到您的消息以及已下载的文件。Claude Code 会在消息中添加一条说明（例如 `[1 of 3 attachments did not arrive]`）来代替缺失的文件。
 * **在线状态心跳失败**：如果交互式会话因 `could not reach the Remote Control server for about 30 minutes` 而断开连接，请运行 `/remote-control` 重新连接。
 * **转发的对话框会过期**：Claude Code 会保持权限提示和 `AskUserQuestion` 问题处于打开状态，直到您作答。当 Claude Code 将其他类型的对话框转发到远程会话时（例如安全拒绝后显示的模型选择提示），默认会等待五分钟，然后关闭该对话框并按对话框的无操作默认值继续。设置 [`dialogExpiry`](https://code.claude.com/docs/zh-CN/settings-reference#dialogexpiry) 可调整或禁用该期限。需要 Claude Code v2.1.224 或更高版本。
-* **Fable 使用额度同意提示不会被转发**：Claude Code 仅在会话运行的位置显示会话中途的 [Fable 使用额度同意提示](https://code.claude.com/docs/zh-CN/model-config.md#fable-and-usage-credits)，而不会在您的设备上显示。当会话在终端中运行，且在 Claude Code 关闭该提示之前无人在终端作答时，该轮次将结束而不发送请求；请参阅[确认提示未得到回应](https://code.claude.com/docs/zh-CN/errors.md#the-prompt-to-confirm-went-unanswered)。
+* **未作答的 Fable 使用额度提示会结束轮次**：如果在 [`dialogExpiry`](https://code.claude.com/docs/zh-CN/settings-reference#dialogexpiry) 期限之前无人回应 [Fable 使用额度同意提示](https://code.claude.com/docs/zh-CN/model-config.md#fable-and-usage-credits)，该轮次将结束且不会发送任何内容；请参阅[确认提示未得到回应](https://code.claude.com/docs/zh-CN/errors.md#the-prompt-to-confirm-went-unanswered)。在终端中的交互式会话里，该提示也可能出现在您已连接的设备上，您可以在那里作答。需要 Claude Code v2.1.323 或更高版本。
 * **部分命令仅限本地使用**：仅在终端界面中运行的命令（例如 `/plugin` 或 `/resume`）只能从本地 CLI 使用，无论是否传递参数。从移动端或 Web 端输入 `/claude-api` 时同样不可用。Claude 在那里仍可以[自行加载该 skill](https://code.claude.com/docs/zh-CN/skills.md#work-on-claude-api-projects)。以下命令可在移动端和 Web 端使用：
-  * 文本输出命令：`/compact`、`/clear`、`/context`、`/usage`、`/exit`、`/usage-credits`、`/recap` 和 `/reload-plugins`。`/usage-credits` 会打印计费 URL，而不是打开浏览器。`/reload-plugins` 仅在会话运行于交互式终端中时有效；没有交互式终端的会话会拒绝执行该命令。
+  * 文本输出命令：`/compact`、`/clear`、`/context`、`/usage`、`/exit`、`/usage-credits`、`/recap` 和 `/reload-plugins`。`/usage-credits` 会以文本形式回复，例如告知在何处管理使用额度。`/reload-plugins` 仅在会话运行于交互式终端中时有效；没有交互式终端的会话会拒绝执行该命令。
   * `/model`、`/effort`、`/fast`、`/color` 和 `/rename`：将值作为参数传递，例如 `/model sonnet` 或 `/effort high`。在移动端和 Web 端，`/model` 和 `/effort` 接受参数，以代替终端中的选择器或滑块。
   * `/mcp`：在移动应用中，返回服务器状态的文本摘要，而不是打开选择器。在 Web 端，单独使用 `/mcp` 会打开 [claude.ai 连接器](https://code.claude.com/docs/zh-CN/mcp.md#use-mcp-servers-from-claude-ai)目录，而不是返回摘要。当会话运行于交互式终端中时，`reconnect`、`enable` 和 `disable` [子命令](https://code.claude.com/docs/zh-CN/commands.md#all-commands)在两端均可使用。不带服务器名称的 `/mcp reconnect` 会重试所有失败或需要身份验证的服务器。要在不使用选择器的情况下授权 claude.ai 连接器，请参阅[从 shell 重新授权连接器](#authorize-a-connector-again-from-your-shell)。
   * `/config`：在移动应用中，传递 `key=value` 可更改设置项，或不带参数运行以列出可设置的键。在 Web 端，`/config` 会改为打开 **Settings > Code** 或 **Settings > Claude Code**。
-  * 在 Team 和 Enterprise 版本中，从移动端或 Web 端运行 `/usage-credits` 不会[向您的管理员发送使用额度请求](https://code.claude.com/docs/zh-CN/costs.md#add-usage-credits-to-your-subscription)。发送请求需要一个仅在交互式 CLI 中出现的确认，因此该命令会提示您改为在 CLI 中运行。
+  * 如果您是没有计费访问权限的 Team 或 Enterprise 成员，从移动端或 Web 端运行 `/usage-credits` 不会[向您的管理员发送使用额度请求](https://code.claude.com/docs/zh-CN/costs.md#add-usage-credits-to-your-subscription)。发送请求需要一个仅在交互式 CLI 中出现的确认，因此该命令会提示您改为在 CLI 中运行。
   * `/autocompact`，自 v2.1.221 起：将窗口大小作为参数传递，例如 `/autocompact 500k`。不带参数时，它会以文本形式打印当前窗口大小，而不是打开该命令在终端会话中显示的对话框。
   * `/advisor`，自 v2.1.260 起：将模型作为参数传递，例如 `/advisor opus`，或传递 `off` 以关闭 advisor。两种形式都仅应用于当前会话，不会更改您保存的默认值。不带参数时，它会以文本形式打印当前的 advisor，而不是打开选择器。
   * `/output-style`，自 v2.1.269 起：将样式名称作为参数传递，例如 `/output-style concise`，或不带参数运行以列出样式。在移动端和 Web 端，您只能列出和选择[内置样式](https://code.claude.com/docs/zh-CN/output-styles.md#built-in-output-styles)。要使用[自定义样式](https://code.claude.com/docs/zh-CN/output-styles.md#create-a-custom-output-style)，请在会话本身中选择它。
@@ -412,7 +412,7 @@ claude mcp login "claude.ai Slack" --no-browser
 /mcp reconnect claude.ai Slack
 ```
 
-在终端中，Claude Code 会输出 `Successfully reconnected to claude.ai Slack`。在移动应用或网页端，回复为 `Reconnected "claude.ai Slack".`
+在终端中，Claude Code 会提示已重新连接到 `claude.ai Slack`。在移动应用或网页端，回复为 `Reconnected "claude.ai Slack".`
 
 ## 故障排除
 
@@ -506,17 +506,16 @@ Claude Code 无法获取您的组织策略，并且此计算机上没有保存�
 
 ### "Remote credentials fetch failed"
 
-Claude Code 无法从 Anthropic API 获取短期凭据来建立连接。使用 `--verbose` 重新运行以查看完整错误：
+Claude Code 无法从 Anthropic API 获取短期凭据来建立连接。要查看完整错误，请从 shell 启动一个带调试日志的会话，然后在日志中搜索 `code-session`：
 
 ```bash theme={null}
-claude remote-control --verbose
+claude --remote-control --debug-file claude-debug.log
 ```
 
 常见原因：
 
-* 未登录：运行 `claude` 并使用 `/login` 以您的 claude.ai 账户进行身份验证。Remote Control 不支持 API 密钥身份验证。
 * 网络或代理问题：防火墙或代理可能阻止了出站 HTTPS 请求。Remote Control 需要访问端口 443 上的 Anthropic API。
-* 会话创建失败：如果您还看到 `Session creation failed — see debug log`，失败发生在设置的早期。检查您的订阅是否有效。
+* 会话创建失败：如果您还看到 `Session creation failed — see debug log`，说明失败发生在设置的更早阶段。运行相同的搜索以找到该错误。
 
 ### "working folder not found"
 

@@ -18,11 +18,9 @@ A built-in entry names the bundled server in a `server` field, in place of the `
 | Web search | `websearch` | Web search through Brave, Tavily, Exa, or a search endpoint you host | [Built-in web search](https://claude.com/docs/third-party/claude-desktop/web-tools.md#built-in-web-search) |
 | GitHub | `github` | Repositories, issues, pull requests, and other GitHub data, on github.com or GitHub Enterprise Server | [Connect to GitHub, local connector](https://claude.com/docs/third-party/claude-desktop/connectors-github.md#local-connector) |
 
-Each guide covers its server in full, including how the built-in server compares with the remote alternative where one exists.
-
 > [!NOTE]
 >
-> In the in-app configuration window, the **Add server** menu lists built-in servers separately from remote templates. A remote template (Box, or the Microsoft 365 remote connector) only pre-fills the form for a server that runs outside the app. The servers on this page are the ones bundled inside the app.
+> In the in-app configuration window, the **Add server** menu lists built-in servers separately from remote templates. A remote template (Box, or the Microsoft 365 remote connector) only pre-fills the form for a server that runs outside the app.
 
 ## How built-in servers behave
 
@@ -31,5 +29,5 @@ All built-in servers share the same model:
 * **Managed configuration only.** A built-in server activates only from a `managedMcpServers` entry. Users cannot add one themselves and cannot remove one you deploy.
 * **Local execution.** The server runs on the user's device, and its network calls go to the data provider (Microsoft, your search provider, or GitHub). No Anthropic host is in the data path.
 * **Sign-in on the device.** Where the server needs user credentials (Microsoft 365 and GitHub), the user signs in from the app, and tokens are stored encrypted on the device. **Disconnect** in connector settings signs the user out. The web search server has no user sign-in; you supply the search key in the entry.
-* **Tool approvals.** Each entry accepts the same per-tool [`toolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#managedmcpservers) as any managed server. Without a policy, built-in write tools ask the user before each call, and a small set of irreversible actions (sending mail or merging a pull request, for example) stays at ask or stricter no matter what the policy says.
+* **Tool approvals.** Each entry accepts the same per-tool [`toolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#managedmcpservers) as any managed server. Without a policy, each call that Claude makes to a built-in write tool needs approval, and a small set of irreversible actions (sending mail or merging a pull request, for example) stays at ask or stricter no matter what the policy says.
 * **Versioned with the app.** Each built-in server requires a Claude Desktop version that includes it. On older versions, the server is missing from the **Add server** menu, **Test this connection** reports that it is not included, and a deployed entry is dropped. The fix is to upgrade Claude Desktop.

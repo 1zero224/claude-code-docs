@@ -14,7 +14,7 @@ description: 通过 Compliance API 访问 claude.ai 组织的聊天内容、文�
   **前提条件：** 在组织范围内列出聊天无需前提条件。若要将聊天列表筛选到特定用户，您需要从[列出组织用户](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-org-data#list-organization-users)获取用户 ID。本页面上的其他端点直接接受资源 ID。
 </Check>
 
-本页面上的端点向合规审查人员公开 Claude Enterprise 的聊天内容、文件上传、项目和项目附件。它们支持 “eDiscovery”（电子取证）导出、"data loss prevention"（数据丢失防护），即 DLP 的执行，以及账户删除响应。聊天、文件和项目内容的保留时长取决于您组织的保留策略。当用户在 claude.ai 中删除聊天时，其消息内容、附加文件、工具生成的文件和 artifacts 会随之一并删除。Compliance API 仍会列出该聊天，其 `deleted_at` 字段已填充且 `name` 为空，并返回不含内容的消息。已被硬删除的聊天（通过 Compliance API 本身删除，或在组织的保留窗口到期后删除）无法检索。
+本页面上的端点向合规审查人员公开 Claude Enterprise 的聊天内容、文件上传、项目和项目附件。它们支持 “eDiscovery”（电子取证）导出、"data loss prevention"（数据丢失防护），即 DLP 的执行，以及账户删除响应。聊天、文件和项目内容的保留时长取决于您组织的保留策略。当用户在 claude.ai 中删除聊天时，其消息内容、附加文件、工具生成的文件和 artifacts 会随之一并删除，但[删除后保留的内容](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-content-data#content-that-remains-after-a-delete)中所述的情况除外。Compliance API 仍会列出该聊天，其 `deleted_at` 字段已填充且 `name` 为空，并返回不含内容的消息。已被硬删除的聊天（通过 Compliance API 本身删除，或在组织的保留窗口到期后删除）无法检索。
 
 这两个作用域仅授予在 claude.ai 中创建的 Compliance Access Key（`sk-ant-api01-...`）；请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access) 以配置一个。`read:compliance_user_data` 作用域涵盖检索操作；`delete:compliance_user_data` 仅在使用删除端点时需要。聊天、文件、项目和附件端点不对 Admin API 密钥（`sk-ant-admin01-...`）开放；使用 Admin API 密钥进行身份验证的调用会返回 [403 Forbidden](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#403-forbidden)。
 
@@ -69,7 +69,7 @@ curl --fail-with-body -sS -G \
 
 这些组织范围的查询有一些限制。游标是不透明的且与排序键绑定，因此在一个 `order_by` 值下签发的 `after_id` 在另一个值下会被拒绝并返回 400 错误。时间筛选边界也必须与排序键匹配：`updated_at.*` 边界应与 `order_by=updated_at` 搭配，`created_at.*` 边界应与默认的 `order_by=created_at` 搭配。不支持使用 `before_id` 向后分页，且 `project_ids[]` 筛选器不可用。完整的筛选器参考请参阅[列出聊天](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/list)。
 
-如果要将列表范围限定为特定用户（例如，对指定保管人实施法律保留），请传入 1–10 个 `user_ids[]` 值。这些 ID 可通过[列出组织用户](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-org-data#list-organization-users)获取。按用户筛选的查询始终按 `created_at` 排序（传入 `order_by=updated_at` 会返回 400 错误），并且同时支持 `after_id` 和 `before_id`。按 `project_ids[]` 筛选仅在这种按用户筛选的形式中可用。将 `user_ids[]` 与任何 `updated_at.*` 边界组合使用的方式已被弃用，2026-09-22 之后将以 400 错误被拒绝。如需按更新时间使保管人集合保持最新，请在不带 `user_ids[]` 的情况下运行组织范围的 `order_by=updated_at` 遍历，并从其结果中选出这些保管人的聊天。对于按 `created_at` 排序的导出，请继续使用按用户筛选的列表。
+如果要将列表范围限定为特定用户（例如，对指定保管人实施法律保留），请传入 1–10 个 `user_ids[]` 值。这些 ID 可通过[列出组织用户](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-org-data#list-organization-users)获取。按用户筛选的查询始终按 `created_at` 排序（传入 `order_by=updated_at` 会返回 400 错误），并且同时支持 `after_id` 和 `before_id`。按 `project_ids[]` 筛选仅在这种按用户筛选的形式中可用。将 `user_ids[]` 与任何 `updated_at.*` 边界组合使用的方式已被弃用，2026 年 9 月 22 日之后将以 400 错误被拒绝。如需按更新时间使保管人集合保持最新，请在不带 `user_ids[]` 的情况下运行组织范围的 `order_by=updated_at` 遍历，并从其结果中选出这些保管人的聊天。对于按 `created_at` 排序的导出，请继续使用按用户筛选的列表。
 
 ```bash cURL
 curl --fail-with-body -sS -G \
@@ -171,7 +171,9 @@ curl --fail-with-body -sS \
 }
 ```
 
-在给定消息上，`files`、`generated_files` 和 `artifacts` 各自都可能为 `null`。`files` 是用户附加到消息的文件和文本附件（例如 PDF、图像、电子表格、文档和粘贴的文本），以 claude.ai 存储它们的形式呈现。`generated_files` 是助手在对话过程中通过工具使用创建的二进制文件（例如 PDF、电子表格或幻灯片）。`artifacts` 是助手在其响应中生成或更新的带版本的文档（例如代码或 markdown）；一个 artifact 可以在同一聊天的多个助手轮次中被修订，每次修订都会以同一 artifact `id` 下的新 `version_id` 出现。将每个条目的 `id`（对于 artifacts 则为 `version_id`）传给[检索文件和 artifacts](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-content-data#retrieve-files-and-artifacts) 中对应的内容端点即可下载。`generated_files` 中的 `id` 以 `claude_gen_file_` 或 `claude_file_` 开头。请根据前缀选择端点，而不是根据条目来自哪个数组。
+在给定消息上，`files`、`generated_files` 和 `artifacts` 各自都可能为 `null`。`files` 是用户附加到消息的文件和文本附件（例如 PDF、图像、电子表格、文档和粘贴的文本），以 claude.ai 存储它们的形式呈现。在助手消息上，`files` 还可能包含 Claude 从云端会话中提供给用户的文件。`generated_files` 是助手在对话过程中通过工具使用创建的二进制文件（例如 PDF、电子表格或幻灯片）。`artifacts` 是助手在其响应中生成或更新的带版本的文档（例如代码或 markdown）；一个 artifact 可以在同一聊天的多个助手轮次中被修订，每次修订都会以同一 artifact `id` 下的新 `version_id` 出现。将每个条目的 `id`（对于 artifacts 则为 `version_id`）传给[检索文件和 artifacts](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-content-data#retrieve-files-and-artifacts) 中对应的内容端点即可下载。`generated_files` 中的 `id` 以 `claude_gen_file_` 或 `claude_file_` 开头。请根据前缀选择端点，而不是根据条目来自哪个数组。
+
+Claude 在聊天中创建的 artifact 也可能是代码 artifact（ID 前缀为 `cart_`）。代码 artifacts 不在 `artifacts` 中。[列出代码 artifacts](https://platform.claude.com/docs/zh-CN/api/compliance/apps/code/artifacts/list) 会返回它们，但不会标明每个代码 artifact 来自哪个聊天。
 
 ## 检索文件和 artifacts
 
@@ -271,7 +273,7 @@ curl --fail-with-body -sS -G \
 ## 删除内容
 
 <Warning>
-  每次成功的删除都是永久且立即生效的。没有恢复窗口。
+  每次成功的删除都是永久且立即生效的。没有恢复窗口。删除并不总是会移除所有相关内容。请参阅[删除后保留的内容](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-content-data#content-that-remains-after-a-delete)。
 </Warning>
 
 Compliance API 为聊天、文件、项目文档和整个项目公开了硬删除端点。硬删除的聊天无法恢复，并且此后不再出现在列表响应中。
@@ -308,6 +310,19 @@ curl --fail-with-body -sS -X DELETE \
 ```
 
 每次成功的删除都会返回一个包含 `id` 和 `type` 判别字段的小型确认信封。聊天端点返回 `claude_chat_deleted`；在将删除视为已确认之前，请检查 `type` 字段。其他端点返回的确切 `type` 值请参阅各删除端点 [API 参考](https://platform.claude.com/docs/zh-CN/api/compliance/apps)页面上的响应模式。
+
+### 删除后保留的内容
+
+某些内容在删除后可能会保留：
+
+* **Claude 提供给用户的文件：** 在统一 Claude 体验中，Claude 提供给用户的几乎所有文件都会随聊天一并删除，除非您组织中的其他聊天或项目使用了这些文件。Claude 在 2026 年 10 月 8 日之前提供的文件可能会保留，无论聊天以何种方式被删除。
+* **代码 artifacts：** 删除聊天不会删除 Claude 在其中创建的代码 artifacts。请使用[删除代码 artifact](https://platform.claude.com/docs/zh-CN/api/compliance/apps/code/artifacts/delete) 删除它们。
+* **云端的文件副本：** [删除文件](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/files/delete)不会删除聊天的云端会话中该文件的副本。删除聊天会删除为该聊天启动的会话，但不会删除由这些会话启动的会话。
+
+若要删除 Claude 提供给用户的文件：
+
+1. 在删除聊天之前，调用[获取聊天消息](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/messages/list)，并收集 `generated_files` 中以及助手消息的 `files` 中的每个 `claude_file_` ID。聊天被删除后，该端点不会再返回这些 ID，而且它可能不会列出所有保留的文件。
+2. 在删除聊天之前或之后，将每个 ID 传给[删除文件](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/files/delete)。即使有其他聊天或项目使用该文件，它也会删除该文件。对于已被删除的文件，它会返回 404。
 
 ### 删除项目前先分离聊天
 

@@ -83,11 +83,16 @@ Claude Code 提供三种方式来安排定期或一次性工作：
 
 **8. 选择权限模式和模型**
 
-在指令输入框的工具栏中，选择[权限模式](#permissions-for-scheduled-tasks)和模型。如果保持不变，运行时将使用您的 Claude Code 设置和默认模型。
+在指令输入框的工具栏中，选择[权限模式](#permissions-for-scheduled-tasks)和模型。
+
+* **权限模式**：如果保持不变，运行时将使用您的 Claude Code 设置。
+* **模型**：如果模型菜单显示 **Default · Set by admin**，且您没有选择其他模型，运行时将使用您的组织在[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)中设置的模型。在应用打开时启动的[补运行](#missed-runs)可能会改为使用[您账户的运行时默认模型](https://code.claude.com/docs/zh-CN/model-config.md#default-model-setting)。
 
 **9. 创建任务**
 
 单击 **Create**。如果您尚未信任该文件夹，Desktop 会在此时要求您信任它。随后将打开该任务的详情页面。
+
+要查看 **Default · Set by admin** 代表哪个模型，请在详情页面上单击 **Run now** 以立即运行该任务。然后[打开该次运行的会话](#find-a-runs-session)，输入框下方的行会显示该模型的名称。
 
 在详情页面上，单击铅笔图标以打开 [**Edit** 表单](#manage-scheduled-tasks)。在该表单中，您可以更改 Desktop 根据您的指令填写的 **Description**、选择 **Worktree**，或将计划切换为 **Manual** 或 **Custom**。
 
@@ -147,7 +152,7 @@ Claude Code 提供三种方式来安排定期或一次性工作：
 
 侧边栏的会话列表中也可以显示 **Scheduled** 分组，每个任务对应一行。要打开某个任务最近一次运行的会话，请在该分组中点击该任务所在的行。要显示该分组，请先[确认您使用的是哪种布局](https://code.claude.com/docs/zh-CN/desktop.md#check-which-layout-you-have)：
 
-* **当前布局**：打开[**Group and sort** 菜单](https://code.claude.com/docs/zh-CN/desktop.md#organize-and-find-sessions)，选择 **Show**，然后选择 **Scheduled**。该分组默认处于折叠状态，因此请点击其标题将其展开。当您至少有一个任务处于 **Active** 状态（即任务详情页面所显示的 **Status**）时，**Show** 中才会列出 **Scheduled**。如果未列出，请使用 **History** 列表，无论该分组是否显示，它都可以使用。
+* **当前布局**：打开[**Group and sort** 菜单](https://code.claude.com/docs/zh-CN/desktop.md#organize-and-find-sessions)，选择 **Show**，然后选择 **Scheduled**。该分组默认处于折叠状态，因此请点击其标题将其展开。
 * **早期布局**：该分组直接显示在会话列表中，无需启用任何选项
 
 无论通过哪种方式进入某次运行的会话，您都可以查看 Claude 做了什么、审查更改并响应权限提示。Claude 可以编辑文件、运行命令、创建提交和打开 Pull Request，与您自己启动的会话相同。
@@ -177,11 +182,13 @@ Claude Code 提供三种方式来安排定期或一次性工作：
 * **Review allowed permissions**：从 **Always allowed** 面板查看和撤销此任务的已保存工具批准
 * **Delete**：删除任务。该任务创建的会话会被[存档](https://code.claude.com/docs/zh-CN/desktop.md#organize-and-find-sessions)，而不是被删除。存放任务 `SKILL.md` 文件的文件夹会保留在磁盘上的 `~/.claude/scheduled-tasks/<task-name>/` 中；如果您设置了 [`CLAUDE_CONFIG_DIR`](https://code.claude.com/docs/zh-CN/env-vars) 变量，则保留在其下的 `scheduled-tasks/<task-name>/` 中。要删除该文件夹，请您自行删除。
 
-您也可以通过在任何 Desktop 会话中询问 Claude 来列出、创建、编辑和暂停任务。例如，"pause my dependency-audit task"或"show me my scheduled tasks"。要删除任务，请使用其详细信息页面上的 **Delete** 按钮。
+您还可以通过询问 Claude、让任务自行更新或在磁盘上编辑任务的提示词来管理任务：
 
-要让任务使用 `update_scheduled_task` MCP 工具更改其自己的调度或提示词，请单击 **Run now** 并每次批准该调用。
+* **询问 Claude**：在任何 Desktop 会话中询问 Claude 来列出、创建、编辑和暂停任务。例如，"pause my dependency-audit task"或"show me my scheduled tasks"。要删除任务，请使用其详细信息页面上的 **Delete** 按钮。
+* **让任务自行更新**：要让任务使用 `update_scheduled_task` MCP 工具更改其自己的调度或提示词，请单击 **Run now** 并每次批准该调用
+* **在磁盘上编辑提示词**：打开 `~/.claude/scheduled-tasks/<task-name>/SKILL.md`；如果您设置了 [`CLAUDE_CONFIG_DIR`](https://code.claude.com/docs/zh-CN/env-vars) 变量，则打开其下的 `scheduled-tasks/<task-name>/SKILL.md`。该文件使用 YAML frontmatter 表示 `name` 和 `description`，提示词作为正文。更改在下一次运行时生效。Schedule、folder 和 enabled 状态不在此文件中：请通过 Edit 表单更改它们或询问 Claude。
 
-要在磁盘上编辑任务的提示，请打开 `~/.claude/scheduled-tasks/<task-name>/SKILL.md`（如果设置了 [`CLAUDE_CONFIG_DIR`](https://code.claude.com/docs/zh-CN/env-vars)，则在其下）。该文件使用 YAML frontmatter 表示 `name` 和 `description`，提示作为正文。更改在下一次运行时生效。Schedule、folder、model 和 enabled 状态不在此文件中：通过 Edit 表单更改它们或询问 Claude。
+如果某个已经运行过的本地一次性任务未显示在 **Scheduled tasks** 页面上，请单击列表上方的排序图标并选择 **Include completed**。
 
 ## 相关资源
 

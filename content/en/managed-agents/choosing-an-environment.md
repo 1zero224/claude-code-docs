@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes.
+    note: Not eligible for ZDR, except for self-hosted Managed Agents. Sessions are stateful resources; transcripts persist until you delete them.
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -46,7 +46,7 @@ The agent definition is the same whichever you choose. You set the model, prompt
 
 ## Start with a cloud environment
 
-If you’re not sure which to choose, or you’re new to Claude Managed Agents, start with a [cloud environment](https://platform.claude.com/docs/en/managed-agents/environments), as the [quickstart](https://platform.claude.com/docs/en/managed-agents/quickstart) does. Anthropic runs an isolated container for each session, with common languages and tools already installed, so there is nothing for you to host. Choose a self-hosted sandbox only if tools must run on infrastructure you control.
+If you’re not sure which to choose or you’re new to Claude Managed Agents, start with a [cloud environment](https://platform.claude.com/docs/en/managed-agents/environments). The quickstart, [Get started with Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/quickstart), uses a cloud environment. Anthropic runs an isolated container for each session, with common languages and tools already installed, so there is nothing for you to host. Choose a self-hosted sandbox only if tools must run on infrastructure you control.
 
 ## Compare the options
 
@@ -75,20 +75,24 @@ A self-hosted sandbox fits when the agent needs to do one of the following:
 
 With either option, the conversation history and tool results go to the Managed Agents service, which Anthropic operates. That is how the model receives the result of each tool call. The web search and web fetch tools also run on Anthropic’s side, not in the sandbox. See [Restrict web search and web fetch domains](https://platform.claude.com/docs/en/managed-agents/tools-web-restrictions). Neither option changes the compliance coverage of Managed Agents or how long it keeps conversation history. See [API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#feature-eligibility).
 
+<Note>
+  With [self-hosted Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/self-hosted), you run the whole Managed Agents service, not only the sandboxes. You store agents, sessions, and session history on your own infrastructure. By default, each model request still sends the conversation history and tool results to Anthropic. To request access, contact your Anthropic account team.
+</Note>
+
 ## What you take on and give up with a self-hosted sandbox
 
 A self-hosted sandbox makes you the operator of the worker hosts. You harden the sandbox image, control network egress, store and rotate the environment key, and isolate sessions from each other. The [Security model](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-security) page has the detail.
 
 You also give up these cloud environment features:
 
-* [`file` and `github_repository` session resources](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes#session-resources). You [stage input files yourself](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-workers#stage-files-for-a-session), and you are responsible for mounting your own GitHub repository too.
+* [`file` and `github_repository` session resources](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes#session-resources). You [stage input files yourself](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-per-session#stage-files-for-a-session), and you are responsible for mounting your own GitHub repository too.
 * [Repository skill discovery](https://platform.claude.com/docs/en/managed-agents/skills#load-skills-from-a-github-repository).
 * [Environment variable credentials](https://platform.claude.com/docs/en/managed-agents/vaults#add-a-credential) in vaults.
 * The [preinstalled runtimes and packages](https://platform.claude.com/docs/en/managed-agents/cloud-sandboxes-reference) of a cloud sandbox. A self-hosted sandbox has whatever your worker provides.
 
 ## Differences on Claude Platform on AWS
 
-If you use Claude Managed Agents through Claude Platform on AWS, Anthropic still operates the service. There, a self-hosted sandbox can’t use memory stores, workers don’t use an environment key, and MCP tunnels aren’t available. See [Claude Managed Agents on Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#claude-managed-agents) and [Features not supported](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#features-not-supported).
+If you use Claude Managed Agents through Claude Platform on AWS, Anthropic still operates the service. There, memory stores aren’t available in a self-hosted sandbox, workers don’t use an environment key, and MCP tunnels aren’t available. See [Claude Managed Agents on Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#claude-managed-agents) and [Features not supported](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#features-not-supported).
 
 ## Differences on Claude Models on Google Cloud (Anthropic managed)
 

@@ -17,36 +17,11 @@ These agents are in production, and enterprise customers have seen larger carts 
 This post is for the engineers and engineering leaders building these (or other consumer facing) agents. Part 1 covers the architecture, which you decide once. Part 2 covers latency and cost. Part 3 covers production: memory, safety, evals, and scaling the work across an organization.
 Reference implementation
 We've also provided a **blueprint** to help build commerce agents on Claude. It contains the harnesses, patterns, and guardrails an engineering team needs to get a commerce agent running in days, with reference implementations of a shopping agent and a merchant agent for retail, travel, telecom, and ticketing platforms.
-[anthropics/commerce-agents →](https://github.com/anthropics/commerce-agents)
-In this guide
-
-  -
-[Part 1: The architecture](https://claude.com/resources/articles/the-anatomy-of-effective-commerce-agents#ca-p1)
-    - What is a commerce agent?
-    - Skills, not subagents
-    - System prompt or skill: decide by frequency
-    - Engineering agent tooling
-    - The UI components are tools
-
-  -
-[Part 2: Making it fast and affordable](https://claude.com/resources/articles/the-anatomy-of-effective-commerce-agents#ca-p2)
-    - Minimizing task completion latency
-    - Perceived latency
-    - Prompt caching
-    - Choosing the model and its configuration
-
-  -
-[Part 3: Running it in production](https://claude.com/resources/articles/the-anatomy-of-effective-commerce-agents#ca-p3)
-    - Memory that survives the session
-    - Safety: enforcement lives in the harness
-    - Evals: shipping a non-deterministic system
-    - Shipping with a large organization
-
-  -
-[Looking ahead](https://claude.com/resources/articles/the-anatomy-of-effective-commerce-agents#ca-p4)
-
-**01**
-## The architecture
+[anthropics/commerce-agents](https://github.com/anthropics/commerce-agents)
+- [02Making it fast and affordable](https://claude.com/resources/articles/the-anatomy-of-effective-commerce-agents#chapter-2)
+- [03Running it in production](https://claude.com/resources/articles/the-anatomy-of-effective-commerce-agents#chapter-3)
+- [04Looking ahead](https://claude.com/resources/articles/the-anatomy-of-effective-commerce-agents#chapter-4)
+## 01 The architecture
 One model in a standard agent loop, with skills for the long tail and tools that call the systems you already run. You decide this once.
 ### **What is a commerce agent?**
 We define a commerce agent as an agent that simplifies buying and selling across an online catalog.
@@ -76,9 +51,7 @@ Critical instructions, such as safety and legal rules, brand constraints, and ke
 For commerce agents, this means product search lives in the prompt, since nearly every session touches it, and skills carry the long tail of features.
 In our [reference implementation](https://github.com/anthropics/commerce-agents), the shopping agent's prompt holds grounding, cart and checkout semantics, and presentation rules, and the following skills cover the rest: search-discovery, purchase-research, planning-goals, customer-care, and memory-personalization.
 The merchant agent splits the same way, with performance-insights, catalog-listings, inventory-operations, pricing-promotions, and marketing-campaigns as its skills, one per operational domain.
-**In the prompt***Shopping agent*Grounding, cart and checkout semantics, presentation rules, and product search.
-**Shopping skills***The long tail*search-discovery · purchase-research · planning-goals · customer-care · memory-personalization
-**Merchant skills***One per operational domain*performance-insights · catalog-listings · inventory-operations · pricing-promotions · marketing-campaigns
+**In the prompt**Shopping agentGrounding, cart and checkout semantics, presentation rules, and product search.**Shopping skills**The long tailsearch-discovery · purchase-research · planning-goals · customer-care · memory-personalization**Merchant skills**One per operational domainperformance-insights · catalog-listings · inventory-operations · pricing-promotions · marketing-campaigns
 ### **Engineering agent tooling**
 Our post on[ writing effective tools for agents](https://www.anthropic.com/engineering/writing-tools-for-agents) covers tool design in general. Two points have mattered most in commerce:
 **Build agent tools on top of your core systems and logic.**
@@ -103,8 +76,7 @@ To get a token-level stream, set `eager_input_streaming:` true on the tool defin
 In our evals, schema violations are very rare on Claude Sonnet-class models and up, but wrap the call in a retry for the cases where one slips through.
 Presentation tools also give the agent a record of what's on screen. When a customer says "the first hotel" or "the third one down on the left," the layout is in the messages array, in the arguments of the last presentation call.
 For that to work, the arguments have to reflect the rendered layout, so structure them the way the UI is structured, as ordered rows and carousels rather than a flat list the client rearranges.
-**02**
-## Making it fast and affordable
+## 02 Making it fast and affordable
 Attack latency on two fronts, end-to-end and perceived, and let caching carry the cost. None of it should spend intelligence to get there.
 Latency matters in commerce, and consumer surfaces are the least forgiving. However, on agentic surfaces, what we have consistently seen move metrics like retention, engagement, and cart size is the quality of the outcome.
 Whether the answer was relevant and the task actually completed was more critical to those metrics as compared to marginal latency gains.
@@ -112,9 +84,7 @@ So attack latency on two fronts. Minimize end-to-end latency through good engine
 Every user has a latency budget, and the techniques below keep the agent inside it without spending intelligence to get there.
 ### **Minimizing task completion latency**
 Task completion latency is the sum, over model turns, of time to last token plus tool processing. That gives you three levers to work towards: fewer turns, faster tools, and faster tokens. These levers sometimes compete, so the thing to minimize is the sum rather than any one of them.
-**Fewer turns**Load likely context up front, increase model intelligence, and have the model call independent tools in parallel.
-**Faster tools**Optimize the tool's own backend, and dispatch tools eagerly as their arguments complete.
-**Faster tokens**Choose the model and its configuration by sweeping your eval suite.
+**Fewer turns**Load likely context up front, increase model intelligence, and have the model call independent tools in parallel.**Faster tools**Optimize the tool's own backend, and dispatch tools eagerly as their arguments complete.**Faster tokens**Choose the model and its configuration by sweeping your eval suite.
 #### **Fewer turns**
 Query complexity adds turns, and is generally out of your control. Model intelligence and relevant context help the agent get to task completion in fewer turns. Some of our key learnings in this area include:
   - **Load likely context up front.** If the user opened the assistant from a product page, or a merchant opened it from a campaign dashboard, put that page's data in the session context. The conversation is likely about it, and answering from context costs no extra turns.
@@ -146,8 +116,7 @@ Second, roll your breakpoints forward in each turn: a request allows a limited n
   - **Sweep.** Run your entire eval suite across *every* model and effort level you'd consider. We recommend starting at Opus for merchant agents, whose tasks are analysis-heavy, and Sonnet for consumer agents, where latency weighs more. If you have production traffic, weigh the results by your real query mix. Then let the numbers decide. Sometimes Opus 5's lift on cart-driving tasks justifies the cost difference over Sonnet, and sometimes it doesn't.**‍**
   - **Read the results carefully.** Two things regularly surprise teams. The first is that a prompt is tuned to a model, so a sweep run with one prompt may underperform other models that it wasn't written for. A smaller model usually needs instructions the current model infers on its own, and a larger one will follow instructions to the letter that the smaller one was ignoring. A few rounds of iteration on each candidate's failing cases is a cheap step before ruling any of them out. The second is that a more intelligent configuration sometimes wins on latency (most commonly on p90 and p99) despite slower tokens, because it plans its tool calls better and needs fewer rounds on the most complex requests.
 Measure cost per completed task rather than per model call, since a cheaper model that needs more turns, or fails more often, is not cheaper. When the result is close, and the cost fits your per-task economics and latency, choose intelligence. Quality is what drives adoption and retention, and allows for room to build for the next 6 months as models become better.
-**03**
-## Running it in production
+## 03 Running it in production
 Memory, safety, evals, and scaling the work across an organization: what gets an agent through production and keeps it there.
 Lastly, we talk about what gets an agent through production: memory, safety, evals, and scaling the work across an organization.
 ### **Memory that survives the session**
@@ -170,9 +139,7 @@ Separating the extractor also lets you prompt it precisely. It reads only the us
 ![](https://assets.claude.com/516a22932c1a2eea15f8ad38c385e479e1b37408.png)
 #### **Reading memory**
 Read memory in three layers.
-**Always in context**A small fixed set of facts goes into context on every turn: the ones nearly every request depends on, such as a shopper's default store and fulfillment preference, or an operator's store and role.
-**Pre-fetched per turn**Facts relevant to the current request are pre-fetched per turn from the same signals that pre-load a skill: a shoe search pulls sizes and brand preferences, a campaign question pulls the operator's usual metrics.
-**Behind a lookup tool**Everything else sits behind a lookup tool.
+**Always in context**A small fixed set of facts goes into context on every turn: the ones nearly every request depends on, such as a shopper's default store and fulfillment preference, or an operator's store and role.**Pre-fetched per turn**Facts relevant to the current request are pre-fetched per turn from the same signals that pre-load a skill: a shoe search pulls sizes and brand preferences, a campaign question pulls the operator's usual metrics.**Behind a lookup tool**Everything else sits behind a lookup tool.
 Since memory is per-user context, all of it goes in the session segment, below the global cache breakpoint.
 ### **Safety: enforcement lives in the harness**
 The prompt is where safe behavior starts, but in commerce it can't be where safety is enforced. The failures are financial and often irreversible, and a prompt rule is one injection or one bad sample away from being skipped. Every rule below is enforced in code, on both the consumer and the merchant agent, and defined once so every runtime shares it.
@@ -226,7 +193,7 @@ The tempting fix is to break the system into many subagents, one per business un
   - **A change ships with its cases and CI runs a set chosen for it.** A team contributing a skill also contributes its cases, including the negative cases and the boundary cases against neighboring skills. Running the full suite on every pull request is too slow and too expensive to survive, so build a CI set from it instead. That set will consist of a core set of cases with the highest-traffic requests and every safety case. On top of that, run the cases for whatever the change touched. For a skill, that means its own cases and its neighbors' boundary cases. For a tool, it is every case that calls it. For the shared prompt, it is the full eval suite since everything reads the system prompt. We recommend gating the pass rate over a few trials, and on cache hit rate and cost per turn. It is also a good practice to run the full suite nightly and before every release. Cross-team regressions are caught in these runs.
   - **The agent should also be inside the release calendar.** It's one deployment unit, so a bad change reaches every user at once. Roll prompt and skill changes to a canary cohort first, keep a switch that turns off one skill without a deploy, and freeze the agent ahead of peak periods the same way you freeze other systems.
 For the human side of this arrangement, see [Building effective human-agent teams](https://claude.com/resources/articles/building-effective-human-agent-teams).
-## **Looking ahead**
+## 04 Looking ahead
 Most of what this post describes is not about the model. The tools call systems you already run, the skills encode procedures you already follow, the evals are your product requirements doc written as tests, and the harness enforces policy you would enforce for any client. Models will keep improving, and when a better one ships, the architecture we describe adopts it as a config change with an eval sweep. Everything else keeps working.
 It is also important to think about your roadmap for product surfaces. The architecture will outlast the chat panel. The same agent can work over voice, and it can proactively act on a fare drop before the user asks. For a team that already has the evals and the tools, those are presentation-layer projects. Further out, some of the traffic to your storefront will come from agents that shop on behalf of users. The same provenance, staging, and approval rules that keep your own agent in bounds are what will let you open your tools to those agents safely.
 Commerce has always rewarded making the buying process as smooth as possible. Agents make that a lot easier. Check out the [complete reference implementation](https://github.com/anthropics/commerce-agents), with both the consumer and the merchant agent and runnable examples for retail, travel, telecom, and entertainment.
@@ -235,22 +202,23 @@ Commerce has always rewarded making the buying process as smooth as possible. Ag
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

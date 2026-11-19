@@ -18,11 +18,12 @@ featureMetadata:
     Claude API: beta
     Amazon Bedrock:
       availability: beta
-      note: 在 Amazon Bedrock 和 Google Cloud 上，令牌绑定到您的调用方身份（没有工作区），且不提供 `allowed_fallback_models`。
+      note: 在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上，该令牌绑定到您的调用方身份（没有工作区）。
     Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Anthropic managed): beta
     Claude Models on Google Cloud (Google managed):
       availability: beta
-      note: 在 Amazon Bedrock 和 Google Cloud 上，令牌绑定到您的调用方身份（没有工作区），且不提供 `allowed_fallback_models`。
+      note: 在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上，该令牌绑定到您的调用方身份（没有工作区）。
     Microsoft Foundry: beta
 ---
 
@@ -528,12 +529,16 @@ featureMetadata:
 
 ## 适用范围
 
-回退抵扣目前在 Claude API、Amazon Bedrock、Claude Platform on AWS、Claude Models on Google Cloud (Google managed) 和 Microsoft Foundry 上处于 beta 阶段。[Message Batches](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing) 中的拒绝不会生成抵扣令牌，且兑换仅适用于直接的 Messages API 请求：在批处理请求中传递的令牌会被接受但会被忽略。Claude Haiku 5.5 的拒绝不携带回退抵扣，因此在其之后的重试需要支付写入回退模型提示缓存的全部费用。
+回退抵扣目前在 Claude API 和部分云平台上处于 beta 阶段。有关各平台上的模型，请参阅[可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit#feature-availability)。
+
+Claude Haiku 5.5 的拒绝不携带回退抵扣，因此在其之后的重试需要支付写入回退模型提示缓存的全部费用。
+
+[批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)中的拒绝不携带抵扣令牌。批处理请求也无法兑换令牌：只有直接的 Messages API 请求才能兑换。API 会接受批处理请求中的令牌，但会将其忽略。
 
 重试模型必须是被拒绝模型允许的回退目标之一。对于 Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5 和 Claude Opus 5.5，回退目标为 Claude Opus 4.8（`claude-opus-4-8`）和 Claude Opus 5（`claude-opus-5`）。对于 Claude Opus 5，回退目标为 Claude Opus 4.8。对于 Claude Sonnet 5.5，回退目标为 Claude Sonnet 5（`claude-sonnet-5`）。
 
 <Accordion title="以编程方式查询允许的回退目标">
-  在 Claude API 和 Claude Platform on AWS 上，当设置了 `server-side-fallback-2026-07-01` beta 标头时，目标列表会作为 `allowed_fallback_models` 发布在 [Models API](https://platform.claude.com/docs/zh-CN/api/beta/models/list) 中每个模型的条目上。仅使用 `fallback-credit-*` 标头时，该列表尚不可见。它在 Amazon Bedrock、Claude Models on Google Cloud (Google managed) 或 Microsoft Foundry 上不对外公开。
+  在 Claude API 和 Claude Platform on AWS 上，[Models API](https://platform.claude.com/docs/zh-CN/api/beta/models/list) 会在 `allowed_fallback_models` 字段中列出每个模型允许的回退目标。要获取此字段，请在 Models API 请求中发送 `server-side-fallback-2026-07-01` beta 标头。仅使用 `fallback-credit-*` 标头时，响应中不包含该字段。
 </Accordion>
 
 ## 检查抵扣是否已生效
@@ -660,8 +665,9 @@ featureMetadata:
 | Beta             | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview) |
 | Beta<sup>1</sup> | [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)                                                                          | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview) |
 | Beta<sup>1</sup> | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)                                                                                                                              | [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview)                                                                                                                                                                               |
+| Beta             | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                                                    | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview) |
 
-1. 在 Amazon Bedrock 和 Google Cloud 上，令牌绑定到您的调用方身份（没有工作区），且不提供 `allowed_fallback_models`。
+1. 在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上，该令牌绑定到您的调用方身份（没有工作区）。
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 
@@ -673,7 +679,7 @@ featureMetadata:
 
 Beta 请求头让您可以在实验性功能和新模型能力成为标准 API 的一部分之前访问它们。
 
-| 请求头                                                                                         | 云平台                                                                                                                                                                                                                                                          |
-| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `fallback-credit-2026-07-01`或`server-side-fallback-2026-07-01`或`fallback-credit-2026-06-01` | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)                             |
-| `fallback-credit-2026-07-01`或`fallback-credit-2026-06-01`                                   | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) |
+| 请求头                                                                                         | 云平台                                                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `fallback-credit-2026-07-01`或`server-side-fallback-2026-07-01`或`fallback-credit-2026-06-01` | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| `fallback-credit-2026-07-01`或`fallback-credit-2026-06-01`                                   | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)                                                                                                                                    |

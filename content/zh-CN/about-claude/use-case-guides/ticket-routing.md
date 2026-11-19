@@ -488,7 +488,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
 
   		Remember to always include your classification reasoning before your actual intent output. The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
   		`
-  // ...
+  	// ...
   }
   ```
 
@@ -831,7 +831,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   	"context"
   	"regexp"
   	"strings"
-  // ...
+  	// ...
   )
 
   // 创建 Claude API 客户端实例
@@ -1196,7 +1196,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   	"context"
   	"regexp"
   	"strings"
-  // ...
+  	// ...
   )
 
   // 创建 Claude API 客户端实例

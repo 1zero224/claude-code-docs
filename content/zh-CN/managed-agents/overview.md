@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -106,6 +106,7 @@ Claude Managed Agents 最适合具有以下需求的工作负载：
 * **长时间运行的执行：** 运行数分钟或数小时、涉及多次工具调用的任务
 * **云基础设施：** 预装软件包并具备网络访问能力的安全沙箱
 * **自托管执行：** 在您控制的基础设施上运行沙箱，以满足合规性或数据驻留要求
+* **自托管服务：** 通过[自托管 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted)，在您自己的基础设施上运行整个 Managed Agents 服务
 * **最少的基础设施：** 无需自行构建智能体循环、沙箱或工具执行层
 * **有状态会话：** 跨多次交互持久保存的文件系统和对话历史
 * **定时执行：** 通过[定时部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)按 cron 计划定期运行智能体
@@ -135,7 +136,7 @@ Claude Managed Agents 为 Claude 提供了一组内置工具：
 
 在 beta 阶段内，[MCP 隧道](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview)和 [dreaming（梦境）](https://platform.claude.com/docs/zh-CN/managed-agents/dreams)处于更为有限的研究预览阶段。要启用它们，请[申请研究预览的访问权限](https://claude.com/form/claude-managed-agents)。
 
-Claude Managed Agents 在设计上是有状态的：会话可长时间运行，暂停后可顺利恢复，并在服务器端存储对话历史、沙箱状态和输出。因此，Managed Agents 目前不符合[零数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)或 HIPAA 商业伙伴协议（BAA）的覆盖条件。您保留对这些数据的控制权：您可以随时通过 API [删除会话](https://platform.claude.com/docs/zh-CN/managed-agents/session-operations#deleting-a-session)，并单独删除您上传的任何[文件](https://platform.claude.com/docs/zh-CN/build-with-claude/files#delete-a-file)。有关所有功能的适用资格，请参阅 [API 与数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)。
+Claude Managed Agents 在设计上是有状态的：会话可长时间运行，暂停后可顺利恢复，并在服务器端存储对话历史、沙箱状态和输出。因此，Managed Agents 目前不符合[零数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)或 HIPAA 商业伙伴协议（BAA）的覆盖条件。零数据保留的例外情况是自托管 Claude Managed Agents，在这种情况下由您自行存储这些数据，如[数据保留多长时间](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept)中所述。您保留对这些数据的控制权：您可以随时通过 API [删除会话](https://platform.claude.com/docs/zh-CN/managed-agents/session-operations#deleting-a-session)，并单独删除您上传的任何[文件](https://platform.claude.com/docs/zh-CN/build-with-claude/files#delete-a-file)。有关所有功能的适用资格，请参阅 [API 与数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)。
 
 请参阅参考文档中的[速率限制](https://platform.claude.com/docs/zh-CN/managed-agents/reference#rate-limits)和[品牌指南](https://platform.claude.com/docs/zh-CN/managed-agents/reference#branding-guidelines)。
 
@@ -161,10 +162,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

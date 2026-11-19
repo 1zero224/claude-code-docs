@@ -2,9 +2,9 @@
 > Fetch the complete documentation index at: https://code.claude.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Claude Code 如何使用 prompt caching
+# Claude Code 如何使用提示缓存
 
-> Claude Code 自动管理 prompt caching。了解为什么模型切换会触发缓慢的未缓存回合、`/compact` 的成本、为什么 CLAUDE.md 编辑在会话中期不适用，以及如何检查缓存命中率。
+> 了解为什么在 Claude Code 中切换模型会触发一个缓慢的未缓存轮次、`/compact` 的成本，以及如何检查提示缓存命中率。
 
 Prompt caching 使 Claude Code 更快、更经济高效。没有缓存，API 会在每个回合重新处理您的完整历史记录。有了缓存，它会重用已经处理过的内容，按照[缓存令牌费率](https://platform.claude.com/docs/en/about-claude/pricing)对重新读取进行计费，并仅完全处理已更改的内容。
 
@@ -26,7 +26,7 @@ API 通过将每个请求的开始部分（称为前缀）与最近处理的内�
 | 项目上下文 | CLAUDE.md、自动记忆、无作用域的规则 | 会话开始时，或在 `/clear` 或 `/compact` 之后 |
 | 对话 | 您的消息、Claude 的回复、工具结果 | 每个轮次 |
 
-对对话层的更改会使系统提示词和项目上下文保持缓存。对系统提示词的更改会使所有内容失效，因为所有后续内容现在位于不同的前缀后面。第三列给出了常见的触发条件，而不是详尽的列表，下面的部分涵盖了完整的集合。
+向对话层添加内容会使系统提示词和项目上下文保持缓存。对系统提示词的更改会使所有内容失效，因为所有后续内容现在位于不同的前缀后面。第三列给出了常见的触发条件，而不是详尽的列表，下面的部分涵盖了完整的集合。
 
 前缀匹配规则解释了本页上的大多数行为。例如，[计划模式](https://code.claude.com/docs/zh-CN/permission-modes.md#analyze-before-you-edit-with-plan-mode)和 [skill 加载](https://code.claude.com/docs/zh-CN/skills.md)将其指令作为对话消息附加，因此缓存的前缀保持完整。
 
@@ -174,14 +174,14 @@ Claude Code 永远不会因插件的 skill、命令、Agent、hook、监视器�
 
 ### 压缩对话
 
-[压缩](https://code.claude.com/docs/zh-CN/context-window.md#what-survives-compaction)会用摘要替换您的消息历史记录。按照设计，这会使对话层失效：下一个请求拥有一个新的、更短的历史记录，与旧的历史记录不共享前缀。系统提示词层和项目上下文层可以保持缓存：
+[压缩](https://code.claude.com/docs/zh-CN/context-window.md#what-survives-compaction)会用摘要替换您的消息历史记录。按照设计，这会使对话层失效：下一个请求拥有一个新的、更短的历史记录，与旧的历史记录不共享前缀。
 
 * **系统提示词**：下一个请求会从缓存中读取此层，除非某个[恢复的对话](#resuming-a-session)保留了现已过时的系统提示词。该对话第一次被压缩时，Claude Code 会将其切换为当前的提示词，下一个请求会重建此层的缓存一次。
-* **项目上下文**：Claude Code 会从磁盘重新加载此层。仅当 CLAUDE.md 和记忆自会话开始以来未改变时，下一个请求才会从缓存中读取它。
+* **项目上下文**：Claude Code 会从磁盘重新加载此层。它与对话一起缓存，因此在 `/compact` 或自动压缩之后，即使其文件未改变，其缓存也会被重建。
 
 为了生成摘要，Claude Code 会发送一个单独的请求。该请求会重复您对话的系统提示词、工具以及正在被摘要的历史记录，并以一条摘要指令结尾。当缓存温暖时，该请求会从缓存中读取您的前缀。因此，会话中途的 `/compact` 成本只是上下文大小所暗示成本的一小部分，其大部分时间都花在生成摘要上。
 
-在超过[缓存生命周期](#cache-lifetime)的中断之后，已没有缓存可读，因此摘要请求会将该历史记录作为未缓存的输入重新处理。这就是为什么在您[恢复旧会话](https://code.claude.com/docs/zh-CN/sessions.md#resume-a-session)时 `/compact` 的成本最高。无论缓存温暖还是已冷，压缩后的轮次都只需为短得多的摘要重建对话缓存，因此该轮次并不是耗时的部分。
+在超过[缓存生命周期](#cache-lifetime)的中断之后，已没有缓存可读，因此摘要请求会将该历史记录作为未缓存的输入重新处理。这就是为什么在您[恢复旧会话](https://code.claude.com/docs/zh-CN/sessions.md#resume-a-session)时 `/compact` 的成本最高。无论缓存温暖还是已冷，压缩后的轮次都只需为短得多的历史记录重建对话缓存，因此该轮次并不是耗时的部分。
 
 > [!TIP]
 >
@@ -207,7 +207,7 @@ API 限制每个请求可以携带的图像和 PDF 数量。有关当前数值�
 
 ## 保持缓存的操作
 
-这些操作要么追加到对话的末尾，要么根本不触及请求。其中一些操作（例如编辑 CLAUDE.md）保持缓存的原因与该更改在运行会话中不会生效直到 `/clear`、`/compact` 或重启的原因相同。
+这些操作要么追加到对话的末尾，要么根本不触及请求。
 
 * [编辑仓库中的文件](#editing-files-in-your-repository)
 * [在会话中编辑 CLAUDE.md](#editing-claude-md-mid-session)
@@ -220,13 +220,13 @@ API 限制每个请求可以携带的图像和 PDF 数量。有关当前数值�
 
 ### 编辑仓库中的文件
 
-文件内容仅在 Claude 读取文件时进入上下文，而读取操作会追加到对话中。编辑 Claude 之前读过的文件不会追溯性地改变历史记录中的早期读取。相反，Claude Code 会追加一条 [`<system-reminder>`](https://code.claude.com/docs/zh-CN/glossary#system-reminder) 注明文件已更改，Claude 会在需要时重新读取该文件。
+当您编辑 Claude 已经读取过的源文件时，缓存的前缀保持完整，因为您的编辑不会改变对话中已有的副本。
 
 ### 在会话中编辑 CLAUDE.md
 
-您的项目根目录和用户级 CLAUDE.md 文件在会话开始时读取一次并保存在内存中。在会话中编辑它们不会使缓存失效，但编辑也不会应用。Claude 继续使用在会话开始时加载的版本。新内容在下一次 `/clear`、`/compact` 或重启时加载。
+当您在会话中编辑项目根目录或用户级 CLAUDE.md 时，缓存的前缀保持完整。Claude Code 在会话开始时读取这些文件并将其保存在内存中。要重新加载它们，请运行 `/clear` 或 `/compact`，或重启 Claude Code。
 
-[子目录中的嵌套 CLAUDE.md 文件](https://code.claude.com/docs/zh-CN/memory.md)和[带有 `paths:` frontmatter 的规则](https://code.claude.com/docs/zh-CN/memory#path-specific-rules)稍后按需加载。在其加载前自行编辑确实会生效。加载后，内容成为对话历史的一部分，所以中途编辑不会追溯性地改变它。
+[子目录中的嵌套 CLAUDE.md 文件](https://code.claude.com/docs/zh-CN/memory.md)和[带有 `paths:` frontmatter 的规则](https://code.claude.com/docs/zh-CN/memory#path-specific-rules)会在稍后按需加载。在其加载之前自行编辑，修改会生效。加载之后，其内容已成为对话历史的一部分，因此会话中途的编辑不会追溯性地更改它。
 
 ### 更改权限模式
 
@@ -250,7 +250,7 @@ API 限制每个请求可以携带的图像和 PDF 数量。有关当前数值�
 
 [`/rewind`](https://code.claude.com/docs/zh-CN/checkpointing) 将您的对话截断回到较早的轮次。剩余的历史是缓存在该点构建时的相同内容，系统提示词和项目上下文层保持不变，所以下一个请求会命中较早的缓存条目。从那时起的每一轮都读过该前缀，即使原始轮次比 TTL 更久远，也保持了该条目的活跃。
 
-恢复文件检查点与对话一起对缓存没有单独的影响。文件内容仅在 Claude 读取文件时进入上下文，与[编辑仓库中的文件](#editing-files-in-your-repository)相同。
+恢复文件检查点与对话一起对缓存没有单独的影响。
 
 ## 恢复会话
 

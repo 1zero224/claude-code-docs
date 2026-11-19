@@ -98,7 +98,7 @@ You see fast mode spend in a different place depending on how you signed in, so 
 
 * **Pro, Max, and Ultra**: you pay for fast mode from your usage credits. Go to [**Settings > Usage**](https://claude.ai/settings/usage) on claude.ai, where the **Usage credits** section shows how much you've spent in usage credits this month. That figure includes fast mode but doesn't break it out separately.
 * **Team and Enterprise**: your organization pays for your fast mode usage from its usage credits. To see your own usage-credits spend, run [`/usage`](https://code.claude.com/docs/en/costs#check-your-usage-credits-spend). For where your organization sees that spend, see [Claude for Teams and Enterprise](https://code.claude.com/docs/en/costs.md#claude-for-teams-and-enterprise).
-* **Claude Console**: your organization pays for fast mode with the rest of its API usage. On the Console [Usage](https://platform.claude.com/usage) and [Cost](https://platform.claude.com/cost) pages, select **Speed (research preview)** in the **Group by** menu to separate fast mode from standard-speed usage. You see that option only when the selected date range includes fast mode usage.
+* **Claude Console**: your organization pays for fast mode with the rest of its API usage. On the Console [Usage](https://platform.claude.com/usage) and [Cost](https://platform.claude.com/cost) pages, select **Speed** in the **Group by** menu to separate fast mode from standard-speed usage. You see that option only when the selected date range includes fast mode usage.
 
 ## Decide when to use fast mode
 
@@ -183,7 +183,7 @@ On Agent Platform, `"fastMode": true` in your user, project, local, or managed s
 If Agent Platform refuses fast mode, Claude Code falls back to standard speed. An interactive session then shows one of these terminal messages:
 
 * `Using standard speed on Fable 5.2 · fast mode wasn't available`: run `/fast on` to try fast mode again
-* `Fast mode was refused for this project · trying again in 30m`: Agent Platform answered a fast mode request with a 403 or 404 error. To try sooner, run `/fast on`.
+* `Fast mode paused: your cloud provider refused a fast request · trying again in 30m`: Agent Platform answered a fast mode request with a 403 or 404 error. To try sooner, run `/fast on`. Requires Claude Code v2.1.323 or later.
 
 ### Use fast mode behind proxies and LLM gateways
 

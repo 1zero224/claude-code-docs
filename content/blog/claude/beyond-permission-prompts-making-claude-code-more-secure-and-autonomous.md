@@ -10,10 +10,10 @@ DateOctober 8, 2025
 Reading time7 min
   -
 ShareCopy link
-Introducing Claude Code
-![Introducing Claude Code](https://assets.claude.com/56575a2d86ba511e0095b0cb9a92cafe7079c820.jpg?w=2400&q=75&fm=webp&fit=max)
-See Claude Code in action—from concept to commit in one seamless workflow.
-[Read more](https://claude.com/product/claude-code)
+Claude Code
+![](https://assets.claude.com/7ce26b5e078244555803cda1e0edd4df1fd150f9.svg)
+Anthropic's agentic coding tool. Claude Code understands your codebase, edits files, runs commands, and helps you ship faster.
+[Read more (opens in new tab)](https://claude.com/product/claude-code)
 To help address this, we’ve introduced two new features in Claude Code built on top of sandboxing, both of which are designed to provide a more secure place for developers to work, while also allowing Claude to run more autonomously and with fewer permission prompts. ByThese features are examples of **native sandboxing**: defining set boundaries within which Claude can work freely, they increase security and agency..
 ## Our current approach to keeping users secure
 Claude Code runs on a permission-based model: by default, it's read-only, which means it asks for permission before making modifications or running any commands. There are some exceptions to this: we use static analysis to auto-allow safe commands like echo or cat, but most operations still need explicit approval.
@@ -59,24 +59,20 @@ User feedback plays a crucial role in Claude's improvement. By analyzing user in
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)[
-ArticleNov 9, 2026
-### Claude Fable 5.2 and Mythos 5.2
-Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
-Claude appsClaude Code
-1 more: Claude PlatformClaude Platform
-(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 12, 2026
+### Operate Claude Managed Agents inside your security perimeter
+Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
+Claude PlatformClaude Managed Agents
+](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
+ArticleNov 12, 2026
+### Introducing Claude for Manufacturing
+A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
+](https://claude.com/resources/articles/claude-for-manufacturing)[
+ArticleNov 12, 2026
+### Introducing Claude Meetings
+Add Claude to your video call and get the work started while you talk
+](https://claude.com/resources/articles/claude-meetings)

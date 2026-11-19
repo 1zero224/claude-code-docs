@@ -10,7 +10,7 @@ description: Claude Fable 5.1 和 Claude Mythos 5.1 的行为差异与提示模�
 
 * 不确定应使用哪个 effort 级别，或延迟和成本高于任务所需：[考虑所有 effort 级别](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#consider-all-effort-levels)
 * 工具调用之间很少或没有文本：[要求提供面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#ask-for-user-facing-progress-updates)
-* 代理循环中每轮只有一个工具调用：[在代理循环中批量执行独立的工具调用](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#batch-independent-tool-calls-in-agent-loops)
+* 智能体循环中每轮只有一个工具调用：[在智能体循环中批量发出独立的工具调用](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#batch-independent-tool-calls-in-agent-loops)
 * 请求因 `bound to a different conversation` 而失败，或您的 harness 在请求之间编辑了较早的轮次：[保持对话历史仅追加](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#keep-the-conversation-history-append-only)
 * 文字冗长且密集：[写作密度](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#writing-density)
 * 聊天回复的结构少于内容所需：[聊天中的格式](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#formatting-in-chat)
@@ -53,7 +53,7 @@ Claude Fable 5.1 相对于 Claude Fable 5 的能力提升体现在各个 effort 
 Before you start, say in a line what you're about to do; brief updates while you work help the user follow along. Close with a short recap that stands on its own — what you found, what you did, and what's next — so a reader who only sees the last message has the full picture.
 ```
 
-如果您的产品会折叠或隐藏工具输出，请告知模型。否则，它可能会运行命令来向用户"展示"您的 UI 从不显示的输出。每次您发回 UI 会隐藏的工具输出时，请在其后以[轮次范围的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages)（`clear_at: "next_user_message"`，beta）附上以下说明：
+如果您的产品会折叠或隐藏工具输出，请告知模型。否则，它可能会运行命令来向用户"展示"您的 UI 从不显示的输出。每次您发回 UI 会隐藏的工具输出时，请在其后以[轮次作用域的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages)（`clear_at: "next_user_message"`，beta）附上以下说明：
 
 ```text wrap
 Only you see that command's output — the user's terminal shows at most a few lines of it. If the user needs to read any of it, put it in your reply.
@@ -67,13 +67,21 @@ Claude Fable 5.1 通常会按预期发出并行工具调用：当请求列出需
 First privately list what you need next; then request every item that doesn't depend on another's result in this one response.
 ```
 
-每次发回工具结果时，将这句话作为[轮次作用域系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages)追加在该用户消息之后：即 `messages` 中一个带有 `clear_at: "next_user_message"` 的 `role: "system"` 条目。一旦出现后续用户消息，API 就会清除较早的副本，因此模型只会读到最新的那一份。轮次作用域系统消息目前处于 beta 阶段，需要使用 [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers) `mid-conversation-system-clear-at-2026-08-21`。如果不使用该 beta，请改为将这句话放在同一用户消息中 `tool_result` 块之后的文本块里。
+每次发回工具结果时，将这句话作为[轮次作用域的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages)追加在该用户消息之后：即 `messages` 中一个带有 `clear_at: "next_user_message"` 的 `role: "system"` 条目。一旦出现后续用户消息，API 就会清除较早的副本，因此模型只会读到最新的那一份。轮次作用域的系统消息目前处于 beta 阶段，需要使用 [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers) `mid-conversation-system-clear-at-2026-08-21`。如果不使用该 beta，请改为将这句话放在同一用户消息中 `tool_result` 块之后的文本块里。
 
-每轮追加一份新副本，并将较早的副本逐字节原样保留在原处。它们仍留在数组中，但一旦被清除，模型就看不到它们，也不会消耗输入令牌。删除或改写它们就等于编辑了较早的轮次：这会使其后的思考块失效（请参阅[保持对话历史仅追加](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#keep-the-conversation-history-append-only)）。
+每轮追加一份新副本，并将较早的副本原样保留在原处。它们仍留在数组中，但一旦被清除，模型就看不到它们，也不会消耗输入令牌。删除或改写它们就等于编辑了较早的轮次：这会使其后的思考块失效（请参阅[保持对话历史仅追加](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#keep-the-conversation-history-append-only)）。
 
-以下循环展示了这种放置方式。每个助手轮次都按返回时的原样发回，每个用户轮次只携带工具结果，其后紧跟一份新的轮次作用域提示副本。
+以下循环展示了这种放置方式。每个助手轮次都原样发回，每个用户轮次只携带工具结果，其后紧跟一份新的轮次作用域提示副本。
 
-<CodeGroup exclude="shell">
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    此工作流需要的逻辑超出了单个 shell 命令的范围。请使用 [Anthropic SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 来运行它。
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    此工作流需要的逻辑超出了单个 shell 命令的范围。请使用 [Anthropic SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 来运行它。
+  </CodeGroupItem>
+
   ```python Python
   import anthropic
   from anthropic.types.beta import (
@@ -748,11 +756,19 @@ First privately list what you need next; then request every item that doesn't de
 
 ## 保持对话历史仅追加
 
-请将每个助手轮次完全按照 API 返回的原样追加到历史记录中（包括思考块），并且不要在请求之间编辑较早的轮次。一个思考块[仅在其之前的所有内容保持不变时](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-in-conversation)才有效：包括系统提示、工具列表以及每条较早的消息。要选择未通过前缀检查的思考块如何处理，请设置 `thinking.block_binding.prefix_mismatch_behavior`，这需要 `thinking-binding-controls-2026-08-01` beta 标头。设置为 `"error"` 时，API 会以 400 错误拒绝该请求；设置为 `"drop_block"` 时，API 会丢弃无效的思考块。[未设置 `prefix_mismatch_behavior` 时](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#enforcement)介绍了未设置该参数的请求的处理方式。在 Claude Fable 5.2 和 Claude Mythos 5.2 上，未设置该参数且发回未通过检查的思考块的请求，在所有账户上都会收到 400 错误（请参阅 Claude Fable 5.2 的新功能中的[编辑较早的轮次会使所有账户上的思考块失效](https://platform.claude.com/docs/zh-CN/models/fable-5-2/whats-new-fable-5-2#editing-earlier-turns-invalidates-thinking-blocks)）。
+请将每个助手轮次完全按照 API 返回的原样追加到历史记录中（包括思考块），并且不要在请求之间编辑较早的轮次。API 的 “prefix check”（[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)）[仅在思考块之前的所有内容保持不变时](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-in-conversation)才会让其通过：包括系统提示、工具列表以及每条较早的消息。
 
-大多数会触发前缀检查的历史编辑也会重新开始[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)：注入和删除每轮提醒、就地摘要较早的轮次，或在会话中途更改系统提示。请将每轮提醒作为[轮次范围的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages)发送。要更改指令或工具，请发送[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)，而不是改写 `system` 或 `tools`。让服务器端[压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction)或[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)完成所有裁剪工作。如果您在客户端进行压缩，最简单的方法是用一条摘要消息加上新的用户轮次替换整个历史，不包含其他任何内容。这样不会有思考块被带入，因此不会失败，模型也会针对压缩后的对话重新思考（请参阅[在客户端压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#custom-compaction-on-the-client)）。在 Claude Fable 5.1 上，缓存读取的费用为每百万令牌 0.25 美元，即输入价格的 2.5%（请参阅[提示缓存定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#prompt-caching)）。为节省成本而提早压缩可能是成本与智能之间的错误权衡，因此请尝试更晚的压缩时机。
+未通过 “prefix check”（[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)）可能会也可能不会导致 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。要识别并处理这两种情况，请参阅[思考块的前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks)。
 
-要找出您的 harness 所做的编辑，可以按照[检查您的代码是否编辑了前缀](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#how-to-tell-whether-your-integration-is-impacted)中的说明，使用 `prefix_mismatch_behavior: "drop_block"` 运行一个会话并记录 `input_transformations`。您还可以捕获它在几个正常轮次中发送的确切请求，并确认连续请求之间除追加的轮次外逐字节相同。
+要选择未通过前缀检查的思考块如何处理，请设置 `thinking.block_binding.prefix_mismatch_behavior`。此设置需要 `thinking-binding-controls-2026-08-01` beta 标头。设置为 `"error"` 时，API 会以 400 错误拒绝该请求。设置为 `"drop_block"` 时，API 会丢弃无效的思考块。
+
+以下历史更改会导致未通过前缀检查，同时还会使[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)从更改处起失效：注入和移除每轮提醒、就地摘要较早的轮次，以及在会话中途更改系统提示。请将每轮提醒作为[轮次作用域的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages)发送。要更改指令或工具，请发送[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)，而不是改写 `system` 或 `tools`。让服务器端[压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction)或[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)完成所有裁剪工作。
+
+如果您在客户端进行压缩，一种方法是用一条摘要消息加上新的用户轮次替换整个历史，不包含其他任何内容。这样不会有思考块被带入，因此不会有任何内容未通过前缀检查，模型也会针对压缩后的对话重新思考（请参阅[当您的代码编写摘要时](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-thinking-blocks#own-summary)）。
+
+在 Claude Fable 5.1 上，缓存读取的费用为每百万令牌 0.25 美元，即输入价格的 2.5%（请参阅[提示缓存定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#prompt-caching)）。为节省成本而提早压缩可能是成本与智能之间的错误权衡，因此请尝试更晚的压缩时机。
+
+要找出您的 harness 所做的编辑，可以按照[测试您的代码是否存在未通过前缀检查的情况](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation#how-to-tell-whether-your-integration-is-impacted)中的说明，使用 `prefix_mismatch_behavior: "drop_block"` 运行一个会话并记录 `input_transformations`。您还可以捕获它在几个正常轮次中发送的确切请求，并确认连续请求之间除追加的轮次外完全相同。
 
 ## 写作密度
 
@@ -890,4 +906,4 @@ Instead, when the person has asked for a long or effort-intensive deliverable su
 
 ## 为视觉任务提供裁剪和缩放工具
 
-Claude Fable 5.1 开箱即具备更强的视觉能力，在处理密集图表等复杂视觉输入时，如果能够迭代地分析、裁剪并以视觉方式核实所见内容，它的表现最佳。要充分发挥这一优势，请将模型作为智能体运行，并让它能够访问一个容器，该容器中存放原始图像或视频，并预装了基本的图像处理库（例如 PIL 和 OpenCV）。如果运行容器的开销过大，仅提供一个图像裁剪工具就能带来大部分提升：一个返回图像中选定区域（经裁剪和放大）的工具，能让模型更深入地检查特定细节，并随图像令牌扩展测试时计算量。[裁剪工具示例](https://platform.claude.com/cookbook/multimodal-crop-tool)中提供了一个可用的定义。
+在处理密集图表等复杂视觉输入时，如果 Claude Fable 5.1 能够迭代地分析、裁剪并以视觉方式核实所见内容，它的表现最佳。要充分发挥这一优势，请将模型作为智能体运行，并让它能够访问一个存放原始图像或视频的容器。请为该容器提供基本的图像处理库，例如 PIL 和 OpenCV。如果运行容器的开销过大，仅提供一个图像裁剪工具也会有所帮助。一个返回图像中选定区域（经裁剪和放大）的工具，能让模型更深入地检查特定细节，并且它会随图像令牌扩展测试时计算量。[裁剪工具示例](https://platform.claude.com/cookbook/multimodal-crop-tool)中提供了一个可用的定义。

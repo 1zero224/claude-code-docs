@@ -18,7 +18,7 @@ The videos follow the order of a first setup.
 
 How a tenant, its organizations, and their users fit together, how administrators sign in to the web portal, and how to move between the admin, tenant, and account views. Read more: [The three views](https://claude.com/docs/government/overview.md#the-three-views).
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/mGbOjjHMKV3LYuqi/images/government/videos/admin-01-finding-your-way-around-v2.mp4?fit=max&auto=format&n=mGbOjjHMKV3LYuqi&q=85&s=4aaba8c318c1a044b343874cc64c95c3" aria-label="Video walkthrough: Finding your way around" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/KCl5HZFMS3Q5oYkr/images/government/videos/admin-01-finding-your-way-around-v3.mp4?fit=max&auto=format&n=KCl5HZFMS3Q5oYkr&q=85&s=aedb3d4f109f4e6d0cbbcdaac058b720" aria-label="Video walkthrough: Finding your way around" />
 
 Video: Finding your way around (2 min 24 s). Narrated with an AI-generated voice, with on-screen captions.
 
@@ -62,7 +62,7 @@ Video: Finding your way around (2 min 24 s). Narrated with an AI-generated voice
 
 Claiming and verifying your agency's email domain, then connecting your identity provider with OIDC or SAML in the setup wizard. Read more: [Step 2: Domains](https://claude.com/docs/government/tenant-admin/setup-wizard.md#step-2-domains) and [Single sign-on](https://claude.com/docs/government/tenant-admin/identity-and-access.md#single-sign-on).
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/gGFKuNSbKYs4JMmK/images/government/videos/admin-02-verify-your-domain-and-connect-single-sign-on.mp4?fit=max&auto=format&n=gGFKuNSbKYs4JMmK&q=85&s=bf307a4d18d646cbce35d3c269be51b7" aria-label="Video walkthrough: Verify your domain and connect single sign-on" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/KCl5HZFMS3Q5oYkr/images/government/videos/admin-02-verify-your-domain-and-connect-single-sign-on-v2.mp4?fit=max&auto=format&n=KCl5HZFMS3Q5oYkr&q=85&s=2a78c1fdc3d2036f5fe723047931d514" aria-label="Video walkthrough: Verify your domain and connect single sign-on" />
 
 Video: Verify your domain and connect single sign-on (2 min 24 s). Narrated with an AI-generated voice, with on-screen captions.
 
@@ -98,7 +98,7 @@ Video: Verify your domain and connect single sign-on (2 min 24 s). Narrated with
 
 Adding a sign-in routing rule that places new people in the right organization, adding an organization, and giving it seats. To send people to an organization by group, use a [provisioning rule](https://claude.com/docs/government/tenant-admin/identity-and-access.md#provisioning-rules-scim) rather than the identity provider group rule shown in the video. Read more: [Routing rules](https://claude.com/docs/government/tenant-admin/identity-and-access.md#routing-rules).
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/gG0BlHWciPZj0Lhu/images/government/videos/admin-03-organizations-seats-and-routing-rules-v2.mp4?fit=max&auto=format&n=gG0BlHWciPZj0Lhu&q=85&s=c327b48633e8619e07ced55a9765ede5" aria-label="Video walkthrough: Organizations, seats, and routing rules" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/d46BidiFWN3QbVN7/images/government/videos/admin-03-organizations-seats-and-routing-rules-v4.mp4?fit=max&auto=format&n=d46BidiFWN3QbVN7&q=85&s=c9ee48412b91721abcb7c1f70f538794" aria-label="Video walkthrough: Organizations, seats, and routing rules" />
 
 Video: Organizations, seats, and routing rules (2 min 14 s). Narrated with an AI-generated voice, with on-screen captions.
 
@@ -130,7 +130,7 @@ Video: Organizations, seats, and routing rules (2 min 14 s). Narrated with an AI
 
 Connecting SCIM provisioning, routing directory groups to organizations, and mapping groups to seat tiers and roles. Read more: [SCIM provisioning](https://claude.com/docs/government/tenant-admin/identity-and-access.md#scim-provisioning) and [Group mappings](https://claude.com/docs/government/org-admin/provisioning.md).
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/gG0BlHWciPZj0Lhu/images/government/videos/admin-04-directory-sync-scim-and-group-mappings-v2.mp4?fit=max&auto=format&n=gG0BlHWciPZj0Lhu&q=85&s=44cfafd3709ce812b546449ea1dc0752" aria-label="Video walkthrough: Directory sync (SCIM) and group mappings" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/w4cMG7kNeZrNlcGF/images/government/videos/admin-04-directory-sync-scim-and-group-mappings-v3.mp4?fit=max&auto=format&n=w4cMG7kNeZrNlcGF&q=85&s=ebe769f5280f92d9a250d503221447ca" aria-label="Video walkthrough: Directory sync (SCIM) and group mappings" />
 
 Video: Directory sync (SCIM) and group mappings (2 min 3 s). Narrated with an AI-generated voice, with on-screen captions.
 
@@ -148,19 +148,19 @@ Video: Directory sync (SCIM) and group mappings (2 min 3 s). Narrated with an AI
 >
 > Under Provisioning rules, route groups to organizations. Send research-staff to Research Office, and claude-users to Operations Bureau. The first match wins, so add the narrower group first or drag it to the top.
 >
-> Once a rule covers them, they are placed in its organization, and the list clears on its own.
+> As people are placed in organizations, they leave the waiting list.
 >
 > In the organization's admin view, People now includes Group mappings. Map claude-users to a seat tier, here Standard, and claude-owners to the Owner role.
 >
 > On Users, the provisioned members now hold their mapped seat tier and role.
 >
-> While sync is connected, your directory is the source of truth. Change groups in your provider, because role or seat tier edits made by hand are overwritten by the group mappings.
+> While sync is connected, your directory is the source of truth. To change someone's role or seat tier, change their groups in your provider.
 
 ### Users, seat tiers, and Readiness for organization owners
 
 Checking the **Readiness** page, assigning seat tiers and roles on the **Users** page, and reviewing the **Tiers** page. Read more: [Organization administration](https://claude.com/docs/government/org-admin/overview.md).
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/MtPmUtGcabx4sJAO/images/government/videos/admin-05-organization-owners-users-seat-tiers-and-readiness-v2.mp4?fit=max&auto=format&n=MtPmUtGcabx4sJAO&q=85&s=fbfcdaca92e3c17ff358af64f4f81ae5" aria-label="Video walkthrough: Organization owners: users, seat tiers, and Readiness" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/w4cMG7kNeZrNlcGF/images/government/videos/admin-05-organization-owners-users-seat-tiers-and-readiness-v4.mp4?fit=max&auto=format&n=w4cMG7kNeZrNlcGF&q=85&s=eaa1f241dd0cf6af241cd807a2362a42" aria-label="Video walkthrough: Organization owners: users, seat tiers, and Readiness" />
 
 Video: Organization owners: users, seat tiers, and Readiness (1 min 48 s). Narrated with an AI-generated voice, with on-screen captions.
 
@@ -180,13 +180,13 @@ Video: Organization owners: users, seat tiers, and Readiness (1 min 48 s). Narra
 >
 > Tiers lists the seat tiers available to your organization, and your tenant can let you create your own.
 >
-> Model access comes from the seat tier, never from the role. Tenant administrator is separate from these roles. If directory groups set roles or tiers, change the group in your provider, because the group mappings overwrite edits made by hand.
+> Model access comes from the seat tier, never from the role. Tenant administrator is separate from these roles. If directory groups set roles or tiers, change the group in your provider.
 
 ### Config essentials
 
 Editing settings on the **Config** page for an organization or for one directory group, turning on web search, reviewing the session idle timeout, and locking a value for every organization from the tenant. Read more: [How Config works](https://claude.com/docs/government/config/overview.md).
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/QW2rDqtpaxS9YU5m/images/government/videos/admin-06-config-essentials-v2.mp4?fit=max&auto=format&n=QW2rDqtpaxS9YU5m&q=85&s=96c86f606126bba3b006c1950d4fa19d" aria-label="Video walkthrough: Config essentials" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/S81coeca5-F7xuVX/images/government/videos/admin-06-config-essentials-v4.mp4?fit=max&auto=format&n=S81coeca5-F7xuVX&q=85&s=2f6ce61cb7d50959183f0712ddf67350" aria-label="Video walkthrough: Config essentials" />
 
 Video: Config essentials (2 min 23 s). Narrated with an AI-generated voice, with on-screen captions.
 
@@ -214,7 +214,7 @@ Video: Config essentials (2 min 23 s). Narrated with an AI-generated voice, with
 
 Setting up the Microsoft 365 connector, adding a connector of your own with a tool policy, and adding a plugin. Read more: [Connectors](https://claude.com/docs/government/connectors/overview.md) and [Manage plugins and connectors](https://claude.com/docs/government/config/plugins-and-connectors.md).
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/gGFKuNSbKYs4JMmK/images/government/videos/admin-07-connectors-and-plugins.mp4?fit=max&auto=format&n=gGFKuNSbKYs4JMmK&q=85&s=43f78d15928eea46d27229f8dbc04db6" aria-label="Video walkthrough: Connectors and plugins" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/gD-HYL0vu0KeXwJ7/images/government/videos/admin-07-connectors-and-plugins-v2.mp4?fit=max&auto=format&n=gD-HYL0vu0KeXwJ7&q=85&s=866ea1837528556e88cc16614105dc19" aria-label="Video walkthrough: Connectors and plugins" />
 
 Video: Connectors and plugins (2 min 8 s). Narrated with an AI-generated voice, with on-screen captions.
 
@@ -266,21 +266,21 @@ Video: Pilot Claude Desktop on one machine (1 min 34 s). Narrated with an AI-gen
 
 ### Deploy to your fleet
 
-Delivering the bootstrap address and the setting that hides the claude.ai sign-in option as device policy, installing the Windows package, enabling the **Virtual Machine Platform** feature that Cowork needs, allowing network access, and deciding on automatic updates. Read more: [Deploy to your fleet](https://claude.com/docs/government/deploy-desktop/configure.md#deploy-to-your-fleet).
+Delivering the bootstrap address and the settings that keep the app on Claude for Government as device policy, installing the Windows package, enabling the **Virtual Machine Platform** feature that Cowork needs, allowing network access, and deciding on automatic updates. Read more: [Deploy to your fleet](https://claude.com/docs/government/deploy-desktop/configure.md#deploy-to-your-fleet).
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/gGFKuNSbKYs4JMmK/images/government/videos/admin-09-deploy-to-your-fleet.mp4?fit=max&auto=format&n=gGFKuNSbKYs4JMmK&q=85&s=bde163c8a3661fd5393106756950713c" aria-label="Video walkthrough: Deploy to your fleet" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/KoTvDoB4EQ3eCbkB/images/government/videos/admin-09-deploy-to-your-fleet-v2.mp4?fit=max&auto=format&n=KoTvDoB4EQ3eCbkB&q=85&s=e82e0d3f6ee54735ef5e7a3d4b0f3b43" aria-label="Video walkthrough: Deploy to your fleet" />
 
-Video: Deploy to your fleet (1 min 31 s). Narrated with an AI-generated voice, with on-screen captions.
+Video: Deploy to your fleet (1 min 32 s). Narrated with an AI-generated voice, with on-screen captions.
 
 > [accordion] Transcript
 >
-> Push two values as device policy, the bootstrap address and the setting that hides the claude.ai sign-in option. On macOS they live in a configuration profile, on Windows in machine policy. Deliver them before the app, and note they carry no secrets.
+> Push these values as device policy: the bootstrap address, the setting that hides the claude.ai sign-in option, and the deployment mode. On macOS they live in a configuration profile, on Windows in machine policy. Deliver them before the app, and note they carry no secrets.
 >
 > On Windows, deploy the MSIX package machine-wide. Anthropic publishes Intune install and detection scripts, and an offline installer for networks that cannot reach downloads.claude.ai.
 >
 > Cowork needs the Virtual Machine Platform feature, enabled with a restart before rollout. Run the Cowork readiness check on one device per hardware model.
 >
-> Allow the app to reach your host, and browsers to reach the host, its sign-in service, and your identity provider. Cowork and Code also download components from downloads.claude.ai.
+> Allow the app to reach your host, and browsers to reach the host, its sign-in service, and your identity provider.
 >
 > Decide on updates. If your agency distributes app updates itself, turn on Block automatic updates on the Config page, lock it, and add the disableAutoUpdates value to the profile. Otherwise, leave updates on.
 >

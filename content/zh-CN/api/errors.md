@@ -8,7 +8,7 @@ description: 了解 Claude API 返回的 HTTP 状态码、错误响应结构和�
 
 API 遵循可预测的 HTTP 错误代码格式：
 
-* 400 - `invalid_request_error`：您的请求格式或内容存在问题。此错误类型也可能用于本节未列出的其他 4XX 状态码。当用量达到您为组织或工作区[设置的支出限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#setting-your-own-spend-limit)时，API 也会返回 400，但 [Claude Code 工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#claude-code-workspace)上的限制除外，该限制可能改为返回 429。
+* 400 - `invalid_request_error`：您的请求格式或内容存在问题。API 也可能将此错误类型用于本节未列出的其他 4XX 状态码。当用量达到您为组织或工作区[设置的支出限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#setting-your-own-spend-limit)时，API 也会返回 400。[Claude Code 工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#claude-code-workspace)上的限制属于例外：它们可能改为返回 429。如果消息指出了您请求中的某个问题，请在[常见验证错误](https://platform.claude.com/docs/zh-CN/api/errors#common-validation-errors)中查找。
 
 * 401 - `authentication_error`：您的 [API 密钥](https://platform.claude.com/docs/zh-CN/get-api-key)存在问题（例如，格式错误、已被撤销或已过期；请参阅[密钥过期](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#key-expiration)）。在 Claude Platform on AWS 上，这也可能表示您的 AWS 凭证或 SigV4 签名存在问题。
 
@@ -24,7 +24,7 @@ API 遵循可预测的 HTTP 错误代码格式：
 
 * 413 - `request_too_large`：请求超过了允许的最大字节数。有关各端点的最大值，请参阅[请求大小限制](https://platform.claude.com/docs/zh-CN/api/errors#request-size-limits)。
 
-* 429 - `rate_limit_error`：您的组织已达到[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)、达到其使用层级的每月支出上限，或达到 Claude Code 工作区的支出限制。层级支出上限导致的 429 没有 `retry-after` 标头，并且在访问恢复之前会持续失败；有关如何识别它，请参阅[达到支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#reaching-your-spend-cap)。
+* 429 - `rate_limit_error`：您的组织已达到[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)、达到其使用层级的每月支出上限，或达到 Claude Code 工作区的支出限制。层级支出上限导致的 429 没有 `retry-after` 标头，并且在访问恢复之前会持续失败；有关如何识别它，请参阅[达到支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#reaching-your-spend-cap)。即使您未超出速率限制，用量急剧增加也可能导致 429；请参阅[爬坡限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#ramp-limits)。
 
 * 500 - `api_error`：Anthropic 系统内部发生了意外错误。请使用 “exponential backoff”（指数退避）重试请求；如果错误持续存在，请携带[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id) 联系支持团队。如果错误类型为 `timeout_error`，请参阅 504 条目。
 
@@ -34,8 +34,6 @@ API 遵循可预测的 HTTP 错误代码格式：
 
   <Warning>
     当 API 在所有用户范围内遇到高流量时，可能会出现 529 错误。
-
-    在极少数情况下，如果您的组织用量急剧增加，您可能会因 API 的加速限制而看到 429 错误。为避免触及加速限制，请逐步增加流量并保持一致的使用模式。
   </Warning>
 
 官方 SDK 会使用指数退避自动重试暂时性故障（例如连接错误、速率限制和 5xx 服务器错误），默认重试两次，并在存在 `retry-after` 标头时遵循该标头。SDK 客户端接受 `max_retries` (typescript, php: `maxRetries`; java: `.maxRetries()`; csharp: `MaxRetries`; go: `option.WithMaxRetries()`) 来配置或禁用此行为。
@@ -70,7 +68,7 @@ API 始终以 JSON 形式返回错误，其中包含一个顶级 `error` 对象�
 }
 ```
 
-根据[版本控制](https://platform.claude.com/docs/zh-CN/api/versioning)策略，这些对象中的值可能会扩展，并且 `type` 值可能会随着时间的推移而增加。
+根据 [API 版本控制策略](https://platform.claude.com/docs/zh-CN/api/versioning)，这些对象中的值可能会扩展，并且可能会出现新的 `type` 值。
 
 ## SDK 错误类型
 
@@ -201,7 +199,7 @@ Python 和 TypeScript SDK 在顶层响应对象上以 `_request_id` 属性公开
   ```ruby Ruby
   client = Anthropic::Client.new
 
-  # 在每个请求的中间件中读取响应头，该中间件会接收
+  # 在每个请求的中间件中读取响应标头，该中间件会接收
   # SDK 解析之前的原始 HTTP 响应
   request_id = nil
   read_request_id = lambda do |request, call_next|
@@ -446,13 +444,13 @@ Claude 4.6 及更高版本的模型以及 [Claude Mythos Preview](https://anthro
 
 ### 思考块无法修改
 
-如果最近的助手消息包含在发送回 API 之前被编辑、重新排序、过滤掉或重建的 `thinking` 或 `redacted_thinking` 块，则请求会返回 400 `invalid_request_error`。错误消息以有问题的块的位置开头（例如 `messages.1.content.0`），并包含：
+如果请求中的思考块与 API 返回的内容不一致，请求可能会收到 400 `invalid_request_error`。错误消息以有问题的块的位置开头（例如 `messages.1.content.0`），并包含：
 
 ```text wrap
 `thinking` or `redacted_thinking` blocks in the latest assistant message cannot be modified. These blocks must remain as they were in the original response.
 ```
 
-在工具使用中，请将助手轮次中的每个 `thinking` 和 `redacted_thinking` 块按收到时的原样传回，包括 `thinking` 字段为空的块。如果您的应用程序在重新发送之前按类型过滤内容块，请同时包含 `thinking` 和 `redacted_thinking`。请参阅思考故障排除中的[已修改思考块的修复方法](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-blocks-modified)，以及[保留思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)和[保留的思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-thinking)。
+在工具使用中，请将助手轮次中的每个 `thinking` 和 `redacted_thinking` 块按收到时的原样传回，包括 `thinking` 字段为空的块。如果您的应用程序在重新发送之前按类型过滤内容块，请同时包含 `thinking` 和 `redacted_thinking`。这与[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)导致的失败不同，前缀检查的错误会指出某个块绑定到了其他对话。设置 `prefix_mismatch_behavior` 可能无法消除此错误。请参阅思考故障排除中的[已修改思考块的修复方法](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-blocks-modified)。
 
 ### 不支持扩展思考
 
@@ -462,7 +460,7 @@ Claude 4.7 及更高版本的模型不支持扩展思考。向这些模型中的
 "thinking.type.enabled" is not supported for this model. Use "thinking.type.adaptive" and "output_config.effort" to control thinking behavior.
 ```
 
-请改用 [adaptive thinking](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)（自适应思考）。[迁移到自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#migrating-to-adaptive-thinking)展示了参数映射，思考故障排除则介绍了[扩展思考错误的按症状修复方法](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-type-enabled)。
+请改用 [adaptive thinking](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)（自适应思考）。有关参数映射，请参阅[迁移到自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#migrating-to-adaptive-thinking)。要根据症状修复此错误，请参阅[400 错误提示不支持 `"thinking.type.enabled"`](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-type-enabled)。
 
 ### 不支持自适应思考
 
@@ -494,7 +492,7 @@ adaptive thinking is not supported on this model
 To turn thinking off on this model, send "thinking": {"type": "between_tools"} instead of {"type": "disabled"}. The model does not think before responding. The short updates it writes between tool calls come back as thinking blocks.
 ```
 
-在 `xhigh` 或 `max` [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)（努力程度）下，使用 `between_tools` 的请求也会返回 400 `invalid_request_error`。消息表示思考已被禁用，因为 `between_tools` 没有前置思考：
+在 `xhigh` 或 `max` [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)（努力程度）下，使用 `between_tools` 的请求也会返回 400 `invalid_request_error`。错误消息表示思考已被禁用，因为 `between_tools` 没有前置思考：
 
 ```text wrap
 output_config.effort 'xhigh' is not supported when thinking is disabled on this model. Use effort 'high' or below, or enable thinking.
@@ -540,17 +538,22 @@ tool_choice: type "tool" and "any" are not supported for this model.
 
 对于所请求模型不支持的任何 Anthropic 定义的工具类型，Claude API 都会返回相同的消息。Claude Fable 5.2、Claude Mythos 5.2、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 通过 `computer_toolset_20260801` 工具集支持计算机使用。请在不带 beta 标头的情况下声明 `{"type": "computer_toolset_20260801"}`，并按照[从 `computer_20251124` 迁移](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#migrate-from-computer-20251124)中的说明更新您的智能体循环。要从 `computer_20250124` 迁移，请参阅 Claude Haiku 5.5 迁移指南中的[将计算机使用迁移到工具集](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#computer-use-toolset)。
 
-在 Amazon Bedrock 上，Claude Fable 5.2、Claude Mythos 5.2、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 也接受带有 `computer-use-2025-11-24` beta 标头的 `computer_20251124` 工具。使用 Amazon Bedrock 的 InvokeModel API 时，请在请求正文的 `anthropic_beta` 数组中发送 `computer-use-2025-11-24`，而不是在标头中发送。有关该 API，请参阅 [Amazon Bedrock 上的 Claude（bedrock-runtime）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)。[早期工具版本](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#earlier-tool-versions)列出了每个早期版本应搭配使用的模型。
+在 Amazon Bedrock 上，Claude Fable 5.2、Claude Mythos 5.2、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 也接受带有 `computer-use-2025-11-24` beta 标头的 `computer_20251124` 工具。使用 Amazon Bedrock 的 InvokeModel API 时，请在请求正文的 `anthropic_beta` 数组中发送 `computer-use-2025-11-24`，而不是在标头中发送。有关该 API，请参阅 [Amazon Bedrock 上的 Claude（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)。有关每个早期版本应搭配使用的模型，请参阅[早期工具版本](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#earlier-tool-versions)。
 
 ### 绑定到不同对话的思考块
 
-此 400 `invalid_request_error` 通常意味着您发回的某个思考块未通过前缀检查：该块之前的某些内容在该块生成后发生了更改，例如 `system` 提示、`tools` 或更早的消息。Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 会执行此检查。对于未设置 `prefix_mismatch_behavior` 的请求，[未设置 `prefix_mismatch_behavior` 时](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#enforcement)说明了哪些请求会收到此错误。该消息以第一个检查失败的块的位置开头：
+此 400 `invalid_request_error` 表示您发回的某个思考块未通过[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)。请将 `system`、`tools` 以及该块之前的消息，与模型生成该块时您发送的内容进行比较。有关哪些更改会产生影响，请参阅[什么算作更改](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#what-counts-as-an-edit)。错误消息以第一个未通过前缀检查的块的位置开头：
 
 ```text wrap
 messages.{i}.content.{j}: Invalid `signature` in `thinking` block. The block is bound to a different conversation. Remove the block, or set `thinking.block_binding.prefix_mismatch_behavior` to "drop_block".
 ```
 
-如果没有 `thinking-binding-controls-2026-08-01` beta 标头，消息中还会指出该标头。重新发送相同的历史记录会以同样的方式失败，即使您已修复进行了该编辑的代码也是如此。要继续对话，请在重试以及之后的每个请求中发送该 beta 标头并附带 `prefix_mismatch_behavior: "drop_block"`。或者，删除错误中指出的块以及之后的每个 `thinking` 和 `redacted_thinking` 块，然后重试一次。在 Claude Sonnet 5.5 和 Claude Haiku 5.5 上，`block_binding` 仅适用于 `thinking: {"type": "adaptive"}`，因此在任何其他思考设置下，请删除这些块。为防止新对话失败，请保持历史记录仅追加（append-only）。来自目标模型无法读取的模型的块会被丢弃，而不是被拒绝。请参阅[保持前缀不变](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)以及思考故障排除中的[无效思考块签名的修复方法](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-block-signature)。
+重新发送相同的历史记录会以同样的方式失败。如果该编辑仍在此对话的历史记录中，修复进行了该编辑的代码对此对话没有帮助。要继续对话，请执行以下操作之一：
+
+* 发送 `thinking-binding-controls-2026-08-01` beta 标头，并将 `thinking.block_binding.prefix_mismatch_behavior` 设置为 `"drop_block"`，在重试以及该对话之后的每个请求中都要这样做。在 Claude Sonnet 5.5 和 Claude Haiku 5.5 上，`block_binding` 仅适用于 `thinking: {"type": "adaptive"}`。
+* 删除错误中指出的块及其之后的每个 `thinking` 和 `redacted_thinking` 块，包括该消息中以及之后每条消息中的此类块。然后重试，并在之后的请求中不再包含这些已删除的块。
+
+为防止新对话失败，请[保持历史记录仅追加（append-only）](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#what-to-check)。请参阅思考故障排除中的[无效思考块签名的修复方法](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-block-signature)。
 
 在不附带 `thinking-binding-controls-2026-08-01` [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers)的情况下发送 `thinking.block_binding`，会返回 400 `invalid_request_error`，其消息结尾为：
 
@@ -558,7 +561,7 @@ messages.{i}.content.{j}: Invalid `signature` in `thinking` block. The block is 
 block_binding: Extra inputs are not permitted
 ```
 
-请添加该标头，或移除该字段。
+请添加该标头、开启思考，或移除该字段。
 
 ### 出站 Web 身份联合已禁用（Claude Platform on AWS）
 

@@ -21,15 +21,13 @@ We break this process into six steps:
   - **Define the target:** the tech stack and behavior the modernized code must have.
   - **Create the certificate:** the conditions that the changes must meet to be considered correct in the target state.
   - **Set the promotion policy:** the path by which certified changes get into production at the rate they’re produced.
-  - **Put the prerequisites in place:** environment, CI/CD, review capacity, and approvals.
-  - **Build and refine the agentic workflow: **the custom Claude Code [dynamic workflow](https://claude.com/resources/articles/introducing-dynamic-workflows-in-claude-code) that distributes the modernization across many smaller parallel subagent workstreams that produce the changes. This is built around the target, certificate, and promotion policy.
+  - **Put the prerequisites in place:** environment, [CI/CD](https://claude.com/resources/articles/agentic-coding-is-straining-ci-heres-how-we-scaled-test-impact-analysis-at-anthropic), review capacity, and approvals.
+  - **Build and refine the agentic workflow: **the custom Claude Code [dynamic workflow](https://claude.com/resources/articles/introducing-dynamic-workflows-in-claude-code) that distributes the modernization across many smaller [parallel subagent workstreams](https://claude.com/resources/articles/subagents-in-claude-code) that produce the changes. This is built around the target, certificate, and promotion policy.
   - **Run the modernization:** prove the workflow end to end on a small partition of the codebase, then scale.
 ## **Step 1: Define the target**
 The** target **is the end state of the modernization. The desired end state determines which of the three kinds of modernization you are doing, detailed in the table below.
 ### **Determine the modernization type**
-
-          Type What it is Choose when The target is     **Uplift** Same-stack version bump (e.g., C++11 → C++20). The stack is fine but the version has fallen behind: end-of-life runtimes, unpatched security issues, dependencies you can no longer upgrade. A runtime version and package set.   **Transform** Cross-stack rewrite that keeps behavior fixed (e.g., COBOL → Java). The stack is the problem to resolve and the behavior is trusted. Everything needed for an uplift, plus the language, frameworks, and architectural conventions the new code must follow.   **Reimagine** Greenfield rebuild on a new architecture with modified behavior. The behavior needs to be changed alongside the code. Everything needed for a transform, plus a written behavioral spec for the new system.
-
+TypeWhat it isChoose whenThe target is**Uplift**Same-stack version bump (e.g., C++11 → C++20).The stack is fine but the version has fallen behind: end-of-life runtimes, unpatched security issues, dependencies you can no longer upgrade.A runtime version and package set.**Transform**Cross-stack rewrite that keeps behavior fixed (e.g., COBOL → Java).The stack is the problem to resolve and the behavior is trusted.Everything needed for an uplift, plus the language, frameworks, and architectural conventions the new code must follow.**Reimagine**Greenfield rebuild on a new architecture with modified behavior.The behavior needs to be changed alongside the code.Everything needed for a transform, plus a written behavioral spec for the new system.
 Determining which type of modernization to do is often debated inside an organization. In our experience, the people closest to production want the stack swapped with behavior held constant to contain risk (transform modernization). On the other side are often the engineers who have lived with the codebase and want the modernization to pay down tech debt, plus other business stakeholders who want to take the opportunity to name new requirements (reimagine modernization).
 Both positions are reasonable, but if the question is left unresolved it resurfaces later as an argument over whether a given change is “correct.” Building consensus on which path to take adds initial friction, but streamlines the project as a whole.
 ### **Map the codebase and create the behavioral spec**
@@ -128,240 +126,28 @@ Our forward deployed engineers work through these steps with customers on their 
 ## **Additional resources**
   - [The public codemod plugin for Claude Code](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/code-modernization)
   - [The AI-Native SDLC playbook](https://claude.com/resources/articles/the-ai-native-sdlc-playbook)
-  - [Code modernization playbook](https://resources.anthropic.com/code-modernization-playbook)
+  - [Code modernization playbook](https://claude.com/resources/guides/the-code-modernization-playbook)
   - [COBOL Modernization with AI: Breaking the Cost Barrier](https://claude.com/resources/articles/how-ai-helps-break-cost-barrier-cobol-modernization)
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
-## Transform how your organization operates with Claude
-[See pricing](https://claude.com/pricing#api)[Contact sales](https://claude.com/contact-sales)
-### Get the developer newsletter
-Product updates, how-tos, community spotlights, and more. Delivered monthly to your inbox.
-Please provide your email address if you'd like to receive our monthly developer newsletter. You can unsubscribe at any time.
-© 2026 Anthropic PBC
-## Products
-  - [Claude](https://claude.com/product/overview)
-  - [Claude Code](https://claude.com/product/claude-code)
-  - [Claude Cowork](https://claude.com/product/cowork)
-  - [Claude Duet](https://claude.com/product/claude-duet)
-  - [Claude Tag](https://claude.com/product/tag)
-  - [Claude Science](https://claude.com/product/claude-science)
-  - [Claude Security](https://claude.com/product/claude-security)
-  - [Download app](https://claude.com/download)
-  - [Pricing](https://claude.com/pricing)
-  - [Log in](https://claude.ai/login)
-## Capabilities
-  - [Artifacts](https://claude.com/features/artifacts)
-  - [Design](https://claude.com/product/design)
-  - [Connectors](https://claude.com/marketplace/connectors-plugins)
-  - [Plugins](https://claude.com/marketplace/plugins)
-  - [Skills](https://claude.com/skills)
-## Extensions
-  - [Claude in Chrome](https://claude.com/claude-in-chrome)
-  - [Claude for Google Workspace](https://claude.com/claude-for-google-workspace)
-  - [Claude for Microsoft 365](https://claude.com/claude-for-microsoft-365)
-## Models
-  - [Mythos (including Fable)](https://www.anthropic.com/claude/mythos)
-  - [Opus](https://www.anthropic.com/claude/opus)
-  - [Sonnet](https://www.anthropic.com/claude/sonnet)
-  - [Haiku](https://www.anthropic.com/claude/haiku)
-## Enterprise
-  - [Overview](https://claude.com/solutions/enterprise)
-  - [Claude Code for Enterprise](https://claude.com/product/claude-code/enterprise)
-## Departments
-  - [Customer support](https://claude.com/solutions/customer-support)
-  - [Cybersecurity](https://claude.com/solutions/cybersecurity)
-  - [Legal](https://claude.com/solutions/legal)
-  - [Sales](https://claude.com/solutions/sales)
-## Industries
-  - [Financial advisors](https://claude.com/solutions/financial-advisors)
-  - [Financial services](https://claude.com/solutions/financial-services)
-  - [Government](https://claude.com/solutions/government)
-  - [Healthcare](https://claude.com/solutions/healthcare)
-  - [Higher education](https://claude.com/solutions/education)
-  - [K-12 teachers](https://claude.com/solutions/teachers)
-  - [Life sciences](https://claude.com/solutions/life-sciences)
-  - [Nonprofits](https://claude.com/solutions/nonprofits)
-  - [Small business](https://claude.com/solutions/small-business)
-## Programs
-  - [Campus](https://claude.com/programs/campus)
-  - [Frontier Academy](https://claude.com/programs/frontier-academy)
-  - [Scientists](https://claude.com/programs/team-plan-for-scientists)
-  - [Startups](https://claude.com/programs/startups)
-## Developers
-  - [Developer docs](https://code.claude.com/docs/en/overview)
-  - [Developer blog](https://claude.dev)
-  - [Community](https://claude.com/community)
-  - [Console](https://platform.claude.com/docs/en/home)
-  - [Engineering at Anthropic](https://www.anthropic.com/engineering)
-## Platform
-  - [Overview](https://claude.com/platform/api)
-  - [Marketplace](https://claude.com/marketplace)
-  - [Claude on AWS](https://claude.com/partners/claude-on-aws)
-  - [Google Cloud](https://claude.com/partners/google-cloud)
-  - [Microsoft Foundry](https://claude.com/partners/microsoft-foundry)
-  - [Managed Agents](https://claude.com/platform/claude-managed-agents)
-## Resources
-  - [Overview](https://claude.com/resources)
-  - [Articles](https://claude.com/resources/articles)
-  - [Webinars](https://claude.com/resources/webinars)
-  - [Claude partner network](https://claude.com/partners)
-  - [Claude Academy](https://academy.claude.com/)
-  - [Customer stories](https://claude.com/customers)
-  - [Events](https://www.anthropic.com/events)
-  - [Powered by Claude](https://claude.com/partners/powered-by-claude)
-  - [Service partners](https://claude.com/marketplace/service-partners)
-## Help and security
-  - [Availability](https://www.anthropic.com/legal/supported-regions)
-  - [Check files](https://claude.com/check-files)
-  - [Regional compliance](https://claude.com/regional-compliance)
-  - [Report abuse](https://claude.com/form/anthropic-content-reporting)
-  - [Security and compliance](https://trust.anthropic.com/)
-  - [Status](https://status.anthropic.com/)
-  - [Support center](https://support.claude.com/en/)
-## Company
-  - [Anthropic](https://www.anthropic.com/)
-  - [Careers](https://www.anthropic.com/careers)
-  - [Policy](https://www.anthropic.com/policy)
-  - [Research](https://www.anthropic.com/research)
-  - [Anthropic news](https://www.anthropic.com/news)
-  - [Policy on the AI Exponential](https://www.anthropic.com/policy-on-the-ai-exponential)
-  - [ Responsible Scaling Policy](https://www.anthropic.com/news/announcing-our-updated-responsible-scaling-policy)
-  - [Transparency](https://anthropic.com/transparency)
-## Terms and policies
-  - Privacy choices
-  - [Privacy policy](https://www.anthropic.com/legal/privacy)
-  - [Responsible disclosure policy](https://www.anthropic.com/responsible-disclosure-policy)
-  - [Terms of service: Commercial](https://www.anthropic.com/legal/commercial-terms)
-  - [Terms of service: Consumer](https://www.anthropic.com/legal/consumer-terms)
-  - [Terms of Service: US K-12](https://anthropic.com/legal/k12-terms)
-  - [Data Processing Agreement: US K-12](https://anthropic.com/legal/k12-dpa)
-  - [Usage Policy](https://www.anthropic.com/legal/aup)
-## Products
-  - [Claude](https://claude.com/product/overview)
-  - [Claude Code](https://claude.com/product/claude-code)
-  - [Claude Cowork](https://claude.com/product/cowork)
-  - [Claude Duet](https://claude.com/product/claude-duet)
-  - [Claude Tag](https://claude.com/product/tag)
-  - [Claude Science](https://claude.com/product/claude-science)
-  - [Claude Security](https://claude.com/product/claude-security)
-  - [Download app](https://claude.com/download)
-  - [Pricing](https://claude.com/pricing)
-  - [Log in](https://claude.ai/login)
-## Capabilities
-  - [Artifacts](https://claude.com/features/artifacts)
-  - [Design](https://claude.com/product/design)
-  - [Connectors](https://claude.com/marketplace/connectors-plugins)
-  - [Plugins](https://claude.com/marketplace/plugins)
-  - [Skills](https://claude.com/skills)
-## Extensions
-  - [Claude in Chrome](https://claude.com/claude-in-chrome)
-  - [Claude for Google Workspace](https://claude.com/claude-for-google-workspace)
-  - [Claude for Microsoft 365](https://claude.com/claude-for-microsoft-365)
-## Models
-  - [Mythos (including Fable)](https://www.anthropic.com/claude/mythos)
-  - [Opus](https://www.anthropic.com/claude/opus)
-  - [Sonnet](https://www.anthropic.com/claude/sonnet)
-  - [Haiku](https://www.anthropic.com/claude/haiku)
-## Enterprise
-  - [Overview](https://claude.com/solutions/enterprise)
-  - [Claude Code for Enterprise](https://claude.com/product/claude-code/enterprise)
-## Departments
-  - [Customer support](https://claude.com/solutions/customer-support)
-  - [Cybersecurity](https://claude.com/solutions/cybersecurity)
-  - [Legal](https://claude.com/solutions/legal)
-  - [Sales](https://claude.com/solutions/sales)
-## Industries
-  - [Financial advisors](https://claude.com/solutions/financial-advisors)
-  - [Financial services](https://claude.com/solutions/financial-services)
-  - [Government](https://claude.com/solutions/government)
-  - [Healthcare](https://claude.com/solutions/healthcare)
-  - [Higher education](https://claude.com/solutions/education)
-  - [K-12 teachers](https://claude.com/solutions/teachers)
-  - [Life sciences](https://claude.com/solutions/life-sciences)
-  - [Nonprofits](https://claude.com/solutions/nonprofits)
-  - [Small business](https://claude.com/solutions/small-business)
-## Programs
-  - [Campus](https://claude.com/programs/campus)
-  - [Frontier Academy](https://claude.com/programs/frontier-academy)
-  - [Scientists](https://claude.com/programs/team-plan-for-scientists)
-  - [Startups](https://claude.com/programs/startups)
-## Developers
-  - [Developer docs](https://code.claude.com/docs/en/overview)
-  - [Developer blog](https://claude.dev)
-  - [Community](https://claude.com/community)
-  - [Console](https://platform.claude.com/docs/en/home)
-  - [Engineering at Anthropic](https://www.anthropic.com/engineering)
-## Platform
-  - [Overview](https://claude.com/platform/api)
-  - [Marketplace](https://claude.com/marketplace)
-  - [Claude on AWS](https://claude.com/partners/claude-on-aws)
-  - [Google Cloud](https://claude.com/partners/google-cloud)
-  - [Microsoft Foundry](https://claude.com/partners/microsoft-foundry)
-  - [Managed Agents](https://claude.com/platform/claude-managed-agents)
-## Resources
-  - [Overview](https://claude.com/resources)
-  - [Articles](https://claude.com/resources/articles)
-  - [Webinars](https://claude.com/resources/webinars)
-  - [Claude partner network](https://claude.com/partners)
-  - [Claude Academy](https://academy.claude.com/)
-  - [Customer stories](https://claude.com/customers)
-  - [Events](https://www.anthropic.com/events)
-  - [Powered by Claude](https://claude.com/partners/powered-by-claude)
-  - [Service partners](https://claude.com/marketplace/service-partners)
-## Help and security
-  - [Availability](https://www.anthropic.com/legal/supported-regions)
-  - [Check files](https://claude.com/check-files)
-  - [Regional compliance](https://claude.com/regional-compliance)
-  - [Report abuse](https://claude.com/form/anthropic-content-reporting)
-  - [Security and compliance](https://trust.anthropic.com/)
-  - [Status](https://status.anthropic.com/)
-  - [Support center](https://support.claude.com/en/)
-## Company
-  - [Anthropic](https://www.anthropic.com/)
-  - [Careers](https://www.anthropic.com/careers)
-  - [Policy](https://www.anthropic.com/policy)
-  - [Research](https://www.anthropic.com/research)
-  - [Anthropic news](https://www.anthropic.com/news)
-  - [Policy on the AI Exponential](https://www.anthropic.com/policy-on-the-ai-exponential)
-  - [ Responsible Scaling Policy](https://www.anthropic.com/news/announcing-our-updated-responsible-scaling-policy)
-  - [Transparency](https://anthropic.com/transparency)
-## Terms and policies
-  - Privacy choices
-  - [Privacy policy](https://www.anthropic.com/legal/privacy)
-  - [Responsible disclosure policy](https://www.anthropic.com/responsible-disclosure-policy)
-  - [Terms of service: Commercial](https://www.anthropic.com/legal/commercial-terms)
-  - [Terms of service: Consumer](https://www.anthropic.com/legal/consumer-terms)
-  - [Terms of Service: US K-12](https://anthropic.com/legal/k12-terms)
-  - [Data Processing Agreement: US K-12](https://anthropic.com/legal/k12-dpa)
-  - [Usage Policy](https://www.anthropic.com/legal/aup)
-© 2026 Anthropic PBC
-[](https://x.com/claudeai)[](https://www.threads.com/@claudeai)[](https://www.linkedin.com/showcase/claude/)[](https://www.youtube.com/@anthropic-ai)[](https://www.instagram.com/claudeai)
-[Add to Preferred Sources](https://www.google.com/preferences/source?q=claude.com)
-English
-  - English
-  - 日本語
-  - Deutsch
-  - Français
-  - 한국어
-  - Italiano
-  - Español
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

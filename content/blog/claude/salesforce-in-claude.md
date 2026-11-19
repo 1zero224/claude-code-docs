@@ -10,7 +10,7 @@ DateSeptember 15, 2026
 Reading time6 min
   -
 ShareCopy link
-Today we are releasing Salesforce in Claude in beta, a plugin built with Salesforce that brings a seller’s accounts, opportunities, and pipeline into Claude under their existing Salesforce permissions. It includes 37 skills for the work account executives do daily, including account research, call prep, pipeline review, and CRM updates.
+Today we are releasing Salesforce in Claude in beta, a plugin built with Salesforce that brings a seller’s accounts, opportunities, and pipeline into Claude under their existing Salesforce permissions. It includes 37 [skills](https://claude.com/resources/articles/skills) for the work account executives do daily, including account research, call prep, pipeline review, and CRM updates.
 Sellers often spend hours of their day on meeting prep or follow-up work from customer meetings by manually assembling information scattered across Salesforce, email, call recordings, and Slack. With the new plugin, Claude does that administrative work and updates Salesforce once the seller approves.
 The plugin also has two connectors that enable sellers to begin using it once an admin connects Salesforce and they sign in. With the Salesforce connector, Claude can read Salesforce data and act on it: summarize an account’s history, update opportunities, log calls or create follow-up tasks. The Slack connector covers deal-channel summaries and account-team threads that the skills can read and write. When sellers use the plugin for the first time, a setup skill identifies their tools and connectors and creates a Claude Artifact tailored to their role and book of business.
 ## How sellers can use Salesforce in Claude today
@@ -31,22 +31,21 @@ Salesforce in Claude is available in beta on all paid Claude plans. The [Salesfo
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)[
-ArticleNov 9, 2026
-### JPMorganChase expands Claude Code to more employees across the firm
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 12, 2026
+### Operate Claude Managed Agents inside your security perimeter
+Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
+Claude PlatformClaude Managed Agents
+](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
+ArticleNov 12, 2026
+### J. Crew brings its signature approach to styling to life with Claude
+J.Crew's new Style Advisor uses Claude to offer a more personalized way to shop online, with complete looks instead of individual products.
 Claude Code
-](https://claude.com/resources/articles/jpmorganchase-expands-claude-code)
+](https://claude.com/resources/articles/j-crew-style-advisor-with-claude)[
+ArticleNov 12, 2026
+### Introducing Claude for Manufacturing
+A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
+](https://claude.com/resources/articles/claude-for-manufacturing)

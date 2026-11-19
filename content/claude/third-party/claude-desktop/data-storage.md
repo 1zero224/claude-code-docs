@@ -28,7 +28,7 @@ Claude Desktop on 3P keeps its application data and logs in directories of its o
 >
 > With the MSIX installer on Windows versions before Windows 11 (build 22000), for example on Windows 10, this directory can be at `%LOCALAPPDATA%\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Local\Claude-3p\`, so check there too. On a device that used Claude Desktop on Windows 10 before it was upgraded in place to Windows 11, data from before the upgrade can still be at that `Packages` path.
 >
-> On Windows, Claude Desktop versions earlier than 1.5186.0 stored this data under `%APPDATA%\Claude-3p\` (the Roaming profile). On first launch after an update from one of those versions, the app moves the existing directory to `%LOCALAPPDATA%` automatically, unless `%LOCALAPPDATA%\Claude-3p\` already exists. If Roaming is redirected to a network share, conversation history and configuration are copied and large regenerable caches are re-downloaded. Update any external tooling, backup jobs, or endpoint policies that reference `%APPDATA%\Claude-3p\`. With the MSIX installer, data from those versions can still be at `%LOCALAPPDATA%\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude-3p\`. macOS paths are unchanged.
+> On Windows, Claude Desktop versions earlier than 1.5186.0 stored this data under `%APPDATA%\Claude-3p\` (the Roaming profile). On first launch after an update from one of those versions, the app moves the existing directory to `%LOCALAPPDATA%` automatically, unless `%LOCALAPPDATA%\Claude-3p\` already exists. Update any external tooling, backup jobs, or endpoint policies that reference `%APPDATA%\Claude-3p\`. With the MSIX installer, data from those versions can still be at `%LOCALAPPDATA%\Packages\Claude_pzs8sxrjxfjjc\LocalCache\Roaming\Claude-3p\`.
 >
 > An uninstall or a reset of the MSIX package can delete the data at a `Packages` path.
 
@@ -36,7 +36,7 @@ Within the application-data directory:
 
 | Path | Contents |
 | - | - |
-| `ant-did` | The random device identifier described above. |
+| `ant-did` | The random device identifier. See [Identity](#identity). |
 | `configLibrary/` | Locally authored configuration (from the in-app configuration window). `_meta.json` records which saved configuration is applied; each is a `<id>.json` file alongside it. API keys in these files are encrypted where the app can use the device's secure storage (see [Credentials](#credentials)). Ignored when a managed profile is present. |
 | `local-agent-mode-sessions/.../cowork_account_settings.json` | User-level preferences set in the app, such as locale, the memory toggle, and the text entered under **Instructions for Claude** and **Global instructions**. |
 | `local-agent-mode-sessions/` | Cowork and Chat conversation history. One `local_<uuid>.json` file plus a working directory per session, scoped by the `ant-did` device identifier and the organization ID, not by who is signed in to the app. The working directory includes an `uploads/` subdirectory with copies of files attached to the conversation and an `outputs/` subdirectory for files Claude creates. |
@@ -45,7 +45,7 @@ Within the application-data directory:
 | `local-agent-mode-sessions/.../<sessionId>/audit.jsonl` | Log of one Cowork session or Chat conversation. It holds the full text of prompts, Claude's responses, and tool inputs and results. See [Session audit log](#session-audit-log). |
 | `claude-code-sessions/` | Code session records holding each session's working folder, settings, title, and sometimes a short summary. The conversation transcripts themselves are in Claude Code's own store at `~/.claude/projects/`, outside this directory. |
 | `claude-code/`, `claude-code-vm/` | Claude Code binary and VM workspace data for Code sessions. |
-| `vm_bundles/` | Cached copy of the VM workspace bundle that Cowork sessions run in, plus the data disk the app creates to hold those sessions' home directories inside the VM. |
+| `vm_bundles/` | Cached copy of the VM workspace bundle that Cowork uses, plus the data disk the app creates to hold Cowork sessions' home directories inside the VM. |
 | `cowork_plugins/` | User-installed and [org-provisioned](https://claude.com/docs/third-party/claude-desktop/extensions.md#organization-plugins-admin) plugins. Created on first plugin install. |
 | `plugin-mcp-auth/`, `connectors/*/plugin-mcp/` | On Windows and Linux, the `.credentials.json` file that holds the user's sign-ins to plugin servers, made outside **Code**. See [Credentials](#credentials). |
 | `IndexedDB/`, `Local Storage/`, `Session Storage/` | Renderer-side UI state (window layout, recent folders, preferences). |
@@ -69,7 +69,7 @@ Unless you [restrict a device to one deployment mode](https://claude.com/docs/th
 * **Connector sign-ins**: on a device configured by MDM, a local file, or a bootstrap server, switching modes leaves [connector sign-ins](#credentials) made outside **Code** in place and doesn't revoke them. Standard Claude Desktop doesn't use them, and Claude Desktop on 3P uses them again when the user switches back.
 * **Files in `~/Claude/`**: by default, both modes write Artifacts, scheduled tasks, and project files here, and each lists only its own. To give Claude Desktop on 3P a folder of its own, have the user go to **Settings > Cowork** and click **Change** next to **Cowork files**. The app copies everything in the current folder, the other mode's files included, to the new location and leaves the old folder in place.
 
-With the migration on, standard Claude Desktop also copies what [What is migrated](https://claude.com/docs/third-party/claude-desktop/move-to-claude-enterprise.md#what-is-migrated) lists, and `~/.claude/`, `~/.claude.json`, and `~/Claude/` are still shared.
+With the migration on, standard Claude Desktop also copies the data described under [What is migrated](https://claude.com/docs/third-party/claude-desktop/move-to-claude-enterprise.md#what-is-migrated). `~/.claude/`, `~/.claude.json`, and `~/Claude/` are still shared.
 
 No configuration key moves these three locations. They are in the user's home directory, so each OS user account has its own.
 
@@ -97,7 +97,7 @@ To retain an audit trail, use the [OpenTelemetry export](https://claude.com/docs
 
 ## Memory
 
-During Cowork sessions, Claude writes short Markdown files recording what it has learned about the user (working preferences, project context, and corrections) and reads them at the start of subsequent sessions. In a scheduled Cowork task outside a project, Claude can read these files but doesn't save to them: it lists the notes with their one-line descriptions and chooses which to open. These files live under `local-agent-mode-sessions/.../memory/memory/`. The app doesn't sync them to a server. The files themselves leave the device if the user [exports them](#turn-on-export-and-import) or you copy them. What Claude reads from them becomes part of the session, so it goes to your configured inference provider with the rest of the conversation.
+During Cowork sessions, Claude writes short Markdown files recording what it has learned about the user (working preferences, project context, and corrections) and reads them at the start of subsequent sessions. In a scheduled Cowork task outside a project, Claude can read these files but doesn't save to them. These files live under `local-agent-mode-sessions/.../memory/memory/`. The app doesn't sync them to a server. The files themselves leave the device if the user [exports them](#turn-on-export-and-import) or you copy them. What Claude reads from them becomes part of the session, so it goes to your configured inference provider with the rest of the conversation.
 
 Where sessions run on the device, users find the memory controls in these places:
 
@@ -113,13 +113,13 @@ To review a project's memory files, users go to **Projects**, open the project, 
 
 ## Chat conversations
 
-[Chat](https://claude.com/docs/third-party/claude-desktop/chat.md) conversations follow the same storage model as Cowork sessions: each conversation is a session state file plus a working directory under `local-agent-mode-sessions/`, in the layout described under [Where data lives](#where-data-lives). The state file records the conversation; the working directory holds the transcript, an `uploads/` directory with copies (or hard links) of files attached to the conversation, an `outputs/` directory for files Claude creates during the conversation (its scratch space), and the [session audit log](#session-audit-log). Because attachments are hard-linked where the filesystem allows it, edits made to the original file while the conversation is open can be visible to the conversation. Conversation content leaves the device only as inference requests to your configured provider, as web search queries to your configured search backend, through web access your egress configuration allows, through [sandbox network access](https://claude.com/docs/third-party/claude-desktop/chat.md#sandbox-network-access), in connector tool calls permitted by your `toolPolicy` configuration and the user's approvals, in telemetry to your own collector if you have enabled [content capture](https://claude.com/docs/third-party/claude-desktop/telemetry.md#content-capture), in the zip files that users export if you have [turned on export](#turn-on-export-and-import), and in any copy that you make.
+[Chat](https://claude.com/docs/third-party/claude-desktop/chat.md) conversations follow the same storage model as Cowork sessions: each conversation is a session state file plus a working directory under `local-agent-mode-sessions/`, in the layout described under [Where data lives](#where-data-lives). The state file records the conversation; the working directory holds the transcript, an `uploads/` directory with copies (or hard links) of files attached to the conversation, an `outputs/` directory for files Claude creates during the conversation (its scratch space), and the [session audit log](#session-audit-log). Because attachments are hard-linked where the filesystem allows it, edits made to the original file while the conversation is open can be visible to the conversation. Conversation content leaves the device as inference requests to your configured provider, as web search queries to your configured search backend, through web access your egress configuration allows, through [sandbox network access](https://claude.com/docs/third-party/claude-desktop/chat.md#sandbox-network-access), in connector tool calls permitted by your `toolPolicy` configuration and the user's approvals, in telemetry to your own collector if you have enabled [content capture](https://claude.com/docs/third-party/claude-desktop/telemetry.md#content-capture), in the zip files that users export if you have [turned on export](#turn-on-export-and-import), and in any copy that you make. The [hooks](https://claude.com/docs/third-party/claude-desktop/extensions.md#plugin-hooks) and [mods](https://claude.com/docs/third-party/claude-desktop/code.md#claude-code-mods) of a plugin that the conversation loads are a further route: they receive prompts and tool results. A hook's command and a mod's code run on the device as the user, outside the sandbox, and `coworkEgressAllowedHosts` and your tool policies don't apply to the requests that they make themselves.
 
 For the questions security reviews most often ask about Chat:
 
 * **Chat reads and updates memory only inside projects.** A Chat conversation inside a project can read and update that project's memory unless memory was paused when the conversation started. Chat conversations outside a project don't read or update memory.
 * **Project folders are read-only.** A Chat conversation inside a project can read files in folders added to the project in Claude Desktop, under the conditions in [Project folders in Chat](https://claude.com/docs/third-party/claude-desktop/chat.md#project-folders-in-chat), and cannot change them.
-* **Claude cannot search past chats.** Users can search their own conversations in the app, which scans the per-session files on the device on demand, but there is no index of conversation content, server-side or local (history exists only as the per-session files above), and a Chat conversation has no tools for listing or reading other sessions' transcripts. Each conversation is isolated to its own directory.
+* **Claude cannot search past chats.** Users can search their own conversations in the app, which scans the per-session files on the device on demand, but there is no index of conversation content, server-side or local (history exists only as the per-session files above), and in a Chat conversation Claude has no tools for listing or reading other sessions' transcripts. Each conversation is isolated to its own directory.
 * **The advanced file analysis sandbox writes only inside the session directory.** When [advanced file analysis](https://claude.com/docs/third-party/claude-desktop/chat.md#advanced-file-analysis) is enabled, code runs in a local sandbox. Commands in it can reach the hosts in `coworkEgressAllowedHosts`, as described under [Sandbox network access](https://claude.com/docs/third-party/claude-desktop/chat.md#sandbox-network-access). The sandbox writes only to the conversation's `outputs/` directory, and reads its `uploads/` directory, its transcript, and its saved tool results plus, for a conversation inside a project, that project's memory. For a conversation inside a project, the sandbox can also read the folders added to the project in Claude Desktop, under the conditions in [Advanced file analysis](https://claude.com/docs/third-party/claude-desktop/chat.md#advanced-file-analysis).
 
 Deleting a conversation's session state file and working directory removes all of this.
@@ -178,7 +178,18 @@ An API key that managed configuration delivers is never stored in the `configLib
 
 ## Automatic deletion of idle sessions
 
-By default, chats, Cowork tasks, and Code sessions stay on the device until the user deletes them. To delete them after a period without activity, set [`chatSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#chatsessionretentiondays), [`coworkSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#coworksessionretentiondays), or [`codeSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#codesessionretentiondays) to a number of days from 1 to 3650. Each key covers one kind of session, and a kind you leave unset is kept until the user deletes it. Idle time counts from the session's last activity, and pinned sessions are not exempt.
+By default, chats, Cowork tasks, and Code sessions stay on the device until the user deletes them. To delete them after a period without activity, set [`chatSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#chatsessionretentiondays), [`coworkSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#coworksessionretentiondays), or [`codeSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#codesessionretentiondays) to a number of days from 1 to 3650. Each key covers one kind of session, and a kind you leave unset is kept until the user deletes it. Idle time counts from the session's last activity, such as a message, and pinned sessions aren't exempt.
+
+> [!WARNING]
+>
+> If you set `chatSessionRetentionDays` or `coworkSessionRetentionDays`, an upcoming release of Claude Desktop deletes idle chats and Cowork tasks that earlier versions keep past the period you set. The app can delete many of them at once, shortly after it first starts on that release. Users see no notice, and deleted sessions can't be recovered.
+>
+> Earlier versions keep an idle chat or Cowork task for one more period after actions such as these, which the upcoming release doesn't count as activity:
+>
+> * **Turning a connector or tool on or off**: from Claude Desktop 3.1623.0 until the upcoming release, when a user does this, the app can keep all of that user's idle chats and Cowork tasks
+> * **Renaming or pinning a chat or task without sending a message**: this affects only that chat or task
+>
+> If you want those sessions deleted, you don't need to do anything. To keep some users' sessions, make the change described under [Keep sessions for some users](#keep-sessions-for-some-users) now, before their devices update.
 
 With [Unified Claude](https://claude.com/docs/third-party/claude-desktop/unified-claude.md) on, a conversation started from the home screen on a device that can run Cowork is a Cowork session. `coworkSessionRetentionDays` covers it along with users' other Cowork tasks, and `chatSessionRetentionDays` still covers Chat conversations. While `coworkSessionRetentionDays` is unset, neither key deletes a home-screen conversation that is a Cowork session, even if `chatSessionRetentionDays` is set. If you use `chatSessionRetentionDays`, keep it and set `coworkSessionRetentionDays` as well.
 
@@ -205,6 +216,7 @@ Projects and memory stay. A session that is running or open on screen is skipped
 To keep some users' idle sessions from being deleted, for example under a legal hold, change `chatSessionRetentionDays`, `coworkSessionRetentionDays`, and `codeSessionRetentionDays` for those users. Make the change in the source that their devices get their configuration from:
 
 * **[Bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md) or [MDM profile](https://claude.com/docs/third-party/claude-desktop/mdm.md)**: if those users' devices use a bootstrap server, make the change in the server's response, because the app then ignores these keys in the MDM profile. Set the three keys to `3650`, the longest period, or leave them out, which keeps sessions until the user deletes them.
+* **MDM profile on macOS**: if those users' Macs get these keys from an MDM profile and have a [machine profile](https://claude.com/docs/third-party/claude-desktop/mdm.md#4-deploy-the-configuration) for the app, make the change in the machine profile, then remove the three keys from any user profile.
 * **[Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md)**: set the three keys to `3650` in a [per-group permission policy](https://claude.com/docs/third-party/claude-desktop/admin-console.md#per-group-permission-policies) for those users' group. Rank that policy above their other policies. If the policy leaves a key out, those users keep the period that they had. To keep every user's sessions, set the three keys to `3650` in the organization-wide settings and in every per-group permission policy that sets any of them.
 * **[Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway)**: set all three keys to `3650` in the `desktop` block of a policy that matches only those users, and put that policy before every other policy that matches them. If this policy leaves one of the keys out, those users can [get a shorter period for it from a policy listed after it](https://code.claude.com/docs/en/claude-apps-gateway-config#claude-desktop-overlay), such as the catch-all policy. By default, the gateway applies only the [first policy that matches a user](https://code.claude.com/docs/en/claude-apps-gateway-config#managed), and takes any setting that policy leaves out from the catch-all policy. Copy into this policy any other settings that those users need. To keep every user's sessions, set all three keys to `3650` in the catch-all policy, keep it last, and set them to `3650` in every other policy that sets any of the three keys.
 
@@ -235,7 +247,7 @@ You can't hide the **Storage** window or the **Low disk space** notice with a co
 You can move a user's Claude Desktop data to a new device with an export or a copy:
 
 * **Export and import**: you [turn on two settings](#turn-on-export-and-import). The user exports their data to a zip file on the old device and imports it on the new device.
-* **[Copy the data](#copy-the-data-to-the-new-device)**: on devices that get their configuration from MDM or from the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md), you copy the user's [application-data directory](#where-data-lives) and related folders to the same paths on the new device
+* **[Copy the data](#copy-the-data-to-the-new-device)**: on devices that get their configuration from MDM (directly or through a [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md)) or from the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md), you copy the user's [application-data directory](#where-data-lives) and related folders to the same paths on the new device
 
 ### When to use an export or a copy
 
@@ -260,7 +272,7 @@ Use an export and import if:
 Both settings are off by default.
 
 * **Managed configuration**: set [`claudeAiImport`](https://claude.com/docs/third-party/claude-desktop/configuration#claudeaiimport) to `{"enabled": true, "exportEnabled": true}`, along with any fields you already set in it
-* **[Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md)**: go to the **Capabilities** page and turn on the **Enable import** and **Enable export** switches under **Claude.ai data import**. To turn them on for some users, use a [per-group permission policy](https://claude.com/docs/third-party/claude-desktop/admin-console.md#per-group-permission-policies).
+* **[Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md)**: go to the **Capabilities** page and turn on the **Enable import** and **Enable export for import on another device** switches under **Claude.ai data import**. To turn them on for some users, use a [per-group permission policy](https://claude.com/docs/third-party/claude-desktop/admin-console.md#per-group-permission-policies).
 
 Both devices need Claude Desktop 4.23118.0 or later, the same platform, and [the same organization](#requirements-for-the-new-device). Earlier versions export only sessions, their output files, and project names.
 
@@ -293,7 +305,7 @@ The old device keeps its data until you [remove it](#removing-data).
 
 ### What a copy moves
 
-On devices that get their configuration from MDM or from the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md), you can move a user to a new device by copying their data. The copy moves:
+A [copy](#copy-the-data-to-the-new-device) moves:
 
 * Chats, Cowork tasks, and Code sessions
 * Projects, project instructions, and memory
@@ -309,7 +321,7 @@ After a copy, ask the user to:
 * Enter the provider API key again, if the user saved it in the in-app configuration window (see [Unreadable saved API keys](#unreadable-saved-api-keys))
 * Reconnect each connector
 * Enter the environment variables for Code sessions from their original source, because the app masks saved values
-* In each project they use from Chat, use **Choose a folder > Choose a different folder** to select the same folders again
+* In each project they use from Chat, use **Choose a folder > Choose a different folder** to select the same folders again, then start a new conversation in the project
 * Add any keys, sign-ins, or settings that their plugins need
 * Set command permissions for plugins
 
@@ -325,7 +337,7 @@ For a copy, the new device needs:
 * The same platform (macOS, Windows, or Linux) and CPU architecture as the old device
 * The same OS user name and home-directory path. Otherwise, Code sessions, scheduled tasks, plugins, and project folders stop working.
 * The same organization as the old device:
-  * **MDM**: the managed configuration, with the same [`deploymentOrganizationUuid`](https://claude.com/docs/third-party/claude-desktop/configuration#deploymentorganizationuuid), in place before Claude Desktop launches
+  * **MDM**: the managed configuration in place before Claude Desktop launches. A profile that only points to a [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md) counts as MDM. Both devices' managed configurations set the same [`deploymentOrganizationUuid`](https://claude.com/docs/third-party/claude-desktop/configuration#deploymentorganizationuuid), or neither sets it.
   * **Enterprise Admin Console**: no managed configuration to deploy. When the app asks the user to sign in to Claude, they use the same account and organization as on the old device.
 * Anything on the device that your configuration relies on for credentials, set up as on the old device. For example, a [credential helper](https://claude.com/docs/third-party/claude-desktop/credential-helper.md) or other helper script, an [AWS named profile](https://claude.com/docs/third-party/claude-desktop/bedrock.md#named-profile), or a [Google Cloud credentials file](https://claude.com/docs/third-party/claude-desktop/vertex.md#credentials-file).
 * The same Claude Desktop version, or a newer one
@@ -339,33 +351,31 @@ Before you start, check that both devices meet the [requirements](#requirements-
 > The copy holds full conversations. Encrypt any intermediate copy, restrict access to it, and delete it when you're done.
 
 1. Quit Claude Desktop on both devices, without signing out. Closing its window isn't enough.
-2. If the new device has an application-data directory (see [Where data lives](#where-data-lives)), delete it. This removes anything the user created in it.
+2. If the new device has an application-data directory (see [Where data lives](#where-data-lives)), delete it. This removes anything the user created in it. If you copy on top of it instead, replacing files of the same name, the chats that the user made on the new device no longer appear in the app.
 3. Copy these to the same paths. On Windows, use a copy tool that supports paths longer than 260 characters.
-   * The application-data directory, except these files in it, which the app creates again when it needs them:
+   * The application-data directory, except these files and folders in it:
 
-     * `ccd-session-secrets/`
-     * `spaces-present/*/*/link-key`
-     * `ccd-environment-config.json`
-     * `cowork-enabled-cli-ops.json`
-
-     Also leave out `plugin-mcp-auth/` and `connectors/*/plugin-mcp/`, which on Windows and Linux hold the user's sign-ins to plugin servers. The user signs in to those servers again on the new device. Leave out any `host-creds-*.json` file too, which an earlier version of Claude Desktop can leave behind.
+     * `ccd-session-secrets/`, `spaces-present/*/*/link-key`, `ccd-environment-config.json`, and `cowork-enabled-cli-ops.json`, which the app creates again when it needs them
+     * `plugin-mcp-auth/` and `connectors/*/plugin-mcp/`, which on Windows and Linux hold the user's sign-ins to plugin servers. The user signs in to those servers again on the new device.
+     * Any `host-creds-*.json` file, which an earlier version of Claude Desktop can leave behind
+     * Any `reset-app-data` file, which makes the app delete the user's chats and other data at its next launch
 
      If you copied any of these files or folders, quit Claude Desktop on the new device, then delete them.
    * The user's Cowork files folder: `~/Claude/`, or `~/Documents/Claude/` on legacy installs. If the user changed it, note the folder shown under **Cowork files** in **Settings > Cowork** on the old device before step 1, and copy that folder instead.
    * `~/.claude/` and `~/.claude.json`
    * The folders and repositories that the user's projects, scheduled tasks, and Code sessions use
-4. Make the user the owner of the copied files, with read and write access. Give no other user account access to the application-data directory, the user's Cowork files folder, `~/.claude/`, or `~/.claude.json`.
-5. Have the user launch Claude Desktop, sign in if the app asks, and confirm that their chats, Cowork tasks, Code sessions, and projects appear. If any are missing, check that:
-   * The user owns the copied files
+4. Make the user the owner of the copied files, with read and write access. Give no other user account access to the application-data directory, the user's Cowork files folder, `~/.claude/`, or `~/.claude.json`. On Windows, let SYSTEM and the Administrators group keep their access.
+5. Have the user launch Claude Desktop and sign in if the app asks. If your users sign in to get their configuration from a [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md) or the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md), expect the app to ask for that sign-in once after the copy. Then have the user confirm that their chats, Cowork tasks, Code sessions, and projects appear. If any are missing, check that:
+   * The user owns the copied files. On Windows, if the user's account has no access to the application-data directory, the app shows **Claude Desktop failed to launch**. Repeat step 4.
    * The [`ant-did`](#identity) file in the application-data directory has the same contents as on the old device. If it doesn't, start again from step 1.
-   * With MDM, the managed configuration has the old device's `deploymentOrganizationUuid`
+   * With MDM, both devices' managed configurations set the same `deploymentOrganizationUuid`, or neither sets it
    * With the Enterprise Admin Console, the account menu at the bottom of the sidebar shows the same organization as on the old device. If it shows another name, look for a managed profile that [keeps the device off the admin console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#keep-a-device-on-its-managed-profile). If you find one, remove it, then have the user relaunch Claude Desktop and sign in. Otherwise, have the user choose your organization from the account menu and sign in.
 6. Have the user [set up what the copy doesn't move](#what-the-user-sets-up-again).
-7. Soon after launch on the new device, a scheduled task runs once if it recently missed a run. If the old device stays in use, its enabled scheduled tasks run on both devices. Retire the old device, or turn off its scheduled tasks in Claude Desktop there. To remove the user's data from it, see [Removing data](#removing-data).
+7. Retire the old device, or turn off its scheduled tasks in Claude Desktop there. If the old device stays in use, its enabled scheduled tasks run on both devices. Any scheduled task that recently missed a run also runs once, soon after launch on the new device. To remove the user's data from the old device, see [Removing data](#removing-data).
 
 ## Removing data
 
-To fully reset a device's Claude Desktop on 3P state, delete the application-data directory above and the `~/Claude/` user-files folder. Code session transcripts are in Claude Code's store at `~/.claude/projects/`, which Claude Code in the terminal also uses, so delete them there separately if you need to remove them. For [SSH remote sessions](https://claude.com/docs/third-party/claude-desktop/ssh-remote-sessions.md#host-requirements), transcripts are in `~/.claude/projects/` and attached files in `~/.claude/uploads/` in the SSH user's home directory on the remote host. Claude Desktop also copies those transcripts to the device, into folders in `~/.claude/projects/` whose names start with `ssh-`, so delete them in both places. Sign-ins to plugin servers made in **Code** and [secret plugin settings](#credentials) entered there stay too, in [Claude Code's own credential store](https://code.claude.com/docs/en/authentication#credential-management), which Claude Code in the terminal also uses.
+To fully reset a device's Claude Desktop on 3P state, delete the [application-data directory](#where-data-lives) and the `~/Claude/` user-files folder. Code session transcripts are in Claude Code's store at `~/.claude/projects/`, which Claude Code in the terminal also uses, so delete them there separately if you need to remove them. For [SSH remote sessions](https://claude.com/docs/third-party/claude-desktop/ssh-remote-sessions.md#host-requirements), transcripts are in `~/.claude/projects/` and attached files in `~/.claude/uploads/` in the SSH user's home directory on the remote host. Claude Desktop also copies those transcripts to the device, into folders in `~/.claude/projects/` whose names start with `ssh-`, so delete them in both places. Sign-ins to plugin servers made in **Code** and [secret plugin settings](#credentials) entered there stay too, in [Claude Code's own credential store](https://code.claude.com/docs/en/authentication#credential-management), which Claude Code in the terminal also uses.
 
 On a device that also runs standard Claude Desktop, `~/Claude/` and `~/.claude/` hold that mode's files too, so deleting them deletes those as well. See [Data shared with standard Claude Desktop](#data-shared-with-standard-claude-desktop).
 

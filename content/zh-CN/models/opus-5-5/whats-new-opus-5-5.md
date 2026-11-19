@@ -62,11 +62,15 @@ tool_choice: type "tool" and "any" are not supported for this model.
 | 从 Claude Opus 5.5 切换到 Claude Fable 5.1 或 Claude Mythos 5.1                              | 是，仅限 Claude API                                                  |
 | 从 Claude Opus 5.5 切换到任何其他模型                                                             | 否                                                                |
 
-当请求中携带目标模型无法读取的思考块时，API 会在模型看到之前将其丢弃。请求会成功，且被丢弃的思考块不会计费。使用 `thinking-binding-controls-2026-08-01` beta 标头时，丢弃情况会在顶层的 `input_transformations` 数组中报告。请参阅[在对话中途切换模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。对于不涉及 Claude Opus 5.5 的切换，请参阅[在 Claude API 上哪些模型切换会保留推理](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#which-model-switches-keep-reasoning)。
+当请求中携带目标模型无法读取的思考块时，API 会在模型接收之前将其丢弃。请求会成功，且被丢弃的思考块不会计费。使用 `thinking-binding-controls-2026-08-01` beta 标头时，API 会在顶层的 `input_transformations` 数组中报告丢弃情况。请参阅[切换模型再切换回来](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。对于不涉及 Claude Opus 5.5 的切换，请参阅[在 Claude API 上哪些模型切换会保留推理](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#which-model-switches-keep-reasoning)。
 
-API 还会检查 Claude Opus 5.5 思考块之前的任何内容（`system` 提示、`tools` 或更早的消息）自该思考块生成以来是否发生了变化。请保持对话仅追加：使用[对话中途的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)来更改指令或工具，而不是进行编辑。
+API 还会检查 Claude Opus 5.5 思考块之前的任何内容自模型生成该思考块以来是否发生了变化。这项 “prefix check”（前缀检查）涵盖 `system` 提示、`tools` 以及每一条更早的消息。请保持对话仅追加：使用[对话中途的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)来更改指令或工具，而不是进行编辑。
 
-在发生此类更改后重放思考块且未设置 `thinking.block_binding.prefix_mismatch_behavior` 的请求会收到 400 错误。这适用于在 2026 年 8 月 31 日 00:00 UTC 或之后创建的账户。[保留的思考的可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)列出了适用此规则的平台。对于在该日期之前创建的账户，请求可能会也可能不会收到该错误。若要改为丢弃受影响的思考块，请发送 `thinking-binding-controls-2026-08-01` beta 标头并将该字段设置为 `"drop_block"`。请参阅[保留的思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)以及迁移指南中的[关于思考块的说明](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-blocks)。
+未通过 “prefix check”（[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)）可能会也可能不会导致 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。要识别并处理这两种情况，请参阅[思考块的前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks)。
+
+前缀检查在 Claude API 以及[部分云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)上运行。
+
+请参阅[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)以及迁移指南中的[关于思考块的说明](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-blocks)。
 
 ### 不支持某些计算机使用工具版本
 
@@ -80,7 +84,7 @@ Claude Opus 5.5 通过 `computer_toolset_20260801` 工具集支持[计算机使�
 
 ## 功能支持
 
-Claude Opus 5.5 支持[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)（处于 beta 阶段）、[对话中途的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)、[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)、最小可缓存提示为 512 个令牌的[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)、[批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)、[Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files)、[PDF 支持](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support)、[视觉](https://platform.claude.com/docs/zh-CN/build-with-claude/vision)，以及服务器端和客户端工具（请参阅[使用 Claude 进行工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)）。有关模型可用性，请参阅各功能的页面。
+Claude Opus 5.5 支持[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)、[对话中途的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)、[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)、最小可缓存提示为 512 个令牌的[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)、[批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)、[Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files)、[PDF 支持](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support)、[视觉](https://platform.claude.com/docs/zh-CN/build-with-claude/vision)，以及服务器端和客户端工具（请参阅[使用 Claude 进行工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)）。任务预算和按消息设置 effort 处于 beta 阶段。有关模型可用性，请参阅各功能的页面。
 
 ### 快速模式
 
@@ -92,7 +96,7 @@ Claude Opus 5.5 支持[按消息设置 effort](https://platform.claude.com/docs/
 
 ### 按需压缩（beta）
 
-使用 `compact-2026-09-04` beta 标头时，发送顶层 `compaction` 参数的请求会返回一个经过签名的 `compaction` 块，用于总结整个对话，随后您将其放在最前面发送，以替代被总结的消息。此功能适用于支持压缩的模型，包括 Claude Opus 5.5。您可以自行选择何时压缩，并且请求可以在后台运行。在[压缩与保留的思考](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-thinking-blocks#conditions-for-kept-thinking-to-stay-valid)中所述的条件下，您保留的轮次中的思考块在替换后可以保持有效。这一点对 Claude Opus 5.5 很重要，因为它的[思考块与对话绑定](https://platform.claude.com/docs/zh-CN/models/opus-5-5/whats-new-opus-5-5#thinking-blocks-are-tied-to-the-model-that-produced-them)。有关平台可用性和完整的请求流程，请参阅[按需压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-on-demand)。
+使用 `compact-2026-09-04` beta 标头时，发送顶层 `compaction` 参数的请求会返回一个经过签名的 `compaction` 块，用于总结整个对话，随后您将其放在最前面发送，以替代被总结的消息。此功能适用于支持压缩的模型，包括 Claude Opus 5.5。您可以自行选择何时压缩，并且请求可以在后台运行。在[压缩与保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-thinking-blocks#conditions-for-kept-thinking-to-stay-valid)中所述的条件下，您保留的轮次中的思考块在替换后可以保持有效。这一点对 Claude Opus 5.5 很重要，因为它的[思考块与对话绑定](https://platform.claude.com/docs/zh-CN/models/opus-5-5/whats-new-opus-5-5#thinking-blocks-are-tied-to-the-model-that-produced-them)。有关平台可用性和完整的请求流程，请参阅[按需压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-on-demand)。
 
 ## 行为差异
 
@@ -100,7 +104,7 @@ Claude Opus 5.5 与 Claude Opus 5 在若干方面存在差异，这些差异无�
 
 * **默认 effort 为 `medium`。** 省略 `effort` 的请求以 `medium` 运行；在 Claude Opus 5 上则以 `high` 运行。请显式设置 `effort` 并重新运行您的参数扫描；请参阅[校准 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#calibrate-effort)。
 * **在给定 effort 级别下每轮思考更多。** 在相同的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 设置下，该模型每轮的思考往往比 Claude Opus 5 更多，在 `xhigh` 和 `max` 下尤为明显。请重新运行 effort 扫描，而不是沿用原有设置，并在 `max_tokens` 中为思考预留空间。请参阅[校准 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#calibrate-effort)。
-* **工具调用之间的文本以思考块形式返回。** 模型在工具调用之间写下的简短说明会以[进度更新 `thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)而非 `text` 块的形式到达，因此在默认 `display: "omitted"` 下，将其流式传输给用户的应用程序在工具调用之间会保持静默，且不会出现错误。迁移指南说明了[如何接收工具调用之间的文本](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#text-between-tool-calls)，[面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#user-facing-progress-updates)介绍了如何请求更多此类更新。
+* **工具调用之间的文本以思考块形式返回。** 模型在工具调用之间写下的简短说明会以[进度更新 `thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)而非 `text` 块的形式到达。在默认 `display: "omitted"` 下，将其流式传输给用户的应用程序在工具调用之间会保持静默，且不会出现错误。迁移指南说明了[如何接收工具调用之间的文本](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#text-between-tool-calls)。有关如何请求更多此类更新，请参阅[面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#user-facing-progress-updates)。
 * **更多安全防护类别。** 除网络安全分类器外，该模型还运行生物安全分类器。与 Claude Opus 5 一样，促使其在响应文本中复现内部推理的请求可能会以 `reasoning_extraction` 类别被拒绝。请参阅 [Claude Opus 5.5 中的拒绝和回退](https://platform.claude.com/docs/zh-CN/models/opus-5-5/whats-new-opus-5-5#refusals-and-fallback)以及[安全防护拒绝](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#safeguard-refusals)。
 * **对图表、示意图和屏幕截图的解读更加精准。** 该模型无需工具即可更精确地从密集图表和依赖布局的视觉内容中读取数值，因此为早期模型构建的提示端视觉变通方法可能不再需要；对于最密集的输入，图像工具仍能提升准确性。请参阅[用于复杂视觉输入的工具](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#tools-for-complex-visual-inputs)。
 

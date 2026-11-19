@@ -177,8 +177,8 @@ Claude Models on Google Cloud (Anthropic managed) 的 [SDK 客户端](https://pl
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.8.0")
-        implementation("com.anthropic:anthropic-java-google-cloud:3.8.0")
+        implementation("com.anthropic:anthropic-java:3.10.0")
+        implementation("com.anthropic:anthropic-java-google-cloud:3.10.0")
         ```
       </Tab>
 
@@ -187,12 +187,12 @@ Claude Models on Google Cloud (Anthropic managed) 的 [SDK 客户端](https://pl
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-google-cloud</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         ```
       </Tab>
@@ -245,6 +245,8 @@ https://claude.googleapis.com/v1/projects/{project}/locations/global/claudeOrgan
 * 请求正文
 * 流式传输
 * 响应
+
+一个例外是请求大小：Messages 和令牌计数请求的限制更低。关于该限制，请参阅 API 概览中的[请求大小限制](https://platform.claude.com/docs/zh-CN/api/overview#request-size-limits)部分。
 
 本文档其他地方的代码示例会创建 Claude API 客户端并读取 API 密钥。要在 Claude Models on Google Cloud (Anthropic managed) 上运行这些示例，请将其导入语句和客户端构造函数替换为以下示例中的内容。对于 cURL 示例，请应用前面列出的三处不同。
 
@@ -400,11 +402,34 @@ https://claude.googleapis.com/v1/projects/{project}/locations/global/claudeOrgan
   ```
 </CodeGroup>
 
-cURL 示例会向 gcloud 请求一个 Application Default Credentials 令牌。访问令牌的有效期很短。请为每个会话生成一个令牌，而不是存储它。
+要通过原始 HTTP 调用 API，请发送来自 Application Default Credentials 的访问令牌。在装有 gcloud CLI 的计算机上，`gcloud auth application-default print-access-token` 会打印一个访问令牌。访问令牌的有效期很短，因此请在需要时生成新令牌，而不是存储它。关于其他凭据来源，请参阅[身份验证](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#authentication)。
 
 ### API 模型 ID
 
-Claude Models on Google Cloud (Anthropic managed) 使用与 Claude API 相同的模型 ID，例如 `claude-opus-5-5`。关于模型及其 ID，请参阅[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)。
+Claude Models on Google Cloud (Anthropic managed) 使用与 Claude API 相同的模型 ID。可用模型包括以下这些：
+
+| Model                                                                                                    | Model ID                     |
+| :------------------------------------------------------------------------------------------------------- | :--------------------------- |
+| Claude Fable 5.2                                                                                         | `claude-fable-5-2`           |
+| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842))              | `claude-mythos-5-2`          |
+| Claude Fable 5.1                                                                                         | `claude-fable-5-1`           |
+| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842))              | `claude-mythos-5-1`          |
+| Claude Fable 5                                                                                           | `claude-fable-5`             |
+| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842))                | `claude-mythos-5`            |
+| Claude Opus 5.5                                                                                          | `claude-opus-5-5`            |
+| Claude Opus 5                                                                                            | `claude-opus-5`              |
+| Claude Opus 4.8                                                                                          | `claude-opus-4-8`            |
+| Claude Opus 4.7                                                                                          | `claude-opus-4-7`            |
+| Claude Opus 4.6                                                                                          | `claude-opus-4-6`            |
+| Claude Opus 4.5                                                                                          | `claude-opus-4-5-20251101`   |
+| Claude Sonnet 5.5                                                                                        | `claude-sonnet-5-5`          |
+| Claude Sonnet 5                                                                                          | `claude-sonnet-5`            |
+| Claude Sonnet 4.6                                                                                        | `claude-sonnet-4-6`          |
+| Claude Sonnet 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `claude-sonnet-4-5-20250929` |
+| Claude Haiku 5.5                                                                                         | `claude-haiku-5-5`           |
+| Claude Haiku 4.5                                                                                         | `claude-haiku-4-5-20251001`  |
+
+Claude Models on Google Cloud (Anthropic managed) 遵循 Claude API 的生命周期时间表。关于具体日期，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。要比较模型，请参阅[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)。
 
 在 Claude Models on Google Cloud (Anthropic managed) 中，请求您的 Anthropic 组织无法使用的模型会返回错误。错误消息为 `Model {model} is not available for this organization's inference configuration.`
 
@@ -504,58 +529,85 @@ Go 和 Java 与其他 SDK 有所不同：
 
 ## 功能支持
 
-本节列出了在 Claude Models on Google Cloud (Anthropic managed) 上可用的功能以及不受支持的功能。它并未列出所有 Claude API 功能，也不说明未列出的功能是否可用。
+以下各节列出了可在 Claude Models on Google Cloud (Anthropic managed) 上使用的功能：
 
-Models API 以及以下功能可在 Claude Models on Google Cloud (Anthropic managed) 上使用：
+* **[Messages API 功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#messages-api-features)：** 模型能力、工具、上下文管理、文件和技能
+* **[Claude Managed Agents 功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#claude-managed-agents)：** 智能体、会话、沙箱和计划部署
+* **[管理和合规](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#administration-and-compliance)：** 工作区、用户配置文件、用量和成本报告、Compliance API 设置、加密密钥以及 Zero Data Retention
+
+关于不受支持的功能，请参阅[不支持的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#features-not-supported)部分。如果这些部分都没有列出您需要的功能，请向您的 Anthropic 客户代表询问该功能是否可用。
+
+要查看哪些模型支持某项功能，请参阅该功能页面的**可用性**部分。
+
+### Messages API 功能
+
+[Messages API](https://platform.claude.com/docs/zh-CN/api/messages/create)、[Models API](https://platform.claude.com/docs/zh-CN/api/models/list) 以及以下功能可在 Claude Models on Google Cloud (Anthropic managed) 上使用：
 
 * [Advisor 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool) (Beta)
 * [Agent Skills](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview)
   * [自定义技能](https://platform.claude.com/docs/zh-CN/build-with-claude/skills-guide#managing-custom-skills)
   * [预构建 Agent Skills](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#pre-built-agent-skills)
+* [Bash 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool)
 * [批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)
+* [浏览器和计算机使用 SDK 工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-sdk) (Beta)
+* [浏览器使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool)
+* [引用](https://platform.claude.com/docs/zh-CN/build-with-claude/citations)
 * [分类器拒绝](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)
   * [客户端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#client-side-fallback) (Beta)
+  * [回退抵扣](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit) (Beta)
   * [服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback) (Beta)
 * [代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)
+* [计算机使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)
+* [上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) (Beta)
 * [自定义工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools)
 * [数据驻留](https://platform.claude.com/docs/zh-CN/manage-claude/data-residency)
 * [Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)
   * [按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) (Beta)
 * [快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)
 * [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files)
+* [强制工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#forcing-tool-use)
 * [MCP 连接器](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector) (Beta)
   * [客户端 MCP 辅助工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#client-side-mcp-helpers) (Beta)
 * [记忆工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool)
   * [记忆工具辅助工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool#implement-the-memory-handler) (Beta)
 * [消息流式传输](https://platform.claude.com/docs/zh-CN/build-with-claude/streaming)
+  * [细粒度工具流式传输](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/fine-grained-tool-streaming)
 * [消息线程](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads) (Beta)
 * [对话中途的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)
   * [对话中途的工具变更](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#mid-conversation-tool-changes) (Beta)
   * [轮次范围的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages) (Beta)
-* [OpenTelemetry](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry) (Beta)
+* [多语言支持](https://platform.claude.com/docs/zh-CN/build-with-claude/multilingual-support)
+* [按需压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-on-demand) (Beta)
+  * [工具运行器压缩辅助方法](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-on-demand#compact-in-a-loop) (Beta)
+* [并行工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/parallel-tool-use)
 * [PDF 支持](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support)
+* [编程式工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)
 * [提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)
   * [1 小时有效期](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#1-hour-cache-duration)
   * [5 分钟有效期（默认）](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#how-prompt-caching-works)
   * [自动缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#automatic-caching)
+  * [缓存诊断](https://platform.claude.com/docs/zh-CN/build-with-claude/cache-diagnostics)
+  * [显式缓存断点](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#explicit-cache-breakpoints)
 * [SDK 中间件](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/middleware)
+* [搜索结果](https://platform.claude.com/docs/zh-CN/build-with-claude/search-results)
+* [流式拒绝](https://platform.claude.com/docs/zh-CN/test-and-evaluate/strengthen-guardrails/handle-streaming-refusals)
 * [结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)
+  * [严格工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/strict-tool-use)
   * [类型化结构化输出辅助工具](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#usage)
+* [任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets) (Beta)
+* [文本编辑器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/text-editor-tool)
 * [思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)
   * [自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-steering-and-cost)
   * [扩展思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking)
   * [保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)
+* [阈值压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-threshold) (Beta)
 * [令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting)
 * [工具运行器](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-runner) (Beta)
+* [工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)
 * [视觉（图像）](https://platform.claude.com/docs/zh-CN/build-with-claude/vision)
+* [网页域名限制](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions)
 * [Web fetch 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool)
 * [网页搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)
-
-如果某项 beta 功能在 Claude API 上仅限特定组织使用，则设置过程中创建的 Anthropic 组织也需要具备相同的访问权限。
-
-要为设置过程创建的 Anthropic 组织开启或关闭 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api)，请先[打开 Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#using-the-claude-console)。然后前往 [Claude Console 中的合规页面](https://platform.claude.com/settings/security)（`platform.claude.com/settings/security`），并使用 **Compliance API** 开关。
-
-“Customer-managed encryption keys”（客户管理的加密密钥），即 CMEK，可与 Google Cloud KMS 密钥一起使用。要为设置过程创建的 Anthropic 组织激活 CMEK，请参阅[谁可以使用 CMEK](https://platform.claude.com/docs/zh-CN/manage-claude/cmek#availability)。要设置密钥，请按照[使用 Google Cloud KMS 设置 CMEK](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-google-cloud-kms) 操作。然后按照设置页面的 **Claude Platform** 选项卡中的说明，在 [Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#using-the-claude-console) 中注册、验证并附加密钥。
 
 ### Claude Managed Agents
 
@@ -575,23 +627,71 @@ Models API 以及以下功能可在 Claude Models on Google Cloud (Anthropic man
 * [自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes) (Beta)
 * [会话预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets) (Beta)
 * [保管库](https://platform.claude.com/docs/zh-CN/managed-agents/vaults) (Beta)
-* [网页域名限制](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions) (Beta)
+
+部分 [Messages API 功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#messages-api-features)（例如 Files API 和 MCP 连接器）也可与 Claude Managed Agents 一起使用。详情请参阅该功能页面的**可用性**部分。
+
+如果您计划使用自托管沙箱，请阅读[不支持的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#features-not-supported)部分中关于记忆存储和工作器的条目。
+
+#### 撤销访问权限时
 
 访问权限在创建会话或部署时检查，而不是在其运行期间检查：
 
-* **正在运行的会话会继续运行。** 如果您撤销了创建会话的身份的 Google Cloud 访问权限，会话不会停止。要停止它，请单独向其发送一个 [`user.interrupt` 事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#integrating-events)。会话变为 `idle` 后，您可以将其归档或删除。
+* **正在运行的会话会继续运行。** 如果您撤销了创建会话的身份的 Google Cloud 访问权限，会话不会停止。
 * **计划部署会继续运行。** 部署不会在每次计划运行时重新检查其创建者的访问权限。要停止它，请暂停、更新或归档它。
 
+要停止正在运行的会话，请按以下步骤操作：
+
+1. 向会话发送一个 [`user.interrupt` 事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#interrupt-the-agent)。其后不要发送 `user.message` 事件。
+2. 等待会话状态变为 `idle`。
+3. 如果您不再需要该会话，请将其归档或删除。
+
 当您移除用户或轮换服务账号时，请检查该身份创建的会话和部署。
+
+### 管理和合规
+
+以下内容也可在 Claude Models on Google Cloud (Anthropic managed) 上使用：
+
+* [工作区](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#workspaces)
+* [用于终端客户归属的用户配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles)
+* [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)（beta）
+* [用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)（旧版），仅限用量端点
+* Claude Console 中的 [Compliance API 设置](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#compliance-api)
+* “Customer-managed encryption keys”（[客户管理的加密密钥](https://platform.claude.com/docs/zh-CN/manage-claude/cmek)），即 CMEK，使用 Google Cloud KMS 密钥
+* [Zero Data Retention（零数据保留）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#data-retention)，即 ZDR，可应要求提供
+
+用量和成本端点使用[不含工作区的基础 URL](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#making-requests)。在三个预定义的 [IAM 角色](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#iam-roles)中，只有 `roles/claude.admin` 允许进行这些调用。
+
+#### Compliance API
+
+当 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 处于关闭状态时，它不会记录活动事件。您之后无法恢复这些事件。关于该设置还会改变哪些内容，请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
+
+要为设置过程创建的 Anthropic 组织开启或关闭 Compliance API，请按以下步骤操作：
+
+1. [打开 Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#using-the-claude-console)。
+2. 前往 [Claude Console 中的合规页面](https://platform.claude.com/settings/security)（`platform.claude.com/settings/security`）。
+3. 打开或关闭 **Compliance API** 开关。
+
+#### 客户管理的加密密钥
+
+要将您自己的 Google Cloud KMS 密钥用于设置过程创建的 Anthropic 组织，请按以下步骤操作：
+
+1. 联系您的 Anthropic 客户代表，为该组织开启 CMEK。详情请参阅[谁可以使用 CMEK](https://platform.claude.com/docs/zh-CN/manage-claude/cmek#availability)。
+2. [打开 Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#using-the-claude-console)。
+3. 按照[使用 Google Cloud KMS 设置 CMEK](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-google-cloud-kms) 创建、添加、验证并附加密钥。对于 Claude Console 中的步骤，请使用该页面的 **Claude Platform** 选项卡。
+
+### beta 功能的访问权限
+
+部分 beta 功能仅向选定的组织开放。要使用此类功能，设置过程创建的 Anthropic 组织需要拥有自己的访问权限。
 
 ### 不支持的功能
 
 Claude Models on Google Cloud (Anthropic managed) 不支持以下内容：
 
-* **API 密钥：** 仅通过 Google Cloud 凭据进行身份验证。
+* **API 密钥（包括 Admin API 密钥）：** 请改用 [Google Cloud 凭据](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#authentication)进行身份验证。
 * **MCP 隧道：** [MCP 隧道](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview)在 Claude Models on Google Cloud (Anthropic managed) 上不可用。
-* **[自托管环境上的记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory)：** 自托管环境上的会话不支持记忆存储。
+* **[自托管沙箱中的记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory)：** 在 Claude Models on Google Cloud (Anthropic managed) 上，自托管沙箱不支持记忆存储。要使用记忆存储，请在[云环境](https://platform.claude.com/docs/zh-CN/managed-agents/environments)中运行会话。
 * **预构建的自托管沙箱工作器：** `ant` CLI 以及 Python、TypeScript 和 Go SDK 中的[自托管工作器](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers)不支持 Claude Models on Google Cloud (Anthropic managed)。请改为实现您自己的工作器，直接调用[环境工作端点](https://platform.claude.com/docs/zh-CN/api/beta/environments/work)。有关您的工作器所需的角色和权限，请参阅[环境的 IAM 权限](https://platform.claude.com/docs/zh-CN/api/claude-models-on-google-cloud-anthropic-managed-iam-permissions#environments)。
+* **Linked billing（beta）：** [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections) 在 Claude Models on Google Cloud (Anthropic managed) 上不可用。
 
 ### 上下文窗口
 
@@ -601,7 +701,37 @@ Claude Models on Google Cloud (Anthropic managed) 上的"context window"（上�
 
 ### 速率限制
 
-Anthropic 管理 Claude Models on Google Cloud (Anthropic managed) 的"rate limit"（速率限制）。要申请更高的限制，请联系您的 Anthropic 客户代表或[联系销售](https://claude.com/contact-sales)。关于速率限制的衡量和报告方式，请参阅[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)。
+Anthropic 管理 Claude Models on Google Cloud (Anthropic managed) 的"rate limit"（速率限制）。关于速率限制的衡量和报告方式，请参阅[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)。
+
+要查看您组织的速率限制，请[打开 Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#using-the-claude-console) 并前往 [Claude Console 中的速率限制页面](https://platform.claude.com/usage/limits)（`platform.claude.com/usage/limits`）。对于 Claude Models on Google Cloud (Anthropic managed) 上的每个组织，无论其[用量层级](https://platform.claude.com/docs/zh-CN/api/rate-limits#about-rate-limits)如何，该页面上的徽章都显示**自定义层级**。
+
+要申请更高的限制，请使用 Claude Console 中的表单：
+
+1. 在**速率限制**页面上，点击**申请更高限额**。
+
+   <Frame caption="该按钮位于 Rate limits（速率限制）页面的右上角。">
+     ![Claude Console 中 Rate limits（速率限制）页面的页眉，显示 Custom tier 徽章和 Request higher limits（申请更高限额）按钮。](https://platform.claude.com/docs/images/rate-limits/request-higher-limits-button.png)
+   </Frame>
+
+2. 填写每个字段。数字部分填写粗略估计值即可：
+
+   * 在**哪些模型？**&#x4E2D;，选择需要提高限额的模型。
+   * 在**每分钟峰值令牌数**下，输入您的峰值**输入**和**输出**令牌数（而非每日总量）。在**输入**中，不要计入从缓存读取的令牌。对于大多数模型，它们不计入输入令牌限额（请参阅[缓存感知的 ITPM](https://platform.claude.com/docs/zh-CN/api/rate-limits#cache-aware-itpm)）。这些数字适用于您选择的每个模型。如果某个模型需要不同的数字，请在下一个字段中补充说明。
+   * 在**您正在构建什么，以及为什么需要更高的限额？**&#x4E2D;，描述您的用例以及需要更高限额的原因。如果您需要更高的[每月支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#spend-limits)，请在此处说明。
+   * 在**预期月度支出**中，输入以美元计的整数金额。
+   * 在**联系电子邮件**中，输入一个用于接收回复的电子邮件地址。
+
+   <Frame caption="该表单，其中包含一个示例请求。">
+     ![Request higher limits（申请更高限额）表单，包含模型、每分钟峰值令牌数、原因、月度支出和联系电子邮件等字段。](https://platform.claude.com/docs/images/rate-limits/request-higher-limits-form.png)
+   </Frame>
+
+3. 点击**发送请求**。
+
+Anthropic 支持团队会审核您的请求，并回复到该联系电子邮件地址。您的组织每 24 小时可以发送一次请求。
+
+如果您的组织有零数据保留（ZDR）安排，或已[开启客户管理的加密密钥（CMEK）](https://platform.claude.com/docs/zh-CN/manage-claude/cmek#availability)，则无法使用该表单。页面会显示**联系销售**，或者在您发送请求时表单会显示错误。请改为联系您的 Anthropic 客户代表或[联系销售](https://claude.com/contact-sales)。
+
+其他任何组织也可以联系其客户代表或销售团队。
 
 ### 计费
 
@@ -623,10 +753,10 @@ Claude Models on Google Cloud (Anthropic managed) 遵循与 Claude API 相同的
 
 [Cloud Audit Logs](https://cloud.google.com/logging/docs/audit) 会记录您项目中 Claude Models on Google Cloud (Anthropic managed) 的 API 活动。这些条目显示在 `claude.googleapis.com` 服务下。每个 API 路由属于以下两种日志类型之一：
 
-* **数据访问日志：** 涵盖大多数路由，包括消息、批处理、文件、技能、模型以及大多数 Claude Managed Agents 资源。默认处于关闭状态。
-* **管理员活动日志：** 涵盖其他路由，包括加密密钥路由和大多数凭据保管库路由。例外是 `vaults.verify` 的路由，它属于数据访问。管理员活动日志始终处于开启状态。
+* **数据访问日志：** 涵盖大多数路由，包括消息、批处理、文件、技能、模型以及 Claude Managed Agents 资源（例如凭据保管库）。这些日志默认处于关闭状态。
+* **管理员活动日志：** 涵盖加密密钥路由以及 IAM 权限页面未列出的部分其他[组织级路由](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#iam-roles)。管理员活动日志始终处于开启状态。
 
-要保留请求记录，请在项目的审计日志设置中为 `claude.googleapis.com` 开启数据访问日志。
+要保留请求记录，请在项目的审计日志设置中为 `claude.googleapis.com` [开启数据访问日志](https://docs.cloud.google.com/logging/docs/audit/configure-data-access)。请选择所有数据访问日志类型，因为不同的路由使用不同的日志类型。
 
 关于各路由的审计日志类型，请参阅 [Claude Models on Google Cloud (Anthropic managed) 的 IAM 权限](https://platform.claude.com/docs/zh-CN/api/claude-models-on-google-cloud-anthropic-managed-iam-permissions)。
 
@@ -643,7 +773,7 @@ Claude Models on Google Cloud (Anthropic managed) 遵循与 Claude API 相同的
 * **先创建新组织。** 按照[设置您的账户](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#set-up-your-account)操作。
 * **重新创建访问权限和配置。** API 密钥、工作区和 Claude Console 设置不会延续。请在项目上授予 [IAM 角色](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#iam-roles)，而不是创建 API 密钥。要重新创建工作区，请参阅[工作区](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#workspaces)。关于 ZDR 安排，请参阅[数据保留](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#data-retention)。
 * **规划已存储的资源。** 文件、技能、批处理和 Claude Managed Agents 资源会保留在现有组织中。
-* **更新您的集成。** 关于哪些内容会改变、哪些保持不变，请参阅[发出请求](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#making-requests)。关于不受支持的功能，请参阅[不支持的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#features-not-supported)。
+* **更新您的集成。** 关于哪些内容会改变、哪些保持不变，请参阅[发出请求](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#making-requests)。要检查您的代码使用的功能，请参阅[功能支持](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#feature-support)部分。
 * **按您自己的时间表进行切换。** 两个组织相互独立，可以并行处理流量。您可以逐步迁移工作负载。现有组织保持其当前的计费方式。在转移生产流量之前，请检查 [Claude Models on Google Cloud (Anthropic managed) 的速率限制](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#rate-limits)。
 
 ## 从 Claude Models on Google Cloud (Google managed) 迁移
@@ -861,7 +991,7 @@ Claude Models on Google Cloud (Anthropic managed) 遵循与 Claude API 相同的
 
 ## 支持
 
-[Google Cloud 支持团队](https://cloud.google.com/support)负责处理您的 Google Cloud 账户、访问权限和计费。[Anthropic 支持团队](https://support.claude.com/en/articles/9015913-how-to-get-support)负责处理 Claude 本身的问题，包括模型、API 错误和速率限制。如需申请更高的速率限制，请参阅[速率限制](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#rate-limits)。
+[Google Cloud 支持团队](https://cloud.google.com/support)负责处理您的 Google Cloud 账户、访问权限和计费。[Anthropic 支持团队](https://support.claude.com/en/articles/9015913-how-to-get-support)负责处理 Claude 本身的问题，包括模型、API 错误和速率限制。如需申请更高的限制，请参阅 [Claude Models on Google Cloud (Anthropic managed) 的速率限制](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#rate-limits)。
 
 ## 后续步骤
 

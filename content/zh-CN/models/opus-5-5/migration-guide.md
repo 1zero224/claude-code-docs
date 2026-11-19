@@ -16,7 +16,7 @@ description: 通过本迁移指南从早期 Opus 模型或 Claude Sonnet 5 切�
 
 本页列出了从 [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)、[Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8)、[Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-47)、[Claude Opus 4.6 及更早的 Opus 模型](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-46)或 [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-sonnet-5) 迁移到 Claude Opus 5.5 所需的代码更改。所有读者都需要阅读[每个发往 Claude Opus 5.5 的请求必须满足的要求](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)和[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)。然后前往您当前模型对应的章节：该章节的第一句话会列出适用于您的其他章节。[迁移检查清单](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migration-checklist)按起始模型列出了所有更改。
 
-Claude Opus 5.5 的费用低于 Claude Opus 5（每百万输入 / 输出令牌 $4 / $20 美元，而 Claude Opus 5 为 $5 / $25 美元；请参阅[定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing)）。有关功能支持，请参阅 [Claude Opus 5.5 的新功能](https://platform.claude.com/docs/zh-CN/models/opus-5-5/whats-new-opus-5-5#feature-support)。有关行为差异和特定于模型的提示模式，请参阅[提示 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5)。
+Claude Opus 5.5 的费用低于 Claude Opus 5（每百万输入 / 输出令牌 $4 / $20 美元，而 Claude Opus 5 为 $5 / $25 美元；请参阅[定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing)）。有关功能支持，请参阅 [Claude Opus 5.5 的新功能](https://platform.claude.com/docs/zh-CN/models/opus-5-5/whats-new-opus-5-5#feature-support)。有关行为差异和特定于模型的提示模式，请参阅[为 Claude Opus 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5)。
 
 ## 每个发往 Claude Opus 5.5 的请求必须满足的要求
 
@@ -121,7 +121,13 @@ Claude Opus 5.5 的费用低于 Claude Opus 5（每百万输入 / 输出令牌 $
   };
 
   var message = await client.Messages.Create(parameters);
-  Console.WriteLine(message);
+  foreach (var block in message.Content)
+  {
+      if (block.TryPickText(out var textBlock))
+      {
+          Console.WriteLine(textBlock.Text);
+      }
+  }
   ```
 
   ```go Go
@@ -275,14 +281,14 @@ Claude Opus 5.5 的费用低于 Claude Opus 5（每百万输入 / 输出令牌 $
 * 移除 `thinking: {"type": "disabled"}` 和 `thinking: {"type": "enabled", ...}`；改为选择一个 effort 级别。
 * 显式设置 `effort`：默认值为 `medium`，而 Claude Opus 5 的默认值为 `high`。
 * 将 `tool_choice` 类型 `any` 和 `tool` 替换为 `auto` 加上严格工具使用或结构化输出。
-* 如果您使用较早的计算机使用工具版本，请改为声明 `computer_toolset_20260801`，删除该版本的 beta 标头，并针对该工具集更新您的代理循环。在 Amazon Bedrock 上，`computer_20251124` 也可以使用。请参阅[计算机使用的破坏性变更](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#computer-use-toolset)。
-* 如果路由器或回退机制可能将对话从 Claude Opus 5.5 转移出去，请预期新模型在运行时不会带有 Claude Opus 5.5 的思考块。Claude Fable 5.1 和 Claude Mythos 5.1 在 Claude API 上会保留这些思考块。Claude Fable 5.2 和 Claude Mythos 5.2 在 Claude API 和 Claude Models on Google Cloud (Google managed) 上会保留这些思考块。Claude Opus 5.5 本身可以读取来自 Claude Opus 5 以及来自较早的 Opus、Sonnet 和 Haiku 模型的思考。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它还可以读取来自 Claude Sonnet 5.5 和 Claude Haiku 5.5 的思考。它不能读取来自 Claude Fable 或 Claude Mythos 模型的思考。
+* 如果您使用较早的计算机使用工具版本，请改为声明 `computer_toolset_20260801`，移除该版本的 beta 标头，并针对该工具集更新您的代理循环。在 Amazon Bedrock 上，`computer_20251124` 也可以使用。请参阅[计算机使用的破坏性变更](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#computer-use-toolset)。
+* 如果路由器或回退机制可能将对话从 Claude Opus 5.5 转移出去，请预期新模型在运行时不会带有 Claude Opus 5.5 的思考块。Claude Fable 5.1 和 Claude Mythos 5.1 在 Claude API 上会保留这些思考块。Claude Fable 5.2 和 Claude Mythos 5.2 在 Claude API 和 Claude Models on Google Cloud (Google managed) 上会保留这些思考块。Claude Opus 5.5 本身可以读取来自 Claude Opus 5 以及来自[较早的 Claude Opus、Claude Sonnet 和 Claude Haiku 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#earlier-models)的思考。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它还可以读取来自 Claude Sonnet 5.5 和 Claude Haiku 5.5 的思考。它不能读取来自 Claude Fable 或 Claude Mythos 模型的思考。
 * 按 `type` 读取内容块，并在工具使用循环中原样传回 `thinking` 块。
 * 如果您的界面会渲染工具调用之间的文本，请设置 `display: "updates"`（beta）或 `"summarized"`，并渲染非空的 `thinking` 块。
 * 如果您的代码会在对话中途编辑较早的轮次、`system` 提示或 `tools`，请遵循[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)。
 * 处理 `stop_reason: "refusal"` 并配置回退。
 * 在您选择的 effort 级别下重新建立成本和延迟基线。
-* 如果您的代码曾禁用思考，请重新审视 `max_tokens`，它涵盖思考和响应文本；在 `xhigh` 或 `max` effort 下，从 64k 开始。请参阅[在每个响应中处理思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)。
+* 如果您的代码曾禁用思考，请重新审视 `max_tokens`，它涵盖思考和响应文本；在 `xhigh` 或 `max` effort 下，从 64k 开始。请参阅[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)。
 
 ### Claude Opus 4.8 或更早版本
 
@@ -296,15 +302,22 @@ Claude Opus 5.5 的费用低于 Claude Opus 5（每百万输入 / 输出令牌 $
 ### Claude Opus 4.7 或更早版本
 
 * 在您自己的评估上重新进行 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 扫描，而不是沿用为早期模型调优的设置。
+
 * 移除所有上下文窗口 beta 标头。
-* 如果您通过重建对话历史来更新指令，请考虑改用对话中途的系统消息，以保留提示缓存命中。
+
+* 如果您通过重建对话历史来更新指令，请改用对话中途的系统消息。重建之后，请求可能会收到 400 错误，并且会失去提示缓存命中。
+
 * 验证您的停止原因处理逻辑在拒绝时会读取 `stop_details`。
-* 如果您想使用 Claude Opus 4.7 会拒绝的快速模式，请在您的 Claude API 请求上设置 `speed: "fast"`。
+
+* 如果您想使用 Claude Opus 4.7 会拒绝的快速模式，请检查[快速模式的可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode#feature-availability)是否列出了您的平台。然后，将其开启：
+
+  * **Microsoft Foundry：** 将请求发送到快速模式模型的部署。
+  * **其他平台：** 设置 `speed: "fast"`。
 
 ### Claude Opus 4.6 或更早版本
 
 * 从请求负载中移除 `temperature`、`top_p` 和 `top_k`。
-* 将 `thinking: {"type": "enabled", "budget_tokens": N}` 替换为 `thinking: {"type": "adaptive"}` 加[工作量参数](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)，或完全移除 `thinking` 字段；自适应思考始终开启。
+* 将 `thinking: {"type": "enabled", "budget_tokens": N}` 替换为 `thinking: {"type": "adaptive"}` 加 [effort 参数](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)，或完全移除 `thinking` 字段；自适应思考始终开启。
 * 如果您的 UI 显示思考内容，请显式选择启用思考摘要。
 * 在更新后的分词方式下重新对端到端成本和延迟进行基准测试。
 * 重新调整 `max_tokens` 以适应更新后的分词方式，包括压缩触发条件。
@@ -335,7 +348,7 @@ Claude Opus 5.5 的费用低于 Claude Opus 5（每百万输入 / 输出令牌 $
 
 ### 仅限 Claude Sonnet 5
 
-* 如果您通过重建对话历史来更新指令，请考虑改用对话中途的系统消息，以保留提示缓存命中。
+* 如果您通过重建对话历史来更新指令，请改用对话中途的系统消息。重建之后，请求可能会收到 400 错误，并且会失去提示缓存命中。
 * 审查接近缓存最小长度的提示：512 个令牌或更多的提示可以创建缓存条目。
 
 ## 从 Claude Opus 5 迁移到 Claude Opus 5.5
@@ -611,7 +624,7 @@ model = "claude-opus-5-5"  # After
     name: get_weather
   messages:
     - role: user
-      content: What's the weather in Paris?
+      content: What is the weather in Paris?
   YAML
   ```
 
@@ -621,7 +634,7 @@ model = "claude-opus-5-5"  # After
       max_tokens=1024,
       tools=tools,
       tool_choice={"type": "tool", "name": "get_weather"},
-      messages=[{"role": "user", "content": "What's the weather in Paris?"}],
+      messages=[{"role": "user", "content": "What is the weather in Paris?"}],
   )
   ```
 
@@ -631,7 +644,7 @@ model = "claude-opus-5-5"  # After
     max_tokens: 1024,
     tools,
     tool_choice: { type: "tool", name: "get_weather" },
-    messages: [{ role: "user", content: "What's the weather in Paris?" }]
+    messages: [{ role: "user", content: "What is the weather in Paris?" }]
   });
   ```
 
@@ -642,7 +655,7 @@ model = "claude-opus-5-5"  # After
       MaxTokens = 1024,
       Tools = [.. tools],
       ToolChoice = new ToolChoiceTool { Name = "get_weather" },
-      Messages = [new UserMessageParam { Content = "What's the weather in Paris?" }],
+      Messages = [new UserMessageParam { Content = "What is the weather in Paris?" }],
   });
   ```
 
@@ -653,7 +666,7 @@ model = "claude-opus-5-5"  # After
   	Tools:      tools,
   	ToolChoice: anthropic.ToolChoiceParamOfTool("get_weather"),
   	Messages: []anthropic.MessageParam{
-  		anthropic.NewUserMessage(anthropic.NewTextBlock("What's the weather in Paris?")),
+  		anthropic.NewUserMessage(anthropic.NewTextBlock("What is the weather in Paris?")),
   	},
   })
   ```
@@ -664,7 +677,7 @@ model = "claude-opus-5-5"  # After
       .maxTokens(1024L)
       .tools(tools)
       .toolChoice(ToolChoiceTool.of("get_weather"))
-      .addUserMessage("What's the weather in Paris?")
+      .addUserMessage("What is the weather in Paris?")
       .build();
 
   client.messages().create(params);
@@ -676,7 +689,7 @@ model = "claude-opus-5-5"  # After
       maxTokens: 1024,
       tools: $tools,
       toolChoice: ToolChoiceTool::with(name: 'get_weather'),
-      messages: [['role' => 'user', 'content' => "What's the weather in Paris?"]],
+      messages: [['role' => 'user', 'content' => 'What is the weather in Paris?']],
   );
   ```
 
@@ -686,7 +699,7 @@ model = "claude-opus-5-5"  # After
     max_tokens: 1024,
     tools: tools,
     tool_choice: Anthropic::ToolChoiceTool.new(name: "get_weather"),
-    messages: [{ role: "user", content: "What's the weather in Paris?" }]
+    messages: [{ role: "user", content: "What is the weather in Paris?" }]
   )
   ```
 </CodeGroup>
@@ -742,13 +755,13 @@ model = "claude-opus-5-5"  # After
             description: The city and state, e.g. San Francisco, CA
         required: [location]
         additionalProperties: false
-      # 严格工具使用：每次调用都与工具的 input_schema 匹配
+      # 严格工具使用：每次调用都符合工具的 input_schema
       strict: true
   tool_choice:
     type: auto
   messages:
     - role: user
-      content: What's the weather in Paris? Use the get_weather tool.
+      content: What is the weather in Paris? Use the get_weather tool.
   YAML
   ```
 
@@ -762,7 +775,7 @@ model = "claude-opus-5-5"  # After
       messages=[
           {
               "role": "user",
-              "content": "What's the weather in Paris? Use the get_weather tool.",
+              "content": "What is the weather in Paris? Use the get_weather tool.",
           }
       ],
   )
@@ -772,13 +785,13 @@ model = "claude-opus-5-5"  # After
   await client.messages.create({
     model: "claude-opus-5-5",
     max_tokens: 1024,
-    // 严格工具使用：每次调用均符合该工具的 input_schema
+    // 严格工具使用：每次调用都符合该工具的 input_schema
     tools: tools.map((tool) => ({ ...tool, strict: true })),
     tool_choice: { type: "auto" },
     messages: [
       {
         role: "user",
-        content: "What's the weather in Paris? Use the get_weather tool."
+        content: "What is the weather in Paris? Use the get_weather tool."
       }
     ]
   });
@@ -789,18 +802,18 @@ model = "claude-opus-5-5"  # After
   {
       Model = Model.ClaudeOpus5_5,
       MaxTokens = 1024,
-      // 严格工具使用：每次调用都符合工具的 input_schema
+      // 严格工具使用：每次调用都与工具的 input_schema 匹配
       Tools = [.. tools.Select(tool => tool with { Strict = true })],
       ToolChoice = new ToolChoiceAuto(),
       Messages =
       [
-          new UserMessageParam { Content = "What's the weather in Paris? Use the get_weather tool." },
+          new UserMessageParam { Content = "What is the weather in Paris? Use the get_weather tool." },
       ],
   });
   ```
 
   ```go Go
-  // 严格工具使用：每次调用都符合工具的 input_schema
+  // 严格工具使用：每次调用都与该工具的 input_schema 匹配
   var strictTools []anthropic.ToolUnionParam
   for _, tool := range tools {
   	strictTool := *tool.OfTool
@@ -814,7 +827,7 @@ model = "claude-opus-5-5"  # After
   	ToolChoice: anthropic.ToolChoiceUnionParam{OfAuto: &anthropic.ToolChoiceAutoParam{}},
   	Messages: []anthropic.MessageParam{
   		anthropic.NewUserMessage(
-  			anthropic.NewTextBlock("What's the weather in Paris? Use the get_weather tool."),
+  			anthropic.NewTextBlock("What is the weather in Paris? Use the get_weather tool."),
   		),
   	},
   })
@@ -834,7 +847,7 @@ model = "claude-opus-5-5"  # After
               .orElse(tool))
           .toList())
       .toolChoice(ToolChoiceAuto.builder().build())
-      .addUserMessage("What's the weather in Paris? Use the get_weather tool.")
+      .addUserMessage("What is the weather in Paris? Use the get_weather tool.")
       .build();
 
   client.messages().create(params);
@@ -844,13 +857,13 @@ model = "claude-opus-5-5"  # After
   $client->messages->create(
       model: Model::CLAUDE_OPUS_5_5,
       maxTokens: 1024,
-      // 严格工具使用：每次调用都符合该工具的 input_schema
+      // 严格工具使用：每次调用都与工具的 input_schema 匹配
       tools: array_map(fn (Tool $tool) => $tool->withStrict(true), $tools),
       toolChoice: ToolChoiceAuto::with(),
       messages: [
           [
               'role' => 'user',
-              'content' => "What's the weather in Paris? Use the get_weather tool.",
+              'content' => 'What is the weather in Paris? Use the get_weather tool.',
           ],
       ],
   );
@@ -860,11 +873,11 @@ model = "claude-opus-5-5"  # After
   client.messages.create(
     model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
-    # 严格工具使用：每次调用都与工具的 input_schema 匹配
+    # 严格工具使用：每次调用都符合该工具的 input_schema
     tools: tools.map { |tool| tool.merge(strict: true) },
     tool_choice: Anthropic::ToolChoiceAuto.new,
     messages: [
-      { role: "user", content: "What's the weather in Paris? Use the get_weather tool." }
+      { role: "user", content: "What is the weather in Paris? Use the get_weather tool." }
     ]
   )
   ```
@@ -872,17 +885,19 @@ model = "claude-opus-5-5"  # After
 
 #### 思考块与模型和对话绑定
 
-Claude Fable 5.1 和 Claude Mythos 5.1 可以在 Claude API 上读取 Claude Opus 5.5 的 thinking block（思考块）。Claude Fable 5.2 和 Claude Mythos 5.2 可以在 Claude API 和 Claude Models on Google Cloud (Google managed) 上读取这些思考块。其他模型均不能。将对话从 Claude Opus 5.5 转移到任何其他模型的路由器或回退机制，在运行这些轮次时将不包含这些思考块。
+请保持对话仅追加（在对话中途不编辑 `system` 提示、`tools` 或之前的消息），以使思考块通过[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)。Claude Code、claude.ai、Claude Managed Agents 和 Claude Agent SDK 会这样做。对于仅追加的集成，无需更改代码。
 
-反过来，Claude Opus 5.5 可以读取来自 Claude Opus 5 以及更早的 Opus、Sonnet 和 Haiku 模型的思考块。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它还可以读取来自 Claude Sonnet 5.5 和 Claude Haiku 5.5 的思考块。它不能读取来自 Claude Fable 或 Claude Mythos 模型的思考块。
+未通过 “prefix check”（[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)）可能会也可能不会导致 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。要识别并处理这两种情况，请参阅[思考块的前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks)。
 
-请保持对话仅追加（在对话中途不编辑 `system` 提示、`tools` 或之前的消息），以使这些思考块保持有效。Claude Code、claude.ai、Claude Managed Agents 和 Claude Agent SDK 已经这样做了。如果请求在此类编辑之后重放思考块，且未设置 `thinking.block_binding.prefix_mismatch_behavior`，则会收到 400 错误。这适用于在 2026 年 8 月 31 日 00:00 UTC 或之后创建的账户。[保留的思考的可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)列出了适用此规则的平台。对于仅追加的集成，无需更改代码。请参阅[思考块与模型和对话绑定](https://platform.claude.com/docs/zh-CN/models/opus-5-5/whats-new-opus-5-5#thinking-blocks-are-tied-to-the-model-that-produced-them)和[保留的思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)。
+[保留思考的可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)列出了适用此规则的平台。
+
+每个思考块还会记录生成它的模型。路由器或回退机制可能会将对话从 Claude Opus 5.5 转移到不读取 Claude Opus 5.5 思考块的模型。API 会在该模型看到这些思考块之前，从该请求中丢弃它们，并且请求会成功。有关哪些模型读取哪些思考块，请参阅《Claude Opus 5.5 的新功能》中的[思考块与模型和对话绑定](https://platform.claude.com/docs/zh-CN/models/opus-5-5/whats-new-opus-5-5#thinking-blocks-are-tied-to-the-model-that-produced-them)。另请参阅[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)。
 
 #### 部分计算机使用工具版本不受支持
 
 Claude Opus 5.5 通过 `computer_toolset_20260801` 工具集支持计算机使用。在 Amazon Bedrock 上，Claude Opus 5.5 还接受带有 `computer-use-2025-11-24` beta 标头的 `computer_20251124` 工具。对于任何不接受的计算机使用工具版本（例如 Claude API 上的 `computer_20251124`），Claude Opus 5.5 会返回 400 错误。它在任何平台上都不接受 `computer_20250124`。在 Claude API 上，错误消息以 `'claude-opus-5-5' does not support tool types: computer_20251124.` 开头，随后列出该模型接受的工具类型。
 
-使用该工具集的集成无需更改。要将 `computer_20251124` 集成迁移到该工具集，请删除 beta 标头，并发送不带 `name` 或显示尺寸的 `computer_toolset_20260801` 条目。在您的代理循环中，处理一个轮次中的每个成员 `tool_use` 块，并在每个结果中回传 `toolset_name`。从每个块的 `name` 读取操作，而不是从 `input.action` 读取。[从 `computer_20251124` 迁移](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#migrate-from-computer-20251124)列出了代理循环的相关变更。
+使用该工具集的集成无需更改。要将 `computer_20251124` 集成迁移到该工具集，请移除 beta 标头，并发送不带 `name` 或显示尺寸的 `computer_toolset_20260801` 条目。在您的代理循环中，处理一个轮次中的每个成员 `tool_use` 块，并在每个结果中回传 `toolset_name`。从每个块的 `name` 读取操作，而不是从 `input.action` 读取。[从 `computer_20251124` 迁移](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#migrate-from-computer-20251124)列出了代理循环的相关变更。
 
 之前。Claude Opus 5 接受此请求，而 Claude Opus 5.5 在 Claude API 上会以 400 错误拒绝它：
 
@@ -1151,23 +1166,23 @@ Claude Opus 5.5 可能会返回带有 `stop_details` 类别的 `stop_reason: "re
 
 ### 推荐的更改
 
-1. **重新进行 effort 扫描。** Effort 是 Claude Opus 5.5 上唯一的思考控制手段，其默认值为 `medium`，而 Claude Opus 5 的默认值为 `high`，因此省略 `effort` 的请求会以 `medium` 运行。在质量能够保持的地方降低级别，对要求最高的工作则提高级别。请参阅 [Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)。
-2. **重新评估特定于模型的提示指令。** 针对 Claude Opus 5 行为调优的指令可能不再需要；请参阅[提示 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5)。如果您之前在禁用思考的情况下运行，另请参阅[为禁用思考编写的提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#prompts-written-for-thinking-disabled)。
+1. **重新进行 effort 扫描。** Effort 是 Claude Opus 5.5 上唯一控制思考深度的请求参数。默认值为 `medium`。Claude Opus 5 的默认值为 `high`，因此省略 `effort` 的请求会比在 Claude Opus 5 上低一个级别运行。在质量能够保持的地方降低级别，对要求最高的工作则提高级别。请参阅 [Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)。
+2. **重新评估特定于模型的提示指令。** 针对 Claude Opus 5 行为调优的指令可能不再需要；请参阅[为 Claude Opus 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5)。如果您之前在禁用思考的情况下运行，另请参阅[为禁用思考编写的提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#prompts-written-for-thinking-disabled)。
 3. 在切换生产流量之前，**在开发环境中进行测试**。
 
 ## 从 Claude Opus 4.8 迁移到 Claude Opus 5.5
 
-首先完成[每个发往 Claude Opus 5.5 的请求必须满足的要求](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)、[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)和[从 Claude Opus 5 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)。将 `claude-opus-4-8` 作为您要替换的模型 ID。最后那一节原样适用于 Claude Opus 4.8 上的代码，因为 Claude Opus 4.8 与 Claude Opus 5 一样：
+首先完成[每个发往 Claude Opus 5.5 的请求必须满足的要求](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)、[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)和[从 Claude Opus 5 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)，将 `claude-opus-4-8` 作为您要替换的模型 ID。Claude Opus 5 一节中的所有内容同样适用于您，因为 Claude Opus 4.8 与 Claude Opus 5 一样：
 
 * 接受 `thinking: {"type": "disabled"}`、强制工具选择和 `computer_20251124` 工具。
 * 以 `text` 块返回工具调用之间的文本。
 * 默认使用 `high` effort。
 
-本节补充了 Claude Opus 4.8 与 Claude Opus 5 之间的变化。有关检查清单，请参阅[迁移检查清单](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migration-checklist)的前两组。
+然后阅读[变化内容](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#what-changed-from-claude-opus-4-8)，其中列出了在 Claude Opus 4.8 与 Claude Opus 5 之间生效的变化。有关检查清单，请参阅[迁移检查清单](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migration-checklist)的前两组。
 
 ### 变化内容
 
-1. **省略思考的请求也会运行思考：** 在 Claude Opus 4.8 上，除非您请求，否则思考是关闭的。在 Claude Opus 5.5 上，没有 `thinking` 字段的请求会开启思考运行，因此[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)中的每一项对于此类代码都是一项更改。如果您的代码从未发送过 `thinking` 字段，那么在[思考设置的前后对比](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-cant-be-disabled)下就没有需要移除的内容。
+1. **省略思考的请求也会运行思考：** 在 Claude Opus 4.8 上，除非您请求，否则思考是关闭的。在 Claude Opus 5.5 上，没有 `thinking` 字段的请求会开启思考运行，因此[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)中的每一项对于此类代码都是一项更改。如果您的代码从未发送过 `thinking` 字段，那么在[思考的前后对比](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-cant-be-disabled)下就没有需要移除的内容。
 
 2. **更低的提示缓存最小长度：** Claude Opus 5.5 上可缓存提示的最小长度为 512 个令牌，低于 Claude Opus 4.8 上的 1,024 个令牌。在 Claude Opus 4.8 上因过短而无法缓存的提示现在可以创建缓存条目，无需更改代码。有关各模型的最小长度，请参阅[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-limitations)。
 
@@ -1179,35 +1194,40 @@ Claude Opus 5.5 可能会返回带有 `stop_details` 类别的 `stop_reason: "re
 
 1. **考虑任务预算（beta）：** 对于智能体工作负载，[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)会告诉模型在完整的智能体循环中可用的令牌数量。它们需要 `task-budgets-2026-03-13` beta 标头。
 
-2. **考虑对话中途的工具更改（beta）：** 对话中途的工具更改允许您在对话的轮次之间添加或移除工具，而不会使早期轮次的[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)命中失效。更改 `tools` 数组本身会使缓存的前缀失效。在 Claude API、Claude Platform on AWS 和 Claude Models on Google Cloud (Anthropic managed) 上，请发送 `inline-tools-2026-09-15` beta 标头。`mid-conversation-tool-changes-2026-07-01` 标头适用于通过引用指定工具名称的更改，支持 Claude API、Amazon Bedrock、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed) 和 Claude Models on Google Cloud (Google managed)。
+2. **考虑对话中途的工具更改（beta）：** 这些更改允许您通过 `role: "system"` 消息在轮次之间添加或移除工具，并保留早期轮次的[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)命中。更改 `tools` 数组会失去这些命中。有两个 beta 标头可以启用对话中途的工具更改。如果两者在您的平台上都可用，请发送 `inline-tools-2026-09-15`：
+
+   * `inline-tools-2026-09-15` 适用于 Claude API、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed) 和 Microsoft Foundry。
+   * `mid-conversation-tool-changes-2026-07-01` 适用于 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock，以及为 `inline-tools-2026-09-15` 列出的四个平台。它不涵盖[在 `tool_addition` 块内定义工具](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#define-tools-in-a-message-beta)。
 
 ## 从 Claude Opus 4.7 迁移到 Claude Opus 5.5
 
-首先完成[每个发往 Claude Opus 5.5 的请求必须满足的要求](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)、[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)、[从 Claude Opus 5 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)和[从 Claude Opus 4.8 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8)。将 `claude-opus-4-7` 作为您要替换的模型 ID。这些章节原样适用于 Claude Opus 4.7 上的代码。与 Claude Opus 4.8 一样，它接受 `thinking: {"type": "disabled"}`、强制工具选择和 `computer_20251124` 工具。它默认使用 `high` effort，并且除非您请求，否则不开启思考运行。
+首先完成[每个发往 Claude Opus 5.5 的请求必须满足的要求](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)、[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)、[从 Claude Opus 5 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)和[从 Claude Opus 4.8 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8)，将 `claude-opus-4-7` 作为您要替换的模型 ID。它们同样全部适用于您：与 Claude Opus 4.8 一样，Claude Opus 4.7 接受 `thinking: {"type": "disabled"}`、强制工具选择和 `computer_20251124` 工具。它默认使用 `high` effort，并且除非您请求，否则不开启思考运行。
 
-本节补充了 Claude Opus 4.7 之后的变化。如果您的代码使用的是 Claude Opus 4.6 或更早版本，请在本节之后继续阅读[从 Claude Opus 4.6 及更早的 Opus 模型迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-46)。该节补充了在 Claude Opus 4.7 中生效的破坏性变更。有关检查清单，请参阅[迁移检查清单](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migration-checklist)的前三组。
+然后检查以下各项。如果您的代码使用的是 Claude Opus 4.6 或更早版本，请继续阅读[从 Claude Opus 4.6 及更早的 Opus 模型迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-46)。该节包含在 Claude Opus 4.7 中生效的破坏性变更。有关检查清单，请参阅[迁移检查清单](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migration-checklist)的前三组。
 
 ### 变化内容
 
-以下各项都不会在前面章节的基础上新增破坏性变更；在您替换模型 ID 之后，值得对它们进行检查。
+以下各项都不会在前面章节的基础上新增破坏性变更。请在您替换模型 ID 之后检查它们。
 
-1. **重新校准的 effort 级别：** 与 Claude Opus 4.7 相比，Claude Opus 5.5 上每个 effort 级别背后的令牌分配有所变化。默认值为 `medium`，而 Claude Opus 4.7 的默认值为 `high`。请在您自己的评估上重新进行 effort 扫描，而不是沿用为 Claude Opus 4.7 调优的设置。请参阅 [Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)。
+1. **重新校准的 effort 级别：** 与 Claude Opus 4.7 相比，Claude Opus 5.5 上每个 effort 级别分配令牌的方式有所不同。默认值为 `medium`，而 Claude Opus 4.7 的默认值为 `high`。请在您自己的评估上重新进行 effort 扫描，而不是沿用为 Claude Opus 4.7 调优的设置。请参阅 [Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)。
 
 2. **1M 上下文窗口为默认值：** Claude Opus 5.5 默认提供完整的 1M 令牌 “context window”（[上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)）。如果您的客户端为了兼容旧模型而传递了上下文窗口 beta 标头，请将其移除。
 
-3. **对话中途的系统消息：** 在 Claude API、Amazon Bedrock、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed) 和 Claude Models on Google Cloud (Google managed) 上，Claude Opus 5.5 接受在 `messages` 数组中紧跟在用户轮次之后的 `role: "system"` 消息（需遵守[放置规则](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#limitations)）。对于从一开始就适用的指令，请使用顶层 `system` 字段。Claude Opus 4.7 会以 400 错误拒绝 `messages` 中的 `role: "system"`。如果您维护着通过重建完整消息历史来更新指令的代码路径，您可以简化它们，并保留早期轮次的[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)命中。
+3. **对话中途的系统消息：** 在[支持的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#feature-availability)上，Claude Opus 5.5 接受在 `messages` 数组中紧跟在用户轮次之后的 `role: "system"` 消息（需遵守[放置规则](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#limitations)）。对于从一开始就适用的指令，请使用顶层 `system` 字段。Claude Opus 4.7 会以 400 错误拒绝 `messages` 中的 `role: "system"`。如果您维护着通过重建完整消息历史来更新指令的代码路径，请将它们改为使用系统消息。重建之后，请求可能会收到 400 错误，并且会失去[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)命中。
 
-4. **拒绝停止详情：** 当模型拒绝请求时，Claude Opus 5.5 会在返回 `refusal` 停止原因的同时，返回一个指明拒绝类别的 `stop_details` 对象。Claude Opus 4.7 也返回相同的对象，因此只有当您的停止原因处理逻辑尚未读取该对象时，这一点才需要关注；如果是这样，请参阅[停止原因与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons)。无法选择退出。Claude Opus 5.5 会在更多类别中拒绝请求；请参阅[安全分类器和回退](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#safety-classifiers-and-fallback)。
+4. **拒绝停止详情：** 当模型拒绝请求时，Claude Opus 5.5 会在返回 `refusal` 停止原因的同时，返回一个指明拒绝类别的 `stop_details` 对象。您无法关闭它。Claude Opus 4.7 也返回相同的对象，因此如果您的停止原因处理逻辑已经读取该对象，则无需更改。如果尚未读取，请参阅[停止原因与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons)。Claude Opus 5.5 会在更多类别中拒绝请求；请参阅[安全分类器和回退](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#safety-classifiers-and-fallback)。
 
-5. **快速模式：** Claude Opus 5.5 在 Claude API 上支持[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)。快速模式在 Claude Opus 4.7 上不可用，在该模型上带有 `speed: "fast"` 的请求会返回错误。请在您的请求中设置 `speed: "fast"`。
+5. **快速模式：** Claude Opus 5.5 在 Claude API 和[部分云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode#feature-availability)上支持[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)。快速模式在 Claude Opus 4.7 上不可用，在该模型上带有 `speed: "fast"` 的请求会返回错误。
+
+   要使用快速模式，请在您的请求中设置 `speed: "fast"`。在 Microsoft Foundry 上，请改为将请求发送到快速模式模型的部署。
 
 6. **计算机使用工具集和浏览器使用工具：** Claude Opus 5.5 支持以 `computer_toolset_20260801` 工具集形式提供的[计算机使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)，以及用于网页内任务的[浏览器使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool)。Claude Opus 4.7 两者均不支持。要将 `computer_20251124` 集成迁移到该工具集，请参阅[计算机使用的破坏性变更](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#computer-use-toolset)。
 
 ## 从 Claude Opus 4.6 及更早的 Opus 模型迁移到 Claude Opus 5.5
 
-首先按页面顺序完成前面的每一个部分。它们是[每个发送到 Claude Opus 5.5 的请求必须满足的条件](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)、[在每个响应中处理思考内容](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)，以及 [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)、[Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8) 和 [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-47) 的相关部分。这些部分按原样适用于运行在 Claude Opus 4.6 上的代码。与 Claude Opus 4.7 一样，Claude Opus 4.6 接受 `thinking: {"type": "disabled"}`、强制工具选择以及 `computer_20251124` 工具。它默认使用 `high` effort，并且除非您明确要求，否则不会启用思考。Claude Opus 4.5 及更早的 Opus 模型同样接受 `thinking: {"type": "disabled"}` 和强制工具选择，并且除非您明确要求，否则不会启用思考，因此这些部分也适用于它们。
+首先按页面顺序完成前面的每一个章节：[每个发往 Claude Opus 5.5 的请求必须满足的要求](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)、[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)，以及 [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)、[Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8) 和 [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-47) 的相关章节。它们同样全部适用于您，因为 Claude Opus 4.6 及更早的 Opus 模型接受 `thinking: {"type": "disabled"}` 和强制工具选择，并且除非您请求，否则不开启思考运行。Claude Opus 4.6 还接受 `computer_20251124` 工具，并默认使用 `high` effort。
 
-本部分补充了 Claude Opus 4.7 中的变更，您需要替换的模型 ID 为 `claude-opus-4-6`。其两个子部分补充了在此之前的变更，分别面向使用 [Claude Opus 4.5 或更早版本](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-45)和 [Claude 4.1 或更早版本](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-4-1-or-earlier)的读者。如需检查清单，请参阅[迁移检查清单](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migration-checklist)，直至列出您所用模型的那一组。
+然后应用以下在 Claude Opus 4.7 中生效的变更。您要替换的模型 ID 为 `claude-opus-4-6`。这两个子章节补充了更早的变更，分别面向使用 [Claude Opus 4.5 或更早版本](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-45)和 [Claude 4.1 或更早版本](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-4-1-or-earlier)的读者。有关检查清单，请参阅[迁移检查清单](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migration-checklist)，并在列出您所用模型的那一组之后停止。
 
 ### 破坏性变更
 
@@ -1492,7 +1512,7 @@ Claude Opus 5.5 可能会返回带有 `stop_details` 类别的 `stop_reason: "re
 
 2. **采样参数已移除：** 请省略 `temperature`、`top_p` 和 `top_k`。 在 Claude Opus 5.5 上，推荐通过提示来引导模型行为。如果您之前使用 `temperature = 0` 来获得确定性，请注意，它在之前的模型上也从未保证输出完全相同。
 
-3. **默认省略思考内容：** 在 Claude Opus 4.7 及更高版本的模型上，思考块仍会出现在响应流中，但除非您明确选择启用，否则其 `thinking` 字段为空。这是相对于 Claude Opus 4.6 的一项静默变更，在 Claude Opus 4.6 中，默认会返回摘要形式的思考文本。要恢复该行为，请参阅[在每个响应中处理思考内容](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)的第 4 项。
+3. **默认省略思考内容：** 在 Claude Opus 4.7 及更高版本的模型上，思考块仍会出现在响应流中，但除非您明确选择启用，否则其 `thinking` 字段为空。这是相对于 Claude Opus 4.6 的一项静默变更，在 Claude Opus 4.6 中，默认会返回摘要形式的思考文本。要恢复该行为，请参阅[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)的第 4 项。
 
 4. **令牌计数已更新：** Claude Opus 4.7 引入了新的 tokenizer（分词器），之后的 Opus 模型（包括 Claude Opus 5.5）也使用该分词器。它有助于提升在各类任务上的性能，但与 Claude Opus 4.7 之前的模型相比，处理文本时可能会使用大约 1 到 1.35 倍的令牌（最多多出约 35%，因内容而异）。
 
@@ -1506,7 +1526,7 @@ Claude Opus 5.5 可能会返回带有 `stop_details` 类别的 `stop_reason: "re
 
 Claude Opus 4.7 引入了一些与 Claude Opus 4.6 不同的行为差异，这些差异并非 API 破坏性变更。以下三项会影响代码或脚手架：
 
-1. **智能体轨迹中的内置进度更新：** 在较长的智能体轨迹中，Claude Opus 4.7 会向用户提供更频繁、更高质量的更新。如果您添加了用于强制输出中间状态消息的脚手架（例如"每进行 3 次工具调用后，总结进度"），请尝试将其移除。在 Claude Opus 5.5 上，这些更新出现在 `thinking` 块中，而在默认的 `thinking.display` 设置下这些块为空。要接收这些更新，请参阅[工具调用之间的文本以思考块形式返回](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#text-between-tool-calls)。要调整其长度和内容，请参阅[面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#user-facing-progress-updates)。
+1. **智能体轨迹中的内置进度更新：** 在较长的智能体轨迹中，Claude Opus 4.7 会向用户提供更频繁、更高质量的更新。如果您添加了用于强制输出中间状态消息的脚手架（例如"每进行 3 次工具调用后，总结进度"），请尝试将其移除。在 Claude Opus 5.5 上，这些更新出现在 `thinking` 块中，而在默认的 `thinking.display` 设置下这些块为空。要接收这些更新，请参阅[工具调用之间的文本以思考块返回](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#text-between-tool-calls)。要调整其长度和内容，请参阅[面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#user-facing-progress-updates)。
 
 2. **实时网络安全防护措施：** 这些防护措施是 Claude Opus 4.7 中新增的：涉及受禁止或高风险主题的请求可能会被拒绝。对于渗透测试、漏洞研究或红队测试等合法安全工作，请申请加入 [Cyber Verification Program](https://support.claude.com/en/articles/14604842-real-time-cyber-safeguards-on-claude-opus-and-sonnet) 以请求放宽限制。申请途径取决于您访问 Claude 的方式。
 
@@ -1523,7 +1543,11 @@ Claude Opus 4.7 引入了一些与 Claude Opus 4.6 不同的行为差异，这�
 
 ### 从 Claude Opus 4.5 或更早版本迁移
 
-如果您要从 Claude Opus 4.5、Claude Opus 4.1 或更早的模型直接迁移到 Claude Opus 5.5，请从头阅读本页：首先按页面顺序完成前面的每一个部分。然后完成本部分前面的[从 Claude Opus 4.6 迁移的破坏性变更](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#opus-46-breaking-changes)。接着应用以下累积变更，这些变更在 Claude Opus 4.5 到 Claude Opus 4.7 之间生效。如果您使用的是 Claude Opus 4.1 或更早版本，请在完成本子部分后继续阅读[从 Claude 4.1 或更早版本迁移](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-4-1-or-earlier)。
+要从 Claude Opus 4.5、Claude Opus 4.1 或更早的模型直接迁移到 Claude Opus 5.5：
+
+1. 从头开始按页面顺序阅读本页，直至本子章节。其中包括[从 Claude Opus 4.6 迁移的破坏性变更](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#opus-46-breaking-changes)。
+2. 应用本子章节中的变更，这些变更在 Claude Opus 4.5 到 Claude Opus 4.7 之间生效。
+3. 如果您使用的是 Claude Opus 4.1 或更早版本，请继续阅读[从 Claude 4.1 或更早版本迁移](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-4-1-or-earlier)。
 
 #### 破坏性变更
 
@@ -1543,14 +1567,14 @@ Claude Opus 4.7 引入了一些与 Claude Opus 4.6 不同的行为差异，这�
 
 4. **移除交错思考 beta 标头：** 使用自适应思考时，在每个支持自适应思考的模型上，交错思考都会自动启用。请从您的请求中移除 `interleaved-thinking-2025-05-14` beta。
 
-5. **迁移到 output\_config.format：** 如果您使用结构化输出，请将 `output_format={...}` 更新为 `output_config={"format": {...}}`。`output_format` 参数已弃用，并将在未来移除。如果仍要使用它，请添加 `structured-outputs-2025-11-13` beta 标头。否则，API 将返回 400 错误。Python SDK（v1.0 及更高版本）在 `client.beta.messages.create()` 或 `count_tokens()` 上不接受 `output_format={...}`。`parse()` 和 `stream()` 辅助方法的 `output_format=Model` 参数保持不变。
+5. **迁移到 `output_config.format`：** 如果您使用结构化输出，请将 `output_format={...}` 更新为 `output_config={"format": {...}}`。`output_format` 参数已弃用，并将在未来移除。如果仍要使用它，请添加 `structured-outputs-2025-11-13` beta 标头。否则，API 将返回 400 错误。在 Python SDK（v1.0 及更高版本）中，以 `output_format={...}` 传递的模式字典会引发 `TypeError`，因此请使用 `output_config`。以 `output_format=Model` 传递给 `parse()` 或 `stream()` 的 Pydantic 模型无需任何更改，也不需要 beta 标头即可工作，因为 SDK 会将其作为 `output_config` 发送。
 
 ### 从 Claude 4.1 或更早版本迁移
 
 要从 Claude Opus 4.1 或更早的模型直接迁移到 Claude Opus 5.5：
 
 1. 从头开始按页面顺序阅读本页，直至并包括[从 Claude Opus 4.5 或更早版本迁移](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-45)。
-2. 应用本子部分中的其他变更。
+2. 应用本子章节中的其他变更。
 
 #### 其他破坏性变更
 
@@ -1699,7 +1723,7 @@ Claude Opus 4.7 引入了一些与 Claude Opus 4.6 不同的行为差异，这�
 
 4. **处理 `model_context_window_exceeded` 停止原因**
 
-   当生成因达到上下文窗口限制（而非请求的 `max_tokens` 限制）而停止时，Claude 4.5 及更高版本的模型会返回 `model_context_window_exceeded` 停止原因。请更新您的应用程序以处理这一新的停止原因：
+   当生成在上下文窗口限制处（而非在请求的 `max_tokens` 限制处）停止时，Claude 4.5 及更高版本的模型会返回 `model_context_window_exceeded` 停止原因。请更新您的应用程序以处理此停止原因：
 
    <CodeGroup exclude="shell">
      ```python Python
@@ -1714,7 +1738,7 @@ Claude Opus 4.7 引入了一些与 Claude Opus 4.6 不同的行为差异，这�
      const response = await client.messages.create(/* ... */);
 
      if (response.stop_reason === "model_context_window_exceeded") {
-       // 妥善处理 context window（上下文窗口）限制
+       // 妥善处理上下文窗口限制
      }
      ```
 
@@ -1775,17 +1799,17 @@ Claude Opus 4.7 引入了一些与 Claude Opus 4.6 不同的行为差异，这�
 
 ## 从 Claude Sonnet 5 迁移到 Claude Opus 5.5
 
-请完成[每个发送到 Claude Opus 5.5 的请求必须满足的条件](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)、[在每个响应中处理思考内容](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)以及[从 Claude Opus 5 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)。将 `claude-sonnet-5` 作为您要替换的模型 ID。最后一个部分按原样适用于运行在 Claude Sonnet 5 上的代码，因为 Claude Sonnet 5 与 Claude Opus 5 一样：
+请完成[每个发往 Claude Opus 5.5 的请求必须满足的要求](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#request-requirements)、[处理每个响应中的思考](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#thinking-in-every-response)以及[从 Claude Opus 5 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-5)，将 `claude-sonnet-5` 作为您要替换的模型 ID。Claude Opus 5 一节中的所有内容同样适用于您，因为 Claude Sonnet 5 与 Claude Opus 5 一样：
 
-* 默认启用思考，并接受 `thinking: {"type": "disabled"}`（对于 Claude Sonnet 5，在任何 effort 级别下均可）。
+* 默认启用思考，并接受 `thinking: {"type": "disabled"}`。与 Claude Opus 5 不同，它在任何 effort 级别下都接受此设置。
 * 接受强制工具选择和 `computer_20251124` 工具。
 * 将工具调用之间的文本作为 `text` 块返回。
 * 默认使用 `high` effort。
 
-手动扩展思考、采样参数以及助手预填充在这两个模型上都会返回 400 错误，因此这方面没有任何变化。Claude Opus 4.8、Claude Opus 4.7 和 Claude Opus 4.6 相关部分中的必需变更均不适用于您。
+手动扩展思考、采样参数以及助手预填充在 Claude Sonnet 5 和 Claude Opus 5.5 上都会返回 400 错误，因此这方面没有任何变化。Claude Opus 4.8、Claude Opus 4.7 和 Claude Opus 4.6 相关章节中的必需变更均不适用于您。
 
 ### 变更内容
 
-1. **对话中途的系统消息：** 在 Claude API、Amazon Bedrock、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed) 和 Claude Models on Google Cloud (Google managed) 上，Claude Opus 5.5 接受在 `messages` 数组中紧跟在用户轮次之后的 `role: "system"` 消息（需遵守[放置规则](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#limitations)）。此功能在 Claude Sonnet 5 上不可用。如果您维护着通过重建完整消息历史来更新指令的代码路径，您可以简化它们，并保留早期轮次的[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)命中。
+1. **对话中途的系统消息：** 在[支持的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#feature-availability)上，Claude Opus 5.5 接受在 `messages` 数组中紧跟在用户轮次之后的 `role: "system"` 消息（需遵守[放置规则](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#limitations)）。此功能在 Claude Sonnet 5 上不可用。如果您维护着通过重建完整消息历史来更新指令的代码路径，请将它们改为使用系统消息。重建之后，请求可能会收到 400 错误，并且会失去[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)命中。
 
 2. **更低的提示缓存最小值：** Claude Opus 5.5 上可缓存提示的最小长度为 512 个令牌，低于 Claude Sonnet 5 上的 1,024 个令牌。在 Claude Sonnet 5 上因过短而无法缓存的提示现在可以创建缓存条目，无需任何代码更改。有关各模型的最小值，请参阅[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-limitations)。

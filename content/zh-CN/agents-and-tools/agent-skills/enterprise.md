@@ -172,7 +172,7 @@ Skill 是否可用取决于其扫描结果：
 
 ### 基于 API 的分发
 
-Skills API 提供工作区范围的分发。通过 API 上传的 Skills 对所有工作区成员可用。有关上传、版本控制和管理端点，请参阅[通过 API 使用 Agent Skills](https://platform.claude.com/docs/zh-CN/build-with-claude/skills-guide)。
+Skills API 提供工作区范围的分发。通过 API 上传的 Skills 对所有工作区成员可用。在 Claude Models on Google Cloud (Anthropic managed) 上，共享的运作方式有所不同。有关详情，请参阅 Agent Skills 概述中的[共享范围](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#sharing-scope)部分。有关上传、版本控制和管理端点，请参阅[通过 API 使用 Agent Skills](https://platform.claude.com/docs/zh-CN/build-with-claude/skills-guide)。
 
 ### 版本控制策略
 

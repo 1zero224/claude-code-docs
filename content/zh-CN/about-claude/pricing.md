@@ -60,8 +60,8 @@ Claude 4.7 and later models and Claude Mythos Preview use a newer tokenizer that
 
 如需了解 [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) 和 [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) 上的官方定价，请访问：
 
+* [Claude Models on Google Cloud (Google managed) 定价](https://cloud.google.com/vertex-ai/generative-ai/pricing#claude-models)
 * [Amazon Bedrock 定价](https://aws.amazon.com/bedrock/pricing/)
-* [Google Cloud 定价](https://cloud.google.com/vertex-ai/generative-ai/pricing#claude-models)
 
 <Note>
   **Claude 4.5 及后续模型的区域和多区域端点定价**
@@ -78,25 +78,25 @@ Claude 4.7 and later models and Claude Mythos Preview use a newer tokenizer that
   有关实现细节和代码示例：
 
   * Amazon Bedrock 全局端点与区域端点：根据您调用的是 `bedrock-mantle` 还是 `bedrock-runtime`，请参阅 [Amazon Bedrock 中的 Claude（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#regions) 或 [Amazon Bedrock 上的 Claude（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#global-vs-regional-endpoints)
-  * [Claude Models on Google Cloud (Google managed) 全局、多区域和区域端点](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#global-multi-region-and-regional-endpoints)
+  * Google Cloud 全局、多区域和区域端点：[Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#global-multi-region-and-regional-endpoints)
 </Note>
 
 ## Claude Platform on AWS 定价
 
 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 通过 AWS Marketplace 使用 Claude Consumption Units（CCU，Claude 消耗单位）进行计费。Anthropic 按照标准的各模型、各功能费率以美元计算您的令牌用量，应用任何协商折扣，然后按每 CCU 0.01 美元将结果转换为 CCU，并每小时向 AWS Marketplace 报告 CCU 数量。您的 AWS 账单显示单个 CCU 明细项目。
 
-| 概念         | 详情                                                                                                                                              |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **计费单位**   | Claude Consumption Unit（CCU）                                                                                                                    |
-| **CCU 价格** | 每 CCU 0.01 美元（固定；折扣在令牌到 CCU 的转换时应用，而不是应用于 CCU 价格）                                                                                               |
-| **转换**     | 令牌用量按照标准的各模型、各功能费率以美元计价（与 [Claude API 定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#model-pricing)相同），然后按每 CCU 0.01 美元转换为 CCU |
-| **计费周期**   | 每小时向 AWS Marketplace 计量；按月开具发票                                                                                                                  |
-| **付款模式**   | 仅后付费；不提供预付额度                                                                                                                                    |
-| **折扣**     | 以减少计量的 CCU 数量的方式应用                                                                                                                              |
-| **税费**     | 税前计量；由 AWS Marketplace 处理税费                                                                                                                     |
-| **成本可见性**  | 在 Claude Console 中提供实时明细（通过 AWS Console 访问）；AWS Cost Explorer 显示汇总的 CCU                                                                         |
+| 概念         | 详情                                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **计费单位**   | Claude Consumption Unit（CCU）                                                                                                          |
+| **CCU 价格** | 每 CCU 0.01 美元（固定；折扣在令牌到 CCU 的转换时应用，而不是应用于 CCU 价格）                                                                                     |
+| **转换**     | 令牌用量按照标准的各模型、各功能费率以美元计价（与[模型定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#model-pricing)相同），然后按每 CCU 0.01 美元转换为 CCU |
+| **计费周期**   | 每小时向 AWS Marketplace 计量；按月开具发票                                                                                                        |
+| **付款模式**   | 仅后付费；不提供预付额度                                                                                                                          |
+| **折扣**     | 以减少计量的 CCU 数量的方式应用                                                                                                                    |
+| **税费**     | 税前计量；由 AWS Marketplace 处理税费                                                                                                           |
+| **成本可见性**  | 在 Claude Console 中提供实时明细（通过 AWS Console 访问）；AWS Cost Explorer 显示汇总的 CCU                                                               |
 
-**CCU:** Claude Consumption Unit（Claude 消耗单位）。CCU 是仅用于 Marketplace 平台开具发票的计量单位。如果客户通过某些 Marketplace 平台（例如 Claude Platform on AWS）访问服务，则用量将以 Claude Consumption Units（"CCU"）而非按 MTok 开具发票。一百（100）CCU 代表服务应付费用 1.00 美元，该费用按照 [claude.com/pricing#api](https://claude.com/pricing#api) 上的适用价格计算，并已应用任何折扣。
+**CCU:** Claude Consumption Unit（Claude 消耗单位）。CCU 是仅用于 Marketplace 平台开具发票的计量单位。如果客户通过某些 Marketplace 平台（例如 Claude Platform on AWS）访问服务，则用量将以 Claude Consumption Units（"CCU"）而非按 MTok 开具发票。一百（100）CCU 代表服务应付费用 1.00 美元，该费用按照 [Claude 定价页面的 API 部分](https://claude.com/pricing#api)中的适用价格计算，并已应用任何折扣。
 
 ### 推理地理位置
 
@@ -114,18 +114,18 @@ Claude 4.7 and later models and Claude Mythos Preview use a newer tokenizer that
 
 [Microsoft Foundry 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 通过 Azure Marketplace 使用 Claude Consumption Units（CCU）进行计费。Anthropic 按照标准的各模型、各功能费率以美元计算您的令牌用量，应用任何协商折扣，然后按每 CCU 0.01 美元将结果转换为 CCU，并每小时向 Azure Marketplace 报告 CCU 数量。您的 Azure 账单显示单个 CCU 明细项目。
 
-| 概念         | 详情                                                                                                                                              |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **计费单位**   | Claude Consumption Unit（CCU）                                                                                                                    |
-| **CCU 价格** | 每 CCU 0.01 美元（固定；折扣在令牌到 CCU 的转换时应用，而不是应用于 CCU 价格）                                                                                               |
-| **转换**     | 令牌用量按照标准的各模型、各功能费率以美元计价（与 [Claude API 定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#model-pricing)相同），然后按每 CCU 0.01 美元转换为 CCU |
-| **计费周期**   | 每小时向 Azure Marketplace 计量；按月开具发票                                                                                                                |
-| **付款模式**   | 仅后付费；不提供预付额度                                                                                                                                    |
-| **折扣**     | 以减少计量的 CCU 数量的方式应用                                                                                                                              |
-| **税费**     | 税前计量；由 Azure Marketplace 处理税费                                                                                                                   |
-| **成本可见性**  | Azure Cost Management 显示汇总的 CCU                                                                                                                 |
+| 概念         | 详情                                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| **计费单位**   | Claude Consumption Unit（CCU）                                                                                                          |
+| **CCU 价格** | 每 CCU 0.01 美元（固定；折扣在令牌到 CCU 的转换时应用，而不是应用于 CCU 价格）                                                                                     |
+| **转换**     | 令牌用量按照标准的各模型、各功能费率以美元计价（与[模型定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#model-pricing)相同），然后按每 CCU 0.01 美元转换为 CCU |
+| **计费周期**   | 每小时向 Azure Marketplace 计量；按月开具发票                                                                                                      |
+| **付款模式**   | 仅后付费；不提供预付额度                                                                                                                          |
+| **折扣**     | 以减少计量的 CCU 数量的方式应用                                                                                                                    |
+| **税费**     | 税前计量；由 Azure Marketplace 处理税费                                                                                                         |
+| **成本可见性**  | Azure Cost Management 显示汇总的 CCU                                                                                                       |
 
-**CCU:** Claude Consumption Unit（Claude 消耗单位）。CCU 是仅用于 Marketplace 平台开具发票的计量单位。如果客户通过某些 Marketplace 平台（例如 Claude Platform on AWS、Claude in Microsoft Foundry）访问服务，则用量将以 Claude Consumption Units（"CCU"）而非按 MTok 开具发票。一百（100）CCU 代表服务应付费用 1.00 美元，该费用按照 [claude.com/pricing#api](https://claude.com/pricing#api) 上的适用价格计算，并已应用任何折扣。
+**CCU:** Claude Consumption Unit（Claude 消耗单位）。CCU 是仅用于 Marketplace 平台开具发票的计量单位。如果客户通过某些 Marketplace 平台（例如 Claude Platform on AWS、Claude in Microsoft Foundry）访问服务，则用量将以 Claude Consumption Units（"CCU"）而非按 MTok 开具发票。一百（100）CCU 代表服务应付费用 1.00 美元，该费用按照 [Claude 定价页面的 API 部分](https://claude.com/pricing#api)中的适用价格计算，并已应用任何折扣。
 
 ### 推理地理位置
 
@@ -175,7 +175,13 @@ Claude 4.7 and later models and Claude Mythos Preview use a newer tokenizer that
 
 对于 Claude 4.6 及更高版本的模型，通过 `inference_geo` 参数指定仅限美国的推理会对所有令牌定价类别应用 1.1 倍乘数，包括输入令牌、输出令牌、缓存写入和缓存读取。在 Claude Haiku 5.5 上，该乘数也适用于超过 100,000 个令牌的提示的较高价格（请参阅[长上下文定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#long-context-pricing)）。全局路由（默认）使用标准定价。
 
-这适用于 Claude API（第一方）、Claude Platform on AWS 和 Claude Models on Google Cloud (Anthropic managed)。在 Claude in Microsoft Foundry 上，相同的 1.1 倍乘数适用于使用 US Data Zone Standard 部署类型的部署（请参阅[推理地理位置](https://platform.claude.com/docs/zh-CN/about-claude/pricing#foundry-inference-geography)）。由合作伙伴运营的平台，即 Claude Models on Google Cloud (Google managed) 和 Bedrock，有独立的区域定价。详情请参阅 [Amazon Bedrock 定价](https://aws.amazon.com/bedrock/pricing/)和 [Google Cloud 定价](https://cloud.google.com/vertex-ai/generative-ai/pricing#claude-models)。较早的模型不支持 `inference_geo` 参数，始终使用标准定价；在这些模型上包含该参数的请求会返回 400 错误。
+1.1 倍乘数是否适用取决于平台：
+
+* **Claude API（第一方）、Claude Platform on AWS 和 Claude Models on Google Cloud (Anthropic managed)：** 适用该乘数。
+* **Claude in Microsoft Foundry：** 该乘数适用于使用 US Data Zone Standard 部署类型的部署（请参阅[推理地理位置](https://platform.claude.com/docs/zh-CN/about-claude/pricing#foundry-inference-geography)）。
+* **Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock：** 这些由合作伙伴运营的平台有独立的区域定价。有关其价格表，请参阅[云平台定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#cloud-platform-pricing)部分。
+
+Claude 4.6 之前的模型不支持 `inference_geo` 参数，始终使用标准定价。在这些模型上，包含该参数的请求会返回 400 错误。
 
 有关更多信息，请参阅[数据驻留](https://platform.claude.com/docs/zh-CN/manage-claude/data-residency)。
 
@@ -373,7 +379,7 @@ bash 工具定义会向您的请求中添加以下 input tokens（输入令牌�
 }
 ```
 
-网络搜索在 Claude API 上的价格为**每 1,000 次搜索 10 美元**，另加搜索生成内容的标准令牌费用。在整个对话过程中检索到的网络搜索结果都会计为输入令牌，包括在单个轮次中运行的搜索迭代以及后续的对话轮次。
+在 Claude API 上，网络搜索的费用为**每 1,000 次搜索 10 美元**，另加搜索生成内容的标准令牌费用。搜索结果会计为输入令牌，无论是在 Claude 于单个轮次内持续搜索期间，还是在后续的对话轮次中。
 
 每次网页搜索计为一次使用，与返回的结果数量无关。因错误而失败的网页搜索不会计费。
 
@@ -444,9 +450,17 @@ Web fetch 工具在 Claude API 上**无需额外费用**即可使用。您只需
 
 [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 按两个维度计费：令牌和会话运行时间。
 
+在 Claude Platform on AWS 上，会话令牌和运行时间费用按标准费率转换为 Claude Consumption Units（请参阅 [Claude Platform on AWS 定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#claude-platform-on-aws-pricing)）。[Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#billing) 同样以 Claude Consumption Units 计费用量。
+
+有关[自托管 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted) 的定价，请联系您的 Anthropic 客户团队。
+
 ### 令牌
 
-Claude Managed Agents 会话消耗的所有令牌均按[模型定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#model-pricing)中显示的费率计费。[提示缓存乘数](https://platform.claude.com/docs/zh-CN/about-claude/pricing#prompt-caching)同样适用。在会话中触发的网络搜索按标准的每 1,000 次搜索 10 美元收费。在 Claude Platform on AWS 上，会话令牌和运行时间费用按标准费率转换为 Claude Consumption Units（请参阅 [Claude Platform on AWS 定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#claude-platform-on-aws-pricing)）。当代理的 `model.speed` 设置为 `"fast"` 时，适用[快速模式溢价定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#fast-mode-pricing)。
+Claude Managed Agents 会话消耗的所有令牌均按[模型定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#model-pricing)中显示的费率计费。以下定价规则同样适用：
+
+* [提示缓存乘数](https://platform.claude.com/docs/zh-CN/about-claude/pricing#prompt-caching)同样适用。
+* 在会话中触发的网络搜索按标准的每 1,000 次搜索 10 美元收费。
+* 当代理的 `model.speed` 设置为 `"fast"` 时，适用[快速模式溢价定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#fast-mode-pricing)。
 
 [数据驻留乘数](https://platform.claude.com/docs/zh-CN/about-claude/pricing#data-residency-pricing)同样适用：当代理的 `model.inference_geo` 固定为 `"us"` 时，运行该代理的会话所消耗的令牌按标准费率的 1.1 倍计费，这与 Messages API 上仅限美国推理所适用的乘数相同。
 
@@ -509,7 +523,7 @@ Claude Managed Agents 会话消耗的所有令牌均按[模型定价](https://pl
 
 “Rate limit”（速率限制）因使用层级而异，并影响您可以发出的请求数量：
 
-* **起始等级：** 用于入门的初级限制
+* **Start 层级：** 用于入门的初级限制
 * **Build 层级：** 为成长中的应用程序提供更高的限制
 * **Scale 层级：** 为生产工作负载提供最高的标准限制
 
@@ -522,7 +536,7 @@ Claude Managed Agents 会话消耗的所有令牌均按[模型定价](https://pl
 大用量用户可能可以享受批量折扣。这些折扣根据具体情况协商确定。
 
 * 标准使用层级使用[模型定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#model-pricing)中显示的定价。
-* 企业客户可以[联系销售](mailto:sales@anthropic.com)获取定制定价。
+* 企业客户可以[发送电子邮件给销售团队](mailto:sales@anthropic.com)获取定制定价。
 * 可能提供学术和研究折扣。
 
 ### 企业定价
@@ -534,7 +548,7 @@ Claude Managed Agents 会话消耗的所有令牌均按[模型定价](https://pl
 * 专属支持
 * 定制条款
 
-请通过 [sales@anthropic.com](mailto:sales@anthropic.com) 或 [Claude Console 中的速率限制](https://platform.claude.com/usage/limits)联系销售团队，讨论企业定价选项。
+如需讨论企业定价选项，请发送电子邮件至 [sales@anthropic.com](mailto:sales@anthropic.com) 或[从 Claude Console 联系销售团队](https://platform.claude.com/usage/limits)。
 
 ## 计费和付款
 
@@ -551,7 +565,7 @@ Claude Managed Agents 会话消耗的所有令牌均按[模型定价](https://pl
 
 ### 是否有免费层级或试用？
 
-新用户会获得少量免费额度用于测试 API。有关企业评估的延长试用信息，请[联系销售](mailto:sales@anthropic.com)。
+新用户会获得免费额度用于测试 API。有关企业评估的延长试用信息，请[发送电子邮件给销售团队](mailto:sales@anthropic.com)。
 
 ### 折扣如何叠加？
 

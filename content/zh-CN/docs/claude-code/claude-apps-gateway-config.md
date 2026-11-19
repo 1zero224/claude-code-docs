@@ -16,7 +16,7 @@ Claude 应用网关部署由一个 YAML 文件配置，按惯例命名为 `gatew
 
 ## 文件结构
 
-五个部分是[必需的](#required-sections)。其他所有部分都是[可选的](#optional-sections)，省略的部分采用其默认值。未知的键会导致启动失败，因此拼写错误会显示为命名错误，而不是被静默忽略的设置。
+五个部分是[必需的](#required-sections)。其他所有部分都是[可选的](#optional-sections)，省略的部分采用其默认值。
 
 **必需部分：**
 
@@ -24,7 +24,7 @@ Claude 应用网关部署由一个 YAML 文件配置，按惯例命名为 `gatew
 * [`oidc`](#oidc)：您的身份提供商 (IdP)，包括颁发者、客户端、声明映射以及谁可以登录
 * [`session`](#session)：网关铸造的持有者令牌，包括密钥和生命周期
 * [`store`](#store)：PostgreSQL，用于设备授权和速率限制计数器
-* [`upstreams`](#upstreams)：推理的去向，无论是 Anthropic、Amazon Bedrock、Claude Platform on AWS、Google Cloud 的 Agent Platform 还是 Microsoft Foundry
+* [`upstreams`](#upstreams)：推理的去向，无论是 Anthropic、Amazon Bedrock、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed)、Google Cloud 的 Agent Platform 还是 Microsoft Foundry
 
 **可选部分：**
 
@@ -57,7 +57,7 @@ Claude 应用网关部署由一个 YAML 文件配置，按惯例命名为 `gatew
 | - | - | - |
 | `host` | 否 | 绑定地址。默认 `0.0.0.0`。 |
 | `port` | 否 | 绑定端口。默认 `8080`。 |
-| `public_url` | 除非 `host` 是环回地址 | 外部可见的 `https://` 源，用于构建 IdP `redirect_uri` 和发现元数据。当 `host` 不是环回地址时需要，无论 TLS 是在代理（如 ALB、Ingress 或 Cloud Run）还是通过 `tls` 在网关本身终止，因为网关永远不会从 `X-Forwarded-*` 标头派生自己的源；这些标头可被客户端欺骗。没有它启动会失败。下面的 `trusted_proxies` 仅控制客户端 IP 解析。还需要启用[遥测](#telemetry)，因为网关从此 URL 构建它推送给客户端的 OTLP 端点。 |
+| `public_url` | 除非 `host` 是环回地址 | 外部可见的 `https://` 源，用于构建 IdP `redirect_uri` 和发现元数据。当 `host` 不是环回地址时需要，无论 TLS 是在代理（如 ALB、Ingress 或 Cloud Run）还是通过 `tls` 在网关本身终止，因为网关永远不会从 `X-Forwarded-*` 标头派生自己的源；这些标头可被客户端欺骗。没有它启动会失败。下面的 `trusted_proxies` 仅控制客户端 IP 解析。启用[遥测](#telemetry)时也需要它，因为网关从此 URL 构建它推送给客户端的 OTLP 端点。 |
 | `tls.cert` / `tls.key` | 否 | 如果网关自己终止 TLS，则为 PEM 路径 |
 | `trusted_proxies` | 否 | 要信任的前端的 CIDR 或 IP。设置后，网关仅信任来自这些对端的 `X-Forwarded-For`，并记录真实客户端 IP，用于按 IP 的速率限制和审计。 |
 
@@ -177,7 +177,7 @@ export CLAUDE_GATEWAY_PROXY_IS_EGRESS_BOUNDARY=1
 | - | - | - |
 | `provider: anthropic` 上游、Workload Identity Federation 令牌交换、`telemetry.forward_to` 导出 | 在本地解析和检查，然后通过代理 `CONNECT` 到检查的 IP 地址。`NO_PROXY` 中列出的遥测收集器改为直接到达 | 主机名交给代理 |
 | IdP 发现、JWKS、令牌和 userinfo | 直接，除非[`oidc.use_proxy: true`](#idp-requests-through-a-forward-proxy)，然后 `CONNECT` 到检查的 IP 地址 | 主机名交给代理，除非 `oidc.use_proxy: false` 保持内部 IdP 直接 |
-| Amazon Bedrock、AWS 上的 Claude Platform、Google Cloud 的 Agent Platform 和 Microsoft Foundry 上游；Google 组查找 | 主机名交给代理 | 不变 |
+| Amazon Bedrock、Claude Platform on AWS、Claude Models on Google Cloud（Anthropic managed）、Google Cloud 的 Agent Platform 和 Microsoft Foundry 上游；Google 组查找 | 将主机名交给代理 | 不变 |
 
 仅代理出口保持关闭，除非网关的环境满足所有这三个条件：
 
@@ -519,6 +519,10 @@ models:
 
 需要网关运行 Claude Code v2.1.281 或更高版本。[AWS 上的成本属性](https://code.claude.com/docs/zh-CN/claude-apps-gateway-on-aws.md#cost-attribution)覆盖 IAM 角色和 AWS 计费显示会话的位置。
 
+> [!NOTE]
+>
+> 要实现按开发者归属，请在每个 `bedrock` 和 [`mantle`](#amazon-bedrock-mantle-endpoint) 上游上设置带 `session_name` 的 `assume_role`，使用 `aws_bearer_token` 的上游除外。这些上游[无法使用 `assume_role`](#bedrock-in-another-aws-account)，因此其请求仍归属于同一个主体。
+
 ```yaml theme={null}
 upstreams:
   - provider: bedrock
@@ -534,8 +538,6 @@ upstreams:
 活跃开发人员每小时每个网关副本成本一个 STS 调用，并发首次请求共享一个调用。
 
 网关也在此角色上进行一个调用：客户端放弃的请求的 token 计数，因此[支出限制](https://code.claude.com/docs/zh-CN/claude-apps-gateway-spend-limits.md)保持准确。该计数及其[单 token 回退请求](#amazon-bedrock)由共享 `claude-apps-gateway` 会话签署，因此 AWS 将回退属性到 `claude-apps-gateway` 而不是开发人员。
-
-对于严格的每开发人员属性，在您列出的每个 Bedrock 上游上设置 `assume_role` 与 `session_name`。没有它的上游使用其自己的凭据签署它提供的请求。
 
 #### Amazon Bedrock Mantle 端点
 
@@ -610,6 +612,24 @@ upstreams:
 
 因为平台解析第一方模型 ID，内置目录路由到它而不带 [`models:`](#models) 块。当您策划 `models:` 列表时，使用第一方 ID 作为 `anthropicAws:` 条目的值。
 
+#### Claude Models on Google Cloud（Anthropic managed）
+
+Claude Models on Google Cloud（Anthropic managed）是由 Anthropic 运营、通过您的 Google Cloud 项目访问的 Claude API。要向其发送模型请求，请添加一个使用 `anthropicGoogleCloud` 提供商的上游。
+
+在添加该上游之前，请将您的网关副本升级到 Claude Code v2.1.307 或更高版本，并[在 Google Cloud 项目中设置该服务](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed#set-up-your-account)。在该项目上向网关 Google 凭据所解析到的身份授予 `roles/claude.user`。
+
+```yaml theme={null}
+upstreams:
+  - provider: anthropicGoogleCloud
+    project_id: example-prod
+    workspace_id: wrkspc_01ABCDEFGHIJKLMN
+    auth: {}                           # Google credentials, not an API key; {} uses Application Default Credentials
+    # OR the path to a service account key file:
+    # auth: { service_account_json: /secrets/sa.json }
+```
+
+`project_id` 和 `workspace_id` 都是必需的：`project_id` 是您设置该服务所在项目的 ID，您可以在 Claude Console 中[找到 `wrkspc_` ID](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed#find-your-workspace-id)。
+
 #### Google Cloud Agent Platform
 
 对于等效的客户端设置，请参阅 [Google Cloud 上的 Claude Code](https://code.claude.com/docs/zh-CN/google-vertex-ai.md)。网关端上游：
@@ -656,7 +676,7 @@ upstreams:
 
 | 设置 | 如何 |
 | - | - |
-| RBAC | 授予网关的身份 Microsoft Foundry 资源上的 `Azure AI User` 或 `Cognitive Services User` |
+| RBAC | 在 Microsoft Foundry 资源上为网关的身份授予 `Foundry User` 或 `Cognitive Services User` 角色 |
 | 部署 | Microsoft Foundry 使用管理员选择的部署名称，而不是规范模型 ID。添加 [`models:`](#models) 块将每个规范 ID 映射到您的部署名称。 |
 | AKS (workload identity) | 将用户分配的托管身份与集群的 OIDC 发行者联合，并将其绑定到网关的服务帐户。`use_azure_ad: true` 通过 `WorkloadIdentityCredential` 拾取它。 |
 | ACI / App Service | 在资源上启用系统分配或用户分配的托管身份。`use_azure_ad: true` 拾取它。 |
@@ -902,7 +922,7 @@ admin:
 
 #### 共享预算顺序
 
-共享预算是整个组共同消耗的一个月度限额。要设置共享预算，请在[设置该组月度上限的请求](https://code.claude.com/docs/zh-CN/claude-apps-gateway-spend-limits.md#set-a-cap)中添加 `pooled_budget`，例如 `"pooled_budget": {"amount": "500000"}` 表示 \$5,000。该请求还需要该组的 `scope`、`"period": "monthly"` 和 `amount`，其中 `amount` 仍是每位成员自己的上限。
+共享预算是整个组共同消耗的一个月度限额。要设置共享预算，请在[设置该组月度上限的请求](https://code.claude.com/docs/zh-CN/claude-apps-gateway-spend-limits.md#set-a-cap)中添加 `pooled_budget`，例如用 `"pooled_budget": {"amount": "500000"}` 表示 \$5,000。该请求还需要该组的 `scope`、`"period": "monthly"` 以及 `amount`，后者仍是每位成员各自的上限。
 
 对于属于多个此类组的开发者，每个请求都会计入第一个支出低于其限额的预算；当所有预算都已用完时，请求会被拒绝。`pooled_conflict_rule` 设置网关尝试这些预算的顺序：
 
@@ -1001,6 +1021,8 @@ models:
 
 `upstream_model` 下的每个键必须与已配置上游的 `name` 匹配，该名称默认为提供商名称。不匹配任何上游的键会导致启动失败，因此请省略您不使用的提供商对应的行。
 
+要在 `auto_include_builtin_models: false` 的情况下让开发者使用 `fable` 别名，请在 `models` 中添加一个 `claude-fable-5` 条目。对于登录到网关的开发者，[`fable` 别名](https://code.claude.com/docs/zh-CN/model-config#fable-alias-resolution)解析为该 ID。没有该条目时，他们的消息会失败，错误以 `API Error: 400 model claude-fable-5 is not in the operator's model allowlist` 开头。
+
 ### `managed`
 
 `managed` 块定义基于 IdP 组或电子邮件域的基于角色的访问策略。策略按顺序评估；默认情况下选择第一个匹配项，然后将其合并到 `match: {}` 兜底基础层上。匹配两个角色策略的用户只会获得第一个，因此除非您[应用所有匹配的策略](#apply-every-matching-policy)，否则第二个策略的拒绝规则不会生效。策略按用户在 `GET /managed/settings` 提供，并使用 ETag/304 缓存。
@@ -1025,7 +1047,11 @@ managed:
 `match: {}` 兜底策略按惯例放在最后，被视为基础层。其他每个策略都会从兜底策略继承自己未设置的任何键，因此按角色的条目只需列出与组织默认值不同的内容。合并规则取决于键的类型：
 
 * **允许列表**：`availableModels` 和 `permissions.allow`。特定策略的列表会完全替换基础层的列表。
-* **拒绝列表和 hook 数组**：`permissions.deny`、`permissions.ask`、`disabledMcpjsonServers`、`deniedMcpServers`、`blockedMarketplaces`、`deniedModels` 以及每个 `hooks` 事件类型数组。这些取基础层与策略的并集，因此组织范围的拒绝规则或审计 hook 不会被按角色的覆盖意外丢弃。
+* **拒绝列表和 hook 数组**：取基础策略与该策略的并集：
+  * `permissions.deny` 和 `permissions.ask`
+  * `disabledMcpjsonServers` 和 `deniedMcpServers`
+  * `blockedMarketplaces` 和 `deniedModels`
+  * `hooks` 事件类型数组
 * **记录类型的键**：`env`、`modelOverrides` 和 `skillOverrides`。这些进行浅合并，因此按角色的 `env` 块会覆盖它设置的键，并从基础层继承其余的键。
 
 `availableModels` 还会在 `/v1/messages` 的服务器端执行，因此无论客户端发送什么，被拒绝的模型都会返回 `400`。空列表会拒绝所有模型。该检查还涵盖开发者选择模型之前会话启动时使用的模型，因此请[让会话在策略允许的模型上启动](#start-sessions-on-a-model-the-policy-allows)。
@@ -1277,6 +1303,10 @@ Claude Code 应用此变量时不会向开发者显示批准对话框。该变�
 
 要改为关闭 1M 上下文，请在同一 `env` 块中设置 [`CLAUDE_CODE_DISABLE_1M_CONTEXT: "1"`](https://code.claude.com/docs/zh-CN/model-config#extended-context)。Claude Code 随后将每个模型视为具有 200K 窗口。在交互式会话中，每位开发者需要在[批准对话框](#what-goes-in-cli)中批准此变量后它才会生效。
 
+> [!NOTE]
+>
+> Claude Code 不会读取别名的 `upstream_model` 来确定其上下文窗口大小。要让 `models` 中一个 Claude Code 无法识别的别名获得其模型的窗口，请参阅[为网关或自定义模型 ID 修正窗口](https://code.claude.com/docs/zh-CN/model-config.md#correct-the-window-for-a-gateway-or-custom-model-id)。
+
 #### 一小时提示缓存
 
 要请求一小时的[提示缓存 TTL](https://code.claude.com/docs/zh-CN/prompt-caching.md#cache-lifetime) 而非默认的五分钟，请将以下键添加到策略现有的 [`code`、`cli` 或 `settings` 块](#choose-cli-or-code)中，然后重启网关。这些键要求网关服务器和客户端上运行 Claude Code v2.1.242 或更高版本。
@@ -1337,7 +1367,7 @@ managed:
 
 ##### 在 Code 选项卡中应用 `code` 设置
 
-当以下所有条件都满足时，策略在其 [`code`](#choose-cli-or-code) 键下保存的 Claude Code 设置会在 Claude Desktop 的 Code 选项卡中生效：
+除[某些提供商和模型变量](https://code.claude.com/docs/zh-CN/desktop.md#managed-settings)外，当以下条件全部满足时，策略在其 [`code`](#choose-cli-or-code) 键下包含的 Claude Code 设置会在 Claude Desktop 的 Code 标签页中生效：
 
 * 策略还带有 `desktop` 键，空的 `desktop: {}` 也算
 * Claude Desktop 为 2.9939.2 或更高版本
@@ -1379,20 +1409,31 @@ managed:
 
 ##### 网关在启动时拒绝的内容
 
-网关在启动时根据 Claude Desktop 自身使用的配置 schema 验证每个 `desktop` 块，因此错误会在网关启动时以指明该键的错误形式暴露出来，而不会传递到每个已连接的桌面客户端。当块中包含以下内容时，网关会在启动时失败：
+当 `desktop` 块包含以下内容时，网关会在启动时失败：
 
-* 未知的键
-* 已识别的键，但其值会被 Claude Desktop 拒绝或静默丢弃，例如空值或嵌套条目中拼写错误的子键。在 v2.1.260 之前，对于 `managedMcpServers` 或 `orgPluginSettings` 条目的嵌套对象中拼写错误的字段，网关会静默丢弃，而不是在启动时失败。
+* 可识别的键，但其值会被 Claude Desktop 拒绝或静默丢弃，例如空值。
 * 由网关自行计算的键：推理连接、模型列表和 OTLP 中继。请通过 [`upstreams`](#upstreams)、[`models`](#models) 以及 [`telemetry`](#telemetry) 部分的 `forward_to` 配置这些内容。
 * 当前键的旧版别名。在启动错误中，网关会指明应写入的规范键。
+* 从 v2.1.300 开始，任何名称以 `selfHosted` 开头的键，例如用于自托管会话主机的键。请在将网关升级到 v2.1.300 或更高版本之前移除这些键。
 
 如果您使用已弃用的值或条目形式，例如不带 `transport` 的 `managedMcpServers` 条目，网关会启动并记录一条指明替代项的警告。
 
 在 v2.1.232 之前，网关只接受由 11 个功能开关键组成的固定列表（例如 `chatTabEnabled` 和 `disableAutoUpdates`），并在启动时拒绝其他所有键。在 v2.1.227 之前，网关还会在启动时拒绝 `chatTabEnabled` 和 `chatAdvancedFileAnalysisEnabled`。
 
+##### 网关不认识的键
+
+在运行 Claude Code v2.1.295 或更高版本的网关上，较新 Claude Desktop 版本中的大多数键都无需升级网关。在 v2.1.321 或更高版本上，已知键内部的大多数新子键也无需升级网关。
+
+某些键和值仍会在启动时失败，例如：
+
+* 已知键的固定值列表中的新选项。
+* 您可以在 `desktop` 块中设置的某个键的疑似拼写错误，例如将 `disableAutoUpdates` 写成 `disable_auto_updates`。错误会给出建议的名称。
+
+在每种情况下，如果该名称或值在较新的 Claude Desktop 版本中确实存在，请将[网关升级](https://code.claude.com/docs/zh-CN/claude-apps-gateway-deploy.md#upgrades)到最新版本。否则请更正或删除它。若要在部署之前发现问题，请[测试策略](#test-a-policy-before-deployment)。
+
 ##### 需要更新的网关或 Claude Desktop 版本的键
 
-网关根据其已安装版本捆绑的 schema 验证 `desktop` 块，与验证 `cli` 块的方式相同。要交付由较新 Claude Desktop 版本引入的设置，请先升级网关。例如，`userPluginMarketplacesEnabled` 和 `userPluginUploadsEnabled` 需要网关服务器上的 Claude Code v2.1.260 或更高版本，以及成员机器上的 Claude Desktop 1.37937.0 或更高版本。
+`userPluginMarketplacesEnabled` 和 `userPluginUploadsEnabled` 需要网关服务器上的 Claude Code v2.1.260 或更高版本，以及成员机器上的 Claude Desktop 1.37937.0 或更高版本。
 
 `blockReadsOutsideWorkingDirectories`、`disableBypassPermissionsMode`、`configRecheckIntervalMinutes` 和 `sshClientPath` 需要网关服务器上的 Claude Code v2.1.281 或更高版本。`microsoftAuthBroker` 的 `required` 值以及 Microsoft 365 `managedMcpServers` 条目的 `continuousAccessEvaluation` 字段也是如此。早于 `required` 值的 Claude Desktop 版本会将其读取为 `disabled`，因此请仅在每位成员的 Claude Desktop 都支持后再设置 `required`。Claude Desktop 的[托管配置参考](https://claude.com/docs/third-party/claude-desktop/configuration)列出了首次读取每个键的版本。
 
@@ -1593,7 +1634,7 @@ Claude Code 还会将每个标签复制到每个指标数据点上，因此您�
 
 终端会话将 `user.groups` 放在 OTLP 资源上，并再次放在每个指标数据点和事件上。如果开发者的组在会话打开期间发生变化，下一次[静默刷新](#session)之后的使用情况所对应的数据点和事件会带有新的组。资源会保留旧的组，直到开发者重启 Claude Code，因此请按数据点或事件上的属性进行分组。
 
-如果您在 OpenTelemetry Collector 的 Prometheus remote write 导出器中启用了 `resource_to_telemetry_conversion`，该导出器会用资源的 `user.groups` 替换每个数据点的 `user.groups`，因此每个数据点都会显示旧的组。要保留数据点的值，请在该导出器之前从资源中删除 `user.groups`。
+如果您在 OpenTelemetry Collector 的 Prometheus remote write 导出器中启用了 `resource_to_telemetry_conversion`，该导出器会用资源上的值替换每个数据点的 `user.groups`，因此每个数据点都会显示旧的组。要保留数据点上的值，请在该导出器之前从资源中删除 `user.groups`。
 
 此 OpenTelemetry Collector `resource` 处理器会在列出它的管道中删除该属性：
 

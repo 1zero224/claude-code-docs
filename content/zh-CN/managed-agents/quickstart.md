@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -83,7 +83,7 @@ featureMetadata:
         对于 Linux 环境，请直接下载发布版二进制文件。
 
         ```bash
-        VERSION=2.9.0
+        VERSION=2.11.0
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         case $(uname -m) in
           x86_64) ARCH=amd64 ;;
@@ -152,7 +152,7 @@ featureMetadata:
     对于 Linux 环境，请直接下载发布版二进制文件。
 
     ```bash
-    VERSION=2.9.0
+    VERSION=2.11.0
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     case $(uname -m) in
       x86_64) ARCH=amd64 ;;
@@ -199,7 +199,7 @@ featureMetadata:
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.8.0")
+        implementation("com.anthropic:anthropic-java:3.10.0")
         ```
       </Tab>
 
@@ -208,7 +208,7 @@ featureMetadata:
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         ```
       </Tab>

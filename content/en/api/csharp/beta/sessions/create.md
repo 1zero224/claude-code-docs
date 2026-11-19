@@ -233,7 +233,7 @@ Create Session
 
               High-performance model for agents and coding
 
-          - `Effort? Effort`
+          - `BetaManagedAgentsModelConfigParamsEffort? Effort`
 
             How hard Claude works on each inference call. Accepts a bare level string (`"high"`) or `{"type": "high"}`. On create, omitting it resolves the per-model default; on update, omitting it leaves the stored value unchanged.
 
@@ -295,7 +295,7 @@ Create Session
 
             Geographic region for model inference. When unset, requests fall through to the workspace's default_inference_geo. On update, `model` is whole-object replacement — omitting inference_geo clears it.
 
-          - `Speed? Speed`
+          - `BetaManagedAgentsModelConfigParamsSpeed? Speed`
 
             Inference speed mode. `fast` provides significantly faster output token generation at premium pricing. Defaults to `standard`. Not all models support `fast`; invalid combinations are rejected at create time.
 
@@ -377,7 +377,7 @@ Create Session
 
                 Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-              - `PermissionPolicy? PermissionPolicy`
+              - `BetaManagedAgentsBashToolConfigParamsPermissionPolicy? PermissionPolicy`
 
                 Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -395,7 +395,7 @@ Create Session
 
                 - `class BetaManagedAgentsAutoPolicy`
 
-                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                   - `JsonElement Type = "auto"`
 
@@ -403,7 +403,7 @@ Create Session
 
               Configuration override for the edit tool.
 
-              - `Type Type`
+              - `BetaManagedAgentsEditToolConfigParamsType Type`
 
               - `JsonElement Name = "edit"`
 
@@ -413,7 +413,7 @@ Create Session
 
                 Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-              - `PermissionPolicy? PermissionPolicy`
+              - `BetaManagedAgentsEditToolConfigParamsPermissionPolicy? PermissionPolicy`
 
                 Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -427,13 +427,13 @@ Create Session
 
                 - `class BetaManagedAgentsAutoPolicy`
 
-                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
             - `class BetaManagedAgentsReadToolConfigParams`
 
               Configuration override for the read tool.
 
-              - `Type Type`
+              - `BetaManagedAgentsReadToolConfigParamsType Type`
 
               - `JsonElement Name = "read"`
 
@@ -443,7 +443,7 @@ Create Session
 
                 Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-              - `PermissionPolicy? PermissionPolicy`
+              - `BetaManagedAgentsReadToolConfigParamsPermissionPolicy? PermissionPolicy`
 
                 Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -457,13 +457,13 @@ Create Session
 
                 - `class BetaManagedAgentsAutoPolicy`
 
-                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
             - `class BetaManagedAgentsWriteToolConfigParams`
 
               Configuration override for the write tool.
 
-              - `Type Type`
+              - `BetaManagedAgentsWriteToolConfigParamsType Type`
 
               - `JsonElement Name = "write"`
 
@@ -473,7 +473,7 @@ Create Session
 
                 Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-              - `PermissionPolicy? PermissionPolicy`
+              - `BetaManagedAgentsWriteToolConfigParamsPermissionPolicy? PermissionPolicy`
 
                 Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -487,13 +487,13 @@ Create Session
 
                 - `class BetaManagedAgentsAutoPolicy`
 
-                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
             - `class BetaManagedAgentsGlobToolConfigParams`
 
               Configuration override for the glob tool.
 
-              - `Type Type`
+              - `BetaManagedAgentsGlobToolConfigParamsType Type`
 
               - `JsonElement Name = "glob"`
 
@@ -503,7 +503,7 @@ Create Session
 
                 Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-              - `PermissionPolicy? PermissionPolicy`
+              - `BetaManagedAgentsGlobToolConfigParamsPermissionPolicy? PermissionPolicy`
 
                 Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -517,13 +517,13 @@ Create Session
 
                 - `class BetaManagedAgentsAutoPolicy`
 
-                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
             - `class BetaManagedAgentsGrepToolConfigParams`
 
               Configuration override for the grep tool.
 
-              - `Type Type`
+              - `BetaManagedAgentsGrepToolConfigParamsType Type`
 
               - `JsonElement Name = "grep"`
 
@@ -533,7 +533,7 @@ Create Session
 
                 Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-              - `PermissionPolicy? PermissionPolicy`
+              - `BetaManagedAgentsGrepToolConfigParamsPermissionPolicy? PermissionPolicy`
 
                 Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -547,13 +547,13 @@ Create Session
 
                 - `class BetaManagedAgentsAutoPolicy`
 
-                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
             - `class BetaManagedAgentsWebFetchToolConfigParams`
 
               Configuration override for the web_fetch tool.
 
-              - `Type Type`
+              - `BetaManagedAgentsWebFetchToolConfigParamsType Type`
 
               - `JsonElement Name = "web_fetch"`
 
@@ -577,7 +577,7 @@ Create Session
 
                 format: int32
 
-              - `PermissionPolicy? PermissionPolicy`
+              - `BetaManagedAgentsWebFetchToolConfigParamsPermissionPolicy? PermissionPolicy`
 
                 Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -591,7 +591,7 @@ Create Session
 
                 - `class BetaManagedAgentsAutoPolicy`
 
-                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
               - `BetaManagedAgentsWebFetchUrlSourcesParams? UrlSources`
 
@@ -693,7 +693,7 @@ Create Session
 
               Configuration override for the web_search tool.
 
-              - `Type Type`
+              - `BetaManagedAgentsWebSearchToolConfigParamsType Type`
 
               - `JsonElement Name = "web_search"`
 
@@ -711,7 +711,7 @@ Create Session
 
                 Whether this tool is enabled and available to Claude. Overrides the default_config setting.
 
-              - `PermissionPolicy? PermissionPolicy`
+              - `BetaManagedAgentsWebSearchToolConfigParamsPermissionPolicy? PermissionPolicy`
 
                 Permission policy for this tool. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -725,7 +725,7 @@ Create Session
 
                 - `class BetaManagedAgentsAutoPolicy`
 
-                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                  The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
               - `BetaManagedAgentsUserLocation? UserLocation`
 
@@ -767,7 +767,7 @@ Create Session
 
               Whether tools are enabled and available to Claude by default. Defaults to true if not specified.
 
-            - `PermissionPolicy? PermissionPolicy`
+            - `BetaManagedAgentsAgentToolsetDefaultConfigParamsPermissionPolicy? PermissionPolicy`
 
               Default permission policy for tools. Controls whether tool calls are auto-approved or require confirmation.
 
@@ -781,7 +781,7 @@ Create Session
 
               - `class BetaManagedAgentsAutoPolicy`
 
-                The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
         - `class BetaManagedAgentsMcpToolsetParams`
 
@@ -809,7 +809,7 @@ Create Session
 
               Whether this tool is enabled. Overrides the `default_config` setting.
 
-            - `PermissionPolicy? PermissionPolicy`
+            - `BetaManagedAgentsMcpToolConfigParamsPermissionPolicy? PermissionPolicy`
 
               Permission policy for this tool. Overrides the `default_config` setting.
 
@@ -823,7 +823,7 @@ Create Session
 
               - `class BetaManagedAgentsAutoPolicy`
 
-                The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
           - `BetaManagedAgentsMcpToolsetDefaultConfigParams? DefaultConfig`
 
@@ -833,7 +833,7 @@ Create Session
 
               Whether tools are enabled by default. Defaults to true if not specified.
 
-            - `PermissionPolicy? PermissionPolicy`
+            - `BetaManagedAgentsMcpToolsetDefaultConfigParamsPermissionPolicy? PermissionPolicy`
 
               Default permission policy for tools from this server.
 
@@ -847,7 +847,7 @@ Create Session
 
               - `class BetaManagedAgentsAutoPolicy`
 
-                The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
         - `class BetaManagedAgentsCustomToolParams`
 
@@ -903,7 +903,7 @@ Create Session
 
       - `JsonElement Type = "user.message"`
 
-      - `required IReadOnlyList<Content> Content`
+      - `required IReadOnlyList<BetaManagedAgentsUserMessageEventParamsContent> Content`
 
         Array of content blocks for the user message.
 
@@ -925,7 +925,7 @@ Create Session
 
           - `JsonElement Type = "image"`
 
-          - `required Source Source`
+          - `required BetaManagedAgentsImageBlockSource Source`
 
             The source of the image data.
 
@@ -1063,7 +1063,7 @@ Create Session
 
         What the agent should produce. This is the task specification.
 
-      - `required Rubric Rubric`
+      - `required BetaManagedAgentsUserDefineOutcomeEventParamsRubric Rubric`
 
         How to grade the outcome. Text or file reference.
 
@@ -1209,23 +1209,11 @@ Create Session
 
     This endpoint is in beta: requests must send `managed-agents-2026-04-01` in this header.
 
-    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
-
-    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
-
     - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
     - `ComputerUse2025_01_24("computer-use-2025-01-24")`
 
-    - `Pdfs2024_09_25("pdfs-2024-09-25")`
-
-    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
-
-    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
-
     - `Output128k2025_02_19("output-128k-2025-02-19")`
-
-    - `FilesApi2025_04_14("files-api-2025-04-14")`
 
     - `McpClient2025_04_04("mcp-client-2025-04-04")`
 
@@ -1237,15 +1225,11 @@ Create Session
 
     - `CodeExecution2025_05_22("code-execution-2025-05-22")`
 
-    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
-
     - `Context1m2025_08_07("context-1m-2025-08-07")`
 
     - `ContextManagement2025_06_27("context-management-2025-06-27")`
 
     - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
-
-    - `Skills2025_10_02("skills-2025-10-02")`
 
     - `FastMode2026_02_01("fast-mode-2026-02-01")`
 
@@ -1260,8 +1244,6 @@ Create Session
     - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
 
     - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
-
-    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
 
     - `Dreaming2026_04_21("dreaming-2026-04-21")`
 
@@ -1291,8 +1273,6 @@ Create Session
 
     - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
 
-    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
-
     - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
 
     - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
@@ -1320,6 +1300,48 @@ Create Session
     - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
 
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
 
   - `string workspaceID` (header parameter)
 
@@ -1513,7 +1535,7 @@ Create Session
 
         - `JsonElement Type = "coordinator"`
 
-        - `required IReadOnlyList<Agent> Agents`
+        - `required IReadOnlyList<BetaManagedAgentsSessionMultiagentCoordinatorAgent> Agents`
 
           Full `agent` definitions the coordinator may spawn as session threads.
 
@@ -1545,7 +1567,7 @@ Create Session
 
             - `required string Name`
 
-            - `required IReadOnlyList<Skill> Skills`
+            - `required IReadOnlyList<BetaManagedAgentsSessionThreadAgentSkill> Skills`
 
               - `class BetaManagedAgentsAnthropicSkill`
 
@@ -1569,7 +1591,7 @@ Create Session
 
             - `required string? System`
 
-            - `required IReadOnlyList<Tool> Tools`
+            - `required IReadOnlyList<BetaManagedAgentsSessionThreadAgentTool> Tools`
 
               - `class BetaManagedAgentsAgentToolset20260401`
 
@@ -1587,7 +1609,7 @@ Create Session
 
                     - `JsonElement Name = "bash"`
 
-                    - `required PermissionPolicy PermissionPolicy`
+                    - `required BetaManagedAgentsBashToolConfigPermissionPolicy PermissionPolicy`
 
                       Permission policy for tool execution.
 
@@ -1605,7 +1627,7 @@ Create Session
 
                       - `class BetaManagedAgentsAutoPolicy`
 
-                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                         - `JsonElement Type = "auto"`
 
@@ -1619,7 +1641,7 @@ Create Session
 
                     - `JsonElement Name = "edit"`
 
-                    - `required PermissionPolicy PermissionPolicy`
+                    - `required BetaManagedAgentsEditToolConfigPermissionPolicy PermissionPolicy`
 
                       Permission policy for tool execution.
 
@@ -1633,7 +1655,7 @@ Create Session
 
                       - `class BetaManagedAgentsAutoPolicy`
 
-                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                   - `class BetaManagedAgentsReadToolConfig`
 
@@ -1645,7 +1667,7 @@ Create Session
 
                     - `JsonElement Name = "read"`
 
-                    - `required PermissionPolicy PermissionPolicy`
+                    - `required BetaManagedAgentsReadToolConfigPermissionPolicy PermissionPolicy`
 
                       Permission policy for tool execution.
 
@@ -1659,7 +1681,7 @@ Create Session
 
                       - `class BetaManagedAgentsAutoPolicy`
 
-                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                   - `class BetaManagedAgentsWriteToolConfig`
 
@@ -1671,7 +1693,7 @@ Create Session
 
                     - `JsonElement Name = "write"`
 
-                    - `required PermissionPolicy PermissionPolicy`
+                    - `required BetaManagedAgentsWriteToolConfigPermissionPolicy PermissionPolicy`
 
                       Permission policy for tool execution.
 
@@ -1685,7 +1707,7 @@ Create Session
 
                       - `class BetaManagedAgentsAutoPolicy`
 
-                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                   - `class BetaManagedAgentsGlobToolConfig`
 
@@ -1697,7 +1719,7 @@ Create Session
 
                     - `JsonElement Name = "glob"`
 
-                    - `required PermissionPolicy PermissionPolicy`
+                    - `required BetaManagedAgentsGlobToolConfigPermissionPolicy PermissionPolicy`
 
                       Permission policy for tool execution.
 
@@ -1711,7 +1733,7 @@ Create Session
 
                       - `class BetaManagedAgentsAutoPolicy`
 
-                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                   - `class BetaManagedAgentsGrepToolConfig`
 
@@ -1723,7 +1745,7 @@ Create Session
 
                     - `JsonElement Name = "grep"`
 
-                    - `required PermissionPolicy PermissionPolicy`
+                    - `required BetaManagedAgentsGrepToolConfigPermissionPolicy PermissionPolicy`
 
                       Permission policy for tool execution.
 
@@ -1737,7 +1759,7 @@ Create Session
 
                       - `class BetaManagedAgentsAutoPolicy`
 
-                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                   - `class BetaManagedAgentsWebFetchToolConfig`
 
@@ -1749,7 +1771,7 @@ Create Session
 
                     - `JsonElement Name = "web_fetch"`
 
-                    - `required PermissionPolicy PermissionPolicy`
+                    - `required BetaManagedAgentsWebFetchToolConfigPermissionPolicy PermissionPolicy`
 
                       Permission policy for tool execution.
 
@@ -1763,7 +1785,7 @@ Create Session
 
                       - `class BetaManagedAgentsAutoPolicy`
 
-                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                     - `required BetaManagedAgentsWebFetchUrlSources? UrlSources`
 
@@ -1859,7 +1881,7 @@ Create Session
 
                     - `JsonElement Name = "web_search"`
 
-                    - `required PermissionPolicy PermissionPolicy`
+                    - `required BetaManagedAgentsWebSearchToolConfigPermissionPolicy PermissionPolicy`
 
                       Permission policy for tool execution.
 
@@ -1873,7 +1895,7 @@ Create Session
 
                       - `class BetaManagedAgentsAutoPolicy`
 
-                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                        The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                     - `IReadOnlyList<string> AllowedDomains`
 
@@ -1931,7 +1953,7 @@ Create Session
 
                     - `class BetaManagedAgentsAutoPolicy`
 
-                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
               - `class BetaManagedAgentsMcpToolset`
 
@@ -1943,7 +1965,7 @@ Create Session
 
                   - `required string Name`
 
-                  - `required PermissionPolicy PermissionPolicy`
+                  - `required BetaManagedAgentsMcpToolConfigPermissionPolicy PermissionPolicy`
 
                     Permission policy for tool execution.
 
@@ -1957,7 +1979,7 @@ Create Session
 
                     - `class BetaManagedAgentsAutoPolicy`
 
-                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                 - `required BetaManagedAgentsMcpToolsetDefaultConfig DefaultConfig`
 
@@ -1965,7 +1987,7 @@ Create Session
 
                   - `required bool Enabled`
 
-                  - `required PermissionPolicy PermissionPolicy`
+                  - `required BetaManagedAgentsMcpToolsetDefaultConfigPermissionPolicy PermissionPolicy`
 
                     Permission policy for tool execution.
 
@@ -1979,7 +2001,7 @@ Create Session
 
                     - `class BetaManagedAgentsAutoPolicy`
 
-                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask.
+                      The server decides each tool call individually: it judges, from the tool, its input, and the session content so far, whether the call is safe to execute or high-risk, and evaluates it to allow when judged safe and to deny when judged high-risk. A call the server cannot reach a judgement on evaluates to ask, or for some causes to deny, for example when the organization is out of credits or has reached a spend limit.
 
                 - `required string McpServerName`
 
@@ -2091,11 +2113,11 @@ Create Session
 
               - `required string Name`
 
-              - `required IReadOnlyList<Skill> Skills`
+              - `required IReadOnlyList<BetaManagedAgentsSessionThreadAgentSkill> Skills`
 
               - `required string? System`
 
-              - `required IReadOnlyList<Tool> Tools`
+              - `required IReadOnlyList<BetaManagedAgentsSessionThreadAgentTool> Tools`
 
               - `required int Version`
 
@@ -2143,11 +2165,11 @@ Create Session
 
               - `required string Name`
 
-              - `required IReadOnlyList<Skill> Skills`
+              - `required IReadOnlyList<BetaManagedAgentsSessionThreadAgentSkill> Skills`
 
               - `required string? System`
 
-              - `required IReadOnlyList<Tool> Tools`
+              - `required IReadOnlyList<BetaManagedAgentsSessionThreadAgentTool> Tools`
 
               - `required int Version`
 
@@ -2173,7 +2195,7 @@ Create Session
 
     - `required string? System`
 
-    - `required IReadOnlyList<Tool> Tools`
+    - `required IReadOnlyList<BetaManagedAgentsSessionAgentTool> Tools`
 
       - `class BetaManagedAgentsAgentToolset20260401`
 
@@ -2379,7 +2401,7 @@ Create Session
 
       format: double
 
-  - `required Status Status`
+  - `required BetaManagedAgentsSessionStatus Status`
 
     - `Rescheduling("rescheduling")`
 
@@ -2520,65 +2542,7 @@ Console.WriteLine(betaManagedAgentsSession);
       "inference_geo": "inference_geo",
       "speed": "standard"
     },
-    "multiagent": {
-      "agents": [
-        {
-          "id": "agent_011CZkYqphY8vELVzwCUpqiQ",
-          "description": "A focused research subagent.",
-          "execution_identity": {
-            "type": "service_account"
-          },
-          "mcp_servers": [
-            {
-              "name": "example-mcp",
-              "type": "url",
-              "url": "https://example-server.modelcontextprotocol.io/sse"
-            }
-          ],
-          "model": {
-            "id": "claude-opus-5-5",
-            "effort": {
-              "type": "low"
-            },
-            "inference_geo": "inference_geo",
-            "speed": "standard"
-          },
-          "name": "Researcher",
-          "skills": [
-            {
-              "skill_id": "xlsx",
-              "type": "anthropic",
-              "version": "1"
-            }
-          ],
-          "system": "You are a research subagent that gathers and summarises sources for the coordinating agent.",
-          "tools": [
-            {
-              "configs": [
-                {
-                  "enabled": true,
-                  "name": "bash",
-                  "permission_policy": {
-                    "type": "always_allow"
-                  },
-                  "type": "bash"
-                }
-              ],
-              "default_config": {
-                "enabled": true,
-                "permission_policy": {
-                  "type": "always_ask"
-                }
-              },
-              "type": "agent_toolset_20260401"
-            }
-          ],
-          "type": "agent",
-          "version": 1
-        }
-      ],
-      "type": "coordinator"
-    },
+    "multiagent": null,
     "name": "My First Agent",
     "skills": [
       {
@@ -2595,16 +2559,7 @@ Console.WriteLine(betaManagedAgentsSession);
     "system": "You are a general-purpose agent that can research, write code, run commands, and use connected tools to complete the user's task end to end.",
     "tools": [
       {
-        "configs": [
-          {
-            "enabled": true,
-            "name": "bash",
-            "permission_policy": {
-              "type": "always_allow"
-            },
-            "type": "bash"
-          }
-        ],
+        "configs": [],
         "default_config": {
           "enabled": true,
           "permission_policy": {
@@ -2618,13 +2573,7 @@ Console.WriteLine(betaManagedAgentsSession);
     "version": 1
   },
   "archived_at": null,
-  "budget": {
-    "max_list_cost": {
-      "amount": "2500",
-      "currency": "USD"
-    },
-    "type": "limit"
-  },
+  "budget": null,
   "created_at": "2026-03-15T10:00:00Z",
   "environment_id": "env_011CZkZ9X2dpNyB7HsEFoRfW",
   "metadata": {},

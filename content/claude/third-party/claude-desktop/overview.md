@@ -12,18 +12,13 @@ You get the full Claude Desktop experience (Chat, Cowork, and Code, including fi
 
 ## Who it's for
 
-Claude Desktop on 3P is designed for organizations whose security, regulatory, or contractual requirements prevent them from sending data through Anthropic's first-party products (claude.ai or the Claude API). Typical deployments include:
-
-* **Highly regulated enterprises on 3P only:** organizations that use third-party inference for regulatory or security reasons
-* **International enterprises with data residency requirements:** organizations that require in-region data residency and cannot send conversation data to the United States
+Claude Desktop on 3P is designed for organizations whose security, regulatory, or contractual requirements prevent them from sending data through Anthropic's first-party products (claude.ai or the Claude API).
 
 How far a deployment is separated from Anthropic depends on the provider you choose. On Google Cloud's Agent Platform and Amazon Bedrock, the cloud provider processes conversation data in the region you select. On Microsoft Foundry, Anthropic operates the Claude models, and residency follows the Foundry deployment type. Review [Data handling by provider](#data-handling-by-provider) and [Data residency and international deployment](#data-residency-and-international-deployment) before choosing a provider.
 
-If your organization can use Anthropic's first-party products directly, standard Claude Desktop with [Cowork](https://claude.com/docs/cowork/overview.md) on a Team or Enterprise plan is simpler to deploy and releases new features more quickly than Claude Desktop on 3P. Choose Claude Desktop on 3P when routing inference through Anthropic's API is not an option.
+If your organization can use Anthropic's first-party products directly, standard Claude Desktop with [Cowork](https://claude.com/docs/cowork/overview.md) on a Team or Enterprise plan is simpler to deploy and releases new features more quickly than Claude Desktop on 3P.
 
 ## Architecture
-
-Claude Desktop on 3P keeps the standard feature set and relocates inference to the provider you configure.
 
 | Component | Standard Claude Desktop | Claude Desktop on 3P |
 | - | - | - |
@@ -34,7 +29,7 @@ Claude Desktop on 3P keeps the standard feature set and relocates inference to t
 | Code execution sandbox | Local VM | Local VM (identical) |
 | Configuration | Admin console at claude.ai | OS-native configuration (MDM-managed or per-user), a bootstrap server, or the claude.ai admin console |
 
-The desktop app detects 3P mode at launch from the configured inference provider. When a provider and its credentials are present, the sign-in screen offers the option to skip Anthropic authentication and start the app using your inference-provider configuration instead.
+The desktop app detects 3P mode at launch from the configured inference provider.
 
 ### Security posture
 
@@ -53,7 +48,10 @@ For Google Cloud's Agent Platform and Amazon Bedrock, data handling is governed 
 
 Microsoft Foundry offers Claude models in two hosting options, Hosted on Azure and Hosted on Anthropic, and you choose one when you configure the model deployment in Microsoft Foundry. Under both options, Anthropic operates the Claude models and handles conversation data as an independent processor for Microsoft. Your use of Claude through Microsoft Foundry is subject to Anthropic's data use terms.
 
-Deployments hosted on Azure run inference in an Anthropic-operated service on Azure infrastructure, not in your Azure tenant, and prompts and completions remain within Azure. The only data the service sends out of Azure to Anthropic is usage metadata and any content that Anthropic's safety systems flag. Deployments hosted on Anthropic send prompts and completions to Anthropic's own infrastructure for inference. See [hosting options for Claude in Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#hosting-options) for details.
+* Deployments hosted on Azure run inference in an Anthropic-operated service on Azure infrastructure, not in your Azure tenant. For deployments hosted on Azure, Anthropic processes prompts and completions on Azure infrastructure and stores retained content there. Retained content includes content flagged by Anthropic's safety systems for Anthropic to review. Operational data that contains no prompts or completions is stored on Anthropic's systems outside Azure. Examples include safety classifier scores, identifiers, and usage and billing data.
+* Deployments hosted on Anthropic send prompts and completions to Anthropic's own infrastructure for inference.
+
+See [hosting options for Claude in Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#hosting-options) for details.
 
 For the Anthropic API, Anthropic processes conversation data under your Anthropic agreement, as described on the [Claude API](https://claude.com/docs/third-party/claude-desktop/claude-api.md) page. For an [LLM gateway](https://claude.com/docs/third-party/claude-desktop/gateway.md) you operate, data handling depends on the upstream provider your gateway routes each request to.
 

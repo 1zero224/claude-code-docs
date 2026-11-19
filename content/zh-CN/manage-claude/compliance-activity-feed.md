@@ -14,7 +14,7 @@ description: 检索、筛选和分页浏览您组织的 Compliance API 活动源
   带有此权限范围的 Compliance Access Key（`sk-ant-api01-...`）和 Admin API 密钥（`sk-ant-admin01-...`）均可调用活动源。有关每种密钥类型在何种条件下带有此权限范围，请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
 </Check>
 
-Activity Feed（活动源）记录您组织内的身份验证、聊天、文件、项目、管理和平台活动，并按时间倒序返回这些活动。活动在发生后 1 分钟内即可查询，并保留 6 年。 Security posture 活动可能需要超过 1 分钟才能变为可查询状态；请参阅[将 Security posture 事件发送到您的 SIEM](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/send-events#run-it-on-a-schedule)。 记录不具有追溯性：它从您的组织首次启用 Compliance API 时开始，启用之前的活动不会被回填。Access Transparency（访问透明度）事件是一个例外。如果您的组织已注册[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)，即使 Compliance API 处于关闭状态，这些事件也会被记录。因此，活动源中可能包含一些在首次启用 Compliance API 之前发生的事件。
+Activity Feed（活动源）记录您组织内的身份验证、聊天、文件、项目、管理和平台活动，并按时间倒序返回这些活动。活动在发生后 1 分钟内即可查询，并保留 6 年。Security posture 活动可能需要超过 1 分钟才能变为可查询状态；请参阅[将 Security posture 事件发送到您的 SIEM](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/send-events#run-it-on-a-schedule)。记录不具有追溯性：它从您的组织首次启用 Compliance API 时开始，启用之前的活动不会被回填。Access Transparency（访问透明度）事件是一个例外。如果您的组织已注册[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)，即使 Compliance API 处于关闭状态，这些事件也会被记录。因此，活动源中可能包含一些在首次启用 Compliance API 之前发生的事件。
 
 ```bash cURL
 curl --fail-with-body -sS \

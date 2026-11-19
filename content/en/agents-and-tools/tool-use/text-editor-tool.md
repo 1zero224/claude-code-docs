@@ -32,6 +32,7 @@ featureMetadata:
     Amazon Bedrock: stable
     Amazon Bedrock (bedrock-runtime): stable
     Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
     Claude Models on Google Cloud (Google managed): stable
     Microsoft Foundry: stable
 ---
@@ -1595,7 +1596,7 @@ The tool type is `type: "text_editor_20250728"` for Claude 4 and later models.
       func handleEditorTool(input map[string]any) string {
       	command, _ := input["command"].(string)
       	filePath, _ := input["path"].(string)
-      // ...
+      	// ...
 
       	switch command {
       	case "view":
@@ -1739,7 +1740,7 @@ The tool type is `type: "text_editor_20250728"` for Claude 4 and later models.
       		result := handleEditorTool(input)
 
       		toolResult := anthropic.NewToolResultBlock(block.ID, result, false)
-      // ...
+      		// ...
       	}
       }
       ```
@@ -2314,9 +2315,9 @@ Text editor tool is available on every model and eligible for zero data retentio
 
 * Availability: Available
 
-| Status    | Cloud platforms                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Available | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/en/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry) |
+| Status    | Cloud platforms         |
+| --------- | ----------------------- |
+| Available | All supported platforms |
 
 ### Data handling
 

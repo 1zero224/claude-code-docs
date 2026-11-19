@@ -32,13 +32,15 @@ description: 查找活动源中记录 Security posture 页面变更的活动：�
 
 ### `action` 值
 
-| `action`   | 含义                                                                           |
-| ---------- | ---------------------------------------------------------------------------- |
-| `attested` | 为一个此前没有声明的控制项记录了声明。                                                          |
-| `changed`  | 声明以另一个值重新保存；或者在 `status` 等于 `previous_status` 的情况下，以相同的值重新保存，与 `renewed` 相同。 |
-| `renewed`  | 声明以相同的值重新保存。                                                                 |
-| `cleared`  | 某人撤销了声明。                                                                     |
-| `lapsed`   | 声明自动终止，而非由某人操作。                                                              |
+| `action`   | 含义                  |
+| ---------- | ------------------- |
+| `attested` | 为一个此前没有声明的控制项记录了声明。 |
+| `changed`  | 声明以另一个值重新保存。        |
+| `renewed`  | 声明以相同的值重新保存。        |
+| `cleared`  | 某人撤销了声明。            |
+| `lapsed`   | 声明自动终止，而非由某人操作。     |
+
+在 2026 年 10 月 23 日（UTC）或之前，`changed` 活动也可能记录以相同的值进行的保存。此类活动的 `created_at` 在该日或之前，且 `status` 等于 `previous_status`。
 
 在 `renewed` 和 `lapsed` 活动中，`status` 等于 `previous_status`。在 `lapsed` 活动之后以相同的值保存，会记录为 `renewed`，而不是 `attested`。
 
@@ -57,7 +59,7 @@ description: 查找活动源中记录 Security posture 页面变更的活动：�
   "organization_uuid": "91012d09-e48b-438e-a489-1bebfd8fa6f9",
   "actor": {
     "type": "user_actor",
-    "email_address": "jane.doe@example.com",
+    "email_address": "priya@example.com",
     "user_id": "user_01WxYzAbCdEfGhJkMnPqRsTu",
     "ip_address": "192.0.2.34",
     "user_agent": "Mozilla/5.0..."
@@ -72,7 +74,7 @@ description: 查找活动源中记录 Security posture 页面变更的活动：�
 
 不要将没有活动视为没有任何变化的迹象。有关当前结果，请参阅 [Security posture 结果参考](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference)；其端点可能会省略活动中指明的控制项。
 
-* 在[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)开始为该组织记录这些活动之前，或在 Compliance API 关闭期间发生的变更，之后也不会补记。
+* 在[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)开始为该组织记录这些活动之前，或在 Compliance API 关闭期间发生的变更。活动源之后也永远不会为这些变更补充活动。
 * 极少数情况下，任何类型的变更。
 * 每一个到来的结束日期：并非所有结束日期都会产生活动，因此不要等待活动。
 * 每次关闭或开启 Security posture 页面：不要依赖[检测规则](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/detect-changes)来检测它。

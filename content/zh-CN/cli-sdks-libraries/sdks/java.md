@@ -15,7 +15,7 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
 <Tabs>
   <Tab title="Gradle">
     ```kotlin
-    implementation("com.anthropic:anthropic-java:3.8.0")
+    implementation("com.anthropic:anthropic-java:3.10.0")
     ```
   </Tab>
 
@@ -24,7 +24,7 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java</artifactId>
-        <version>3.8.0</version>
+        <version>3.10.0</version>
     </dependency>
     ```
   </Tab>
@@ -37,8 +37,8 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
 <Tabs>
   <Tab title="Gradle">
     ```kotlin
-    implementation("com.anthropic:anthropic-java:3.8.0")
-    implementation("com.anthropic:anthropic-java-mcp:3.8.0")
+    implementation("com.anthropic:anthropic-java:3.10.0")
+    implementation("com.anthropic:anthropic-java-mcp:3.10.0")
     ```
   </Tab>
 
@@ -47,12 +47,12 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java</artifactId>
-        <version>3.8.0</version>
+        <version>3.10.0</version>
     </dependency>
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java-mcp</artifactId>
-        <version>3.8.0</version>
+        <version>3.10.0</version>
     </dependency>
     ```
   </Tab>

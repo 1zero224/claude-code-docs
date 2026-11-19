@@ -1,12 +1,16 @@
 # 使用 OpenTelemetry 监控 Claude Cowork 活动
 
-本文介绍如何使用 OpenTelemetry (OTel) 监控整个组织中的 Claude Cowork 活动。通过 OTel，您的安全和运营团队可以将 Cowork 事件流式传输到您已在使用的可观测性工具中，以跟踪使用情况、调查事件和分析性能。
+本文介绍如何使用 OpenTelemetry (OTel) 在整个组织中监控 Claude Cowork 活动。通过 OTel，您的安全和运营团队可以将 Cowork 事件流式传输到您已在使用的可观测性工具中，以跟踪使用情况、调查事件和分析性能。
 
 ## 可用性
 
-Claude Cowork 的 OpenTelemetry 监控在 Team 和 Enterprise 计划中可用。它涵盖在云中运行的 Cowork 会话（在桌面、网络和移动设备上）以及本地桌面会话。监控云中的会话需要 Claude Desktop 版本 1.22209.3 或更高版本，监控本地桌面会话需要 Claude Desktop 版本 1.1.4173 或更高版本。
+Claude Cowork 的 OpenTelemetry 监控在 Team 和 Enterprise 计划中可用。它涵盖在云中运行的 Cowork 会话（在桌面、网页和移动设备上）以及本地桌面会话。监控云中的会话需要 Claude Desktop 版本 1.22209.3 或更高版本，监控本地桌面会话需要 Claude Desktop 版本 1.1.4173 或更高版本。
 
-新的 Claude 体验结合了聊天和 Cowork，正在向 Pro、Max、Ultra 计划推出。在 Team 计划（测试版）和 Enterprise 计划中，当启用**聊天和 Cowork 统一**时可用。尚未启用此功能的组织将聊天和 Cowork 保持为单独的选项，因此本文仍然适用。Enterprise 所有者可以在**[为您的 Enterprise 组织设置和管理新的统一 Claude 体验](https://support.claude.com/en/articles/17444462)**中了解更多信息。
+结合了聊天和 Cowork 的新 Claude 体验正在向 Pro、Max、Ultra 计划推出。在 Team 和 Enterprise 计划中，当启用 **Chat and Cowork unified** 时可用。尚未启用此功能的组织将聊天和 Cowork 保持为单独的选项，因此本文仍然适用。所有者可以在适用于您计划的文章中了解更多信息：
+
+- **[为您的 Team 组织设置和管理新的统一 Claude 体验](https://support.claude.com/en/articles/18342806)**
+
+- **[为您的 Enterprise 组织设置和管理新的统一 Claude 体验](https://support.claude.com/en/articles/17444462)**
 
 ---
 
@@ -20,9 +24,9 @@ Claude Cowork 的 OpenTelemetry 监控在 Team 和 Enterprise 计划中可用。
 
 - **文件访问。**用户连接到会话的文件夹。当内容捕获包括工具详情时，事件还会携带 Claude 读取、修改或以其他方式访问的文件路径，包括通过 MCP 访问的文件。
 
-- **技能和插件。**Claude 在会话中使用的技能和插件。除非内容捕获包括工具详情，否则非 Anthropic 提供的技能和插件会显示在占位符名称下。
+- **技能和插件。**Claude 在会话中使用的技能和插件。除非内容捕获包括工具详情，否则非 Anthropic 来源的技能和插件会显示在占位符名称下。
 
-- **人工批准决定。**每个工具操作是由用户批准、由用户拒绝还是根据现有权限自动启动。
+- **人工批准决定。**每个工具操作是由用户批准、由用户拒绝还是基于现有权限自动启动。
 
 - **API 请求和错误。**每个请求的模型、令牌计数、估计成本、持续时间以及返回的任何错误。
 
@@ -38,7 +42,7 @@ OpenTelemetry 为您提供结构化 Cowork 事件的实时流，您可以将其�
 
 ## 兼容的目标
 
-Cowork 的 OpenTelemetry 输出适用于任何标准 OTel 收集器。常见目标包括：
+Cowork 的 OpenTelemetry 输出适用于任何标准 OTel 收集器。常见的目标包括：
 
 - **SIEM 平台**，如 Splunk 和 Cribl
 
@@ -48,7 +52,7 @@ Cowork 的 OpenTelemetry 输出适用于任何标准 OTel 收集器。常见目�
 
 - **可观测性平台**，如 Honeycomb 和 Datadog
 
-您可以通过相应地配置收集器，将事件路由到多个目标。
+您可以通过相应地配置收集器，同时将事件路由到多个目标。
 
 ---
 
@@ -56,17 +60,17 @@ Cowork 的 OpenTelemetry 输出适用于任何标准 OTel 收集器。常见目�
 
 要配置 Cowork 将事件导出到您的收集器：
 
-1. 转到**组织设置 > Cowork**。
+1. 转到 **Organization settings > Cowork**。
 
-2. 输入您的 **OTLP 端点**（您的 OpenTelemetry 收集器 URL）。
+2. 输入您的 **OTLP endpoint**（您的 OpenTelemetry 收集器 URL）。
 
-3. 选择您的收集器使用的 **OTLP 协议**：HTTP/JSON 或 HTTP/protobuf。
+3. 选择您的收集器使用的 **OTLP protocol**：HTTP/JSON 或 HTTP/protobuf。
 
-4. 添加身份验证所需的任何 **OTLP 标头**，例如持有者令牌。
+4. 添加身份验证所需的任何 **OTLP headers**，例如持有者令牌。
 
 5. 保存您的设置。
 
-事件立即开始流向您的收集器。身份验证标头在 Anthropic 服务器上进行了加密存储。
+事件立即开始流向您的收集器。身份验证标头在 Anthropic 服务器上进行静态加密。
 
 ---
 
@@ -74,11 +78,11 @@ Cowork 的 OpenTelemetry 输出适用于任何标准 OTel 收集器。常见目�
 
 在启用 OpenTelemetry 导出之前，需要注意以下几点：
 
-- **在当前版本的 Claude Desktop 中，提示文本、Claude 的响应和工具输入默认处于关闭状态。**除非您使用 `otlpContentCapture` 设备策略启用内容捕获（您可以使用设备管理工具部署该策略），否则事件仅携带元数据。如果您启用它，请通过满足您组织日志记录该内容的策略的收集器路由事件。在 **[Cowork 监控参考中了解有关内容捕获的更多信息](https://claude.com/docs/cowork/monitoring#content-capture)**。
+- **在当前版本的 Claude Desktop 中，提示文本、Claude 的响应和工具输入默认处于关闭状态。**除非您使用 `otlpContentCapture` 设备策略启用内容捕获（您可以使用设备管理工具部署该策略），否则事件仅携带元数据。如果您启用它，请通过满足您组织记录该内容的策略的收集器路由事件。详细了解 **[Cowork 监控参考中的内容捕获](https://claude.com/docs/cowork/monitoring#content-capture)**。
 
 - **某些较旧版本的 Claude Desktop 在未设置策略时会发送内容。**该内容可能包括提示文本、Claude 的响应和工具输入。这些版本在更新后会切换到仅元数据。在支持该策略的版本上，您可以通过将 `otlpContentCapture` 设置为空列表（写作两个字符 `[]`）来在此之前关闭内容。
 
-- **该策略适用于从 Claude Desktop 启动的 Cowork 会话，无论它们是在用户的计算机上运行还是在云中运行。**它不适用于在云中运行的计划任务，或者在聊天和 Cowork 统一的情况下，Claude 移动到云中的聊天。这些会话仅携带元数据。在网络或移动应用中启动的 Cowork 会话仅携带元数据，该策略不会改变这一点。
+- **该策略适用于从 Claude Desktop 启动的 Cowork 会话，无论它们在用户的计算机上运行还是在云中运行。**它不适用于在云中运行的计划任务，或者在聊天和 Cowork 统一的情况下，Claude 移至云中的聊天。这些会话仅携带元数据。在网页或移动应用中启动的 Cowork 会话仅携带元数据，该策略不会改变这一点。
 
 - **工具参数可能包含敏感值。**当内容捕获包括工具详情时，文件路径、命令参数和其他工具输入会在 `tool_input` 和 `tool_parameters` 字段中导出。相应地规划您的保留和访问策略。
 
@@ -88,6 +92,6 @@ Cowork 的 OpenTelemetry 输出适用于任何标准 OTel 收集器。常见目�
 
 ---
 
-## 将 OpenTelemetry 数据与合规性 API 结合
+## 使用合规性 API 连接 OpenTelemetry 数据
 
-合规性 API 涵盖 Cowork（通过 Claude、Claude Desktop 和 Claude Mobile）和 Claude Code（通过 CLI 和 Claude Desktop）以及 Claude 聊天，为您提供一个审计跟踪，每个会话都可归因于单个用户。已在使用 OpenTelemetry 的组织可以并行运行两者，OTel 覆盖范围也包括网络和移动上的 Cowork。在 **[合规性 API 中了解有关检索远程会话的更多信息](https://platform.claude.com/docs/en/manage-claude/compliance-content-data)**。
+合规性 API 涵盖 Cowork（通过 Claude、Claude Desktop 和 Claude Mobile）和 Claude Code（通过 CLI 和 Claude Desktop）以及 Claude 聊天，为您提供一个审计跟踪，每个会话都可归属于单个用户。已在使用 OpenTelemetry 的组织可以并行运行两者，OTel 覆盖范围还包括网页和移动设备上的 Cowork。详细了解 **[在合规性 API 中检索远程会话](https://platform.claude.com/docs/en/manage-claude/compliance-content-data)**。

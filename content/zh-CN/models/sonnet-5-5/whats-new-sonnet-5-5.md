@@ -28,7 +28,7 @@ Claude Sonnet 5.5 提供了速度与智能的最佳组合。有五项破坏性�
 
 ### 使用 `between_tools` 关闭前置思考
 
-要在 Claude Sonnet 5.5 上关闭前置思考，请发送 `thinking: {"type": "between_tools"}`，而不是 `"disabled"`。这是该模型上最低的思考设置，在所有提供 Claude Sonnet 5.5 的平台上均可用。模型在工具调用之间写下的简短[进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)仍会以 `thinking` 块的形式返回，并附带摘要文本。请将这些块与助手轮次的其余部分一起原样传回。您传回的进度更新块会向模型提供它所写的完整笔记，而不是摘要。如果您的请求不使用工具，响应将只包含文本，与在 Claude Sonnet 5 上使用 `disabled` 时相同。
+要在 Claude Sonnet 5.5 上关闭前置思考，请发送 `thinking: {"type": "between_tools"}`，而不是 `"disabled"`。这是该模型上最低的思考设置。它在所有提供 Claude Sonnet 5.5 的平台上均可用。模型在工具调用之间写下的简短[进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)仍会以 `thinking` 块的形式返回，并附带摘要文本。请将这些块与助手轮次的其余部分一起原样传回。您传回的进度更新块会向模型提供它所写的完整笔记，而不是摘要。如果您的请求不使用工具，响应将只包含文本，与在 Claude Sonnet 5 上使用 `disabled` 时相同。
 
 在 Claude Sonnet 5.5 上，发送 `thinking: {"type": "disabled"}` 的请求会返回 400 `invalid_request_error`，其消息会提示您改用 `between_tools`。
 
@@ -58,25 +58,25 @@ tool_choice: type "tool" and "any" are not supported for this model.
 | 从 Claude Sonnet 5.5 切换到 Claude Opus 5.5、Claude Fable 5.2 或 Claude Mythos 5.2                | 是，但仅限 Claude API 和 Claude Models on Google Cloud (Google managed) |
 | 从 Claude Sonnet 5.5 切换到任何其他模型                                                               | 否                                                                 |
 
-当请求携带目标模型无法读取的块时，API 会在模型看到它之前将其丢弃。请求会成功，且被丢弃的块不计费。使用 `thinking-binding-controls-2026-08-01` beta 请求头时，丢弃情况会在顶层 `input_transformations` 数组中报告。请参阅[在对话中途切换模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。对于不涉及 Claude Sonnet 5.5 的切换，请参阅[在 Claude API 上哪些模型切换会保留推理](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#which-model-switches-keep-reasoning)。
+当请求携带目标模型无法读取的块时，API 会在模型接收它之前将其丢弃。请求会成功，且被丢弃的块不计费。使用 `thinking-binding-controls-2026-08-01` beta 标头时，API 会在顶层 `input_transformations` 数组中报告丢弃情况。请参阅[切换模型再切换回来](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。对于不涉及 Claude Sonnet 5.5 的切换，请参阅[在 Claude API 上哪些模型切换会保留推理](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#which-model-switches-keep-reasoning)。
 
-API 还会检查 Claude Sonnet 5.5 思考块之前的任何内容自该块生成以来是否发生了更改：`system` 提示、`tools` 或更早的消息。请保持对话仅追加：使用[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)来更改指令或工具，而不是进行编辑。
+API 还会检查 Claude Sonnet 5.5 思考块之前的任何内容自模型生成该块以来是否发生了更改。这项 “prefix check”（前缀检查）涵盖 `system` 提示、`tools` 以及每条更早的消息。请保持对话仅追加（append-only）：使用[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)来更改指令或工具，而不是进行编辑。
 
-如果请求在此类更改后重放某个块且未设置 `thinking.block_binding.prefix_mismatch_behavior`，则会收到 400 错误。这适用于在 2026 年 8 月 31 日 00:00 UTC 或之后创建的账户。[保留思考的可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)列出了适用此规则的平台。对于在该日期之前创建的账户，请求可能会也可能不会收到该错误。如果要改为丢弃受影响的块，请发送 `thinking-binding-controls-2026-08-01` beta 标头并将该字段设置为 `"drop_block"`。
+未通过 “prefix check”（[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)）可能会也可能不会导致 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。要识别并处理这两种情况，请参阅[思考块的前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks)。
 
-`block_binding` 仅适用于 `thinking: {"type": "adaptive"}`。使用任何其他思考设置时，您无法发送 `block_binding`。请改为删除错误中指明的块以及其后的每个 `thinking` 和 `redacted_thinking` 块。在之后的请求中不要包含它们，然后重试。
+前缀检查在 Claude API 和[部分云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)上运行。
 
 请参阅[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)以及迁移指南中的[关于思考块的说明](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#thinking-blocks)。
 
 ### 部分计算机使用工具版本不受支持
 
-Claude Sonnet 5.5 通过 `computer_toolset_20260801` 工具集支持 [computer use](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)（计算机使用）。在 Amazon Bedrock 上，Claude Sonnet 5.5 还接受带有 `computer-use-2025-11-24` beta 标头的 `computer_20251124` 工具。对于任何不接受的 computer use 工具版本（例如 Claude API 上的 `computer_20251124`），Claude Sonnet 5.5 会返回 400 错误。Claude API 的 `invalid_request_error` 消息会指明被拒绝的类型，并在 `Did you mean one of` 之后列出该模型接受的工具类型。该消息开头如下：
+Claude Sonnet 5.5 通过 `computer_toolset_20260801` 工具集支持 “[computer use](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)”（计算机使用）。在 Amazon Bedrock 上，Claude Sonnet 5.5 还接受带有 `computer-use-2025-11-24` beta 标头的 `computer_20251124` 工具。对于任何不接受的计算机使用工具版本（例如 Claude API 上的 `computer_20251124`），Claude Sonnet 5.5 会返回 400 错误。Claude API 的 `invalid_request_error` 消息会指明被拒绝的类型，并在 `Did you mean one of` 之后列出该模型接受的工具类型。该消息开头如下：
 
 ```text wrap
 'claude-sonnet-5-5' does not support tool types: computer_20251124.
 ```
 
-使用该工具集的集成无需任何更改。要将 `computer_20251124` 集成迁移到该工具集，请按照[从 `computer_20251124` 迁移](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#migrate-from-computer-20251124)操作，其中展示了迁移前后的请求。删除 beta 标头，并将 `tools` 条目替换为 `{"type": "computer_toolset_20260801"}`。然后更新您的智能体循环，以处理成员 `tool_use` 块、批量操作以及结果中的 `toolset_name`。
+使用该工具集的集成无需任何更改。要将 `computer_20251124` 集成迁移到该工具集，请按照[从 `computer_20251124` 迁移](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#migrate-from-computer-20251124)操作，其中展示了迁移前后的请求。移除 beta 标头，并将 `tools` 条目替换为 `{"type": "computer_toolset_20260801"}`。然后更新您的智能体循环，以处理成员 `tool_use` 块、批量操作以及结果中的 `toolset_name`。
 
 ### 部分 Advisor 工具组合不受支持
 
@@ -108,7 +108,7 @@ Claude Sonnet 5 不支持按消息设置 effort、对话中途的系统消息或
 
 ### 按需压缩（beta）
 
-使用 `compact-2026-09-04` beta 标头时，发送顶层 `compaction` 参数的请求会返回一个经过签名的 `compaction` 块，其中包含该请求中消息的摘要。在之后的请求中，该块放在 `messages` 的最前面，以替代被摘要的消息。何时压缩以及在该块之后保留哪些轮次由您决定。在 Claude Sonnet 5.5 上，您保留的轮次中的思考块在压缩后仍可保持有效。有关条件，请参阅[压缩与保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-thinking-blocks#conditions-for-kept-thinking-to-stay-valid)。有关平台可用性和完整的请求流程，请参阅[按需压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-on-demand)。
+使用 `compact-2026-09-04` beta 标头时，发送顶层 `compaction` 参数的请求会返回一个经过签名的 `compaction` 块，其中包含该请求中消息的摘要。在之后的请求中，该块放在 `messages` 的最前面，以替代被摘要的消息。何时压缩以及在该块之后保留哪些轮次由您决定。在 Claude Sonnet 5.5 上，保留的轮次中的思考块在压缩后可以保持有效。有关条件，请参阅[压缩与保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-thinking-blocks#conditions-for-kept-thinking-to-stay-valid)。有关平台可用性和完整的请求流程，请参阅[按需压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-on-demand)。
 
 ### 在消息中定义工具（beta）
 
@@ -116,23 +116,25 @@ Claude Sonnet 5 不支持按消息设置 effort、对话中途的系统消息或
 
 ### 思考块仅限于生成它们的账户
 
-Claude Sonnet 5.5 生成的思考块仅在生成它们的账户或与其关联的账户中有效。当其他账户发送这些块之一时，API 会在模型接收之前丢弃该块，且请求会成功。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，您可以查看哪些块被丢弃。发送 `thinking-binding-controls-2026-08-01` beta 请求头后，响应会在 `input_transformations` 中列出每个被丢弃的块，并附带 `reason: "organization_binding_mismatch"`。来自早期模型的块不受影响。请参阅[思考块仅限于生成它们的账户](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)。
+Claude Sonnet 5.5 生成的思考块仅在生成它们的账户或与其关联的账户中有效。当其他账户发送这些块之一时，API 会在模型接收之前丢弃该块，且请求会成功。来自 Claude Haiku 5.5、Claude Fable 5.2 和 Claude Mythos 5.2 的块遵循相同的规则。
+
+在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，您可以查看哪些块被丢弃。发送 `thinking-binding-controls-2026-08-01` beta 标头后，响应会在 `input_transformations` 中列出每个被丢弃的块，并附带 `reason: "organization_binding_mismatch"`。请参阅[账户和云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)。
 
 ## 行为差异
 
-即使不更改任何代码，Claude Sonnet 5.5 在以下几个方面也会表现出与 Claude Sonnet 5 的不同。[Claude Sonnet 5.5 提示指南](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5)针对每一项都提供了指导：
+有关以下各项的指导，请参阅[Claude Sonnet 5.5 提示指南](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5)。即使不更改任何代码，Claude Sonnet 5.5 在以下方面也会表现出与 Claude Sonnet 5 的不同：
 
 * **努力程度已重新校准。** 同一[努力程度](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)级别产生的思考量与在 Claude Sonnet 5 上不同。请重新测试各个努力程度，而不是沿用原有设置。除非您的工作负载属于智能体类型或对延迟敏感，否则请从 `high` 开始。对于智能体编码和多步骤工具使用，明确定义的任务可从 `medium` 开始，更难或更长的任务再调整为 `high`。对于聊天和其他对延迟敏感的工作，请从 `medium` 或 `low` 开始。
-* **工具调用之间的文本以思考块返回。** 在工具调用之间，长于一两句话的笔记会以[进度更新 `thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)返回。较短的评论仍为 `text`。在默认的 `display: "omitted"` 下，进度更新块的文本为空，因此将这些笔记流式传输给用户的应用程序在工具调用之间会保持静默，且不会报错。如果您[使用 `between_tools` 关闭前置思考](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/whats-new-sonnet-5-5#turn-off-up-front-thinking)，文本会返回。要接收这些文本，请参阅迁移指南中的[工具调用之间的文本以思考块返回](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#text-between-tool-calls)。
+* **工具调用之间的文本以思考块返回。** 在工具调用之间，长于一两句话的笔记会以[进度更新 `thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)返回。较短的评论仍为 `text`。在默认的 `display: "omitted"` 下，进度更新块的文本为空，因此将这些笔记流式传输给用户的应用程序在工具调用之间会保持静默，且不会报错。如果您[使用 `between_tools` 关闭前置思考](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/whats-new-sonnet-5-5#turn-off-up-front-thinking)，文本会返回。要接收这些文本，请参阅迁移指南中的[工具调用之间的文本在思考块中返回](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#text-between-tool-calls)。
 * **安全防护类别。** 模型的安全防护措施可能会以五种 [`stop_details` 类别](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)拒绝请求。`"cyber"` 表示该请求可能导致网络危害。`"bio"` 表示它可能导致生物危害。`"frontier_llm"` 表示它可能有助于开发竞争性 AI 模型。`"reasoning_extraction"` 表示它要求模型在响应文本中复现其内部推理。`"general_harms"` 表示它属于其他使用政策领域。请参阅[拒绝、回退和计费](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/whats-new-sonnet-5-5#refusals-fallback-and-billing)。
 
 ## 拒绝、回退和计费
 
-[拒绝和回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)中的所有内容均适用于 Claude Sonnet 5.5。被拒绝的请求会返回 HTTP 200，带有 `stop_reason: "refusal"` 以及一个指明政策领域的 [`stop_details`](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response) 对象。
+[拒绝与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)中的所有内容均适用于 Claude Sonnet 5.5。被拒绝的请求会返回 HTTP 200，带有 `stop_reason: "refusal"` 以及一个指明政策领域的 [`stop_details`](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response) 对象。
 
 请在代码中处理拒绝，并配置回退。使用[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)（`fallbacks: "default"`）时，以 `"cyber"` 或 `"frontier_llm"` 类别被拒绝的请求会在 Claude Sonnet 5 上重新运行。以 `"bio"`、`"reasoning_extraction"` 或 `"general_harms"` 类别被拒绝的请求不会重试。服务器端回退在 Claude API 和 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 上处于 beta 阶段。您也可以使用 [SDK 中间件](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#client-side-fallback)或您自己的重试逻辑。
 
-在产生任何输出之前到达的拒绝，在某些拒绝类别中会计费，在其他类别中则不计费。无论哪种情况，它都会计入您的"rate limit"（速率限制）。请参阅[拒绝的计费方式](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#how-refusals-are-billed)。
+在产生任何输出之前到达的拒绝，在某些拒绝类别中会计费，在其他类别中则不计费。无论哪种情况，它都会计入您的 “rate limit”（速率限制）。请参阅[拒绝的计费方式](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#how-refusals-are-billed)。
 
 ## 定价
 
@@ -192,7 +194,7 @@ Claude Sonnet 5.5 可在以下平台使用：
 
 1. 如果您的代码使用 `disabled` 关闭思考，请改为在 `high` 或更低的 effort 下发送 `between_tools`。
 2. 将 `tool_choice` 类型 `any` 和 `tool` 替换为 `auto` 加上[严格工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/strict-tool-use)。
-3. 保持对话只追加。如果在编辑较早的历史记录后重放 Claude Sonnet 5.5 的思考块，请求可能会返回 400 错误。请参阅[思考块与模型和对话绑定](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/whats-new-sonnet-5-5#thinking-blocks-are-tied-to-the-model-that-produced-them)。
+3. 保持对话仅追加。如果在编辑较早的历史记录后重放 Claude Sonnet 5.5 的思考块，请求可能会返回 400 错误。请参阅[思考块与模型和对话绑定](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/whats-new-sonnet-5-5#thinking-blocks-are-tied-to-the-model-that-produced-them)。
 4. 如果您通过 `computer_20251124` 使用计算机使用功能，请[迁移到该工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#migrate-from-computer-20251124)。在 Amazon Bedrock 上，`computer_20251124` 也可以使用。
 5. 如果您将 advisor 工具与 Claude Opus 4.8、Claude Opus 4.7、Claude Sonnet 5 或 Claude Haiku 5.5 顾问一起使用，请[切换到 Claude Sonnet 5.5 接受的顾问](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/whats-new-sonnet-5-5#advisor-tool-pairings)。
 6. 如果您的界面会显示工具调用之间的文本，请在使用自适应思考时设置 `thinking.display`。使用 `between_tools` 时，无需设置该参数也会返回这些文本。请参阅[工具调用之间的文本在思考块中返回](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#text-between-tool-calls)。

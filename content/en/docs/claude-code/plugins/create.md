@@ -72,7 +72,7 @@ The four fields do this:
 * **`version`**: optional. Setting it keeps users on that version until you change it; [Release a new version](https://code.claude.com/docs/en/plugins/host-marketplace.md#release-a-new-version) says when to set or omit it.
 * **`author`**: who to credit. `name` is required inside it; `email` and `url` are optional.
 
-Every other field is on the [manifest reference](https://code.claude.com/docs/en/plugins/manifest-reference.md#fields).
+Other fields are on the [manifest reference](https://code.claude.com/docs/en/plugins/manifest-reference.md#fields).
 
 Only `plugin.json` goes inside `.claude-plugin/`. The skill you add next goes directly under `my-first-plugin/`, next to that folder.
 
@@ -260,7 +260,7 @@ When a change to your plugin doesn't show up, work through these checks in order
 
 To check an MCP server, run `/mcp` in the session to see the server's status. When the server is healthy, `/mcp` lists it as connected. If it isn't, see [MCP servers that don't start](https://code.claude.com/docs/en/plugins/troubleshooting.md#invalid-mcp-server-config-for-and-mcp-servers-that-dont-start).
 
-To check a hook, trigger the event it matches. For example, ask Claude to edit a file to trigger a `PostToolUse` hook. Then read the [debug log](https://code.claude.com/docs/en/hooks.md#debug-hooks), which shows which hooks matched, their exit codes, and their output.
+To check a hook, turn on debug logging as [Debug hooks](https://code.claude.com/docs/en/hooks.md#debug-hooks) describes and trigger the event it matches. For example, ask Claude to edit a file to trigger a `PostToolUse` hook. Then read the debug log.
 
 The next sections cover the failures you're most likely to hit while developing, and the [troubleshooting page](https://code.claude.com/docs/en/plugins/troubleshooting.md#build-a-plugin) has the full entry for each.
 
@@ -344,7 +344,7 @@ This example shows the shape with one hook that runs a linter on each file Claud
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
-        "hooks": [{ "type": "command", "command": "jq -r '.tool_input.file_path' | xargs npm run lint:fix" }]
+        "hooks": [{ "type": "command", "command": "f=$(jq -r '.tool_input.file_path') && npm run lint:fix -- \"$f\"" }]
       }
     ]
   }

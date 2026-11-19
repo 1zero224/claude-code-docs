@@ -231,6 +231,6 @@ SDK 中间件可用或处于 beta 阶段，具体取决于API。
 * 可用性：可用
 * 用法：在您的 SDK 客户端对 Managed Agents API 的调用上运行。它看不到智能体在其循环内发出的模型调用。
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
-| Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
+| 状态   | 云平台     |
+| ---- | ------- |
+| Beta | 所有支持的平台 |

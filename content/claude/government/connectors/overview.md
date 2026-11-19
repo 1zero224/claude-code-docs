@@ -19,7 +19,7 @@ A **connector** is a link between Claude and an external service. The service, y
 > * **The Microsoft 365 connector**: see [Set up the Microsoft 365 connector](https://claude.com/docs/government/connectors/microsoft-365.md)
 > * **Plugins**: see [Manage plugins and connectors](https://claude.com/docs/government/config/plugins-and-connectors.md)
 
-<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/gGFKuNSbKYs4JMmK/images/government/videos/admin-07-connectors-and-plugins.mp4?fit=max&auto=format&n=gGFKuNSbKYs4JMmK&q=85&s=43f78d15928eea46d27229f8dbc04db6" aria-label="Video walkthrough: Connectors and plugins" />
+<video controls preload="metadata" playsInline src="https://mintcdn.com/claude-ai/gD-HYL0vu0KeXwJ7/images/government/videos/admin-07-connectors-and-plugins-v2.mp4?fit=max&auto=format&n=gD-HYL0vu0KeXwJ7&q=85&s=866ea1837528556e88cc16614105dc19" aria-label="Video walkthrough: Connectors and plugins" />
 
 Video: Connectors and plugins (2 min 8 s). Narrated with an AI-generated voice, with on-screen captions.
 
@@ -77,7 +77,7 @@ Under **Apply to**, tick the products that should receive this connector. **Micr
 Under **Tool policy**, switch each of the server's tools on or off, or leave it unlisted. On Claude Desktop, that tool policy shapes what members experience:
 
 * A tool you switch off is blocked, so Claude cannot use it.
-* A tool you switch on is available and asks the member on every use, and members are not offered a lasting approval for it. Its permission control is locked, and hovering over it shows **Permission set by your admin**.
+* A tool you switch on is available and [needs approval](https://claude.com/docs/third-party/claude-desktop/configuration.md#tool-permissions-for-managed-mcp-servers) each time Claude uses it, and members are not offered a lasting approval for it. Its permission control is locked, and hovering over it shows **Permission set by your admin**.
 * A tool you do not list is left to the member to turn on or off, and its approval prompts follow the member's own choices, which can include lasting approval. To return a listed tool to each member's control, remove its row.
 
 A saved connector reaches members as described under [When changes take effect](https://claude.com/docs/government/config/overview.md#when-changes-take-effect).

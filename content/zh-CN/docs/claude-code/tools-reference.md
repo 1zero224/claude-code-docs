@@ -14,7 +14,9 @@ Claude Code 可以访问一组内置工具，帮助它理解和修改您的代�
 
 > [!NOTE]
 >
-> 在[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)中，分类器决定大多数权限提示，而不是您。`Permission required` 列显示工具是否在[手动模式](https://code.claude.com/docs/zh-CN/permission-modes.md)中为工作目录内的路径提示。标记为"否"的文件访问工具，包括 `Read`、`Grep` 和 `Glob`，仍然会为[工作目录和其他目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)之外的路径提示。`Bash` 标记为"是"，但运行内置的[只读命令](https://code.claude.com/docs/zh-CN/permissions.md#read-only-commands)而不提示。
+> 在[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)中，分类器决定大多数权限提示，而不是您。`Permission required` 列显示工具是否在[手动模式](https://code.claude.com/docs/zh-CN/permission-modes.md)中为工作目录内的路径提示。标记为"否"的文件访问工具，包括 `Read`、`Grep` 和 `Glob`，仍然会为[工作目录和其他目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)之外的路径提示，但 Claude Code 自身需要的文件除外。
+>
+> `Bash` 标记为"是"，但运行内置的[只读命令](https://code.claude.com/docs/zh-CN/permissions.md#read-only-commands)而不提示。
 
 | 工具 | 描述 | 需要权限 |
 | :- | :- | :- |
@@ -49,7 +51,7 @@ Claude Code 可以访问一组内置工具，帮助它理解和修改您的代�
 | `SendMessage` | 向另一个 Agent 发送消息：[agent team](https://code.claude.com/docs/zh-CN/agent-teams.md) 队友、[通过 Agent ID 或名称恢复的子代理](https://code.claude.com/docs/zh-CN/sub-agents.md#resume-subagents)，或您的其他 Claude Code 会话之一，无论在此机器上还是其他机器上。向其他会话发送消息需要 Claude Code v2.1.224 或更高版本。[跨会话消息传递](https://code.claude.com/docs/zh-CN/cross-session-messaging.md)涵盖 Claude 可以到达的会话、[消息到达时的样子](https://code.claude.com/docs/zh-CN/cross-session-messaging.md#what-a-message-looks-like)以及[Claude 如何在另一个会话空闲时获得通知](https://code.claude.com/docs/zh-CN/cross-session-messaging.md#get-a-notice-when-another-session-goes-idle)。Claude 可以包含可选的 `summary` 输入，通常为 5-10 个单词，Claude Code 显示为单行预览。当 Claude 在[纯文本消息](https://code.claude.com/docs/zh-CN/cross-session-messaging.md#limitations)上省略它时，Claude Code 使用消息的第一行作为摘要。Claude Code 使用省略号截断长于 200 个字符的摘要 | 否 |
 | `SendUserFile` | 从会话向您发送文件，带有可选标题，以便生成的报告、图表、屏幕截图或构建产物到达您的设备，而不仅仅在会话记录中提及。可选的 `display` 输入控制呈现方式：`render` 在客户端中内联打开文件，`attach` 仅显示下载卡，未设置时客户端按文件类型决定。在连接 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 客户端或在[云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)中时可用。传递通过 Anthropic 托管的基础设施运行，因此该工具在 Amazon Bedrock、Google Cloud 的 Agent Platform 或 Microsoft Foundry 上不可用 | 否 |
 | `ShareOnboardingGuide` | 上传 `ONBOARDING.md` 并返回队友可以在 Claude Code 中打开的共享链接。在编写指南后从 `/team-onboarding` 调用。适用于 Team 和 Enterprise 计划上的 claude.ai 订阅者 | 是 |
-| `Skill` | 在主对话中执行[skill](https://code.claude.com/docs/zh-CN/skills.md#control-who-invokes-a-skill) | 是 |
+| `Skill` | 在主对话中执行[skill](https://code.claude.com/docs/zh-CN/skills.md#control-who-invokes-a-skill)。对于设置了 `allowed-tools`、`disallowed-tools` 或 `hooks` 的 skill，可能会提示 | 部分 skill |
 | `SubagentHandback` | 将子代理的最终报告传递给接收该子代理结果的任何对话。仅在[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)中提供，给 Agent 工具在本地运行的子代理，除了[分叉](https://code.claude.com/docs/zh-CN/sub-agents.md#fork-the-current-conversation)，并在终端 CLI、IDE 扩展、云端会话和 Agent SDK 中可用；分类器在传递报告前审查它。需要 Claude Code v2.1.271 或更高版本 | 否 |
 | `TaskCreate` | 在任务列表中创建新任务。仅在[任务工具可用性](#task-tool-availability)下列出的模型上默认提供，在其他模型上当您选择加入时提供 | 否 |
 | `TaskGet` | 检索特定任务的完整详细信息。仅在[任务工具可用性](#task-tool-availability)下列出的模型上默认提供，在其他模型上当您选择加入时提供 | 否 |
@@ -127,8 +129,6 @@ Agent tool 在单独的上下文窗口中生成一个子代理。子代理自主
 
 Claude 使用 `AskUserQuestion` 在需要决策或澄清时向您提出多选题。通过选择一个选项来回答，或通过 `Other` 行或备注字段输入您自己的文本。
 
-当您通过输入自己的文本来回答时，Claude Code 会用中立的措辞转达答案，以便 Claude 遵循您写的内容，包括等待或先解释的请求。
-
 ### 问题自动继续超时
 
 问题保持打开状态，直到您回答。如果您想让一个未回答的问题最终关闭并让 Claude 在没有您的情况下继续，请在您的用户 `settings.json` 中或从 `/config` 中的 **Question auto-continue timeout** 行设置 [`askUserQuestionTimeout`](https://code.claude.com/docs/zh-CN/settings-reference#askuserquestiontimeout) 为 `60s`、`5m` 或 `10m`。
@@ -148,7 +148,7 @@ Bash 工具在单独的进程中运行每个命令。
   * 如果 `cd` 落在这些目录之外，Claude Code 会重置为项目目录，并将 `Shell cwd was reset to <dir>` 附加到工具结果中。
   * 要禁用此传递，使每个 Bash 命令都在项目目录中启动，请设置 `CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1`。
 * 环境变量不会保留。一个命令中的 `export` 在下一个命令中不可用。
-* 在您的 shell 启动文件中定义的别名和 shell 函数可用。在会话启动时，Claude Code 会获取 `~/.zshrc`、`~/.bashrc` 或 `~/.profile`（取决于您的 shell），捕获生成的别名、函数和 shell 选项，并将它们应用于每个 Bash 命令。
+* Claude Code 会启动一个非交互式 shell，对于 Zsh 加载 `~/.zshrc`，对于 Bash 加载 `~/.bashrc`，并将它捕获的别名、函数和 shell 选项应用于 Bash 命令。
 
 在启动 Claude Code 之前激活您的 virtualenv 或 conda 环境。要使环境变量在 Bash 命令之间保留，请在启动 Claude Code 之前将 [`CLAUDE_ENV_FILE`](https://code.claude.com/docs/zh-CN/env-vars) 设置为 shell 脚本，或使用 [SessionStart hook](https://code.claude.com/docs/zh-CN/hooks.md#persist-environment-variables) 动态填充它。
 
@@ -199,7 +199,7 @@ Claude Code 在命令运行时将命令的输出流式传输到工作文件；�
 * Claude 在后台启动的命令获得 30 分钟，或 Claude 使用 `run_in_background` 传递的 `timeout`，最多 2 小时
 * 在前台启动、然后在达到其超时时移到后台的命令，从移动时起获得 30 分钟
 
-在使用 `-p` 标志且以文本形式（而不是使用 `--input-format stream-json`）传递提示词的运行中，两个默认值都是 10 分钟而不是 30 分钟，因为该运行会[在其结果之后等待后台命令](https://code.claude.com/docs/zh-CN/headless.md#background-tasks-at-exit)。
+在使用 `-p` 标志且以文本形式（而不是使用 `--input-format stream-json`）传递提示词的运行中，两个默认值都是 10 分钟而不是 30 分钟。
 
 当后台命令达到其时间限制时，Claude Code 停止它并告诉 Claude 原因，Claude 可以使用更长的 `timeout` 重新启动命令，如果工作仍然需要的话。停止通知读作 `Background command "<description>" was stopped after reaching its background time limit`。
 
@@ -261,6 +261,10 @@ Edit 工具执行精确字符串替换。它接受一个 `old_string` 和一个 
 Claude 使用 `cat` 或 `grep` 等 Bash 命令查看文件后，也可以在不单独执行 Read 的情况下编辑该文件。这些命令是 `cat`、`nl`、`bat`、`batcat`、`head`、`tail`、`sed -n 'X,Yp'`、`grep`、`egrep`、`fgrep` 和 `rg`，且每个命令都需在单个文件上运行，没有管道或重定向。如果命令没有输出该文件的任何文本（例如搜索没有匹配到任何内容时），编辑前读取检查仍然适用。
 
 当 Claude 以这种方式查看文件时，Claude Code 还会加载适用于该文件的任何[子目录 `CLAUDE.md`](https://code.claude.com/docs/zh-CN/memory#how-claude-md-files-load) 和[路径范围规则](https://code.claude.com/docs/zh-CN/memory.md#path-specific-rules)。请参阅 [Read 和 Edit 权限规则](https://code.claude.com/docs/zh-CN/permissions.md#read-and-edit)，了解您的 `Read` 和 `Edit` 拒绝规则涵盖哪些 Bash 命令。
+
+### 在 Perforce 中保护只读文件
+
+要防止 Edit、Write 和 NotebookEdit 覆盖 Perforce 工作区中的只读文件，请将 [`CLAUDE_CODE_PERFORCE_MODE`](https://code.claude.com/docs/zh-CN/env-vars#variables) 设置为 `1`。这样，这些工具会拒绝更改只读文件，并告诉 Claude 先运行 `p4 edit`。
 
 ### 非 UTF-8 文件
 
@@ -448,6 +452,10 @@ NotebookEdit 一次修改一个 Jupyter notebook 单元格，按其 `cell_id` �
 
 权限规则使用 `Edit(...)` 路径格式。像 `Edit(notebooks/**)` 这样的规则涵盖该目录中的 NotebookEdit 调用。
 
+### 替换单元格会清除文件中已保存的输出
+
+当 NotebookEdit 替换代码单元格时，其执行计数和已保存的输出会被清除。要恢复输出，请重新运行该单元格以及所有使用其定义的函数或变量的单元格。有关 VS Code 工作流，请参阅[使用 Jupyter notebooks](https://code.claude.com/docs/zh-CN/vs-code.md#work-with-jupyter-notebooks)。
+
 ## PowerShell 工具
 
 PowerShell 工具让 Claude 能够原生运行 PowerShell 命令。在 Windows 上，这意味着命令在 PowerShell 中运行，而不是通过 Git Bash 路由。该工具的可用性取决于您的平台：
@@ -525,7 +533,7 @@ PowerShell 工具在预览期间有以下已知限制：
 
 ## Read 工具行为
 
-Read 工具接收文件路径并返回带有行号的文件内容。Claude 被指示始终传递绝对路径。
+Read 工具接收文件路径并返回带有行号的文件内容。
 
 读取空文件会返回一个通知，说明文件存在但内容为空，而 `offset` 超过最后一行会返回一个通知，给出文件的行数。
 
@@ -694,7 +702,7 @@ WebSearch 权限规则不需要指定符。`allow` 或 `deny` 中的单独 `WebS
 
 > [!NOTE]
 >
-> WebSearch 在 Claude API、[AWS 上的 Claude Platform](https://code.claude.com/docs/zh-CN/claude-platform-on-aws.md) 和 Microsoft Foundry 上可用。在 Google Cloud 的 Agent Platform 上，它适用于 Opus 4、Sonnet 4、Haiku 4.5 及更高版本的模型。Amazon Bedrock 不公开服务器端网络搜索工具。
+> WebSearch 在 Claude API、[AWS 上的 Claude Platform](https://code.claude.com/docs/zh-CN/claude-platform-on-aws.md)、[Google Cloud 上的 Claude Models（由 Anthropic 管理）](https://code.claude.com/docs/zh-CN/claude-models-on-google-cloud-anthropic-managed.md) 和 Microsoft Foundry 上可用。在 Google Cloud 的 Agent Platform 上，它适用于 Opus 4、Sonnet 4、Haiku 4.5 及更高版本的模型。Amazon Bedrock 不公开服务器端网络搜索工具。
 
 ### 会话搜索限制
 
@@ -720,7 +728,7 @@ Claude 是否必须在当前对话中读取现有文件后才能覆盖它取决�
 * 较新的模型可以在与[读取前编辑](#edit-tool-behavior)相同的条件下覆盖他们在此会话中从未读过的文件：读取它不需要权限提示，且 Read tool 可用。
 * Jupyter notebooks 和 Claude 仅部分读取的文件（带有[`PARTIAL view` 通知](#large-files)）在每个模型上都需要读取。
 
-此约束不适用于新文件。在 v2.1.228 之前，每个模型都需要在覆盖现有文件前进行读取。
+此约束不适用于新文件。
 
 使用 Bash 查看文件也满足此要求，遵循[编辑 tool 行为](#edit-tool-behavior)中描述的相同规则。
 

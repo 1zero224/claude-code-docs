@@ -4,7 +4,7 @@ Category[Product updates](https://claude.com/resources/product-updates)
   -
 DateOctober 6, 2026
   -
-Reading time5 min
+Reading time6 min
   -
 ShareCopy link
 ***Update, October 13, 2026: Our current cohort is now full, and we’re not accepting new applications right now. Visit the [Claude Startups page](https://claude.com/programs/startups) for more details and answers to common questions.***
@@ -28,32 +28,25 @@ Members also get a support system for growing their business, from reaching new 
 Startups founded in the last five years or funded in the last two are eligible to apply. We created this program because we believe the benefits of AI will reach most people through the companies that build on top of models, rather than through the models alone. That makes partnering closely with founders and developers central to our mission. AI will equip them to bring society faster scientific discoveries, entirely new categories of products, and more capable businesses. Claude Startups is how we’re helping more of those companies get started, and supporting them as they grow.
 Visit the [Claude Startups page](https://claude.com/programs/startups) to learn more and apply.
 For how startups use Claude Code day to day, see [The Claude Code guide for startups](https://claude.com/resources/articles/claude-code-guide-for-startups)
-
 *Based on one year of Claude Team with five Premium seats at $100 per seat per month, billed annually ($6,000), and the one-time credit ($1,000). Actual value depends on your number and type of seats. Credits are subject to our [Supplemental Credit Terms](https://www.anthropic.com/legal/credit-terms).
-
 **Based on the combined maximum value of all Claude Startup Stack offers at partner list prices as of September 2026. Actual value depends on which offers you redeem, your plan, and your team size. Offers are provided by partners and subject to their terms. Your company may not be able to receive or combine all offers.
-
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)[
-ArticleNov 9, 2026
-### Claude Fable 5.2 and Mythos 5.2
-Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
-Claude appsClaude Code
-1 more: Claude PlatformClaude Platform
-(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 12, 2026
+### Operate Claude Managed Agents inside your security perimeter
+Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
+Claude PlatformClaude Managed Agents
+](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
+ArticleNov 12, 2026
+### Introducing Claude for Manufacturing
+A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
+](https://claude.com/resources/articles/claude-for-manufacturing)[
+ArticleNov 12, 2026
+### Introducing Claude Meetings
+Add Claude to your video call and get the work started while you talk
+](https://claude.com/resources/articles/claude-meetings)

@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -34,7 +34,9 @@ featureMetadata:
   supportedPlatforms:
     Claude API: beta
     Claude Platform on AWS: beta
-    Claude Models on Google Cloud (Anthropic managed): beta
+    Claude Models on Google Cloud (Anthropic managed):
+      availability: beta
+      note: 您需要自行编写 worker，由其调用 环境工作端点。
 ---
 
 本页中的队列统计和停止调用从您的监控或运维工具中运行，并使用您的组织 API 密钥进行身份验证。worker 辅助工具会处理认领和保活循环，因此您无需直接调用这些端点。
@@ -326,7 +328,7 @@ featureMetadata:
 
 ## 优雅地停止 worker
 
-在会话运行期间被取消的 worker 会在退出前关闭该会话，就像您[停止会话](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-operations#stop-a-session-gracefully)时一样。如果该会话附加了[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory)，worker 会跳过最终同步，但仍会上传已更改的文件并删除存储目录。
+在会话运行期间被取消的 worker 会在退出前关闭该会话，就像您[停止会话](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-operations#stop-a-session-gracefully)时一样。如果该会话附加了[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory)，worker 仍会上传新增和已更改的文件并删除存储目录。它不会发送删除操作，因此智能体删除的记忆会保留在存储中，除非之前的某次同步已将其从存储中删除。
 
 被强制终止的进程不会执行任何清理。要干净地停止 worker：
 
@@ -338,9 +340,9 @@ featureMetadata:
    | 作为独立进程的 SDK worker          | `EnvironmentWorker` 不会安装任何信号处理程序。请像独立 worker 示例那样，从信号处理程序中取消 worker。 |
    | 位于 webhook 服务器内的 SDK worker | 请像 webhook 示例那样，从服务器自身的关闭钩子中取消 worker。worker 不得接管服务器的信号。             |
 
-2. **使用 SIGTERM 停止 worker，并在任何强制终止之前至少留出 30 秒（Python SDK worker 为 3 分钟）。** 将已更改的文件上传到记忆存储最多可能需要 30 秒，而 Python SDK worker 会先让正在进行的工具调用完成。默认情况下，Docker 会在发送停止信号 10 秒后发送 SIGKILL。可以通过 `docker run` 上的 `--stop-timeout`，或通过您的编排器的终止宽限期来提高该限制。
+2. **使用 SIGTERM 停止 worker，并在任何强制终止之前给它留出完成的时间。** worker 需要时间来结束正在进行的工具调用，并将已更改的文件上传到记忆存储。默认情况下，Docker 会在发送停止信号 10 秒后发送 SIGKILL。可以通过 `docker run` 上的 `--stop-timeout 60` (python: `--stop-timeout 210`) 来提高该限制，或将您的编排器的终止宽限期设置为相同的秒数。
 
-如果 worker 在执行清理之前被终止，任何尚未同步的记忆编辑都会丢失。在长期运行的主机上，还需要在下一个附加该存储的会话之前，删除 `/mnt/memory/` 下残留的存储目录。仅服务一个会话随后即被丢弃的沙箱无需清理。
+如果 worker 在执行清理之前被强制终止，任何尚未同步的记忆编辑都会丢失。在长期运行的主机上，还需要在下一个附加该存储的会话之前，删除 `/mnt/memory/` 下残留的存储目录。仅服务一个会话随后即被丢弃的沙箱无需清理。
 
 ## 故障排除
 
@@ -352,16 +354,18 @@ featureMetadata:
 
 没有 worker 在认领工作。排队中的会话会一直等待，而不会失败。请在[读取队列深度](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-operations#read-queue-depth)中检查 `workers_polling` (java, php: `workersPolling`; csharp, go: `WorkersPolling`) 和 `depth` (csharp, go: `Depth`)。
 
-### 记忆存储挂载失败
+### 记忆存储挂载或同步失败
 
-worker 会将挂载失败和后台同步失败记录到日志中，而不是报告给会话。只有只读拒绝会以工具错误的形式传达给智能体（请参阅[只读存储和冲突](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#read-only-stores-and-conflicts)）。
+记忆存储故障在何处显现取决于其类型：
 
-如果 worker 在认领会话时无法挂载记忆存储，它会使该工作项失败。会话不会发出错误事件，并保持空闲状态。
+* **挂载失败：** 如果 worker 在认领会话时无法挂载记忆存储，它会将该失败记录到日志中，并使该工作项失败。会话不会发出错误事件，并保持空闲状态。
+* **同步失败：** worker 会将该失败记录到日志中，而不会报告给会话。
+* **对只读存储的写入被拒绝：** 智能体会收到工具错误。请参阅[只读存储和冲突](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#read-only-stores-and-conflicts)。
 
 | 症状                                                                                                             | 原因                                                                                     | 解决方法                                                                                                                                                                                                                                                                                      |
 | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| worker 日志中包含 `the work item carried no sessions token`（在 Go 中为 `ErrSessionMemoryNoToken` 错误），且工作项失败。           | 工作项的每会话 `secret` (csharp, go: `Secret`) 未到达 worker。要么是您的代码没有转发它，要么是您的组织未启用自托管沙箱上的记忆存储。 | [转发工作项的机密](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers#forward-the-work-items-secret)。如果 worker 在同一进程中轮询并运行会话，但仍记录此日志，请联系支持团队。                                                                                                                    |
-| worker 日志中包含 `something already exists at the memory store's path`。                                            | 之前会话残留的目录，通常是其 worker 在执行清理之前就被终止的会话。                                                  | 删除日志行中指明的残留目录。其中尚未同步的编辑将会丢失。                                                                                                                                                                                                                                                              |
+| worker 日志中包含 `the work item carried no sessions token`（在 Go 中为 `ErrSessionMemoryNoToken` 错误），且工作项失败。           | 工作项的每会话 `secret` (csharp, go: `Secret`) 未到达 worker。要么是您的代码没有转发它，要么是您的组织未启用自托管沙箱上的记忆存储。 | [转发工作项的机密](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-per-session#forward-the-work-items-secret)。如果 worker 在同一进程中轮询并运行会话，但仍记录此日志，请联系支持团队。                                                                                                                |
+| worker 日志中包含 `something already exists at the memory store's path`。                                            | 同一文件系统上的另一个会话正在使用该路径。或者之前会话的 worker 在执行清理之前就被终止，导致该目录残留。                               | 检查是否仍有 worker 在运行使用该路径的会话。如果有，请不要删除该目录：worker 在完成该会话后会将其删除。如果没有，请删除日志行中指明的目录。其中尚未同步的编辑将会丢失。要同时运行两个此类会话，请参阅[隔离共享同一存储的会话](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#isolate-sessions-that-share-a-store)。                                          |
 | worker 日志中包含 `cannot create the memory store's folder` 和 `the worker host must make this mount path writable`。 | 运行 worker 的用户无法在 `/mnt/memory` 下创建目录。                                                  | 创建 `/mnt/memory` 并将其 `chown` 给该用户。请参阅[准备主机](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#prepare-the-host)。在 macOS 上，请改为按照[准备 macOS 主机](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#prepare-a-macos-host)操作。 |
 | 在 worker 认领会话后不久，会话处于 `idle` 状态，停止原因为 `requires_action`，且没有错误事件。                                               | 由于上述原因之一，worker 无法挂载记忆存储，因此使该工作项失败。                                                    | 在主机上修复原因，然后发送 [`user.interrupt`](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#interrupt-the-agent) 事件。会话的工作会重新排队，下一个认领它的 worker 会重试挂载。                                                                                                                      |
 

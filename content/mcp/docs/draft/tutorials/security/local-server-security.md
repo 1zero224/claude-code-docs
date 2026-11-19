@@ -7,7 +7,7 @@
 > Practical defaults for running MCP servers safely on your own machine.
 
 Most MCP security documentation covers the protocol threat model: OAuth flows,
-token handling, session hijacking, and confused deputy attacks. For those, see
+token handling, state handle hijacking, and confused deputy attacks. For those, see
 [Authorization](https://modelcontextprotocol.io/docs/draft/tutorials/security/authorization.md) and
 [Security Best Practices](https://modelcontextprotocol.io/docs/draft/tutorials/security/security_best_practices.md).
 
@@ -425,8 +425,8 @@ For a fleet:
 
 > [card] [Security Best Practices](https://modelcontextprotocol.io/docs/draft/tutorials/security/security_best_practices.md)
 >
-> The protocol threat model: confused deputy, token passthrough, and session
-> hijacking
+> The protocol threat model: confused deputy, token passthrough, and state
+> handle hijacking
 
 > [card] [Authorization](https://modelcontextprotocol.io/docs/draft/tutorials/security/authorization.md)
 >
@@ -439,3 +439,6 @@ For a fleet:
 > [card] [Connect to local servers](https://modelcontextprotocol.io/docs/draft/develop/connect-local-servers.md)
 >
 > Set up local servers in your client — the workflow this guide secures
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -1,7 +1,7 @@
 ---
 title: 视觉
 url: https://platform.claude.com/docs/zh-CN/build-with-claude/vision
-description: Claude 的视觉能力使其能够处理和分析图像，为多模态交互开辟了令人兴奋的可能性。
+description: 通过 API 向 Claude 发送图像，并了解适用的限制和费用。
 featureMetadata:
   status: stable
   supportedModels:
@@ -70,6 +70,10 @@ featureMetadata:
 
 <CodeGroup>
   ```bash cURL
+  curl -sSo vision-example.jpg https://platform.claude.com/docs/images/vision-example.jpg
+
+  BASE64_IMAGE_DATA=$(base64 vision-example.jpg | tr -d '\n')
+
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
     -H "anthropic-version: 2026-10-21" \
@@ -152,6 +156,9 @@ featureMetadata:
   ```typescript TypeScript
   const anthropic = new Anthropic();
 
+  const imageData =
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC";
+
   const message = await anthropic.messages.create({
     model: "claude-opus-5-5",
     max_tokens: 1024,
@@ -163,7 +170,7 @@ featureMetadata:
             type: "image",
             source: {
               type: "base64",
-              media_type: "image/jpeg",
+              media_type: "image/png",
               data: imageData // base64-encoded image data as string
             }
           },
@@ -180,10 +187,6 @@ featureMetadata:
   ```
 
   ```csharp C#
-  using System.Collections.Generic;
-  using Anthropic;
-  using Anthropic.Models.Messages;
-
   AnthropicClient client = new();
 
   string imageData = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC";
@@ -284,7 +287,7 @@ featureMetadata:
                       'type' => 'image',
                       'source' => [
                           'type' => 'base64',
-                          'media_type' => 'image/png',
+                          'mediaType' => 'image/png',
                           'data' => $imageData,
                       ],
                   ],
@@ -430,10 +433,6 @@ featureMetadata:
   ```
 
   ```csharp C#
-  using System.Collections.Generic;
-  using Anthropic;
-  using Anthropic.Models.Messages;
-
   AnthropicClient client = new();
 
   var message = await client.Messages.Create(new MessageCreateParams
@@ -509,7 +508,7 @@ featureMetadata:
               .addUserMessageOfContentBlockParams(contentBlockParams)
               .build()
       );
-  System.out.println(message);
+  IO.println(message);
   ```
 
   ```php PHP
@@ -572,6 +571,8 @@ featureMetadata:
 <Tip>
   在多轮对话和智能体工作流中，每个请求都会重新发送完整的对话历史。 如果图像采用 base64 编码，则每一轮的负载中都会包含完整的图像字节， 随着对话的增长，这可能会显著增加请求大小和延迟。将图像上传到 Files API 并通过 `file_id` 引用它们，无论对话历史中累积了多少图像， 都能使请求负载保持较小。
 </Tip>
+
+要使用示例中所用的图像来学习这些示例，请先将[示例图像](https://platform.claude.com/docs/images/vision-example.jpg)下载到您的工作目录。每个示例都会上传该文件 `vision-example.jpg`，然后通过上传返回的 `file_id` 引用它：
 
 <CodeGroup>
   ```bash cURL
@@ -702,8 +703,6 @@ featureMetadata:
   ```
 
   ```csharp C#
-  using System.Collections.Generic;
-  using Anthropic;
   using Anthropic.Core;
   using Anthropic.Models.Files;
   using Anthropic.Models.Messages;
@@ -787,55 +786,65 @@ featureMetadata:
   import com.anthropic.core.MultipartField;
   import com.anthropic.models.files.FileMetadata;
   import com.anthropic.models.files.FileUploadParams;
-  // ...
-          AnthropicClient client = AnthropicOkHttpClient.fromEnv();
+  import com.anthropic.models.messages.*;
+  import java.io.IOException;
+  import java.io.InputStream;
+  import java.nio.file.Files;
+  import java.nio.file.Path;
+  import java.util.List;
 
-          // 上传图像文件
-          FileMetadata file = client.files().upload(
-              FileUploadParams.builder()
-                  .file(
-                      MultipartField.<InputStream>builder()
-                          .value(Files.newInputStream(Path.of("vision-example.jpg")))
-                          .filename("vision-example.jpg")
-                          .contentType("image/jpeg")
+  void main() throws IOException {
+      AnthropicClient client = AnthropicOkHttpClient.fromEnv();
+
+      // 上传图片文件
+      FileMetadata file = client.files().upload(
+          FileUploadParams.builder()
+              .file(
+                  MultipartField.<InputStream>builder()
+                      .value(Files.newInputStream(Path.of("vision-example.jpg")))
+                      .filename("vision-example.jpg")
+                      .contentType("image/jpeg")
+                      .build()
+              )
+              .build()
+      );
+
+      // 在消息中使用已上传的文件
+      ImageBlockParam imageParam = ImageBlockParam.builder()
+          .fileSource(file.id())
+          .build();
+
+      MessageCreateParams params = MessageCreateParams.builder()
+          .model(Model.CLAUDE_OPUS_5_5)
+          .maxTokens(1024)
+          .addUserMessageOfContentBlockParams(
+              List.of(
+                  ContentBlockParam.ofImage(imageParam),
+                  ContentBlockParam.ofText(
+                      TextBlockParam.builder()
+                          .text("Describe this image.")
                           .build()
                   )
-                  .build()
-          );
-
-          // 在消息中使用已上传的文件
-          ImageBlockParam imageParam = ImageBlockParam.builder()
-              .fileSource(file.id())
-              .build();
-
-          MessageCreateParams params = MessageCreateParams.builder()
-              .model(Model.CLAUDE_OPUS_5_5)
-              .maxTokens(1024)
-              .addUserMessageOfContentBlockParams(
-                  List.of(
-                      ContentBlockParam.ofImage(imageParam),
-                      ContentBlockParam.ofText(
-                          TextBlockParam.builder()
-                              .text("Describe this image.")
-                              .build()
-                      )
-                  )
               )
-              .build();
+          )
+          .build();
 
-          Message message = client.messages().create(params);
-          System.out.println(message.content());
+      Message message = client.messages().create(params);
+      IO.println(message.content());
+  }
   ```
 
   ```php PHP
   use Anthropic\Core\FileParam;
-  use Anthropic\Messages\Model;
 
   $client = new Client();
 
   // 上传图像文件
+  $image = fopen('vision-example.jpg', 'rb')
+      ?: throw new \RuntimeException('Could not open vision-example.jpg.');
+
   $fileUpload = $client->files->upload(
-      file: FileParam::fromResource(fopen('vision-example.jpg', 'rb'), contentType: 'image/jpeg'),
+      file: FileParam::fromResource($image, contentType: 'image/jpeg'),
   );
 
   // 在消息中使用已上传的文件
@@ -1197,7 +1206,7 @@ featureMetadata:
                       'type' => 'image',
                       'source' => [
                           'type' => 'base64',
-                          'media_type' => 'image/png',
+                          'mediaType' => 'image/png',
                           'data' => $image1Data,
                       ],
                   ],
@@ -1206,7 +1215,7 @@ featureMetadata:
                       'type' => 'image',
                       'source' => [
                           'type' => 'base64',
-                          'media_type' => 'image/png',
+                          'mediaType' => 'image/png',
                           'data' => $image2Data,
                       ],
                   ],
@@ -1370,7 +1379,7 @@ Claude 以图块（patch）而非像素为单位处理图像。每个图块是�
   </Accordion>
 
   <Accordion title="我可以上传的图像文件大小有限制吗？">
-    有。有关 Claude API、Amazon Bedrock、Claude Models on Google Cloud (Google managed) 和 claude.ai 上的单图和整体请求大小限制，请参阅[请求限制](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#request-limits)。
+    有。有关单张图像和整个请求的大小限制，请参阅[请求限制](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#request-limits)。
   </Accordion>
 
   <Accordion title="一个请求中可以包含多少张图像？">

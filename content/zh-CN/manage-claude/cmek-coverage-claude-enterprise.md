@@ -14,7 +14,7 @@ description: 查看您的密钥加密哪些 Claude Enterprise 数据、哪些功
 * CLI 上的 Claude Code，包括消息内容。
 * Claude Desktop 中的 Cowork。
 * 统一 Claude 体验中的聊天，仅限网页端。**Computer access** 处于关闭状态。
-* Office agents，包括 Claude for Outlook（beta）。
+* Office agents，包括 Claude for Outlook。
 * Claude in Chrome。
 * Claude Science（处于 beta 阶段）。
 * [插件 API](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#customer-managed-encryption-keys)（beta）插件版本：每个版本的描述、发行说明、组件和文件。该页面列出了在您的密钥无法使用时仍可正常工作的请求。

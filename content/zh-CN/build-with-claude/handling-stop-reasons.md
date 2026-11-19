@@ -1381,37 +1381,36 @@ Claude 正在调用一个需要您运行的工具。
   ```
 
   ```java Java
-  void main() {
-      AnthropicClient client = AnthropicOkHttpClient.fromEnv();
+  AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-      Tool weatherTool = Tool.builder()
-          .name("get_weather")
-          .description("Get the current weather in a given location")
-          .inputSchema(Tool.InputSchema.builder()
-              .properties(JsonValue.from(Map.of(
-                  "location", Map.of("type", "string", "description", "City and state")
-              )))
-              .putAdditionalProperty("required", JsonValue.from(List.of("location")))
-              .build())
-          .build();
+  Tool weatherTool = Tool.builder()
+      .name("get_weather")
+      .description("Get the current weather in a given location")
+      .inputSchema(Tool.InputSchema.builder()
+          .properties(JsonValue.from(Map.of(
+              "location", Map.of("type", "string", "description", "City and state")
+          )))
+          .putAdditionalProperty("required", JsonValue.from(List.of("location")))
+          .build())
+      .build();
 
-      Message response = client.messages().create(
-          MessageCreateParams.builder()
-              .model(Model.CLAUDE_OPUS_5_5)
-              .maxTokens(1024L)
-              .addTool(weatherTool)
-              .addUserMessage("What is the weather in San Francisco?")
-              .build()
-      );
+  Message response = client.messages().create(
+      MessageCreateParams.builder()
+          .model(Model.CLAUDE_OPUS_5_5)
+          .maxTokens(1024L)
+          .addTool(weatherTool)
+          .addUserMessage("What is the weather in San Francisco?")
+          .build()
+  );
 
-      if (response.stopReason().map(StopReason.TOOL_USE::equals).orElse(false)) {
-          // 提取并运行工具
-          for (ContentBlock block : response.content()) {
-              block.toolUse().ifPresent(toolUse -> {
-                  // 使用 toolUse.input() 运行 toolUse.name()，并将结果返回给 Claude
-              });
-          }
+  if (response.stopReason().map(StopReason.TOOL_USE::equals).orElse(false)) {
+      // 提取并运行工具
+      for (ContentBlock block : response.content()) {
+          block.toolUse().ifPresent(toolUse -> {
+              // 使用 toolUse.input() 运行 toolUse.name()，并将结果返回给 Claude
+          });
       }
+  }
   ```
 
   ```php PHP
@@ -1478,11 +1477,17 @@ Claude 正在调用一个需要您运行的工具。
   ```
 </CodeGroup>
 
-`tool_use` 响应还可能包含一个 `server_tool_use` 块，其 `id` 没有匹配的结果块。该服务器工具调用尚未完成，并且此响应不包含其结果。常见情况是，Claude 在同一组并行工具调用中调用了一个[服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools)和您的某个客户端工具：API 在不运行服务器工具的情况下返回，以便您可以先运行客户端工具。此状态没有其他标记；可以通过检查每个 `server_tool_use` 或 `mcp_tool_use` 块的 `id` 是否有匹配的结果块来检测。
+#### 当服务器工具仍在等待时
+
+Claude 可以在同一组[并行工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/parallel-tool-use)中调用一个[服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools)和一个客户端工具（由您的代码运行的工具）。随后，API 会在不运行服务器工具的情况下返回 `tool_use` 响应，以便您可以先运行客户端工具。
+
+正在等待的调用是一个没有结果块的 `server_tool_use` 或 `mcp_tool_use` 块。响应中没有其他内容对其进行标记。服务器工具运行后，其结果块（例如 `web_search_tool_result`）会在其 `tool_use_id` 字段中保存该调用的 `id`。
 
 <Note>
   使用 [programmatic tool calling](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)（程序化工具调用）时，相同的响应形态含义不同。客户端 `tool_use` 块来自在 `code_execution` 工具中运行的代码，而不是直接来自 Claude，其 `caller` 字段指明调用它的 `code_execution` 块。该代码已经开始运行：它处于暂停状态，等待您的 `tool_result` 块，发送这些块会恢复执行，而不是启动一个延迟的工具。`code_execution` 块自身的结果块会在代码完成后到达，这可能需要不止一轮工具结果。两种情况下的后续用户消息本身是相同的；使用程序化工具调用时，还需按该页面所示传回响应的 `container` 字段中的 `id`。
 </Note>
+
+以下混合响应包含一个正在等待的服务器工具和一个客户端工具调用：
 
 ```json A mixed tool_use response
 {
@@ -1504,7 +1509,13 @@ Claude 正在调用一个需要您运行的工具。
 }
 ```
 
-继续的方式是发送一条由 `tool_result` 块组成的用户消息，响应中的每个 `tool_use` 块对应一个（参见[处理工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/handle-tool-calls)），并附加两条规则：该消息除 `tool_result` 块外不得包含任何其他内容，且请求必须保持相同的 `tools` 数组。如果恢复请求不再定义正在等待的服务器工具，则会以 400 失败，其消息以 ``but no `web_search` tool was provided`` 结尾。API 会将您的结果附加到仍处于打开状态的助手轮次，运行被延迟的服务器工具（对于暂停的代码执行，则恢复它），并继续该轮次。对于 Claude 直接调用的服务器工具，下一个响应的 `content` 以回应上一个响应中 `server_tool_use` `id` 的结果块开头。
+要从类似这样的混合响应继续，请构建一个后续请求：
+
+1. 保留之前的消息，并将响应的 `content` 原样作为 `assistant` 消息添加。
+2. 添加一条仅包含 `tool_result` 块的用户消息，每个客户端 `tool_use` 块对应一个。正在等待的调用不需要对应的块。
+3. 使用与之前相同的 `tools` 数组发送请求，以便正在等待的服务器工具仍然有定义。
+
+有关 `tool_result` 块的字段，请参阅[处理工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/handle-tool-calls)。后续请求中的用户消息如下所示：
 
 ```json The follow-up user message
 {
@@ -1519,19 +1530,39 @@ Claude 正在调用一个需要您运行的工具。
 }
 ```
 
-在该用户消息的 `tool_result` 块之后添加任何内容（例如文本）都会结束助手轮次；对于 Claude 直接调用的服务器工具，请求随后会以 400 `invalid_request_error` 失败，并指明未解决的服务器工具：
+API 会将您的结果添加到 Claude 未完成的轮次中，运行正在等待的服务器工具，然后继续。对于 Claude 直接调用的服务器工具，下一个响应的 `content` 以该工具的结果块开头。
 
-```text wrap
-`web_search` tool use with id `srvtoolu_01HxbWnMRmbWyMfUtJKC45rA` was found without a corresponding `web_search_tool_result` block
-```
+对每个 `tool_use` 响应都遵循上述步骤的循环无需检测正在等待的服务器工具。在后续请求中，请在 `messages` 中按以下顺序保留三条独立的消息：第一个响应、您的 `tool_result` 消息，以及下一个响应。
 
-遗漏某个 `tool_result`，或将其放在其他内容之后，则会更早地以标准的 `tool_use ids were found without tool_result blocks immediately after` 错误失败。若要向 Claude 提供更多输入，请在轮次完成后将其作为单独的用户消息发送。
+有两种情况需要在后续请求中多提供一个字段：
+
+* **响应包含 `container`：** 将其 ID 发回（请参阅代码执行工具的[容器复用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#container-reuse)部分）。
+* **正在等待的块是 [`mcp_tool_use` 块](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#mcp-tool-use-block)：** 发送与之前相同的 `mcp_servers`。
+
+后续请求中的以下每种错误都会以 400 `invalid_request_error` 失败。所示消息适用于网络搜索。对于其他服务器工具，消息中的名称会有所不同。
+
+| 错误                                     | 错误消息包含                                                                         |
+| -------------------------------------- | ------------------------------------------------------------------------------ |
+| `tools` 不再定义正在等待的服务器工具                 | ``but no `web_search` tool was provided``                                      |
+| 文本或其他内容位于 `tool_result` 块之后            | ``was found without a corresponding `web_search_tool_result` block``           |
+| 使用程序化工具调用时，文本或其他内容位于 `tool_result` 块之后 | `only tool_result blocks are allowed`                                          |
+| 文本或其他内容位于 `tool_result` 块之前            | `` `tool_use` ids were found without `tool_result` blocks immediately after `` |
+| 缺少某个 `tool_result` 块                   | `` `tool_use` ids were found without `tool_result` blocks immediately after `` |
+
+`tool_result` 块之后的内容会导致失败，因为它会在服务器工具仍在等待时结束 Claude 的轮次。若要向 Claude 提供更多输入，请继续直到某个响应的 `stop_reason` 既不是 `tool_use` 也不是 `pause_turn`。然后，在同一个 `messages` 列表中将该输入作为新的用户消息发送。
 
 ### pause\_turn
 
 当服务器端采样循环在运行[服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools)（例如网络搜索）时达到其迭代限制时返回。默认限制为每个请求 10 次迭代。
 
-发生这种情况时，响应可能包含一个没有对应结果块的 `server_tool_use` 块。要让 Claude 完成处理，请将响应原样发送回去以继续对话。留有等待您处理的客户端 `tool_use` 块的响应，其 `stop_reason` 永远不会是 `pause_turn`：当 Claude 停下来调用您的工具时，`stop_reason` 是 [`tool_use`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#tool-use)，您需要通过发送客户端 `tool_result` 块（而不是响应本身）来继续。
+当 Claude 停下来调用由您运行的工具时，停止原因是 [`tool_use`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#tool-use)，而永远不会是 `pause_turn`。
+
+要让 Claude 完成暂停的轮次，请构建一个新请求：
+
+1. 保留之前的消息，并将响应的 `content` 原样作为 `assistant` 消息添加，包括任何没有结果块的 `server_tool_use` 块。
+2. 使用与之前相同的 `tools` 发送请求，并且不要在 `assistant` 消息之后添加用户消息。
+
+如果响应包含 `container`，也请将其 ID 发回，以便该轮次保留其文件。有关详细信息，请参阅代码执行工具的[容器复用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#container-reuse)部分。以下示例使用网络搜索，且不发送容器 ID：
 
 <CodeGroup>
   ```bash cURL
@@ -1745,9 +1776,7 @@ Claude 正在调用一个需要您运行的工具。
   ```
 </CodeGroup>
 
-<Note>
-  您的应用程序应在任何使用服务器工具的智能体循环中处理 `pause_turn`。将助手的响应添加到您的消息数组中，并发起另一个 API 请求以让 Claude 继续。
-</Note>
+您的应用程序应在任何使用服务器工具的智能体循环中处理 `pause_turn`。有关处理多次暂停并发回容器 ID 的循环，请参阅[为 pause\_turn 实现重试逻辑](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#implement-retry-logic-for-pause-turn)。
 
 ### refusal
 

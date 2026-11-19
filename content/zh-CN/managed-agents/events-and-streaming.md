@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -683,15 +683,15 @@ featureMetadata:
 3. 针对每个阻塞事件 ID，发送一个 [`user.custom_tool_result`](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#return-a-custom-tool-result) 或 [`user.tool_confirmation`](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#confirm-a-tool-call) 事件。自定义工具结果不必等待第 2 步。
 4. 所有阻塞事件都解决后，会话会转换回 `running`。
 
-在多智能体会话中，子智能体的阻塞事件会被交叉发布到主线程。请参阅[工具权限和自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads#tool-permissions-and-custom-tools)。
+在多智能体会话中，服务器会将子智能体的阻塞事件交叉发布到主线程。请参阅[工具权限和自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads#tool-permissions-and-custom-tools)。
 
 ### 返回自定义工具结果
 
 `agent.custom_tool_use` 事件包含工具名称和输入。在您的系统中运行该工具。然后发送 `user.custom_tool_result` 事件，在 `custom_tool_use_id` (java: `customToolUseId`; php: `customToolUseID`; csharp, go: `CustomToolUseID`) 参数中传入事件 ID，并附上结果内容。
 
-您可以在 `agent.custom_tool_use` 事件到达后立即发送结果，无需等待 `session.status_idle`。会话仍会针对该调用发出带有 `requires_action` 停止原因的 `session.status_idle`，您的客户端可以忽略它。针对同一调用的第二个结果会被接受，但不会产生任何效果。
+您可以在 `agent.custom_tool_use` 事件到达后立即发送结果，无需等待 `session.status_idle`。会话仍会针对该调用发出带有 `requires_action` 停止原因的 `session.status_idle`，您的客户端可以忽略它。服务器会接受针对同一调用的第二个结果，但该结果不会产生任何效果。
 
-当您[重新连接](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#reconnect-without-missing-events)到已暂停的会话时，最新 `session.status_idle` 事件上的 `stop_reason.event_ids` 会列出需要回答的调用。
+当您[重新连接到已暂停的会话](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#reconnect-without-missing-events)时，最新 `session.status_idle` 事件上的 `stop_reason.event_ids` 会列出需要回答的调用。
 
 以下示例在每个调用到达时回答它：
 
@@ -1251,7 +1251,7 @@ featureMetadata:
   ```
 </CodeGroup>
 
-除非会话被显式删除，否则对话历史会被保留。当会话进入空闲状态时，其沙箱会被创建检查点。检查点保留完整的沙箱状态，包括文件系统、已安装的软件包以及智能体创建的任何文件。
+会话会保留其对话历史，直到您删除该会话。当会话进入空闲状态时，Claude Managed Agents 会为其沙箱创建检查点。检查点保留完整的沙箱状态，包括文件系统、已安装的软件包以及智能体创建的任何文件。
 
 <Note>
   沙箱状态仅在沙箱创建后保留 30 天，且活动不会延长此期限。30 天后，沙箱状态（文件、已安装的工具等）将无法恢复，恢复的会话将从全新的沙箱开始。如果您的工作流依赖于沙箱内容，请让智能体在期限结束前将重要产物写入[输出](https://platform.claude.com/docs/zh-CN/managed-agents/define-outcomes#retrieving-deliverables)。
@@ -1607,7 +1607,7 @@ featureMetadata:
 
 在[受支持的模型](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#supported-models)上，发送 `system.message` 事件可为智能体提供特权的系统级上下文。该上下文适用于随附的轮次以及所有后续轮次。当智能体在会话中途需要更新的系统级指导时使用它，例如不同的角色设定、修订后的约束条件或在运行时获取的上下文。
 
-该事件的 `content` (csharp, go: `Content`) 接受 1–1,000 个文本项。内容作为 `role: "system"` 轮次追加到会话的系统上下文中。它不会替换顶层系统提示，顶层系统提示由智能体定义上的 `system` (csharp, go: `System`; ruby: `system_`) 字段设置。
+该事件的 `content` (csharp, go: `Content`) 接受 1–1,000 个文本项。服务器将内容作为 `role: "system"` 轮次追加到会话的系统上下文中。它不会替换顶层系统提示，顶层系统提示由智能体定义上的 `system` (csharp, go: `System`; ruby: `system_`) 字段设置。
 
 <CodeGroup>
   ```bash cURL
@@ -1762,7 +1762,7 @@ featureMetadata:
 * Claude Sonnet 5.5
 * Claude Haiku 5.5
 
-如果智能体的主模型不支持在对话中途注入系统内容，该事件将被拒绝，并返回 `model_does_not_support_mid_conversation_system` 验证错误。子智能体模型不会被检查，因为 `system.message` 仅落在主线程上。
+如果智能体的主模型不支持在对话中途注入系统内容，API 将拒绝该事件，并返回 `model_does_not_support_mid_conversation_system` 验证错误。API 不会检查子智能体模型，因为 `system.message` 仅落在主线程上。
 
 ### 工具调用待处理时的系统消息
 

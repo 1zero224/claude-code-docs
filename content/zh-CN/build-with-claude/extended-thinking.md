@@ -31,7 +31,7 @@ featureMetadata:
 
 手动模式下的 “extended thinking”（扩展思考）让您可以直接控制 Claude 的思考量。您在每个请求上通过 `thinking: {type: "enabled", budget_tokens: N}` 设置思考令牌预算，Claude 会在开始给出最终答案之前依据该预算进行思考。当您的工作负载需要可预测的延迟或对思考成本的精确控制时，手动模式仍然很有用。本页介绍如何设置和调整预算、手动模式如何与交错思考和 “prompt caching”（提示缓存）交互，以及如何迁移到自适应思考。
 
-要了解思考本身的工作原理，包括思考块和响应结构、`display` 参数、"streaming"（流式传输）、结合 “tool use”（工具使用）的思考以及加密，请参阅[思考概述](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)。
+要了解思考本身的工作原理，包括思考块和响应结构、`display` 参数、"streaming"（流式传输）、结合 “tool use”（工具使用）的思考以及加密，请参阅[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)。
 
 ## 支持的模型
 
@@ -317,7 +317,7 @@ Claude Haiku 4.5 不支持交错思考。在 Claude API 上，beta 头会被接�
 
 不同平台对 beta 标头的处理方式有所不同。Claude API、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 和 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 在任何模型上都接受 `interleaved-thinking-2025-05-14`，并在不支持的情况下忽略它。接受并不等同于生效：在拒绝 `type: "enabled"` 的模型（4.7 及更高版本）或不支持手动模式交错的模型（Claude Opus 4.6）上，该标头不会产生手动模式效果；在这些模型上，adaptive thinking（自适应思考）会自动进行交错。
 
-由合作伙伴运营的平台，即 [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) 和 [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)，同样会在任何模型上接受该标头而不返回错误，并在不支持交错思考的模型上忽略该标头。
+由合作伙伴运营的平台，即 [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) 和 [Amazon Bedrock (`bedrock-mantle`)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)，会在任何模型上接受该标头而不返回错误，并在不支持交错思考的模型上忽略该标头。
 
 ## 手动模式下的轮次结构
 
@@ -346,7 +346,7 @@ Third response usage: { cache_creation_input_tokens: 1370, cache_read_input_toke
 
 ## 共享机制
 
-大多数思考行为与模式无关，并在[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)页面上统一记录。那里的所有内容同样适用于手动模式：
+大多数思考行为与模式无关，并在[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)页面上统一记录。以下各节同样适用于手动模式：
 
 * [控制思考显示](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display)
 * [流式传输思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#streaming-thinking)
@@ -358,7 +358,7 @@ Third response usage: { cache_creation_input_tokens: 1370, cache_read_input_toke
 
 ## 迁移到自适应思考
 
-如果您的模型仅支持扩展思考（Claude Sonnet 4.5（已弃用）、Claude Opus 4.5、Claude Haiku 4.5 以及更早的 Claude 4 模型），目前无需采取任何操作：这些模型不支持自适应思考，`type: "adaptive"` [会返回 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-type-adaptive)。请继续使用 `budget_tokens`，直到您迁移到支持自适应思考的模型，然后应用下面的映射。
+如果您的模型仅支持扩展思考，则无需采取任何操作。这些模型是 Claude Sonnet 4.5（已弃用）、Claude Opus 4.5、Claude Haiku 4.5 以及更早的 Claude 4 模型。这些模型不支持自适应思考，`type: "adaptive"` [会返回 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-type-adaptive)。请继续使用 `budget_tokens`，直到您迁移到支持自适应思考的模型，然后应用下面的映射。
 
 在以下情况下，您需要从 `type: "enabled"` 迁移：
 
@@ -395,11 +395,11 @@ Third response usage: { cache_creation_input_tokens: 1370, cache_read_input_toke
 
 `effort: "high"` 是 Claude Sonnet 4.6 上的默认值，因此在此处省略它会产生相同的行为；这里写出它只是为了展示自适应模式下深度控制的位置。Claude Opus 5.5 和 Claude Haiku 5.5 默认为 `"medium"`，其他支持 effort 的模型默认为 `"high"`（请参阅 [Effort 级别](https://platform.claude.com/docs/zh-CN/build-with-claude/effort#effort-levels)）。
 
-请预期行为上的差异，而不仅仅是语法上的变化。使用固定预算时，Claude 会在每个请求上进行思考。使用自适应思考时，Claude 会决定每个请求是否思考以及思考多少，并且在较低的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 设置下，对于简单输入可能会完全跳过思考。迁移后，您还可以移除 `interleaved-thinking-2025-05-14` beta 标头：自适应思考会自动交错，且 Claude API 在这些模型上会忽略该标头。思考块保留方式也会变化：Claude Opus 4.5 以及版本号为 4.6 及更高的模型会在上下文中保留先前轮次的思考块并将其作为输入计费，而 Claude Sonnet 4.5（已弃用）、Claude Haiku 4.5 以及更早的模型会将其剥离；请参阅[按模型划分的思考块保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-block-preservation-by-model)。
+请预期行为上的差异，而不仅仅是语法上的变化。使用固定预算时，Claude 会在每个请求上进行思考。使用自适应思考时，Claude 会决定每个请求是否思考以及思考多少，并且在较低的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 设置下，对于简单输入可能会完全跳过思考。迁移后，您还可以移除 `interleaved-thinking-2025-05-14` beta 标头：自适应思考会自动交错，且 Claude API 在这些模型上会忽略该标头。思考块保留方式也会变化。Claude Opus 4.5 以及版本号为 4.6 及更高的模型会在上下文中保留先前轮次的思考块并将其作为输入计费。Claude Sonnet 4.5（已弃用）、Claude Haiku 4.5 以及更早的模型会将其剥离。请参阅[按模型划分的思考块保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-block-preservation-by-model)。
 
 切换模式属于思考配置更改，因此切换后的第一个请求会使缓存断点失效，如[手动模式下的提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#extended-thinking-with-prompt-caching)中所述。
 
-有关完整指南，请参阅[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)、[effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 以及[模型迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)。
+有关完整指南，请参阅[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)、[Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 以及[迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)。
 
 ## 后续步骤
 

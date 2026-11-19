@@ -8,7 +8,7 @@ description: 每天一次，将您的 SIEM 已存储的声明活动与端点的�
   要启用 Compliance API，请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
 </Note>
 
-活动源可能会延迟交付活动，而端点不保留历史记录，因此每个来源都可能显示另一个来源所没有的变更。每日核对可以找出您的安全信息和事件管理（security information and event management，SIEM）存储中缺少的内容。活动源并不记录[每项变更](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#what-the-feed-does-not-record)，因此某个声明可能早于活动源中该安全控制项的第一个活动，在极少数情况下，某项变更根本没有活动。如果您只报告当前结果，则不需要此核对。
+活动源可能会延迟交付活动，而端点不保留历史记录。因此，每个来源都可能显示另一个来源所没有的变更。每日核对可以找出您的安全信息和事件管理（security information and event management，SIEM）存储中缺少的内容。活动源并不记录每项变更（请参阅[活动源不记录的内容](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#what-the-feed-does-not-record)）。因此，某个声明可能早于活动源中该安全控制项的第一个活动。在极少数情况下，某项变更根本没有活动。如果您只报告当前结果，则不需要此核对。
 
 您需要一个覆盖该组织的 Compliance Access Key，其中包含用于端点的 `read:compliance_org_data` 和用于活动源的 `read:compliance_activities`，或者包含同时适用于两者的 `read:org_audit`。
 
@@ -49,7 +49,7 @@ description: 每天一次，将您的 SIEM 已存储的声明活动与端点的�
 
 ## 判断每个不一致的含义
 
-剩下的每个控制项恰好符合一行。
+剩下的每个控制项恰好符合一行。在此表中，请将 `null` 的 `state` 视为 `in_force`。
 
 | #  | 最新的已存储活动                                                                      | 响应中的条目                                                                                                         | 判定  | 处理方式                                                                                                                                                                                                                |
 | -- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -29,23 +29,11 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -57,15 +45,11 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -80,8 +64,6 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -111,8 +93,6 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -140,6 +120,48 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -226,23 +248,11 @@ Fetches a tunnel by ID.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -254,15 +264,11 @@ Fetches a tunnel by ID.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -277,8 +283,6 @@ Fetches a tunnel by ID.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -308,8 +312,6 @@ Fetches a tunnel by ID.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -337,6 +339,48 @@ Fetches a tunnel by ID.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -433,23 +477,11 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -461,15 +493,11 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -484,8 +512,6 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -515,8 +541,6 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -544,6 +568,48 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -635,23 +701,11 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -663,15 +717,11 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -686,8 +736,6 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -717,8 +765,6 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -746,6 +792,48 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -832,23 +920,11 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -860,15 +936,11 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -883,8 +955,6 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -914,8 +984,6 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -943,6 +1011,48 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1016,23 +1126,11 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1044,15 +1142,11 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1067,8 +1161,6 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1098,8 +1190,6 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1127,6 +1217,48 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1252,23 +1384,11 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1280,15 +1400,11 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1303,8 +1419,6 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1334,8 +1448,6 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1363,6 +1475,48 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1460,23 +1614,11 @@ Fetches a tunnel certificate by ID.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1488,15 +1630,11 @@ Fetches a tunnel certificate by ID.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1511,8 +1649,6 @@ Fetches a tunnel certificate by ID.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1542,8 +1678,6 @@ Fetches a tunnel certificate by ID.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1571,6 +1705,48 @@ Fetches a tunnel certificate by ID.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1678,23 +1854,11 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1706,15 +1870,11 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1729,8 +1889,6 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1760,8 +1918,6 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1789,6 +1945,48 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1891,23 +2089,11 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1919,15 +2105,11 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1942,8 +2124,6 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1973,8 +2153,6 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -2002,6 +2180,48 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 

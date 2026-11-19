@@ -64,6 +64,12 @@ For example, servers that have been updated since 2025-10-23 can be fetched usin
 curl "https://registry.modelcontextprotocol.io/v0.1/servers?updated_since=2025-10-23T00:00:00.000Z"
 ```
 
+### Efficient synchronization
+
+After the initial paginated download, use `updated_since` for subsequent syncs instead of downloading the entire registry again. Keep the same timestamp while following every `nextCursor`, and save a new checkpoint only after all pages have been applied successfully. Keep a small overlap between sync windows and deduplicate by server name and version so retries and timestamp boundaries do not lose updates. Incremental results include deleted servers; apply those status changes to your local copy too.
+
+Use a client that negotiates and decodes HTTP compression, for example `curl --compressed`. Persist results locally and avoid repeating a full crawl for each user request. If a request fails or is rate limited, retry with backoff rather than restarting concurrent full downloads.
+
 ## Server Status
 
 Server metadata is generally immutable, except for the `status` field which may be updated to, e.g., `"deprecated"` or `"deleted"`. We recommend that aggregators keep their copy of each server's `status` up to date.
@@ -107,3 +113,6 @@ The subregistry OpenAPI spec allows subregistries to inject custom metadata via 
 ```
 
 We recommend that custom metadata be put under a key that reflects the subregistry (e.g., `"com.example.subregistry/custom"` in the above example).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

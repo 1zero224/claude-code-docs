@@ -10,18 +10,23 @@ description: 将 API 请求归属到您的平台所服务的终端客户，使�
 
 您只需使用 `POST /v1/user_profiles` 为每个终端客户注册一次，并存储返回的 `uprof_` ID。然后，在您代表该终端客户发出的每个请求中，通过 `anthropic-user-profile-id` 标头发送该 ID。
 
-就其本身而言，配置文件不会改变计费或定价。
+就其本身而言，配置文件不会改变计费或定价。如果您使用 [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections)，配置文件也是您标识要计费的客户的方式。
 
 ## 确定为谁创建配置文件
 
-配置文件代表什么取决于您销售 Claude 的方式：是使用您产品的个人，还是您向其转售 API 访问权限的公司。这两种情况涵盖了大多数平台。配置文件的 `access_type` 字段表明适用哪一种。
+每个终端客户对应一个配置文件，因此一家公司对应一个覆盖整个公司的配置文件，而不是为公司中的每个人分别创建。在您为该公司中任何人发出的每个请求中，都发送该配置文件的 ID。如果还要告知 Anthropic 请求来自哪个人，请参阅[识别公司内的某一个人](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#identify-individual-users-within-a-company)。
 
-| 流量的服务对象                  | 配置文件                                                                                                                                          | `access_type`                             |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| 您产品的已注册用户                | 每个用户一个，在用户注册时创建。                                                                                                                              | `application`（默认值，省略 `access_type` 时即为此值） |
-| 您向其转售 API 访问权限的公司，例如作为网关 | 每个公司一个，而不是公司内的每个人一个。                                                                                                                          | `passthrough`（非默认值，因此您必须发送它）              |
-| 您自己的组织                   | 无。Anthropic 会将不带配置文件 ID 的请求计为您自己的使用量。请将这部分使用量放在[单独的组织](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#before-you-begin)中。 | 不适用                                       |
-| 您组织中的工作区                 | 无需单独的配置文件。配置文件属于您的组织，其 ID 可用于通过该组织中任何工作区发出的请求。                                                                                                | 不适用                                       |
+配置文件的 `access_type` 字段表明终端客户是使用您的产品，还是从您这里购买 API 访问权限（例如通过您的网关）：
+
+| 终端客户                | `access_type`                             |
+| ------------------- | ----------------------------------------- |
+| 使用您的产品              | `application`（默认值，省略 `access_type` 时即为此值） |
+| 是从您这里购买 API 访问权限的公司 | `passthrough`（非默认值，因此您必须发送它）              |
+
+请勿为以下任一对象创建配置文件：
+
+* **您自己的使用量：** Anthropic 会将不带配置文件 ID 的请求计为您自己的使用量。请将这部分使用量放在单独的组织中，如[开始之前](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#before-you-begin)所述。
+* **您组织中的工作区：** 配置文件属于您的组织，而不是某个工作区，因此该配置文件的 ID 可用于通过该组织中任何工作区发出的请求。例外情况是通过[创建工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/create)或[更新工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/update)中的 `user_profile_id` 附加了其他配置文件的工作区。通过该工作区发出的每个推理请求都必须携带所附加配置文件的 ID，API 会拒绝携带其他 ID 或不带 ID 的请求。
 
 ## 配置文件包含的内容以及 Anthropic 如何使用它
 
@@ -49,7 +54,7 @@ Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 没有 `/v1/us
 
 为您向 Claude 发送其流量的每个终端客户创建一个配置文件。请在您的客户入驻流程中创建一次。`POST /v1/user_profiles` 不是幂等的，因此每次调用都会创建一个新的配置文件，即使 `reference_id` 与现有配置文件相同也是如此。如果您已有尚未创建配置文件的终端客户，请参阅本节后面关于注册现有客户群的指导。
 
-以下示例注册了一家通过网关购买 API 访问权限的公司，因此将 `access_type` 设置为 `passthrough`。对于 `application` 配置文件，请省略 `access_type`，并在 `name` 和 `external_user_details` 中描述单个终端用户，而不是公司。[确定为谁创建配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#decide-who-gets-a-profile)比较了这两种访问类型。
+以下示例注册了一家从您这里购买 API 访问权限的公司，因此该请求将 `access_type` 设置为 `passthrough`。对于 `application` 配置文件，请省略 `access_type`。[确定为谁创建配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#decide-who-gets-a-profile)说明了应使用哪种访问类型。
 
 <CodeGroup>
   ```bash cURL
@@ -152,7 +157,7 @@ Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 没有 `/v1/us
       var profile = client.userProfiles().create(params);
 
       IO.println(profile.id());
-  // ...
+      // ...
   }
   ```
 
@@ -219,11 +224,11 @@ Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 没有 `/v1/us
 设置字段时请遵循以下规则：
 
 * **未知值：** 如果您不知道某个值，请省略它，而不是发送占位值。您之后可以替换 `external_user_details` 中的值，但无法清除它。
-* **公司名称：** 对于 `passthrough` 配置文件，如果您知道公司的法定名称，请在 `name` 中发送。
+* **名称：** 在 `name` 中发送终端客户的真实名称。对于公司，如果您知道该公司的法定名称，请发送该名称。
+* **无法共享的名称和电子邮件地址：** 省略 `name`，改为发送 `external_user_details.name_hash`。对于电子邮件地址，请发送 `external_user_details.email_hash`，因为配置文件没有用于存放电子邮件地址本身的字段。
 * **国家/地区：** 在 `country` 中发送终端客户所在的国家/地区，而不是您所在的国家/地区。
 * **您自己的 ID：** 在 `reference_id` 中发送您为该终端客户使用的稳定标识符。它不必是唯一的。
-* **无法共享的姓名和电子邮件地址：** 省略 `name`，改为发送 `external_user_details.name_hash`。对于电子邮件地址，请发送 `external_user_details.email_hash`。配置文件没有用于存放地址本身的字段。
-* **哈希值：** 请使用您选择的函数自行计算哈希值。它们可以向 Anthropic 表明您的哪些配置文件共享同一姓名或电子邮件地址。请对每个配置文件使用相同的函数以及相同的大小写和空白规范化方式，因为只有以相同方式计算的值才能匹配。
+* **哈希值：** 请使用您选择的函数自行计算哈希值。这些哈希值可以向 Anthropic 表明您的哪些配置文件具有相同的名称或电子邮件地址。只有以相同方式计算的值才能匹配，因此对于每个配置文件，请使用相同的函数，并以相同的方式处理大小写和空白。
 
 ## 归属每个请求
 
@@ -364,6 +369,10 @@ Claude API、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic m
 
 Message Batches 是个例外：创建批处理时只检查 ID 的格式。如果格式正确的 ID 不属于发送批处理的组织，批处理仍会被创建，但其中的每个请求随后都会失败，返回包含相同 `invalid_request_error` 的 `errored` 结果。
 
+### 识别公司内的某一个人
+
+公司的配置文件标识的是该公司，而不是发出请求的个人。如果请求来自您能够识别的某一个人，还请在 Messages 请求中将 [`metadata.user_id`](https://platform.claude.com/docs/zh-CN/api/messages/create) 设置为该人的标识符。此字段位于请求自身的 `metadata` 对象中，而不是配置文件的 `metadata` 字段中。该标识符是可选的，有助于 Anthropic 检测个人的滥用行为。
+
 ### 在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上归属请求
 
 任一访问类型的配置文件 ID 也适用于 Claude Models on Google Cloud (Google managed) 和 [Amazon Bedrock 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)。它不适用于您通过 `InvokeModel` 或 `Converse` 调用的 [Amazon Bedrock (`bedrock-runtime`)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)。您仅使用 Anthropic 组织的凭据来创建和管理配置文件。推理仍使用您现有的 AWS 或 Google Cloud 凭据。
@@ -390,17 +399,13 @@ Message Batches 是个例外：创建批处理时只检查 ID 的格式。如果
 
 请将每个向 Claude in Amazon Bedrock 发送请求的 AWS 账户，以及每个向 Claude Models on Google Cloud (Google managed) 发送请求的 Google Cloud 项目，关联到创建您配置文件的 Anthropic 组织：
 
-1. 该组织的管理员或所有者在 `portal.anthropic.com` 的 Verification Portal 中的 **Linked accounts（已关联账户）** 下发起关联。
+1. 该组织的管理员在 `portal.anthropic.com` 的 Verification Portal 中的 **Linked accounts（已关联账户）** 下发起关联。
 2. 能够管理该 AWS 账户或 Google Cloud 项目中 IAM 的人员运行门户提供的命令。
-3. 管理员或所有者在门户中完成验证。
+3. 管理员在门户中完成验证。
 
 适用于某个配置文件的计划，只有在账户完成关联且门户将其显示为 **Linked（已关联）** 之后，才会应用于该账户的请求。这些计划包括：终端客户[将配置文件关联到其组织](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles-verification-portal)后，该终端客户的组织获批的计划；对于 Cyber Verification Program 访问级别，还需要终端客户在门户中为该配置文件启用这些级别。
 
 Claude Models on Google Cloud (Google managed) 和 Claude in Amazon Bedrock 会检查 ID 的格式，但不会查找配置文件。它们会以 `400` 拒绝格式错误的 ID。它们接受任何格式正确的 ID，因此成功的响应并不能确认该 ID 与某个配置文件匹配。不带 ID 的请求会在未归属的情况下通过，如果它触发了执行措施，该措施将作用于您的整个组织。
-
-### 识别公司内的个人用户
-
-`passthrough` 配置文件标识的是公司，而不是发出请求的个人。如果请求来自一个可识别的个人，请同时在 Messages 请求的 [`metadata.user_id`](https://platform.claude.com/docs/zh-CN/api/messages/create) 字段中发送该个人的标识符。这是请求自身的 `metadata` 对象，而不是配置文件的 `metadata` 字段。该标识符是可选的，它有助于 Anthropic 检测个人的滥用行为。
 
 ## 检查 Anthropic 是否已限制或封禁某个配置文件
 
@@ -681,6 +686,8 @@ Anthropic 可能会添加新的取值。请将无法识别的 `enforcement_statu
 API 参考中列出了每个端点的字段、类型和限制：[创建配置文件](https://platform.claude.com/docs/zh-CN/api/user_profiles/create)、[检索配置文件](https://platform.claude.com/docs/zh-CN/api/user_profiles/retrieve)、[更新配置文件](https://platform.claude.com/docs/zh-CN/api/user_profiles/update)、[删除配置文件](https://platform.claude.com/docs/zh-CN/api/user_profiles/delete)以及[列出配置文件](https://platform.claude.com/docs/zh-CN/api/user_profiles/list)。
 
 如果终端客户通过您的平台使用 Claude 时应适用其计划审批，请参阅[向终端客户发送 Verification Portal 链接](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles-verification-portal)。
+
+要将某个配置文件的请求计费到该客户自己的 Claude 组织，请参阅 [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections)。
 
 要在 Anthropic 限制或封禁您的某个终端客户时，或在该限制或封禁结束时收到事件，请参阅[组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks)。
 

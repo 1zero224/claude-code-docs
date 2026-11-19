@@ -13,9 +13,17 @@ description: 使用工作区组织 API 密钥、管理团队访问权限并控�
 主要特征：
 
 * **工作区标识符**使用 `wrkspc_` 前缀（例如 `wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ`）。
+
 * 默认情况下，**每个组织最多 100 个工作区**（已归档的工作区不计入）。如果您需要更多，请联系您的客户团队。
-* **默认工作区**与其他工作区一样拥有 `wrkspc_` ID（在 [`anthropic-workspace-id` 响应头](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#identify-the-workspace-behind-an-api-response)中返回，并被[获取工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/retrieve)接受），但只有当您传递 `include_default=true` 时，它才会出现在[列出工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/list)的结果中。[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api) 会在该 ID 下报告其用量和成本，而旧版[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api) 的报告中其 `workspace_id` 显示为 `null`（对于绑定到默认工作区的密钥，API 密钥的 `scope` 字段包含真实 ID）。
-* **API 密钥**可以限定到单个工作区。在这种情况下，它们只能访问该工作区内的资源。其他 API 密钥不限定到工作区。使用这类密钥时，请在每个请求中发送[工作区 ID 请求头](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#select-a-workspace)来选择工作区。该密钥的用户或服务账户必须有权访问该工作区。
+
+* **默认工作区**与其他工作区一样拥有 `wrkspc_` ID：
+
+  * API 响应会在 [`anthropic-workspace-id` 响应头](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#identify-the-workspace-behind-an-api-response)中携带该 ID，并且[获取工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/retrieve)接受该 ID。
+  * 只有当您传递 `include_default=true` 时，[列出工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/list)才会包含默认工作区。
+  * [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api) 会在该 ID 下报告其用量和成本。旧版[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api) 的报告中其 `workspace_id` 显示为 `null`。
+  * 对于绑定到默认工作区的 API 密钥，该密钥的 `scope` 字段包含该 ID。
+
+* **API 密钥**可以限定到单个工作区。在这种情况下，它们只能访问该工作区内的资源。其他 API 密钥不限定到工作区。使用这类密钥时，请在每个请求中发送[工作区 ID 请求头](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#select-a-workspace)来选择工作区。该密钥的用户或服务账户必须有权访问该工作区。有关密钥类型，请参阅 [API 密钥和资源限定](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#api-keys-and-resource-scoping)。
 
 ### Claude Code 工作区
 
@@ -36,13 +44,18 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
 
 成员可以在每个工作区中拥有不同的角色，从而实现细粒度的访问控制。
 
-| 角色       | 权限                                                                                                                                                                                                                                                                  |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 工作区用户    | 仅使用 playground                                                                                                                                                                                                                                                      |
-| 工作区受限开发者 | 创建和管理 API 密钥，使用 API<br />对于 Claude Console 中的 [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)，拥有此角色的成员无法打开或启动会话、打开记忆存储或管理部署。他们也无法在 Console 的[文件](https://platform.claude.com/files)页面上下载或删除文件。这些限制仅适用于 Console 界面，不适用于 API。 |
-| 工作区开发者   | 创建和管理 API 密钥，使用 API                                                                                                                                                                                                                                                 |
-| 工作区管理员   | 完全控制工作区设置和成员                                                                                                                                                                                                                                                        |
-| 工作区账单    | 查看工作区计费信息（从组织计费角色继承）                                                                                                                                                                                                                                                |
+| 角色       | 权限                                                  |
+| -------- | --------------------------------------------------- |
+| 工作区用户    | 仅使用 playground                                      |
+| 工作区受限开发者 | 创建和管理 API 密钥，使用 API（在 Claude Console 中有一些限制，列于本表之后） |
+| 工作区开发者   | 创建和管理 API 密钥，使用 API                                 |
+| 工作区管理员   | 完全控制工作区设置和成员                                        |
+| 工作区账单    | 查看工作区计费信息（从组织计费角色继承）                                |
+
+以下限制仅适用于 Claude Console 界面，不适用于 API。在 Console 中，工作区受限开发者无法执行以下操作：
+
+* 为 [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 打开或启动会话、打开记忆存储或管理部署
+* 在[文件](https://platform.claude.com/files)页面上下载或删除文件
 
 ### 角色继承
 
@@ -120,10 +133,7 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
 
 #### 设置工作区限制
 
-您需要在不同的位置设置工作区的速率限制和支出限制：
-
-* **速率限制：** 在 [Claude Console 中的速率限制](https://platform.claude.com/usage/limits)下，从**工作区**下拉菜单中选择工作区，然后点击模型旁边的**编辑**，设置每分钟请求数、输入令牌或输出令牌的限制。
-* **支出限制：**&#x5728; Claude Console 的[工作区](https://platform.claude.com/settings/workspaces)页面上，选择工作区。在打开的面板中，点击**支出限额**以限制每月支出，并配置支出达到特定阈值时的提醒。
+您需要在不同的 Console 页面上设置工作区的支出限制和速率限制。有关步骤，请参阅[设置工作区限制](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#setting-workspace-limits)。
 
 #### 归档工作区
 
@@ -142,10 +152,10 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
 使用 [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 以编程方式管理工作区。
 
 <Note>
-  Admin API 端点接受 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)、`org:admin` OAuth 令牌，或未限定到特定工作区的个人或服务账户密钥。工作区密钥在那里不起作用。请参阅[身份验证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication)。
+  Admin API 端点接受 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)、`org:admin` OAuth 令牌，或未限定到特定工作区的个人或服务账户密钥。限定到单个工作区的密钥（包括[工作区密钥](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#api-keys-and-resource-scoping)）在那里不起作用。请参阅 [Admin API 身份验证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication)。
 </Note>
 
-以下 SDK 和 CLI 示例构造默认客户端，该客户端从 `ANTHROPIC_API_KEY` 环境变量读取 Admin API 密钥；SDK 在 `client.organization.workspaces` (csharp, go: `client.Organization.Workspaces`; java: `client.organization().workspaces()`; php: `$client->organization->workspaces`) 下公开这些端点。SDK 的列表方法会按需获取后续页面，因此 `limit` 设置的是页面大小；PHP、Ruby 和 curl 示例只返回一页。
+以下示例从 `ANTHROPIC_API_KEY` 环境变量读取 Admin API 密钥。SDK 在 `client.organization.workspaces` (csharp, go: `client.Organization.Workspaces`; java: `client.organization().workspaces()`; php: `$client->organization->workspaces`) 下公开这些端点。
 
 创建工作区：
 
@@ -247,6 +257,7 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
 
 <CodeGroup>
   ```bash cURL
+  # 返回一页结果。
   curl "https://api.anthropic.com/v1/organizations/workspaces?limit=10&include_archived=false" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
     -H "anthropic-version: 2026-10-21"
@@ -261,6 +272,7 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
 
   workspaces = client.organization.workspaces.list(limit=10, include_archived=False)
 
+  # 会根据需要自动获取更多页面，因此 `limit` 设置的是每页大小，而非总数。
   for workspace in workspaces:
       print(f"{workspace.id}: {workspace.name}")
   ```
@@ -273,6 +285,7 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
     include_archived: false
   });
 
+  // 会根据需要自动获取更多页面，因此 `limit` 设置的是每页大小，而非总数。
   for await (const workspace of workspaces) {
     console.log(`${workspace.id}: ${workspace.name}`);
   }
@@ -287,6 +300,7 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
       IncludeArchived = false
   });
 
+  // 会根据需要自动获取更多页面，因此 `Limit` 设置的是每页大小，而非总数。
   await foreach (var workspace in workspaces.Paginate())
   {
       Console.WriteLine($"{workspace.ID}: {workspace.Name}");
@@ -301,6 +315,7 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
   	IncludeArchived: anthropic.Bool(false),
   })
 
+  // 会根据需要自动获取更多页面，因此 `Limit` 设置的是每页大小，而非总数。
   for workspaces.Next() {
   	workspace := workspaces.Current()
   	fmt.Printf("%s: %s\n", workspace.ID, workspace.Name)
@@ -322,6 +337,7 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
           .build();
       var workspaces = client.organization().workspaces().list(params);
 
+      // 会根据需要自动获取更多页面，因此 `limit` 设置的是每页大小，而非总数。
       for (var workspace : workspaces.autoPager()) {
           IO.println(workspace.id() + ": " + workspace.name());
       }
@@ -336,7 +352,8 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
       includeArchived: false,
   );
 
-  foreach ($workspaces->getItems() as $workspace) {
+  // 会根据需要自动获取更多页面，因此 `limit` 设置的是每页大小，而非总数。
+  foreach ($workspaces->pagingEachItem() as $workspace) {
       echo "{$workspace->id}: {$workspace->name}\n";
   }
   ```
@@ -346,7 +363,8 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
 
   workspaces = client.organization.workspaces.list(limit: 10, include_archived: false)
 
-  workspaces.data.each do |workspace|
+  # 会根据需要自动获取更多页，因此 `limit` 设置的是每页大小，而非总数。
+  workspaces.auto_paging_each do |workspace|
     puts "#{workspace.id}: #{workspace.name}"
   end
   ```
@@ -823,7 +841,7 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
 
 ## API 密钥和资源限定
 
-每个请求都在恰好一个工作区中运行，并且只能访问该工作区内的资源。具体是哪个工作区取决于[密钥类型](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#key-types)：
+除组织级别的请求（例如 Admin API 请求）外，每个请求都在恰好一个工作区中运行。它只能访问该工作区内的资源。具体是哪个工作区取决于[密钥类型](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#key-types)：
 
 * **工作区密钥**（没有所有者的旧式密钥）属于创建它的工作区，并始终在那里运行。
 * **个人密钥**或**服务账户密钥**以其用户或服务账户的身份执行操作。单工作区密钥始终在创建时选定的工作区中运行。未限定到工作区的密钥在每个请求的 `anthropic-workspace-id` 请求头所指定的工作区中运行。账户必须有权访问该工作区才能使用它。
@@ -836,7 +854,12 @@ Claude Code 工作区将 Claude Code 流量与您的其他 API 工作负载分�
 
 某些资源的管理方式不同：
 
-* **[MCP 隧道](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview)**&#x4F7F;用通过[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)获得的 `workspace:manage_tunnels` OAuth 令牌进行管理，而不是 API 密钥。隧道在工作区中创建，Console 的 **MCP 隧道**列表和托管代理服务器选择器仅显示当前工作区中的隧道；10 个活动隧道的上限适用于整个组织。隧道管理需要具有隧道管理权限的角色；组织开发者可以查看但无法更改它们。
+* **[MCP 隧道](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview)**&#x4F7F;用通过[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)获得的 `workspace:manage_tunnels` OAuth 令牌进行管理，而不是 API 密钥。
+
+  * 隧道在工作区中创建。Console 的 **MCP 隧道**列表和 Claude Managed Agents 的 MCP 服务器选择器仅显示当前工作区中的隧道。
+  * 10 个活动隧道的上限适用于整个组织。
+  * 在 Claude Console 中，管理隧道需要组织管理员角色。组织开发者可以在那里查看隧道但无法更改它们。
+
 * **工作区**本身和**组织成员**在组织级别通过 [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 进行管理，使用 Admin API 密钥、`org:admin` OAuth 令牌，或未限定到特定工作区的个人或服务账户密钥。
 
 要查找组织的工作区 ID，请调用[列出工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/list)端点（传递 `include_default=true` 以包含默认工作区），或在 Claude Console 的[工作区](https://platform.claude.com/settings/workspaces)页面上查找。
@@ -858,7 +881,7 @@ anthropic-workspace-id: wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
 
 当凭据未解析到工作区时（例如在 Admin API 请求上），或当请求在身份验证完成之前失败时（例如 401 错误），该头不存在。
 
-以下示例发送一个 Messages API 请求并从响应头中读取工作区 ID：
+以下示例发送一个 Messages API 请求并从响应头中读取工作区 ID。请将 `ANTHROPIC_API_KEY` 设置为限定到单个工作区的密钥（请参阅 [API 密钥和资源限定](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#api-keys-and-resource-scoping)），而不是 Admin API 密钥：
 
 <CodeGroup>
   ```bash cURL
@@ -1010,9 +1033,10 @@ Workspace ID: wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
 有了来自响应的工作区 ID，您可以：
 
 * 确认该请求计入了哪个工作区的使用情况、成本和[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)
-* 将其与以下内容进行比对：[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)行中的 `workspace_id` 字段（对于默认工作区，这些行包含相同的 ID），以及 [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 中 API 密钥的 `scope` 字段，该字段包含密钥所绑定工作区的真实 ID，包括默认工作区
+* 将其与[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)行中的 `workspace_id` 字段进行比对（对于默认工作区，这些行包含相同的 ID）
+* 将其与 [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 中 API 密钥的 `scope` 字段进行比对，该字段包含密钥所绑定工作区的真实 ID，包括默认工作区
 * 使用 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)将其传递给[获取工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/retrieve)，以检查它是否为您的默认工作区的 ID：默认工作区会返回 `"name": "Default"`，尽管除非您传入 `include_default=true`，否则[列出工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/list)会省略它
-* 在 [Console](https://platform.claude.com/settings/workspaces) 中打开该工作区以查找请求的资源，例如会话、文件、消息批次和技能
+* 查找请求的资源，例如会话、文件、消息批次和技能：在 Claude Console 的[工作区](https://platform.claude.com/settings/workspaces)页面上查找该工作区的名称，然后在[文件](https://platform.claude.com/files)等页面的工作区选择器中选择它
 
 ## 工作区限制
 
@@ -1020,16 +1044,18 @@ Workspace ID: wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
 
 ### 设置工作区限制
 
-您可以将工作区限制设置为低于（但不高于）您组织的限制：
+工作区限制可以让工作区保持在您组织的限制之下，但无法提高这些限制：
 
-* **支出限制：**&#x9650;制工作区的每月支出。要进行设置，请前往 Claude Console 中的[工作区](https://platform.claude.com/settings/workspaces)页面（`platform.claude.com/settings/workspaces`）并选择工作区。在打开的面板中，点击**支出限额**。
+* **支出限制：**&#x9650;制工作区的每月支出。要进行设置，请前往 [Claude Console 中的支出限额](https://platform.claude.com/settings/spend-limits)（`platform.claude.com/settings/spend-limits`）。在**工作区限额**下，从下拉菜单中选择工作区。然后点击**每月支出限额**旁边的**设置限额**或**调整限额**。如果 Anthropic 直接向您的组织计费，您还可以设置电子邮件提醒，以便在支出达到您选择的金额时收到通知：请点击**邮件通知**旁边的**添加通知**或**编辑**。
 * **速率限制：**&#x9650;制每分钟请求数、每分钟输入令牌数或每分钟输出令牌数。要进行设置，请前往 [Claude Console 中的速率限制](https://platform.claude.com/usage/limits)，从**工作区**下拉菜单中选择工作区，然后点击模型旁边的**编辑**。
 
 <Note>
-  - 您无法为默认工作区设置支出限制。
+  - 在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 和 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上，您无法为默认工作区设置支出限制。
   - 如果未设置，工作区限制与组织限制相同。
   - 即使工作区限制的总和超过组织限制，组织范围的限制也始终适用。
 </Note>
+
+默认工作区上的支出限制可能无法统计或阻止该工作区中的某些用量。这包括来自 Claude Console（例如 playground）和 Claude Managed Agents 会话的用量。它还包括成员使用 Claude Console 账户登录并使用默认工作区时的 Claude Code 或 Claude Desktop 用量。您组织的[支出限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#setting-your-own-spend-limit)适用于所有这些用量。
 
 有关速率限制及其工作原理的详细信息，请参阅[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)。您还可以使用[速率限制 API](https://platform.claude.com/docs/zh-CN/manage-claude/rate-limits-api) 以编程方式读取当前组织和工作区的速率限制，并设置工作区速率限制。该 API 会存储高于组织限制的值，但仍会执行两者中较低的那个限制。
 
@@ -1245,7 +1271,7 @@ Workspace ID: wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
 
 <AccordionGroup>
   <Accordion title="什么是默认工作区？">
-    每个组织都有一个"默认工作区"，它不能被重命名、归档或删除。与所有工作区一样，它拥有一个 `wrkspc_` ID：API 会在 [`anthropic-workspace-id` 响应头](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#identify-the-workspace-behind-an-api-response)中返回它，您可以将其传递给[获取工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/retrieve)和[更新工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/update)。它没有自己的成员列表，因为对它的访问权限取决于每个成员的组织角色。只有在您传入 `include_default=true` 时，它才会出现在[列出工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/list)的结果中。[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)以其真实 ID 报告其使用量和成本。旧版[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)报告中的 `workspace_id` 显示为 `null`。对于属于它的 API 密钥，该密钥的 `scope` 字段包含该工作区的真实 ID。
+    每个组织都有一个"默认工作区"，它不能被重命名、归档或删除。与所有工作区一样，它拥有一个 `wrkspc_` ID。API 会在 [`anthropic-workspace-id` 响应头](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#identify-the-workspace-behind-an-api-response)中返回该 ID，您可以将其传递给[获取工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/retrieve)和[更新工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/update)。更新工作区会拒绝为其设置新名称。默认工作区没有自己的成员列表，因为对它的访问权限取决于每个成员的组织角色。只有在您传入 `include_default=true` 时，它才会出现在[列出工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/list)的结果中。[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)以其真实 ID 报告其使用量和成本。旧版[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)报告中的 `workspace_id` 显示为 `null`。对于属于它的 API 密钥，该密钥的 `scope` 字段包含该工作区的真实 ID。
   </Accordion>
 
   <Accordion title="什么是 Claude Code 工作区？">
@@ -1265,7 +1291,7 @@ Workspace ID: wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
   </Accordion>
 
   <Accordion title="可以更改组织管理员或计费成员的工作区角色吗？">
-    组织管理员和计费成员在持有这些组织角色期间无法更改其工作区角色或从工作区中移除（有一个例外：计费成员可以升级为工作区管理员角色）。对于受此约束的其他所有人，请先更改其组织角色以更改其工作区访问权限。
+    在他们持有这些组织角色期间不可以，但有一个例外：计费成员可以升级为工作区管理员角色。在持有这些角色期间，组织管理员和计费成员也无法从工作区中移除。要以任何其他方式更改其工作区访问权限，请先更改其组织角色。
   </Accordion>
 
   <Accordion title="当组织角色更改时，工作区访问会发生什么？">
@@ -1275,7 +1301,7 @@ Workspace ID: wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ
   <Accordion title="当用户从工作区中移除时，API 密钥会发生什么？">
     行为取决于[密钥类型](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#key-types)。
 
-    个人或服务账户密钥在其用户或服务账户从工作区中移除后不久就会停止在该工作区中工作。即使创建服务账户密钥的用户被移除，该密钥仍会继续工作。工作区 API 密钥继续工作。在 [Claude Code 工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#claude-code-workspace)中，每个密钥都绑定到创建它的成员，并在该成员被移除时停止工作。
+    个人或服务账户密钥在其用户或服务账户从工作区中移除后不久就会停止在该工作区中工作。即使创建服务账户密钥的用户被移除，该密钥仍会继续工作。工作区密钥（没有所有者的旧式密钥）继续工作。在 [Claude Code 工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#claude-code-workspace)中，每个密钥都绑定到创建它的成员，并在该成员被移除时停止工作。
 
     当个人密钥的用户从组织中移除时，个人密钥会被归档。如果该用户被重新邀请，他们需要创建新密钥；已归档的密钥不会被恢复。
   </Accordion>

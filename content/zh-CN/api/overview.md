@@ -166,7 +166,7 @@ SDK 提供了一个自动分页迭代器，会替您跟随 `next_page`。例如�
 * **支出限制：** API 使用的每月最高费用
 * **速率限制：** 每分钟最大请求数（RPM）和每分钟最大令牌数（TPM）
 
-您可以在 [Claude Console 中的速率限制](https://platform.claude.com/usage/limits)下查看您的速率限制。您的支出限制位于 [Claude Console 中的支出限制](https://platform.claude.com/settings/spend-limits)（`platform.claude.com/settings/spend-limits`）下。如需更高的速率限制或更高的每月支出上限，请在**速率限制**页面上使用**申请提升等级**。
+您可以在 [Claude Console 中的速率限制](https://platform.claude.com/usage/limits)下查看您的速率限制。您的支出限制位于 [Claude Console 中的支出限额](https://platform.claude.com/settings/spend-limits)（`platform.claude.com/settings/spend-limits`）下。如需更高的速率限制或更高的每月支出上限，请在**速率限制**页面上使用**申请提升等级**。
 
 有关限制、层级以及用于速率限制的令牌桶算法的详细信息，请参阅[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)。
 

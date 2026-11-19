@@ -102,7 +102,7 @@ Copy
 - Do not use for individual PR updates (those go through GitHub webhooks)
 - Rate limited to 10 messages per hour
 ```
-Learn more about MCP [fundamentals and best practices](https://www.anthropic.com/engineering/building-effective-mcp-servers).
+Learn more about MCP [fundamentals and best practices](https://claude.com/resources/articles/what-is-model-context-protocol).
 For more information on setting permissions for Claude Code, see settings.json documentation at[ code.claude.com](https://code.claude.com/docs/en/settings).
 ### **Define standard workflows**
 Having Claude jump straight into code changes without planning creates rework. Claude might implement a solution that misses requirements, choose the wrong architectural approach, or make changes that break existing functionality.
@@ -132,7 +132,7 @@ Tell Claude to use a [subagent](https://code.claude.com/docs/en/sub-agents) for 
 Subagents work best for multistep workflows where each phase requires different perspectives. Implementation needs architectural context and feature requirements; security review needs fresh eyes focused solely on vulnerabilities. Context separation keeps both analyses sharp.
 ### **Create custom commands**
 Repetitive prompts waste time. You find yourself typing "review this code for security issues" or "analyze this for performance problems" over and over. Each time you need to remember the exact phrasing that gets good results.
-Custom slash commands store these as markdown files in your `.claude/commands/` directory. Create a file named `performance-optimization.mm` with your preferred performance optimization prompt, and it becomes available as `/performance-optimization` in any conversation. Commands support arguments through $ARGUMENTS or numbered placeholders like `$1` and `$2`, letting you pass specific files or parameters.
+Custom slash commands store these as markdown files in your `.claude/commands/` directory. Create a file named `performance-optimization.md` with your preferred performance optimization prompt, and it becomes available as `/performance-optimization` in any conversation. Commands support arguments through $ARGUMENTS or numbered placeholders like `$1` and `$2`, letting you pass specific files or parameters.
 For example, `performance-optimization.md` might look like this:
 Copy
 ```
@@ -221,7 +221,7 @@ Create a custom slash command called /performance-optimization that analyzes cod
 Claude will write the markdown file to `.claude/commands/performance-optimization.md`, and the command will be available immediately.
 ## **Start simple, expand deliberately**
 It's tempting to create a comprehensive CLAUDE.md right away. Resist that urge.
-CLAUDE.md is added to Claude Code's context every time, so from a[ context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) and[ prompt engineering](https://www.anthropic.com/engineering/prompt-engineering-overview) standpoint, keep it concise. One option: break up information into separate markdown files and reference them inside the CLAUDE.md file.
+CLAUDE.md is added to Claude Code's context every time, so from a[ context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) and[ prompt engineering](https://claude.com/resources/articles/best-practices-for-prompt-engineering) standpoint, keep it concise. One option: break up information into separate markdown files and reference them inside the CLAUDE.md file.
 Don't include sensitive information, API keys, credentials, database connection strings, or detailed security vulnerability information—especially if you commit to version control. Since CLAUDE.md becomes part of Claude's system prompt, treat it as documentation that could be shared publicly.
 ## **Make CLAUDE.md work for you**
 CLAUDE.md files turn Claude Code from a general-purpose assistant into a tool configured specifically for your codebase. Start simple with basic project structure and build documentation, then expand based on actual friction points in your workflow.
@@ -231,22 +231,23 @@ Treat customization as an ongoing practice rather than a one-time setup task. Pr
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

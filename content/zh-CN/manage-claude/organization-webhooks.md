@@ -15,8 +15,6 @@ featureMetadata:
   事件投递尚未上线：Anthropic 不会发送这两种事件，因此您注册的端点不会收到任何内容。您可以注册端点，并根据本页中的事件格式构建您的处理程序。
 </Note>
 
-您组织的任何成员都可以通过 API 列出和查看组织 webhook 端点，但只有具有管理员、所有者或主要所有者角色的成员才能创建、更改或删除它们，或替换其签名密钥。
-
 ## 开始之前
 
 您需要以下内容：
@@ -28,6 +26,11 @@ featureMetadata:
   * 一个 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)。
   * 一个具有 `org:admin` 作用域的 [OAuth bearer 令牌](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#oauth-bearer-token)。
   * 一个未限定于某个工作区的[个人或服务账户密钥](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#key-types)。
+
+使用 Admin API 密钥，您可以发出[管理端点](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#manage-endpoints)中的所有请求。使用 `org:admin` 令牌，您可以发出相同的请求。如果该令牌绑定到您组织的[默认工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#how-workspaces-work)以外的工作区，您将无法发出其中任何请求。使用个人或服务账户密钥时，您可以发出的请求取决于该账户的[组织角色](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#organization-roles-and-permissions)：
+
+* 列出或查看 webhook 端点：`claude_code_user`、`developer` 或 `admin`
+* 创建、更改或删除 webhook 端点，或替换签名密钥：`admin`
 
 ## 事件类型
 

@@ -6,7 +6,7 @@ description: Claude Fable 5.2 和 Claude Mythos 5.2 特有的提示模式：effo
 
 本指南介绍 Claude Fable 5.2 特有的提示模式。有关该模型的能力和 API 变更，请参阅 [Claude Fable 5.2 的新功能](https://platform.claude.com/docs/zh-CN/models/fable-5-2/whats-new-fable-5-2)和 [Claude Fable 5.2 和 Claude Mythos 5.2 迁移指南](https://platform.claude.com/docs/zh-CN/models/fable-5-2/migration-guide)。有关适用于所有当前 Claude 模型的技巧，请参阅[提示最佳实践](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices)。
 
-Claude Fable 5.2 与早期模型相比有几处值得了解的行为差异。请先查看与您观察到的情况相符的部分：
+Claude Fable 5.2 在几个方面的行为与早期模型不同。请先查看与您观察到的情况相符的部分：
 
 * 不确定应使用哪个 effort 级别，或简单请求启动缓慢：[校准 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#calibrate-effort)
 * 一个轮次在工作完成之前就结束了：[完成整个任务](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#finish-the-whole-task)
@@ -21,7 +21,7 @@ Claude Fable 5.2 与早期模型相比有几处值得了解的行为差异。请
 <Note>
   有关迁移时应用本指南的顺序，请参阅[从哪里开始](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#where-to-start)。
 
-  本页的几个部分建议向您的系统提示中添加文本、从系统提示或代理携带的笔记和规则中删除某些行，或者修改工具描述。请仅在新对话中进行这些更改。在 Claude Fable 5.2 上，API 会对所有账户强制执行[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)。如果在 `system`、`tools` 或较早的消息发生变化后仍回传思考块，请求可能会返回 400 错误，因此使用新文本恢复已存储的对话可能会失败。要在对话中途更改指令，请[将其放在最新的轮次中](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#changing-context)。在支持[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)的平台上，您可以改为[向对话追加一条系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#new-instructions)。
+  本页的几个部分建议向您的系统提示中添加文本或修改工具描述。有些部分还建议从系统提示或代理携带的笔记和规则中删除某些行。请仅在新对话中进行这些更改。在 Claude Fable 5.2 上，未通过[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)的请求会收到 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。如果您在更改 `system`、`tools` 或较早的消息后恢复已存储的对话，该请求可能无法通过前缀检查。要在对话中途更改指令，请[将其放在最新的轮次中](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#changing-context)。在支持[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)的平台上，您可以改为[向对话追加一条系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#new-instructions)。
 </Note>
 
 ## 校准 effort
@@ -33,7 +33,7 @@ Claude Fable 5.2 与早期模型相比有几处值得了解的行为差异。请
 * `low` 适合快速的来回交互、定义明确的任务以及高吞吐量工作负载（例如智能且快速的子代理）。在编码评估中，Claude Fable 5.2 在 `low` effort 下的表现优于以往的模型。在 Anthropic 的测试中，它的得分接近 Claude Fable 5.1 在更高 effort 下的得分。
 * `medium` 适合交互式编码、聊天和日常知识工作。
 * `high` 适合困难的编码、研究、代理工作以及长时间无人值守的运行。轮次完成所需的时间明显长于 `medium`。
-* `xhigh` 用于您最困难的长时间编码和代理工作，前提是您已测得收益。在 Anthropic 的内部编码评估中，它略微提高了得分，但使用的令牌多得多。
+* `xhigh` 用于您最困难的长时间编码和代理工作，前提是您已测得收益。在 Anthropic 的内部编码评估中，它略微提高了得分，并且使用的令牌多得多。
 * `max` 用于测量模型的上限，或用于时间和令牌都无关紧要的少数任务。对于开放式问题（例如科学发现和数学），使用 `max` 最为合理。轮次很慢，使用的令牌也比 `xhigh` 多得多。
 
 使用 `high` effort 时，您就能获得大部分能力提升。从 `medium` 到 `high` 的提升提高了 Anthropic 跟踪的大多数编码和知识工作评估的得分。这一提升也会使用更多令牌和时间，因此凡是您的评估结果保持不变的地方，请降到 `medium`。在 `high` 之上，收益参差不齐，并取决于任务。
@@ -44,7 +44,7 @@ Claude Fable 5.2 与早期模型相比有几处值得了解的行为差异。请
 
 effort 对助手轮次回复的长度影响很小。要改变回复的长度和语气，请使用提示。
 
-您也可以在一个工作流中混合使用不同级别。例如，您可以在 `medium` 下与模型一起规划和迭代，然后为长时间无人值守的部分提高 effort。要在对话中更改级别并保留提示缓存，请使用[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)（beta，`mid-conversation-output-config-2026-07-01` 标头）。该页面列出了支持此功能的平台。一次更改会一直有效，直到另一次更改取代它。在不支持按消息设置 effort 的地方，请在下一个请求中设置新的顶层 `effort` 值，这会使缓存重新开始。
+您也可以在一个工作流中混合使用不同级别。例如，您可以在 `medium` 下与模型一起规划和迭代，然后为长时间无人值守的部分提高 effort。要在对话中更改级别并保留提示缓存，请使用[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)（beta，`mid-conversation-output-config-2026-07-01` 标头）。该页面列出了支持此功能的平台。一次更改会一直有效，直到另一次更改取代它。在不支持按消息设置 effort 的地方，请在下一个请求中设置新的顶层 `effort` 值，这可能会使已缓存的消息失效。
 
 ## 完成整个任务
 
@@ -109,7 +109,7 @@ The user hasn't heard from you in a while: say in a few words what you're doing,
 
 在 Anthropic 针对多轮编码任务的测试中，该提醒将最长的无输出时段大致缩短了一半，且令牌和时间没有明显增加。
 
-在后续请求中，请将每条提醒保留在 `messages` 中。删除或改写其中一条会编辑较早的轮次，从而使其之后的思考块失效。请参阅[将每轮提醒作为轮次作用域系统消息发送](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#per-turn-reminders)。
+在后续请求中，请将每条提醒保留在 `messages` 中。删除或改写其中一条会编辑较早的轮次，从而使其之后的思考块失效。请参阅[为单个轮次发送提醒](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#per-turn-reminders)。
 
 ### 表明意图
 
@@ -168,7 +168,7 @@ Claude Fable 5.2 的委派程度取决于您的 harness 和任务。在 Anthropi
 
 * **长期有效的委派指令：** 要求模型进行委派的内容可能存在于系统提示、技能和代理文件中。迁移前请阅读这些文件，如果模型在测试中委派过多，请删除不再需要的内容。请参阅[为子代理设定预期](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#set-expectations-for-subagents)。
 * **向模型展示的令牌预算：** 有些 harness 会向模型展示任务的令牌预算以及剩余多少。这个预算的大小会影响 Claude Fable 5.2 的花费。在 Anthropic 针对编码任务、在 `high` 和 `xhigh` effort 下进行的测试中，去掉一个较大的预算降低了成本，且性能相当。请在不带预算的情况下测试您的任务。这一发现针对的是提示中的文本，而不是 API 的[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)，后者是一项 beta 功能，不在该测试范围内。
-* **编辑较早轮次的 harness 代码：** Claude Fable 5.2 使用[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)。如果您的 harness 在请求之间更改系统提示、工具或较早的消息，那么历史记录中更改点之后的思考块就会失效。默认情况下，Messages API 此时会拒绝该请求，而 Message Batches API 会丢弃这些块。要在不出现此错误的情况下缩短历史记录，请使用[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)，或者在摘要之后不保留任何较早轮次的[压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction)。要让 Messages API 也丢弃这些块，请将 `thinking.block_binding.prefix_mismatch_behavior` 设置为 `"drop_block"`（beta，`thinking-binding-controls-2026-08-01` 标头）。在 Anthropic 的测试中，当每个轮次都丢弃较早的思考时，模型会重新思考并使用更多输出令牌。这是最坏的情况，增加的幅度取决于您的 harness 编辑较早轮次的频率。除压缩和上下文编辑之外，请保持历史记录只追加不修改。这样可以保持较高的缓存命中率，并且不会丢弃任何思考。在依赖 `"drop_block"` 之前，请在您自己的任务上测量输出令牌。请参阅[API 如何处理无效块](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#mismatch-behavior)和[在不编辑前缀的情况下进行更改](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#replace-prefix-edits)。
+* **编辑较早轮次的 harness 代码：** Claude Fable 5.2 使用[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)。如果您的 harness 在请求之间更改系统提示、工具或较早的消息，那么历史记录中更改点之后的思考块就会失效。默认情况下，Messages API 此时会拒绝该请求，而 Message Batches API 会丢弃这些块。要在不出现此错误的情况下缩短历史记录，请使用[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)，或者在摘要之后不保留任何较早轮次的[压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction)。要让 Messages API 也丢弃这些块，请将 `thinking.block_binding.prefix_mismatch_behavior` 设置为 `"drop_block"`（beta，`thinking-binding-controls-2026-08-01` 标头）。在 Anthropic 的测试中，当每个轮次都丢弃较早的思考时，模型会重新思考并使用更多输出令牌。这是最坏的情况，增加的幅度取决于您的 harness 编辑较早轮次的频率。除压缩和上下文编辑之外，请保持历史记录只追加不修改。这样可以保持较高的缓存命中率，并且不会丢弃任何思考。在依赖 `"drop_block"` 之前，请在您自己的任务上测量输出令牌。请参阅[设置 `prefix_mismatch_behavior`](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#mismatch-behavior)和[更改工具或指令而不会导致前缀检查失败](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions)。
 * **"将该回答视为已完成"类语句：** [为 Claude Opus 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#thinking-instructions-in-chat-system-prompts)为聊天系统提示提供了两句话。它们告诉模型将较早的回答视为已完成，并将思考集中在新消息上。在 Anthropic 于 `high` effort 下进行的测试中，这些指令减少了 Claude Fable 5.2 在后续问题上的思考。模型指出自己早先回答中错误的可能性也大大降低。如果您希望模型持续重新审视其早先的回答，请不要使用这些语句。在其他场景中，采用这些语句之前，请测试模型是否仍会指出自己的错误。
 * **要求少思考的指令：** Claude Fable 5.1 通常会遵循诸如"直接回答，不要斟酌"之类的语句。在 Claude Fable 5.2 上，在 `medium` 及以上级别，添加这类语句并不能阻止模型思考。请删除这类语句并降低 effort 级别，如[校准 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#calibrate-effort)中所述。
 * **写作风格规则：** Claude Fable 5.2 会严格遵循这些规则，因此诸如"每句一条指令，不超过 20 个词"之类的硬性限制可能会使其文字显得生硬断续。在添加[让报告易于理解](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#make-reports-easy-to-follow)中的文本之前，请删除不再需要的规则。

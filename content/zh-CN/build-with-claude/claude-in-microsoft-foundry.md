@@ -4,7 +4,7 @@ url: https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsof
 description: 通过 Microsoft Foundry 使用 Azure 原生端点和身份验证访问 Claude 模型。
 ---
 
-本指南介绍如何在 Microsoft Foundry 中设置 Claude 并对其进行 API 调用。您可以使用 Anthropic 的客户端 SDK 之一或直接 HTTP 请求。当您在 Microsoft Foundry 中访问 Claude 时，Claude 的使用费用将通过 Azure Marketplace 计费。可用的模型包括 Claude Fable 5.2、Claude Fable 5.1、Claude Opus 5.5、Claude Opus 5 和 Claude Opus 4.8，还包括 Claude Sonnet 5.5、Claude Sonnet 5 和 Claude Haiku 5.5。[1M 令牌的 context window（上下文窗口）](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)等功能也可供使用。您通过 Azure 订阅管理成本。
+本指南介绍如何在 Microsoft Foundry 中设置 Claude 并对其进行 API 调用。您可以使用 Anthropic 的客户端 SDK 之一或直接 HTTP 请求。当您在 Microsoft Foundry 中访问 Claude 时，您将通过 Azure Marketplace 支付 Claude 的使用费用。[API 模型 ID 和部署](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)中列出了可用的模型。[1M 令牌的 context window（上下文窗口）](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)等功能也可供使用。您通过 Azure 订阅管理成本。
 
 Claude 在 Foundry 资源中以 Global Standard 和 US Data Zone Standard 部署类型提供，通过 Azure Marketplace 以 Claude Consumption Units 计费。详情请访问 [Microsoft Foundry 中的 Claude 定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#claude-in-microsoft-foundry-pricing)。
 
@@ -12,17 +12,17 @@ Claude 在 Foundry 资源中以 Global Standard 和 US Data Zone Standard 部署
 
 Microsoft Foundry 中的 Claude 模型提供两种托管选项。您在配置部署时选择托管选项。
 
-|        | 托管在 Azure 上                           | 托管在 Anthropic 上                                                                                                                                                      |
-| ------ | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 推理运行位置 | 在 Azure 基础设施上运行的由 Anthropic 运营的服务     | 在 Anthropic 基础设施上运行的由 Anthropic 运营的服务                                                                                                                                |
-| 模型可用性  | Opus、Sonnet 和 Haiku 系列中的最新模型          | Microsoft Foundry 上提供的所有 Claude 模型                                                                                                                                   |
-| 部署类型   | Global Standard、US Data Zone Standard | Global Standard                                                                                                                                                      |
-| 推荐用于   | 大多数工作负载                               | [访问尚未在 Azure 上托管的功能或模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure) |
+|        | 托管在 Azure 上                                                                                                                                     | 托管在 Anthropic 上                                                                                                                                                                                                                                                                                                        |
+| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 推理运行位置 | 在 Azure 基础设施上运行的由 Anthropic 运营的服务                                                                                                               | 在 Anthropic 基础设施上运行的由 Anthropic 运营的服务                                                                                                                                                                                                                                                                                  |
+| 模型可用性  | [部分 Opus、Sonnet 和 Haiku 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments) | [Microsoft Foundry 上提供的所有 Claude 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)                                                                                                                                                               |
+| 部署类型   | Global Standard、US Data Zone Standard                                                                                                           | Global Standard                                                                                                                                                                                                                                                                                                        |
+| 推荐用于   | 大多数工作负载                                                                                                                                         | 需要[仅托管在 Anthropic 上的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)或[仅在托管于 Anthropic 时可用的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure)的工作负载 |
 
-Claude Sonnet 5.5 仅支持 Global Standard 部署。
+对于托管在 Azure 上的部署，Anthropic 在 Azure 基础设施上处理提示和补全内容，并将保留的内容存储在那里。保留的内容包括被 Anthropic 安全系统标记、供 Anthropic 审查的内容。不包含提示或补全内容的运营数据存储在 Anthropic 位于 Azure 之外的系统上。示例包括安全分类器分数、标识符以及使用和计费数据。
 
 <Note>
-  Anthropic 作为 Microsoft 的独立处理方。通过 Microsoft Foundry 使用 Claude 的客户须遵守 Anthropic 的数据使用条款。对于托管在 Azure 上的部署，提示和补全内容保留在 Azure 内。只有使用元数据以及被 Anthropic 安全系统标记的内容会传出至 Anthropic。Anthropic 将继续提供其安全和数据承诺。
+  Anthropic 担任 Microsoft 的独立处理方。通过 Microsoft Foundry 使用 Claude 的客户须遵守 Anthropic 的[数据使用条款](https://www.anthropic.com/legal)。Anthropic 提供其安全和数据承诺。
 </Note>
 
 ## 前提条件
@@ -31,8 +31,8 @@ Claude Sonnet 5.5 仅支持 Global Standard 部署。
 
 * 一个有效的 Azure 订阅
 * 对 [Foundry 门户](https://ai.azure.com/)的访问权限
-* 已安装 [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)（cURL、CLI 和 Ruby 中的 Entra ID 示例需要，其他情况下可选）
-* 允许您使用该资源的 Azure RBAC 角色，例如 **Foundry User**（原 Azure AI User）或 **Cognitive Services User**
+* 针对您在[预配](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#provisioning)中创建的 Foundry 资源的 Azure “role-based access control”（基于角色的访问控制），即 RBAC 角色，例如 **Foundry User** 或 **Cognitive Services User**
+* 可选：[Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)，用于通过 `az account get-access-token` 获取 [Microsoft Entra ID](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#microsoft-entra-authentication) 令牌
 
 ## 安装 SDK
 
@@ -76,8 +76,8 @@ Anthropic 的[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-lib
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.8.0")
-        implementation("com.anthropic:anthropic-java-foundry:3.8.0")
+        implementation("com.anthropic:anthropic-java:3.10.0")
+        implementation("com.anthropic:anthropic-java-foundry:3.10.0")
         ```
       </Tab>
 
@@ -86,12 +86,12 @@ Anthropic 的[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-lib
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-foundry</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         ```
       </Tab>
@@ -108,9 +108,10 @@ Anthropic 的[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-lib
 
   <Tab title="Ruby">
     ```bash
-    # Gemfile
-    gem "anthropic"
+    bundle add anthropic
     ```
+
+    如需使用 Entra ID 身份验证，您需要向客户端传入一个令牌提供程序。[Microsoft Entra 身份验证](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#microsoft-entra-authentication)中的提供程序从 [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) 获取令牌，因此请安装 Azure CLI 以使用该提供程序。
   </Tab>
 </Tabs>
 
@@ -120,15 +121,13 @@ Foundry 使用两级层次结构：**资源**包含您的安全和计费配置�
 
 ### 预配 Foundry 资源
 
-创建一个 Foundry 资源，这是在 Azure 中使用和管理服务所必需的。您可以按照这些说明创建 [Foundry 资源](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?pivots=azportal#create-a-new-azure-ai-foundry-resource)。或者，您可以从创建 [Foundry 项目](https://learn.microsoft.com/en-us/azure/foundry/how-to/create-projects)开始，这涉及创建一个 Foundry 资源。
-
 要预配您的资源：
 
 1. 导航到 [Foundry 门户](https://ai.azure.com/)。
-2. 创建一个新的 Foundry 资源或选择一个现有资源。
-3. 使用 Azure 颁发的 API 密钥或 Entra ID（原 Azure Active Directory）配置访问管理，以进行基于角色的访问控制。
-4. 可选地将资源配置为专用网络（Azure Virtual Network）的一部分，以限制对您资源的网络访问。
-5. 记下您的资源名称。您将在 API 端点中将其用作 `{resource}`（例如，`https://{resource}.services.ai.azure.com/anthropic/v1/*`）。
+2. 在[您的模型可用的 Azure 区域](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/use-foundry-models-claude)中创建或选择 Foundry 资源。您可以按照 Microsoft 的[创建 Foundry 资源的说明](https://learn.microsoft.com/en-us/azure/ai-services/multi-service-resource?pivots=azportal)操作，或者[创建 Foundry 项目](https://learn.microsoft.com/en-us/azure/foundry/how-to/create-projects)，这会为您创建一个资源。
+3. 记下您的资源名称，即 API 端点（例如 `https://{resource}.services.ai.azure.com/anthropic/v1/*`）中的 `{resource}`。
+
+要限制网络访问，您可以[将资源添加到专用网络](https://learn.microsoft.com/en-us/azure/foundry/how-to/configure-private-link)（Azure Virtual Network）。
 
 ### 创建 Foundry 部署
 
@@ -145,8 +144,8 @@ Foundry 使用两级层次结构：**资源**包含您的安全和计费配置�
 5. 配置部署：
 
    * **Deployment name：** 默认为模型 ID，但您可以自定义（例如 `my-claude-deployment`）。部署名称在创建后无法更改。
-   * **Region scope：** 选择 **Global**，或对于托管于 Azure 的模型，选择 **Data Zone**。选择 **Data Zone** 会创建 US Data Zone Standard 部署，将推理保留在美国境内，等同于在 Claude API 上设置 [`inference_geo: "us"`](https://platform.claude.com/docs/zh-CN/manage-claude/data-residency#inference-geo)。对于 Claude Sonnet 5.5，请选择 **Global**。
-   * **Model version：** 展开 **Model version settings**，然后从 **Model version** 下拉菜单中选择一个版本。每个[托管选项](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#hosting-options)都作为单独的模型版本列出，并标有其托管选项（例如，版本 1 为 Hosted on Anthropic，版本 2 为 Hosted on Azure）。
+   * **Model version：** 此设置决定[托管选项](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#hosting-options)。展开 **Model version settings**，打开 **Model version** 下拉菜单，然后选择标有您所需托管选项的版本。
+   * **Region scope：** 选择 **Global**；如果部署托管在 Azure 上，也可以选择 **Data Zone**。**Data Zone** 会创建 US Data Zone Standard 部署，将推理保留在美国境内。有关定价，请参阅[推理地理位置](https://platform.claude.com/docs/zh-CN/about-claude/pricing#foundry-inference-geography)。
 
 6. 选择 **Deploy** 并等待预配完成。
 
@@ -160,7 +159,7 @@ Foundry 使用两级层次结构：**资源**包含您的安全和计费配置�
 
 ## 身份验证
 
-Microsoft Foundry 中的 Claude 支持两种身份验证方法：API 密钥和 Entra ID 令牌。两种方法都使用格式为 `https://{resource}.services.ai.azure.com/anthropic/v1/*` 的 Azure 托管端点。
+Microsoft Foundry 中的 Claude 支持两种身份验证方法：API 密钥和 Entra ID 令牌。两种方法都使用格式为 `https://{resource}.services.ai.azure.com/anthropic/v1/*` 的端点。对于 [Claude Mythos 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)，请使用 [Entra ID 令牌](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#microsoft-entra-authentication)。
 
 ### API 密钥身份验证
 
@@ -175,7 +174,7 @@ SDK 的 Foundry 客户端需要 API 密钥以及资源名称或基础 URL，如�
 
 * `ANTHROPIC_FOUNDRY_API_KEY` - 您的 API 密钥
 * `ANTHROPIC_FOUNDRY_RESOURCE` - 您的资源名称（例如 `example-resource`）
-* `ANTHROPIC_FOUNDRY_BASE_URL` - 资源名称的替代项：完整的基础 URL（例如 `https://example-resource.services.ai.azure.com/anthropic/`）。C# SDK 不读取此变量：它始终根据资源名称构造基础 URL。
+* `ANTHROPIC_FOUNDRY_BASE_URL` - 资源名称的替代项，适用于除 C# 之外的所有 SDK：完整的基础 URL（例如 `https://example-resource.services.ai.azure.com/anthropic/`）
 
 <Note>
   `resource` 和 `base_url` 参数是互斥的。请提供资源名称（SDK 使用它将 URL 构造为 `https://{resource}.services.ai.azure.com/anthropic/`）或直接提供完整的基础 URL。
@@ -360,7 +359,7 @@ SDK 的 Foundry 客户端需要 API 密钥以及资源名称或基础 URL，如�
     messages: [{role: "user", content: "Hello!"}]
   )
 
-  puts message.content.find { it.type == :text }.text
+  message.content.grep(Anthropic::Models::TextBlock).each { |block| puts block.text }
   ```
 </CodeGroup>
 
@@ -587,8 +586,8 @@ Entra ID 身份验证让您可以使用 Azure RBAC 管理访问权限、与组�
   ```ruby Ruby
   require "anthropic"
 
-  # 从 Azure CLI 获取 Microsoft Entra ID 令牌。客户端会在每次请求和重试时
-  # 调用此 lambda，因此在生产环境中，请缓存该令牌，
+  # 从 Azure CLI 获取 Microsoft Entra ID 令牌。客户端在每次请求和重试时
+  # 都会调用此 lambda，因此在生产环境中，请缓存该令牌，
   # 直到其即将过期。
   token_provider = lambda do
     `az account get-access-token --resource https://ai.azure.com --query accessToken -o tsv`
@@ -605,7 +604,7 @@ Entra ID 身份验证让您可以使用 Azure RBAC 管理访问权限、与组�
     messages: [{role: "user", content: "Hello!"}]
   )
 
-  puts message.content.find { it.type == :text }.text
+  message.content.grep(Anthropic::Models::TextBlock).each { |block| puts block.text }
   ```
 </CodeGroup>
 
@@ -615,11 +614,11 @@ Foundry 在 HTTP 响应标头中包含请求标识符，用于调试和跟踪。
 
 ## 功能支持
 
-Microsoft Foundry 中的 Claude 支持大多数 Claude 功能。您可以在[功能概述](https://platform.claude.com/docs/zh-CN/build-with-claude/overview)中找到当前支持的所有功能。
+Microsoft Foundry 中的 Claude 支持大多数 Claude 功能。[功能概述](https://platform.claude.com/docs/zh-CN/build-with-claude/overview)列出了 Claude 的功能，而功能页面的**可用性**部分会显示 Foundry 是否支持该功能以及在哪种托管选项下支持。
 
 ### 上下文窗口
 
-Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5、Claude Mythos 5、Claude Opus 5.5、Claude Opus 5、Claude Opus 4.8、Claude Opus 4.7、Claude Opus 4.6、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6 和 Claude Haiku 5.5 在 Microsoft Foundry 上具有 [1M 令牌的上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)。其他 Claude 模型，包括 Claude Sonnet 4.5（已弃用），具有 200k 令牌的上下文窗口。
+除 Claude Opus 4.5、Claude Sonnet 4.5（已弃用）和 Claude Haiku 4.5 之外，所有[可用模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)在 Microsoft Foundry 上都具有 [1M 令牌的上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)。这三个模型具有 200k 令牌的上下文窗口。
 
 ### Microsoft Foundry 中的 Claude 不支持的 Claude 功能
 
@@ -646,7 +645,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 ## API 响应
 
-Microsoft Foundry 中的 Claude 的 API 响应遵循标准的 [Claude API 响应格式](https://platform.claude.com/docs/zh-CN/api/messages/create)。这包括响应正文中的 `usage` 对象，它提供请求的详细令牌消耗信息。`usage` 对象在所有平台上保持一致，包括 Claude API、Amazon Bedrock、Claude Platform on AWS、Foundry 和 Claude Models on Google Cloud (Google managed)。
+来自 Microsoft Foundry 中的 Claude 的 API 响应遵循标准的 [Claude API 响应格式](https://platform.claude.com/docs/zh-CN/api/messages/create)，包括 `usage` 对象。
 
 有关特定于 Foundry 的响应标头的详细信息，请参阅[关联请求 ID](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#correlation-request-ids)。
 
@@ -730,7 +729,9 @@ Anthropic 建议至少以 30 天滚动周期记录您的活动，以了解使用
 
 **错误：** `403 Forbidden`
 
-* **解决方案：** 您的 Azure 账户可能缺少必要的权限。请确保已为您分配适当的 Azure RBAC 角色（例如 **Foundry User**（以前称为 Azure AI User）或 **Cognitive Services User**）。
+**原因：** 您的 Azure 账户可能缺少必要的权限。
+
+* **解决方案：** 确保已为您分配适当的 Azure RBAC 角色（例如 **Foundry User** 或 **Cognitive Services User**）。
 
 ### 速率限制
 
@@ -777,8 +778,8 @@ Foundry 在响应中不包含 Anthropic 的标准速率限制标头（`anthropic
     在 Foundry 目录中浏览 Anthropic 模型。
   </Card>
 
-  <Card title="Azure AI Foundry 定价" icon="calculator" href="https://azure.microsoft.com/en-us/pricing/details/ai-foundry/#pricing">
-    查看 Microsoft 针对 Azure AI Foundry 的定价详情。
+  <Card title="Microsoft Foundry 定价" icon="calculator" href="https://azure.microsoft.com/en-us/pricing/details/ai-foundry/#pricing">
+    查看 Microsoft 针对 Microsoft Foundry 的定价详情。
   </Card>
 
   <Card title="模型定价" icon="table" href="https://platform.claude.com/docs/zh-CN/about-claude/pricing#model-pricing">

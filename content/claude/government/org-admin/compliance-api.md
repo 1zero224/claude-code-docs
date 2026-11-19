@@ -34,7 +34,7 @@ x-api-key: <your-compliance-api-key>
 
 | Parameter | Description |
 | - | - |
-| `since` or `created_at.gte` | The earliest event time to return, as an RFC 3339 timestamp or epoch seconds. A lower bound is required on every request that does not carry a cursor. |
+| `since` or `created_at.gte` | The earliest event time to return, as an RFC 3339 timestamp or epoch seconds. If you build the URL yourself, write a `+` in an offset as `%2B`. A lower bound is required on every request that does not carry a cursor. |
 | `until` or `created_at.lte` | The latest event time to return, in the same format. Optional. |
 | `after_id` | An opaque cursor that continues from where a previous page left off. Pass the `last_id` value from the previous response. |
 | `before_id` | An opaque cursor that pages in the other direction. Pass the `first_id` value from the previous response. Cannot be combined with `after_id`. |
@@ -45,6 +45,8 @@ x-api-key: <your-compliance-api-key>
 The exclusive bounds `created_at.gt` and `created_at.lt` are also accepted if your collector needs them.
 
 The API serves the most recent 30 days of activity. A lower bound earlier than that is treated as 30 days ago.
+
+A URL over 8 KiB or with more than 256 query parameters returns a `414`. When `actor_ids[]` is the only repeated filter, send at most 135 values in a request.
 
 ### Response format
 
@@ -92,7 +94,7 @@ On every `user.*` activity, two top-level fields identify the user the event is 
 | `user_id` | The Claude for Government user ID, in the same `usr_` format as `actor.user_id`. |
 | `user_email` | The user's email address at the time of the event. |
 
-The user an event is about is not always the actor. When an owner changes someone's role, the `actor` block names the owner and these fields name the user whose role changed. When a tenant administrator who isn't one of the organization's Primary Owners grants or removes the Primary Owner role, the `user.role_changed` event also carries a `by_tenant_admin` field set to `true`.
+The user an event is about is not always the actor. When an administrator changes someone's role, the `actor` block names the administrator and these fields name the user whose role changed.
 
 ```json theme={null}
 {
@@ -104,20 +106,23 @@ The user an event is about is not always the actor. When an owner changes someon
   "actor": {
     "type": "user_actor",
     "user_id": "usr_00000000-0000-0000-0000-000000000001",
-    "email_address": "owner@agency.example.com"
+    "email_address": "tenant-admin@agency.example.com"
   },
   "user_id": "usr_00000000-0000-0000-0000-000000000002",
   "user_email": "person@agency.example.com",
-  "old": "user",
-  "new": "owner"
+  "old": "owner",
+  "new": "primary_owner",
+  "by_tenant_admin": true
 }
 ```
+
+On `user.role_changed` or `user.seat_tier_changed`, `by_tenant_admin: true` means that a tenant administrator who isn't a [Primary Owner](https://claude.com/docs/government/org-admin/users.md#understanding-roles) of the organization made a change that an Owner can't make, such as granting the Primary Owner role. Otherwise, the field is absent.
 
 ### Activity types
 
 Event types use a dotted `resource.action` naming convention. The categories emitted today include:
 
-* **Users** such as `user.created`, `user.signed_in`, `user.role_changed`, `user.deactivated`, and `user.reactivated`.
+* **Users** such as `user.created`, `user.signed_in`, `user.role_changed`, `user.seat_tier_changed`, `user.deactivated`, and `user.reactivated`.
 * **Organizations** such as `org.created`, `org.renamed`, and `org.deactivated`.
 * **Credentials** such as `api_key.created` and `api_key.revoked`.
 * **Seats and tiers** such as `seat_allocation.set`, `seat_allocation.tier_assigned`, `seat_tier.created`, and `seat_tier.updated`.

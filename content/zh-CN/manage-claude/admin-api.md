@@ -10,7 +10,13 @@ description: 使用 Admin API 以编程方式管理组织成员、工作区、�
 
 Admin API 适用于 Claude Console 和 Claude Enterprise 组织，不适用于 claude.ai Team 计划下的组织或个人 Console 账户。个人 Console 账户必须先在 Claude Console 的[组织](https://platform.claude.com/settings/organization)页面（`platform.claude.com/settings/organization`）中设置组织。有关每种组织类型在何处创建其密钥，请参阅[创建 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)。
 
-Claude Enterprise（claude.ai）组织使用在 claude.ai 中创建的限定作用域 API 密钥调用 Admin API。在本页中，只有成员和邀请端点适用于它们。它们还可以调用[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)，该 API 目前处于 beta 阶段，需要使用具有 `read:analytics` 作用域的密钥。它们还可使用 Enterprise 专属端点：群组和自定义角色读取，以及[支出限额](https://platform.claude.com/docs/zh-CN/manage-claude/spend-limits-api)。同样为 Enterprise 专属的[插件 API](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api) 目前处于 beta 阶段。[Claude Tag API](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api) 也是如此。请参阅[用户管理](https://platform.claude.com/docs/zh-CN/manage-claude/user-management)。
+Claude Enterprise（claude.ai）组织使用在 claude.ai 中创建的限定作用域 API 密钥调用 Admin API。在本页中，只有成员、邀请和[组织信息](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#accessing-organization-info)端点适用于它们。在本页之外，它们还可以调用以下 API 和端点：
+
+* [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)（目前处于 beta 阶段）以及旧版[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)。两者都需要使用具有 `read:analytics` 作用域的密钥。
+* Enterprise 专属端点：群组、自定义角色读取，以及[支出限额 API](https://platform.claude.com/docs/zh-CN/manage-claude/spend-limits-api)。
+* [插件 API](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api) 和 [Claude Tag API](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api)，它们为 Enterprise 专属且目前处于 beta 阶段。
+
+有关成员、邀请、群组和自定义角色，请参阅[用户管理](https://platform.claude.com/docs/zh-CN/manage-claude/user-management)。
 
 在 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上，仅以下 Admin API 端点可用：
 
@@ -26,7 +32,7 @@ Claude Enterprise（claude.ai）组织使用在 claude.ai 中创建的限定作�
 Admin API 接受以下三种凭证中的任意一种：
 
 * **Admin API 密钥**（以 `sk-ant-admin...` 开头），通过 `x-api-key` 标头发送。只有具有 admin 角色的组织成员才能配置此类密钥。请参阅[创建 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)。
-* 具有 `org:admin` 作用域的 **OAuth bearer 令牌**，通过 `authorization: Bearer` 标头发送。只有具有管理员、所有者或主要所有者角色的成员才能获取此类令牌。请参阅[获取 OAuth bearer 令牌](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#oauth-bearer-token)。
+* 具有 `org:admin` 作用域的 **OAuth bearer 令牌**，通过 `authorization: Bearer` 标头发送。只有具有 admin 角色的用户和服务账户才能获取此类令牌。请参阅[获取 OAuth bearer 令牌](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#oauth-bearer-token)。
 * 未限定于特定工作区的**个人密钥**或**服务账户密钥**，通过 `x-api-key` 标头发送。该密钥拥有与所关联账户相同的权限。请参阅[密钥类型](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#key-types)。
 
 Admin API 密钥涵盖大多数端点。服务账户、联合身份颁发者和联合规则端点仅接受 `org:admin` OAuth 令牌。个人密钥或服务账户密钥与 Admin API 密钥一样，通过 `x-api-key` 标头发送。以下示例分别使用 OAuth 令牌和 Admin API 密钥调用[组织信息端点](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#accessing-organization-info)。
@@ -226,7 +232,7 @@ SDK 和 `ant` CLI 会自动读取 `ANTHROPIC_AUTH_TOKEN`。请在同一 shell �
 
 ## 组织角色和权限
 
-共有五种组织级角色。详情请参阅 [API Console 角色和权限](https://support.claude.com/en/articles/10186004-api-console-roles-and-permissions)。
+Claude Console 组织共有五种组织级角色。详情请参阅 [API Console 角色和权限](https://support.claude.com/en/articles/10186004-api-console-roles-and-permissions)。
 
 | 角色                 | 权限                                                                           |
 | ------------------ | ---------------------------------------------------------------------------- |
@@ -236,7 +242,7 @@ SDK 和 `ant` CLI 会自动读取 `ANTHROPIC_AUTH_TOKEN`。请在同一 shell �
 | billing            | 可以使用 playground 并管理账单详情                                                      |
 | admin              | 可以执行上述所有操作，并可管理用户                                                            |
 
-组织所有者和主要所有者拥有所有管理员权限，并且还可以对管理员进行管理。本页中所有对管理员角色的引用同样适用于所有者和主要所有者。
+Claude Enterprise 组织具有一套不同的角色，包括所有者和主要所有者。请参阅[组织角色](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#organization-roles)。
 
 ## 关键概念
 
@@ -1779,7 +1785,7 @@ SDK 和 `ant` CLI 会自动读取 `ANTHROPIC_AUTH_TOKEN`。请在同一 shell �
 
 <AccordionGroup>
   <Accordion title="使用 Admin API 需要哪些权限？">
-    Admin API 接受 Admin API 密钥（以 `sk-ant-admin` 开头）、具有 `org:admin` 作用域的 OAuth bearer 令牌，或未限定于特定工作区的个人密钥或服务账户密钥。只有具有管理员角色的组织成员才能配置 Admin API 密钥，只有具有管理员、所有者或主要所有者角色的成员才能获取 `org:admin` 令牌。个人密钥或服务账户密钥拥有与所关联账户相同的权限。请参阅[身份验证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication)。
+    Admin API 接受 Admin API 密钥（以 `sk-ant-admin` 开头）、具有 `org:admin` 作用域的 OAuth bearer 令牌，或未限定于特定工作区的个人密钥或服务账户密钥。只有具有 admin 角色的组织成员才能配置 Admin API 密钥。只有具有 admin 角色的用户和服务账户才能获取 `org:admin` 令牌。个人密钥或服务账户密钥拥有与所关联账户相同的权限。请参阅[身份验证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication)。
   </Accordion>
 
   <Accordion title="Admin API 可以创建 API 密钥吗？">

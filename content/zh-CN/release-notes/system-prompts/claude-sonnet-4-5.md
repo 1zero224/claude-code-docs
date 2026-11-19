@@ -4,7 +4,7 @@ url: https://platform.claude.com/docs/zh-CN/release-notes/system-prompts/claude-
 description: 查看 Claude Sonnet 4.5 在 [claude.ai](https://claude.ai)、[Claude iOS 应用](https://anthropic.com/ios)和 [Claude Android 应用](https://anthropic.com/android)上的核心系统提示更新。
 ---
 
-以下各日期版本之间的变更以 `**` 包围变更文本的方式标出。
+只有一个版本（2026 年 1 月 18 日版本）使用 `**` 标出相对于前一版本发生变更的文本。
 
 ## 2026 年 1 月 18 日
 

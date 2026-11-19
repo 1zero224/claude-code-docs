@@ -39,7 +39,7 @@ Beyond the prerequisites, you create a GitHub identity for the Claude Code GitHu
 
 **1. Choose a GitHub identity**
 
-The Claude Code GitHub Action pushes commits and posts comments through a GitHub identity. The [quick setup](https://code.claude.com/docs/en/github-actions.md#quick-setup) installs the official Claude GitHub App for this. With a cloud provider, you choose the identity yourself:
+The Claude Code GitHub Action pushes commits and posts comments through a GitHub identity. With a cloud provider, you choose the identity:
 
 * **Official [Claude GitHub App](https://github.com/apps/claude)**: install it on the repository, or skip to the next step if it's already installed
 * **Custom GitHub App**: create your own app when you want only the three permissions the Claude Code GitHub Action uses rather than the [official app's full set](https://code.claude.com/docs/en/github-actions.md#github-app-permissions)
@@ -84,7 +84,7 @@ Configure your cloud to trust the OIDC token that GitHub issues to the workflow,
 > Create a Microsoft Entra application with a federated credential for your repository, following [Microsoft's guide to authenticating from GitHub Actions](https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure-openid-connect):
 >
 > * Register a Microsoft Entra application and add a federated identity credential that trusts tokens GitHub issues to your repository. A user-assigned managed identity works in place of an application. Both have the client ID you note below
-> * Assign the application the `Azure AI User` role on your Foundry resource. See [Azure RBAC configuration](https://code.claude.com/docs/en/microsoft-foundry.md#azure-rbac-configuration) for a narrower custom role
+> * Assign the application the `Foundry User` role on your Foundry resource. See [Azure RBAC configuration](https://code.claude.com/docs/en/microsoft-foundry.md#azure-rbac-configuration) for the other built-in role and custom roles
 >
 > Note the application's client ID, your tenant ID, and your subscription ID. You add them as secrets in the next step.
 

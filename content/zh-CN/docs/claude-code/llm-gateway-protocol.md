@@ -110,7 +110,7 @@ Claude Code 会在每个流式推理响应到达时逐个事件地读取它，�
 
 两个客户端设置改变了 Claude Code 对它无法识别的模型 ID 的假设，无论开发者使用哪种连接方法：
 
-* **上下文窗口**：Claude Code 假设 200K，或当 ID 包含 `[1m]` 时为 1M。要声明真实窗口，请参阅 [为网关或自定义模型 ID 更正窗口](https://code.claude.com/docs/zh-CN/model-config.md#correct-the-window-for-a-gateway-or-custom-model-id)
+* **上下文窗口**：自 v2.1.323 起，Claude Code 默认假设 1M token 的上下文窗口。要声明真实窗口，请参阅 [为网关或自定义模型 ID 更正窗口](https://code.claude.com/docs/zh-CN/model-config.md#correct-the-window-for-a-gateway-or-custom-model-id)
 * **能力**：要给网关别名赋予其后面模型的能力，请使用您分发的设置中的 [`modelOverrides`](https://code.claude.com/docs/zh-CN/errors#unrecognized-model-id-on-a-request) 条目将该模型的 Anthropic ID 映射到您的别名。有关 `ANTHROPIC_DEFAULT_*_MODEL_SUPPORTED_CAPABILITIES` 变量适用的位置，请参阅 [功能传递](#feature-pass-through)
 
 ## 请求标头
@@ -211,7 +211,7 @@ Claude Code 将 `ANTHROPIC_BASE_URL` gateway 视为 Anthropic 格式端点，并
 
 ### Beta 请求头与请求体字段对
 
-添加请求体字段的功能将它们与 beta 请求头配对，该对一起传递。删除请求头同时传递请求体的网关，或将 Anthropic 格式请求体转发到具有不同 schema 的上游，会产生 `400` 错误。当两个部分一起缺失时，功能会安静地关闭。
+添加请求体字段的功能将它们与 beta 请求头配对，该对一起传递。删除请求头同时传递请求体的网关，或将 Anthropic 格式请求体转发到具有不同 schema 的上游，会产生 `400` 错误。
 
 重写或编辑请求体以进行内容检查的网关会以与删除相同的方式破坏配对，因此请在不修改的情况下检查。该表注明了功能偏离配对的位置。
 
@@ -296,6 +296,7 @@ Claude Code 将 `ANTHROPIC_BASE_URL` gateway 视为 Anthropic 格式端点，并
 * 顶层的 `output_config.effort` 字段。[自动重试和错误转发](#automatic-retry-and-error-forwarding)介绍了上游拒绝它的情况
 * 自适应推理的 `thinking` 字段，它没有 beta 请求头
 * 携带[对话中途系统消息](#feature-pass-through)的 `role: "system"` 条目
+* 自动模式[服务器端分类器审查](https://code.claude.com/docs/zh-CN/permission-modes.md#server-side-classifier-review)的 `anthropic-beta` 值和 `safeguards` 字段，适用于该审查保持开启的会话，例如 `/status` 将 **Auto mode server** 显示为 `Enabled` 时。若要关闭该审查，请在启动会话之前设置 `CLAUDE_CODE_AUTO_MODE_SERVER=0`。在终端中，`/status` 随后会将 **Auto mode server** 显示为 `Disabled`。
 * 订阅身份验证所需的 OAuth `anthropic-beta` 值
 * 开发者通过 [`ANTHROPIC_BETAS`](https://code.claude.com/docs/zh-CN/env-vars) 或 [`CLAUDE_CODE_EXTRA_BODY`](https://code.claude.com/docs/zh-CN/env-vars) 自行添加的请求头值和请求体字段
 

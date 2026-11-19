@@ -8,11 +8,11 @@ description: 逐步演示一个完整的两轮工具使用往返流程，正确�
   要了解"zero data retention"（零数据保留），即 ZDR 如何适用于此功能，请参阅 [API 与数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)。
 </Note>
 
-本页逐步演示一个启用思考的完整两轮 tool use（工具使用）往返流程：Claude 进行思考、请求工具调用、接收结果并完成回答，且在每一步都正确处理 thinking blocks（思考块）。完整规则位于[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)页面的[思考与工具使用](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-with-tool-use)和[保留思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)部分；本页展示这些规则在可运行代码中的应用。
+本页逐步演示一个启用思考的完整两轮 tool use（工具使用）往返流程。Claude 进行思考、请求工具调用、接收结果并完成回答。在每一步，您的代码都会正确处理 thinking blocks（思考块）。完整规则位于思考页面的[思考与工具使用](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-with-tool-use)和[保留思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)部分。
 
 ## 本演示所应用的规则
 
-每个链接都指向思考页面上的完整说明：
+每条规则都链接到其完整说明：
 
 * [在手动模式下将工具选择限制为 `auto` 或 `none`](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-with-tool-use)：在手动扩展思考（`thinking: {type: "enabled"}`）下，强制工具使用的 `tool_choice` 选项会返回错误。
 
@@ -25,9 +25,9 @@ description: 逐步演示一个完整的两轮工具使用往返流程，正确�
 
 * [完整且不加修改地传回思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)：当您返回工具结果时，助手消息中的思考块必须随之一起传回。
 
-* [按接收到的原样回传助手消息](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)：重建消息或过滤掉 `redacted_thinking` 块会触发 400 错误。
+* [按接收到的原样回传助手消息](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)：丢弃思考块会丢失其中的推理，即使没有出现错误也是如此。
 
-示例使用自适应思考；在仅支持扩展思考的模型上，请替换为 `thinking: {type: "enabled", budget_tokens: N}`。往返规则完全相同。
+示例使用自适应思考。在 Claude Opus 4.5、Claude Sonnet 4.5、Claude Haiku 4.5 以及更早的 Claude 4 模型上，请替换为 `thinking: {type: "enabled", budget_tokens: N}`。以相同的方式回传助手轮次。
 
 ## 逐步演示两轮工具使用往返流程
 
@@ -494,7 +494,7 @@ description: 逐步演示一个完整的两轮工具使用往返流程，正确�
           Tools = [weatherTool],
           Messages = [
               new UserMessageParam { Content = "What's the weather in Paris?" },
-              // response.Content 包含思考块；必须将它们原样传回
+              // response.Content 包含思考块；必须将它们传回
               new AssistantMessageParam { Content = response.Content.Select(block => new ContentBlockParam(block.Json)).ToList() },
               new UserMessageParam
               {
@@ -618,7 +618,7 @@ description: 逐步演示一个完整的两轮工具使用往返流程，正确�
 
           int temperature = 88;
 
-          // 第二次请求：原样回传收到的 assistant 轮次，然后附上工具结果
+          // 第二次请求：原样回传收到的助手轮次，然后附上工具结果
           MessageCreateParams continuationParams = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
               .maxTokens(16000L)
@@ -836,6 +836,6 @@ description: 逐步演示一个完整的两轮工具使用往返流程，正确�
   </Card>
 
   <Card title="扩展思考" icon="clock" href="https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking">
-    旧模型上的手动思考预算：`budget_tokens` 机制以及向自适应思考的迁移。
+    手动思考预算：`budget_tokens` 机制以及向自适应思考的迁移。
   </Card>
 </CardGroup>

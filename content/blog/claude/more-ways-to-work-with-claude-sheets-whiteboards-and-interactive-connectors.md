@@ -12,13 +12,13 @@ Reading time5 min
 ShareCopy link
 We've seen Claude Code change how developers work. Engineers went from manually coding line by line, to describing ideas and reviewing what Claude built. It reconnected them with the joy of building. Our goal is to bring that magic to every team, and today we're expanding what Claude makes possible. We're introducing new artifact types with **Claude Sheets,** **Claude Whiteboards**, and **Claude Data**. We're also making it easier to work in your most-used apps with an upgrade to **interactive connectors**. **Claude Meetings** is coming soon.
 ## All your connectors and context
-In Claude Code, the context Claude needs is already in the codebase. For other teams, context sprawls across emails, apps, and drives. Claude reaches it through connectors built on the [Model Context Protocol (opens in new tab)](https://www.anthropic.com/news/model-context-protocol) (MCP), the open standard we introduced for connecting AI to the tools you use. Claude Marketplace lists more than 9,000 connectors and plugins, including community-built ones.
-[**Interactive connectors** (opens in new tab)](https://claude.com/resources/articles/interactive-connectors-full-tool) take this further. Starting today, partners can embed their apps directly in Claude, so you can work in Adobe, Atlassian, and others without switching tabs. Plugins from Salesforce (beta), NetSuite, and Workday (beta) come with built-in skills, so sellers can prep for a call, accountants can analyze financial data, and HR teams can handle time off and expenses.
+In Claude Code, the context Claude needs is already in the codebase. For other teams, context sprawls across emails, apps, and drives. Claude reaches it through connectors built on the [Model Context Protocol (opens in new tab)](https://www.anthropic.com/news/model-context-protocol) (MCP), the open standard we introduced for connecting AI to the tools you use. [Claude Marketplace](https://claude.com/resources/articles/claude-marketplace) lists more than 9,000 connectors and plugins, including community-built ones.
+[**Interactive connectors** (opens in new tab)](https://claude.com/resources/articles/interactive-connectors-full-tool) take this further. Starting today, partners can embed their apps directly in Claude, so you can work in Adobe, Atlassian, and others without switching tabs. Plugins from [Salesforce](https://claude.com/resources/articles/salesforce-in-claude) (beta), NetSuite, and Workday (beta) come with built-in skills, so sellers can prep for a call, accountants can analyze financial data, and HR teams can handle time off and expenses.
 ## Bring ideas to life faster, together
 Starting today, Claude can build spreadsheets, whiteboards, and dashboards with your team. These work with its existing abilities to create [documents, slide decks, and designs (opens in new tab)](https://www.youtube.com/watch?v=To5nrYqvR44), and with [Claude Motion (opens in new tab)](https://support.claude.com/en/articles/17454997-get-started-with-claude-motion) (beta), which helps you turn content into short animations. In each one, Claude quickly picks up what you need, so your thinking sets the pace of work:
   - [**New artifact types** (opens in new tab)](https://claude.com/resources/articles/sheets-whiteboards-data):
     - In Claude Sheets, your team and Claude build spreadsheets together, collaboratively organize data, create and edit formulas, and work across multiple tabs.
-    - Claude Whiteboards is a digital whiteboard that your team can use to lay out and organize ideas together in a meeting, then ask Claude to summarize the findings.
+    - Claude Whiteboards is a digital whiteboard that your team can use to lay out and organize ideas together [in a meeting](https://claude.com/resources/articles/claude-meetings), then ask Claude to summarize the findings.
     - Claude Data (formerly Dashboards) connects to tools like Snowflake and Salesforce and can use definitions your data team certifies (beta) to create dashboards, visual data stories, or narrated short videos.
 You can also ask Claude to build custom artifacts for the way your team works, like an account tracker, a daily briefing, a project status board, or a contract review table. Since Claude carries the same context through every step, an idea can carry over from a whiteboard to a spreadsheet to a dashboard, without the need to reiterate the details.
 Coming soon, **Claude Meetings** will let you add Claude to a call to take notes and update the documents your team is working on during the conversation.
@@ -72,23 +72,20 @@ Modern work is set up around software, but Claude works around you. It knows you
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)[
-ArticleNov 9, 2026
-### Claude Fable 5.2 and Mythos 5.2
-Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
-Claude appsClaude Code
-1 more: Claude PlatformClaude Platform
-(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)[
-ArticleNov 5, 2026
-### Introducing Personal Finance in Claude
-Ask Claude about your money and get straight answers from the accounts you connect.
-](https://claude.com/resources/articles/introducing-personal-finance-in-claude)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 12, 2026
+### Operate Claude Managed Agents inside your security perimeter
+Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
+Claude PlatformClaude Managed Agents
+](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
+ArticleNov 12, 2026
+### Introducing Claude for Manufacturing
+A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
+](https://claude.com/resources/articles/claude-for-manufacturing)[
+ArticleNov 12, 2026
+### Introducing Claude Meetings
+Add Claude to your video call and get the work started while you talk
+](https://claude.com/resources/articles/claude-meetings)

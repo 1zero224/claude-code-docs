@@ -12,255 +12,254 @@
 
 ## 设置索引
 
-下面的每个键都链接到其对应条目。作用域列出了该键可以写入的[文件](https://code.claude.com/docs/zh-CN/settings.md#settings-files-and-who-they-affect)：`用户` 指 `~/.claude/settings.json`，`项目` 指 `.claude/settings.json`，`本地` 指 `.claude/settings.local.json`，`托管` 指[您的组织部署的内容](https://code.claude.com/docs/zh-CN/managed-settings.md)。`任意文件` 表示以上全部四种，`全局配置` 表示 [`~/.claude.json`](#global-config-settings)。
+下方每个键都链接到其对应条目。Scope 列出了该键可以写入的[文件](https://code.claude.com/docs/zh-CN/settings.md#settings-files-and-who-they-affect)：`User` 是 `~/.claude/settings.json`，`Project` 是 `.claude/settings.json`，`Local` 是 `.claude/settings.local.json`，`Managed` 是[您的组织部署的内容](https://code.claude.com/docs/zh-CN/managed-settings.md)。`Any file` 表示以上全部四种，`Global config` 表示 [`~/.claude.json`](#global-config-settings)。
 
 | Key | Description | Topic | Scope |
 | :- | :- | :- | :- |
-| [`advisorModel`](#advisormodel) | 选择 Claude 调用 [advisor 工具](https://code.claude.com/docs/zh-CN/advisor.md)时由哪个模型回答 | 模型与回复 | 任意文件 |
-| [`agent`](#agent) | 让每个会话都以指定的[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)身份启动，使用其提示词、工具和模型 | Agent、会话与 worktree | 任意文件 |
-| [`agentPushNotifEnabled`](#agentpushnotifenabled) | 允许 Claude 在其认为需要时[向您的手机发送推送通知](https://code.claude.com/docs/zh-CN/remote-control.md#mobile-push-notifications) | 远程、桌面与通知 | 任意文件 |
+| [`advisorModel`](#advisormodel) | 选择 Claude 询问 [advisor 工具](https://code.claude.com/docs/zh-CN/advisor.md)时由哪个模型回答 | 模型与回复 | 任意文件 |
+| [`agent`](#agent) | 以指定名称的[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)启动每个会话，并使用其提示词、工具和模型 | Agent、会话与 worktree | 任意文件 |
+| [`agentPushNotifEnabled`](#agentpushnotifenabled) | 允许 Claude 在其认为需要时向[您的手机发送推送通知](https://code.claude.com/docs/zh-CN/remote-control.md#mobile-push-notifications) | 远程、桌面与通知 | 任意文件 |
 | [`allowAllClaudeAiMcps`](#allowallclaudeaimcps) | 在已部署 [`managed-mcp.json`](https://code.claude.com/docs/zh-CN/managed-mcp#exclusive-control-with-managed-mcp-json) 的同时，加载 Claude Code 自行获取的 [claude.ai 连接器](https://code.claude.com/docs/zh-CN/mcp.md) | MCP | 托管 |
-| [`allowClaudeInChromeWithManagedMcp`](#allowclaudeinchromewithmanagedmcp) | 允许内置的 [Claude in Chrome](https://code.claude.com/docs/zh-CN/chrome.md) 服务器与已部署的 [`managed-mcp.json`](https://code.claude.com/docs/zh-CN/managed-mcp#exclusive-control-with-managed-mcp-json) 一起运行 | MCP | 托管 |
+| [`allowClaudeInChromeWithManagedMcp`](#allowclaudeinchromewithmanagedmcp) | 允许内置的 [Claude in Chrome](https://code.claude.com/docs/zh-CN/chrome.md) 服务器与已部署的 [`managed-mcp.json`](https://code.claude.com/docs/zh-CN/managed-mcp#exclusive-control-with-managed-mcp-json) 一同运行 | MCP | 托管 |
 | [`allowedChannelPlugins`](#allowedchannelplugins) | 替换可推送消息的[频道插件](https://code.claude.com/docs/zh-CN/channels.md#restrict-which-channel-plugins-can-run)的默认允许列表 | 插件与 skill | 托管 |
 | [`allowedHttpHookUrls`](#allowedhttphookurls) | 限制 [HTTP hook](https://code.claude.com/docs/zh-CN/hooks.md) 可以访问的 URL | hook 与自动化 | 任意文件 |
-| [`allowedMcpServers`](#allowedmcpservers) | 通过允许列表限定用户可以添加的 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md) | MCP | 任意文件 |
+| [`allowedMcpServers`](#allowedmcpservers) | 设置用户可添加的 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md)的允许列表 | MCP | 任意文件 |
 | [`allowedProviders`](#allowedproviders) | 限制一台机器可以使用的 [API 提供商](https://code.claude.com/docs/zh-CN/third-party-integrations.md) | 身份验证与提供商 | 托管 |
 | [`allowManagedHooksOnly`](#allowmanagedhooksonly) | 仅运行您的组织部署的 [hook](https://code.claude.com/docs/zh-CN/hooks.md) | hook 与自动化 | 托管 |
 | [`allowManagedMcpServersOnly`](#allowmanagedmcpserversonly) | 使托管的 [MCP](https://code.claude.com/docs/zh-CN/mcp.md) 允许列表成为唯一生效的允许列表 | MCP | 托管 |
 | [`allowManagedPermissionRulesOnly`](#allowmanagedpermissionrulesonly) | 使[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)成为[权限规则](https://code.claude.com/docs/zh-CN/permissions.md#managed-settings)的唯一设置来源 | 权限设置 | 托管 |
-| [`alwaysThinkingEnabled`](#alwaysthinkingenabled) | 为所有会话关闭[扩展思考](https://code.claude.com/docs/zh-CN/model-config.md#extended-thinking) | 模型与回复 | 任意文件 |
+| [`alwaysThinkingEnabled`](#alwaysthinkingenabled) | 为每个会话关闭[扩展思考](https://code.claude.com/docs/zh-CN/model-config.md#extended-thinking) | 模型与回复 | 任意文件 |
 | [`apiKeyHelper`](#apikeyhelper) | 使用您自己的命令生成 [API 凭据](https://code.claude.com/docs/zh-CN/authentication.md#credential-management) | 身份验证与提供商 | 任意文件 |
-| [`askUserQuestionTimeout`](#askuserquestiontimeout) | 让未回答的问题在空闲一段时间后[自动继续](https://code.claude.com/docs/zh-CN/tools-reference.md#question-auto-continue-timeout) | 界面与终端 | 用户或托管 |
+| [`askUserQuestionTimeout`](#askuserquestiontimeout) | 让未被回答的问题在空闲一段时间后[自动继续](https://code.claude.com/docs/zh-CN/tools-reference.md#question-auto-continue-timeout) | 界面与终端 | 用户或托管 |
 | [`appendPlugins`](#appendplugins) | 在用户安装的每个 mod 之后运行您组织的 [mod](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md) | 插件与 skill | 用户或托管 |
 | [`attribution`](#attribution) | 自定义 Claude Code 添加到提交和 Pull Request 中的署名 | Git 与署名 | 任意文件 |
-| [`attribution.commit`](#attribution-commit) | 更改或隐藏 Claude Code 添加到提交中的尾注 | Git 与署名 | 任意文件 |
+| [`attribution.commit`](#attribution-commit) | 更改或隐藏 Claude Code 添加到提交中的 trailer | Git 与署名 | 任意文件 |
 | [`attribution.pr`](#attribution-pr) | 更改或隐藏 Pull Request 描述中的署名行 | Git 与署名 | 任意文件 |
-| [`attribution.sessionUrl`](#attribution-sessionurl) | 在[云端](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)和 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 提交中省略 claude.ai 会话链接 | Git 与署名 | 任意文件 |
+| [`attribution.sessionUrl`](#attribution-sessionurl) | 从[云端](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)和 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 提交中省略 claude.ai 会话链接 | Git 与署名 | 任意文件 |
 | [`autoCompactEnabled`](#autocompactenabled) | 关闭或开启[自动压缩](https://code.claude.com/docs/zh-CN/context-window.md) | 记忆与上下文 | 任意文件 |
-| [`autoCompactWindow`](#autocompactwindow) | 设置上下文达到多满时 Claude Code 执行[压缩](https://code.claude.com/docs/zh-CN/context-window.md) | 记忆与上下文 | 任意文件 |
+| [`autoCompactWindow`](#autocompactwindow) | 设置上下文达到多满时 Claude Code 进行[压缩](https://code.claude.com/docs/zh-CN/context-window.md) | 记忆与上下文 | 任意文件 |
 | [`autoConnectIde`](#autoconnectide) | 从外部终端自动连接到正在运行的 [VS Code](https://code.claude.com/docs/zh-CN/vs-code.md) 或 [JetBrains](https://code.claude.com/docs/zh-CN/jetbrains.md#from-external-terminals) IDE | 全局配置设置 | 全局配置 |
-| [`autoContinueAtUsageLimit`](#autocontinueatusagelimit) | 在 claude.ai 用量限制重置后，在已打开的会话中等待并[自动继续任务](https://code.claude.com/docs/zh-CN/interactive-mode.md#wait-for-a-usage-limit-to-reset) | 界面与终端 | 用户或托管 |
+| [`autoContinueAtUsageLimit`](#autocontinueatusagelimit) | 在 claude.ai 用量限制重置后，于打开的会话中等待并[自动继续任务](https://code.claude.com/docs/zh-CN/interactive-mode.md#wait-for-a-usage-limit-to-reset) | 界面与终端 | 用户或托管 |
 | [`autoInstallIdeExtension`](#autoinstallideextension) | 允许 `/ide` 从外部终端安装 [IDE 扩展](https://code.claude.com/docs/zh-CN/vs-code.md#install-the-extension) | 全局配置设置 | 全局配置 |
 | [`autoMemoryDirectory`](#automemorydirectory) | 将[自动记忆](https://code.claude.com/docs/zh-CN/memory.md#auto-memory)存储在您选择的目录中 | 记忆与上下文 | 任意文件 |
 | [`autoMemoryEnabled`](#automemoryenabled) | 关闭或开启[自动记忆](https://code.claude.com/docs/zh-CN/memory.md#auto-memory) | 记忆与上下文 | 任意文件 |
-| [`autoMode`](#automode) | 为[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)分类器添加您自己的允许和拒绝规则 | 权限设置 | 用户或托管 |
-| [`autoMode.classifyAllShell`](#automode-classifyallshell) | 将每条 shell 命令都交给[自动模式分类器](https://code.claude.com/docs/zh-CN/permission-modes.md#what-the-classifier-blocks-by-default)审查，即使是匹配了窄范围允许规则的命令 | 权限设置 | 用户或托管 |
+| [`autoMode`](#automode) | 向[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)分类器添加您自己的允许和拒绝规则 | 权限设置 | 用户或托管 |
+| [`autoMode.classifyAllShell`](#automode-classifyallshell) | 将每条 shell 命令都交给[自动模式分类器](https://code.claude.com/docs/zh-CN/permission-modes.md#what-the-classifier-blocks-by-default)处理，即使是被窄范围允许规则匹配的命令 | 权限设置 | 用户或托管 |
 | [`autoScrollEnabled`](#autoscrollenabled) | 在全屏渲染中[跟随新输出](https://code.claude.com/docs/zh-CN/fullscreen.md#auto-follow)滚动到底部 | 界面与终端 | 任意文件 |
-| [`autoUpdatesChannel`](#autoupdateschannel) | 跟随 stable [发布渠道](https://code.claude.com/docs/zh-CN/setup.md#configure-release-channel)而不是 latest | 更新与版本 | 任意文件 |
+| [`autoUpdatesChannel`](#autoupdateschannel) | 跟随 stable [发布渠道](https://code.claude.com/docs/zh-CN/setup.md#configure-release-channel)而非 latest | 更新与版本 | 任意文件 |
 | [`availableModels`](#availablemodels) | [限制用户可以选择的模型](https://code.claude.com/docs/zh-CN/model-config.md#restrict-model-selection) | 模型与回复 | 任意文件 |
-| [`availableModelsMatch`](#availablemodelsmatch) | 使 `availableModels` 中的每个模型 ID 条目[仅允许其指定的版本](https://code.claude.com/docs/zh-CN/model-config.md#block-specific-models-or-versions) | 模型与回复 | 托管 |
+| [`availableModelsMatch`](#availablemodelsmatch) | 使每个 `availableModels` 模型 ID 条目[仅允许其指定的版本](https://code.claude.com/docs/zh-CN/model-config.md#block-specific-models-or-versions) | 模型与回复 | 托管 |
 | [`awaySummaryEnabled`](#awaysummaryenabled) | 关闭您返回终端时显示的[会话回顾](https://code.claude.com/docs/zh-CN/interactive-mode.md#session-recap) | 远程、桌面与通知 | 任意文件 |
 | [`awsAuthRefresh`](#awsauthrefresh) | 使用您自己的命令刷新 `.aws` 中已过期的 [Bedrock 凭据](https://code.claude.com/docs/zh-CN/amazon-bedrock.md#advanced-credential-configuration) | 身份验证与提供商 | 任意文件 |
 | [`awsCredentialExport`](#awscredentialexport) | 通过您自己的命令以 JSON 形式提供 [Bedrock 凭据](https://code.claude.com/docs/zh-CN/amazon-bedrock.md#advanced-credential-configuration) | 身份验证与提供商 | 任意文件 |
 | [`axScreenReader`](#axscreenreader) | 渲染[适合屏幕阅读器的输出](https://code.claude.com/docs/zh-CN/accessibility.md) | 界面与终端 | 用户或托管 |
-| [`bashEditDiffEnabled`](#basheditdiffenabled) | 在所有权限模式下记录[在 Bash 命令运行期间发生更改的文件](https://code.claude.com/docs/zh-CN/hooks.md#bash) | 界面与终端 | 用户或托管 |
-| [`bashOutputMaxChars`](#bashoutputmaxchars) | 设置 Claude 以内联方式接收成功命令[输出](https://code.claude.com/docs/zh-CN/tools-reference.md#output-limits)的长度 | 记忆与上下文 | 任意文件 |
+| [`bashEditDiffEnabled`](#basheditdiffenabled) | 在所有权限模式下记录 [Bash 命令运行期间更改的文件](https://code.claude.com/docs/zh-CN/hooks.md#bash) | 界面与终端 | 用户或托管 |
+| [`bashOutputMaxChars`](#bashoutputmaxchars) | 设置 Claude 以内联方式接收的成功命令[输出](https://code.claude.com/docs/zh-CN/tools-reference.md#output-limits)量 | 记忆与上下文 | 任意文件 |
 | [`blockedMarketplaces`](#blockedmarketplaces) | 为您的组织屏蔽[插件市场](https://code.claude.com/docs/zh-CN/plugins/overview.md)来源 | 插件与 skill | 托管 |
-| [`browserExternalPageTools`](#browserexternalpagetools) | 在[桌面版](https://code.claude.com/docs/zh-CN/desktop.md) Browser 面板中禁止 Claude 的工具作用于外部页面 | 工具 | 托管 |
-| [`channelsEnabled`](#channelsenabled) | 为您的组织允许[频道](https://code.claude.com/docs/zh-CN/channels.md#enable-channels-for-your-organization) | 插件与 skill | 托管 |
-| [`claudeInChromeDefaultEnabled`](#claudeinchromedefaultenabled) | 在交互式 CLI 和 VS Code 扩展中，会话启动时开启 [Chrome 集成](https://code.claude.com/docs/zh-CN/chrome.md) | 全局配置设置 | 全局配置 |
-| [`claudeMd`](#claudemd) | 通过托管设置注入组织范围的 [CLAUDE.md](https://code.claude.com/docs/zh-CN/memory.md#deploy-organization-wide-claude-md) 指令 | 记忆与上下文 | 托管 |
-| [`claudeMdExcludes`](#claudemdexcludes) | 在加载记忆时跳过特定的 [CLAUDE.md](https://code.claude.com/docs/zh-CN/memory.md#exclude-specific-claude-md-files) 文件 | 记忆与上下文 | 任意文件 |
-| [`cleanupPeriodDays`](#cleanupperioddays) | 选择 Claude Code 在删除[会话记录](https://code.claude.com/docs/zh-CN/data-usage.md#data-retention)之前保留多少天 | 隐私与遥测 | 任意文件 |
+| [`browserExternalPageTools`](#browserexternalpagetools) | 在[桌面版](https://code.claude.com/docs/zh-CN/desktop.md) Browser 窗格中禁止 Claude 的工具作用于外部页面 | 工具 | 托管 |
+| [`channelsEnabled`](#channelsenabled) | 为您的组织允许使用[频道](https://code.claude.com/docs/zh-CN/channels.md#enable-channels-for-your-organization) | 插件与 skill | 托管 |
+| [`claudeInChromeDefaultEnabled`](#claudeinchromedefaultenabled) | 在交互式 CLI 和 VS Code 扩展中，于会话启动时开启 [Chrome 集成](https://code.claude.com/docs/zh-CN/chrome.md) | 全局配置设置 | 全局配置 |
+| [`claudeMd`](#claudemd) | 从托管设置注入组织范围的 [CLAUDE.md](https://code.claude.com/docs/zh-CN/memory.md#deploy-organization-wide-claude-md) 指令 | 记忆与上下文 | 托管 |
+| [`claudeMdExcludes`](#claudemdexcludes) | 加载记忆时跳过特定的 [CLAUDE.md](https://code.claude.com/docs/zh-CN/memory.md#exclude-specific-claude-md-files) 文件 | 记忆与上下文 | 任意文件 |
+| [`cleanupPeriodDays`](#cleanupperioddays) | 选择 Claude Code 在删除[会话记录](https://code.claude.com/docs/zh-CN/data-usage.md#data-retention)前保留多少天 | 隐私与遥测 | 任意文件 |
 | [`companyAnnouncements`](#companyannouncements) | 在启动时显示您组织的公告 | 界面与终端 | 任意文件 |
 | [`copyFullResponse`](#copyfullresponse) | 让 [`/copy`](https://code.claude.com/docs/zh-CN/commands) 直接复制完整回复而不显示选择器 | 全局配置设置 | 全局配置 |
-| [`copyOnSelect`](#copyonselect) | 关闭在[全屏渲染](https://code.claude.com/docs/zh-CN/fullscreen.md#use-the-mouse)和 Agent 视图中自动复制鼠标所选文本的功能 | 全局配置设置 | 全局配置 |
+| [`copyOnSelect`](#copyonselect) | 在[全屏渲染](https://code.claude.com/docs/zh-CN/fullscreen.md#use-the-mouse)和 Agent 视图中，关闭对鼠标所选文本的自动复制 | 全局配置设置 | 全局配置 |
 | [`crossSessionInbound`](#crosssessioninbound) | 选择 Claude Code 是投递[来自您其他会话的消息](https://code.claude.com/docs/zh-CN/cross-session-messaging.md#control-inbound-messages)、仅显示通知而不投递，还是拒绝这些消息 | Agent、会话与 worktree | 任意文件 |
 | [`defaultShell`](#defaultshell) | 选择由 Bash 还是 PowerShell 运行您以 [`!` 前缀](https://code.claude.com/docs/zh-CN/interactive-mode#shell-mode-with-prefix)输入的 shell 命令 | 界面与终端 | 任意文件 |
-| [`defaultToAgentsView`](#defaulttoagentsview) | 在不带参数运行 `claude` 时打开 [Agent 视图](https://code.claude.com/docs/zh-CN/agent-view.md)而不是新对话 | 全局配置设置 | 全局配置 |
-| [`deniedMcpServers`](#deniedmcpservers) | 按 URL、命令或名称屏蔽特定的 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md) | MCP | 任意文件 |
-| [`deniedModels`](#deniedmodels) | [屏蔽特定模型](https://code.claude.com/docs/zh-CN/model-config.md#block-specific-models-or-versions)，即使 `availableModels` 允许了这些模型 | 模型与回复 | 托管 |
+| [`defaultToAgentsView`](#defaulttoagentsview) | 在不带参数运行 `claude` 时打开 [Agent 视图](https://code.claude.com/docs/zh-CN/agent-view.md)而非新对话 | 全局配置设置 | 全局配置 |
+| [`deniedMcpServers`](#deniedmcpservers) | 按 URL、命令或名称屏蔽特定 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md) | MCP | 任意文件 |
+| [`deniedModels`](#deniedmodels) | [屏蔽特定模型](https://code.claude.com/docs/zh-CN/model-config.md#block-specific-models-or-versions)，即使 `availableModels` 允许它们 | 模型与回复 | 托管 |
 | [`desktopSessionCleanupPeriodDays`](#desktopsessioncleanupperioddays) | 为 [Claude Desktop 和 Cowork 会话记录](https://code.claude.com/docs/zh-CN/claude-directory.md#cleaned-up-automatically)设置以天为单位的保留期限 | 隐私与遥测 | 用户或托管 |
 | [`dialogExpiry`](#dialogexpiry) | 设置 Claude Code 在取消转发的对话框之前，等待 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 或 SDK 宿主应答的时长 | 界面与终端 | 用户或托管 |
-| [`diffTool`](#difftool) | 选择 Claude 提议的文件更改是在 [VS Code](https://code.claude.com/docs/zh-CN/vs-code.md) 或 [JetBrains](https://code.claude.com/docs/zh-CN/jetbrains.md#features) 的 diff 查看器中打开，还是保留在终端中 | 全局配置设置 | 全局配置 |
+| [`diffTool`](#difftool) | 选择 Claude 建议的文件更改是在 [VS Code](https://code.claude.com/docs/zh-CN/vs-code.md) 或 [JetBrains](https://code.claude.com/docs/zh-CN/jetbrains.md#features) 的 diff 查看器中打开，还是保留在终端中 | 全局配置设置 | 全局配置 |
 | [`disableAgentView`](#disableagentview) | 关闭后台 Agent 和 [Agent 视图](https://code.claude.com/docs/zh-CN/agent-view.md) | Agent、会话与 worktree | 任意文件 |
-| [`disableAllHooks`](#disableallhooks) | 一次性关闭 [hook](https://code.claude.com/docs/zh-CN/hooks.md)、自定义[状态栏](https://code.claude.com/docs/zh-CN/statusline.md)和自定义 [`@` 文件建议](https://code.claude.com/docs/zh-CN/interactive-mode#quick-commands)命令 | hook 与自动化 | 任意文件 |
+| [`disableAllHooks`](#disableallhooks) | 一次性关闭 [hook](https://code.claude.com/docs/zh-CN/hooks.md)、自定义[状态栏](https://code.claude.com/docs/zh-CN/statusline.md)以及自定义 [`@` 文件建议](https://code.claude.com/docs/zh-CN/interactive-mode#quick-commands)命令 | hook 与自动化 | 任意文件 |
 | [`disableArtifact`](#disableartifact) | 已弃用；请使用 `enableArtifact` 关闭 [Artifact 工具](https://code.claude.com/docs/zh-CN/artifacts.md) | 远程、桌面与通知 | 任意文件 |
 | [`disableAutoMode`](#disableautomode) | 从权限模式循环中移除[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode) | 权限设置 | 任意文件 |
-| [`disableBrowserExternalNavigation`](#disablebrowserexternalnavigation) | 将[桌面版](https://code.claude.com/docs/zh-CN/desktop.md) Browser 面板限制为仅供用户和 Claude 访问 localhost | 工具 | 托管 |
+| [`disableBrowserExternalNavigation`](#disablebrowserexternalnavigation) | 将[桌面版](https://code.claude.com/docs/zh-CN/desktop.md) Browser 窗格对用户和 Claude 均限制为 localhost | 工具 | 托管 |
 | [`disableBundledSkills`](#disablebundledskills) | 关闭 Claude Code 随附的 [skill](https://code.claude.com/docs/zh-CN/skills.md#bundled-skills) 和[工作流](https://code.claude.com/docs/zh-CN/workflows.md) | 插件与 skill | 任意文件 |
 | [`disableClaudeAiConnectors`](#disableclaudeaiconnectors) | 关闭 [claude.ai 连接器](https://code.claude.com/docs/zh-CN/mcp.md#disable-claude-ai-connectors)，使 Claude Code 不再获取它们 | MCP | 任意文件 |
 | [`disableCommandPluginSources`](#disablecommandpluginsources) | 屏蔽通过运行市场声明的命令进行安装的[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md) | 插件与 skill | 托管 |
 | [`disableDeepLinkRegistration`](#disabledeeplinkregistration) | 阻止 Claude Code 注册 [`claude-cli://` 处理程序](https://code.claude.com/docs/zh-CN/deep-links) | 远程、桌面与通知 | 任意文件 |
-| [`disableDesktopLocalSessions`](#disabledesktoplocalsessions) | 关闭在设备本机上运行的 [Desktop Code 会话](https://code.claude.com/docs/zh-CN/desktop.md#local-sessions-on-managed-devices)，仅保留到其他主机的 SSH 和云端会话 | 远程、桌面与通知 | 托管 |
+| [`disableDesktopLocalSessions`](#disabledesktoplocalsessions) | 关闭在设备上运行的 [Desktop Code 会话](https://code.claude.com/docs/zh-CN/desktop.md#local-sessions-on-managed-devices)，仅保留通过 SSH 连接其他主机和云端 | 远程、桌面与通知 | 托管 |
 | [`disabledMcpjsonServers`](#disabledmcpjsonservers) | 拒绝项目 [`.mcp.json`](https://code.claude.com/docs/zh-CN/mcp#project-scope) 中的特定服务器 | MCP | 任意文件 |
-| [`disableMobileSimulatorTools`](#disablemobilesimulatortools) | 在[桌面版](https://code.claude.com/docs/zh-CN/desktop.md) iOS Simulator 面板中屏蔽 Claude 的工具 | 工具 | 托管 |
-| [`disableRemoteControl`](#disableremotecontrol) | 在所有可启动 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 的位置将其关闭 | 远程、桌面与通知 | 任意文件 |
-| [`disableRemotePreviewScripts`](#disableremotepreviewscripts) | 在 SSH 和 WSL 会话中关闭[桌面版](https://code.claude.com/docs/zh-CN/desktop.md#preview-html-files-in-ssh-and-wsl-sessions)应用 HTML 预览中的脚本 | 远程、桌面与通知 | 托管 |
+| [`disableMobileSimulatorTools`](#disablemobilesimulatortools) | 在[桌面版](https://code.claude.com/docs/zh-CN/desktop.md) iOS Simulator 窗格中屏蔽 Claude 的工具 | 工具 | 托管 |
+| [`disableRemoteControl`](#disableremotecontrol) | 在所有可启动 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 的地方将其关闭 | 远程、桌面与通知 | 任意文件 |
+| [`disableRemotePreviewScripts`](#disableremotepreviewscripts) | 在 SSH 和 WSL 会话中关闭[桌面](https://code.claude.com/docs/zh-CN/desktop.md#preview-html-files-in-ssh-and-wsl-sessions)应用 HTML 预览中的脚本 | 远程、桌面与通知 | 托管 |
 | [`disableSideloadFlags`](#disablesideloadflags) | 拒绝用于旁加载[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md)、[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)和 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md)的 CLI 标志 | 企业与托管设置 | 托管 |
 | [`disableSkillShellExecution`](#disableskillshellexecution) | 阻止 [skill](https://code.claude.com/docs/zh-CN/skills.md) 和自定义命令运行内联 shell | 插件与 skill | 任意文件 |
-| [`disableWorkflows`](#disableworkflows) | 为所有人关闭[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)；若仅针对自己，请使用 `enableWorkflows` | hook 与自动化 | 任意文件 |
+| [`disableWorkflows`](#disableworkflows) | 为所有人关闭[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)；如仅针对您自己，请使用 `enableWorkflows` | hook 与自动化 | 任意文件 |
 | [`editorMode`](#editormode) | 在输入框中使用 [vim 键绑定](https://code.claude.com/docs/zh-CN/interactive-mode.md#vim-editor-mode) | 界面与终端 | 任意文件 |
-| [`effortLevel`](#effortlevel) | 为没有已保存级别的模型设置默认的 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level) | 模型与回复 | 任意文件 |
-| [`emojiCompletionEnabled`](#emojicompletionenabled) | 关闭输入框中的 [`:shortcode:` emoji 建议和替换](https://code.claude.com/docs/zh-CN/interactive-mode#emoji-shortcodes) | 界面与终端 | 任意文件 |
-| [`enableAllProjectMcpServers`](#enableallprojectmcpservers) | 无需确认提示即批准项目 [`.mcp.json`](https://code.claude.com/docs/zh-CN/mcp#project-server-approvals-and-workspace-trust) 文件中的所有服务器 | MCP | 任意文件 |
-| [`enableArtifact`](#enableartifact) | 在任意文件中设为 `false` 即可关闭 [Artifact 工具](https://code.claude.com/docs/zh-CN/artifacts.md)；任何文件都无法再将其重新开启 | 远程、桌面与通知 | 任意文件 |
+| [`effortLevel`](#effortlevel) | 为没有自己已保存级别的模型设置默认 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level) | 模型与回复 | 任意文件 |
+| [`emojiCompletionEnabled`](#emojicompletionenabled) | 关闭输入框中的 [`:shortcode:` 表情建议与替换](https://code.claude.com/docs/zh-CN/interactive-mode#emoji-shortcodes) | 界面与终端 | 任意文件 |
+| [`enableAllProjectMcpServers`](#enableallprojectmcpservers) | 无需提示即批准项目 [`.mcp.json`](https://code.claude.com/docs/zh-CN/mcp#project-server-approvals-and-workspace-trust) 文件中的所有服务器 | MCP | 任意文件 |
+| [`enableArtifact`](#enableartifact) | 在任意文件中设为 `false` 即可关闭 [Artifact 工具](https://code.claude.com/docs/zh-CN/artifacts.md)；任何文件都无法将其重新开启 | 远程、桌面与通知 | 任意文件 |
 | [`enabledMcpjsonServers`](#enabledmcpjsonservers) | 批准项目 [`.mcp.json`](https://code.claude.com/docs/zh-CN/mcp#project-server-approvals-and-workspace-trust) 中的特定服务器 | MCP | 任意文件 |
 | [`enabledPlugins`](#enabledplugins) | 按作用域开启或关闭单个[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md) | 插件与 skill | 任意文件 |
 | [`enableWorkflows`](#enableworkflows) | 相对于您套餐的默认值开启或关闭[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md) | hook 与自动化 | 任意文件 |
-| [`enforceAvailableModels`](#enforceavailablemodels) | 将 [`/model` 的 Default 选项](https://code.claude.com/docs/zh-CN/model-config#enforce-the-allowlist-for-the-default-model)限制在您的 `availableModels` 允许列表之内 | 模型与回复 | 任意文件 |
+| [`enforceAvailableModels`](#enforceavailablemodels) | 使 [`/model` 的 Default 选项](https://code.claude.com/docs/zh-CN/model-config#enforce-the-allowlist-for-the-default-model)保持在您的 `availableModels` 允许列表范围内 | 模型与回复 | 任意文件 |
 | [`env`](#env) | 为每个会话及其子进程设置[环境变量](https://code.claude.com/docs/zh-CN/env-vars.md#in-settings-files) | 记忆与上下文 | 任意文件 |
-| [`externalEditorContext`](#externaleditorcontext) | 按 [Ctrl+G](https://code.claude.com/docs/zh-CN/interactive-mode.md#general-controls) 进行编辑时，将 Claude 的上一条回复以注释形式显示 | 全局配置设置 | 全局配置 |
+| [`externalEditorContext`](#externaleditorcontext) | 在您按 [Ctrl+G](https://code.claude.com/docs/zh-CN/interactive-mode.md#general-controls) 进行编辑时，以注释形式显示 Claude 的上一条回复 | 全局配置设置 | 全局配置 |
 | [`extraKnownMarketplaces`](#extraknownmarketplaces) | 为仓库或组织注册[市场](https://code.claude.com/docs/zh-CN/plugins/overview.md) | 插件与 skill | 任意文件 |
 | [`fallbackModel`](#fallbackmodel) | 指定主模型过载时使用的[备用模型](https://code.claude.com/docs/zh-CN/model-config.md#fallback-model-chains) | 模型与回复 | 任意文件 |
 | [`fastMode`](#fastmode) | 在可用的会话中开启[快速模式](https://code.claude.com/docs/zh-CN/fast-mode.md) | 模型与回复 | 任意文件 |
-| [`fastModePerSessionOptIn`](#fastmodepersessionoptin) | 要求用户在每个会话中手动开启[快速模式](https://code.claude.com/docs/zh-CN/fast-mode.md) | 模型与回复 | 任意文件 |
+| [`fastModePerSessionOptIn`](#fastmodepersessionoptin) | 要求用户在每个会话中自行开启[快速模式](https://code.claude.com/docs/zh-CN/fast-mode.md) | 模型与回复 | 任意文件 |
 | [`feedbackDrafts`](#feedbackdrafts) | 控制 Claude 是否将[反馈草稿](https://code.claude.com/docs/zh-CN/tools-reference.md#sendfeedback-tool-behavior)排队供您审阅 | 隐私与遥测 | 用户或托管 |
 | [`feedbackSurveyRate`](#feedbacksurveyrate) | 更改[会话质量调查](https://code.claude.com/docs/zh-CN/data-usage.md#session-quality-surveys)的出现频率 | 隐私与遥测 | 任意文件 |
 | [`fileCheckpointingEnabled`](#filecheckpointingenabled) | 关闭或开启 [`/rewind`](https://code.claude.com/docs/zh-CN/checkpointing) 所恢复的文件快照 | 记忆与上下文 | 任意文件 |
 | [`fileSuggestion`](#filesuggestion) | 通过您自己的命令提供 [`@` 文件自动补全](https://code.claude.com/docs/zh-CN/interactive-mode#quick-commands) | 界面与终端 | 任意文件 |
-| [`footerLinksRegexes`](#footerlinksregexes) | 将输出中的 issue 或审查 ID 转换为输入框下方的[可点击链接](https://code.claude.com/docs/zh-CN/statusline.md#clickable-links) | 界面与终端 | 用户或托管 |
-| [`forceLoginGatewayUrl`](#forcelogingatewayurl) | 设置登录界面连接的[网关 URL](https://code.claude.com/docs/zh-CN/claude-apps-gateway#set-the-gateway-url) | 身份验证与提供商 | 用户或托管 |
+| [`footerLinksRegexes`](#footerlinksregexes) | 将输出中的问题或审查 ID 转换为输入框下方的[可点击链接](https://code.claude.com/docs/zh-CN/statusline.md#clickable-links) | 界面与终端 | 用户或托管 |
+| [`forceLoginGatewayUrl`](#forcelogingatewayurl) | 设置登录界面所连接的[网关 URL](https://code.claude.com/docs/zh-CN/claude-apps-gateway#set-the-gateway-url) | 身份验证与提供商 | 用户或托管 |
 | [`forceLoginMethod`](#forceloginmethod) | 将[登录限制](https://code.claude.com/docs/zh-CN/authentication.md#restrict-login-to-your-organization)为 claude.ai、Claude Console 或[云网关](https://code.claude.com/docs/zh-CN/claude-apps-gateway) | 身份验证与提供商 | 任意文件 |
-| [`forceLoginOrgUUID`](#forceloginorguuid) | [将 claude.ai 登录限定到您的组织](https://code.claude.com/docs/zh-CN/authentication.md#restrict-login-to-your-organization)；仅托管设置会强制执行此设置 | 身份验证与提供商 | 任意文件 |
-| [`forceRemoteSettingsRefresh`](#forceremotesettingsrefresh) | 阻塞启动，直到成功获取最新的[服务器托管设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md)为止 | 企业与托管设置 | 托管 |
+| [`forceLoginOrgUUID`](#forceloginorguuid) | [将 claude.ai 登录固定到您的组织](https://code.claude.com/docs/zh-CN/authentication.md#restrict-login-to-your-organization)；仅托管设置会强制执行 | 身份验证与提供商 | 任意文件 |
+| [`forceRemoteSettingsRefresh`](#forceremotesettingsrefresh) | 在重新获取[服务器托管设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md)之前阻止启动 | 企业与托管设置 | 托管 |
 | [`gatewayInternalNetworks`](#gatewayinternalnetworks) | 允许 `/login` 访问位于您组织内部使用的公共 IPv4 地址空间上的[云网关](https://code.claude.com/docs/zh-CN/claude-apps-gateway#allow-a-gateway-on-public-address-space-you-own) | 身份验证与提供商 | 托管 |
 | [`gcpAuthRefresh`](#gcpauthrefresh) | 使用您自己的命令刷新 [Google Cloud 凭据](https://code.claude.com/docs/zh-CN/google-vertex-ai.md#advanced-credential-configuration) | 身份验证与提供商 | 任意文件 |
 | [`hooks`](#hooks) | 在 Claude Code 生命周期的各个节点以 [hook](https://code.claude.com/docs/zh-CN/hooks.md) 形式运行您自己的命令 | hook 与自动化 | 任意文件 |
-| [`httpHookAllowedEnvVars`](#httphookallowedenvvars) | 限制 [HTTP hook](https://code.claude.com/docs/zh-CN/hooks.md) 可以放入请求头的环境变量 | hook 与自动化 | 任意文件 |
-| [`idleCompaction`](#idlecompaction) | 阻止 Claude Code 压缩您已离开的较长对话 | 记忆与上下文 | 任意文件 |
+| [`httpHookAllowedEnvVars`](#httphookallowedenvvars) | 限制 [HTTP hook](https://code.claude.com/docs/zh-CN/hooks.md) 可放入请求头中的环境变量 | hook 与自动化 | 任意文件 |
+| [`idleCompaction`](#idlecompaction) | 阻止 Claude Code 压缩您已离开的长对话 | 记忆与上下文 | 任意文件 |
 | [`includeCoAuthoredBy`](#includecoauthoredby) | 已弃用；请使用 `attribution` 隐藏或更改提交和 PR 署名 | Git 与署名 | 任意文件 |
 | [`includeGitInstructions`](#includegitinstructions) | 从 Claude 的上下文中移除内置的提交和 PR 指令 | Git 与署名 | 任意文件 |
-| [`inputNeededNotifEnabled`](#inputneedednotifenabled) | 在 Claude 等待您操作时收到[推送通知](https://code.claude.com/docs/zh-CN/remote-control.md#mobile-push-notifications) | 远程、桌面与通知 | 任意文件 |
+| [`inputNeededNotifEnabled`](#inputneedednotifenabled) | 当 Claude 等待您操作时接收[推送通知](https://code.claude.com/docs/zh-CN/remote-control.md#mobile-push-notifications) | 远程、桌面与通知 | 任意文件 |
 | [`isolatePeerMachines`](#isolatepeermachines) | 在 Claude [向您在另一台机器上的会话发送消息](https://code.claude.com/docs/zh-CN/cross-session-messaging.md#require-approval-for-cross-machine-messages)之前先询问您 | Agent、会话与 worktree | 任意文件 |
-| [`keybindingFlavor`](#keybindingflavor) | 已弃用且不再生效；单词编辑快捷键始终[遵循 readline 约定](https://code.claude.com/docs/zh-CN/interactive-mode.md#make-ctrl-w-delete-back-to-whitespace) | 界面与终端 | 任意文件 |
+| [`keybindingFlavor`](#keybindingflavor) | 已弃用且不再生效；单词编辑快捷键始终[遵循 readline 惯例](https://code.claude.com/docs/zh-CN/interactive-mode.md#make-ctrl-w-delete-back-to-whitespace) | 界面与终端 | 任意文件 |
 | [`language`](#language) | 让 Claude 使用英语以外的语言回复 | 模型与回复 | 任意文件 |
 | [`leftArrowOpensAgents`](#leftarrowopensagents) | 关闭用于[将会话转入后台并打开 Agent 视图](https://code.claude.com/docs/zh-CN/agent-view.md#switch-sessions-without-leaving-the-terminal)的 `←` 快捷键 | 全局配置设置 | 全局配置 |
 | [`managedMcpServers`](#managedmcpservers) | 在用户自行添加的服务器之外，为每位用户提供远程 [MCP 服务器](https://code.claude.com/docs/zh-CN/managed-mcp.md#provide-servers-through-managed-settings) | MCP | 托管 |
-| [`managedSourcesBehavior`](#managedsourcesbehavior) | 组合您部署的所有[托管来源](https://code.claude.com/docs/zh-CN/managed-settings.md#how-claude-code-combines-managed-sources)，而不是仅使用优先级最高的一个 | 企业与托管设置 | 托管 |
-| [`maxEffortLevel`](#maxeffortlevel) | 在所有提供商上为所有模型或单个模型设置 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level)上限 | 模型与回复 | 任意文件 |
-| [`maxProseWidth`](#maxprosewidth) | 在宽终端中限制 Claude 回复中正文文本的最大宽度 | 界面与终端 | 任意文件 |
-| [`minimumVersion`](#minimumversion) | 阻止[自动更新](https://code.claude.com/docs/zh-CN/setup.md#pin-a-minimum-version)安装低于某一版本的任何版本 | 更新与版本 | 任意文件 |
+| [`managedSourcesBehavior`](#managedsourcesbehavior) | 组合您部署的所有[托管来源](https://code.claude.com/docs/zh-CN/managed-settings.md#how-claude-code-combines-managed-sources)，而非仅使用优先级最高的那一个 | 企业与托管设置 | 托管 |
+| [`maxEffortLevel`](#maxeffortlevel) | 在所有提供商上，为所有模型或按模型设定 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level)上限 | 模型与回复 | 任意文件 |
+| [`maxProseWidth`](#maxprosewidth) | 在宽终端中限制 Claude 回复正文的最大宽度 | 界面与终端 | 任意文件 |
+| [`minimumVersion`](#minimumversion) | 防止[自动更新](https://code.claude.com/docs/zh-CN/setup.md#pin-a-minimum-version)安装低于某一版本的任何版本 | 更新与版本 | 任意文件 |
 | [`model`](#model) | 更改 Claude Code 启动时使用的[模型](https://code.claude.com/docs/zh-CN/model-config.md#set-a-default-model-for-new-sessions) | 模型与回复 | 任意文件 |
-| [`modelOverrides`](#modeloverrides) | 将[模型 ID 映射](https://code.claude.com/docs/zh-CN/model-config.md#override-model-ids-per-version)到您的提供商的 ID，例如 Bedrock ARN | 模型与回复 | 任意文件 |
+| [`modelOverrides`](#modeloverrides) | 将[模型 ID 映射](https://code.claude.com/docs/zh-CN/model-config.md#override-model-ids-per-version)到您提供商的 ID，例如 Bedrock ARN | 模型与回复 | 任意文件 |
 | [`modelPicker`](#modelpicker) | 选择 [`/model` 选择器](https://code.claude.com/docs/zh-CN/model-config#available-models)列出哪些模型，并使用您自己的顺序和标签 | 模型与回复 | 用户或托管 |
-| [`modelPricing`](#modelpricing) | 按您组织的合同费率而非标价报告花费 | 模型与回复 | 托管 |
-| [`modelSettings`](#modelsettings) | 按模型保存 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level)或[自动压缩窗口](https://code.claude.com/docs/zh-CN/model-config.md#set-the-auto-compact-window)，或为某个模型设置 effort 上限 | 模型与回复 | 任意文件 |
+| [`modelPricing`](#modelpricing) | 按您组织的合同费率而非标价报告支出 | 模型与回复 | 托管 |
+| [`modelSettings`](#modelsettings) | 按模型保存 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level)或[自动压缩窗口](https://code.claude.com/docs/zh-CN/model-config.md#set-the-auto-compact-window)，或为某个模型设定 effort 上限 | 模型与回复 | 任意文件 |
 | [`otelHeadersHelper`](#otelheadershelper) | 使用您自己的命令生成轮换的 [OpenTelemetry](https://code.claude.com/docs/zh-CN/monitoring-usage.md#dynamic-headers) 请求头 | 身份验证与提供商 | 任意文件 |
 | [`outputStyle`](#outputstyle) | 通过[输出样式](https://code.claude.com/docs/zh-CN/output-styles.md)更改 Claude 的角色、语气和输出格式 | 模型与回复 | 任意文件 |
-| [`parentSettingsBehavior`](#parentsettingsbehavior) | 在部署[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)时，应用或丢弃 [SDK 或 IDE 宿主](https://code.claude.com/docs/zh-CN/managed-settings.md#let-an-embedding-host-add-policy)传入的限制 | 企业与托管设置 | 托管 |
-| [`permissionExplainerEnabled`](#permissionexplainerenabled) | 已在 v2.1.257 中移除，shell 权限提示上的 `Ctrl+E` 命令说明也一并移除 | 全局配置设置 | 全局配置 |
-| [`permissions`](#permissions) | 设置允许、询问和拒绝规则以及默认的[权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md) | 权限设置 | 任意文件 |
-| [`permissions.additionalDirectories`](#permissions-additionaldirectories) | 授予 Claude 访问[当前目录之外的目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)中文件的能力 | 权限设置 | 任意文件 |
-| [`permissions.allow`](#permissions-allow) | 无需确认提示即批准所列的[工具使用](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax) | 权限设置 | 任意文件 |
-| [`permissions.ask`](#permissions-ask) | 在所列的[工具使用](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax)之前始终进行提示 | 权限设置 | 任意文件 |
-| [`permissions.blockReadsOutsideWorkingDirectories`](#permissions-blockreadsoutsideworkingdirectories) | 使文件工具在所有权限模式下拒绝读取[工作目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)之外的内容 | 权限设置 | 任意文件 |
-| [`permissions.blockWritesOutsideWorkingDirectories`](#permissions-blockwritesoutsideworkingdirectories) | 使 `Write`、`Edit` 和 `NotebookEdit` 工具在所有权限模式下拒绝[工作目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)之外的路径，[Claude Code 自身的部分文件](#what-the-write-block-refuses-and-what-stays-writable)除外 | 权限设置 | 任意文件 |
-| [`permissions.defaultMode`](#permissions-defaultmode) | 为新会话设置默认的[权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md#which-mode-a-session-starts-in) | 权限设置 | 任意文件 |
-| [`permissions.deny`](#permissions-deny) | 阻止所列的[工具使用](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax)，包括读取包含机密的文件 | 权限设置 | 任意文件 |
-| [`permissions.denyInsteadOfPrompting`](#permissions-denyinsteadofprompting) | 拒绝原本需要等待[权限提示](https://code.claude.com/docs/zh-CN/permissions.md#permission-system)的工具调用，使无人值守的会话能够继续工作 | 权限设置 | 用户或托管 |
+| [`parentSettingsBehavior`](#parentsettingsbehavior) | 在您部署[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)时，应用或丢弃 [SDK 或 IDE 宿主](https://code.claude.com/docs/zh-CN/managed-settings.md#let-an-embedding-host-add-policy)传入的限制 | 企业与托管设置 | 托管 |
+| [`permissionExplainerEnabled`](#permissionexplainerenabled) | 已在 v2.1.257 中移除，同时移除的还有 shell 权限提示中的 `Ctrl+E` 命令说明 | 全局配置设置 | 全局配置 |
+| [`permissions`](#permissions) | 设置允许、询问和拒绝规则以及默认[权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md) | 权限设置 | 任意文件 |
+| [`permissions.additionalDirectories`](#permissions-additionaldirectories) | 允许 Claude 访问[当前目录以外的目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)中的文件 | 权限设置 | 任意文件 |
+| [`permissions.allow`](#permissions-allow) | 无需提示即批准所列的[工具使用](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax) | 权限设置 | 任意文件 |
+| [`permissions.ask`](#permissions-ask) | 在所列的[工具使用](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax)之前进行提示 | 权限设置 | 任意文件 |
+| [`permissions.blockReadsOutsideWorkingDirectories`](#permissions-blockreadsoutsideworkingdirectories) | 在所有权限模式下，使文件工具拒绝读取[工作目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)以外的内容 | 权限设置 | 任意文件 |
+| [`permissions.blockWritesOutsideWorkingDirectories`](#permissions-blockwritesoutsideworkingdirectories) | 在所有权限模式下，使 `Write`、`Edit` 和 `NotebookEdit` 工具拒绝[工作目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)以外的路径，[Claude Code 自身的部分文件](#what-the-write-block-refuses-and-what-stays-writable)除外 | 权限设置 | 任意文件 |
+| [`permissions.defaultMode`](#permissions-defaultmode) | 为新会话设置默认[权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md#which-mode-a-session-starts-in) | 权限设置 | 任意文件 |
+| [`permissions.deny`](#permissions-deny) | 屏蔽所列的[工具使用](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax)，包括读取存放机密的文件 | 权限设置 | 任意文件 |
+| [`permissions.denyInsteadOfPrompting`](#permissions-denyinsteadofprompting) | 拒绝需要等待[权限提示](https://code.claude.com/docs/zh-CN/permissions.md#permission-system)的工具调用，使无人值守的会话能够继续工作 | 权限设置 | 用户或托管 |
 | [`permissions.disableBypassPermissionsMode`](#permissions-disablebypasspermissionsmode) | 阻止任何人进入 [bypassPermissions 模式](https://code.claude.com/docs/zh-CN/permission-modes.md#skip-all-checks-with-bypasspermissions-mode) | 权限设置 | 任意文件 |
 | [`plansDirectory`](#plansdirectory) | 选择[计划模式](https://code.claude.com/docs/zh-CN/permission-modes.md#analyze-before-you-edit-with-plan-mode)写入计划文件的位置 | 记忆与上下文 | 任意文件 |
 | [`pluginConfigs`](#pluginconfigs) | 存储您在[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md)配置对话框中给出的答案 | 插件与 skill | 用户或托管 |
 | [`pluginSuggestionMarketplaces`](#pluginsuggestionmarketplaces) | 选择哪些[市场](https://code.claude.com/docs/zh-CN/plugins/org.md#restrict-what-users-can-install)可以在 `/plugin` 中显示插件安装建议 | 插件与 skill | 托管 |
-| [`pluginTrustMessage`](#plugintrustmessage) | 在[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md)信任警告中添加您自己的文字 | 插件与 skill | 托管 |
+| [`pluginTrustMessage`](#plugintrustmessage) | 向[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md)信任警告中添加您自己的文本 | 插件与 skill | 托管 |
 | [`policyHelper`](#policyhelper) | 在启动时运行一个计算[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md#compute-the-policy-with-a-helper-program)的可执行文件 | 企业与托管设置 | 托管 |
 | [`policyHelper.path`](#policyhelper-path) | 指定 Claude Code 运行的[辅助可执行文件](https://code.claude.com/docs/zh-CN/managed-settings.md#compute-the-policy-with-a-helper-program) | 企业与托管设置 | 托管 |
-| [`policyHelper.refreshIntervalMs`](#policyhelper-refreshintervalms) | 在后台按时间间隔重新运行[辅助程序](https://code.claude.com/docs/zh-CN/managed-settings.md#compute-the-policy-with-a-helper-program) | 企业与托管设置 | 托管 |
+| [`policyHelper.refreshIntervalMs`](#policyhelper-refreshintervalms) | 按一定间隔在后台重新运行[辅助程序](https://code.claude.com/docs/zh-CN/managed-settings.md#compute-the-policy-with-a-helper-program) | 企业与托管设置 | 托管 |
 | [`policyHelper.timeoutMs`](#policyhelper-timeoutms) | 设置 Claude Code 等待[辅助程序](https://code.claude.com/docs/zh-CN/managed-settings.md#compute-the-policy-with-a-helper-program)的时长 | 企业与托管设置 | 托管 |
 | [`preferredNotifChannel`](#preferrednotifchannel) | 为任务完成选择[终端响铃或桌面通知](https://code.claude.com/docs/zh-CN/terminal-config.md#get-a-terminal-bell-or-notification) | 远程、桌面与通知 | 任意文件 |
-| [`prefersReducedMotion`](#prefersreducedmotion) | [减少或关闭](https://code.claude.com/docs/zh-CN/accessibility.md#accessibility-settings)加载指示器、闪烁微光和闪屏动画 | 界面与终端 | 任意文件 |
+| [`prefersReducedMotion`](#prefersreducedmotion) | [减少或关闭](https://code.claude.com/docs/zh-CN/accessibility.md#accessibility-settings)加载指示器、微光和闪烁动画 | 界面与终端 | 任意文件 |
 | [`prependPlugins`](#prependplugins) | 在用户安装的每个 mod 之前运行您组织的 [mod](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md) | 插件与 skill | 用户或托管 |
 | [`processWrapper`](#processwrapper) | 在 macOS 和 Linux 上通过[企业启动器](https://code.claude.com/docs/zh-CN/corporate-launcher.md)运行 Claude Code 的后台进程 | Agent、会话与 worktree | 用户或托管 |
-| [`promptCacheTtl`](#promptcachettl) | 选择主对话的[提示缓存生命周期](https://code.claude.com/docs/zh-CN/prompt-caching.md#cache-lifetime) | 模型与回复 | 任意文件 |
+| [`promptCacheTtl`](#promptcachettl) | 为主对话选择[提示缓存生命周期](https://code.claude.com/docs/zh-CN/prompt-caching.md#cache-lifetime) | 模型与回复 | 任意文件 |
 | [`promptSuggestionEnabled`](#promptsuggestionenabled) | 隐藏输入框中灰色显示的[提示词建议](https://code.claude.com/docs/zh-CN/interactive-mode.md#prompt-suggestions) | 界面与终端 | 任意文件 |
-| [`prStatusFooterEnabled`](#prstatusfooterenabled) | 关闭输入框页脚中的 [PR 审查状态](https://code.claude.com/docs/zh-CN/interactive-mode.md#pr-review-status)徽标及其背后的 Pull Request 检查 | 全局配置设置 | 全局配置 |
-| [`prUrlTemplate`](#prurltemplate) | 将 PR 链接指向内部代码审查工具而不是 github.com | Git 与署名 | 任意文件 |
-| [`remote.defaultEnvironmentId`](#remote-defaultenvironmentid) | 为 `claude --cloud` 选择默认的[云环境](https://code.claude.com/docs/zh-CN/cloud-environments.md)；自托管的 `ccpool_` ID 仅从用户设置、托管设置和 `--settings` 中读取 | 远程、桌面与通知 | 任意文件 |
+| [`prStatusFooterEnabled`](#prstatusfooterenabled) | 关闭提示栏底部的 [PR 审查状态](https://code.claude.com/docs/zh-CN/interactive-mode.md#pr-review-status)徽标及其背后的 Pull Request 检查 | 全局配置设置 | 全局配置 |
+| [`prUrlTemplate`](#prurltemplate) | 将 PR 链接指向内部代码审查工具而非 github.com | Git 与署名 | 任意文件 |
+| [`remote.defaultEnvironmentId`](#remote-defaultenvironmentid) | 为 `claude --cloud` 选择默认[云环境](https://code.claude.com/docs/zh-CN/cloud-environments.md)；自托管的 `ccpool_` ID 仅从用户设置、托管设置和 `--settings` 中读取 | 远程、桌面与通知 | 任意文件 |
 | [`remoteControlAtStartup`](#remotecontrolatstartup) | 在会话启动时自动连接 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md#enable-remote-control-for-all-sessions) | 远程、桌面与通知 | 任意文件 |
-| [`requiredMaximumVersion`](#requiredmaximumversion) | 当版本高于您组织允许的版本时[拒绝启动](https://code.claude.com/docs/zh-CN/setup.md#pin-a-minimum-version) | 更新与版本 | 托管 |
-| [`requiredMinimumVersion`](#requiredminimumversion) | 当版本低于您组织要求的版本时[拒绝启动](https://code.claude.com/docs/zh-CN/setup.md#pin-a-minimum-version) | 更新与版本 | 托管 |
-| [`respectGitignore`](#respectgitignore) | 将被 gitignore 忽略的文件排除在 [`@` 文件选择器](https://code.claude.com/docs/zh-CN/interactive-mode#quick-commands)之外 | 界面与终端 | 任意文件 |
+| [`requiredMaximumVersion`](#requiredmaximumversion) | 在版本高于您组织允许的版本时[拒绝启动](https://code.claude.com/docs/zh-CN/setup.md#pin-a-minimum-version) | 更新与版本 | 托管 |
+| [`requiredMinimumVersion`](#requiredminimumversion) | 在版本低于您组织要求的版本时[拒绝启动](https://code.claude.com/docs/zh-CN/setup.md#pin-a-minimum-version) | 更新与版本 | 托管 |
+| [`respectGitignore`](#respectgitignore) | 将被 gitignore 的文件排除在 [`@` 文件选择器](https://code.claude.com/docs/zh-CN/interactive-mode#quick-commands)之外 | 界面与终端 | 任意文件 |
 | [`respondToBashCommands`](#respondtobashcommands) | 阻止 Claude 在 [`!` shell 命令](https://code.claude.com/docs/zh-CN/interactive-mode#shell-mode-with-prefix)运行后作出回复 | 界面与终端 | 任意文件 |
 | [`sandbox`](#sandbox) | 在 macOS、Linux 和 WSL2 上[将 Bash 命令与您的文件系统和网络隔离](https://code.claude.com/docs/zh-CN/sandboxing.md) | 沙箱设置 | 任意文件 |
-| [`sandbox.allowAppleEvents`](#sandbox-allowappleevents) | 允许[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令在 macOS 上发送 Apple Events | 沙箱设置 | 用户或托管 |
-| [`sandbox.allowNestedUserNamespaces`](#sandbox-allownestedusernamespaces) | 允许[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#chromium-or-rootless-podman-fails-inside-the-sandbox-on-linux)中的命令在 Linux 和 WSL2 上创建用户命名空间 | 沙箱设置 | 用户或托管 |
-| [`sandbox.allowUnsandboxedCommands`](#sandbox-allowunsandboxedcommands) | 允许 Claude 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#the-unsandboxed-retry-escape-hatch)之外重试被阻止的命令，或禁止这样做 | 沙箱设置 | 任意文件 |
-| [`sandbox.autoAllowBashIfSandboxed`](#sandbox-autoallowbashifsandboxed) | 无需权限提示即可运行[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#auto-allow-mode)中的命令 | 沙箱设置 | 任意文件 |
-| [`sandbox.bwrapPath`](#sandbox-bwrappath) | 将[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)指向 `PATH` 之外的 bubblewrap 二进制文件 | 沙箱设置 | 托管 |
-| [`sandbox.credentials`](#sandbox-credentials) | 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#protect-credentials)中隐藏或掩码凭据文件和变量 | 沙箱设置 | 任意文件 |
-| [`sandbox.credentials.allowPlaintextInject`](#sandbox-credentials-allowplaintextinject) | 允许[已掩码的凭据](https://code.claude.com/docs/zh-CN/sandboxing.md#mask-credentials)在受信任的测试网络上发送到纯 HTTP 服务 | 沙箱设置 | 用户或托管 |
-| [`sandbox.credentials.awsPairs`](#sandbox-credentials-awspairs) | 将自定义命名的 AWS 密钥变量关联为一个凭据以进行[重新签名](https://code.claude.com/docs/zh-CN/sandboxing.md#re-sign-aws-requests) | 沙箱设置 | 用户或托管 |
-| [`sandbox.credentials.envVars`](#sandbox-credentials-envvars) | 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#mask-environment-variables)中取消设置或掩码某个环境变量 | 沙箱设置 | 任意文件 |
-| [`sandbox.credentials.files`](#sandbox-credentials-files) | 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#mask-credential-files)中阻止或掩码对凭据文件的读取 | 沙箱设置 | 任意文件 |
+| [`sandbox.allowAppleEvents`](#sandbox-allowappleevents) | 允许[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令在 macOS 上发送 Apple Events | 沙箱设置 | 用户或托管 |
+| [`sandbox.allowNestedUserNamespaces`](#sandbox-allownestedusernamespaces) | 允许[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md#chromium-or-rootless-podman-fails-inside-the-sandbox-on-linux)命令在 Linux 和 WSL2 上创建用户命名空间 | 沙箱设置 | 用户或托管 |
+| [`sandbox.allowUnsandboxedCommands`](#sandbox-allowunsandboxedcommands) | 允许 Claude 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#the-unsandboxed-retry-escape-hatch)外重试被阻止的命令，或禁止这样做 | 沙箱设置 | 任意文件 |
+| [`sandbox.autoAllowBashIfSandboxed`](#sandbox-autoallowbashifsandboxed) | 无需权限提示即运行[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md#auto-allow-mode)命令 | 沙箱设置 | 任意文件 |
+| [`sandbox.bwrapPath`](#sandbox-bwrappath) | 将[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)指向 `PATH` 以外的 bubblewrap 二进制文件 | 沙箱设置 | 托管 |
+| [`sandbox.credentials`](#sandbox-credentials) | 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#protect-credentials)内隐藏或掩码处理凭据文件和变量 | 沙箱设置 | 任意文件 |
+| [`sandbox.credentials.allowPlaintextInject`](#sandbox-credentials-allowplaintextinject) | 在受信任的测试网络上，允许[已掩码的凭据](https://code.claude.com/docs/zh-CN/sandboxing.md#mask-credentials)发送到纯 HTTP 服务 | 沙箱设置 | 用户或托管 |
+| [`sandbox.credentials.awsPairs`](#sandbox-credentials-awspairs) | 将自定义名称的 AWS 密钥变量关联为一个凭据，用于[重新签名](https://code.claude.com/docs/zh-CN/sandboxing.md#re-sign-aws-requests) | 沙箱设置 | 用户或托管 |
+| [`sandbox.credentials.envVars`](#sandbox-credentials-envvars) | 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#mask-environment-variables)内取消设置或掩码处理环境变量 | 沙箱设置 | 任意文件 |
+| [`sandbox.credentials.files`](#sandbox-credentials-files) | 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#mask-credential-files)内阻止读取凭据文件或对其进行掩码处理 | 沙箱设置 | 任意文件 |
 | [`sandbox.credentials.sigv4`](#sandbox-credentials-sigv4) | 选择流式、预签名或 [SigV4A AWS 请求](https://code.claude.com/docs/zh-CN/sandboxing.md#re-sign-aws-requests)是失败还是直接放行 | 沙箱设置 | 用户或托管 |
 | [`sandbox.enabled`](#sandbox-enabled) | 在 macOS、Linux 和 WSL2 上开启 [Bash 沙箱隔离](https://code.claude.com/docs/zh-CN/sandboxing.md#get-started) | 沙箱设置 | 任意文件 |
 | [`sandbox.enableWeakerNestedSandbox`](#sandbox-enableweakernestedsandbox) | 在非特权容器内运行 Linux [沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md) | 沙箱设置 | 任意文件 |
-| [`sandbox.enableWeakerNetworkIsolation`](#sandbox-enableweakernetworkisolation) | 允许 `gh`、`gcloud` 和 `terraform` 在 macOS 上的[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#go-based-clis-fail-tls-verification-on-macos)中于 MITM 代理之后验证 TLS | 沙箱设置 | 任意文件 |
-| [`sandbox.excludedCommands`](#sandbox-excludedcommands) | 指定 Claude Code 可以在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)之外运行的命令 | 沙箱设置 | 任意文件 |
-| [`sandbox.failIfUnavailable`](#sandbox-failifunavailable) | 当[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)无法启动时拒绝启动，而不是在无沙箱的情况下运行 | 沙箱设置 | 任意文件 |
-| [`sandbox.filesystem`](#sandbox-filesystem) | 控制[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#filesystem-isolation)中的命令可以读取和写入哪些路径 | 沙箱设置 | 任意文件 |
+| [`sandbox.enableWeakerNetworkIsolation`](#sandbox-enableweakernetworkisolation) | 在 macOS 上，允许 `gh`、`gcloud` 和 `terraform` 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#go-based-clis-fail-tls-verification-on-macos)内通过 MITM 代理验证 TLS | 沙箱设置 | 任意文件 |
+| [`sandbox.excludedCommands`](#sandbox-excludedcommands) | 指定 Claude Code 可以在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)外运行的命令 | 沙箱设置 | 任意文件 |
+| [`sandbox.failIfUnavailable`](#sandbox-failifunavailable) | 当[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)无法启动时拒绝启动，而不是在无沙箱的情况下运行；在 Anthropic 托管的环境中除外 | 沙箱设置 | 任意文件 |
+| [`sandbox.filesystem`](#sandbox-filesystem) | 控制[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md#filesystem-isolation)命令可以读写哪些路径 | 沙箱设置 | 任意文件 |
 | [`sandbox.filesystem.allowManagedReadPathsOnly`](#sandbox-filesystem-allowmanagedreadpathsonly) | 阻止开发者重新开放[您的组织已屏蔽的读取路径](https://code.claude.com/docs/zh-CN/sandboxing.md#keep-developers-from-widening-the-policy) | 沙箱设置 | 托管 |
 | [`sandbox.filesystem.allowRead`](#sandbox-filesystem-allowread) | 在 [`denyRead`](#sandbox-filesystem-denyread) 屏蔽的区域内重新开放读取 | 沙箱设置 | 任意文件 |
-| [`sandbox.filesystem.allowWrite`](#sandbox-filesystem-allowwrite) | 添加[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令可以写入的路径 | 沙箱设置 | 任意文件 |
-| [`sandbox.filesystem.denyRead`](#sandbox-filesystem-denyread) | 阻止[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令读取特定路径 | 沙箱设置 | 任意文件 |
-| [`sandbox.filesystem.denyWrite`](#sandbox-filesystem-denywrite) | 阻止[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令写入特定路径 | 沙箱设置 | 任意文件 |
+| [`sandbox.filesystem.allowWrite`](#sandbox-filesystem-allowwrite) | 添加[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令可以写入的路径 | 沙箱设置 | 任意文件 |
+| [`sandbox.filesystem.denyRead`](#sandbox-filesystem-denyread) | 阻止[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令读取特定路径 | 沙箱设置 | 任意文件 |
+| [`sandbox.filesystem.denyWrite`](#sandbox-filesystem-denywrite) | 阻止[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令写入特定路径 | 沙箱设置 | 任意文件 |
 | [`sandbox.filesystem.disabled`](#sandbox-filesystem-disabled) | [关闭文件系统隔离](https://code.claude.com/docs/zh-CN/sandboxing.md#disable-filesystem-isolation)，同时保留网络隔离 | 沙箱设置 | 用户或托管 |
-| [`sandbox.ignoreViolations`](#sandbox-ignoreviolations) | 对命令预期会探测的路径静默违规报告 | 沙箱设置 | 任意文件 |
-| [`sandbox.network`](#sandbox-network) | 控制[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#network-isolation)中的命令可以访问哪些主机、端口和套接字 | 沙箱设置 | 任意文件 |
-| [`sandbox.network.allowAllUnixSockets`](#sandbox-network-allowallunixsockets) | 允许[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令连接到所有 Unix 套接字 | 沙箱设置 | 任意文件 |
-| [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) | 预先允许域名，使[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令访问这些域名时不再提示 | 沙箱设置 | 任意文件 |
-| [`sandbox.network.allowLocalBinding`](#sandbox-network-allowlocalbinding) | 允许[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令在 macOS 上监听网络端口并连接到 localhost | 沙箱设置 | 任意文件 |
-| [`sandbox.network.allowMachLookup`](#sandbox-network-allowmachlookup) | 允许 macOS 上[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的工具（如 iOS Simulator 或 Playwright）访问其 XPC 服务 | 沙箱设置 | 任意文件 |
+| [`sandbox.ignoreViolations`](#sandbox-ignoreviolations) | 对命令预期会探测的路径不再报告违规 | 沙箱设置 | 任意文件 |
+| [`sandbox.network`](#sandbox-network) | 控制[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md#network-isolation)命令可以访问哪些主机、端口和套接字 | 沙箱设置 | 任意文件 |
+| [`sandbox.network.allowAllUnixSockets`](#sandbox-network-allowallunixsockets) | 允许[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令连接到所有 Unix 套接字 | 沙箱设置 | 任意文件 |
+| [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) | 预先允许域名，使[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令无需为其提示 | 沙箱设置 | 任意文件 |
+| [`sandbox.network.allowLocalBinding`](#sandbox-network-allowlocalbinding) | 在 macOS 上允许[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令监听网络端口并连接到 localhost | 沙箱设置 | 任意文件 |
+| [`sandbox.network.allowMachLookup`](#sandbox-network-allowmachlookup) | 允许 macOS 上[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)工具（例如 iOS Simulator 或 Playwright）访问其 XPC 服务 | 沙箱设置 | 任意文件 |
 | [`sandbox.network.allowManagedDomainsOnly`](#sandbox-network-allowmanageddomainsonly) | 将网络允许列表锁定为[托管设置](https://code.claude.com/docs/zh-CN/sandboxing.md#keep-developers-from-widening-the-policy) | 沙箱设置 | 托管 |
-| [`sandbox.network.allowUnixSockets`](#sandbox-network-allowunixsockets) | 列出[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令在 macOS 上可以使用的 Unix 套接字路径 | 沙箱设置 | 任意文件 |
-| [`sandbox.network.deniedDomains`](#sandbox-network-denieddomains) | 为[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中的命令屏蔽域名，即使这些域名位于允许的通配符范围内 | 沙箱设置 | 任意文件 |
-| [`sandbox.network.httpProxyPort`](#sandbox-network-httpproxyport) | 通过您自己的代理路由[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#custom-proxy-configuration)的 HTTP 流量 | 沙箱设置 | 任意文件 |
-| [`sandbox.network.socksProxyPort`](#sandbox-network-socksproxyport) | 通过您自己的代理路由[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#custom-proxy-configuration)的 SOCKS 流量 | 沙箱设置 | 任意文件 |
-| [`sandbox.network.strictAllowlist`](#sandbox-network-strictallowlist) | 直接拒绝[允许列表](https://code.claude.com/docs/zh-CN/sandboxing.md#network-isolation)之外的主机，而不是进行提示 | 沙箱设置 | 用户或托管 |
+| [`sandbox.network.allowUnixSockets`](#sandbox-network-allowunixsockets) | 列出 macOS 上[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令可以使用的 Unix 套接字路径 | 沙箱设置 | 任意文件 |
+| [`sandbox.network.deniedDomains`](#sandbox-network-denieddomains) | 为[沙箱中的](https://code.claude.com/docs/zh-CN/sandboxing.md)命令屏蔽域名，即使其位于允许的通配符范围内 | 沙箱设置 | 任意文件 |
+| [`sandbox.network.httpProxyPort`](#sandbox-network-httpproxyport) | 通过您自己的代理路由[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#custom-proxy-configuration) HTTP 流量 | 沙箱设置 | 任意文件 |
+| [`sandbox.network.socksProxyPort`](#sandbox-network-socksproxyport) | 通过您自己的代理路由[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#custom-proxy-configuration) SOCKS 流量 | 沙箱设置 | 任意文件 |
+| [`sandbox.network.strictAllowlist`](#sandbox-network-strictallowlist) | 直接拒绝[允许列表](https://code.claude.com/docs/zh-CN/sandboxing.md#network-isolation)以外的主机，而不是进行提示 | 沙箱设置 | 用户或托管 |
 | [`sandbox.network.tlsTerminate`](#sandbox-network-tlsterminate) | 让[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#network-isolation)代理终止 TLS，以便读取 HTTPS 请求 | 沙箱设置 | 用户或托管 |
-| [`sandbox.ripgrep`](#sandbox-ripgrep) | 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)中使用您自己的 ripgrep 二进制文件 | 沙箱设置 | 用户或托管 |
-| [`sandbox.socatPath`](#sandbox-socatpath) | 将[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)代理指向 `PATH` 之外的 `socat` 二进制文件 | 沙箱设置 | 托管 |
+| [`sandbox.ripgrep`](#sandbox-ripgrep) | 在[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)内使用您自己的 ripgrep 二进制文件 | 沙箱设置 | 用户或托管 |
+| [`sandbox.socatPath`](#sandbox-socatpath) | 将[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)代理指向 `PATH` 以外的 `socat` 二进制文件 | 沙箱设置 | 托管 |
 | [`showClearContextOnPlanAccept`](#showclearcontextonplanaccept) | 在[计划接受界面](https://code.claude.com/docs/zh-CN/permission-modes.md#review-and-approve-a-plan)上显示“清除上下文”选项 | 界面与终端 | 任意文件 |
-| [`showThinkingSummaries`](#showthinkingsummaries) | 查看 Claude [思考](https://code.claude.com/docs/zh-CN/model-config.md#extended-thinking)过程的摘要，而不是折叠的占位内容 | 模型与回复 | 任意文件 |
+| [`showThinkingSummaries`](#showthinkingsummaries) | 查看 Claude [思考](https://code.claude.com/docs/zh-CN/model-config.md#extended-thinking)的摘要，而非折叠的占位内容 | 模型与回复 | 任意文件 |
 | [`showTurnDuration`](#showturnduration) | 隐藏每条回复后显示的“Cooked for”时长 | 界面与终端 | 任意文件 |
 | [`skillListingBudgetFraction`](#skilllistingbudgetfraction) | 为 [skill 列表](https://code.claude.com/docs/zh-CN/skills.md#skill-descriptions-are-cut-short)预留更多或更少的上下文 | 记忆与上下文 | 任意文件 |
 | [`skillListingMaxDescChars`](#skilllistingmaxdescchars) | 限制 [skill 列表](https://code.claude.com/docs/zh-CN/skills.md#skill-descriptions-are-cut-short)中每个 skill 描述的长度 | 记忆与上下文 | 任意文件 |
-| [`skillOverrides`](#skilloverrides) | 无需编辑 SKILL.md 即可[隐藏或折叠某个 skill](https://code.claude.com/docs/zh-CN/skills.md#override-skill-visibility-from-settings) | 插件与 skill | 任意文件 |
-| [`skipAutoPermissionPrompt`](#skipautopermissionprompt) | 跳过您首次自行进入（而非通过内置默认值进入）[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)时 Claude Code 显示的一次性提示 | 权限设置 | 用户或托管 |
-| [`skipDangerousModePermissionPrompt`](#skipdangerousmodepermissionprompt) | 跳过进入 [bypassPermissions 模式](https://code.claude.com/docs/zh-CN/permission-modes.md#skip-all-checks-with-bypasspermissions-mode)之前的确认对话框 | 权限设置 | 用户、本地或托管 |
+| [`skillOverrides`](#skilloverrides) | 无需编辑 SKILL.md 即可[隐藏或折叠 skill](https://code.claude.com/docs/zh-CN/skills.md#override-skill-visibility-from-settings) | 插件与 skill | 任意文件 |
+| [`skipAutoPermissionPrompt`](#skipautopermissionprompt) | 跳过您首次自行进入（而非通过内置默认值进入）[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)时 Claude Code 显示的一次性通知 | 权限设置 | 用户或托管 |
+| [`skipDangerousModePermissionPrompt`](#skipdangerousmodepermissionprompt) | 跳过进入 [bypassPermissions 模式](https://code.claude.com/docs/zh-CN/permission-modes.md#skip-all-checks-with-bypasspermissions-mode)前的确认对话框 | 权限设置 | 用户、本地或托管 |
 | [`skipWebFetchPreflight`](#skipwebfetchpreflight) | 在无法访问 Anthropic 时跳过 [WebFetch 主机名检查](https://code.claude.com/docs/zh-CN/tools-reference.md#webfetch-tool-behavior) | 隐私与遥测 | 任意文件 |
 | [`spellcheck`](#spellcheck) | 使用您安装的[拼写检查器](https://code.claude.com/docs/zh-CN/interactive-mode.md#check-spelling-as-you-type)为输入框中拼写错误的单词添加下划线 | 界面与终端 | 用户或托管 |
-| [`spinnerTipsEnabled`](#spinnertipsenabled) | 隐藏 Claude 工作时加载指示器中的提示 | 界面与终端 | 任意文件 |
-| [`spinnerTipsOverride`](#spinnertipsoverride) | 向加载指示器的轮播中添加您自己的提示，或替换内置提示 | 界面与终端 | 任意文件 |
-| [`spinnerVerbs`](#spinnerverbs) | 添加或替换轮次运行期间显示的动词 | 界面与终端 | 任意文件 |
+| [`spinnerTipsEnabled`](#spinnertipsenabled) | 在 Claude 工作时隐藏加载指示器中的提示 | 界面与终端 | 任意文件 |
+| [`spinnerTipsOverride`](#spinnertipsoverride) | 将您自己的提示添加到加载指示器的轮播中，或替换内置提示 | 界面与终端 | 任意文件 |
+| [`spinnerVerbs`](#spinnerverbs) | 添加或替换轮次运行时显示的动词 | 界面与终端 | 任意文件 |
 | [`sshConfigs`](#sshconfigs) | 向 Desktop 环境选择器添加 [SSH 连接](https://code.claude.com/docs/zh-CN/desktop.md#pre-configure-ssh-connections-for-your-team) | 远程、桌面与通知 | 用户或托管 |
 | [`sshHostAllowlist`](#sshhostallowlist) | 限制 [Desktop SSH 会话](https://code.claude.com/docs/zh-CN/desktop.md#restrict-which-ssh-hosts-users-can-connect-to)可以访问的主机 | 远程、桌面与通知 | 托管 |
 | [`sshHostCommands`](#sshhostcommands) | 向 Desktop 环境选择器添加[主机由命令提供的 SSH 连接](https://code.claude.com/docs/zh-CN/desktop.md#create-an-ssh-connection-from-a-command) | 远程、桌面与通知 | 用户或托管 |
-| [`statusLine`](#statusline) | 运行您自己的命令，在输入框下方渲染[状态栏](https://code.claude.com/docs/zh-CN/statusline.md) | 界面与终端 | 任意文件 |
-| [`strictKnownMarketplaces`](#strictknownmarketplaces) | 通过允许列表限定用户可以添加并从中安装的[市场](https://code.claude.com/docs/zh-CN/plugins/overview.md)来源 | 插件与 skill | 托管 |
+| [`statusLine`](#statusline) | 运行您自己的命令，在提示栏下方渲染[状态栏](https://code.claude.com/docs/zh-CN/statusline.md) | 界面与终端 | 任意文件 |
+| [`strictKnownMarketplaces`](#strictknownmarketplaces) | 设置用户可以添加和从中安装的[市场](https://code.claude.com/docs/zh-CN/plugins/overview.md)来源的允许列表 | 插件与 skill | 托管 |
 | [`strictPluginOnlyCustomization`](#strictpluginonlycustomization) | 屏蔽来自用户和项目来源的 [skill](https://code.claude.com/docs/zh-CN/skills.md)、[Agent](https://code.claude.com/docs/zh-CN/sub-agents.md)、[hook](https://code.claude.com/docs/zh-CN/hooks.md) 和 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md) | 插件与 skill | 托管 |
 | [`strictPluginOnlyCustomization.agents`](#strictpluginonlycustomization-agents) | 屏蔽来自用户和项目来源的 [Agent](https://code.claude.com/docs/zh-CN/sub-agents.md) | 插件与 skill | 托管 |
 | [`strictPluginOnlyCustomization.hooks`](#strictpluginonlycustomization-hooks) | 屏蔽来自用户和项目来源的 [hook](https://code.claude.com/docs/zh-CN/hooks.md) | 插件与 skill | 托管 |
 | [`strictPluginOnlyCustomization.mcp`](#strictpluginonlycustomization-mcp) | 屏蔽来自用户和项目来源的 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md) | 插件与 skill | 托管 |
 | [`strictPluginOnlyCustomization.skills`](#strictpluginonlycustomization-skills) | 屏蔽来自用户和项目来源的 [skill](https://code.claude.com/docs/zh-CN/skills.md) | 插件与 skill | 托管 |
-| [`subagentPromptCacheTtl`](#subagentpromptcachettl) | 为子代理和主对话之外的其他请求选择[提示缓存生命周期](https://code.claude.com/docs/zh-CN/prompt-caching.md#cache-lifetime) | 模型与回复 | 任意文件 |
-| [`subagentStatusLine`](#subagentstatusline) | 使用您自己的命令重写[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)任务显示中的行 | 界面与终端 | 任意文件 |
+| [`subagentPromptCacheTtl`](#subagentpromptcachettl) | 为子代理及主对话之外的其他请求选择[提示缓存生命周期](https://code.claude.com/docs/zh-CN/prompt-caching.md#cache-lifetime) | 模型与回复 | 任意文件 |
 | [`switchModelsOnFlag`](#switchmodelsonflag) | 当[安全分类器](https://code.claude.com/docs/zh-CN/model-config.md#ask-before-switching)标记某个请求时，自动切换模型或暂停 | 模型与回复 | 任意文件 |
-| [`syncClaudeAiPlugins`](#syncclaudeaiplugins) | 停止加载[在您的 claude.ai 账户上启用的插件](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)，并停止下载新插件 | 插件与 skill | 用户、本地或托管 |
-| [`syncClaudeAiSkills`](#syncclaudeaiskills) | 停止加载[在您的 claude.ai 账户上启用的 skill](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave)，并停止下载新 skill | 插件与 skill | 用户、本地或托管 |
+| [`syncClaudeAiPlugins`](#syncclaudeaiplugins) | 停止加载[您的 claude.ai 账户上已启用的插件](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)，并停止下载新插件 | 插件与 skill | 用户、本地或托管 |
+| [`syncClaudeAiSkills`](#syncclaudeaiskills) | 停止加载[您的 claude.ai 账户上已启用的 skill](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave)，并停止下载新 skill | 插件与 skill | 用户、本地或托管 |
 | [`syntaxHighlightingDisabled`](#syntaxhighlightingdisabled) | 关闭 diff 和代码块中的语法高亮 | 界面与终端 | 任意文件 |
-| [`taskOutputMaxChars`](#taskoutputmaxchars) | 已在 v2.1.277 中移除，其所控制大小的 `TaskOutput` 工具也一并移除 | 记忆与上下文 | 任意文件 |
+| [`taskOutputMaxChars`](#taskoutputmaxchars) | 已在 v2.1.277 中移除，同时移除的还有它所限制大小的 `TaskOutput` 工具 | 记忆与上下文 | 任意文件 |
 | [`teammateDefaultModel`](#teammatedefaultmodel) | 已在 v2.1.234 中移除；有关 Claude Code 如何为队友选择模型，请参阅[指定队友和模型](https://code.claude.com/docs/zh-CN/agent-teams.md#specify-teammates-and-models) | 全局配置设置 | 全局配置 |
 | [`teammateMode`](#teammatemode) | 选择 [agent team 队友的显示方式](https://code.claude.com/docs/zh-CN/agent-teams.md#choose-a-display-mode) | Agent、会话与 worktree | 任意文件 |
-| [`terminalProgressBarEnabled`](#terminalprogressbarenabled) | 在支持终端进度条的终端中将其隐藏 | 界面与终端 | 任意文件 |
+| [`terminalProgressBarEnabled`](#terminalprogressbarenabled) | 在支持的终端中隐藏终端进度条 | 界面与终端 | 任意文件 |
 | [`terminalTitleFromRename`](#terminaltitlefromrename) | 阻止 [`/rename`](https://code.claude.com/docs/zh-CN/sessions#name-your-sessions) 和 `--name` 更改终端标签页标题 | 界面与终端 | 任意文件 |
 | [`theme`](#theme) | 选择界面的[颜色主题](https://code.claude.com/docs/zh-CN/terminal-config.md#match-the-color-theme)，内置或自定义均可 | 界面与终端 | 任意文件 |
-| [`timeFormat`](#timeformat) | 以 12 小时制或 24 小时制、UTC 或 strftime 模式显示界面中的时间 | 界面与终端 | 任意文件 |
-| [`timeZone`](#timezone) | 以系统时区之外的时区显示界面中的时间 | 界面与终端 | 任意文件 |
+| [`timeFormat`](#timeformat) | 以 12 小时制或 24 小时制、以 UTC 或使用 strftime 格式显示界面中的时间 | 界面与终端 | 任意文件 |
+| [`timeZone`](#timezone) | 以不同于系统时区的时区显示界面中的时间 | 界面与终端 | 任意文件 |
 | [`tui`](#tui) | 选择[全屏](https://code.claude.com/docs/zh-CN/fullscreen.md)或经典终端渲染器 | 界面与终端 | 任意文件 |
-| [`ultracode`](#ultracode) | 让 Claude 无需要求即可为每个实质性任务规划[工作流](https://code.claude.com/docs/zh-CN/workflows.md#let-claude-decide-with-ultracode) | 模型与回复 | 任意文件 |
+| [`ultracode`](#ultracode) | 让 Claude 无需请求即为每个实质性任务规划[工作流](https://code.claude.com/docs/zh-CN/workflows.md#let-claude-decide-with-ultracode) | 模型与回复 | 任意文件 |
 | [`useAutoModeDuringPlan`](#useautomodeduringplan) | 允许[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)分类器在[计划模式](https://code.claude.com/docs/zh-CN/permission-modes.md#analyze-before-you-edit-with-plan-mode)中审查 shell 命令；设为 `false` 则改为显示提示 | 权限设置 | 用户、本地或托管 |
-| [`verbose`](#verbose) | 显示[完整的工具输出](https://code.claude.com/docs/zh-CN/cli-reference.md#cli-flags)而不是截断的摘要；两者都设置时 `viewMode` 优先 | 界面与终端 | 任意文件 |
-| [`viewMode`](#viewmode) | 让每个会话都以[默认、详细或专注视图](https://code.claude.com/docs/zh-CN/cli-reference.md#cli-flags)启动 | 界面与终端 | 任意文件 |
-| [`vimInsertModeRemaps`](#viminsertmoderemaps) | 将双键 [INSERT 模式序列](https://code.claude.com/docs/zh-CN/interactive-mode.md#remap-insert-mode-key-sequences)（如 `jj`）映射为 Escape | 界面与终端 | 用户或托管 |
+| [`verbose`](#verbose) | 显示[完整工具输出](https://code.claude.com/docs/zh-CN/cli-reference.md#cli-flags)而非截断的摘要；两者都设置时 `viewMode` 优先 | 界面与终端 | 任意文件 |
+| [`viewMode`](#viewmode) | 以 [default、verbose 或 focus 视图](https://code.claude.com/docs/zh-CN/cli-reference.md#cli-flags)启动每个会话 | 界面与终端 | 任意文件 |
+| [`vimInsertModeRemaps`](#viminsertmoderemaps) | 将双键 [INSERT 模式序列](https://code.claude.com/docs/zh-CN/interactive-mode.md#remap-insert-mode-key-sequences)（例如 `jj`）映射为 Escape | 界面与终端 | 用户或托管 |
 | [`voice`](#voice) | 开启[语音听写](https://code.claude.com/docs/zh-CN/voice-dictation.md)并选择按住或轻按模式 | 界面与终端 | 任意文件 |
-| [`voiceEnabled`](#voiceenabled) | 使用旧版的单键形式开启[语音听写](https://code.claude.com/docs/zh-CN/voice-dictation.md) | 界面与终端 | 任意文件 |
+| [`voiceEnabled`](#voiceenabled) | 以较旧的单键形式开启[语音听写](https://code.claude.com/docs/zh-CN/voice-dictation.md) | 界面与终端 | 任意文件 |
 | [`wheelScrollAccelerationEnabled`](#wheelscrollaccelerationenabled) | 在全屏渲染中关闭[鼠标滚轮加速](https://code.claude.com/docs/zh-CN/fullscreen.md#mouse-wheel-scrolling) | 界面与终端 | 任意文件 |
-| [`workflowKeywordTriggerEnabled`](#workflowkeywordtriggerenabled) | 允许提示词中的 `ultracode` 一词启动[工作流](https://code.claude.com/docs/zh-CN/workflows.md)；设为 `false` 则输入该词时不会启动工作流 | hook 与自动化 | 任意文件 |
-| [`workflowSizeGuideline`](#workflowsizeguideline) | 设置 Claude 在[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)中的目标 Agent 数量 | hook 与自动化 | 任意文件 |
+| [`workflowKeywordTriggerEnabled`](#workflowkeywordtriggerenabled) | 允许提示词中的 `ultracode` 一词启动[工作流](https://code.claude.com/docs/zh-CN/workflows.md)；设为 `false` 则可输入该词而不启动工作流 | hook 与自动化 | 任意文件 |
+| [`workflowSizeGuideline`](#workflowsizeguideline) | 设置 Claude 在[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)中目标使用的 Agent 数量 | hook 与自动化 | 任意文件 |
 | [`worktree`](#worktree) | 配置 Claude Code 创建 git [worktree](https://code.claude.com/docs/zh-CN/worktrees.md) 的方式 | Agent、会话与 worktree | 任意文件 |
-| [`worktree.baseRef`](#worktree-baseref) | 从远程默认分支或本地 HEAD 创建新 [worktree](https://code.claude.com/docs/zh-CN/worktrees.md) 的分支 | Agent、会话与 worktree | 任意文件 |
+| [`worktree.baseRef`](#worktree-baseref) | 从远程默认分支或您的本地 HEAD 创建新 [worktree](https://code.claude.com/docs/zh-CN/worktrees.md) 的分支 | Agent、会话与 worktree | 任意文件 |
 | [`worktree.bgIsolation`](#worktree-bgisolation) | 允许后台会话在不使用 [worktree](https://code.claude.com/docs/zh-CN/worktrees.md) 的情况下编辑工作副本 | Agent、会话与 worktree | 任意文件 |
 | [`worktree.location`](#worktree-location) | 选择 [Desktop SSH 会话](https://code.claude.com/docs/zh-CN/desktop.md#ssh-sessions)在远程机器上创建 worktree 的位置 | Agent、会话与 worktree | 用户 |
 | [`worktree.sparsePaths`](#worktree-sparsepaths) | 在每个 [worktree](https://code.claude.com/docs/zh-CN/worktrees.md) 中仅检出您需要的目录 | Agent、会话与 worktree | 任意文件 |
@@ -290,7 +289,7 @@
 }
 ```
 
-在 advisor [不可用](https://code.claude.com/docs/zh-CN/advisor.md#requirements)的提供商上（例如 Amazon Bedrock），此键不起作用。在 Claude Platform on AWS 上，此键需要 Claude Code v2.1.300 或更高版本。`"fable"` 需要 [Fable 访问权限](https://code.claude.com/docs/zh-CN/advisor.md#choose-an-advisor-model)。
+在 advisor [不可用](https://code.claude.com/docs/zh-CN/advisor.md#requirements)的提供商上（例如 Amazon Bedrock），此键不起作用。在 Claude Platform on AWS 或 [Claude Models on Google Cloud (Anthropic managed)](https://code.claude.com/docs/zh-CN/claude-models-on-google-cloud-anthropic-managed.md) 上，此键需要 Claude Code v2.1.300 或更高版本。`"fable"` 需要 [Fable 访问权限](https://code.claude.com/docs/zh-CN/advisor.md#choose-an-advisor-model)。
 
 ### `alwaysThinkingEnabled`
 
@@ -436,11 +435,11 @@
 * **默认值**：未设置，因此失败的请求不会在其他模型上重试
 * **单会话覆盖**：`--fallback-model` 在单个会话中优先于此键
 
-此示例在主模型失败时先尝试 Sonnet 5，然后尝试 Haiku 4.5：
+此示例在主模型失败时先尝试 Sonnet 5，然后尝试 Haiku 5.5：
 
 ```json settings.json theme={null}
 {
-  "fallbackModel": ["claude-sonnet-5", "claude-haiku-4-5"]
+  "fallbackModel": ["claude-sonnet-5", "claude-haiku-5-5"]
 }
 ```
 
@@ -671,7 +670,7 @@ Claude Code 根据行的键来决定该行适用于哪些模型：
 * **类型**：将模型名称映射到对象的对象，该对象可包含以下任意字段：
   * `effortLevel`：`"low"`、`"medium"`、`"high"` 或 `"xhigh"` 之一
   * [`maxEffortLevel`](#maxeffortlevel)：该模型可以运行的最高 effort 级别
-  * `autoCompactWindow`：从 `100000` 到 `1000000` 的 token 数，或表示为该模型调优的窗口的 `"auto"`。[`/autocompact`](https://code.claude.com/docs/zh-CN/model-config#set-the-auto-compact-window) 会保存到此处。对于该模型，此值优先于同一设置文件中的顶层 [`autoCompactWindow`](#autocompactwindow)。需要 Claude Code v2.1.288 或更高版本
+  * `autoCompactWindow`：`100000` 或更大的 token 数，或表示为该模型调优的窗口的 `"auto"`。[`/autocompact`](https://code.claude.com/docs/zh-CN/model-config#set-the-auto-compact-window) 会保存到此处。对于该模型，此值优先于同一设置文件中的顶层 [`autoCompactWindow`](#autocompactwindow)。需要 Claude Code v2.1.288 或更高版本
 * **默认值**：未设置
 
 Claude Code 会将每个条目写在模型的规范名称下（例如 `claude-opus-5-5`），并将该模型的别名、带日期后缀的 ID、`[1m]` ID 以及可识别的提供商特定 ID 匹配到同一个条目。
@@ -849,13 +848,13 @@ Claude Code 会将每个条目写在模型的规范名称下（例如 `claude-op
 
 ### `autoMode`
 
-为[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)分类器的阻止和允许范围添加您自己的规则。使用它告诉分类器您的组织信任哪些仓库、存储桶和域名，使其不再阻止日常的内部操作。分类器自带[内置的允许和拒绝规则](https://code.claude.com/docs/zh-CN/auto-mode-config.md#inspect-the-defaults-and-your-effective-config)。在数组中包含字面字符串 `"$defaults"`，即可在该位置保留这些内置规则并在其前后添加您的规则；省略它则会用您的规则替换内置规则。
+为[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)分类器的阻止和允许范围添加您自己的规则。使用它告诉分类器您的组织信任哪些仓库、存储桶和域名，使其不再阻止日常的内部操作。分类器自带[内置的允许和拒绝规则](https://code.claude.com/docs/zh-CN/auto-mode-config.md#inspect-the-defaults-and-your-effective-config)。请在您设置的每个数组中都包含字面字符串 `"$defaults"`，使您的规则添加到内置规则之上。如果省略它，您的规则[可能会替换内置规则](https://code.claude.com/docs/zh-CN/auto-mode-config.md#override-the-block-and-allow-rules)。
 
 * **作用域**：[`User or managed`](#scopes)
 * **类型**：包含 `environment`、`allow`、`soft_deny` 和 `hard_deny` 文字描述规则数组以及 [`classifyAllShell`](#automode-classifyallshell) Boolean 的对象
 * **默认值**：未设置，因此分类器仅使用其[内置规则](https://code.claude.com/docs/zh-CN/auto-mode-config.md#inspect-the-defaults-and-your-effective-config)
 
-此示例通过 `"$defaults"` 保留内置的 `soft_deny` 规则，并额外添加一条阻止 `terraform apply` 的规则：
+此示例保留内置的 `soft_deny` 规则，并额外添加一条阻止 `terraform apply` 的规则：
 
 ```json settings.json theme={null}
 {
@@ -885,7 +884,7 @@ Claude Code 会将每个条目写在模型的规范名称下（例如 `claude-op
 }
 ```
 
-请参阅[将所有 shell 命令交由分类器处理](https://code.claude.com/docs/zh-CN/auto-mode-config.md#route-all-shell-commands-through-the-classifier)。
+此键在 Code Mode 会话中的工作方式有所不同。请参阅[暂停 shell 允许规则](https://code.claude.com/docs/zh-CN/auto-mode-config.md#route-all-shell-commands-through-the-classifier)。
 
 ### `disableAutoMode`
 
@@ -928,7 +927,7 @@ Claude Code 会将每个条目写在模型的规范名称下（例如 `claude-op
 
 选择 Claude Code 是否在计划模式下使用自动模式分类器审查 shell 命令。在默认值 `true` 下，当自动模式可用时，分类器会在规划期间审查每条命令，您不会看到提示，[关键路径删除](https://code.claude.com/docs/zh-CN/permission-modes.md#critical-paths)除外。设置为 `false` 后，对于内置只读命令集之外的每条命令，您都会收到权限提示。在 `/config` 中显示为 **Use auto mode during plan**。
 
-* **作用域**：[`User, local, or managed`](#scopes)。仓库无法替您关闭它。
+* **作用域**：[`User, local, or managed`](#scopes)。
   * 这些文件中任何一个或 `--settings` 中的 `false` 都会将其关闭，除非您使用 [`--setting-sources`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 等选项排除了该用户或本地文件。忽略被排除的文件需要 Claude Code v2.1.314 或更高版本
 * **类型**：Boolean
   * `true`：与未设置相同；当自动模式可用时，分类器会在规划期间审查 shell 命令
@@ -980,6 +979,8 @@ Claude Code 会将每个条目写在模型的规范名称下（例如 `claude-op
 ### `permissions.ask`
 
 列出即使在原本会批准它们的权限模式（例如 `acceptEdits` 或 `bypassPermissions`）下，也会提示您确认的工具使用。在 `dontAsk` 模式下，Claude Code 会拒绝匹配的工具使用，而不是发出提示。
+
+如果 [`PermissionRequest` hook](https://code.claude.com/docs/zh-CN/hooks#permissionrequest) 或 [mod](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#what-a-mod-can-reach) 允许，匹配的工具使用仍可在未经您批准的情况下运行。启用[沙箱自动允许](https://code.claude.com/docs/zh-CN/permissions.md#how-permissions-interact-with-sandboxing)时，沙箱中的命令可以跳过不带说明符的 `Bash` ask 规则。
 
 * **作用域**：[`Any file`](#scopes)
 * **类型**：权限规则字符串数组
@@ -1337,8 +1338,8 @@ no approval surface in this session; permission request denied automatically
 
 * **作用域**：[`Any file`](#scopes)，[对项目设置和本地设置有限制](https://code.claude.com/docs/zh-CN/sandboxing.md#repository-settings-under-an-admin-required-sandbox)
 * **类型**：布尔值
-  * `true`：当 `sandbox.enabled` 为 `true` 但沙箱无法启动时，Claude Code 在启动时报错退出。如果沙箱通过了该检查但随后初始化失败，会话将继续运行，而 Claude Code 会[拒绝每个沙箱命令](https://code.claude.com/docs/zh-CN/sandboxing.md#commands-refused-with-sandbox-is-required)
-  * `false`：当沙箱无法启动时，Claude Code 在沙箱外运行命令
+  * `true`：当 `sandbox.enabled` 为 `true` 但沙箱无法启动时，Claude Code 在启动时报错退出。如果沙箱通过了该检查但随后初始化失败，会话会继续运行。此后 Claude Code 会[拒绝每条沙箱命令](https://code.claude.com/docs/zh-CN/sandboxing.md#commands-refused-with-sandbox-is-required)。Anthropic 托管环境中的会话仍可启动，但会显示警告，并且不会强制执行您的 `sandbox.filesystem` 或 `sandbox.network` 规则
+  * `false`：沙箱无法启动时，Claude Code 在沙箱外运行命令
 * **默认值**：`false`
 
 以下配置为托管计算机启用沙箱，并将 `failIfUnavailable` 设置为 `true`：
@@ -1356,21 +1357,21 @@ no approval surface in this session; permission request denied automatically
 
 ### `sandbox.autoAllowBashIfSandboxed`
 
-让 Claude Code 在没有权限提示的情况下运行沙箱化的 Bash 命令。无法在沙箱中运行的命令仍会走常规权限流程，`deny` 规则和限定内容的 `ask` 规则（例如 `Bash(git push *)`）仍然适用；单独的 `Bash` ask 规则对沙箱化命令会被跳过。将其设置为 `false` 可让沙箱化命令也走常规权限流程，`/sandbox` 的 **Mode** 选项卡将此称为常规权限模式。
+让 Claude Code 无需权限提示即可运行沙箱化的 Bash 命令。无法在沙箱中运行的命令仍会经过常规权限流程。`deny` 规则以及限定内容的 `ask` 规则（例如 `Bash(git push *)`）仍然适用，但对于沙箱化命令，会跳过单纯的 `Bash` ask 规则。如需在托管设置中将其设为 `true`，请将其添加到您[排名最高的托管来源](https://code.claude.com/docs/zh-CN/managed-settings.md#how-claude-code-combines-managed-sources)的 `sandbox` 块中。
 
 * **作用域**：[`Any file`](#scopes)
 * **类型**：布尔值
   * `true`：Claude Code 在没有权限提示的情况下运行沙箱化的 Bash 命令，[自动允许模式](https://code.claude.com/docs/zh-CN/sandboxing.md#auto-allow-mode)中描述的情况除外；`CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` 会关闭自动允许
   * `false`：沙箱化命令走常规权限流程，由您的允许规则和权限模式决定。`/sandbox` 的 **Mode** 选项卡将此称为常规权限模式
-* **默认值**：`true`
+* **默认值**：`false`。在 v2.1.324 之前，默认值为 `true`
 
-以下配置保持沙箱启用，并让沙箱化命令走常规权限流程：
+如需保持沙箱启用并在无权限提示的情况下运行沙箱化命令，请在 `sandbox` 块中同时设置这两个键：
 
 ```json settings.json theme={null}
 {
   "sandbox": {
     "enabled": true,
-    "autoAllowBashIfSandboxed": false
+    "autoAllowBashIfSandboxed": true
   }
 }
 ```
@@ -1533,6 +1534,8 @@ app/
 }
 ```
 
+在 Linux 和 WSL2 上，针对尚不存在的路径的条目不会生效，因此请先创建该路径。
+
 Claude Code 会在会话加载的各设置作用域之间合并 `allowWrite` 条目以及来自您的 `Edit(...)` 允许权限规则的路径，当 [`permissions.blockReadsOutsideWorkingDirectories`](#sandboxed-commands-under-the-block) 启用时，会排除来自仓库设置的条目。[仓库锁定](https://code.claude.com/docs/zh-CN/sandboxing.md#repository-settings-under-an-admin-required-sandbox)也可能排除仓库的条目。`allowWrite` 条目无法解除[受保护路径](https://code.claude.com/docs/zh-CN/sandboxing.md#protected-paths)的保护。
 
 ### `sandbox.filesystem.denyWrite`
@@ -1652,7 +1655,7 @@ Claude Code 在项目设置中将 `.` 条目解析为项目根目录，在用户
 }
 ```
 
-关闭该层后，Claude Code 不会强制执行 `denyRead` 或 `credentials.files` 的 `deny` 条目，而 `credentials.envVars` 条目和已应用的 `mask` 条目仍然有效。[`autoAllowBashIfSandboxed`](#sandbox-autoallowbashifsandboxed) 仍默认为 `true`，因此请将其设置为 `false` 以继续显示提示。有关可以设置它的完整来源列表以及关闭隔离后的变化，请参阅[禁用文件系统隔离](https://code.claude.com/docs/zh-CN/sandboxing.md#disable-filesystem-isolation)。
+关闭该层后，Claude Code 不会强制执行 `denyRead` 或 `credentials.files` 的 `deny` 条目，而 `credentials.envVars` 条目和已应用的 `mask` 条目仍然有效。有关可以设置它的完整来源列表以及关闭隔离后的变化，请参阅[禁用文件系统隔离](https://code.claude.com/docs/zh-CN/sandboxing.md#disable-filesystem-isolation)。
 
 ### `sandbox.ignoreViolations`
 
@@ -1945,7 +1948,7 @@ Claude Code 在项目设置中将 `.` 条目解析为项目根目录，在用户
 | `onExtractNoMatch` | `"warn"`、`"deny"` 或 `"error"`；默认为 `"warn"`。在带有 `decode` 的条目上，仅接受 `"warn"` | 当 `extract` 未匹配任何内容时的处理方式。`warn` 使变量不经掩码直接传递，`deny` 在沙箱内取消设置该变量，`error` 会停止沙箱设置，直到您修复配置。需要 v2.1.224 或更高版本 |
 | `decode` | 字符串 `"jwt"` | 验证整个值是否为 JWT，并将其替换为结构有效的伪造令牌，使沙箱内解码该令牌的代码继续正常工作；代理会在出站时替换为完整的真实令牌。未通过验证的值会不经掩码直接传递并附带警告。需要 v2.1.224 或更高版本 |
 | `maskClaims` | 字符串数组，至少包含一个声明名称；需要 `decode` | 仅掩码已解码 JWT 中指定的顶层负载声明，并围绕修改后的负载重建令牌，使其他声明保持可读。当没有指定的声明匹配时，变量会不经掩码直接传递并附带警告。需要 v2.1.224 或更高版本 |
-| `injectHosts` | 字符串数组，每项都是 [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) 也允许的主机 | 收窄沙箱代理替换真实值的主机范围。未设置时，代理会在发往 `sandbox.network.allowedDomains` 中每个主机的请求中进行替换。IPv6 目标请写为不带方括号的压缩地址，例如 `"::1"`，而不是带方括号的形式；请参阅[`injectHosts` 中的 IPv6 目标](https://code.claude.com/docs/zh-CN/sandboxing#ipv6-destinations-in-injecthosts) |
+| `injectHosts` | 字符串数组，每项都是 [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) 也允许的主机 | 收窄沙箱代理替换为真实值的主机范围。未设置时，代理会在发往 `sandbox.network.allowedDomains` 中每个主机的请求中进行替换。IPv6 目标请写为不带方括号的压缩地址，例如 `"::1"`，而不是带方括号的形式；请参阅[`injectHosts` 中的 IPv6 目标](https://code.claude.com/docs/zh-CN/sandboxing#ipv6-destinations-in-injecthosts) |
 
 以下配置仅掩码 `DATABASE_URL` 中的密码，在模式未匹配任何内容时取消设置该变量，并掩码 `SERVICE_JWT` 中的 JWT，同时使除 `api_key` 之外的所有声明保持可读：
 
@@ -2337,7 +2340,7 @@ Claude Code 仅对沙箱化命令强制执行此设置；`WebFetch` 等进程内
 设置上下文窗口填充到多满时 Claude Code 会[自动压缩](https://code.claude.com/docs/zh-CN/context-window.md#when-your-context-fills-up)。
 
 * **作用域**：[`Any file`](#scopes)
-* **类型**：token 数量，范围为 `100000` 到 `1000000`。Claude Code 会将该值限制在您所用模型的上下文窗口以内；[模型概览](https://platform.claude.com/docs/en/about-claude/models/overview)列出了每个模型的上下文窗口
+* **类型**：token 数量，至少为 `100000`。Claude Code 会将该值限制在您所用模型的上下文窗口以内；[模型概览](https://platform.claude.com/docs/en/about-claude/models/overview)列出了每个模型的上下文窗口
 * **默认值**：未设置，此时 Claude Code 会选择针对您的模型调优的窗口
 * **单会话覆盖**：[`--autocompact`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 在单个会话中优先于此键，而 [`CLAUDE_CODE_AUTO_COMPACT_WINDOW`](https://code.claude.com/docs/zh-CN/env-vars) 优先于这两者，除非 Claude Code [忽略该变量的值](https://code.claude.com/docs/zh-CN/model-config.md#claude_code_auto_compact_window-values)
 
@@ -2453,8 +2456,8 @@ Claude Code 仅对沙箱化命令强制执行此设置；`WebFetch` 等进程内
 
 #### `env` 值如何与您的 shell 交互
 
-* 此处的值会覆盖您在 shell 中导出的同名变量；当多个设置文件设置了同一变量时，以[优先级最高](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)的为准。[Claude Code 在 `env` 中忽略的变量](#variables-claude-code-ignores-in-env)列出了项目设置和本地设置的例外情况。
-* 当 Claude Desktop 应用或[自托管环境](https://code.claude.com/docs/zh-CN/self-hosted-environments)运行器启动会话时，它所构建的启动环境优先：对于启动环境已设置的变量，Claude Code 会忽略任何设置文件中的 `env` 值。[调试日志](https://code.claude.com/docs/zh-CN/debug-your-config.md)会列出每个被忽略的变量。
+* 此处的值会覆盖您在 shell 中导出的同名变量；当多个设置文件设置了同一变量时，以[优先级最高](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)的为准。[Claude Code 在 `env` 中忽略的变量](#variables-claude-code-ignores-in-env)列出了例外情况。
+* 当 Claude Desktop 应用或[自托管环境](https://code.claude.com/docs/zh-CN/self-hosted-environments)运行器启动会话时，改为以它所构建的启动环境优先。对于该环境已设置的变量，Claude Code 会忽略设置文件中的 `env` 值。[调试日志](https://code.claude.com/docs/zh-CN/debug-your-config.md)可以显示被忽略的变量名称。
 * 要取消 shell 中的导出，请将该变量设置为 `""`。在选择提供商时，Claude Code 将空值视为未设置，而子进程会继承该空值。
 * 在此处设置的 `NO_COLOR` 和 `FORCE_COLOR` 仅作用于子进程。要更改 Claude Code 自身的界面颜色，请在启动 `claude` 之前在 shell 中设置它们。
 * 此处的值以明文形式保存在设置文件中，并会传递给 Claude Code 启动的每个子进程。对于会轮换的 OTLP bearer 令牌，请使用 [`otelHeadersHelper`](#otelheadershelper)；对于 API 凭据，请使用 [`apiKeyHelper`](#apikeyhelper)。
@@ -2480,6 +2483,7 @@ Claude Code 仅对沙箱化命令强制执行此设置；`WebFetch` 等进程内
     * 内容变量 `OTEL_LOG_USER_PROMPTS`、`OTEL_LOG_ASSISTANT_RESPONSES`、`OTEL_LOG_TOOL_CONTENT` 和 `OTEL_LOG_TOOL_DETAILS`
     * 名称以 `_ENDPOINT`、`_HEADERS`、`_PROTOCOL`、`_CERTIFICATE`、`_CLIENT_KEY` 或 `_INSECURE` 结尾的 `OTEL_EXPORTER_OTLP_*` 变量，包括通用形式和按信号区分的形式，例如 `OTEL_EXPORTER_OTLP_ENDPOINT` 和 `OTEL_EXPORTER_OTLP_METRICS_HEADERS`
     * `OTEL_EXPORTER_PROMETHEUS_HOST` 和 `OTEL_EXPORTER_PROMETHEUS_PORT`
+    * `OTEL_RESOURCE_INCLUDE_HOST`，用于[添加计算机的名称和 ID](https://code.claude.com/docs/zh-CN/monitoring-usage.md#identify-the-machine-a-session-ran-on)
 
     只有以下值仍会从项目设置和本地设置中生效，因为它们用于关闭某项功能：三个导出器选择变量的 `none`，以及 `OTEL_LOG_USER_PROMPTS`、`OTEL_LOG_TOOL_CONTENT` 和 `OTEL_LOG_TOOL_DETAILS` 的关闭值（例如 `0`）。此类值会覆盖您用户设置中的同名变量，但不会覆盖由启动 Claude Code 的环境、`--settings` 文件或托管设置所设置的变量。
 
@@ -2494,12 +2498,13 @@ Claude Code 仅对沙箱化命令强制执行此设置；`WebFetch` 等进程内
   * [`CLAUDE_CODE_DISABLE_FILE_MENTIONS`](https://code.claude.com/docs/zh-CN/env-vars#variables)，用于阻止 Claude Code 展开对文件和目录的 `@` 提及。
 
   在 v2.1.251 之前，项目设置和本地设置还可以设置此列表中选择 Claude Code 文件写入位置或导出会话内容的变量，但 `HOME` 和 `XDG_CONFIG_HOME` 除外。在 v2.1.290 之前，它们还可以设置对话框计时器变量和 `CLAUDE_CODE_DISABLE_ATTACHMENTS`。
+* 您可以在 shell、用户设置或 `--settings` 文件中通过 [`CLAUDE_CODE_EXPERIMENTAL_CODE_MODE`](https://code.claude.com/docs/zh-CN/env-vars#variables) 开启 [Code Mode](https://code.claude.com/docs/zh-CN/code-mode.md)，但不能在托管设置、项目设置或本地设置中开启。如果前三者中的任何一个或托管设置中将其设为 `0`，则无论您在其他位置如何设置，Code Mode 都保持关闭。当托管设置中包含 `1` 时，请在用户设置中设置您自己的 `1`，因为 shell 中的 `1` 会被忽略
 * 由 Claude Code 托管环境所拥有的身份变量（例如 `CLAUDE_CODE_REMOTE` 和 `CLAUDE_CODE_ACCOUNT_UUID`）在所有文件中都会被忽略。
 * [`CLAUDE_CODE_MESSAGING_SOCKET` 和 `CLAUDE_CODE_MESSAGING_TOKEN`](https://code.claude.com/docs/zh-CN/env-vars#variables) 由 Claude Code 自行导出，在所有文件中都会被忽略。忽略 socket 变量需要 Claude Code v2.1.224 或更高版本，忽略 token 变量需要 v2.1.228 或更高版本。
 * [`CLAUDE_CODE_PROJECT_DIR_NAME`](https://code.claude.com/docs/zh-CN/sessions#name-the-project-directory-yourself) 仅由 Claude Code 从启动环境中读取，在所有文件中都会被忽略；需要 v2.1.234 或更高版本。
 * [`CLAUDE_CODE_RESTRICTED`](https://code.claude.com/docs/zh-CN/env-vars#variables) 仅由 Claude Code 从启动环境中读取，在所有文件中都会被忽略。
 * [`CLAUDE_CODE_DISABLE_POWERSHELL_CMD_RM_DENY`](https://code.claude.com/docs/zh-CN/env-vars#variables) 仅由 Claude Code 从启动环境中读取，在所有文件中都会被忽略。该变量需要 Claude Code v2.1.283 或更高版本。
-* [`CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT`、`CLAUDE_CODE_DISABLE_SUBSTITUTION_RM_PROMPT`、`CLAUDE_CODE_DISABLE_INLINE_SHELL_RM_PROMPT` 和 `CLAUDE_CODE_DISABLE_MOUNTED_DRIVE_RM_PROMPT`](https://code.claude.com/docs/zh-CN/env-vars#variables) 仅由 Claude Code 从启动环境中读取，在所有文件中都会被忽略。
+* [`CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT`、`CLAUDE_CODE_DISABLE_SUBSTITUTION_RM_PROMPT`、`CLAUDE_CODE_DISABLE_INLINE_SHELL_RM_PROMPT`、`CLAUDE_CODE_STRICT_INLINE_SHELL_RM_PROMPT`、`CLAUDE_CODE_DISABLE_MOUNTED_DRIVE_RM_PROMPT` 和 `CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK`](https://code.claude.com/docs/zh-CN/env-vars#variables) 仅由 Claude Code 从启动环境中读取，在所有文件中都会被忽略。
 * [`CLAUDE_CODE_EVEN_MORE_DANGEROUSLY_SKIP_PERMISSIONS`](https://code.claude.com/docs/zh-CN/env-vars#variables) 仅由 Claude Code 从启动环境中读取，在所有文件中都会被忽略。
 * [`CLAUDE_CODE_WARN_DISK_FREE_GIB` 和 `CLAUDE_CODE_WARN_MEMORY_FREE_GIB`](https://code.claude.com/docs/zh-CN/env-vars#variables) 仅由 Claude Code 从启动环境中读取，在所有文件中都会被忽略。这些变量需要 Claude Code v2.1.304 或更高版本。
 
@@ -2683,7 +2688,7 @@ Compacted using a summary written while you were away · turn off with "idleComp
 
 ### `autoScrollEnabled`
 
-在[全屏渲染](https://code.claude.com/docs/zh-CN/fullscreen.md)中，跟随新输出滚动到对话底部。关闭此项后，Claude 继续工作时视图会停留在您滚动到的位置；权限提示仍会滚动到视野中。
+在[全屏渲染](https://code.claude.com/docs/zh-CN/fullscreen.md)中，跟随新输出滚动到对话底部。
 
 * **作用域**：[`Any file`](#scopes)
 * **类型**：布尔值
@@ -3173,25 +3178,6 @@ Claude 工作时，Claude Code 会在加载指示器中以您的前缀显示您�
 
 该示例需要安装 [`jq`](https://jqlang.org/) 并在 shell 中运行。有关 PowerShell 和 Git Bash 的等效写法，请参阅 [Windows 配置](https://code.claude.com/docs/zh-CN/statusline.md#windows-configuration)；有关完整设置，请参阅[手动配置状态栏](https://code.claude.com/docs/zh-CN/statusline.md#manually-configure-a-status-line)。
 
-### `subagentStatusLine`
-
-当 Claude 运行[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)时，Claude Code 会在输入框下方的任务显示区域中列出它们，每个子代理占一行，显示 `name · description · token count`。此键允许您运行自己的命令来改写这些行，例如以百分比显示每个子代理的上下文使用情况。每次刷新时，Claude Code 会通过 stdin 发送一个 JSON 对象来表示可见的行，其中 `tasks` 数组包含每个子代理的 `id`、`name`、`status`、`model`、`tokenCount` 等信息；对于您以 `{"id", "content"}` 行形式写回的每个 `id`，Claude Code 会替换相应的行。您未写回的行保持默认渲染。
-
-* **作用域**：[`Any file`](#scopes)。当 [`allowManagedHooksOnly`](#allowmanagedhooksonly) 开启，或在托管设置之外设置了 [`disableAllHooks`](#disableallhooks) 时，仅运行托管设置中的值。
-* **类型**：对象，包含设置为 `"command"` 的 `type` 和 `command` 字符串
-* **默认值**：未设置，因此 Claude Code 渲染默认行
-
-```json settings.json theme={null}
-{
-  "subagentStatusLine": {
-    "type": "command",
-    "command": "jq -c '.tasks[] | {id, content: \"\\(.name): \\(.tokenCount) tokens\"}'"
-  }
-}
-```
-
-请参阅[子代理状态栏](https://code.claude.com/docs/zh-CN/statusline.md#subagent-status-lines)。
-
 ### `syntaxHighlightingDisabled`
 
 Claude Code 使用其内置的高亮器，按语言为其在终端中显示的 diff、代码块和文件预览中的代码着色。将此键设置为 `true` 可改为以纯文本显示，例如当颜色与您的终端主题冲突或拖慢屏幕阅读器时。
@@ -3604,7 +3590,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 
 ### `allowedHttpHookUrls`
 
-限制 [HTTP hook](https://code.claude.com/docs/zh-CN/hooks.md#http-hook-fields) 可以访问的 URL。定义此键后，Claude Code 仅在 HTTP hook 的 URL 与其中某个模式匹配时才运行该 hook，其余 hook 会被阻止且不会运行；空数组会阻止所有 HTTP hook。
+限制 [HTTP hook](https://code.claude.com/docs/zh-CN/hooks.md#http-hook-fields) 可以访问的 URL。在托管设置中设置此键，可使其适用于您的组织所部署的 hook；在任何设置文件中设置此键，可使其适用于其他 hook。对于适用范围内的 hook，只有当其 URL 与各设置文件合并后的列表中的某个模式匹配时，Claude Code 才会运行该 hook。
 
 * **作用域**：[`Any file`](#scopes)。数组会在各设置文件之间合并。
 * **类型**：URL 模式数组，使用 `*` 作为通配符
@@ -3618,7 +3604,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 }
 ```
 
-主机名匹配不区分大小写，并且会将 `hooks.example.com.`（末尾带有表示完全限定域名的点）视为与 `hooks.example.com` 相同，这与 DNS 的处理方式一致。此允许列表适用于所有来源的 hook，包括托管设置。
+主机名匹配不区分大小写，并且会将 `hooks.example.com.`（末尾带有表示完全限定域名的点）视为与 `hooks.example.com` 相同，这与 DNS 的处理方式一致。
 
 在 Agent SDK 的 `managedSettings` 选项中，如果此键的列表包含条目，Claude Code 会忽略此键，因此请改为在 SDK 的 [`settings` 选项](https://code.claude.com/docs/zh-CN/agent-sdk/typescript#options)中传入该列表。请参阅[空列表在父级设置中的作用](https://code.claude.com/docs/zh-CN/claude-apps-gateway#how-hook-and-skill-keys-in-parent-settings-take-effect)。
 
@@ -3648,7 +3634,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 * **其他所有内容都会被阻止**：用户、项目和本地 hook，其他已安装插件中的 hook 和 mod，以及在 Agent frontmatter 中声明的 hook。[Claude Code 内置的 mod](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#mods-built-into-claude-code) 会继续运行。如果只想阻止用户的 mod，请改为设置 [`allowManagedModsOnly`](https://code.claude.com/docs/zh-CN/plugins/mods/admin#set-options-on-the-built-in-guard)。
 * **命令来源的插件会被禁用**：Claude Code 还会禁用具有 [`command` 来源](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference#command-plugin-source)的插件，包括在托管 `enabledPlugins` 中强制启用的插件，除非您显式将 [`disableCommandPluginSources`](#disablecommandpluginsources) 设置为 `false`
 * **市场的 `headersHelper` 命令会被阻止**：Claude Code 还会阻止市场的 [`headersHelper` 命令](https://code.claude.com/docs/zh-CN/plugins/host-marketplace#authenticate-archive-downloads)，除非显式将 [`disableCommandPluginSources`](#disablecommandpluginsources) 设置为 `false`，但由托管设置本身声明的市场除外。需要 Claude Code v2.1.238 或更高版本
-* **状态栏和文件建议仅限于托管设置**：Claude Code 仅从托管设置中读取 [`statusLine`](https://code.claude.com/docs/zh-CN/statusline)、[`fileSuggestion`](#filesuggestion) 和 [`subagentStatusLine`](https://code.claude.com/docs/zh-CN/statusline#subagent-status-lines)，遵循[状态栏和文件建议的限制规则](#status-line-and-file-suggestion-gates)
+* **状态栏和文件建议仅限于托管设置**：Claude Code 仅从托管设置中读取 [`statusLine`](https://code.claude.com/docs/zh-CN/statusline) 和 [`fileSuggestion`](#filesuggestion)，遵循[状态栏和文件建议的限制规则](#status-line-and-file-suggestion-gates)
 
 设置此键后，[`/goal`](https://code.claude.com/docs/zh-CN/goal) 命令无法运行，因为它依赖于 hook。
 
@@ -3687,7 +3673,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 
 #### 状态栏和文件建议的限制规则
 
-对于 `statusLine`、`fileSuggestion` 和 `subagentStatusLine`，Claude Code 会按以下顺序做出两项判断：
+对于 `statusLine` 和 `fileSuggestion`，Claude Code 会按以下顺序做出两项判断：
 
 * **完全关闭**：当托管设置设置了 `disableAllHooks` 时，或者当文件夹在与[设置文件中的 hook 相同的工作区信任规则](https://code.claude.com/docs/zh-CN/permissions.md#what-runs-before-you-trust-a-folder)下不受信任时
 * **仅限于托管设置**：当设置了 [`allowManagedHooksOnly`](#allowmanagedhooksonly) 时，当应用[设置优先级](https://code.claude.com/docs/zh-CN/hooks.md#disable-or-remove-hooks)后 `disableAllHooks` 在托管设置之外为 `true` 时，或者当您使用 `--safe-mode` 启动 Claude Code 时
@@ -3759,7 +3745,9 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 
 ### `httpHookAllowedEnvVars`
 
-[HTTP hook](https://code.claude.com/docs/zh-CN/hooks.md#http-hook-fields) 可以将环境变量的值放入请求头中，例如 `Authorization: Bearer $HOOK_TOKEN` 请求头，但仅限于该 hook 在其自身 `allowedEnvVars` 中列出的变量。此键为所有 HTTP hook 的该列表设置了一个外层限制：只有当 hook 自身的 `allowedEnvVars` 和此键都列出某个变量时，hook 才能使用该变量。可以使用它来阻止 hook 读取不应读取的机密，即使 hook 的定义请求了该机密。
+[HTTP hook](https://code.claude.com/docs/zh-CN/hooks.md#http-hook-fields) 可以将环境变量的值放入请求头中，例如 `Authorization: Bearer $HOOK_TOKEN` 请求头，但仅限于该 hook 在其自身 `allowedEnvVars` 中列出的变量。
+
+在托管设置中设置此键，可使其适用于您的组织所部署的 hook；在任何设置文件中设置此键，可使其适用于其他 hook。对于适用范围内的 hook，只有当其自身的 `allowedEnvVars` 和此键在各设置文件之间合并后的列表都列出某个变量时，该 hook 才能使用该变量。
 
 * **作用域**：[`Any file`](#scopes)。数组会在各设置文件之间合并。
 * **类型**：环境变量名称数组
@@ -3772,8 +3760,6 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
   "httpHookAllowedEnvVars": ["MY_TOKEN", "HOOK_SECRET"]
 }
 ```
-
-此允许列表适用于所有来源的 hook，包括托管设置。
 
 在 Agent SDK 的 `managedSettings` 选项中，如果此键的列表包含条目，Claude Code 会忽略此键，因此请改为在 SDK 的 [`settings` 选项](https://code.claude.com/docs/zh-CN/agent-sdk/typescript#options)中传入该列表。请参阅[空列表在父级设置中的作用](https://code.claude.com/docs/zh-CN/claude-apps-gateway#how-hook-and-skill-keys-in-parent-settings-take-effect)。
 
@@ -3885,7 +3871,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 
 关闭[为您的 claude.ai 账户启用的 skill](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave) 的下载。在[您使用 claude.ai 账户登录的终端会话](https://code.claude.com/docs/zh-CN/skills.md#where-synced-skills-load)中（无论交互式还是非交互式），以及在 Cowork 和云端会话中，Claude Code 会将这些 skill 下载到 `~/.claude/skills/synced/`。设置为 `false` 可停止该下载，并停止加载已同步的 skill。Claude Code 仅识别 `false`：`true` 与未设置相同，不会在原本关闭同步的地方开启同步。
 
-* **作用域**：[`User, local, or managed`](#scopes)，以及通过 `--settings` 传入的文件。仓库无法替您关闭它。
+* **作用域**：[`User, local, or managed`](#scopes)，以及通过 `--settings` 传入的文件。
 * **类型**：Boolean
   * `false`：Claude Code 停止下载同步的 skill，并停止加载 `~/.claude/skills/synced/` 中已有的 skill。在用户设置或托管设置中，还会将它们移动到 `~/.claude/skills/.trash/`
   * `true`：与未设置相同
@@ -3903,7 +3889,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 
 关闭[为您的 claude.ai 账户启用的插件](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)的下载。在您使用 claude.ai 账户登录的终端会话以及 Cowork 会话开始时，Claude Code 会将这些插件下载到 `~/.claude/plugins/synced/`，并将每个插件加载为 `<name>@synced`。设置为 `false` 可停止该下载，并停止加载已同步的插件。Claude Code 仅识别 `false`：`true` 与未设置相同，不会在原本关闭同步的地方开启同步。需要 Claude Code v2.1.273 或更高版本。
 
-* **作用域**：[`User, local, or managed`](#scopes)，以及通过 `--settings` 传入的文件。仓库无法替您关闭它。
+* **作用域**：[`User, local, or managed`](#scopes)，以及通过 `--settings` 传入的文件。
 * **类型**：Boolean
   * `false`：Claude Code 停止下载同步的插件，并停止加载 `~/.claude/plugins/synced/` 中已有的插件。在用户设置或托管设置中，还会将它们移动到 `~/.claude/plugins/.trash/`
   * `true`：与未设置相同
@@ -4060,7 +4046,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 
 | 来源 | 示例条目 | 字段 |
 | :- | :- | :- |
-| `github` | `{ "source": "github", "repo": "acme-corp/plugins", "ref": "main", "path": "marketplace" }` | `repo` 必填；`ref` 为分支或标签；`path` 为子目录 |
+| `github` | `{ "source": "github", "repo": "acme-corp/plugins", "ref": "main", "path": ".claude-plugin/marketplace.json" }` | `repo` 必填；`ref` 为分支、标签或提交 SHA；`path` 为仓库中[市场文件的路径](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference.md#fields-by-type) |
 | `git` | `{ "source": "git", "url": "https://gitlab.example.com/tools/plugins.git", "ref": "production" }` | `url` 必填；`ref` 和 `path` 与 `github` 相同 |
 | `url` | `{ "source": "url", "url": "https://plugins.example.com/marketplace.json", "headers": { "Authorization": "Bearer ${TOKEN}" } }` | `url` 必填；`headers` 添加用于身份验证访问的 HTTP 标头 |
 | `file` | `{ "source": "file", "path": "/opt/acme-corp/plugins/marketplace.json" }` | `path` 必填，为 `marketplace.json` 文件的绝对路径 |
@@ -4118,7 +4104,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 例如，Claude Code 将以下每一对视为两个不同的来源：
 
 * `{ "source": "github", "repo": "acme-corp/plugins" }` 和 `{ "source": "github", "repo": "acme-corp/plugins", "ref": "main" }`
-* `{ "source": "github", "repo": "acme-corp/plugins", "path": "marketplace" }` 和 `{ "source": "github", "repo": "acme-corp/plugins" }`
+* `{ "source": "github", "repo": "acme-corp/plugins", "path": ".claude-plugin/marketplace.json" }` 和 `{ "source": "github", "repo": "acme-corp/plugins" }`
 
 #### 仅允许官方市场
 
@@ -4659,7 +4645,7 @@ Claude Code 会忽略项目和本地条目，因为它会将这些值代入插�
 
 * **作用域**：[`任意文件`](#scopes)
 * **类型**：字符串，内置或自定义 Agent 的名称
-* **默认值**：未设置，因此主线程以 Claude Code 的默认 Agent 运行
+* **默认值**：未设置
 * **单会话覆盖**：`--agent` 在单个会话中优先于此键
 
 ```json settings.json theme={null}
@@ -4667,8 +4653,6 @@ Claude Code 会忽略项目和本地条目，因为它会将这些值代入插�
   "agent": "code-reviewer"
 }
 ```
-
-插件自身的 `settings.json` 也可以提供此键；请参阅[随插件提供默认设置](https://code.claude.com/docs/zh-CN/plugins/components.md#default-settings)。
 
 ### `crossSessionInbound`
 
@@ -4889,7 +4873,7 @@ Claude Code 首先读取托管设置，然后读取 `--settings` 标志，再读
 
 ### `agentPushNotifEnabled`
 
-允许 Claude 在认为值得发送时向您的手机发送推送通知，例如在长时间任务完成时。在本地会话中，Claude 可以在 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 已连接时发送通知。在 `/config` 中显示为 **Push when Claude decides**。在该处更改时，Claude Code 还会将该值保存到您的账户。
+允许 Claude 在认为值得发送时向您的手机发送推送通知，例如在长时间任务完成时。在本地会话中，Claude 可以在 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 已连接时发送通知。在 `/config` 中显示为 **Push when Claude decides**。
 
 * **作用域**：[`Any file`](#scopes)。Claude Code 也会读取旧版本遗留在 `~/.claude.json` 中的值。
 * **类型**：Boolean
@@ -4903,9 +4887,9 @@ Claude Code 首先读取托管设置，然后读取 `--settings` 标志，再读
 }
 ```
 
-如果您在 [`claude remote-control`](https://code.claude.com/docs/zh-CN/remote-control#start-a-remote-control-session) 服务器下运行会话，这些会话将遵循保存在您账户中的值，而不是此设置项。要更改该值，请在终端的 Claude Code 会话中运行 `/config`，并打开或关闭 **Push when Claude decides**。如果开关已显示您想要的值，请先更改再改回，以便 Claude Code 将该值保存到您的账户。
+仅凭此设置项您不会收到通知。要进行设置，请按照[移动推送通知](https://code.claude.com/docs/zh-CN/remote-control.md#mobile-push-notifications)中的步骤操作。
 
-请参阅 [移动推送通知](https://code.claude.com/docs/zh-CN/remote-control.md#mobile-push-notifications)。
+如果您在 [`claude remote-control`](https://code.claude.com/docs/zh-CN/remote-control#start-a-remote-control-session) 服务器下运行会话，这些会话将遵循保存在您账户中的值，而不是此设置项。要更改该值，请在终端的 Claude Code 会话中运行 `/config`，并打开或关闭 **Push when Claude decides**。如果开关已显示您想要的值，请先更改再改回，以便 Claude Code 将该值保存到您的账户。
 
 ### `awaySummaryEnabled`
 
@@ -5062,7 +5046,7 @@ Claude Desktop 会向 Code 会话提供从您的桌面配置派生的策略，�
 }
 ```
 
-请参阅 [移动推送通知](https://code.claude.com/docs/zh-CN/remote-control.md#mobile-push-notifications)。
+仅凭此设置项您不会收到通知。要进行设置，请按照[移动推送通知](https://code.claude.com/docs/zh-CN/remote-control.md#mobile-push-notifications)中的步骤操作。
 
 ### `preferredNotifChannel`
 
@@ -5207,11 +5191,12 @@ Desktop 无法读取为主机列表的值（例如 `true` 或对象）在您更�
 
 * **作用域**：[`Managed`](#scopes)。当服务器托管设置也下发列表时，由机器自身的管理员来源（MDM 策略和托管设置文件）设置的列表仍然生效：此时会话只能使用同时出现在两个列表中的提供商，因此服务器托管列表可以收窄机器允许的范围，但永远无法扩大。哪个机器来源的 `allowedProviders` 生效，遵循 [Claude Code 如何合并托管来源](https://code.claude.com/docs/zh-CN/managed-settings.md#how-claude-code-combines-managed-sources)。仅通过服务器托管设置下发的列表只会作用于[获取服务器托管设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md#platform-availability)的会话。
 * **类型**：字符串数组，每项为以下之一：
-  * `"anthropic"`：Anthropic 自有主机上的 Anthropic API，通过 claude.ai 或 Console 登录或 API 密钥访问。将其与 [`forceLoginMethod`](#forceloginmethod) 或 [`forceLoginOrgUUID`](#forceloginorguuid) 搭配使用，可同时限制登录
+  * `"anthropic"`：Anthropic 自有主机上的 Anthropic API，通过 claude.ai 或 Console 登录或 API 密钥访问。将其与 [`forceLoginMethod`](#forceloginmethod) 或 [`forceLoginOrgUUID`](#forceloginorguuid) 搭配使用，可同时限制登录。[在用户机器上](https://code.claude.com/docs/zh-CN/managed-settings.md#where-and-when-a-policy-applies)运行的 Desktop Cowork 在登录 claude.ai 时算作 `"anthropic"`，因此如果机器的列表中没有该条目，Cowork [会在启动时被拒绝](https://code.claude.com/docs/zh-CN/errors.md#managed-settings-dont-allow-this-api-provider)。要让 Cowork 启动，请添加该条目，这也会使此列表对直接的 Anthropic 会话开放。
   * `"bedrock"`：[Amazon Bedrock](https://code.claude.com/docs/zh-CN/amazon-bedrock.md)
   * `"vertex"`：[Google Cloud 的 Agent Platform](https://code.claude.com/docs/zh-CN/google-vertex-ai.md)，前身为 Vertex AI
   * `"foundry"`：[Microsoft Foundry](https://code.claude.com/docs/zh-CN/microsoft-foundry.md)
   * `"anthropicAws"`：[Claude Platform on AWS](https://code.claude.com/docs/zh-CN/claude-platform-on-aws.md)
+  * `"anthropicGoogleCloud"`：[Claude Models on Google Cloud (Anthropic managed)](https://code.claude.com/docs/zh-CN/claude-models-on-google-cloud-anthropic-managed.md)
   * `"mantle"`：Amazon Bedrock [Mantle 端点](https://code.claude.com/docs/zh-CN/amazon-bedrock.md#use-the-mantle-endpoint)。[同时运行 Mantle 和 Invoke API](https://code.claude.com/docs/zh-CN/amazon-bedrock.md#run-mantle-alongside-the-invoke-api) 的会话会使用这两个提供商，因此需要同时列出 `"bedrock"` 和 `"mantle"`
   * `"customEndpoint"`：发送到其他主机的 Anthropic API 或云提供商 API，例如由 `ANTHROPIC_BASE_URL` 或提供商端点变量（如 `ANTHROPIC_BEDROCK_BASE_URL`）指定的 [LLM 网关](https://code.claude.com/docs/zh-CN/llm-gateway)。Claude Code 仅接受托管 [`env`](#env) 块所固定的确切值
   * `"gateway"`：[Cloud gateway](https://code.claude.com/docs/zh-CN/claude-apps-gateway) 登录
@@ -5440,18 +5425,18 @@ Claude Code 会缓存该值，并在以下情况下重新运行命令：
 
 ### `minimumVersion`
 
-阻止后台自动更新和 `claude update` 安装低于此版本的任何版本，这样切换到 `"stable"` 渠道时不会使您从较新的 `"latest"` 构建版本降级。当您在 `/config` 中切换渠道并选择保留当前版本时，Claude Code 会自动为您写入此键；当您切换回 `"latest"` 时则会清除它。
+阻止后台自动更新和 `claude update` 安装低于您所设置版本的任何版本。当您在 `/config` 中切换渠道并选择保留当前版本时，Claude Code 会自动为您写入此键。当您在 `/config` 中切换回 `"latest"` 时，Claude Code 会清除此键。
 
-* **作用域**：[`Any file`](#scopes)。在托管设置中设置此项，可固定一个用户设置和项目设置无法调低的组织级最低版本。
-* **类型**：字符串，即版本号，例如 `"2.1.100"`；无效的版本值将被忽略
+* **作用域**：[`Any file`](#scopes)。在托管设置中设置此键，可固定一个用户设置和项目设置无法覆盖的组织级最低版本。
+* **类型**：字符串，即版本号，例如 `"2.1.323"`；无效的版本值将被忽略
 * **默认值**：未设置，因此更新可以安装该渠道提供的任何版本
 
-以下示例遵循 stable 渠道，并拒绝安装低于 2.1.100 的任何版本：
+以下示例遵循 stable 渠道，并拒绝安装低于 2.1.323 的任何版本：
 
 ```json settings.json theme={null}
 {
   "autoUpdatesChannel": "stable",
-  "minimumVersion": "2.1.100"
+  "minimumVersion": "2.1.323"
 }
 ```
 
@@ -5471,7 +5456,9 @@ Claude Code 会缓存该值，并在以下情况下重新运行命令：
 }
 ```
 
-后台自动更新和 `claude update` 会跳过高于上限的版本，因此处于允许范围内的安装会始终保持在该范围内。即使版本高于上限，`claude update`、`claude install` 和 `claude doctor` 仍可正常使用，以便用户进行恢复。将其与 [`requiredMinimumVersion`](#requiredminimumversion) 搭配使用，可强制限定版本范围。
+在原生安装和 npm 安装中，后台自动更新和 `claude update` 会跳过高于上限的版本。即使版本高于上限，`claude update`、`claude install` 和 `claude doctor` 仍可正常使用，以便用户进行恢复。将其与 [`requiredMinimumVersion`](#requiredminimumversion) 搭配使用，可强制限定版本范围。
+
+当桌面应用更新时，其自带的 Claude Code 副本可能会高于上限，此时 [Code 标签页中的本地会话将无法启动](https://code.claude.com/docs/zh-CN/desktop.md#version-above-your-organizations-limit)。如需在 macOS 和 Windows 上防止该副本发生变化，请[关闭桌面应用的自动更新](https://code.claude.com/docs/zh-CN/desktop.md#device-management-policies)。通过 Microsoft Store 安装的版本仍会由 Microsoft Store 进行更新。
 
 ### `requiredMinimumVersion`
 
@@ -5941,7 +5928,7 @@ Claude Code 会忽略 `settings.json` 中的此键。
 
 在每个交互式 CLI 会话启动时开启 [Chrome 集成](https://code.claude.com/docs/zh-CN/chrome.md)，无需每次都传入 `--chrome`。如果您运行 [`claude remote-control`](https://code.claude.com/docs/zh-CN/remote-control)，它为您的某个[项目](https://code.claude.com/docs/zh-CN/claude-projects.md)线程启动的会话也会遵循此键，`bypassPermissions` 模式除外。在 Claude Code v2.1.287 或更高版本中，此键也适用于 [VS Code 扩展](https://code.claude.com/docs/zh-CN/vs-code.md#automate-browser-tasks-with-chrome)中的会话：请参阅[默认启用 Chrome](https://code.claude.com/docs/zh-CN/chrome.md#enable-chrome-by-default)。
 
-运行 `/chrome` 并选择 **Enabled by default** 会自动设置此键，回应 [“Claude in Chrome extension detected” 对话框](https://code.claude.com/docs/zh-CN/chrome.md#answer-the-startup-dialog)也会设置此键。此项在 `/config` 中显示为 **Claude in Chrome enabled by default**。
+当您通过 `/chrome` 将 Chrome 设为默认开启，或回应 [“Claude in Chrome extension detected” 对话框](https://code.claude.com/docs/zh-CN/chrome.md#answer-the-startup-dialog)时，即会设置此键。此项在 `/config` 中显示为 **Claude in Chrome enabled by default**。
 
 * **作用域**：[`Global config`](#scopes)
 * **类型**：Boolean

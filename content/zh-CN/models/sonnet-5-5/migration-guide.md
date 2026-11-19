@@ -467,7 +467,7 @@ To turn thinking off on this model, send "thinking": {"type": "between_tools"} i
 
 * 将模型 ID 更改为 `claude-sonnet-5-5`。
 * [按 `type` 读取内容块](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#thinking-in-responses)，并原样传回 `thinking` 块。
-* 如需在不进行预先思考的情况下继续运行，请在 `high` 或更低的 effort 下发送[最低思考设置](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#turn-off-up-front-thinking)。
+* 如需在不进行前置思考的情况下继续运行，请在 `high` 或更低的 effort 下发送[最低思考设置](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#turn-off-up-front-thinking)。
 * 将[强制工具使用](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#forced-tool-use)替换为 `auto` 和严格工具。
 * 保持对话[仅追加](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#thinking-blocks)。
 * 将计算机使用迁移到[工具集](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#computer-use-toolset)，且不使用 `fine-grained-tool-streaming-2025-05-14` beta 标头。在 Amazon Bedrock 上，`computer_20251124` 也可以使用。
@@ -838,15 +838,23 @@ tool_choice: type "tool" and "any" are not supported for this model.
 
 ### 思考块与模型和对话绑定
 
-Claude Sonnet 5.5 可以读取来自 Claude Sonnet 5、Claude Opus 4.8、Claude Haiku 4.5 及更早模型的思考块，并且在 Claude API 和 Claude Models on Google Cloud (Google managed) 上还可以读取来自 Claude Haiku 5.5 的思考块。它不读取来自 Claude Opus 5、Claude Opus 5.5 或任何 Claude Fable 或 Claude Mythos 模型的块。API 会丢弃模型无法读取的块。请求仍返回 200，且被丢弃的块不计费。请参阅[在对话中途切换模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。
+Claude Sonnet 5.5 读取来自 Claude Sonnet 5、Claude Opus 4.8、Claude Haiku 4.5 及[更早模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#earlier-models)的思考块。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它还读取来自 Claude Haiku 5.5 的思考块。它不读取来自 Claude Opus 5、Claude Opus 5.5 或任何 Claude Fable 或 Claude Mythos 模型的块。
 
-每个 Claude Sonnet 5.5 思考块还会针对其之前的对话进行签名。请保持对话仅追加，并通过[对话中途系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)更改指令或工具。请求可能会在早期历史记录被编辑后重放某个块，且未设置 `thinking.block_binding.prefix_mismatch_behavior`。对于在 2026 年 8 月 31 日 00:00 UTC 或之后创建的账户，该请求将收到 400 错误。[保留思考的可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)列出了适用此规则的平台。Claude Sonnet 5.5 生成的思考块仅在生成它们的账户或与其关联的账户中有效。请参阅[思考块仅限于生成它们的账户](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)。
+API 会丢弃模型无法读取的块。请求返回 200，且被丢弃的块不计费。请参阅[切换模型再切换回来](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。
+
+请保持对话仅追加，以使思考块通过[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)。若要更改指令或工具，请参阅[对话中途系统消息和工具更改](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)。
+
+未通过 “prefix check”（[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)）可能会也可能不会导致 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。要识别并处理这两种情况，请参阅[思考块的前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks)。
+
+前缀检查在 Claude API 和[部分云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)上运行。
+
+Claude Sonnet 5.5 思考块仅在生成它们的账户或与其关联的账户中有效。请参阅[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)。
 
 ### 部分计算机使用工具版本不受支持
 
 Claude Sonnet 5.5 通过 `computer_toolset_20260801` 工具集支持计算机使用。在 Amazon Bedrock 上，Claude Sonnet 5.5 还接受带有 `computer-use-2025-11-24` beta 标头的 `computer_20251124` 工具。对于任何它不接受的计算机使用工具版本（例如 Claude API 上的 `computer_20251124`），Claude Sonnet 5.5 都会返回 400 错误。它在任何平台上都不接受 `computer_20250124`。
 
-使用工具集的集成无需更改。要迁移到工具集，请将 `computer_20251124` 或 `computer_20250124` 替换为 `computer_toolset_20260801`，并移除该版本的 beta 标头。[从 `computer_20251124` 迁移](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#migrate-from-computer-20251124)列出了请求和智能体循环方面的更改。
+使用工具集的集成无需更改。要迁移到工具集，请将 `computer_20251124` 或 `computer_20250124` 替换为 `computer_toolset_20260801`，并移除该版本的 beta 标头。有关请求和智能体循环方面的更改，请参阅[从 `computer_20251124` 迁移](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#migrate-from-computer-20251124)。
 
 如果您发送了 `fine-grained-tool-streaming-2025-05-14` beta 标头，请在迁移到工具集时将其移除。与工具集条目一起使用时，它会返回 400 错误。请改为在每个需要的工具上设置 `eager_input_streaming: true`。
 
@@ -1187,7 +1195,7 @@ Claude Sonnet 5.5 通过 `computer_toolset_20260801` 工具集支持计算机使
 ### 其他更改
 
 * **令牌增加约 30%：** Claude Sonnet 5.5 使用 Claude Sonnet 5 的分词器。与 Claude Sonnet 4.6、Claude Sonnet 4.5 和 Claude Haiku 4.5 相比，相同的文本会产生约多 30% 的令牌，具体取决于内容。请使用[令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting)重新计算，并重新审视 `max_tokens` 和成本。
-* **Effort：** `xhigh` 是新增的，且各级别经过了重新校准。请参阅[推荐的更改](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#recommended-changes)。
+* **Effort：** Claude Sonnet 5.5 支持 `xhigh`，且各级别经过了重新校准。请参阅[推荐的更改](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#recommended-changes)。
 * **图像：** Claude Sonnet 5.5 使用高分辨率图像层级，长边最多 2,576 像素，每张图像最多 4,784 个视觉令牌。Claude Sonnet 4.6、Claude Sonnet 4.5 和 Claude Haiku 4.5 的上限为 1,568 像素和 1,568 个令牌。一张 2000×1500 的图像在 Claude Sonnet 5.5 上消耗的令牌约为 2.5 倍。请参阅[分辨率和令牌成本](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#evaluate-image-size)。
 
 ### 从 Claude Sonnet 4.5 或更早版本迁移
@@ -1212,7 +1220,7 @@ This model does not support assistant message prefill. The conversation must end
 
 **计算机使用。** Claude Sonnet 5.5 不接受 `computer_20250124`。请参阅[部分计算机使用工具版本不受支持](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#computer-use-toolset)。
 
-**Effort。** Claude Sonnet 4.5 没有 effort 参数。请按照[推荐的更改](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#recommended-changes)中的说明显式设置 effort 级别。
+**Effort。** Claude Sonnet 4.5 没有 effort 参数。请显式设置 effort 级别（请参阅[推荐的更改](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#recommended-changes)）。
 
 **上下文和输出。** Claude Sonnet 5.5 拥有更大的上下文窗口和更高的输出限制。请参阅 [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview) 模型页面。移除所有上下文窗口 beta 标头。
 
@@ -1238,4 +1246,4 @@ Claude Sonnet 4 已在 Claude API 上停用，但可在 Claude Models on Google 
 * **成本：** 每令牌价格更高，且相同的文本会产生更多令牌。请重新计算令牌并重新确定成本基线。请参阅[定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing)。
 * **提示缓存：** 最小可缓存提示从 4,096 个令牌降至 [Claude Sonnet 5.5 的最小值](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#other-changes-from-claude-sonnet-5)。
 * **交错思考：** 自适应思考会自动在工具调用之间运行。
-* **路由：** Claude Sonnet 5.5 可以读取 Claude Haiku 4.5 的思考块。向上迁移的对话会保留其推理。迁回 Claude Haiku 4.5 的对话会丢弃 Claude Sonnet 5.5 的块。
+* **路由：** Claude Sonnet 5.5 读取 Claude Haiku 4.5 的思考块。向上迁移的对话会保留其推理。迁回 Claude Haiku 4.5 的对话会丢弃 Claude Sonnet 5.5 的块。

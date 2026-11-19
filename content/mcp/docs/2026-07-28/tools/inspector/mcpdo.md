@@ -82,7 +82,7 @@ Connections **self-heal**: a dropped transport (an expired HTTP session, an exit
 
 A connection runs **one call at a time**. Commands against it from other shells queue behind the call in flight, and while a call is parked on an [elicitation](#elicitation), new calls on that connection are refused until it is answered. A long call does not block other connections.
 
-`tools/call` also accepts the one-shot CLI's `--load` family (`--load`, `--load-concurrency`, `--load-connections`, `--load-duration`, `--load-requests`, `--load-rate`, `--load-max-error-rate`, `--load-max-p99`), with the same defaults and the same summary, run inside the daemon against the connection (see [CI gates](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/cli.md#ci-gates)). `--load-connections` opens its extra sessions with stored credentials only. Later commands on the connection wait until the run ends.
+`tools/call --load` load-tests a tool over the connection. See [Load testing](#load-testing).
 
 ## Tasks
 
@@ -93,6 +93,17 @@ mcpdo @my-server tools/call --task start_job size:=large   # task-augmented call
 ```
 
 If the task reaches `input_required`, its question is handled like any other [elicitation](#elicitation).
+
+## Load testing
+
+`tools/call --load` is the one-shot CLI's load mode, run against an open connection, with the same flags, defaults, thresholds and summary fields.
+
+```bash theme={null}
+# 20 calls in flight for 30 seconds
+mcpdo @my-server tools/call search query:=mcp --load --load-concurrency 20 --load-duration 30
+```
+
+The run happens inside the daemon, so later commands on the same connection wait for it, and Ctrl+C cancels the in-flight calls and prints no summary. [Load testing](https://modelcontextprotocol.io/docs/2026-07-28/tools/inspector/load-testing.md#on-an-mcpdo-connection) covers how a run behaves on a daemon connection, and the rest of that page covers every flag and field.
 
 ## Output
 
@@ -178,3 +189,6 @@ Adjust the network and mount flags to what the server needs. HTTP and SSE server
 ## Using mcpdo from a coding agent
 
 The package ships an agent skill that teaches an agent to drive `mcpdo`: connections it holds then extend the agent's toolset, and it knows to relay sign-in URLs and answer parked elicitations. `mcpdo agent-help` prints the guide, `mcpdo agent-help --skill-path` prints the path of the installable skill file, and `mcpdo agent-help --instructions` prints a block to append to a project's `CLAUDE.md` or `AGENTS.md`. The skill can also be installed with `npx skills add modelcontextprotocol/inspector --skill mcpdo`.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

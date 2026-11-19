@@ -88,7 +88,7 @@ Files API 提供了一种"创建一次、多次使用"的文件处理方式：
 
   ```typescript TypeScript
   const uploaded = await client.files.upload({
-    file: await toFile(fs.createReadStream("/path/to/document.pdf"), undefined, {
+    file: await toFile(createReadStream("/path/to/document.pdf"), undefined, {
       type: "application/pdf"
     })
   });
@@ -142,12 +142,15 @@ Files API 提供了一种"创建一次、多次使用"的文件处理方式：
   );
 
   String fileId = file.id();
-  System.out.println(fileId);
+  IO.println(fileId);
   ```
 
   ```php PHP
+  $document = fopen('/path/to/document.pdf', 'rb')
+      ?: throw new \RuntimeException('Could not open /path/to/document.pdf.');
+
   $file = $client->files->upload(
-      file: FileParam::fromResource(fopen('/path/to/document.pdf', 'rb'), contentType: 'application/pdf'),
+      file: FileParam::fromResource($document, contentType: 'application/pdf'),
   );
 
   $fileId = $file->id;
@@ -349,7 +352,7 @@ API 参考描述了文件对象的每个字段。
       .build();
 
   Message message = client.messages().create(params);
-  System.out.println(message);
+  IO.println(message);
   ```
 
   ```php PHP
@@ -370,7 +373,7 @@ API 参考描述了文件对象的每个字段。
               ],
           ],
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   echo $response;
@@ -462,9 +465,8 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
 
 <CodeGroup>
   ```bash cURL
-  # 读取文本文件
-  # 注意：对于包含特殊字符的文件，建议使用 base64 编码
-  TEXT_CONTENT=$(cat document.txt)
+  # 将文件文本编码为 JSON 字符串，以确保引号和换行符可安全处理
+  TEXT_JSON=$(jq -Rs . document.txt)
 
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
@@ -478,10 +480,9 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
       {
         "role": "user",
         "content": [
-          {
-            "type": "text",
-            "text": "Here's the document content:\n\n${TEXT_CONTENT}\n\nPlease summarize this document."
-          }
+          {"type": "text", "text": "Here's the document content:"},
+          {"type": "text", "text": ${TEXT_JSON}},
+          {"type": "text", "text": "Please summarize this document."}
         ]
       }
     ]
@@ -520,7 +521,11 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
               "content": [
                   {
                       "type": "text",
-                      "text": f"Here's the document content:\n\n{text_content}\n\nPlease summarize this document.",
+                      "text": f"""Here's the document content:
+
+  {text_content}
+
+  Please summarize this document.""",
                   }
               ],
           }
@@ -549,7 +554,11 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
         content: [
           {
             type: "text",
-            text: `Here's the document content:\n\n${textContent}\n\nPlease summarize this document.`
+            text: `Here's the document content:
+
+  ${textContent}
+
+  Please summarize this document.`
           }
         ]
       }
@@ -572,7 +581,13 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
       MaxTokens = 1024,
       Messages = [new UserMessageParam
       {
-          Content = $"Here's the document content:\n\n{textContent}\n\nPlease summarize this document."
+          Content = $"""
+              Here's the document content:
+
+              {textContent}
+
+              Please summarize this document.
+              """
       }]
   };
 
@@ -624,20 +639,28 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
   MessageCreateParams params = MessageCreateParams.builder()
       .model(Model.CLAUDE_OPUS_5_5)
       .maxTokens(1024L)
-      .addUserMessage("Here's the document content:\n\n" + textContent + "\n\nPlease summarize this document.")
+      .addUserMessage(
+          """
+          Here's the document content:
+
+          %s
+
+          Please summarize this document.""".formatted(textContent)
+      )
       .build();
 
   Message response = client.messages().create(params);
   response.content().stream()
       .flatMap(block -> block.text().stream())
-      .forEach(textBlock -> System.out.println(textBlock.text()));
+      .forEach(textBlock -> IO.println(textBlock.text()));
   ```
 
   ```php PHP
   $client = new Client();
 
   // 读取文本文件
-  $textContent = file_get_contents('document.txt');
+  $textContent = file_get_contents('document.txt')
+      ?: throw new \RuntimeException('Could not read document.txt.');
 
   $message = $client->messages->create(
       maxTokens: 1024,
@@ -647,16 +670,22 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
               'content' => [
                   [
                       'type' => 'text',
-                      'text' => "Here's the document content:\n\n{$textContent}\n\nPlease summarize this document."
+                      'text' => <<<TEXT
+                          Here's the document content:
+
+                          {$textContent}
+
+                          Please summarize this document.
+                          TEXT
                   ]
               ]
           ]
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
   );
 
   foreach ($message->content as $block) {
-      if ($block->type === 'text') {
+      if ($block instanceof \Anthropic\Messages\TextBlock) {
           echo $block->text, PHP_EOL;
       }
   }
@@ -677,7 +706,13 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
         content: [
           {
             type: "text",
-            text: "Here's the document content:\n\n#{text_content}\n\nPlease summarize this document."
+            text: <<~TEXT.chomp
+              Here's the document content:
+
+              #{text_content}
+
+              Please summarize this document.
+            TEXT
           }
         ]
       }
@@ -685,7 +720,7 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
   )
 
   message.content.each do |block|
-    puts block.text if block.type == :text
+    puts block.text if block.is_a?(Anthropic::Models::TextBlock)
   end
   ```
 </CodeGroup>
@@ -743,12 +778,12 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
 
   ```java Java
   import com.anthropic.models.files.FileListPage;
-  // ...
+
   void main() {
       AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
       FileListPage files = client.files().list();
-      System.out.println(files);
+      IO.println(files);
   }
   ```
 
@@ -767,7 +802,11 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
   ```
 </CodeGroup>
 
-若要在一个请求中检查一组已知文件而不是分页，请将最多 100 个文件 ID 作为 `ids[]` 查询参数传递。`ids[]` 请求始终返回单个页面（`next_page` 为 `null`），任何无法解析为您工作区中文件的 ID 都会从 `data` 中被静默省略；请将返回的 ID 与请求的 ID 进行比较以检测缺失项。`ids[]` 不能与 `page` 或 `limit` 组合使用。
+若要在一个请求中检查一组已知文件而不是分页，请将最多 100 个文件 ID 作为 `ids[]` 查询参数传递。`ids[]` 请求与分页列表有三点不同：
+
+* `ids[]` 不能与 `page` 或 `limit` 组合使用。
+* 响应始终为单个页面（`next_page` 为 `null`）。
+* 如果某个 ID 无法解析为您工作区中的文件，API 会将该 ID 从 `data` 中省略，而不会返回错误。要找出 API 省略的 ID，请将返回的 ID 与请求的 ID 进行比较。
 
 #### 获取文件元数据
 
@@ -811,7 +850,7 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
   ```java Java
   FileMetadata metadata = client.files().retrieveMetadata(fileId);
 
-  System.out.println(metadata);
+  IO.println(metadata);
   ```
 
   ```php PHP
@@ -874,7 +913,7 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
 
 ### 下载文件
 
-下载由[技能](https://platform.claude.com/docs/zh-CN/build-with-claude/skills-guide)或[代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)创建的文件。您上传的文件无法下载。生成文件的 `file_id` 出现在创建它的 Messages 响应的 [`bash_code_execution_tool_result` 内容块](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#retrieve-generated-files)中：
+下载由[技能](https://platform.claude.com/docs/zh-CN/build-with-claude/skills-guide)或[代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)创建的文件。您上传的文件无法下载。生成文件的 `file_id` 出现在创建该文件的 Messages 响应的 [`bash_code_execution_tool_result` 内容块](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#retrieve-generated-files)中。在下载请求中使用该 `file_id`：
 
 <CodeGroup>
   ```bash cURL
@@ -895,10 +934,9 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
   ```
 
   ```typescript TypeScript
-  const content = await client.files.download(uploaded.id);
+  const content = await client.files.download(fileId);
 
-  const bytes = Buffer.from(await content.arrayBuffer());
-  await fsp.writeFile("downloaded_file.txt", bytes);
+  await writeFile("downloaded_file.txt", content.body!);
   ```
 
   ```csharp C#
@@ -945,7 +983,7 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
   ```ruby Ruby
   file_content = client.files.download(file_id)
 
-  File.binwrite("downloaded_file.txt", file_content.read)
+  IO.copy_stream(file_content, "downloaded_file.txt")
   ```
 </CodeGroup>
 
@@ -1011,7 +1049,28 @@ Files API 已结束 beta 阶段，不再需要 beta 标头。从 `files-api-2025
 
 ### SDK beta 命名空间
 
-从 Python SDK 1.2.0、TypeScript SDK 0.122.0、Go SDK 1.68.0、Java SDK 2.59.0、PHP SDK 0.45.0、Ruby SDK 1.67.0 和 C# SDK 12.44.0 开始，`client.beta.files` (csharp, go: `client.Beta.Files`; java: `client.beta().files()`; php: `$client->beta->files`) 不再发送 `files-api-2025-04-14`，并返回与 `client.files` (csharp, go: `client.Files`; java: `client.files()`; php: `$client->files`) 相同的结构，类型名称带有 `Beta` 前缀（在 PHP 中为 `Anthropic\Beta` 命名空间中的类）。对于处于 beta 阶段的 Files 功能，它通过 `betas` (csharp, go: `Betas`; java: `.addBeta()`) 接收 beta 名称，例如在 [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/files) beta 请求头下的 `scope_id` 过滤。较早的 SDK 版本的类型对应 beta 结构；如果您依赖这些类型，请在迁移之前继续使用较早的版本。
+SDK 在两个命名空间中提供 Files API。本页使用稳定命名空间，而处于 beta 阶段的 Files 功能使用 beta 命名空间。
+
+从下表中您所用 SDK 的版本开始，beta 命名空间与较早版本中的 beta 命名空间有两点不同：
+
+* 它不再发送 `files-api-2025-04-14`。
+* 它返回与稳定命名空间相同的结构，但类型名称带有 `Beta` 前缀。
+
+该表还给出了每个 SDK 的命名空间名称，以及 beta 命名空间在何处接收 `anthropic-beta` 值：
+
+| SDK        | 稳定命名空间           | Beta 命名空间                                      | Beta 命名空间变更的版本 | `anthropic-beta` 值的传递位置 |
+| ---------- | ---------------- | ---------------------------------------------- | -------------- | ----------------------- |
+| Python     | `client.files`   | `client.beta.files`                            | 1.2.0          | `betas`                 |
+| TypeScript | `client.files`   | `client.beta.files`                            | 0.122.0        | `betas`                 |
+| C#         | `client.Files`   | `client.Beta.Files`                            | 12.44.0        | `Betas`                 |
+| Go         | `client.Files`   | `client.Beta.Files`                            | 1.68.0         | `Betas`                 |
+| Java       | `client.files()` | `client.beta().files()`                        | 2.59.0         | `.addBeta()`            |
+| PHP        | `$client->files` | `$client->beta->files`（类位于 `Anthropic\Beta` 中） | 0.45.0         | `betas`                 |
+| Ruby       | `client.files`   | `client.beta.files`                            | 1.67.0         | `betas`                 |
+
+对于处于 beta 阶段的 Files 功能，请使用 beta 命名空间，并按表中所示传递该功能的 `anthropic-beta` 值。例如，在 Managed Agents beta 请求头下，`scope_id` 会将文件列表限制为某一个会话的文件。要使用 `scope_id`，请参阅[列出和下载会话文件](https://platform.claude.com/docs/zh-CN/managed-agents/files#listing-and-downloading-session-files)。
+
+在表中您所用 SDK 的版本之前的版本中，beta 命名空间的类型与 `files-api-2025-04-14` 返回的结构相匹配。如果您依赖这些类型，请在迁移离开这些类型之前继续使用此类版本。
 
 携带 `anthropic-beta: managed-agents-2026-04-01` 但不携带 `files-api-2025-04-14` 的请求会收到本页所述的结构，并在 `GET /v1/files` 上有一项兼容性便利：`before_id` 和 `after_id` 仍被接受（不能与 `page` 或 `ids[]` 组合使用），且列表响应除 `next_page` 外还包含 `has_more`、`first_id` 和 `last_id`。更高版本的 Managed Agents beta 会收到普通结构。
 

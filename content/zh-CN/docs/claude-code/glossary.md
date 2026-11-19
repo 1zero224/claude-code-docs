@@ -283,7 +283,7 @@ Hook 配置有三个级别：
 
 ### Sandboxing
 
-Bash 工具的操作系统级文件系统和网络隔离。命令在您预先定义的边界内运行，因此 Claude 可以在其中自由工作，无需每个命令的批准提示。沙箱隔离是与 [permission rules](#permission-rule) 分开的一层。
+Bash 工具的操作系统级文件系统和网络隔离。命令在您预先定义的边界内运行。沙箱隔离是与 [permission rules](#permission-rule) 分开的一层。
 
 了解更多：[Sandboxing](https://code.claude.com/docs/zh-CN/sandboxing.md)
 
@@ -295,7 +295,7 @@ Bash 工具的操作系统级文件系统和网络隔离。命令在您预先定
 
 ### Settings layers
 
-Claude Code 读取配置的层次结构，按优先级顺序从最高到最低：[managed policy](#managed-settings)、通过 `--settings` 标志传递的设置、`.claude/settings.local.json` 处的本地设置、`.claude/settings.json` 处的项目设置，然后是 `~/.claude/settings.json` 处的用户设置。数组跨层合并；更高层的标量覆盖较低的。请参阅 [Settings precedence](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)。
+Claude Code 读取配置的层次结构。按优先级从高到低，这些层级依次为 [managed policy](#managed-settings)、通过 `--settings` 标志传递的设置、`.claude/settings.local.json` 处的本地设置、`.claude/settings.json` 处的项目设置，以及 `~/.claude/settings.json` 处的用户设置。大多数列表（例如 `permissions.allow`）会[跨文件合并](https://code.claude.com/docs/zh-CN/settings.md#lists-merge-instead-of-overriding)。请参阅 [Settings precedence](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)。
 
 了解更多：[Settings files](https://code.claude.com/docs/zh-CN/settings.md#where-settings-live)
 
@@ -331,13 +331,13 @@ Claude Code 在每个请求之前发送给您的对话的指令，涵盖 Claude 
 
 ### System reminder
 
-Claude Code 作为 [harness](#agentic-harness) 添加到对话中的消息，为 Claude 提供上下文。您不会自己发送系统提醒。Claude Code 在会话运行时插入它们，例如当会话启动时、当 hook 返回文本时或当文件在磁盘上更改时。Claude 与您的消息一起读取它们。以下所有内容都作为系统提醒到达 Claude：
+Claude Code 作为 [harness](#agentic-harness) 添加到对话中的消息，为 Claude 提供上下文。您不会自己发送系统提醒。Claude Code 在会话运行时插入它们，例如当会话启动时或当 hook 返回文本时。Claude 与您的消息一起读取它们。以下所有内容都作为系统提醒到达 Claude：
 
 * 您的 [CLAUDE.md](#claude-md) 文件
 * 您的 [output style](#output-style) 的指令
 * [hook](#hook) 作为 `additionalContext` 返回的文本
 * 可用 [skills](#skill) 的列表
-* Claude 之前读取的文件已在磁盘上更改的注记
+* Claude 之前编辑过的文件此后已在磁盘上更改的注记
 * 提交和拉取请求的归属行
 
 在记录的 API 请求中，系统提醒出现在用户消息内的 `<system-reminder>` 标签中，或在某些模型上作为具有 `system` 角色的单独消息。

@@ -22,8 +22,8 @@ MCP provides several tools for debugging at different levels:
    notification stream. This should be your first stop.
 2. **Server logging**: structured logs to stderr (stdio transport) or via
    [OpenTelemetry](https://opentelemetry.io/) (all transports).
-   [Logging](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/logging.md) over the protocol
-   (`notifications/message`) is deprecated as of protocol version `2026-07-28`.
+   Logging over the protocol (`notifications/message`) is
+   [deprecated](https://modelcontextprotocol.io/specification/2026-07-28/deprecated.md) as of protocol version `2026-07-28`.
 3. **Client developer tools**: most MCP clients expose logs and connection
    state. See [Debugging in Claude Desktop](#debugging-in-claude-desktop)
    below for one example, or consult your client's documentation.
@@ -49,13 +49,8 @@ or [OpenTelemetry](https://opentelemetry.io/) for logs, and standard HTTP
 tooling (curl, browser DevTools Network panel) to inspect requests and SSE
 streams.
 
-> [!WARNING]
->
-> The `notifications/message` mechanism below is deprecated as of protocol
-> version `2026-07-28`. It remains available during the deprecation window.
-
 For all [transports](https://modelcontextprotocol.io/specification/latest/basic/transports.md), record what the
-server is doing as it runs:
+server is doing as it runs. For example, to write to stderr:
 
 ```python Python theme={null}
 import logging
@@ -75,19 +70,25 @@ async def fetch_report(report_id: str) -> str:
 ```
 
 ```typescript TypeScript theme={null}
-await server.sendLoggingMessage({
-  level: "info",
-  data: "Server started successfully",
-});
-```
+import { McpServer } from "@modelcontextprotocol/server";
+import { z } from "zod";
 
-MCP defines eight
-[RFC 5424 severity levels](https://modelcontextprotocol.io/specification/latest/server/utilities/logging.md#log-levels)
-(`debug` through `emergency`). Clients opt in to log messages per request by
-setting the
-[`io.modelcontextprotocol/logLevel`](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/logging#per-request-log-level)
-field in the request's `_meta`. Servers must not send `notifications/message`
-for requests that omit this field.
+const server = new McpServer({ name: "reports", version: "1.0.0" });
+
+server.registerTool(
+  "fetch_report",
+  {
+    description: "Fetch a report by id.",
+    inputSchema: z.object({ reportId: z.string() }),
+  },
+  async ({ reportId }) => {
+    console.error(`Fetching report ${reportId}`);
+    return {
+      content: [{ type: "text", text: `Report ${reportId} is ready.` }],
+    };
+  },
+);
+```
 
 Important events to log:
 
@@ -189,7 +190,7 @@ When servers fail to connect:
    `UnsupportedProtocolVersionError` (`-32022`) lists the server's supported
    versions in its `data` field
 5. Check the
-   [per-request `_meta` fields](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#meta):
+   [per-request `_meta` fields](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#_meta):
    every request must carry `io.modelcontextprotocol/protocolVersion` and
    `io.modelcontextprotocol/clientCapabilities`, and clients should also
    include `io.modelcontextprotocol/clientInfo`. A request missing either
@@ -367,3 +368,6 @@ When encountering issues:
 > [card] [Connect local servers](https://modelcontextprotocol.io/docs/2026-07-28/develop/connect-local-servers.md)
 >
 > Full claude\_desktop\_config.json reference and troubleshooting
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

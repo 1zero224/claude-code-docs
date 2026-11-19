@@ -29,6 +29,7 @@ featureMetadata:
   supportedPlatforms:
     Claude API: stable
     Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
     Microsoft Foundry (hosted on Anthropic): stable
   details:
     - 程序化工具调用需要使用 `code_execution_20260120` 或更高[工具版本](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#tool-versions)的代码执行工具。
@@ -462,7 +463,7 @@ featureMetadata:
 * **过期：** 容器在创建 30 天后过期。闲置约 5 分钟后，容器会被保存检查点（checkpoint），在 30 天期限内使用其 ID 发送请求即可恢复该容器。`expires_at` 时间戳是一个较短的滚动值，并不反映 30 天的期限。
 
 <Warning>
-  当 Claude 的代码正在等待编程式工具结果时，待处理的调用会在大约 4 分钟后超时，并在代码内部抛出 `TimeoutError`。请在暂停响应的 `expires_at` 时间戳之前尽早返回每个工具结果。请参阅[工具调用期间容器过期](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling#container-expiration-during-tool-call)。
+  当 Claude 的代码正在等待编程式工具结果时，待处理的调用会在大约 4 分钟后超时，并在代码内部抛出 `TimeoutError`。该计时从 Claude 的代码发起调用时开始，早于暂停响应到达您这里的时间。暂停响应上的 `expires_at` 时间戳晚于调用超时的时间，因此它并不是您的截止时间。请参阅[工具调用期间容器过期](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling#container-expiration-during-tool-call)。
 </Warning>
 
 ## 示例工作流
@@ -1321,7 +1322,6 @@ for error in errors[-10:]:  # Only return last 10 errors
 
 为防止超时：
 
-* 监控暂停响应中的 `expires_at` 字段。
 * 为您的工具执行实现超时机制。
 * 考虑将长时间运行的操作拆分为较小的块。
 
@@ -1482,7 +1482,7 @@ Claude 的代码会收到此错误并可以妥善处理。
 
 **容器过期**
 
-* 请在暂停响应的 `expires_at` 时间戳之前尽早响应每个编程式工具调用。Claude 的代码在大约 4 分钟后停止等待结果。
+* 请尽快响应每个编程式工具调用。不要将暂停响应的 `expires_at` 时间戳视为您的截止时间：它晚于调用超时的时间。Claude 的代码在大约 4 分钟后停止等待结果。
 * 考虑实现更快的工具执行。
 
 **工具结果未被正确解析**
@@ -1551,7 +1551,7 @@ Anthropic 的程序化工具调用是沙盒执行的托管版本，提供针对 
 * 通过工具定义即可启用，无需运行任何基础设施
 * 环境和指令针对 Claude 进行了优化
 
-如果您正在使用 Claude API、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 或 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)，请考虑使用 Anthropic 的托管解决方案。在 Microsoft Foundry 上，编程式工具调用需要[托管在 Anthropic 的部署](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure)。
+**适用场景：** 您使用的是[受支持的平台和模型](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling#feature-availability)，且不需要运行自己的执行环境。
 
 ## 数据保留
 
@@ -1590,6 +1590,7 @@ Anthropic 的程序化工具调用是沙盒执行的托管版本，提供针对 
 | 状态 | 云平台                                                                                                                                                                                                                                                    | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview), [Claude Opus 4.6](https://platform.claude.com/docs/zh-CN/models/opus-4-6/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview), [Claude Opus 4.5](https://platform.claude.com/docs/zh-CN/models/opus-4-5/overview), [Claude Sonnet 4.5](https://platform.claude.com/docs/zh-CN/models/sonnet-4-5/overview) |
+| 可用 | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                                                                          | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview), [Claude Opus 4.6](https://platform.claude.com/docs/zh-CN/models/opus-4-6/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview), [Claude Opus 4.5](https://platform.claude.com/docs/zh-CN/models/opus-4-5/overview), [Claude Sonnet 4.5](https://platform.claude.com/docs/zh-CN/models/sonnet-4-5/overview)                        |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 

@@ -8,8 +8,6 @@
 
 Like [Cowork](https://claude.com/docs/cowork/overview.md) in standard Claude Desktop, Claude Desktop on third-party (3P) works directly with files on the user's computer. Users attach one or more **workspace folders** to a session; the agent can then read, create, and modify files anywhere inside those folders, and run code against them inside the sandbox VM.
 
-In Claude Desktop on 3P, administrators can constrain which folders users are allowed to attach.
-
 ## Workspace folder allowlist
 
 Set [`allowedWorkspaceFolders`](https://claude.com/docs/third-party/claude-desktop/configuration#allowedworkspacefolders) in the managed configuration to restrict which paths users may attach as workspace folders. The [Configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md) covers where the managed configuration lives on each platform and how to deploy it.
@@ -32,11 +30,19 @@ Each entry is either a plain path string or an object with these fields:
 
 For example, `[{"path": "~/Documents/Claude"}, {"path": "/Volumes/Shared/Reference", "mode": "ro"}]` lets users work in their own folder and consult the shared reference folder without changing it.
 
+> [!WARNING]
+>
+> List the folders that users work in, such as `~/Documents/Claude`, rather than the home folder or a folder that contains it, such as `/Users`. The home folder holds SSH keys and shell startup files, and Claude can read every listed folder, whatever `mode` the entry sets. Setting `mode` to `ro` on a home folder keeps Claude from changing it in Cowork, but not in Code sessions.
+
 The check is enforced against the **resolved** path, so symlinks and `..` traversal can't be used to escape an allowed root.
 
 > [!NOTE]
 >
-> The allowlist controls what users can **attach**. Within an attached read/write folder, the agent can read and write every file the user's OS account can reach. Data outside the allowed roots cannot be attached in Cowork and is out of reach of Claude's file tools in Code sessions. A Code session's shell commands are confined only by the sandbox described under [Code](https://claude.com/docs/third-party/claude-desktop/code.md#applied-as-managed-policy): where it applies they can change files only inside the roots and temporary locations but can still read outside them unless you also set [`blockReadsOutsideWorkingDirectories`](https://claude.com/docs/third-party/claude-desktop/configuration#blockreadsoutsideworkingdirectories), and where it does not apply (Windows devices, hosts without the sandbox dependencies) the allowlist does not confine them and that key can only turn such reads into approval prompts. To let the agent read data in Cowork without changing it, list the folder with `mode` set to `ro`.
+> The allowlist controls what users can **attach**. Within an attached read/write folder, the agent can read and write every file the user's OS account can reach. Data outside the allowed roots can't be attached in Cowork, and Claude's file tools in Code sessions can't open it, except that they can read [plugin files](https://claude.com/docs/third-party/claude-desktop/code.md#plugin-files-under-allowedworkspacefolders).
+>
+> A Code session's shell commands are confined only by the sandbox described under [Code](https://claude.com/docs/third-party/claude-desktop/code.md#applied-as-managed-policy). Where it applies, they can change files only inside the roots and temporary locations but can still read outside them, except the locations that [`blockReadsOutsideWorkingDirectories`](https://claude.com/docs/third-party/claude-desktop/configuration#blockreadsoutsideworkingdirectories) hides if you set it. Where it does not apply (Windows devices, hosts without the sandbox dependencies), the allowlist does not confine them. There, `blockReadsOutsideWorkingDirectories` can only ask the user to approve shell commands that Claude Code recognizes as reading outside the working directories, or whose command lines it can't analyze.
+>
+> To let the agent read data in Cowork without changing it, list the folder with `mode` set to `ro`.
 
 ## Network drives on Windows
 
@@ -51,7 +57,7 @@ The sandbox can stay running between sessions. A drive the user maps while the s
 
 The agent cannot attach a network-drive path on its own; only the user can, through the folder picker. This is a security boundary.
 
-On macOS, network mounts under `/Volumes/` are currently treated as local folders.
+On macOS, network mounts under `/Volumes/` are treated as local folders.
 
 ## Removable drives on Windows
 
@@ -59,6 +65,6 @@ Users can attach a folder on a removable drive, such as a USB stick or an SD car
 
 ## WSL
 
-You do not need Windows Subsystem for Linux (WSL) to run Claude Desktop or Cowork. On Windows, Cowork's sandbox runs on the operating system's built-in virtualization, which the [readiness check](https://claude.com/docs/third-party/claude-desktop/installation.md#check-device-readiness) verifies. Install the macOS or Windows package (see [System requirements](https://claude.com/docs/third-party/claude-desktop/installation.md#system-requirements)); there is no installation path inside WSL. Run the Windows app and work with WSL files from there.
+You do not need Windows Subsystem for Linux (WSL) to run Claude Desktop or Cowork. On Windows, Cowork's sandbox runs on the operating system's built-in virtualization, which the [readiness check](https://claude.com/docs/third-party/claude-desktop/installation.md#check-device-readiness) verifies. There is no installation path inside WSL, so run the Windows app and work with WSL files from there.
 
 Windows exposes a WSL distribution's filesystem as a UNC path (`\\wsl$\<distro>` or `\\wsl.localhost\<distro>`). Like any other raw UNC path, these cannot be attached as workspace folders directly. To attach files that live inside WSL as a workspace folder, map the share to a drive letter and attach the mapped drive, or copy the files to a local Windows folder. [Network drives on Windows](#network-drives-on-windows) describes what the agent can do on a mapped drive.

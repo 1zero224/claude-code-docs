@@ -254,7 +254,7 @@ Claude Code 在模型响应到达后才将支出与 `max_budget_usd` / `maxBudge
 | 源 | 何时加载 | 影响 |
 | :- | :- | :- |
 | **系统提示** | 每个请求 | 小的固定成本，始终存在 |
-| **CLAUDE.md 文件** | 会话开始，通过 [`settingSources`](https://code.claude.com/docs/zh-CN/agent-sdk/claude-code-features) | 每个请求中的完整内容（但提示缓存，所以仅第一个请求支付全部成本） |
+| **CLAUDE.md 文件** | 会话开始，通过 [`settingSources`](https://code.claude.com/docs/zh-CN/agent-sdk/claude-code-features) | 每个请求中的完整内容（但会进行提示缓存） |
 | **工具定义** | 对于 Bash、Read 和 Edit 等核心内置工具，每个请求都会加载；对于 MCP 工具和其他内置工具则按需加载，[工具搜索](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#mcp-tool-search)默认会延迟加载这些工具 | 在[配置工具搜索](https://code.claude.com/docs/zh-CN/agent-sdk/tool-search.md#configure-tool-search)中列出的情况下，所有 schema 都会预先加载 |
 | **对话历史** | 在轮次中累积 | 随着每个轮次增长：提示、响应、工具输入、工具输出 |
 | **技能描述** | 会话开始，通过设置源 | 简短摘要；完整内容仅在调用时加载 |
@@ -336,7 +336,8 @@ Claude Code 在模型响应到达后才将支出与 `max_budget_usd` / `maxBudge
 > 当查询以错误结果结束时：
 >
 > * 单次 `query()` 调用会产生最终结果消息，然后抛出一个包含失败文本的错误，例如 `Reached maximum number of turns`。抛出是有意的。如果你的代码需要在其后继续，请将循环包装在 try 块中。底层 Claude Code 进程也会以非零代码退出。
-> * 流式输入会话保持活跃，你可以继续发送消息，除了会话崩溃后，它会发出最终的 `error_during_execution` 结果并退出进程。
+> * 流式输入会话保持活跃，您可以继续发送消息，除了会话崩溃后，它会发出最终的 `error_during_execution` 结果并退出进程。
+> * 在 TypeScript 中，当最后一个响应以错误结果结束时，流式输入会话中对 `query()` 的循环会抛出错误。如果您的代码需要在其后继续，请将循环包装在 try 块中。
 
 结果还包括一个 `stop_reason` 字段（TypeScript 中的 `string | null`，Python 中的 `str | None`），指示模型为什么在其最后轮次停止生成。常见值是 `end_turn`（模型正常完成）、`max_tokens`（达到输出令牌限制）和 `refusal`（模型拒绝了请求）。在循环产生的错误结果上，`stop_reason` 携带循环结束前最后一个助手响应的值；会话崩溃后 Claude Code 合成的结果携带 `null`。
 

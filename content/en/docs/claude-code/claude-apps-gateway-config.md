@@ -16,7 +16,7 @@ The [complete example](#complete-example) at the end of this page exercises ever
 
 ## File structure
 
-Five sections are [required](#required-sections). Every other section is [optional](#optional-sections), and an omitted section takes its defaults. Unknown keys fail boot, so a typo surfaces as a named error rather than a silently ignored setting.
+Five sections are [required](#required-sections). Every other section is [optional](#optional-sections), and an omitted section takes its defaults.
 
 **Required sections:**
 
@@ -24,7 +24,7 @@ Five sections are [required](#required-sections). Every other section is [option
 * [`oidc`](#oidc): your identity provider (IdP), including issuer, client, claim mapping, and who may sign in
 * [`session`](#session): the bearer tokens the gateway mints, with secret and lifetime
 * [`store`](#store): PostgreSQL, for device grants and rate-limit counters
-* [`upstreams`](#upstreams): where inference goes, whether Anthropic, Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, or Microsoft Foundry
+* [`upstreams`](#upstreams): where inference goes, whether Anthropic, Amazon Bedrock, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed), Google Cloud's Agent Platform, or Microsoft Foundry
 
 **Optional sections:**
 
@@ -177,7 +177,7 @@ Each row below is one class of outbound request on a gateway with `HTTPS_PROXY` 
 | - | - | - |
 | `provider: anthropic` upstreams, Workload Identity Federation token exchange, `telemetry.forward_to` exports | Resolved and checked locally, then `CONNECT` to the checked IP address through the proxy. A telemetry collector listed in `NO_PROXY` is reached directly instead | Hostname handed to the proxy |
 | IdP discovery, JWKS, token, and userinfo | Direct unless [`oidc.use_proxy: true`](#idp-requests-through-a-forward-proxy), then `CONNECT` to the checked IP address | Hostname handed to the proxy, unless `oidc.use_proxy: false` keeps an internal IdP direct |
-| Amazon Bedrock, Claude Platform on AWS, Google Cloud's Agent Platform, and Microsoft Foundry upstreams; Google group lookups | Hostname handed to the proxy | Unchanged |
+| Amazon Bedrock, Claude Platform on AWS, Claude Models on Google Cloud (Anthropic managed), Google Cloud's Agent Platform, and Microsoft Foundry upstreams; Google group lookups | Hostname handed to the proxy | Unchanged |
 
 Proxy-only egress stays off unless the gateway's environment meets all three of these conditions:
 
@@ -519,6 +519,10 @@ By default the gateway signs every Bedrock request with one credential, so AWS s
 
 Requires a gateway running Claude Code v2.1.281 or later. [Cost attribution on AWS](https://code.claude.com/docs/en/claude-apps-gateway-on-aws.md#cost-attribution) covers the IAM role and where AWS billing shows the sessions.
 
+> [!NOTE]
+>
+> For per-developer attribution, set `assume_role` with `session_name` on every `bedrock` and [`mantle`](#amazon-bedrock-mantle-endpoint) upstream except those that use `aws_bearer_token`. Those [can't take `assume_role`](#bedrock-in-another-aws-account), so their requests stay under one principal.
+
 ```yaml theme={null}
 upstreams:
   - provider: bedrock
@@ -534,8 +538,6 @@ upstreams:
 An active developer costs one STS call per hour per gateway replica, and concurrent first requests share one call.
 
 The gateway also makes one call of its own on this role: the token count for a request the client abandoned, so that [spend limits](https://code.claude.com/docs/en/claude-apps-gateway-spend-limits.md) stay accurate. That count and its [one-token fallback request](#amazon-bedrock) are signed by the shared `claude-apps-gateway` session, so AWS attributes the fallback to `claude-apps-gateway` rather than to the developer.
-
-For strict per-developer attribution, set `assume_role` with `session_name` on every Bedrock upstream you list. An upstream without it signs the requests it serves with its own credentials.
 
 #### Amazon Bedrock Mantle endpoint
 
@@ -610,6 +612,24 @@ The platform runs in a separate AWS account from Amazon Bedrock and signs SigV4 
 
 Because the platform resolves first-party model IDs, the built-in catalog routes to it with no [`models:`](#models) block. When you curate a `models:` list, key the entry `anthropicAws:` with the first-party ID.
 
+#### Claude Models on Google Cloud (Anthropic managed)
+
+Claude Models on Google Cloud (Anthropic managed) is the Anthropic-operated Claude API, reached through your Google Cloud project. To send model requests to it, add an upstream with the `anthropicGoogleCloud` provider.
+
+Before you add the upstream, upgrade your gateway replicas to Claude Code v2.1.307 or later and [set up the service in a Google Cloud project](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed#set-up-your-account). Grant `roles/claude.user` on that project to the identity that the gateway's Google credentials resolve to.
+
+```yaml theme={null}
+upstreams:
+  - provider: anthropicGoogleCloud
+    project_id: example-prod
+    workspace_id: wrkspc_01ABCDEFGHIJKLMN
+    auth: {}                           # Google credentials, not an API key; {} uses Application Default Credentials
+    # OR the path to a service account key file:
+    # auth: { service_account_json: /secrets/sa.json }
+```
+
+Both `project_id` and `workspace_id` are required: `project_id` is the ID of the project where you set up the service, and you can [find the `wrkspc_` ID](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed#find-your-workspace-id) in the Claude Console.
+
 #### Google Cloud Agent Platform
 
 For the equivalent client-side setup, see [Claude Code on Google Cloud](https://code.claude.com/docs/en/google-vertex-ai.md). The gateway-side upstream:
@@ -656,7 +676,7 @@ upstreams:
 
 | Setup | How |
 | - | - |
-| RBAC | Grant the gateway's identity `Azure AI User` or `Cognitive Services User` on the Microsoft Foundry resource |
+| RBAC | Grant the gateway's identity the `Foundry User` or `Cognitive Services User` role on the Microsoft Foundry resource |
 | Deployments | Microsoft Foundry uses admin-chosen deployment names, not canonical model IDs. Add a [`models:`](#models) block mapping each canonical ID to your deployment name. |
 | AKS (workload identity) | Federate a User-Assigned Managed Identity with the cluster's OIDC issuer and bind it to the gateway's service account. `use_azure_ad: true` picks it up via `WorkloadIdentityCredential`. |
 | ACI / App Service | Enable system-assigned or user-assigned managed identity on the resource. `use_azure_ad: true` picks it up. |
@@ -1001,6 +1021,8 @@ models:
 
 Each key under `upstream_model` must match the `name` of a configured upstream, which defaults to the provider name. A key that matches no upstream fails boot, so omit the lines for providers you don't use.
 
+To let developers use the `fable` alias with `auto_include_builtin_models: false`, add a `claude-fable-5` entry to `models`. That's the ID the [`fable` alias](https://code.claude.com/docs/en/model-config#fable-alias-resolution) resolves to for developers signed in to the gateway. Without it, their messages fail with an error that starts with `API Error: 400 model claude-fable-5 is not in the operator's model allowlist`.
+
 ### `managed`
 
 The `managed` block defines role-based access policies keyed on IdP groups or email domain. Policies are evaluated in order; by default the first match is selected, then merged onto the `match: {}` catch-all base. A user who matches two role policies gets only the first, so the second policy's deny rules don't apply unless you [apply every matching policy](#apply-every-matching-policy). Policies are served per-user at `GET /managed/settings` with ETag/304 caching.
@@ -1025,7 +1047,11 @@ managed:
 A `match: {}` catch-all, conventionally listed last, is treated as a base layer. Every other policy inherits any key it doesn't set from the catch-all, so per-role entries only need to list what differs from the org default. The merge rules depend on the key type:
 
 * **Allow-lists**: `availableModels` and `permissions.allow`. A specific policy's list fully replaces the base's.
-* **Deny-lists and hook arrays**: `permissions.deny`, `permissions.ask`, `disabledMcpjsonServers`, `deniedMcpServers`, `blockedMarketplaces`, `deniedModels`, and every `hooks` event-type array. These take the union of base and policy, so an org-wide deny or audit hook can't be accidentally dropped by a per-role override.
+* **Deny-lists and hook arrays**: these take the union of base and policy:
+  * `permissions.deny` and `permissions.ask`
+  * `disabledMcpjsonServers` and `deniedMcpServers`
+  * `blockedMarketplaces` and `deniedModels`
+  * The `hooks` event-type arrays
 * **Record-typed keys**: `env`, `modelOverrides`, and `skillOverrides`. These shallow-merge, so a per-role `env` block overrides keys it sets and inherits the rest from the base.
 
 `availableModels` is also enforced server-side at `/v1/messages`, so a denied model returns `400` regardless of what the client sends. An empty list denies every model. The check also covers the model a session starts on before the developer picks one, so [start sessions on a model the policy allows](#start-sessions-on-a-model-the-policy-allows).
@@ -1277,6 +1303,10 @@ Claude Code applies this variable without showing the developer the approval dia
 
 To turn off 1M context instead, set [`CLAUDE_CODE_DISABLE_1M_CONTEXT: "1"`](https://code.claude.com/docs/en/model-config#extended-context) in the same `env` block. Claude Code then treats every model as having a 200K window. In interactive sessions, each developer approves this variable in the [approval dialog](#what-goes-in-cli) before it takes effect.
 
+> [!NOTE]
+>
+> Claude Code doesn't read an alias's `upstream_model` to size its context window. To give its model's window to an alias in `models` that Claude Code doesn't recognize, see [Correct the window for a gateway or custom model ID](https://code.claude.com/docs/en/model-config.md#correct-the-window-for-a-gateway-or-custom-model-id).
+
 #### One-hour prompt cache
 
 To request the one-hour [prompt cache TTL](https://code.claude.com/docs/en/prompt-caching.md#cache-lifetime) instead of the default five minutes, add these keys to a policy's existing [`code`, `cli`, or `settings` block](#choose-cli-or-code) and restart the gateway. The keys need Claude Code v2.1.242 or later on the gateway server and on clients.
@@ -1337,7 +1367,7 @@ The gateway omits keys with no Claude Desktop equivalent, such as `hooks` and sc
 
 ##### Apply `code` settings in the Code tab
 
-The Claude Code settings a policy holds under its [`code`](#choose-cli-or-code) key apply in Claude Desktop's Code tab when all of these hold:
+Apart from [some provider and model variables](https://code.claude.com/docs/en/desktop.md#managed-settings), the Claude Code settings a policy holds under its [`code`](#choose-cli-or-code) key apply in Claude Desktop's Code tab when all of these hold:
 
 * The policy also has a `desktop` key, and an empty `desktop: {}` counts
 * Claude Desktop is version 2.9939.2 or later
@@ -1379,20 +1409,31 @@ Every key is optional; Claude Desktop applies its own default for any key you om
 
 ##### What the gateway rejects at boot
 
-The gateway validates each `desktop` block at boot against the configuration schema Claude Desktop itself uses, so a mistake surfaces at gateway start as an error naming the key rather than reaching every connected desktop. The gateway fails at boot when a block contains:
+The gateway fails at boot when a `desktop` block contains:
 
-* An unknown key
-* A recognized key whose value Claude Desktop would reject or silently drop, such as an empty value or a misspelled sub-key inside a nested entry. Before v2.1.260, the gateway silently dropped a misspelled field inside a nested object of a `managedMcpServers` or `orgPluginSettings` entry instead of failing at boot.
+* A recognized key whose value Claude Desktop would reject or silently drop, such as an empty value.
 * A key the gateway computes itself: the inference connection, the model list, and the OTLP relay. Configure those through [`upstreams`](#upstreams), [`models`](#models), and the [`telemetry`](#telemetry) section's `forward_to`.
 * A legacy alias of a current key. In the boot error, the gateway names the canonical key to write.
+* From v2.1.300, any key whose name starts with `selfHosted`, such as the keys for a self-hosted session host. Remove these keys before you upgrade the gateway to v2.1.300 or later.
 
 If you use a deprecated value or entry shape, such as a `managedMcpServers` entry without `transport`, the gateway starts and logs a warning that names the replacement.
 
 Before v2.1.232, the gateway accepted a fixed list of 11 feature-gate keys, such as `chatTabEnabled` and `disableAutoUpdates`, and rejected every other key at boot. Before v2.1.227, the gateway also rejected `chatTabEnabled` and `chatAdvancedFileAnalysisEnabled` at boot.
 
+##### Keys the gateway doesn't know
+
+On a gateway running Claude Code v2.1.295 or later, most keys from a newer Claude Desktop release need no gateway upgrade. On v2.1.321 or later, neither do most new sub-keys inside a known key.
+
+Some keys and values still fail at boot, such as these:
+
+* A new choice in a known key's fixed list of values.
+* A likely typo of a key you can set in a `desktop` block, such as `disable_auto_updates` for `disableAutoUpdates`. The error suggests a name.
+
+In each case, if the name or value is real in a newer Claude Desktop release, [upgrade the gateway](https://code.claude.com/docs/en/claude-apps-gateway-deploy.md#upgrades) to the latest release. Otherwise correct or remove it. To find out before you deploy, [test the policy](#test-a-policy-before-deployment).
+
 ##### Keys that need a later gateway or Claude Desktop version
 
-The gateway validates a `desktop` block against the schema bundled with its installed version, as it does the `cli` block. To deliver a setting introduced by a newer Claude Desktop release, upgrade the gateway first. For example, `userPluginMarketplacesEnabled` and `userPluginUploadsEnabled` need Claude Code v2.1.260 or later on the gateway server and Claude Desktop 1.37937.0 or later on members' machines.
+`userPluginMarketplacesEnabled` and `userPluginUploadsEnabled` need Claude Code v2.1.260 or later on the gateway server and Claude Desktop 1.37937.0 or later on members' machines.
 
 `blockReadsOutsideWorkingDirectories`, `disableBypassPermissionsMode`, `configRecheckIntervalMinutes`, and `sshClientPath` need Claude Code v2.1.281 or later on the gateway server. So do the `required` value of `microsoftAuthBroker` and the `continuousAccessEvaluation` field of a Microsoft 365 `managedMcpServers` entry. Claude Desktop releases that predate the `required` value read it as `disabled`, so set `required` only after every member's Claude Desktop supports it. Claude Desktop's [managed configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration) lists the release that first reads each key.
 

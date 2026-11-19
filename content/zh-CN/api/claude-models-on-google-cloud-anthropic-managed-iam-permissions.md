@@ -146,11 +146,9 @@ Claude Models on Google Cloud (Anthropic managed) 使用 Google Cloud 的 “Ide
 
 此权限独立于 `environments.update`。读取工作队列及其统计信息只需要 `environments.get`。
 
-除 `environments.processWork` 之外，工作进程还需要其他权限才能运行会话，例如用于读取会话及其事件的 `sessions.get`、用于发送工具结果的 `sessions.update`，以及用于下载智能体技能的 `skills.get`。
+除 `environments.processWork` 之外，工作进程还需要其他权限才能运行会话。例如，它需要用于读取会话及其事件的 `sessions.get`、用于发送工具结果的 `sessions.update`，以及用于下载智能体技能的 `skills.get`。
 
 ### 保管库
-
-Google Cloud 会将这些路由记录在管理员活动审计日志中，但 `vaults.verify` 的路由除外，其审计日志类型为数据访问。
 
 | 权限               | 角色                  | 授权的路由                                                                                                                                                                                                    |
 | ---------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -34,7 +34,6 @@ featureMetadata:
   supportedPlatforms:
     Claude API: beta
     Claude Platform on AWS: beta
-    Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
 [自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools#custom-tools)是由您自己的代码运行的工具：智能体发出 `agent.custom_tool_use` 事件，并等待匹配的 `user.custom_tool_result`。您的 worker 可以就是这段代码。由于它在您的沙箱内运行，该工具可以访问您为沙箱配置的内部服务、凭据和网络出口，仅此而已。
@@ -42,7 +41,7 @@ featureMetadata:
 环境密钥授权发布自定义工具结果，因此您的 Claude API 密钥无需放在 worker 主机上。
 
 <Note>
-  提供自定义工具需要使用 SDK worker。`ant` CLI worker 无法注册自定义工具实现。在每个会话一个沙箱（sandbox-per-session）的模式中，请[在沙箱内运行 SDK worker](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers#run-the-sdk-worker-inside-the-sandbox)。
+  要提供自定义工具，您需要使用 SDK worker。`ant` CLI worker 无法注册自定义工具实现。在每个会话一个沙箱（sandbox-per-session）的模式中，请[在沙箱内运行 SDK worker](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-per-session#run-the-sdk-worker-inside-the-sandbox)。
 </Note>
 
 ## 提供自定义工具
@@ -68,9 +67,17 @@ featureMetadata:
   </Step>
 
   <Step title="向 worker 注册实现">
-    通过 worker 的 `tools` (go: `ToolsFunc`) 工厂（参阅 [`EnvironmentWorker`](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-reference#environment-worker)）传入该工具，并与内置工具集一起使用：
+    此步骤使用 [`EnvironmentWorker`](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-reference#environment-worker)，只有 Python、TypeScript 和 Go SDK 提供它。通过 worker 的 `tools` (go: `ToolsFunc`) 工厂传入该工具，并与内置工具集一起使用。示例使用 `/workspace` 作为工作目录，该目录必须在 worker 启动之前存在。[运行常驻 worker](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers#run-an-always-on-worker) 介绍了如何创建该目录以及在 macOS 上应使用什么目录。
 
     <CodeGroup exclude="shell, csharp, java, php, ruby">
+      <CodeGroupItem language="cURL">
+        worker 是一个长时间运行的进程，而不是单个 HTTP 请求。要提供自定义工具，请使用 Python、TypeScript 或 Go SDK 中的 `EnvironmentWorker`。
+      </CodeGroupItem>
+
+      <CodeGroupItem language="CLI">
+        `ant` CLI worker 无法提供自定义工具。请使用 Python、TypeScript 或 Go SDK 中的 `EnvironmentWorker`。
+      </CodeGroupItem>
+
       ```python Python
       import asyncio
       import os
@@ -216,7 +223,7 @@ featureMetadata:
   </Step>
 </Steps>
 
-worker 只响应向其注册的工具。如果某个工具已在智能体上声明，但没有任何 worker 或客户端提供它，会话将以 `requires_action` 停止原因暂停，并一直保持暂停，直到有程序发布结果。有关事件流程，请参阅[答复使会话暂停的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session)。
+worker 只响应向其注册的工具。如果您在智能体上声明了某个工具，但没有任何 worker 或客户端提供它，会话将以 `requires_action` 停止原因暂停，并一直保持暂停，直到有程序发布结果。有关事件流程，请参阅[答复使会话暂停的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session)。
 
 ## 将 MCP 服务器封装为自定义工具
 
@@ -243,6 +250,14 @@ SDK 的[客户端 MCP 辅助函数](https://platform.claude.com/docs/zh-CN/agent
     列出 MCP 服务器的工具，并将每个工具声明为 `custom` 工具。MCP 的 `name`、`description` 和 `inputSchema` 与自定义工具的字段一一对应。如果服务器对其工具列表进行分页，请声明每一页；worker 必须列出相同的页面。
 
     <CodeGroup exclude="shell">
+      <CodeGroupItem language="cURL">
+        列出 MCP 服务器的工具并逐一声明所需的逻辑超出了单个 shell 命令的范围。请使用 MCP SDK 和 Anthropic SDK 来运行。
+      </CodeGroupItem>
+
+      <CodeGroupItem language="CLI">
+        列出 MCP 服务器的工具并逐一声明所需的逻辑超出了单个 shell 命令的范围。请使用 MCP SDK 和 Anthropic SDK 来运行。
+      </CodeGroupItem>
+
       ```python Python
       import asyncio
       from typing import Any, cast
@@ -672,9 +687,19 @@ SDK 的[客户端 MCP 辅助函数](https://platform.claude.com/docs/zh-CN/agent
   </Step>
 
   <Step title="从 worker 提供工具">
-    在启动时连接到同一个 MCP 服务器，使用 `async_mcp_tool()` (typescript: `mcpTools()`; go: `mcp.NewBetaTools()`) 转换其工具，并将它们与 `beta_agent_toolset_20260401()` (typescript: `betaAgentToolset20260401()`; go: `agenttoolset.BetaAgentToolset20260401()`) 一起注册。在 worker 的整个生命周期内保持一个 MCP 会话处于打开状态。
+    此步骤使用 `EnvironmentWorker`，只有 Python、TypeScript 和 Go SDK 提供它。在启动时连接到同一个 MCP 服务器。使用 `async_mcp_tool()` (typescript: `mcpTools()`; go: `mcp.NewBetaTools()`) 转换其工具，并将它们与 `beta_agent_toolset_20260401()` (typescript: `betaAgentToolset20260401()`; go: `agenttoolset.BetaAgentToolset20260401()`) 一起注册。在 worker 的整个生命周期内保持一个 MCP 会话处于打开状态。
+
+    示例使用 `/workspace` 作为工作目录，该目录必须在 worker 启动之前存在。[运行常驻 worker](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers#run-an-always-on-worker) 介绍了如何创建该目录以及在 macOS 上应使用什么目录。
 
     <CodeGroup exclude="shell, csharp, java, php, ruby">
+      <CodeGroupItem language="cURL">
+        worker 是一个长时间运行的进程，而不是单个 HTTP 请求。要提供自定义工具，请使用 Python、TypeScript 或 Go SDK 中的 `EnvironmentWorker`。
+      </CodeGroupItem>
+
+      <CodeGroupItem language="CLI">
+        `ant` CLI worker 无法提供自定义工具。请使用 Python、TypeScript 或 Go SDK 中的 `EnvironmentWorker`。
+      </CodeGroupItem>
+
       ```python Python
       import asyncio
       import os
@@ -739,14 +764,14 @@ SDK 的[客户端 MCP 辅助函数](https://platform.claude.com/docs/zh-CN/agent
       const controller = new AbortController();
       process.once("SIGTERM", () => controller.abort());
 
-      // 在启动时连接一次 MCP 服务器，并在工作进程的整个生命周期内
+      // 在启动时连接 MCP 服务器一次，并在 worker 的整个生命周期内
       // 保持连接打开。
       const mcpClient = new Client({ name: "sandbox-worker", version: "1.0.0" });
       await mcpClient.connect(new StreamableHTTPClientTransport(new URL(MCP_SERVER_URL)));
       const { tools } = await mcpClient.listTools();
 
-      // MCP SDK 的 callTool 返回类型仍包含 mcpTools 不接受的旧版结果形状；
-      // 需要收窄类型。待 MCPClientLike 放宽后删除此处理。
+      // MCP SDK 的 callTool 返回类型包含一种旧版结果结构，
+      // mcpTools 不接受该结构，因此需要收窄类型。
       const mcpClientForTools: MCPClientLike = {
         callTool: (params) => mcpClient.callTool(params) as Promise<MCPCallToolResultLike>
       };
@@ -856,7 +881,7 @@ MCP 辅助工具会保留服务器的名称和描述，大多数 schema 会原�
 
 | 字段              | 规则                                                                                                                                                            |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`          | 在每个智能体中唯一。由字母、数字、下划线和连字符组成，长度为 1–128 个字符。不能与内置智能体工具（如 `bash` 或 `read`）同名，也不能使用保留的 `mcp__` 前缀或 `ant__` 前缀。                                                     |
+| `name`          | 在智能体内唯一。由字母、数字、下划线和连字符组成，长度为 1–128 个字符。不能与内置智能体工具（如 `bash` 或 `read`）同名，也不能使用保留的 `mcp__` 或 `ant__` 前缀。                                                         |
 | `description`   | 必填且不能为空。                                                                                                                                                      |
 | `input_schema`  | 接受 MCP 服务器常用的 JSON Schema 关键字，例如 `additionalProperties` 和 `title`。拒绝任何位置的引用关键字（如 `$ref`），以及顶层的 `oneOf`、`anyOf` 和 `allOf`。属性名称由字母、数字、下划线、点和连字符组成，长度为 1–64 个字符。 |
 | 智能体的 `tools` 数组 | 最多 256 个条目。每个封装的工具占一个条目，内置工具集再占一个。                                                                                                                            |
@@ -870,7 +895,7 @@ MCP 辅助工具会保留服务器的名称和描述，大多数 schema 会原�
 
 当 MCP 服务器报告工具错误时，worker 会发布一个模型可以做出响应的错误工具结果。没有对应工具结果形式的 MCP 内容（例如音频块和资源链接）也会以错误形式呈现。
 
-请在 MCP 客户端上设置超时，以获得更快、更清晰的失败反馈，就像 Python worker 示例中使用 `read_timeout_seconds` 所做的那样。有关未设置超时时会发生的情况，请参阅[封装的 MCP 工具调用挂起](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-operations#a-wrapped-mcp-tool-call-hangs)。
+请在 MCP 客户端上设置超时，以获得更快、更清晰的失败反馈。有关未设置超时时会发生的情况，请参阅[封装的 MCP 工具调用挂起](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-operations#a-wrapped-mcp-tool-call-hangs)。
 
 ### 仅封装您运营或信任的服务器
 

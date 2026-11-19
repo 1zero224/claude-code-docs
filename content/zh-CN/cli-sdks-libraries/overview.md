@@ -58,16 +58,16 @@ Anthropic 提供三类官方工具，用于基于 Claude API 进行构建：
 
 ## 最新版本
 
-| 工具         | 最新版本     | 软件包                                                                                                         |
-| ---------- | -------- | ----------------------------------------------------------------------------------------------------------- |
-| ant CLI    | `2.9.0`  | [`github.com/anthropics/anthropic-cli`](https://github.com/anthropics/anthropic-cli/releases)               |
-| Python     | `2.8.0`  | [PyPI 上的 `anthropic`](https://pypi.org/project/anthropic/)                                                  |
-| TypeScript | `1.8.0`  | [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk)                                      |
-| C#         | `13.8.0` | [`Anthropic`](https://www.nuget.org/packages/Anthropic)                                                     |
-| Go         | `2.9.0`  | [`github.com/anthropics/anthropic-sdk-go/v2`](https://pkg.go.dev/github.com/anthropics/anthropic-sdk-go/v2) |
-| Java       | `3.8.0`  | [`com.anthropic:anthropic-java`](https://central.sonatype.com/artifact/com.anthropic/anthropic-java)        |
-| PHP        | `1.8.0`  | [`anthropic-ai/sdk`](https://packagist.org/packages/anthropic-ai/sdk)                                       |
-| Ruby       | `2.8.0`  | [RubyGems 上的 `anthropic`](https://rubygems.org/gems/anthropic)                                              |
+| 工具         | 最新版本      | 软件包                                                                                                         |
+| ---------- | --------- | ----------------------------------------------------------------------------------------------------------- |
+| ant CLI    | `2.11.0`  | [`github.com/anthropics/anthropic-cli`](https://github.com/anthropics/anthropic-cli/releases)               |
+| Python     | `2.10.0`  | [PyPI 上的 `anthropic`](https://pypi.org/project/anthropic/)                                                  |
+| TypeScript | `1.10.0`  | [`@anthropic-ai/sdk`](https://www.npmjs.com/package/@anthropic-ai/sdk)                                      |
+| C#         | `13.10.0` | [`Anthropic`](https://www.nuget.org/packages/Anthropic)                                                     |
+| Go         | `2.11.0`  | [`github.com/anthropics/anthropic-sdk-go/v2`](https://pkg.go.dev/github.com/anthropics/anthropic-sdk-go/v2) |
+| Java       | `3.10.0`  | [`com.anthropic:anthropic-java`](https://central.sonatype.com/artifact/com.anthropic/anthropic-java)        |
+| PHP        | `1.10.0`  | [`anthropic-ai/sdk`](https://packagist.org/packages/anthropic-ai/sdk)                                       |
+| Ruby       | `2.10.0`  | [RubyGems 上的 `anthropic`](https://rubygems.org/gems/anthropic)                                              |
 
 相同的版本信息也以 JSON 格式提供，地址为 `https://platform.claude.com/docs/sdk-versions.json`。
 

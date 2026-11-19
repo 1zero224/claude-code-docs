@@ -708,7 +708,7 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "web
 }
 ```
 
-网络搜索在 Claude API 上的价格为**每 1,000 次搜索 10 美元**，另加搜索生成内容的标准令牌费用。在整个对话过程中检索到的网络搜索结果都会计为输入令牌，包括在单个轮次中运行的搜索迭代以及后续的对话轮次。
+在 Claude API 上，网络搜索的费用为**每 1,000 次搜索 10 美元**，另加搜索生成内容的标准令牌费用。搜索结果会计为输入令牌，无论是在 Claude 于单个轮次内持续搜索期间，还是在后续的对话轮次中。
 
 每次网页搜索计为一次使用，与返回的结果数量无关。因错误而失败的网页搜索不会计费。
 
@@ -751,9 +751,9 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "web
 * 可用性：可用
 * 用法：属于智能体工具集，添加工具集后默认开启。域名列表和 `user_location` 放在工具集的 `web_search` 条目上；`max_uses`、`citations` 和 `cache_control` 不可用。
 
-| 状态 | 云平台                                                                                                                   |
-| -- | --------------------------------------------------------------------------------------------------------------------- |
-| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
+| 状态 | 云平台                                                                                                                                                                                                                                                                                  |
+| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
 
 ### 数据处理
 

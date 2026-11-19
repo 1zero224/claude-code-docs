@@ -206,8 +206,6 @@ Claude Code 仅从 URL 读取编号。它总是从您的存储库的 `origin` �
 
 此获取操作从不等待您终端中的输入。如果 git 或 ssh 会要求输入密码、密钥密码短语或确认新的 SSH 主机，获取会直接失败，Claude Code 会退出并显示 `Error creating worktree: Failed to fetch PR/MR #<number>` 消息。`ssh-agent` 持有的密钥仍然可用，因此请在开始之前将您的密钥加载到其中，并手动运行一次 `git fetch` 以记录新主机。
 
-在 v2.1.233 之前，Claude Code 仅接受 `#<number>` 和 GitHub 风格的拉取请求 URL 用于 `--worktree`，并总是获取 `pull/<number>/head`。
-
 ### 将 gitignored 文件复制到 worktrees
 
 Worktree 是一个新的检出，因此来自您主存储库的未跟踪文件（如 `.env` 或 `.env.local`）不存在。要在 Claude 创建 worktree 时自动复制它们，请将 `.worktreeinclude` 文件添加到您的项目根目录。
@@ -232,7 +230,8 @@ config/secrets.json
 
 使用默认的 `"fresh"` [基础](#choose-the-base-branch)，当以下所有条件都成立时，重新打开的 worktree 会重置为仓库的默认分支而不是在其原来的顶端继续：
 
-* 它没有未提交的更改或未跟踪的文件。
+* [沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#filesystem-isolation)未在您的会话中限制文件写入，并且 worktree 和主检出的 `.claude` 设置文件均未启用沙箱。
+* worktree 没有未提交的更改或未跟踪的文件。
 * 它仍然在 Claude Code 为其创建的分支上。
 * 它没有自己的提交，或其拉取请求或合并请求已合并且其远程分支已删除。
 
@@ -240,10 +239,12 @@ Claude Code 仅从 git 状态检测合并的情况：worktree 推送到的远程
 
 在所有其他情况下，Claude Code 在其原来的顶端重新打开 worktree：
 
-* worktree 有任一条件不成立。
+* worktree 或会话有任一条件不成立。
 * Claude Code 无法验证 worktree 的状态。
 * `worktree.baseRef` 是 `"head"`。
 * 名称是拉取请求或合并请求引用。
+
+如果您在使用 `"fresh"` 基础的同时使用沙箱，请运行 `git fetch origin`，然后向 `--worktree` 传递一个新名称，以从最新的默认分支开始。
 
 ### 使用 hook 替换 worktree 创建
 
@@ -397,7 +398,7 @@ Claude Code 保留被拒绝的目录，因为它可能保留工作。将消息�
 * **说 `the protected checkout <path> has a .git entry that could not be examined` 或 `has git metadata that could not be resolved`**：问题是主检出的 git 元数据，而不是 worktree 的。不要删除 worktree，忽略消息的尾部建议重新创建它，这不适用于这两个结尾。修复主检出，例如权限问题或 git 对其 `.git` 的 `dubious ownership` 拒绝，并重试。
 
   在 v2.1.302 之前，使用 git 2.56 或更高版本时，如果 `the protected checkout` 之后的 `<path>` 中存在一个游离的 `.git` 文件，也会出现 `could not be resolved` 结尾。此处的"游离"是指该文件 `gitdir:` 行中的路径未指向有效的 git 仓库。要恢复，请[更新 Claude Code](https://code.claude.com/docs/zh-CN/setup.md#update-claude-code) 并重试。当该 `gitdir:` 路径已不存在时，您也可以删除该 `.git` 文件并重试。
-* **说 `its recorded path has a network spelling`**：Claude Code 永远不会恢复到网络路径上的 worktree。在本地路径重新创建 worktree。
+* **说 `its recorded path`**：如果您无法打开该路径上的文件夹，请恢复您对它的访问权限。否则，请在本地路径重新创建 worktree。Claude Code 不会恢复到网络路径上的 worktree。
 * **任何其他结尾**：消息命名问题及其修复，例如删除 `core.worktree` 重定向或重新创建 worktree；遵循它。在删除消息说其 git 身份无法验证的目录之前，首先解决命名的原因，例如 worktree 路径中的符号链接或 git 本身无法运行，因为目录可能是健康的。当您确实重新创建时，从旧目录中拯救您需要的任何更改；它保留在磁盘上。
 
 ### 会话在其 worktree 外恢复

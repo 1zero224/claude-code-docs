@@ -105,7 +105,9 @@ persist(cursor)
 
 当 `actor.type` 为 `user_actor` 时，`actor.user_id` 和 `actor.email_address` 存在。`actor.ip_address` 和 `actor.user_agent` 在某些 actor 类型上不存在，例如 `anthropic_actor` 和 `scim_directory_sync_actor`。在读取这些字段之前请先检查判别字段。`user_id` 是用户账户的稳定、不透明标识符：它在每个 Compliance API 端点和活动负载中保持一致，并且在用户的电子邮件或显示名称更改时不会改变。请使用 `user_id` 而非 `email_address` 作为主要关联键。
 
-对 Compliance API 本身的调用会产生 `compliance_api_accessed` 活动。请将这些活动与其他活动类型一同摄取，以便您的 SIEM 记录谁在何时查询了合规数据。传递 `activity_types[]=compliance_api_accessed` 以限定查询范围，然后在您的客户端中，从每个 `actor.type` 为 `api_actor` 的活动中读取 `actor.api_key_id`，以将访问归因到特定的 Compliance Access Key 或 Admin API 密钥。
+对 Compliance API 本身的大多数调用会产生 `compliance_api_accessed` 活动。请将这些活动与其他活动类型一同摄取，以便您的 SIEM 记录谁在何时查询了合规数据。传递 `activity_types[]=compliance_api_accessed` 以限定查询范围。然后，在您的客户端中，从每个 `actor.type` 为 `api_actor` 的活动中读取 `actor.api_key_id`。该值会将访问归因到特定的 Compliance Access Key 或 Admin API 密钥。
+
+对 Compliance API 的某些调用不会在活动源中留下任何活动，其中也包括成功的调用。因此，这些活动中出现空缺并不能表明没有人查询过合规数据。
 
 ## 规划内容保留
 
@@ -148,7 +150,7 @@ persist(cursor)
 
 * 来自 Claude Console 的提示文本或模型响应，或来自使用 API 密钥进行身份验证的 Claude API 工作负载的提示文本或模型响应。
 * 本地会话中从未发送给 Anthropic 的设备端活动，例如 Claude 未读取的本地文件。
-* 使用 Claude Console API 密钥进行身份验证、通过第三方云平台（Amazon Bedrock、Google Cloud 或 Microsoft Foundry）运行，或在 [Claude Code 云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web)（在云基础设施而非用户计算机上运行）中运行的 Claude Code 使用情况。
+* 使用 Claude Console API 密钥进行身份验证、通过任何[云平台](https://platform.claude.com/docs/zh-CN/api/overview#claude-api-vs-cloud-platforms)运行，或在 [Claude Code 云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web)中运行的 Claude Code 使用情况。Claude Code 云端会话在云基础设施而非用户计算机上运行。
 * 启用了 [HIPAA 就绪](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#hipaa-readiness)的组织中除 Cowork 和 Claude Code 以外的产品的本地会话，以及适用[零数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)的本地会话。
 * 会话记录中的思考块，以及图像或其他二进制内容（记录仅包含用户提示、助手响应和工具活动；本地会话记录会在省略二进制内容的位置显示一个占位 `text` 块）。
 * claude.ai 以提取文本形式存储的聊天附件的原始文件，例如某些 Word、PowerPoint 和 PDF 上传文件（文件内容端点返回提取的文本；请参阅[检索文件和 artifact](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-content-data#retrieve-files-and-artifacts)）。

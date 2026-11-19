@@ -5,7 +5,7 @@ description: 为了减少滥用并管理 API 的容量，我们对组织可以�
 ---
 
 <Note>
-  **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** 本页面上的速率限制适用于 Claude Platform on AWS，但计费和限制管理方式有所不同。计费通过 AWS Marketplace 进行（而非购买 Anthropic 额度）。Claude Platform on AWS 上的组织会被置于 Start 层级，并可随着已支付的 AWS Marketplace 发票历史的积累自动升级到更高层级。如需申请更高的限制，请联系您的 Anthropic 客户代表或 [Anthropic 支持](https://support.claude.com)；**申请提升等级**流程不可用。Claude Platform on AWS 不支持按工作区配置速率限制，也不支持 [fast mode](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)（快速模式）。有关详细信息，请参阅 [Claude Platform on AWS 上的速率限制和配额](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#rate-limits-and-quotas)。
+  **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** 本页面上的速率限制适用于 Claude Platform on AWS，但计费和限制管理方式有所不同。计费通过 AWS Marketplace 进行（而非购买 Anthropic 额度）。Claude Platform on AWS 上的新组织会被置于 Start 层级。这些组织可随着已支付的 AWS Marketplace 发票历史的积累自动升级到更高层级。Claude Platform on AWS 不支持按工作区配置速率限制，也不支持 [fast mode](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)（快速模式）。有关详细信息，请参阅 [Claude Platform on AWS 上的速率限制和配额](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#rate-limits-and-quotas)。
 </Note>
 
 限制分为两种类型：
@@ -20,7 +20,7 @@ API 在组织级别强制执行服务配置的限制，但您也可以为组织�
 * 限制旨在防止 API 滥用，同时尽量减少对常见客户使用模式的影响。
 * 限制由**使用层级**（usage tier）定义。组织会根据使用历史和账户状况自动被置于某一层级，并可随着使用 API 的时间推移升至更高层级。
 * 新组织和使用历史有限的组织可能会从 Evaluation（评估）层级开始，在建立账户历史期间，其限制低于本页面所示的标准限制。这些起始限制是 Anthropic 防止欺诈和滥用的措施之一，并会随着您的组织积累使用历史而自动提高。
-* 限制在组织级别设置。您可以在 [Claude Console](https://platform.claude.com/) 的[速率限制](https://platform.claude.com/usage/limits)页面（`platform.claude.com/usage/limits`）上查看组织的层级和当前限制。
+* 限制在组织级别设置。您可以在 [Claude Console](https://platform.claude.com/) 的[速率限制](https://platform.claude.com/usage/limits)页面（`platform.claude.com/usage/limits`）上查看组织的层级和当前限制。在 Claude Models on Google Cloud (Anthropic managed) 和 Claude Platform on AWS 上，无论组织处于哪个使用层级，该页面都会显示**自定义层级**。
 * 您可能会在更短的时间间隔内触及速率限制。例如，每分钟 60 个请求（RPM）的速率可能会按每秒 1 个请求来执行。短时间的请求突发可能会超出限制并触发速率限制错误。
 * 以下限制是每个层级的标准限制。如果您需要更高的限制，请参阅[申请更高的限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#requesting-higher-limits)。
 * API 使用[令牌桶算法](https://en.wikipedia.org/wiki/Token_bucket)（token bucket algorithm）进行速率限制。这意味着您的容量会持续补充直至最大限制，而不是在固定间隔重置。
@@ -29,10 +29,10 @@ API 在组织级别强制执行服务配置的限制，但您也可以为组织�
 ## 支出限制
 
 <Note>
-  **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** 同样的每月支出上限适用，请求在达到上限时也会以同样的方式停止。计费和层级提升的运作方式不同；请参阅 [Claude Platform on AWS 上的支出限制](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#spend-limits)。
+  **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** 同样的每月支出上限适用，请求在达到上限时也会以同样的方式停止。计费和层级提升的运作方式不同；请参阅 [Claude Platform on AWS 上的支出限额](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#spend-limits)。
 </Note>
 
-Start、Build 和 Scale 层级各自设有每月支出上限。该上限即您的组织每个日历月在 API 上可支出的最高金额。您可以在 [Claude Console 中的支出限制](https://platform.claude.com/settings/spend-limits)（`platform.claude.com/settings/spend-limits`）下查看组织的每月支出上限并设置您自己的限制。
+Start、Build 和 Scale 层级各自设有每月支出上限。该上限即您的组织每个日历月在 API 上可支出的最高金额。您可以在 [Claude Console 中的支出限额](https://platform.claude.com/settings/spend-limits)（`platform.claude.com/settings/spend-limits`）下查看组织的每月支出上限并设置您自己的限制。
 
 | 使用层级  | 每月支出上限       |
 | ----- | ------------ |
@@ -68,7 +68,7 @@ Custom（自定义）层级的组织没有每月支出上限；其限制由客�
 
 <Steps>
   <Step title="前往您的支出限制">
-    前往 [Claude Console 中的支出限制](https://platform.claude.com/settings/spend-limits)（`platform.claude.com/settings/spend-limits`）。
+    前往 [Claude Console 中的支出限额](https://platform.claude.com/settings/spend-limits)（`platform.claude.com/settings/spend-limits`）。
   </Step>
 
   <Step title="打开支出限制编辑器">
@@ -89,12 +89,12 @@ Custom（自定义）层级的组织没有每月支出上限；其限制由客�
 Messages API 的速率限制按每个模型类别的每分钟请求数（RPM）、每分钟输入令牌数（ITPM）和每分钟输出令牌数（OTPM）来衡量。 如果您超出任何速率限制，您将收到一个 [429 错误](https://platform.claude.com/docs/zh-CN/api/errors)，说明超出了哪个速率限制。当响应包含 `retry-after` 标头时，请等待相应的秒数后再重试。
 
 <Note>
-  如果您的组织使用量急剧增加，您也可能因 API 的加速限制而遇到 429 错误。为避免触及加速限制，请逐步增加流量并保持一致的使用模式。
+  使用量急剧增加也可能导致 429 错误。请参阅[爬坡限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#ramp-limits)。
 </Note>
 
 ### 缓存感知的 ITPM
 
-许多 API 提供商使用组合的"每分钟令牌数"（TPM）限制，可能包括所有令牌，无论是否缓存、输入还是输出。**Claude 的默认 ITPM 速率限制只计算未缓存的输入令牌。**&#x8FD9;使得速率限制实际上比最初看起来更高。
+**API 的默认 ITPM 速率限制只计算未缓存的输入令牌。**&#x8FD9;使得速率限制实际上比最初看起来更高。
 
 ITPM 速率限制在每个请求开始时进行估算，并在请求过程中调整估算值，以反映实际使用的输入令牌数。
 
@@ -122,7 +122,7 @@ ITPM 速率限制在每个请求开始时进行估算，并在请求过程中调
 
 OTPM 速率限制在生成输出令牌时实时评估，仅计算实际生成的令牌。`max_tokens` 参数不参与 OTPM 速率限制的计算，因此设置较高的 `max_tokens` 值不会对速率限制产生不利影响。
 
-下表中的每一行都有各自的 RPM、ITPM 和 OTPM 限制。有些行涵盖共享同一限制的多个模型；请参阅表格后面的说明。 您可以在 Claude Console 的[速率限制](https://platform.claude.com/usage/limits)页面上查看您当前的 rate limit（速率限制）及其行为，也可以使用[速率限制 API](https://platform.claude.com/docs/zh-CN/manage-claude/rate-limits-api) 读取已配置的限制并以编程方式设置工作区限制。
+下表中的每一行都有各自的 RPM、ITPM 和 OTPM 限制。有些行涵盖共享同一限制的多个模型；请参阅表格后面的说明。 您可以在 Claude Console 的[速率限制](https://platform.claude.com/usage/limits)页面上查看您当前的速率限制及其行为，也可以使用[速率限制 API](https://platform.claude.com/docs/zh-CN/manage-claude/rate-limits-api) 读取已配置的限制并以编程方式设置工作区限制。
 
 <Note>
   速率限制在所有 `inference_geo` 值之间共享。使用 `inference_geo: "us"` 和 `inference_geo: "global"` 的请求从同一个速率限制池中消耗额度。
@@ -175,7 +175,7 @@ OTPM 速率限制在生成输出令牌时实时评估，仅计算实际生成的
   </Tab>
 
   <Tab title="自定义层级">
-    如果您需要高于 Scale 层级的限制，请通过 Claude Console 的[速率限制](https://platform.claude.com/usage/limits)页面联系销售团队。
+    如果您需要高于 Scale 层级的限制，请通过 Claude Console 的[速率限制](https://platform.claude.com/usage/limits)页面联系销售团队。在 Claude Models on Google Cloud (Anthropic managed) 和 Claude Platform on AWS 上，如果您在该页面上看到**申请更高限额**，请使用它。
   </Tab>
 </Tabs>
 
@@ -184,6 +184,26 @@ OTPM 速率限制在生成输出令牌时实时评估，仅计算实际生成的
 *<sup>2 Opus 速率限制是一个总限制，适用于 Claude Opus 4.8、Opus 4.7、Opus 4.6 和 Opus 4.5 的合并流量。Claude Opus 5.5 和 Claude Opus 5 各自有单独的速率限制，不属于此合并额度。</sup>*
 
 *<sup>3 Sonnet 4.x 速率限制是一个总限制，适用于 Sonnet 4.6 和 Sonnet 4.5（已弃用；请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）的合并流量。Claude Sonnet 5.5 和 Claude Sonnet 5 各自有单独的速率限制，不属于此合并额度。</sup>*
+
+### 爬坡限制
+
+“Ramp limit”（爬坡限制）限定了您的组织在某个模型上的令牌使用量的增长速度。在使用量急剧增加后，即使您仍处于 ITPM 和 OTPM 速率限制之内，请求也可能返回 429 错误。几秒钟内的请求突发也可能被视为急剧增加。
+
+您的爬坡限制是您的组织在最近一段时间内对该模型的最高每分钟使用量，再加上一个步长（step）。每分钟您最多可以比该峰值高出一个步长，因此随着您成功使用量的增长，该限制也会随之上升。它在达到您的速率限制时停止上升。经过一段使用量较低的时期后，爬坡限制会回落。即使您最近没有使用该模型，该限制也不会低于某个起始量。
+
+* 爬坡限制可能适用于任何模型。
+* 输入令牌和输出令牌分别计算。
+* [快速模式](https://platform.claude.com/docs/zh-CN/api/rate-limits#fast-mode-rate-limits)的使用有其自己的爬坡限制，与同一模型的标准使用相互独立。
+* 与[缓存感知的 ITPM](https://platform.claude.com/docs/zh-CN/api/rate-limits#cache-aware-itpm) 一样，从缓存读取的令牌不计入爬坡限制。未缓存的输入令牌和写入缓存的令牌则计入。
+* 步长和起始量因模型而异，并且可能会发生变化。错误消息通常会说明您当前的爬坡限制、步长以及您的速率限制。
+* 错误类型为 `rate_limit_error`，与速率限制相同。在 Messages API 上，`error.details.error_code` 为 `ramp_limit_exceeded`。可以用它将此响应与速率限制区分开来。
+* [Message Batches API](https://platform.claude.com/docs/zh-CN/api/rate-limits#message-batches-api) 不受爬坡限制的约束。
+
+如果您因爬坡限制而收到 429：
+
+* 重试前至少等待 `retry-after` 标头中指定的秒数。
+* 将您的流量保持在请求能够成功的水平，然后每分钟最多增加一个步长。
+* 以较低的速率启动定时或批量作业，并均匀分散请求，而不是一次性发送所有请求。
 
 ### Message Batches API
 
@@ -209,7 +229,7 @@ Message Batches API 有自己的一组速率限制，在所有模型之间共享
   </Tab>
 
   <Tab title="自定义层级">
-    如果您需要高于 Scale 层级的限制，请通过 Claude Console 的[速率限制](https://platform.claude.com/usage/limits)页面联系销售团队。
+    如果您需要高于 Scale 层级的限制，请通过 Claude Console 的[速率限制](https://platform.claude.com/usage/limits)页面联系销售团队。在 Claude Models on Google Cloud (Anthropic managed) 和 Claude Platform on AWS 上，如果您在该页面上看到**申请更高限额**，请使用它。
   </Tab>
 </Tabs>
 
@@ -258,7 +278,7 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 有默认的快速模�
 如需申请更高的速率限制或更高的每月支出上限，请使用 Claude Console 中[速率限制](https://platform.claude.com/usage/limits)页面上的**申请提升等级**。Anthropic 支持团队也可以提高限制；如有紧急需求，请联系 [Anthropic 支持](https://support.claude.com)。
 
 <Note>
-  **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** **申请提升等级**流程不可用。请联系您的 Anthropic 客户代表或 [Anthropic 支持](https://support.claude.com)，并提供您需要提高限制的模型、每个模型的每分钟输入和输出令牌峰值，以及您的输入中大约有多少比例是已缓存或重复的上下文。请参阅 [Claude Platform on AWS 上的速率限制和配额](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#rate-limits-and-quotas)。
+  **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** 在**速率限制**页面上，用于速率限制和支出上限的按钮为**申请更高限额**。要使用它，您需要 Claude Console 中的 [Admin 角色](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#signing-in)以及 `ListAccountRateLimitIncreaseRequests` 和 `CreateAccountRateLimitIncreaseRequest` IAM 操作。有关申请中应包含的内容、哪些人无法使用该按钮以及其他申请方式，请参阅 [Claude Platform on AWS 上的速率限制和配额](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#rate-limits-and-quotas)。
 </Note>
 
 ## 为工作区设置更低的限制
@@ -271,7 +291,8 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 有默认的快速模�
 
 注意：
 
-* 您无法为默认工作区设置支出限制。
+* 在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 和 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上，您无法为默认工作区设置支出限制。
+* 默认工作区中的某些使用量可能不会计入该工作区的支出限制，也可能不会被该限制阻止。这包括来自 Claude Console 的使用量（例如 playground）以及来自 Claude Managed Agents 会话的使用量。它还包括成员使用 Claude Console 账户登录并使用默认工作区时产生的 Claude Code 或 Claude Desktop 使用量。您组织的[支出限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#setting-your-own-spend-limit)适用于所有这些使用量。
 * 如果未设置，工作区限制与组织的限制一致。
 * 工作区限制是按每种限制器类型设置的（例如每分钟请求数、每分钟输入令牌数或每分钟输出令牌数）。
 * 组织范围的限制始终适用，即使各工作区限制之和更高。
@@ -284,26 +305,26 @@ API 响应中包含的标头会向您显示所执行的速率限制、当前使�
 
 返回以下标头：
 
-| 标头                                            | 描述                                                                                                                                                       |
-| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `retry-after`                                 | 在可以重试请求之前需要等待的秒数。提前重试将会失败。并非每个 429 都带有此标头；支出上限 429 从不带有此标头（请参阅[达到支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#reaching-your-spend-cap)）。 |
-| `anthropic-ratelimit-requests-limit`          | 任意速率限制周期内允许的最大请求数。                                                                                                                                       |
-| `anthropic-ratelimit-requests-remaining`      | 在被速率限制之前剩余的请求数。                                                                                                                                          |
-| `anthropic-ratelimit-requests-reset`          | 请求速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                           |
-| `anthropic-ratelimit-tokens-limit`            | 任意速率限制周期内允许的最大令牌数。                                                                                                                                       |
-| `anthropic-ratelimit-tokens-remaining`        | 在被速率限制之前剩余的令牌数（四舍五入到最接近的千位）。                                                                                                                             |
-| `anthropic-ratelimit-tokens-reset`            | 令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                           |
-| `anthropic-ratelimit-input-tokens-limit`      | 任意速率限制周期内允许的最大输入令牌数。                                                                                                                                     |
-| `anthropic-ratelimit-input-tokens-remaining`  | 在被速率限制之前剩余的输入令牌数（四舍五入到最接近的千位）。                                                                                                                           |
-| `anthropic-ratelimit-input-tokens-reset`      | 输入令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                         |
-| `anthropic-ratelimit-output-tokens-limit`     | 任意速率限制周期内允许的最大输出令牌数。                                                                                                                                     |
-| `anthropic-ratelimit-output-tokens-remaining` | 在被速率限制之前剩余的输出令牌数（四舍五入到最接近的千位）。                                                                                                                           |
-| `anthropic-ratelimit-output-tokens-reset`     | 输出令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                         |
-| `anthropic-priority-input-tokens-limit`       | 任意速率限制周期内允许的最大 Priority Tier 输入令牌数。（仅限 Priority Tier）                                                                                                    |
-| `anthropic-priority-input-tokens-remaining`   | 在被速率限制之前剩余的 Priority Tier 输入令牌数（四舍五入到最接近的千位）。（仅限 Priority Tier）                                                                                          |
-| `anthropic-priority-input-tokens-reset`       | Priority Tier 输入令牌速率限制完全补充的时间，以 RFC 3339 格式提供。（仅限 Priority Tier）                                                                                         |
-| `anthropic-priority-output-tokens-limit`      | 任意速率限制周期内允许的最大 Priority Tier 输出令牌数。（仅限 Priority Tier）                                                                                                    |
-| `anthropic-priority-output-tokens-remaining`  | 在被速率限制之前剩余的 Priority Tier 输出令牌数（四舍五入到最接近的千位）。（仅限 Priority Tier）                                                                                          |
-| `anthropic-priority-output-tokens-reset`      | Priority Tier 输出令牌速率限制完全补充的时间，以 RFC 3339 格式提供。（仅限 Priority Tier）                                                                                         |
+| 标头                                            | 描述                                                                                                                                                        |
+| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `retry-after`                                 | 在可以重试请求之前需要等待的秒数。提前重试可能会失败。并非每个 429 都带有此标头；支出上限 429 从不带有此标头（请参阅[达到支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#reaching-your-spend-cap)）。 |
+| `anthropic-ratelimit-requests-limit`          | 任意速率限制周期内允许的最大请求数。                                                                                                                                        |
+| `anthropic-ratelimit-requests-remaining`      | 在被速率限制之前剩余的请求数。                                                                                                                                           |
+| `anthropic-ratelimit-requests-reset`          | 请求速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                            |
+| `anthropic-ratelimit-tokens-limit`            | 任意速率限制周期内允许的最大令牌数。                                                                                                                                        |
+| `anthropic-ratelimit-tokens-remaining`        | 在被速率限制之前剩余的令牌数（四舍五入到最接近的千位）。                                                                                                                              |
+| `anthropic-ratelimit-tokens-reset`            | 令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                            |
+| `anthropic-ratelimit-input-tokens-limit`      | 任意速率限制周期内允许的最大输入令牌数。                                                                                                                                      |
+| `anthropic-ratelimit-input-tokens-remaining`  | 在被速率限制之前剩余的输入令牌数（四舍五入到最接近的千位）。                                                                                                                            |
+| `anthropic-ratelimit-input-tokens-reset`      | 输入令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                          |
+| `anthropic-ratelimit-output-tokens-limit`     | 任意速率限制周期内允许的最大输出令牌数。                                                                                                                                      |
+| `anthropic-ratelimit-output-tokens-remaining` | 在被速率限制之前剩余的输出令牌数（四舍五入到最接近的千位）。                                                                                                                            |
+| `anthropic-ratelimit-output-tokens-reset`     | 输出令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                          |
+| `anthropic-priority-input-tokens-limit`       | 任意速率限制周期内允许的最大 Priority Tier 输入令牌数。（仅限 Priority Tier）                                                                                                     |
+| `anthropic-priority-input-tokens-remaining`   | 在被速率限制之前剩余的 Priority Tier 输入令牌数（四舍五入到最接近的千位）。（仅限 Priority Tier）                                                                                           |
+| `anthropic-priority-input-tokens-reset`       | Priority Tier 输入令牌速率限制完全补充的时间，以 RFC 3339 格式提供。（仅限 Priority Tier）                                                                                          |
+| `anthropic-priority-output-tokens-limit`      | 任意速率限制周期内允许的最大 Priority Tier 输出令牌数。（仅限 Priority Tier）                                                                                                     |
+| `anthropic-priority-output-tokens-remaining`  | 在被速率限制之前剩余的 Priority Tier 输出令牌数（四舍五入到最接近的千位）。（仅限 Priority Tier）                                                                                           |
+| `anthropic-priority-output-tokens-reset`      | Priority Tier 输出令牌速率限制完全补充的时间，以 RFC 3339 格式提供。（仅限 Priority Tier）                                                                                          |
 
 `anthropic-ratelimit-tokens-*` 标头显示当前生效的最严格限制的值。例如，如果您超出了工作区每分钟令牌限制，这些标头将包含工作区每分钟令牌速率限制的值。如果工作区限制不适用，这些标头将返回剩余的总令牌数，其中总数为输入令牌和输出令牌之和。要查看某个请求计入了哪个工作区，请读取 `anthropic-workspace-id` [响应标头](https://platform.claude.com/docs/zh-CN/api/overview#response-headers)，其中包含您的 API 密钥或访问令牌所解析到的工作区 ID。

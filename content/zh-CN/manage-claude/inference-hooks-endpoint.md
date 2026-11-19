@@ -842,7 +842,7 @@ Anthropic 仅在连接尝试失败时重试，且恰好重试一次，延迟 100
 
 可归因于您的 AI 安全服务器的持续 webhook 失败会触发 “circuit breaker”（熔断器），从而停止强制执行：Anthropic 停止联系您的服务器，并对每个请求应用失败处理。
 
-从触发后 10 分钟开始，Anthropic 会检查您的服务器是否已恢复：大约每分钟最多一次，向您的服务器发送与**测试连接**相同的合成测试请求（`source.application` 为 `config-test`），该请求与其他请求一样经过签名，且不包含任何用户内容。请正常响应它。有效的裁决（允许或拒绝）会重置熔断器并恢复强制执行；webhook 失败则会使熔断器保持触发状态，检查将继续进行。管理员也可以随时重置熔断器，并且管理员的配置更改会停止自动检查；请参阅[熔断器](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-configuration#circuit-breaker)。
+从触发后 3 分钟开始，Anthropic 会检查您的服务器是否已恢复。大约每分钟最多一次，它会向您的服务器发送与**测试连接**相同的合成测试请求（`source.application` 为 `config-test`）。该请求与其他请求一样经过签名，且不包含任何用户内容。请正常响应它。有效的裁决（允许或拒绝）会重置熔断器并恢复强制执行；webhook 失败则会使熔断器保持触发状态，检查将继续进行。管理员也可以随时重置熔断器，并且管理员的配置更改会停止自动检查；请参阅[配置推理钩子中的断路器](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-configuration#circuit-breaker)。
 
 提示帧和工具调用帧共享一个熔断器，两者中任一方的失败都会计入其中。
 

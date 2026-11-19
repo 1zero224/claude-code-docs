@@ -38,7 +38,7 @@ featureMetadata:
 
 **API 支持**：用法因产品而异。
 
-* **Messages API**：在 `container` 参数中列出 `skill_ids`，并包含代码执行工具，技能在该工具的容器中运行。
+* **Messages API**：在 `container.skills` 中列出每个技能的 `type` 和 `skill_id`，并包含代码执行工具，技能将在该工具的容器中运行。
 * **Managed Agents**：在智能体的 `skills` 数组中附加技能，或从挂载到会话的 GitHub 代码仓库中加载技能。
 
 ## 为什么使用 Skills
@@ -59,9 +59,9 @@ Skills 是可复用的、基于文件系统的资源，为 Claude 提供特定�
 
 Anthropic 为常见的文档任务（PowerPoint、Excel、Word、PDF）提供预构建的 Agent Skills，您也可以创建自己的自定义 Skills。两者的工作方式相同：一旦某个 Skill 在您的环境中可用，Claude 就会在与您的请求相关时自动使用它。
 
-**预构建 Agent Skills** 可在 claude.ai、Claude API、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 和 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 上使用。在 Microsoft Foundry 上，Agent Skills 需要[托管在 Anthropic 上的部署](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure)。完整列表请参阅[可用的 Skills](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#available-skills)。
+**预构建 Agent Skills** 可在 claude.ai、Claude API 和[部分云平台](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#feature-availability)上使用。有关 Skills 列表，请参阅[可用的 Skills](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#available-skills)。
 
-**自定义 Skills** 让您可以打包领域专业知识和组织知识。它们可在 Claude 的各个产品中使用：在 Claude Code 中创建、通过 Claude API 上传，或在 claude.ai 设置中添加。在 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 和 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 上，通过 Skills API 上传自定义 Skills。
+**自定义 Skills** 让您可以打包领域专业知识和组织知识。您可以在 Claude Code 中创建它们、通过 [Skills API](https://platform.claude.com/docs/zh-CN/build-with-claude/skills-guide) 上传它们，或在 claude.ai 设置中添加它们。
 
 <Note>
   **开始使用：**
@@ -176,19 +176,17 @@ Skills 在代码执行环境中运行，Claude 在其中拥有文件系统访问
 
 ## Skills 的适用范围
 
-Skills 可在 Claude 的各个智能体产品中使用：
+Skills 可在 Claude 的各个智能体产品中使用。有关 Claude Managed Agents，请参阅其[技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills)页面。
 
-<Note>
-  在以下所有部分中，Claude Platform on AWS 和 Microsoft Foundry 继承与 Claude API 相同的 Skills 行为，除非[限制和约束](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#limitations-and-constraints)中另有说明。
-</Note>
+本页中有关 Claude API 的详细信息同样适用于提供 Skills 的云平台。有关例外情况，请参阅[共享范围](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#sharing-scope)以及[可用性](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#feature-availability)中您所用平台的条目。
 
 ### Claude API
 
-Claude API 同时支持预构建的 Agent Skills 和自定义 Skills。两者的工作方式完全相同：在 `container` 参数中指定相关的 `skill_id`，并配合使用[代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)。
+Claude API 同时支持预构建的 Agent Skills 和自定义 Skills。两者的工作方式完全相同：在 `container.skills` 中列出每个 Skill 的 `type` 和 `skill_id`。
 
 **前提条件：** 通过 API 使用 Skills 需要[代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)，Skills 在其容器中运行。
 
-通过引用 `skill_id`（`pptx`、`xlsx`、`docx` 或 `pdf`）来使用预构建的 Agent Skills，或者通过 Skills API（`/v1/skills` 端点）创建并上传您自己的 Skills。自定义 Skills 在整个工作区内共享：所有工作区成员都可以访问它们。
+通过引用 `skill_id`（`pptx`、`xlsx`、`docx` 或 `pdf`）来使用预构建的 Agent Skills，或者通过 Skills API（`/v1/skills` 端点）创建并上传您自己的 Skills。有关自定义 Skills 的共享方式，请参阅[共享范围](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#sharing-scope)。
 
 API 上的 Skills 在沙盒容器中运行，没有网络访问权限，也不能在运行时安装软件包。详情请参阅[限制和约束](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#limitations-and-constraints)。
 
@@ -286,7 +284,7 @@ description: Brief description of what this Skill does and when to use it
 * **Word (docx)：** 创建文档、编辑内容、格式化文本
 * **PDF (pdf)：** 生成格式化的 PDF 文档和报告
 
-这些 Skills 可在 Claude API、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)、[Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 和 claude.ai 上使用。请参阅[快速入门教程](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/quickstart)，开始在 API 中使用它们。
+要开始使用它们，请参阅[在 API 中开始使用 Agent Skills](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/quickstart)。
 
 ### 开源 Skills
 
@@ -306,7 +304,7 @@ Agent Skills 不在 ZDR 安排的涵盖范围内。Skill 定义和执行数据�
 
 ## 限制和约束
 
-在以下各小节中，Claude Platform on AWS 和 Microsoft Foundry 遵循与 Claude API 相同的限制。此外，在 Microsoft Foundry 上，[Skill 版本下载端点](https://platform.claude.com/docs/zh-CN/api/beta/skills/versions/download)（`GET /v1/skills/{skill_id}/versions/{version}/content`）不可用。
+在构建或共享 Skill 之前，请检查这些限制。在云平台上，还请查看[可用性](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#feature-availability)中您所用平台的条目，了解任何托管或端点限制。
 
 ### 跨平台可用性
 
@@ -324,6 +322,7 @@ Skills 根据您使用它们的位置具有不同的共享模型：
 
 * **Claude API：** 工作区范围。所有工作区成员都可以访问已上传的 Skills。
 * **Claude Code：** 个人（`~/.claude/skills/`）或基于项目（`.claude/skills/`）。也可以通过 Claude Code 插件共享。
+* **[Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)：** 每个 Skill 属于一个工作区。IAM 角色适用于 Google Cloud 项目中的每个工作区，因此工作区不会区分谁可以读取、使用或管理 Skills。如需分离访问权限，请使用单独的项目，如 Claude Models on Google Cloud (Anthropic managed) 中的[工作区](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#workspaces)部分所述。
 
 ### 运行时环境约束
 
@@ -374,7 +373,7 @@ Agent Skills在所有模型上可用。
 #### [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages)
 
 * 可用性：可用
-* 用法：在 `container` 参数中列出 `skill_ids`，并包含代码执行工具，技能在该工具的容器中运行。
+* 用法：在 `container.skills` 中列出每个技能的 `type` 和 `skill_id`，并包含代码执行工具，技能将在该工具的容器中运行。
 
 | 状态             | 云平台                                                                                                                                                                                                                                                                                  |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

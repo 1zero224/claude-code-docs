@@ -46,7 +46,7 @@ As a result, successful integration requires three key decisions:
 **3. Synchronization requirements:**
   - Real-time access for time-sensitive decisions
   - Latency tolerance based on clinical urgency
-  - Batch processing for non-urgent workflows"
+  - Batch processing for non-urgent workflows
 ### Regulatory and compliance requirements
 Regulatory compliance has to be part of every organization’s agent architecture from day one, not as an afterthought. Almost every country has baseline requirements around data privacy and comprehensive audit trails that fundamentally shape your system's architecture. If you don't build with those requirements in mind, you will be forced to rebuild sooner rather than later, possibly after facing steep fines.
 Some regulatory considerations that need to be part of your agent architecture include:
@@ -93,10 +93,10 @@ The observability and human-in-the-loop mechanisms you built for simpler use cas
   - **Escalation protocols** that automatically route complex cases to appropriate clinical experts based on clear criteria
   - **Performance metrics** that measure not just technical accuracy but clinical outcomes and workflow integration success
 ## **Driving AI transformation at scale**
-For technical leaders evaluating agent investments, production implementations at Pfizer, Novo Nordisk, and other organizations demonstrate measurable efficiency gains across research, administrative workflows, quality control, and regulatory documentation.:
+For technical leaders evaluating agent investments, production implementations at Pfizer, Novo Nordisk, and other organizations demonstrate measurable efficiency gains across research, administrative workflows, quality control, and regulatory documentation.
   - **Success requires thoughtful implementation** that balances technological capability with the unique challenges to the healthcare industry. This approach delivers quick wins that build confidence while establishing the technical foundation needed for evolving into more sophisticated agent initiatives.
   - **Evaluate whether your workflows have sufficient complexity to warrant agent architectur**e. As a general rule of thumb, some organizations achieve better ROI with simpler automation solutions that address their specific problems more efficiently than full agent implementations.
-  - **The path forward demands partnership between technology and clinical teams** to ensure AI agents enhance, rather than replace, human judgment. Healthcare leaders who embrace this collaborative approach, prioritize patient safety through robust testing and escalation pathways, and build modular systems that evolve to keep pace advancing AI capabilities will lead the way in creating strong, sustainable, and incredibly valuable systems for their organizations.
+  - **The path forward demands partnership between technology and clinical teams** to ensure AI agents enhance, rather than replace, human judgment. Healthcare leaders who embrace this collaborative approach, prioritize patient safety through robust testing and escalation pathways, and build modular systems that evolve to keep pace with advancing AI capabilities will lead the way in creating strong, sustainable, and incredibly valuable systems for their organizations.
 Production implementations prove the gains are achievable: measurable efficiency improvements across research, administrative workflows, and quality control. Your path forward is architecting systems that capture these benefits while maintaining the rigorous regulatory and clinical safety standards healthcare demands.
 eBook
 ### The Enterprise AI Transformation Guide for Healthcare and Life Sciences
@@ -106,22 +106,23 @@ Accelerate your enterprise AI transformation with proven strategies from Anthrop
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

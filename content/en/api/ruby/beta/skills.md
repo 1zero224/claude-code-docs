@@ -33,23 +33,11 @@ Create Skill
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -61,15 +49,11 @@ Create Skill
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -84,8 +68,6 @@ Create Skill
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -115,8 +97,6 @@ Create Skill
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -144,6 +124,48 @@ Create Skill
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -218,6 +240,30 @@ Create Skill
     ISO 8601 timestamp of when the skill was last updated.
 
     format: date-time
+
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `CMEKKeyDisabledError` (HTTP status 400, error code `cmek_key_disabled`)
+
+  The workspace's customer-managed encryption key is disabled or revoked. Re-enable the key, then retry.
+
+- `CMEKKeyNetworkBlockedError` (HTTP status 400, error code `cmek_key_network_blocked`)
+
+  The key management service's network access controls blocked the request to the workspace's customer-managed encryption key. The key itself may be healthy.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
+- `CMEKContextUnavailableError` (HTTP status 503, error code `cmek_context_unavailable`)
+
+  The workspace's encryption settings could not be read, so the request was refused. Retry in a few minutes.
 
 ### Example
 
@@ -286,23 +332,11 @@ List Skills
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -314,15 +348,11 @@ List Skills
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -337,8 +367,6 @@ List Skills
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -368,8 +396,6 @@ List Skills
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -397,6 +423,48 @@ List Skills
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -471,6 +539,18 @@ List Skills
     ISO 8601 timestamp of when the skill was last updated.
 
     format: date-time
+
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
 
 ### Example
 
@@ -527,23 +607,11 @@ Get Skill
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -555,15 +623,11 @@ Get Skill
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -578,8 +642,6 @@ Get Skill
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -609,8 +671,6 @@ Get Skill
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -638,6 +698,48 @@ Get Skill
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -713,6 +815,18 @@ Get Skill
 
     format: date-time
 
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
 ### Example
 
 ```ruby
@@ -763,23 +877,11 @@ Delete Skill
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -791,15 +893,11 @@ Delete Skill
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -814,8 +912,6 @@ Delete Skill
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -845,8 +941,6 @@ Delete Skill
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -875,6 +969,48 @@ Delete Skill
 
   - `:"experimental-claude-tag-2026-10-21"`
 
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
 - `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -896,6 +1032,18 @@ Delete Skill
     Unique identifier for the skill.
 
     The format and length of IDs may change over time.
+
+### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
 
 ### Example
 
@@ -1057,23 +1205,11 @@ Create Skill Version
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1085,15 +1221,11 @@ Create Skill Version
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1108,8 +1240,6 @@ Create Skill Version
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1139,8 +1269,6 @@ Create Skill Version
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1168,6 +1296,48 @@ Create Skill Version
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1214,6 +1384,30 @@ Create Skill Version
     Unique identifier for the skill.
 
     The format and length of IDs may change over time.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `CMEKKeyDisabledError` (HTTP status 400, error code `cmek_key_disabled`)
+
+  The workspace's customer-managed encryption key is disabled or revoked. Re-enable the key, then retry.
+
+- `CMEKKeyNetworkBlockedError` (HTTP status 400, error code `cmek_key_network_blocked`)
+
+  The key management service's network access controls blocked the request to the workspace's customer-managed encryption key. The key itself may be healthy.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
+- `CMEKContextUnavailableError` (HTTP status 503, error code `cmek_context_unavailable`)
+
+  The workspace's encryption settings could not be read, so the request was refused. Retry in a few minutes.
 
 #### Example
 
@@ -1274,23 +1468,11 @@ List Skill Versions
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1302,15 +1484,11 @@ List Skill Versions
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1325,8 +1503,6 @@ List Skill Versions
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1356,8 +1532,6 @@ List Skill Versions
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1385,6 +1559,48 @@ List Skill Versions
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1431,6 +1647,18 @@ List Skill Versions
     Unique identifier for the skill.
 
     The format and length of IDs may change over time.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
 
 #### Example
 
@@ -1490,23 +1718,11 @@ Download a skill version's content as a zip archive.
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1518,15 +1734,11 @@ Download a skill version's content as a zip archive.
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1541,8 +1753,6 @@ Download a skill version's content as a zip archive.
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1572,8 +1782,6 @@ Download a skill version's content as a zip archive.
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1601,6 +1809,48 @@ Download a skill version's content as a zip archive.
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1652,23 +1902,11 @@ Get Skill Version
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1680,15 +1918,11 @@ Get Skill Version
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1703,8 +1937,6 @@ Get Skill Version
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1734,8 +1966,6 @@ Get Skill Version
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1763,6 +1993,48 @@ Get Skill Version
   - `:"analytics-usage-cost-2026-08-24"`
 
   - `:"experimental-claude-tag-2026-10-21"`
+
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 - `workspace_id: optional String` (header parameter)
 
@@ -1809,6 +2081,18 @@ Get Skill Version
     Unique identifier for the skill.
 
     The format and length of IDs may change over time.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
 
 #### Example
 
@@ -1863,23 +2147,11 @@ Delete Skill Version
 
   - `String = String`
 
-  - `:"message-batches-2024-09-24"`
-
-  - `:"prompt-caching-2024-07-31"`
-
   - `:"computer-use-2024-10-22"`
 
   - `:"computer-use-2025-01-24"`
 
-  - `:"pdfs-2024-09-25"`
-
-  - `:"token-counting-2024-11-01"`
-
-  - `:"token-efficient-tools-2025-02-19"`
-
   - `:"output-128k-2025-02-19"`
-
-  - `:"files-api-2025-04-14"`
 
   - `:"mcp-client-2025-04-04"`
 
@@ -1891,15 +2163,11 @@ Delete Skill Version
 
   - `:"code-execution-2025-05-22"`
 
-  - `:"extended-cache-ttl-2025-04-11"`
-
   - `:"context-1m-2025-08-07"`
 
   - `:"context-management-2025-06-27"`
 
   - `:"model-context-window-exceeded-2025-08-26"`
-
-  - `:"skills-2025-10-02"`
 
   - `:"fast-mode-2026-02-01"`
 
@@ -1914,8 +2182,6 @@ Delete Skill Version
   - `:"advisor-tool-2026-03-01"`
 
   - `:"managed-agents-2026-04-01"`
-
-  - `:"cache-diagnosis-2026-04-07"`
 
   - `:"dreaming-2026-04-21"`
 
@@ -1945,8 +2211,6 @@ Delete Skill Version
 
   - `:"thinking-display-updates-2026-08-18"`
 
-  - `:"ce-user-management-2026-07-13"`
-
   - `:"mid-conversation-output-config-2026-07-01"`
 
   - `:"thinking-binding-controls-2026-08-01"`
@@ -1975,6 +2239,48 @@ Delete Skill Version
 
   - `:"experimental-claude-tag-2026-10-21"`
 
+  - `:"user-profiles-billing-2026-10-01"`
+
+  - `:"message-batches-2024-09-24"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"prompt-caching-2024-07-31"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"pdfs-2024-09-25"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-counting-2024-11-01"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"token-efficient-tools-2025-02-19"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"files-api-2025-04-14"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+  - `:"extended-cache-ttl-2025-04-11"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"skills-2025-10-02"`
+
+    **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+  - `:"cache-diagnosis-2026-04-07"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+  - `:"ce-user-management-2026-07-13"`
+
+    **Deprecated**: This value is no longer needed. Remove it from your requests.
+
 - `workspace_id: optional String` (header parameter)
 
   Optional header to select the Workspace for this request. The value is a Workspace ID (for example, `wrkspc_011CZkZaBF1tNoB5wlCeusgy`).
@@ -1995,6 +2301,18 @@ Delete Skill Version
 
     Unique identifier for this Skill Version. The id addresses the version in
     paths and pins it in references.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=ruby).
+
+- `ClaudeCodeKeyCreatorNotMemberError` (HTTP status 400, error code `claude_code_key_creator_not_member`)
+
+  The API key belongs to the Claude Code workspace, and the user who created it is no longer a member of the organization or of that workspace.
+
+- `OrganizationOnHoldError` (HTTP status 400, error code `organization_on_hold`)
+
+  Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
 
 #### Example
 

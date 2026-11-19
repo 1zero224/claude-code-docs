@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -127,7 +127,7 @@ Webhook 事件返回事件的 `type` 和 `id`，而不是完整对象。当您�
 
 ## 注册端点
 
-在 Claude Console 中，前往 [Webhook](https://platform.claude.com/settings/workspaces/default/webhooks) 页面（`platform.claude.com/settings/workspaces/default/webhooks`）。每个端点属于一个工作区。请在侧边栏的工作区选择器中选择您需要的工作区。
+在 Claude Console 中，前往 [Webhook](https://platform.claude.com/settings/workspaces/default/webhooks) 页面（`platform.claude.com/settings/workspaces/default/webhooks`）。每个端点属于一个工作区。请在工作区选择器中选择您需要的工作区。
 
 Webhook 端点包括：
 
@@ -137,7 +137,7 @@ Webhook 端点包括：
 
 ## 验证签名
 
-每次投递都带有 `webhook-id`、`webhook-timestamp` 和 `webhook-signature` 标头。在除 C# 以外的所有 SDK 中，使用 `unwrap()` (csharp, go: `Unwrap()`) 辅助函数，一步完成签名验证和事件解析。如果签名无效或负载超过 5 分钟，它会抛出异常。
+每次投递都带有 `webhook-id`、`webhook-timestamp` 和 `webhook-signature` 标头。在除 C# 以外的所有 SDK 中，使用 `unwrap()` (csharp, go: `Unwrap()`) 辅助函数，一步完成签名验证和事件解析。如果签名无效或负载超过 5 分钟，它会报告错误。
 
 将 `ANTHROPIC_WEBHOOK_SIGNING_KEY` 设置为创建端点时显示的、以 `whsec_` 为前缀的密钥。
 
@@ -338,7 +338,7 @@ Webhook 端点包括：
 
 ## 处理事件
 
-解析请求体，根据 `data.type` 进行分支处理，并按 ID 获取资源。返回任意 `2xx` 以确认接收。任何其他响应都会计入该端点的失败：`3xx` 会立即禁用该端点（从不跟随重定向），而其他失败会被重试；有关重试和自动禁用规则，请参阅[投递行为](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks#delivery-behavior)。
+解析请求体，根据 `data.type` 进行分支处理，并按 ID 获取资源。返回任意 `2xx` 以确认接收。任何其他响应都会计入该端点的失败。`3xx` 会立即禁用该端点（从不跟随重定向），而其他失败会被重试。有关重试和自动禁用规则，请参阅[投递行为](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks#delivery-behavior)。
 
 每个事件负载都具有相同的结构，包括事件类型、标识符以及事件发生时的时间戳。
 
@@ -465,10 +465,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

@@ -8,7 +8,7 @@ Projects in Cowork require the latest version of Claude Desktop. Download or upd
 
 Claude Cowork is available on desktop on all paid plans (Pro, Max, Ultra, Team, and Enterprise). On web and mobile, it's available on Pro, Max, Ultra, and Team plans (in beta on Team), and on Enterprise plans when an owner enables it.
 
-The new Claude experience, which combines chat and Cowork, is rolling out to Pro, Max, and Ultra plans. On Team plans (in beta) and Enterprise plans, it's available where **Chat and Cowork unified** is turned on. If your message box no longer shows "Chat" and "Cowork" options, you have the new experience, and some steps in this article may look different. Learn more in **[Claude Cowork and chat are one Claude](https://support.claude.com/en/articles/16761823)**.
+The new Claude experience, which combines chat and Cowork, is rolling out to Pro, Max, and Ultra plans. On Team and Enterprise plans, it's available where **Chat and Cowork unified** is turned on. If your message box no longer shows "Chat" and "Cowork" options, you have the new experience, and some steps in this article may look different. Learn more in **[Claude Cowork and chat are one Claude](https://support.claude.com/en/articles/16761823)**.
 
 ---
 
@@ -16,23 +16,23 @@ The new Claude experience, which combines chat and Cowork, is rolling out to Pro
 
 Find **Projects** in the left navigation panel and click the “+” button to see the three different ways to create a project:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183720240/6f6ef438913391703598d86d606c/CleanShot+2026-03-20+at+09_11_43.png?expires=1794465900&amp;signature=4f2d259bcd3f368d0bfb722b8ad44b69d6ac5ad8becac8b8b4f8c0d95c52afeb&amp;req=diEvFc58nYNbWfMW1HO4zcOgigG%2B1y18ZwSvwegvtgwp%2BbUQD%2Bmmi77%2BIB2X%0AyhDeOZGK7lI5IBKsmvI%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183720240/6f6ef438913391703598d86d606c/CleanShot+2026-03-20+at+09_11_43.png?expires=1795099500&amp;signature=6132d2d34e0d60eff0976c00b956fb66d57592f8afc3ecd663f314f1be203972&amp;req=diEvFc58nYNbWfMW1HO4zcOgigC62CFwZwSvwegvtgzVqSGF9gNYD5tz8VzK%0AdfTjDChEvB0%2B%2Fp5Jksc%3D%0A)
 
 ### Start from scratch
 
 Selecting “Start from scratch” allows you to set up a new folder with instructions and files:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177090014/07832b50003cf7fd3b4e9c7c448b/3385d9b8-c3e7-42b9-ae3f-4d213baa53a7?expires=1794465900&amp;signature=b33c2ac3db5d5a5e0bbc159bb704af7719fd6aaa6a16635ad2db32f456cd5228&amp;req=diEgEcl3nYFeXfMW1HO4zZCoQolBSHCfvb0suCMAnj0%2FiDEqxKDLj%2FraLUT9%0Ax3jZoNJ98cKSJAeGlNw%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177090014/07832b50003cf7fd3b4e9c7c448b/3385d9b8-c3e7-42b9-ae3f-4d213baa53a7?expires=1795099500&amp;signature=f8ff3ce29f17d4fd607ce4388eb29b635702b25d605bf96cfbfda2137362c736&amp;req=diEgEcl3nYFeXfMW1HO4zZCoQohFR3yTvb0suCMAnj3AuT9PFBpYmuj9Lc2%2B%0AOH36lPUa9o3Uc4RIibQ%3D%0A)
 
 ### Import from a Claude project
 
 After selecting “Import from project,” you’ll see a “Search projects in Chat…” field:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183717962/acdc11bcc825ae76a13f508365bc/CleanShot+2026-03-20+at+09_12_08.png?expires=1794465900&amp;signature=8cdea9012feb09418d923ca861edaf1941394e68871b14aebef1eee25fe606f6&amp;req=diEvFc5%2FmohZW%2FMW1HO4zQQ7UWdZzJ0WjggUT7FIJz9pNjsh6BaW%2B%2B8%2FviLN%0AS%2FhehB%2F6Rwzk%2Fbgqrl8%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183717962/acdc11bcc825ae76a13f508365bc/CleanShot+2026-03-20+at+09_12_08.png?expires=1795099500&amp;signature=2ff3e415f3d5b3712f5e368904a0f79d9d7f470465997f1c2d09b8ae771c4c1b&amp;req=diEvFc5%2FmohZW%2FMW1HO4zQQ7UWZdw5EajggUT7FIJz864WELfLVmSQRNn7YE%0AENE0ZINEjueIJRqFsoU%3D%0A)
 
 Clicking into the field will display a drop-down showing your recent projects, but you can also use it to search all your projects. After you select a chat project (bulk upload is not supported), you can name the new Cowork project and choose where to save it on your computer:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183727973/7a25430123d9e13e7c3cdd411f70/CleanShot+2026-03-20+at+09_13_41.png?expires=1794465900&amp;signature=968991900362b12a5756942dd6e72cfcf358d7e81b27cd173695b867cc25deac&amp;req=diEvFc58mohYWvMW1HO4zU%2FKAydC%2BibFI7f%2FdY0VL6g1z4IBOVdTho4Gnreg%0ANyUPebweFMoSzEFNNsU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183727973/7a25430123d9e13e7c3cdd411f70/CleanShot+2026-03-20+at+09_13_41.png?expires=1795099500&amp;signature=ed6ecc676183dbd9af9bda7c98dec59638ff06d490b607d6471407a4cfb1f354&amp;req=diEvFc58mohYWvMW1HO4zU%2FKAyZG9SrJI7f%2FdY0VL6h7CYhBoOI4OBbWxVt1%0AQpSwAxEHBxGnL9rX4UI%3D%0A)
 
 Clicking “Create” will transfer the files and instructions from your existing Claude project and create a new Cowork project.
 
@@ -40,11 +40,11 @@ Clicking “Create” will transfer the files and instructions from your existin
 
 If you select “Use an existing folder,” you’ll be prompted to pick a file to use as context for the new Cowork project:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087935/2f0052dae601d0b7fecdc029e1c3/2e3ca9e7-23b1-436e-bbdb-edcd31c41f15?expires=1794465900&amp;signature=0f411869027a1650dfb92f97c91c64a788372dcc2a2371bd1178fedca52d423a&amp;req=diEgEcl2mohcXPMW1HO4zejrnjLSEyZWuv8e2Xj2xOUUJCcGIECwLX3UJW4f%0A9av0VCsSkJ9qWrULUTM%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087935/2f0052dae601d0b7fecdc029e1c3/2e3ca9e7-23b1-436e-bbdb-edcd31c41f15?expires=1795099500&amp;signature=a233e33f17aa78462a6bb1e918afffb6e6e0235bf130ea362d8c2d25e1dca22d&amp;req=diEgEcl2mohcXPMW1HO4zejrnjPWHCpauv8e2Xj2xOVR9XNLbbRpk6wNfA86%0AgMSeWC%2FeQSjHSQH7tx8%3D%0A)
 
 After selecting a folder, you can name the new Cowork project, choose where to save it on your computer, add instructions, and attach any additional files. Click “Create” to start using your new project:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087937/f59dbe3fc28448a9597ea097cb4d/96a59acb-4054-4b4b-a208-751f9711f535?expires=1794465900&amp;signature=47f7d63b821c7b39036e252fa252c8283c1f6b44d98c1109f08bf5dfbe848bee&amp;req=diEgEcl2mohcXvMW1HO4zUq4VuewhaczMfnqHouW6MJ9tZ1xx6Eiqq1VRYkp%0AYewk242l1XZ%2F66CSFU8%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087937/f59dbe3fc28448a9597ea097cb4d/96a59acb-4054-4b4b-a208-751f9711f535?expires=1795099500&amp;signature=d63fe840e01a0f37d3844bc993ba9525ad9f17eb891cff26f6fea92b28895985&amp;req=diEgEcl2mohcXvMW1HO4zUq4Vua0iqs%2FMfnqHouW6MLQez%2FwIYE0ck9YX0RL%0AqDiwCn3HLtECkxTd6L0%3D%0A)
 
 ---
 

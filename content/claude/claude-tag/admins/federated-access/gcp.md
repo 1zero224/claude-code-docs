@@ -73,6 +73,22 @@ Grant only what Claude needs, and grant nothing to the pool-wide principal set (
 
 Create a dedicated service account in any project and grant it the roles Claude needs. The console accepts only addresses of the form `<name>@<project>.iam.gserviceaccount.com`, so the default Compute Engine and App Engine service accounts can't be used. Enable the IAM Service Account Credentials API in the service account's project. Then grant the **Workload Identity User** role (`roles/iam.workloadIdentityUser`) to the same `principalSet://` or `principal://` member as in [Without a service account](#without-a-service-account), on the service account's own IAM policy rather than on the project. Don't grant the service account any permission to mint further credentials or create keys.
 
+## Limit access outside your Google Cloud organization
+
+By default, Claude can reach a resource in any project that grants the identity access, including a project outside your Google Cloud organization. To limit that reach, create a [Principal Access Boundary policy](https://docs.cloud.google.com/iam/docs/principal-access-boundary-policies) that lists your organization, folders, or projects. The policy is optional, so skip it if Claude should reach other organizations.
+
+Check these limits before you create the policy:
+
+* **Covered permissions**: Google Cloud blocks only [the permissions it lists](https://docs.cloud.google.com/iam/docs/pab-blocked-permissions) for the policy's enforcement version. The identity can still use an unlisted permission outside your organization.
+* **Public resources**: the identity loses access to Google-owned public resources, such as BigQuery public datasets, unless you make it eligible for resources in the Google-owned organization.
+
+You need `roles/iam.principalAccessBoundaryAdmin` on the organization to create the policy. To bind the policy, you need `roles/iam.principalAccessBoundaryUser` on the organization, plus a role for the principal set. [Bind the policy](https://docs.cloud.google.com/iam/docs/principal-access-boundary-policies-create) to the principal set that holds the identity Claude acts as:
+
+* **Without a service account**: bind the policy to the workload identity pool's principal set, which holds all identities in the pool.
+* **With a service account**: bind the policy to the principal set of the service account's project, and list that project in the policy, because Google's list covers permissions on service accounts. The set holds all service accounts, workload identity pools, and Google Cloud agent identities in the project, so use a dedicated project or a binding condition on `principal.type` or `principal.subject`.
+
+After you bind the policy, Google Cloud blocks covered permissions on resources that none of the identity's policies include, whatever roles those resources grant.
+
 ## Connect the identity in the console
 
 **1. Open the Connect a Google Cloud identity dialog**
@@ -97,9 +113,9 @@ The **Block requests that mint new credentials** checkbox is selected by default
 
 If Claude needs one of the refused services, clear the checkbox and rely on your IAM grants alone. The token exchange itself, including acting as the service account, happens inside Agent Proxy and isn't affected by this checkbox or by the allowed hosts.
 
-**5. Narrow the allowed Google hosts**
+**5. Add the allowed Google hosts**
 
-Replace the prefilled `*.googleapis.com` entry in the **Allowed Google hosts** field with the hosts Claude needs, for example `storage.googleapis.com`. A wildcard as the leftmost label, such as `*.storage.googleapis.com`, matches any subdomain but not the name itself. Every host must be `googleapis.com`, a subdomain of it, or a subdomain of `clients6.google.com`. You can change the list later from the connection's [**Edit connection** dialog](https://claude.com/docs/claude-tag/admins/add-connections.md#set-allowed-websites), which you open from the connection's row on the **Connectors** tab; see [Manage federated connections on the Connectors tab](https://claude.com/docs/claude-tag/admins/federated-access/overview#manage-federated-connections-on-the-connectors-tab).
+In the **Allowed Google hosts** field, enter the hosts Claude needs, for example `storage.googleapis.com`. Google API hosts serve every Google Cloud project, so read [Shared cloud hosts](https://claude.com/docs/claude-tag/admins/federated-access/limits.md#shared-cloud-hosts) before you choose them. A wildcard as the leftmost label, such as `*.storage.googleapis.com`, matches any subdomain but not the name itself. Every host must be `googleapis.com`, a subdomain of it, or a subdomain of `clients6.google.com`. You can change the list later from the connection's [**Edit connection** dialog](https://claude.com/docs/claude-tag/admins/add-connections.md#set-allowed-websites), which you open from the connection's row on the **Claude's connectors** tab; see [Manage federated connections on the Connectors tab](https://claude.com/docs/claude-tag/admins/federated-access/overview#manage-federated-connections-on-the-connectors-tab).
 
 **6. Confirm the attribute condition**
 

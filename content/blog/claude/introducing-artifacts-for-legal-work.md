@@ -33,7 +33,7 @@ We partnered with legal tech companies and law firms to build artifacts for lega
   - **Subpoena Response Tool built by [PwC (opens in new tab)](https://www.pwc.com/)** turns your team's precedents, standard objections and templates into automated, audit-ready first drafts so lawyers can focus on the complex issues while responding faster.
 We are excited to see legal tech companies, law firms, legal aid organizations create and share their own artifacts, and have more artifacts coming from Legora and Orrick.
 ![Spellbook](https://assets.claude.com/6d8c2b327807c9a9dc5b911946df64b7a0cbda3c.svg)
-“Claude continues to power us as the most widely contract review tool in the world—we're approaching 500,000 contracts per month moving through Spellbook and we wouldn't be here without Claude.”
+“Claude continues to power us as the most widely used contract review tool in the world—we're approaching 500,000 contracts per month moving through Spellbook and we wouldn't be here without Claude.”
 Scott Stevenson, Co-Founder and CEO, Spellbook
 ![The Access Project](https://assets.claude.com/d6661126feb224777780199d17eac5e9d054a66e.png)
 “At The Access Project, we build tools that help legal teams and self-represented litigants navigate record clearance. This artifact lets anyone start the clean slate process: screen for eligibility, obtain the record, understand how state law applies to each case, and find local filing guidance.”
@@ -87,7 +87,7 @@ Chijioke Akamigbo, Esq., Executive Director, Rising for Justice
 “On our chemical structure benchmark, Claude Opus 5.5 correctly identifies over 10% more structures than Opus 5 while using less than half the output tokens. In Solve, it powers patent work from drafting to litigation-grade claim charting.”
 Sanj Ahilan, Chief Research Officer, Solve Intelligence
 ![Spellbook](https://assets.claude.com/6d8c2b327807c9a9dc5b911946df64b7a0cbda3c.svg)
-“Claude continues to power us as the most widely contract review tool in the world—we're approaching 500,000 contracts per month moving through Spellbook and we wouldn't be here without Claude.”
+“Claude continues to power us as the most widely used contract review tool in the world—we're approaching 500,000 contracts per month moving through Spellbook and we wouldn't be here without Claude.”
 Scott Stevenson, Co-Founder and CEO, Spellbook
 ![The Access Project](https://assets.claude.com/d6661126feb224777780199d17eac5e9d054a66e.png)
 “At The Access Project, we build tools that help legal teams and self-represented litigants navigate record clearance. This artifact lets anyone start the clean slate process: screen for eligibility, obtain the record, understand how state law applies to each case, and find local filing guidance.”
@@ -120,24 +120,20 @@ To plan a rollout for your organization, talk to our sales team or work with one
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)[
-ArticleNov 9, 2026
-### Claude Fable 5.2 and Mythos 5.2
-Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
-Claude appsClaude Code
-1 more: Claude PlatformClaude Platform
-(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 12, 2026
+### Operate Claude Managed Agents inside your security perimeter
+Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
+Claude PlatformClaude Managed Agents
+](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
+ArticleNov 12, 2026
+### Introducing Claude for Manufacturing
+A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
+](https://claude.com/resources/articles/claude-for-manufacturing)[
+ArticleNov 12, 2026
+### Introducing Claude Meetings
+Add Claude to your video call and get the work started while you talk
+](https://claude.com/resources/articles/claude-meetings)

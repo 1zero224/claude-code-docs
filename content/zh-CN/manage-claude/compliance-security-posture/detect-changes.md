@@ -8,7 +8,7 @@ description: 从 SIEM 中针对 Security posture 活动的示例检测规则入�
   要启用 Compliance API，请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
 </Note>
 
-这些示例规则会在您组织的 [Security posture](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/overview) 发生变更时发出告警，所用的是 Compliance API 活动源记录的活动。这些规则假定您的安全信息和事件管理（security information and event management，SIEM）系统会按照[将事件发送到您的 SIEM](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/send-events) 中的说明存储这些活动。
+这些示例规则会在您组织的 [Security posture](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/overview) 发生变更时发出告警，所用的是 Compliance API 活动源记录的活动。这些规则假定您的安全信息和事件管理（security information and event management，SIEM）系统会按照[将 Security posture 事件发送到您的 SIEM](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/send-events) 中的说明存储这些活动。
 
 ## 编写规则之前
 
@@ -17,7 +17,7 @@ description: 从 SIEM 中针对 Security posture 活动的示例检测规则入�
 * 查询使用活动源的字段名称，外加 `stored_at`，这是本页为您存储某条活动的时间所起的名称。其他任何名称都是您自己的列表或别名。
 * 在规则对活动进行计数之前，先按 `id` 对这些活动去重。
 * 除非规则另有说明，否则请基于 `stored_at`（而非 `created_at`），在自该规则上次完成运行以来的时间段上运行该规则，因为活动可能会延迟到达；查询中省略了该时间范围。
-* 编写的规则应在您已存储的活动上触发，切勿依赖您尚未存储的活动：它可能延迟到达，也可能是[活动源不记录](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#what-the-feed-does-not-record)的变更。 如需将已存储的活动与当前结果进行比较，请参阅[将事件与结果进行核对](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/check-events-against-results)。
+* 编写的规则应在您已存储的活动上触发，切勿依赖某条活动的缺失。您尚未存储的活动可能延迟到达，也可能是[活动源不记录](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#what-the-feed-does-not-record)的变更。如需将已存储的活动与当前结果进行比较，请参阅[将已存储的 Security posture 事件与当前结果进行核对](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/check-events-against-results)。
 
 ## 声明规则
 
@@ -90,7 +90,7 @@ AND action == "lapsed"
 这些字段中的任何一个都可能出现新的值。
 
 * 通过 `actor.type` 而不是 `actor.service` 的值来识别自动变更。
-* 不要丢弃其 `control`、`action` 或 `status` 值未在规则中列出的活动；新的 `action` 值可能记录了一次接受风险。请参阅[事件参考](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference)。
+* 不要丢弃其 `control`、`action` 或 `status` 值未在规则中列出的活动；新的 `action` 值可能记录了一次接受风险。请参阅 [Security posture 事件参考](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference)。
 
 ## 测试规则
 

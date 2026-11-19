@@ -15,7 +15,7 @@
 * 你在多个会话中工作，需要区分它们
 * 你希望 git 分支和状态始终可见
 
-状态行在其自己的行中呈现，位于内置页脚徽章上方，不会替换它们。配置自定义状态行后，Claude Code 会停止显示页脚中的大多数键盘提示，包括 `esc to interrupt`、`? for shortcuts` 回退和 `hold space to speak` [语音听写](https://code.claude.com/docs/zh-CN/voice-dictation.md)提示。要在对话中出现 ID 时向页脚添加可点击的链接徽章，而无需编写脚本，请改为配置 [`footerLinksRegexes`](https://code.claude.com/docs/zh-CN/settings-reference#footerlinksregexes)。
+状态栏在其自己的行中呈现，位于内置页脚徽章上方，不会替换它们。配置自定义状态栏后，Claude Code 会停止显示部分页脚提示，例如 `? for shortcuts` 和 `hold space to speak` [语音听写](https://code.claude.com/docs/zh-CN/voice-dictation.md)提示。要在对话中出现 ID 时向页脚添加可点击的链接徽章，而无需编写脚本，请改为配置 [`footerLinksRegexes`](https://code.claude.com/docs/zh-CN/settings-reference#footerlinksregexes)。
 
 这是一个[多行状态行](#display-multiple-lines)的示例，它在第一行显示 git 信息，在第二行显示颜色编码的上下文栏。
 
@@ -182,7 +182,7 @@ Claude Code 通过 stdin 向您的脚本发送以下 JSON 字段：
 | `cost.total_api_duration_ms` | 等待 API 响应所花费的总时间，以毫秒为单位 |
 | `cost.total_lines_added`、`cost.total_lines_removed` | 更改的代码行数 |
 | `context_window.total_input_tokens`、`context_window.total_output_tokens` | 当前上下文窗口中的 token 数，来自最近一次 API 响应。输入包括缓存读取和写入 |
-| `context_window.context_window_size` | 最大上下文窗口大小（以 token 为单位）。默认为 200000，对于具有扩展上下文的模型为 1000000。 |
+| `context_window.context_window_size` | 最大上下文窗口大小（以 token 为单位） |
 | `context_window.used_percentage` | 预先计算的上下文窗口已用百分比 |
 | `context_window.remaining_percentage` | 预先计算的上下文窗口剩余百分比 |
 | `context_window.current_usage` | 上一次 API 调用的 token 数，详见[上下文窗口字段](#context-window-fields) |
@@ -1084,46 +1084,6 @@ model=$(echo "$input" | grep -o '"display_name":"[^"]*"' | cut -d'"' -f4)
 dirname="${cwd##*[/\\]}"
 echo "$dirname [$model]"
 ```
-
-## 子代理状态行
-
-`subagentStatusLine` 设置为代理面板中显示的每个[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)呈现自定义行体。使用它来替换默认的 `name · description · token count` 行为你自己的格式。
-
-```json theme={null}
-{
-  "subagentStatusLine": {
-    "type": "command",
-    "command": "~/.claude/subagent-statusline.sh"
-  }
-}
-```
-
-该命令在每个刷新周期运行一次，所有可见的子代理行作为单个 JSON 对象通过 stdin 传入。输入包括[基本 hook 字段](https://code.claude.com/docs/zh-CN/hooks.md#common-input-fields)、表示可用行宽的 `columns` 字段，以及每行对应一个条目的 `tasks` 数组，详见[任务字段](#task-fields)。
-
-将一个 JSON 行写入 stdout，用于你想覆盖的每一行，形式为 `{"id": "<task id>", "content": "<row body>"}` 。`content` 字符串按原样呈现，包括 ANSI 颜色和 OSC 8 超链接。省略任务的 `id` 以保持该行的默认呈现；发出空 `content` 字符串以隐藏它。
-
-适用于 `statusLine` 的相同信任、`disableAllHooks` 和 [`allowManagedHooksOnly`](https://code.claude.com/docs/zh-CN/settings-reference#allowmanagedhooksonly) 门控也适用于此处。插件可以在其[`settings.json`](https://code.claude.com/docs/zh-CN/plugins/manifest-reference#standard-layout)中提供默认的 `subagentStatusLine`，但与钩子不同，即使插件在托管设置 `enabledPlugins` 中被强制启用，插件值也不会在 `allowManagedHooksOnly` 下运行。
-
-### 任务字段
-
-`tasks` 数组中的每个条目使用以下字段描述一个子代理行。标记为可选的字段在没有值时会被省略，因此请在脚本中处理其缺失的情况。
-
-| 字段 | 类型 | 描述 |
-| :- | :- | :- |
-| `id` | string | 任务的标识符。在为该行写回的行中将其作为 `id` 原样返回 |
-| `name` | string，可选 | 子代理的[称呼名称](https://code.claude.com/docs/zh-CN/sub-agents.md#subagent-names)（如果有） |
-| `type` | string | 任务类型：`local_agent` |
-| `agentType` | string | 任务运行所用的子代理类型，例如内置的 [`Explore`](https://code.claude.com/docs/zh-CN/sub-agents#built-in-subagents) 或自定义的 `code-reviewer`。其值与 hook 接收到的 [`agent_type`](https://code.claude.com/docs/zh-CN/hooks#subagentstart) 相同。需要 Claude Code v2.1.293 或更高版本 |
-| `status` | string | 任务状态，例如 `running`、`completed`、`failed` 或 `killed` |
-| `description` | string | 任务的简短描述，例如 Claude 在生成该子代理时给出的描述 |
-| `label` | string | Claude Code 提供的任务简短进度摘要（如果有），否则与 `description` 文本相同 |
-| `startTime` | number | 任务开始时间，以自 Unix 纪元以来的毫秒数表示 |
-| `model` | string，可选 | 任务运行所用的已解析模型 ID。在模型解析之前省略 |
-| `effort` | string 或 number，可选 | 在子代理的[定义 frontmatter](https://code.claude.com/docs/zh-CN/sub-agents.md#supported-frontmatter-fields) 中或单次调用时为其设置的推理 effort：`low`、`medium`、`high`、`xhigh`、`max` 或数字 token 预算。这是所配置的值，当模型不支持该级别时，Claude Code 实际应用的 effort 可能会有所不同。未设置 effort 时省略 |
-| `contextWindowSize` | number，可选 | `model` 的上下文窗口（以 token 计），计算方式与主状态栏的 [`context_window.context_window_size`](#context-window-fields) 相同，因此您可以根据 `tokenCount` 渲染每行百分比。当 `model` 被省略时也会省略 |
-| `tokenCount` | number | 子代理的累计 token 数，即默认行中显示的数值 |
-| `tokenSamples` | array of numbers | 最近最多 16 个 `tokenCount` 读数，每个刷新周期一个，按从旧到新排列，最后一个为当前值 |
-| `cwd` | string | 子代理的工作目录：如果子代理在自己的目录（例如隔离的 worktree）中运行，则为该目录，否则为会话的工作目录 |
 
 ## 提示
 

@@ -17,7 +17,7 @@ Today’s launch makes it easier for agencies to acquire, authorize, and allocat
 **Claude Code and Claude Cowork. **Agencies get new capabilities on the same cadence as our commercial users. Conversation history is stored locally on the agency-managed device. Inference runs inside a FedRAMP High authorized environment.
 **Billing that fits appropriations.** Program offices can tie AI spend to appropriated funds with standard seats or they can define their own seat tiers with spend and model limits, and usage is purchased in fixed increments with a hard not-to-exceed cap. Administrators can track usage per user and per model in the admin console, and automatic burndown alerts warn them before the balance runs low.
 **Administration that matches how departments are organized.** Department-level administrators can allocate seats and prepaid usage to sub-agencies while allowing each to manage its own users. Administrators can use SCIM group mappings to set rate limits, dollar caps, and allowed models for specific seat tiers. Additionally, layered configuration sets defaults for sub-agencies including what Claude can connect to, which features are available, and instructions that guide how Claude interacts with users.
-**Oversight by design.** Every administrative action is recorded in a hash-chained audit log that organization administrators can review directly in the product. Sensitive operations on Anthropic's side require two-person approval. Usage exports are metering data only so agencies can answer ATO and IG requests without moving sensitive material.
+**Oversight by design.** Administrative actions are recorded in an audit log that organization administrators can review. Sensitive operations on Anthropic’s side require two-person approval. Usage exports are metering data only, so agencies can answer ATO and IG requests without moving sensitive material. Conversation history stays local on the agency-managed device.
 ## Security and oversight
 For security teams evaluating the desktop deployment, we're publishing our FedRAMP Secure Configuration Guide as a public-facing document that customers can use to configure their Claude for Government product in a secure manner.
 In addition, FedRAMP requires us to provide our formal change notification, which contains details associated with this change.
@@ -29,24 +29,20 @@ Security teams can download the penetration-test artifact through the [following
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)[
-ArticleNov 9, 2026
-### Claude Fable 5.2 and Mythos 5.2
-Introducing Claude Fable 5.2 and Claude Mythos 5.2, our new models for the hardest technical challenges.
-Claude appsClaude Code
-1 more: Claude PlatformClaude Platform
-(opens in new tab)](https://www.anthropic.com/claude-fable-and-mythos-5-2)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 12, 2026
+### Operate Claude Managed Agents inside your security perimeter
+Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
+Claude PlatformClaude Managed Agents
+](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
+ArticleNov 12, 2026
+### Introducing Claude for Manufacturing
+A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
+](https://claude.com/resources/articles/claude-for-manufacturing)[
+ArticleNov 12, 2026
+### Introducing Claude Meetings
+Add Claude to your video call and get the work started while you talk
+](https://claude.com/resources/articles/claude-meetings)

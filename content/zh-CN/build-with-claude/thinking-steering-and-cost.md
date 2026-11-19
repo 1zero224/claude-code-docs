@@ -20,7 +20,7 @@ Claude 的思考是自适应的：模型会评估每个请求，并决定是否�
 
 这一判断针对每个请求进行。同一对话中可以同时包含有思考和没有思考的轮次，而 Claude 跳过思考的轮次不包含思考块。不要构建假设每个助手轮次都以思考块开头的应用逻辑。
 
-对这一判断的主要控制手段是 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 参数，它作为一种软性指导，影响 Claude 使用思考的频率和深度；有关每个级别的作用，请参阅本页的 [Effort 级别](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-steering-and-cost#effort-levels)。
+对这一判断的主要控制手段是 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 参数，它作为一种软性指导，影响 Claude 使用思考的频率和深度；有关每个级别的作用，请参阅本页的[努力级别](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-steering-and-cost#effort-levels)。
 
 如果您希望 Claude 更少地思考，请先降低努力级别，再考虑基于提示的引导。
 
@@ -82,7 +82,7 @@ will meaningfully improve answer quality, typically for problems
 that require multistep reasoning. When in doubt, respond directly.
 ```
 
-若要鼓励思考，请使用如下措辞：
+若要改为鼓励思考，请使用如下措辞：
 
 ```text wrap
 This task involves multistep reasoning. Think carefully before responding.
@@ -120,17 +120,17 @@ This task involves multistep reasoning. Think carefully before responding.
 * 您可以恢复一个最初没有思考或使用了不同思考配置的对话，而无需重写其历史。
 * 从混合来源组装的历史不需要在每个助手轮次开头重新插入思考块即可通过验证。
 
-这一规则是关于验证的，而不是关于您应该发送什么。当您有思考块时，请原样传回它们，尤其是在工具使用期间，因为它们承载着 Claude 工具调用背后的推理。完整规则请参阅[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)概述。
+这仅意味着轮次可以不以思考块开头。当您有思考块时，请原样传回它们，尤其是在工具使用期间，因为它们承载着 Claude 工具调用背后的推理。完整规则请参阅[思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)概述。
 
 ### 提示缓存
 
-保持相同思考配置和努力级别的连续请求会保留 prompt caching（提示缓存）；完整规则请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。解析后的 effort 值会被渲染到提示中，因此在请求之间更改它会使缓存断点失效，就像在使用旧版 [`budget_tokens`](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#extended-thinking-with-prompt-caching) 参数的模型上更改该参数一样。将 `effort` 显式设置为模型的默认值等同于省略它，不会破坏缓存。
+保持相同思考配置和努力级别的连续请求会保留 prompt caching（提示缓存）；完整规则请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。解析后的 effort 值会被渲染到提示中，因此在请求之间更改它可能会使缓存断点失效。在[使用该参数的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#supported-models)上更改旧版 [`budget_tokens`](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#extended-thinking-with-prompt-caching) 参数也可能如此。将 `effort` 显式设置为模型的默认值等同于省略它，不会破坏缓存。
 
-实际结论是：为每个对话选定一个思考配置和一个顶层 effort 级别，并保持不变。如果某些轮次需要更多或更少的思考，请在支持的模型上使用[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 更改（该功能目前处于 beta 阶段），或使用[逐条消息提示](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-steering-and-cost#tuning-thinking-behavior)进行引导。这两种方式都会保留之前的缓存断点，而更改思考配置或顶层 effort 级别则不会。
+实际结论是：为每个对话选定一个思考配置和一个顶层 effort 级别，并保持不变。如果某些轮次需要更多或更少的思考，请在[支持该功能的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message#feature-availability)上使用[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 更改（该功能目前处于 beta 阶段）。或者使用[逐条消息提示](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-steering-and-cost#per-message-steering)进行引导。这两种方式都会保留之前的缓存断点，而更改思考配置或顶层 effort 级别则可能不会。
 
 以下示例通过一个您可以自行运行的多轮脚本演示了这种失效：
 
-<Accordion title="Effort 更改会使提示缓存失效">
+<Accordion title="Effort 更改可能会使提示缓存失效">
   <CodeGroup exclude="shell:cURL, shell:CLI">
     <CodeGroupItem language="cURL">
       此工作流需要的逻辑超出了单个 shell 命令所能实现的范围。请使用 Anthropic SDK 运行它；每轮的 HTTP 请求可参照[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)页面上的示例。

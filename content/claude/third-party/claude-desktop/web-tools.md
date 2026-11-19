@@ -25,19 +25,17 @@ Web Search is a **server-side tool** executed by your inference provider, not by
 | Anthropic API | Available |
 | Gateway | Available if your gateway implements Anthropic's `web_search` server tool, passes it through to a provider that does, or runs the search itself; see [Gateway-side search](#gateway-side-search) |
 
-On Microsoft Foundry, Web Search works on both [hosting options](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#hosting-options) with no additional configuration. Deployments hosted on Azure support only the basic web search tool version (`web_search_20250305`), which is the version Claude Desktop uses; see [features not supported when hosted on Azure](https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure) in the Claude in Microsoft Foundry documentation for what else differs when hosted on Azure. On any provider you can configure the [built-in web search](#built-in-web-search) to choose the search backend yourself. Once it is configured, the app stops offering provider-side search and routes the model's search calls to the built-in server. If you want no web search at all, add `"WebSearch"` to [`disabledBuiltinTools`](https://claude.com/docs/third-party/claude-desktop/configuration#disabledbuiltintools) instead. That entry also blocks the built-in web search tool, so do not combine the two.
+On any provider you can configure the [built-in web search](#built-in-web-search) to choose the search backend yourself. Once it is configured, the app stops offering provider-side search and routes the model's search calls to the built-in server. If you want no web search at all, add `"WebSearch"` to [`disabledBuiltinTools`](https://claude.com/docs/third-party/claude-desktop/configuration#disabledbuiltintools) instead. That entry also blocks the built-in web search tool, so do not combine the two.
 
-The [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) passes the `web_search` tool through to its upstream provider, so Web Search works in Claude Desktop behind that gateway when the upstream is Google Cloud's Agent Platform, Microsoft Foundry, or the Anthropic API. Claude Desktop can't see which upstream the gateway routes to and offers the tool regardless, so if the gateway routes any model to Amazon Bedrock, configure the [built-in web search](#built-in-web-search), which replaces provider-side search on every route. To turn web search off instead, add `"WebSearch"` to `disabledBuiltinTools` in the gateway's [Claude Desktop overlay](https://code.claude.com/docs/en/claude-apps-gateway-config#claude-desktop-overlay). That entry also blocks the built-in web search tool if one is configured.
+The [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway) passes the `web_search` tool through to its upstream provider, so Web Search works in Claude Desktop behind that gateway when the upstream is Google Cloud's Agent Platform, Microsoft Foundry, or the Anthropic API. The exception is a gateway policy that holds settings under [`code`](https://code.claude.com/docs/en/claude-apps-gateway-config#apply-code-settings-in-the-code-tab), which turns Web Search off in Cowork, Chat, and Code. Claude Desktop can't see which upstream the gateway routes to, so if the gateway routes any model to Amazon Bedrock, configure the [built-in web search](#built-in-web-search), which replaces provider-side search on every route. To turn web search off instead, add `"WebSearch"` to `disabledBuiltinTools` in the gateway's [Claude Desktop overlay](https://code.claude.com/docs/en/claude-apps-gateway-config#claude-desktop-overlay).
 
 Provider-side search runs on the provider's infrastructure, so queries and results travel over the same path as model inference and are subject to your provider's data-handling terms. It needs no additional firewall rules beyond the inference endpoint itself.
 
 > [!NOTE]
 >
-> `coworkEgressAllowedHosts` governs client-side egress (Web Fetch and in-sandbox shell network activity). The SDK Web Search tool in the table above executes server-side at your inference provider, so the allowlist does not apply to it. The built-in `websearch` server under [Web search options](#web-search-options) runs in the desktop app itself, outside the sandbox, and `coworkEgressAllowedHosts` does not apply to it either. Its search provider's host (`api.search.brave.com`, `api.tavily.com`, `api.exa.ai`, or the host of your `customUrl`) does need to be reachable through your perimeter firewall and proxy, and the **Egress** section of the in-app configuration window lists that host. To let the agent fetch pages it finds via search, add the relevant hosts to `coworkEgressAllowedHosts` or set it to `["*"]`. Adding `"WebSearch"` to `disabledBuiltinTools` turns web search off entirely, both provider-side search and the built-in `websearch` server's tool.
+> `coworkEgressAllowedHosts` governs client-side egress (Web Fetch and in-sandbox shell network activity). Provider-side Web Search executes at your inference provider, so the allowlist does not apply to it. The built-in `websearch` server under [Web search options](#web-search-options) runs in the desktop app itself, outside the sandbox, and `coworkEgressAllowedHosts` does not apply to it either. Its search provider's host (`api.search.brave.com`, `api.tavily.com`, `api.exa.ai`, or the host of your `customUrl`) does need to be reachable through your perimeter firewall and proxy, and the **Egress** section of the in-app configuration window lists that host. To let the agent fetch pages it finds via search, add the relevant hosts to `coworkEgressAllowedHosts` or set it to `["*"]`.
 
 ### Web search options
-
-If your inference provider supports native search (Google Cloud's Agent Platform or Microsoft Foundry), that's the simplest path and no additional configuration is required. Use the built-in `websearch` server when your provider has no native search (Amazon Bedrock or a custom gateway), or with any provider when you want to choose the search backend.
 
 | Option | Best for | Where you configure it | Search backend |
 | - | - | - | - |
@@ -48,7 +46,7 @@ If your inference provider supports native search (Google Cloud's Agent Platform
 
 #### Provider-native search
 
-Google Cloud's Agent Platform grounding and Microsoft Foundry both execute search inside the model call. There's nothing to configure in Claude Desktop. Any setup happens on the cloud provider's side. Amazon Bedrock has no native equivalent (Amazon Bedrock AgentCore is a remote MCP server; see [Remote search MCP](#remote-search-mcp)).
+Google Cloud's Agent Platform grounding and Microsoft Foundry both execute search inside the model call. There's nothing to configure in Claude Desktop. Any setup happens on the cloud provider's side.
 
 #### Built-in web search
 
@@ -118,7 +116,7 @@ If your inference gateway can execute search itself, the search key stays server
 
 For LiteLLM proxy server, enable [`websearch_interception`](https://docs.litellm.ai/docs/tutorials/claude_code_websearch) in `callbacks` and configure a search backend in the proxy. The gateway intercepts the model's `web_search_20250305` request, runs the search, and returns results to Claude Desktop.
 
-If your gateway translates between API formats (for example, Anthropic to OpenAI chat completions), note that `web_search_20250305` is an Anthropic server tool with no chat-completions equivalent. The translation layer needs to handle it explicitly: run the search when the model requests it and emit `server_tool_use` and `web_search_tool_result` blocks in the response. Reach out to your account team for a reference implementation.
+If your gateway translates between API formats (for example, Anthropic to OpenAI chat completions), note that `web_search_20250305` is an Anthropic server tool with no chat-completions equivalent. The translation layer needs to handle it explicitly: run the search when the model requests it and emit `server_tool_use` and `web_search_tool_result` blocks in the response. Ask your account team for a reference implementation.
 
 #### Remote search MCP
 
@@ -130,13 +128,9 @@ Search queries go to whichever backend you configure. In every option, the query
 
 For audit, each search the model runs is recorded in the Cowork or Code session telemetry sent to your [OTLP collector](https://claude.com/docs/third-party/claude-desktop/telemetry.md#sending-telemetry-to-your-own-collector) as a `tool_result` event, whichever option you choose (a `WebSearch` event for provider-side or gateway-side search, an MCP tool event for the built-in or a remote search server). Add `toolDetails` to [`otlpContentCapture`](https://claude.com/docs/third-party/claude-desktop/telemetry#content-capture) to include the tool input, which carries the query text (long values are truncated). The built-in `websearch` server also emits a `builtin_websearch_call` event on the desktop application's own stream with the search provider, query length, result count, duration, and status, never the query text. The app exports that event only when [`otlpDesktopLogLevel`](https://claude.com/docs/third-party/claude-desktop/configuration#otlpdesktoploglevel) is `info` or `debug`, not at the default `error` level.
 
-> [!NOTE]
->
-> If you previously routed inference through a LiteLLM proxy to add search, the built-in `websearch` server with `provider: "custom"` is an alternative that removes the proxy from the search path; gateway-side interception remains a valid choice if you prefer the search key to stay server-side.
-
 ## Web Fetch
 
-In Cowork and Chat, Web Fetch runs in the Claude Desktop main process on the user's device. The model supplies only the target URL; it cannot set headers, a request body, or credentials. The app checks every fetch, including redirect targets, against `coworkEgressAllowedHosts` before it sends the request. For Code sessions, see [How the egress allowlist applies in Code sessions](#how-the-egress-allowlist-applies-in-code-sessions).
+In Cowork and Chat, Web Fetch runs in the Claude Desktop main process on the user's device. The model supplies only the target URL; it cannot set headers, a request body, or credentials. Each request carries the app's own browser-style `User-Agent` header, which includes `Claude/<app version>`. The app checks every fetch, including redirect targets, against `coworkEgressAllowedHosts` before it sends the request. For Code sessions, see [How the egress allowlist applies in Code sessions](#how-the-egress-allowlist-applies-in-code-sessions).
 
 Cowork and Chat refuse every fetch while the key is unset or empty. To permit fetches:
 
@@ -163,8 +157,10 @@ In [Code](https://claude.com/docs/third-party/claude-desktop/code.md) sessions, 
 In [Code](https://claude.com/docs/third-party/claude-desktop/code.md) sessions, the key reaches Claude Code's own Web Fetch tool and shell sandbox as managed settings, unless [Claude Code managed settings that you deploy separately](https://claude.com/docs/third-party/claude-desktop/code.md#interaction-with-claude-code%E2%80%99s-own-managed-settings) take precedence:
 
 * **Web Fetch**: each host you list becomes a Claude Code `WebFetch` allow rule. The key doesn't block a fetch to another host. In Auto mode, which new Code sessions start in by default, and in bypass permissions mode, Claude Code doesn't ask the user before that fetch. For the other modes, see [WebFetch tool behavior](https://code.claude.com/docs/en/tools-reference#webfetch-tool-behavior).
-* **Web Fetch controls**: to have the user approve every fetch, set `WebFetch` to `"ask"` in [`builtinToolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#builtintoolpolicy), which also applies in Cowork and Chat. To remove the tool, see [Disabling web tools](#disabling-web-tools).
+* **Web Fetch controls**: to require approval for every fetch that Claude makes, set `WebFetch` to `"ask"` in [`builtinToolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#builtintoolpolicy), which also applies in Cowork and Chat. To remove the tool, see [Disabling web tools](#disabling-web-tools).
 * **Shell commands**: commands that run in [Claude Code's sandbox](https://claude.com/docs/third-party/claude-desktop/code.md#applied-as-managed-policy) reach only the hosts you list, and no host while the list is empty. For a key that isn't set, see [Unset allowlist in Code sessions](#unset-allowlist-in-code-sessions). On Windows, and on Linux without Claude Code's sandbox dependencies, shell commands run unsandboxed and can reach any host your network allows. To keep Code off such devices, see [Disabling Code](https://claude.com/docs/third-party/claude-desktop/code.md#disabling-code). For SSH hosts, see [Sandbox status on the remote host](https://claude.com/docs/third-party/claude-desktop/ssh-remote-sessions.md#sandbox-status-on-the-remote-host).
+* **Hooks, local MCP servers, and mods**: [hooks that run a command](https://code.claude.com/docs/en/hooks#hook-handler-fields), local (stdio) MCP servers, and [Claude Code mods](https://claude.com/docs/third-party/claude-desktop/code.md#claude-code-mods) run outside Claude Code's sandbox and can reach any host your network allows. To limit which of them run, see the warning under [Applied as managed policy](https://claude.com/docs/third-party/claude-desktop/code.md#applied-as-managed-policy).
+* **Preview pane**: Claude Desktop applies the list itself, also while the [built-in browser](https://claude.com/docs/third-party/claude-desktop/browser.md) is off. A page that a user previews in Code, such as one from a local development server, loads content only from the device and from the hosts you list. To let such pages load scripts, fonts, or data from another host, add it to the list, which also opens that host to the agent's shell. An unset list, or one that contains `*`, limits nothing there. Before Claude Desktop 6.6395.0, the list applied to previewed pages only while the built-in browser was on.
 
 #### Unset allowlist in Code sessions
 
@@ -200,3 +196,22 @@ To remove web tools entirely, add them to `disabledBuiltinTools`:
 With the web tools removed and `coworkEgressAllowedHosts` empty, commands in the agent's sandboxed shell reach no host other than those a [plugin declares for its command-line tool](#web-fetch). In Code sessions where [Claude Code's sandbox doesn't run](#how-the-egress-allowlist-applies-in-code-sessions), shell commands can reach any host your network allows.
 
 The agent can still read and write local files, run code against them, and call any MCP servers you've provisioned. See the [Locked down profile](https://claude.com/docs/third-party/claude-desktop/configuration.md#recommended-security-profiles).
+
+## User settings for web tools
+
+Each user can make Web Search or Web Fetch stricter for themselves than your configuration requires, and can't make either tool looser. The user goes to **Customize > Connectors** and sets **Web search** or **Web fetch** under **Built-in tools**, or opens the message box's **+** menu and selects **Connectors**. Each tool's setting covers the user's Cowork, Chat, and Code sessions and takes one of these values:
+
+* **Default**: your configuration and the session's permission mode decide whether Claude asks first
+* **Always ask**: Claude asks the user before each call to the tool, including in Auto mode, which Cowork shows as **Automatically approve**
+* **Blocked**: new sessions don't include the tool
+
+A session that's already running can keep its earlier setting until it next starts. When a [scheduled Cowork task](https://claude.com/docs/third-party/claude-desktop/scheduled-tasks.md) runs on its schedule in **Automatically approve**, Claude Desktop declines a call to a tool that's at **Always ask** by the user's choice alone, and the run continues without that step.
+
+Your configuration sets the minimum for each tool:
+
+* **`WebSearch` or `WebFetch` set to `"ask"` in [`builtinToolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#builtintoolpolicy)**: the user selects **Always ask** or **Blocked**, next to the line **Restricted by your admin**
+* **`WebSearch` or `WebFetch` listed in [`disabledBuiltinTools`](https://claude.com/docs/third-party/claude-desktop/configuration#disabledbuiltintools)**: the tool has no row, so the user has nothing to set
+
+The **Web search** row appears where your provider or gateway runs Web Search and `disabledBuiltinTools` doesn't list it, and controls that tool. When you configure the [built-in web search](#built-in-web-search), that server has a row of its own in both places, and users control search from that row.
+
+A user's setting is a preference that the user can change back at any time. **Blocked** removes that tool, and shell commands and browser tools still reach what your configuration allows. To enforce a restriction for everyone, see [Disabling web tools](#disabling-web-tools).

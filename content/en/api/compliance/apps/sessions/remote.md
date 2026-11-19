@@ -85,11 +85,11 @@ returned, and the error does not say which organization it is.
 
 ### Headers
 
-- `"anthropic-version": optional string`
+- `"anthropic-version": string`
 
-  The version of the Claude API you want to use.
+  The version of the Claude API to use. Send an available version on every request. A request that sends any other value, including an empty one, returns a 400 error. This endpoint treats a request that omits this header as version `2023-06-01`; some other Compliance API endpoints return a 400 error instead.
 
-  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+  See [API versions](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http) for the available versions.
 
 - `"x-api-key": optional string`
 
@@ -165,7 +165,7 @@ returned, and the error does not say which organization it is.
 
 ```bash
 curl https://api.anthropic.com/v1/compliance/apps/sessions/remote \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H "Authorization: Bearer $ANTHROPIC_COMPLIANCE_API_KEY"
 ```
 
@@ -272,7 +272,10 @@ curl https://api.anthropic.com/v1/compliance/apps/sessions/remote \
 
 Retrieve one remote session's transcript: user prompts, assistant
 responses, and tool calls and results. Thinking blocks and images are
-not included.
+not included. Some notes for the assistant that Claude's apps add to a user's
+message, without showing them to the user, are withheld: such a `text` block
+is returned empty with `added_as_context: true`. Other added text is returned
+in full.
 
 Messages are returned oldest first by default; pass `order=desc` to
 reverse. Pagination uses the same `page`/`next_page` scheme as the
@@ -339,11 +342,11 @@ until those settings change.
 
 #### Headers
 
-- `"anthropic-version": optional string`
+- `"anthropic-version": string`
 
-  The version of the Claude API you want to use.
+  The version of the Claude API to use. Send an available version on every request. A request that sends any other value, including an empty one, returns a 400 error. This endpoint treats a request that omits this header as version `2023-06-01`; some other Compliance API endpoints return a 400 error instead.
 
-  Read more about versioning and our version history [here](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http).
+  See [API versions](https://platform.claude.com/docs/en/api/versioning?sdk_languages=http) for the available versions.
 
 - `"x-api-key": optional string`
 
@@ -369,9 +372,15 @@ until those settings change.
 
         default: text
 
+      - `added_as_context: boolean`
+
+        True when the server recognized this text block, by its exact wording, as a note that a Claude app adds to a user's message for the assistant, and withheld it: `text` is then empty. The match is on the text alone, so it does not prove that an app wrote the block. False does not mean that the user typed the text: other added text, including some of the apps' notes, is exported in full. Always false on assistant messages.
+
+        default: false
+
       - `text: string`
 
-        Text content from the user or the assistant
+        Text content from the user or the assistant. Empty when the text is withheld: see `added_as_context`.
 
       - `truncated: boolean`
 
@@ -539,7 +548,7 @@ until those settings change.
 
 ```bash
 curl https://api.anthropic.com/v1/compliance/apps/sessions/remote/$CLAUDE_REMOTE_SESSION_ID/messages \
-    -H 'anthropic-version: 2023-06-01' \
+    -H 'anthropic-version: 2026-10-21' \
     -H "Authorization: Bearer $ANTHROPIC_COMPLIANCE_API_KEY"
 ```
 
@@ -552,6 +561,7 @@ curl https://api.anthropic.com/v1/compliance/apps/sessions/remote/$CLAUDE_REMOTE
       "id": "id",
       "content": [
         {
+          "added_as_context": true,
           "text": "text",
           "truncated": true,
           "type": "text"

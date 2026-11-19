@@ -29,14 +29,14 @@ We’ve [accumulated](https://claude.com/blog/lessons-from-building-claude-code-
 ![](https://assets.claude.com/d6b40161dc25a247ac6782ccde49e2198a76cbf6.png)Figure 1. Claude Console can diagnose unexpected prompt cache misses by comparing consecutive requests and identifying exactly where the prompt prefix diverged.
   - **Defer rarely used tools**. Declare all your tools up front but mark the rarely used ones [defer_loading](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-use-with-prompt-caching#defer-loading-and-cache-preservation): they stay out of the cached prefix and are appended into the conversation only when Claude looks them up with tool search, so the cache is preserved.
   - **Apply system prompt updates as messages**. [Claude Platform](https://platform.claude.com/docs/en/build-with-claude/mid-conversation-system-messages#when-to-use-a-mid-conversation-system-message) lets you add a system instruction as a message mid-conversation instead of editing the system prompt, which preserves the cache.
-  - **Lay out the request out so the stable part stays stable**. Add static context (tool definitions and the system prompt) first and the growing conversation behind them (Figure 2).
+  - **Lay out the request so the stable part stays stable**. Add static context (tool definitions and the system prompt) first and the growing conversation behind them (Figure 2).
 ![](https://assets.claude.com/bf235bef54d335c8f367a90e6d986e0e480b3659.png)Figure 2. Organize prompts to ensure dynamic content is appended to the end of a stable prefix.
   - **Make changes to model or effort when the prompt cache will already be broken**. Certain operations, like [compaction](https://platform.claude.com/docs/en/build-with-claude/compaction), already rewrite much of the cache (the conversation). That is a [good moment](https://cognition.com/blog/devin-fusion) to switch model or effort, since you are paying for a miss anyway.
   - **Move the cache breakpoint as the conversation grows**. With Claude Platform, you can set [automatic caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching#automatic-caching) to automatically apply the cache breakpoint to the last cacheable block.
   - **Pre-warm the cache**. To reduce latency, send a request with `max_tokens: 0` and an explicit cache breakpoint. This processes the prompt and writes it to the cache without generating anything. If you run it at session start (for example, while a user is typing), the first real request hits a warm cache.
   - **Don’t exceed the prompt cache TTL**. The 5-minute cache TTL counts from the start of the request. If an agent blocks on tool calls or sub-agent requests that run longer than 5 minutes, the parent's cache expires before the result comes back. In cases like this, consider [setting a 1-hour TTL](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence) on the prefix instead.
 ## **Instructions**
-Prompts can accumulate instructions that patch model weaknesses. These instructions can drift relative to the capabilities of the [latest Claude models](https://x.com/trq212/status/2080710971228918066). Here are common prompting “anti-patterns” that hobble frontier Claude model and can inadvertently increase costs:
+Prompts can accumulate instructions that patch model weaknesses. These instructions can drift relative to the capabilities of the [latest Claude models](https://x.com/trq212/status/2080710971228918066). Here are common prompting “anti-patterns” that hobble frontier Claude models and can inadvertently increase costs:
   - **Verification rituals**. Instructions like "*double-check your work*” or "*verify twice before responding*” are often taken literally by frontier models and can waste tokens.
   - **Thoroughness and emphasis boosters**. "*Be maximally thorough*," "*CRITICAL: YOU MUST ALWAYS…*" can lead to verbosity and extra tool calls when working with frontier models.
   - **Mandatory procedures and scratchpad scaffolds**. Fixed step processes (e.g., "*think step by step in a scratchpad*") or reasoning templates are rituals that frontier models don't need. This scaffolding can stack on top of native reasoning and use unnecessary tokens.
@@ -89,22 +89,23 @@ To learn more:
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

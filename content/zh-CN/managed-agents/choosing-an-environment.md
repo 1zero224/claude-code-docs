@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -46,7 +46,7 @@ featureMetadata:
 
 ## 从云环境开始
 
-如果您不确定该选择哪种方式，或者您是 Claude Managed Agents 的新用户，请像[快速入门](https://platform.claude.com/docs/zh-CN/managed-agents/quickstart)那样，从[云环境](https://platform.claude.com/docs/zh-CN/managed-agents/environments)开始。Anthropic 会为每个会话运行一个隔离的容器，其中已预装常用的语言和工具，因此您无需托管任何内容。仅当工具必须在您控制的基础设施上运行时，才选择自托管沙箱。
+如果您不确定该选择哪种方式，或者您是 Claude Managed Agents 的新用户，请从[云环境](https://platform.claude.com/docs/zh-CN/managed-agents/environments)开始。快速入门[开始使用 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/quickstart)使用的就是云环境。Anthropic 会为每个会话运行一个隔离的容器，其中已预装常用的语言和工具，因此您无需托管任何内容。仅当工具必须在您控制的基础设施上运行时，才选择自托管沙箱。
 
 ## 比较选项
 
@@ -75,20 +75,24 @@ featureMetadata:
 
 无论选择哪个选项，对话历史和工具结果都会发送到由 Anthropic 运营的 Managed Agents 服务。模型正是通过这种方式接收每次工具调用的结果。网页搜索和网页抓取工具也在 Anthropic 一侧运行，而不是在沙箱中运行。请参阅[限制网页搜索和网页抓取的域名](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions)。两个选项都不会改变 Managed Agents 的合规覆盖范围，也不会改变其保留对话历史的时长。请参阅 [API 与数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)。
 
+<Note>
+  使用[自托管 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted)时，您运行的是整个 Managed Agents 服务，而不仅仅是沙箱。您将智能体、会话和会话历史存储在您自己的基础设施上。默认情况下，每个模型请求仍会将对话历史和工具结果发送到 Anthropic。如需申请访问权限，请联系您的 Anthropic 客户团队。
+</Note>
+
 ## 使用自托管沙箱时您需要承担和放弃的内容
 
 自托管沙箱使您成为 worker 主机的运维者。您需要加固沙箱镜像、控制网络出站流量、存储和轮换环境密钥，并将各个会话相互隔离。[安全模型](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-security)页面提供了详细信息。
 
 您还将放弃以下云环境功能：
 
-* [`file` 和 `github_repository` 会话资源](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes#session-resources)。您需要[自行暂存输入文件](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers#stage-files-for-a-session)，并且还需要负责挂载您自己的 GitHub 仓库。
+* [`file` 和 `github_repository` 会话资源](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes#session-resources)。您需要[自行暂存输入文件](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-per-session#stage-files-for-a-session)，并且还需要负责挂载您自己的 GitHub 仓库。
 * [仓库技能发现](https://platform.claude.com/docs/zh-CN/managed-agents/skills#load-skills-from-a-github-repository)。
 * 保管库中的[环境变量凭据](https://platform.claude.com/docs/zh-CN/managed-agents/vaults#add-a-credential)。
 * 云沙箱的[预装运行时和软件包](https://platform.claude.com/docs/zh-CN/managed-agents/cloud-sandboxes-reference)。自托管沙箱中包含的是您的 worker 所提供的内容。
 
 ## Claude Platform on AWS 上的差异
 
-如果您通过 Claude Platform on AWS 使用 Claude Managed Agents，服务仍由 Anthropic 运营。在该平台上，自托管沙箱无法使用记忆存储，worker 不使用环境密钥，并且 MCP 隧道不可用。请参阅 [Claude Platform on AWS 上的 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#claude-managed-agents) 和[不支持的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#features-not-supported)。
+如果您通过 Claude Platform on AWS 使用 Claude Managed Agents，服务仍由 Anthropic 运营。在该平台上，自托管沙箱中记忆存储不可用，worker 不使用环境密钥，并且 MCP 隧道不可用。请参阅 [Claude Platform on AWS 上的 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#claude-managed-agents) 和[不支持的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#features-not-supported)。
 
 ## Claude Models on Google Cloud (Anthropic managed) 上的差异
 

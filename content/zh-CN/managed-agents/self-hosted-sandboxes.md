@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -34,10 +34,14 @@ featureMetadata:
   supportedPlatforms:
     Claude API: beta
     Claude Platform on AWS: beta
-    Claude Models on Google Cloud (Anthropic managed): beta
+    Claude Models on Google Cloud (Anthropic managed):
+      availability: beta
+      note: 您需要自行编写 worker，由其调用 环境工作端点。
 ---
 
 “Self-hosted sandboxes”（自托管沙箱）将智能体的工具执行从 Anthropic 托管的云沙箱迁移到您控制的基础设施中，而 Anthropic 继续运行智能体本身。要了解这意味着什么并判断它是否适合您的智能体，请参阅[选择智能体环境](https://platform.claude.com/docs/zh-CN/managed-agents/choosing-an-environment)。
+
+要在您自己的基础设施上运行整个 Managed Agents 服务（而不仅仅是沙箱），请参阅[自托管 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted)。
 
 ## 工作原理
 
@@ -55,7 +59,7 @@ featureMetadata:
 
 ## 快速入门
 
-本快速入门使用 `ant` CLI 运行一个常驻工作进程，向其发送一个会话，并确认智能体的工具调用在您的主机上运行。
+本快速入门使用 `ant` CLI 运行一个常驻 worker，向其发送一个会话，并确认智能体的工具调用在您的主机上运行。
 
 ### 前提条件
 
@@ -67,7 +71,9 @@ featureMetadata:
 <Note>
   在 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上，工作进程使用 AWS IAM（SigV4）或[在 AWS Console 中生成的 API 密钥](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#api-key-authentication)进行身份验证，而不是使用环境密钥。请将 [`AnthropicSelfHostedEnvironmentAccess`](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#managed-policies) 托管策略附加到运行工作进程的 IAM 主体上。在 Claude Console 中生成的环境密钥不适用于 Claude Platform on AWS 端点。
 
-  在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 上，工作进程使用 [Google Cloud 凭据](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#authentication)进行身份验证，而不是使用环境密钥。请在项目上为您的工作进程所使用的 Google Cloud 身份授予 `roles/claude.user` 或 `roles/claude.admin` 角色。这两个角色都包含 [`environments.processWork`](https://platform.claude.com/docs/zh-CN/api/claude-models-on-google-cloud-anthropic-managed-iam-permissions#environments)（工作进程需要该权限来轮询和管理工作项）。它们还包含工作进程运行会话所需的会话和技能权限。在 Claude Console 中生成的环境密钥不适用于 Claude Models on Google Cloud (Anthropic managed) 端点。请不要使用预构建工作进程，而是实现您自己的工作进程，直接调用[环境工作端点](https://platform.claude.com/docs/zh-CN/api/beta/environments/work)。请参阅[不支持的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#features-not-supported)。
+  在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 上，`ant` CLI 以及 Python、TypeScript 和 Go SDK 中的预构建工作进程不可用。请参阅该页面的[不支持的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#features-not-supported)部分。请实现您自己的工作进程，直接调用[环境工作端点](https://platform.claude.com/docs/zh-CN/api/beta/environments/work)。
+
+  该工作进程使用 [Google Cloud 凭据](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#authentication)进行身份验证，而不是使用环境密钥。在 Claude Console 中生成的环境密钥不适用于 Claude Models on Google Cloud (Anthropic managed) 端点。请在项目上为您的工作进程所使用的 Google Cloud 身份授予 `roles/claude.user` 或 `roles/claude.admin` 角色。这两个角色都包含 [`environments.processWork`](https://platform.claude.com/docs/zh-CN/api/claude-models-on-google-cloud-anthropic-managed-iam-permissions#environments)（工作进程需要该权限来轮询和管理工作项）。它们还包含工作进程运行会话所需的会话和技能权限。
 </Note>
 
 <Note>
@@ -223,7 +229,7 @@ featureMetadata:
         对于 Linux 环境，请直接下载发布版二进制文件。
 
         ```bash
-        VERSION=2.9.0
+        VERSION=2.11.0
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         case $(uname -m) in
           x86_64) ARCH=amd64 ;;
@@ -263,7 +269,7 @@ featureMetadata:
 
     <Tabs>
       <Tab title="Linux">
-        传入 `/workspace` 以与系统默认值保持一致。
+        使用 `/workspace`，即 Anthropic 云沙箱存放技能和代码仓库的位置。
 
         ```bash
         sudo mkdir -p /workspace && sudo chown "$USER" /workspace
@@ -587,13 +593,13 @@ featureMetadata:
 
 ## 会话资源
 
-自托管沙箱仅支持 `memory_store` 资源。在自托管环境上包含 `file` 或 `github_repository` 资源的会话会被拒绝，并返回 400 错误：
+自托管沙箱仅支持 `memory_store` 资源。如果自托管环境上的会话包含 `file` 或 `github_repository` 资源，API 会拒绝该会话并返回 400 错误。错误消息泛指 `resources`，不会指明具体类型：
 
 ```text wrap
 Environment env_... is a self-hosted environment. `resources` are not supported with self-hosted environments.
 ```
 
-以自托管环境为目标的[部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)遵循相同的规则。要为会话提供其自己的输入文件，请参阅[为会话暂存文件](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers#stage-files-for-a-session)。
+以自托管环境为目标的[计划部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)遵循相同的规则。要为会话提供其自己的输入文件，请参阅[为会话准备文件](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-per-session#stage-files-for-a-session)。
 
 ## 自托管沙箱与 MCP 隧道
 
@@ -606,7 +612,7 @@ Environment env_... is a self-hosted environment. `resources` are not supported 
 
 ## 平台指南
 
-自托管沙箱的各个页面介绍了如何在任何沙箱平台上构建工作进程。以下提供商也发布了各自平台的指南：
+自托管沙箱的各个页面介绍了如何在任何沙箱平台上构建工作进程。对于 Kubernetes，请使用[在 Kubernetes 上运行沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-per-session#run-sandboxes-on-kubernetes)中的 Helm chart。以下提供商也发布了各自平台的指南：
 
 * [AWS Lambda MicroVMs](https://docs.aws.amazon.com/lambda/latest/dg/microvms-integrations-claude-managed-agents.html)
 * [Blaxel](https://docs.blaxel.ai/Tutorials/Claude-Managed-Agents)
@@ -623,23 +629,27 @@ Environment env_... is a self-hosted environment. `resources` are not supported 
 ## 后续步骤
 
 <CardGroup cols={2}>
-  <Card title="部署工作进程" icon="play" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers">
-    运行 SDK 工作进程、通过 webhook 触发工作进程，或为每个会话提供独立的沙箱。
+  <Card title="部署自托管 worker" icon="play" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers">
+    选择部署模式、运行常驻 worker，或通过 webhook 触发 worker。
+  </Card>
+
+  <Card title="每个会话运行一个沙箱" icon="cube" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-per-session">
+    使用 Kubernetes 上的 Helm chart、启动脚本或 SDK 轮询器启动沙箱。
   </Card>
 
   <Card title="自托管沙箱中的记忆存储" icon="brain" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory">
     准备主机、配置同步，并处理只读存储和冲突。
   </Card>
 
-  <Card title="自定义工具和 MCP 服务器" icon="tool" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-custom-tools">
+  <Card title="自托管沙箱中的自定义工具" icon="tool" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-custom-tools">
     从工作进程提供您自己的工具，包括来自您网络内 MCP 服务器的工具。
   </Card>
 
-  <Card title="监控和故障排除" icon="lightning" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-operations">
+  <Card title="监控自托管 worker 并排查故障" icon="lightning" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-operations">
     读取队列深度、干净地停止会话和工作进程，并修复常见故障。
   </Card>
 
-  <Card title="工作进程参考" icon="book" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-reference">
+  <Card title="自托管 worker 参考" icon="book" href="https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-reference">
     CLI 标志、环境变量、文件系统路径和 SDK 辅助选项。
   </Card>
 
@@ -658,9 +668,12 @@ Environment env_... is a self-hosted environment. `resources` are not supported 
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                  | 模型                                                             |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
-| Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
+| 状态               | 云平台                                                                                                                                                           | 模型                                                             |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Beta             | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)                                         | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
+| Beta<sup>1</sup> | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
+
+1. 您需要自行编写 worker，由其调用 环境工作端点。
 
 ### 所需的 beta 请求头
 
@@ -674,10 +687,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

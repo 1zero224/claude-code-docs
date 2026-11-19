@@ -32,6 +32,7 @@ featureMetadata:
     Amazon Bedrock: stable
     Amazon Bedrock (bedrock-runtime): stable
     Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
     Claude Models on Google Cloud (Google managed): stable
     Microsoft Foundry: stable
 ---
@@ -44,7 +45,7 @@ featureMetadata:
 
 ## 如何使用细粒度工具流式传输
 
-所有模型均在 Claude API、[Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)、[Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) 和 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 上支持细粒度工具流式传输。要使用它，请在您希望启用细粒度流式传输的任何用户定义工具上将 `eager_input_streaming` 设置为 `true`，并在您的请求中启用流式传输。
+在每个需要细粒度流式传输的用户定义工具上将 `eager_input_streaming` 设置为 `true`，并在您的请求中[启用流式传输](https://platform.claude.com/docs/zh-CN/build-with-claude/streaming)。
 
 `eager_input_streaming` 字段是可选的。将其设置为 `true` 会为该工具开启细粒度流式传输，而省略它则会使用标准的缓冲流式传输，即 API 在将每个参数值流式传回之前对其进行缓冲和验证。例外情况是发送 `fine-grained-tool-streaming-2025-05-14` beta 标头的请求，该标头会为未设置此字段的工具开启细粒度流式传输。按工具设置的字段取代了该标头，并且即使请求发送该标头，显式的 `false` 也会使该工具保持缓冲流式传输。该标头不能与[计算机使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)或[浏览器使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool)工具集条目组合使用：API 会拒绝同时发送两者的请求，因此请移除该标头，并在需要它的用户定义工具上设置 `eager_input_streaming`。有关字段定义，请参阅[工具参考](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference)。
 
@@ -975,9 +976,9 @@ Complete tool input: {"filename": "poem.txt", "lines_of_text": ["The Wanderer's 
 
 * 可用性：可用
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| -- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 可用 | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 状态 | 云平台     |
+| -- | ------- |
+| 可用 | 所有支持的平台 |
 
 ### 数据处理
 

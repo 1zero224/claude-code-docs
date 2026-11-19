@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -50,7 +50,7 @@ featureMetadata:
 
 自定义技能是一个包含 `SKILL.md` 文件以及任何支持文件的目录，以 zip 压缩包或单独文件的形式上传到您的工作区。创建技能会返回 `skill_*` ID，您在将其附加到智能体时会引用该 ID。Anthropic 预构建技能已在每个工作区中可用，无需执行此步骤。如果只使用预构建技能，请跳至[将技能附加到智能体](https://platform.claude.com/docs/zh-CN/managed-agents/skills#attach-skills-to-an-agent)。
 
-这些示例省略了可选的 `display_name` (java, php: `displayName`; csharp, go: `DisplayName`) 字段，因此技能的显示名称派生自 `SKILL.md` 中的 `name` 字段。显式指定的 `display_name` (java, php: `displayName`; csharp, go: `DisplayName`) 最多可包含 255 个字符，且无需在工作区内唯一。
+这些示例省略了可选的 `display_name` (java, php: `displayName`; csharp, go: `DisplayName`) 字段，因此技能的显示名称来自 `SKILL.md` 中的 `name` 字段。显式指定的 `display_name` (java, php: `displayName`; csharp, go: `DisplayName`) 最多可包含 255 个字符，且无需在工作区内唯一。
 
 <CodeGroup defaultLanguage="CLI">
   ```bash cURL
@@ -383,9 +383,11 @@ featureMetadata:
   ```
 
   ```php PHP
+  use Anthropic\Beta\Agents\BetaManagedAgentsModel;
+
   $agent = $client->beta->agents->create(
       name: 'Financial Analyst',
-      model: 'claude-opus-5-5',
+      model: BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
       system: 'You are a financial analysis agent.',
       skills: [
           ['type' => 'anthropic', 'skillID' => 'xlsx'],
@@ -397,7 +399,7 @@ featureMetadata:
   ```ruby Ruby
   agent = client.beta.agents.create(
     name: "Financial Analyst",
-    model: "claude-opus-5-5",
+    model: Anthropic::Beta::BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
     system_: "You are a financial analysis agent.",
     skills: [
       {type: "anthropic", skill_id: "xlsx"},
@@ -409,7 +411,7 @@ featureMetadata:
 
 ## 从 GitHub 仓库加载技能
 
-技能也可以存放在您的代码库中。当会话通过 [`github_repository` 资源](https://platform.claude.com/docs/zh-CN/managed-agents/github)挂载仓库时，会在会话启动时扫描仓库根目录下的 `.claude/skills` 目录，在其中找到的每个技能都会对智能体可用。无需上传，也无需在智能体的 `skills` (csharp, go: `Skills`) 数组中添加条目。智能体会收到每个已发现技能的名称、描述及其在沙箱中的路径，并在任务匹配时读取该技能的 `SKILL.md`，包括技能附带的任何脚本和资源。发现过程依赖于[智能体工具集](https://platform.claude.com/docs/zh-CN/managed-agents/tools)中智能体的 `read` 工具，该工具默认启用；禁用了 `read` 的智能体不会加载仓库技能。
+技能也可以存放在您的代码库中。当会话通过 [`github_repository` 资源](https://platform.claude.com/docs/zh-CN/managed-agents/github)挂载仓库时，会在会话启动时扫描仓库根目录下的 `.claude/skills` 目录。在其中找到的每个技能都会对智能体可用。您无需上传这些技能，也无需将它们添加到智能体的 `skills` (csharp, go: `Skills`) 数组中。智能体会收到每个已发现技能的名称、描述及其在沙箱中的路径。当任务匹配时，智能体会读取该技能的 `SKILL.md`，包括技能附带的任何脚本和资源。发现过程依赖于[智能体工具集](https://platform.claude.com/docs/zh-CN/managed-agents/tools)中智能体的 `read` 工具，该工具默认启用；禁用了 `read` 的智能体不会加载仓库技能。
 
 <Warning>
   仓库技能是智能体指令，因此挂载的仓库是您智能体信任边界的一部分。任何可以向该仓库提交代码的人（已合并的外部拉取请求、被入侵的依赖项、贡献者）都可以添加或更改技能。平台会在会话启动时加载该技能，不经过审核步骤，而 `bash` 和 `web_fetch` 等会话工具会让其指令产生实际影响。请只挂载您信任的仓库，并在挂载接受外部贡献的仓库之前审查 `.claude/skills`。
@@ -598,7 +600,7 @@ featureMetadata:
 
 已发现的技能遵循仓库的检出状态：如果资源设置了 `checkout` (csharp, go: `Checkout`) 分支或提交，则使用该分支或提交，否则使用仓库的默认分支。扫描仅在会话启动时运行一次。会话期间推送的提交不会被获取；要加载更新后的技能，请启动新会话。
 
-仓库技能可与通过智能体的 `skills` (csharp, go: `Skills`) 数组附加的技能一起使用。如果某个仓库技能与已附加的技能或来自另一个已挂载仓库的技能同名，两者都可用；每个技能都会以其各自的路径公布。
+仓库技能可与通过智能体的 `skills` (csharp, go: `Skills`) 数组附加的技能一起使用。如果某个仓库技能与已附加的技能或来自另一个已挂载仓库的技能同名，两者都可用。智能体会收到每个技能及其各自的路径。
 
 ## 后续步骤
 

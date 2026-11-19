@@ -10,4 +10,8 @@ description: Anthropic 的文本水印不会改变哪些内容、在哪里可以
 
 ## 采样设置
 
-在 Claude Sonnet 4.6 上，如果请求将 `temperature`、`top_p` 或 `top_k` 设置为非默认值，则为该请求生成的文本可能不带有水印。如果您依赖水印，请在请求中省略全部三个参数，包括框架或客户端库为您设置的任何参数。
+**本节适用于：** Claude Opus 4.6、Claude Sonnet 4.6、Claude Opus 4.5、Claude Sonnet 4.5、Claude Haiku 4.5、Claude Opus 3（[可申请访问模型](https://www.anthropic.com/research/deprecation-updates-opus-3)）
+
+如果您需要输出带有水印，请在请求中省略 `temperature`、`top_p` 和 `top_k`。如果请求将其中任何一个设置为非默认值，则输出可能不带有水印。
+
+您的框架或客户端库可能会为您设置这些参数。如果您需要水印，请检查该框架或客户端库的设置以及它发送的请求体，并移除这三个参数中由它设置的每一个。

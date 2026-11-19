@@ -43,7 +43,7 @@ Claude Opus 5.5 生成输出令牌的速度比 Claude Opus 5 快 30% 以上，�
 * 仅在您已测得质量提升的工作中使用 `xhigh` 和 `max`。
 * 若要减少思考，请首先降低 effort 级别。与提示指令相比，降低 effort 能更可靠地减少思考，从而降低成本和延迟。
 
-在请求之间更改顶层 `effort` 值会使提示缓存失效。若要在对话中途更改级别，请改用一次[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)更改，这样可以保留缓存。按消息设置 effort 目前处于 beta 阶段。一次更改会对之后的每个轮次生效，直到被另一次更改取代。
+在请求之间更改顶层 `effort` 值会使已缓存的消息失效。若要在对话中途更改级别，请改用一次[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)更改，这样可以保留缓存。按消息设置 effort 目前处于 beta 阶段。一次更改会对之后的每个轮次生效，直到被另一次更改取代。
 
 ## 为禁用思考而编写的提示
 
@@ -68,7 +68,7 @@ Your task list still has open items: migrate the remaining two endpoints and upd
 
 在系统提示中添加内容也可以减少这类过早停止的频率。对于明确指出您希望它避免的具体过早停止类型的指令，Claude Opus 5.5 的响应很好，例如以宣布下一步的总结结束轮次，而不是实际执行下一步。同时指出您确实希望它停止的情况也会有所帮助，例如在没有用户输入就无法推进任何工作时。
 
-下面这段文字就是此类添加内容的一个示例，它是为完全无人值守运行的智能体编写的，在这种场景下您希望模型继续工作，而不是停下来报告。请将其作为起点：您可能需要针对自己的应用进行调整。请从会话的第一个请求开始就将其添加到系统提示的末尾：中途添加会更改 `system` 提示，并使对话中较早的思考块失效（请参阅[通过对话中途的系统消息添加指令](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#new-instructions)）。由于它指示模型将状态说明放在与下一次工具调用相同的消息中，这些说明会作为进度更新在工具调用之间到达。在默认的 `thinking.display` 下，这些更新的文本为空。设置 `display: "updates"` 即可接收每条更新的摘要（请参阅[面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#user-facing-progress-updates)）。添加此内容后，模型会在原本会停下来确认的地方继续工作，因此对于有风险或不可逆的操作，请保留您自己的确认步骤；在有人可以回应的人机协同应用中，请不要添加此内容。预计每个任务的工具调用和输出令牌会有所增加。
+下面这段文字就是此类添加内容的一个示例，它是为完全无人值守运行的智能体编写的，在这种场景下您希望模型继续工作，而不是停下来报告。请将其作为起点：您可能需要针对自己的应用进行调整。请从会话的第一个请求开始就将其添加到系统提示的末尾：中途添加会更改 `system` 提示，并使对话中较早的思考块失效（请参阅[更改指令](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#new-instructions)）。由于它指示模型将状态说明放在与下一次工具调用相同的消息中，这些说明会作为进度更新在工具调用之间到达。在默认的 `thinking.display` 下，这些更新的文本为空。设置 `display: "updates"` 即可接收每条更新的摘要（请参阅[面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#user-facing-progress-updates)）。添加此内容后，模型会在原本会停下来确认的地方继续工作，因此对于有风险或不可逆的操作，请保留您自己的确认步骤；在有人可以回应的人机协同应用中，请不要添加此内容。预计每个任务的工具调用和输出令牌会有所增加。
 
 ```text wrap
 A standing instruction from the user, the person you are working for. It is about how your turns end. A message with no tool call in it ends your turn, and the work stops there until you are asked to continue. The user has seen you end turns in four ways while work they asked for was still owed, and does not want any of them. One: a long summary of what was done that closes by announcing the next step and has no tool call, so the next thing never starts. Two: an offer to carry on with something unless the user would prefer otherwise, which stops to wait for an answer the user was not going to give. Three: a list of decisions for the user when, by your own account, none of them blocks the rest of the work. Four: deciding that this is a good place to report, because the turn has been long or a milestone is done. Status notes are welcome, and so are your recommendations on open decisions, but put them in the same message as your next tool call and carry on with whatever does not depend on the user's answer. If you notice yourself inviting the user to redirect you or offering to wait, delete it and do the next thing. The stops the user does want are the ones where nothing can move without them, or where the thing blocking you is deliberately protected from you. This does not override the need for confirmation on risky or destructive actions.
@@ -78,7 +78,7 @@ A standing instruction from the user, the person you are working for. It is abou
 
 Claude Opus 5.5 运行安全分类器，涵盖生物学、网络安全和推理提取等领域。
 
-* **生物学：** 生物学安全防护与 Claude Fable 5.1 的相同；如果您从 Claude Opus 5 迁移而来，这是新增的。日常健康和教育类问题不受影响。如果生物学分类器阻止了您组织的生命科学工作，请申请[生命科学验证计划](https://www.anthropic.com/news/life-sciences-verification-program)。
+* **生物学：** 生物学安全防护与 Claude Fable 5.1 的相同，而 Claude Opus 5 没有这些安全防护。日常健康和教育类问题不受影响。如果生物学分类器阻止了您组织的生命科学工作，请申请[生命科学验证计划](https://www.anthropic.com/news/life-sciences-verification-program)。
 * **网络安全：** 允许在源代码中查找漏洞。不允许高风险的军民两用网络安全活动。如果网络安全分类器阻止了您组织的合法安全工作，请申请 [Cyber Verification Program](https://support.claude.com/en/articles/14604842)。
 * **推理提取：** 促使模型在回复文本中复现其内部推理的请求可能会以 `reasoning_extraction` 类别被拒绝。如果您的提示要求模型在回复中写出其推理过程，请删除这些指令，设置 `display: "summarized"`，并改为从思考块中读取摘要推理；请参阅[为禁用思考而编写的提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#prompts-written-for-thinking-disabled)。您仍然可以要求模型对答案进行简短解释或总结所执行的操作；请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。
 
@@ -90,11 +90,11 @@ Claude Opus 5.5 运行安全分类器，涵盖生物学、网络安全和推理�
 
 第一，检查您的客户端是否能接收到这些更新。在 Claude Opus 5.5 上，这些说明以[进度更新 `thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)而非 `text` 块的形式返回，并且在默认的 `thinking.display` 下其文本为空。因此，仅渲染 `text` 块的客户端在长时间的智能体轮次中可能看起来没有任何输出。设置 `display: "updates"`（beta，`thinking-display-updates-2026-08-18` 标头）即可接收每条说明的简短摘要；有关如何渲染它们，请参阅[工具调用之间的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#progress-updates)。
 
-第二，如果模型可能需要在长轮次中途向用户逐字提供某些内容（例如代码片段），请为其提供一个用于向用户发送消息的简单工具，并告诉它仅将该工具用于此类内容。请从会话的第一个请求开始就在 `tools` 中声明该工具：之后再将其添加到 `tools` 会编辑对话的前缀，并使较早的思考块失效（请参阅[保留思考中的工具变更](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#tool-changes)）。
+第二，如果模型可能需要在长轮次中途向用户逐字提供某些内容（例如代码片段），请为其提供一个用于向用户发送消息的工具，并告诉它仅将该工具用于此类内容。请从会话的第一个请求开始就在 `tools` 中声明该工具：之后再将其添加到 `tools` 会编辑对话的前缀，并使较早的思考块失效（请参阅[添加、移除或关闭工具](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#tool-changes)）。
 
 第三，如果您希望获得更频繁或更可预测的更新，例如在第一次工具调用之前用一行文字说明意图，并在结束时进行简短回顾，请在系统提示中说明；模型对此类指令的响应很好。这在人机协同工作中最有帮助。
 
-第四，如果长时间的工具调用轮次仍然静默过久，请让您的框架请求一次更新。在设置了 `display: "updates"`（第一种手段）的情况下，统计连续未向用户提供任何可读内容的工具调用步骤：既没有 `text` 块，也没有进度更新文本。连续出现若干次（例如五次）后，在最新的工具结果之后附加一条提醒，例如下面这条，作为[轮次范围的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages)（`clear_at: "next_user_message"`，处于 beta 阶段，需使用 `mid-conversation-system-clear-at-2026-08-21` 标头）。如果该轮次仍然保持静默，在两到三次提醒后就应停止，而不是继续发送。由于每条提醒都是追加并保留在原处的，而不是在一个请求中插入、在下一个请求中删除，因此提示缓存会持续匹配，其后的思考块也保持有效（请参阅[将每轮提醒作为轮次作用域系统消息发送](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#per-turn-reminders)）。在 Anthropic 针对智能体编码任务的测试中，这使出现长时间静默的任务比例大约减半，且成本没有可测量的变化。
+第四，如果长时间的工具调用轮次仍然静默过久，请让您的框架请求一次更新。在设置了 `display: "updates"`（第一种手段）的情况下，统计连续未向用户提供任何可读内容的工具调用步骤：既没有 `text` 块，也没有进度更新文本。连续出现若干次（例如五次）后，在最新的工具结果之后附加一条提醒，例如下面这条，作为[轮次范围的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#turn-scoped-system-messages)（`clear_at: "next_user_message"`，处于 beta 阶段，需使用 `mid-conversation-system-clear-at-2026-08-21` 标头）。如果该轮次仍然保持静默，在两到三次提醒后就应停止，而不是继续发送。由于每条提醒都是追加并保留在原处的，而不是在一个请求中插入、在下一个请求中删除，因此提示缓存会持续匹配，其后的思考块也保持有效（请参阅[为单个轮次发送提醒](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#per-turn-reminders)）。在 Anthropic 针对智能体编码任务的测试中，这使出现长时间静默的任务比例大约减半，且成本没有可测量的变化。
 
 ```text wrap
 The user hasn't heard from you in a while: say in a few words what you're doing, then continue.
@@ -112,7 +112,11 @@ Before taking any action, explore broadly with tool calls: list and open the ema
 
 ## 多智能体 harness 的时间信号
 
-Claude Opus 5.5 对有关已用时间的信息高度敏感，在多智能体设置中（例如一个将任务委派给子智能体的主智能体），您可以利用这一点，通过更好的并行化来加快工作。如果您能估计任务应花费多长时间，请为模型设定时间预算：让您的框架在每条发回给模型的消息末尾添加一行简短内容，以秒为单位给出相对于该预算的已用时间，例如 `elapsed 340s / 1200s`。模型会安排工作节奏，以便在预算内完成，并且通常会远早于预算完成，因此请将预算设置得略高于您实际希望花费的时间，并在您自己的任务样本上进行调整。如果您无法预测合理的预算，请仅显示已用时间，并在系统提示中添加一句话：
+Claude Opus 5.5 对有关已用时间的信息高度敏感。在多智能体设置中（例如一个将任务委派给子智能体的主智能体），您可以利用这一点，通过更好的并行化来加快工作。
+
+如果您能估计任务应花费多长时间，请为模型设定时间预算。让您的框架在每条发回给模型的消息末尾添加一行简短内容，以秒为单位给出相对于该预算的已用时间，例如 `elapsed 340s / 1200s`。
+
+模型会安排工作节奏，以便在预算内完成，并且可能远早于预算完成。因此请将预算设置得略高于您实际希望花费的时间，并在您自己的任务样本上进行调整。如果您无法预测合理的预算，请仅显示已用时间，并在系统提示中添加一句话：
 
 ```text wrap
 Time matters here: do not spend time that can be avoided, and the earlier a correct result is obtained, the better.

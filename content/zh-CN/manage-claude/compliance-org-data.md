@@ -222,7 +222,7 @@ curl --fail-with-body -sS -G \
 }
 ```
 
-有关完整的成员记录结构，请参阅[列出 Compliance 群组成员](https://platform.claude.com/docs/zh-CN/api/compliance/groups/members/list)响应模式。`user_id` 字段与活动源、聊天列表和远程会话列表所接受的 `user_...` 标识符相同；它也与本地会话对象以及用户拥有的远程会话对象上的 `user.id` 相匹配（代理拥有的远程会话则在 `started_by_user.id` 中携带人类用户的 ID）。要获取成员的全名，请通过组织用户列表进行查找。
+有关完整的成员记录结构，请参阅[列出 Compliance 群组成员](https://platform.claude.com/docs/zh-CN/api/compliance/groups/members/list)响应模式。`user_id` 字段与活动源、聊天列表和远程会话列表所接受的 `user_...` 标识符相同。它也与本地会话对象以及用户拥有的远程会话对象上的 `user.id` 相匹配。代理拥有的远程会话则在记录了人类用户时，于 `started_by_user.id` 中携带该人类用户的 ID。要获取成员的全名，请通过组织用户列表进行查找。
 
 ## 获取有效组织设置
 

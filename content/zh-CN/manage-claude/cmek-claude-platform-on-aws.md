@@ -24,7 +24,7 @@ description: 在您的 AWS 账户中创建 AWS KMS 密钥，并将其附加到 C
 
   如需限定这些权限的范围，请参阅 [IAM 操作](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#encryption-keys)。
 
-* 您有一个未附加任何密钥的工作区，最好是新工作区，因为[现有数据仍由 Anthropic 的密钥加密](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-how-it-works#when-your-key-takes-effect)。密钥策略中会列出该工作区的分区 ID。
+* 您有一个未附加任何密钥的工作区，最好是新工作区，因为[现有数据仍由 Anthropic 的密钥加密](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-how-it-works#when-your-key-takes-effect)。示例密钥策略需要用到该工作区的分区 ID。
 
 在 Claude Console 中，打开[数据保留](https://platform.claude.com/settings/privacy)页面，然后从顶部的下拉菜单中选择工作区。复制**加密密钥**下的**区间 ID**。[获取工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/retrieve)端点会将其作为 `compartment_id` 返回。
 
@@ -58,6 +58,9 @@ description: 在您的 AWS 账户中创建 AWS KMS 密钥，并将其附加到 C
       "Condition": {
         "StringEquals": {
           "kms:EncryptionContext:anthropic:compartment_uuid": ["<COMPARTMENT_UUID>"]
+        },
+        "ArnLike": {
+          "aws:SourceArn": "arn:aws:aws-external-anthropic:*:<AWS_ACCOUNT_ID>:workspace/*"
         }
       }
     },
@@ -68,27 +71,38 @@ description: 在您的 AWS 账户中创建 AWS KMS 密钥，并将其附加到 C
         "Service": "aws-external-anthropic.amazonaws.com"
       },
       "Action": "kms:DescribeKey",
-      "Resource": "*"
+      "Resource": "*",
+      "Condition": {
+        "ArnLike": {
+          "aws:SourceArn": "arn:aws:aws-external-anthropic:*:<AWS_ACCOUNT_ID>:workspace/*"
+        }
+      }
     }
   ]
 }
 ```
 
-将 `<AWS_ACCOUNT_ID>` 替换为您的 [AWS 账户 ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console-account-id.html)，并将 `<COMPARTMENT_UUID>` 替换为[分区 ID](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#prerequisites)。
+请在两条服务主体语句上都保留 `aws:SourceArn`。Claude Platform on AWS 上的每个组织都共享此服务主体，而该条件将其访问限制为您组织的 AWS 账户中的工作区。请勿添加 `aws:SourceAccount`，因为 Anthropic 对您密钥的调用仅发送源 ARN。
 
-可选的 `EncryptionContext` 条件将该密钥限制为仅用于您列出的工作区。在将该密钥附加到另一个工作区之前，请添加该工作区的分区 ID，并[替换该密钥上的策略](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-aws-kms-workspaces#replace-the-key-policy)。如果不需要该条件，请从 `AllowClaudePlatformOnAWSCrypto` 语句中删除 `Condition` 块。如果您之后再添加该条件，请列出该密钥已附加到的每个工作区。
+这些条件决定哪些工作区可以使用该密钥。示例采用的是第二行的做法：
 
-如需进一步缩小访问范围，请使用密钥策略，而不是基于 IP 的限制。向两条服务主体语句都添加 `aws:SourceArn` 条件。以下条件允许您 AWS 账户中的每个工作区：
+| 可以使用该密钥的工作区                            | 操作方法                                                                                                                                                                          |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 该账户中的每个工作区                             | 删除 `StringEquals` 条目并保留 `ArnLike` 条目。                                                                                                                                         |
+| 仅限您列出的工作区，用于加密和解密                      | 在 `StringEquals` 条目中列出每个工作区的分区 ID。                                                                                                                                            |
+| 仅限您列出的工作区，适用于每次调用，包括 `kms:DescribeKey` | 在两条语句中，将 `aws:SourceArn` 值替换为由完整[工作区 ARN](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#service-details) 组成的 JSON 数组。此时 `StringEquals` 条目为可选。 |
 
-```text wrap
-"ArnLike": {"aws:SourceArn": "arn:aws:aws-external-anthropic:*:<AWS_ACCOUNT_ID>:workspace/*"}
-```
-
-对于特定工作区，请改为列出它们完整的[工作区 ARN](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#service-details)，格式如下：
+完整的工作区 ARN 格式如下：
 
 ```text wrap
 arn:aws:aws-external-anthropic:<REGION>:<AWS_ACCOUNT_ID>:workspace/<WORKSPACE_ID>
 ```
+
+`<WORKSPACE_ID>` 是以 `wrkspc_` 开头的[工作区 ID](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#obtain-your-workspace-id)，而不是分区 ID。
+
+将每个 `<AWS_ACCOUNT_ID>` 替换为托管您组织的 [AWS 账户的 ID](https://docs.aws.amazon.com/IAM/latest/UserGuide/console-account-id.html)，并将 `<COMPARTMENT_UUID>` 替换为[分区 ID](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#prerequisites)。
+
+在每个列表中，请包含该密钥已附加到的每个工作区。请勿使用基于 IP 的限制。
 
 ### 创建密钥
 
@@ -196,3 +210,11 @@ arn:aws:aws-external-anthropic:<REGION>:<AWS_ACCOUNT_ID>:workspace/<WORKSPACE_ID
     附加时会通过一次加密调用和一次解密调用来检查密钥，因此密钥策略的问题会在此处显现。如果您收到 KMS 访问错误，请参阅[原因和解决方法](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-troubleshooting#claude-platform-on-aws)。
   </Step>
 </Steps>
+
+## 之后添加其他工作区
+
+如果您的密钥策略列出了工作区：
+
+1. 如果该工作区尚不存在，请在不附加密钥的情况下创建它。工作区在创建时获得其分区 ID 和 ARN。
+2. [编辑密钥策略](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-aws-kms-workspaces#replace-the-key-policy)。将该工作区添加到您的密钥策略中的每个列表：在 `StringEquals` 条目中添加其分区 ID，并在每个 `aws:SourceArn` 数组中添加其 ARN。
+3. 在[在 Claude 中：添加并附加密钥](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#register-the-key-with-anthropic)的最后一步中附加密钥。

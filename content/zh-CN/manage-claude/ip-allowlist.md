@@ -69,7 +69,7 @@ Claude Enterprise 组织有其自己的 IP 允许列表，仅允许从特定 IP 
   <Step title="打开开关">
     前往您组织的设置页面：
 
-    * **Claude Platform：**&#x43;laude Console 中的[身份与访问](https://platform.claude.com/settings/identity)页面
+    * **Claude Platform：**&#x43;laude Console 中的[安全](https://platform.claude.com/settings/identity)页面
     * **Claude Enterprise：**[claude.ai > 组织设置 > 组织与访问权限](https://claude.ai/admin-settings/organization#ip-allowlist)
 
     打开 **IP allowlist** 开关。在您保存之前，不会有任何更改。
@@ -102,5 +102,5 @@ Claude Enterprise 组织有其自己的 IP 允许列表，仅允许从特定 IP 
 
 1. **从列表中的网络重新连接：**&#x8FDE;接到您的办公室网络或 VPN，然后点击 **Try again**。如果没有 **Try again** 按钮，请重新加载页面。
 2. **请求其他管理员或所有者：**&#x4F4D;于列表中网络上的管理员或所有者可以添加您的地址。
-3. **在当前位置修复列表：**&#x5982;果您是管理员或所有者，并且已选中[保留一条返回途径](https://platform.claude.com/docs/zh-CN/manage-claude/ip-allowlist#avoid-locking-yourself-out)中所述的复选框，请在浏览器中打开 Claude Console 或 Claude 并点击**打开 IP 允许列表**，或前往[身份与访问](https://platform.claude.com/settings/identity)页面（在 claude.ai 中为[组织与访问权限](https://claude.ai/admin-settings/organization#ip-allowlist)）。点击**添加**添加您当前的地址，或关闭允许列表，然后点击**保存**并确认。访问权限最多可能需要 15 分钟才能恢复。
+3. **在当前位置修复列表：**&#x5982;果您是管理员或所有者，并且已选中[保留一条返回途径](https://platform.claude.com/docs/zh-CN/manage-claude/ip-allowlist#avoid-locking-yourself-out)中所述的复选框，您仍然可以访问设置页面。请在浏览器中打开 Claude Console 或 Claude 并点击**打开 IP 允许列表**，或前往[安全](https://platform.claude.com/settings/identity)页面（在 claude.ai 中为[组织与访问权限](https://claude.ai/admin-settings/organization#ip-allowlist)）。点击**添加**添加您当前的地址，或关闭允许列表，然后点击**保存**并确认。访问权限最多可能需要 15 分钟才能恢复。
 4. **联系 Anthropic：**&#x5982;果没有管理员或所有者能够访问该页面，请联系 [Anthropic 支持](https://support.claude.com)关闭允许列表。

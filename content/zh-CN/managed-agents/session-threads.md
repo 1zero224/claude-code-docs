@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -41,7 +41,7 @@ featureMetadata:
 
 ## 主线程和会话线程
 
-**会话级事件流**（`/v1/sessions/{session_id}/events/stream`）被视为 **“primary thread”（主线程）**，其中包含所有线程中全部活动的精简视图。您看不到[子智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#delegate-to-subagents)的完整活动，但可以看到其工作的开始和结束，以及工具权限请求等阻塞事件。
+**会话级事件流**（`/v1/sessions/{session_id}/events/stream`）被视为 **“primary thread”（主线程）**，其中包含所有线程中全部活动的精简视图。您看不到[子智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#delegate-to-subagents)的完整活动，但您可以看到其工作的开始和结束，以及工具权限请求等阻塞事件。
 
 **会话线程**是您查看特定智能体活动的地方。
 
@@ -50,7 +50,7 @@ featureMetadata:
 [会话预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)是会话所有线程共享的单一上限。达到上限时，各线程会独立暂停，每个线程的成本按该线程自身所用的模型计价。
 
 <Note>
-  一个会话同时最多可以有 25 个子线程。空闲线程在您归档之前都会计入，主线程不计入。主线程的智能体可以调用单个子智能体的多个副本，从而创建与同一个 `agent` 关联的多个线程。[顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)咨询线程不受此限制。[工作流运行](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs)的线程也不受此限制。
+  一个会话同时最多可以有 25 个子线程。空闲线程在您归档之前都会计入，主线程不计入。主线程的智能体可以调用单个子智能体的多个副本，从而创建与同一个 `agent` 关联的多个线程。[顾问咨询线程](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)不受此限制。[工作流运行](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs)的线程也不受此限制。
 </Note>
 
 ## 列出线程
@@ -283,7 +283,7 @@ featureMetadata:
   ```
 </CodeGroup>
 
-只有当线程处于 `idle` 状态时，归档才会成功。停留在 `requires_action` 上的线程被视为空闲，因此您可以直接将其归档。要归档正在运行的线程，请先中断它：
+只有当线程处于 `idle` 状态时，归档才会成功。等待 `requires_action` 的线程被视为空闲，因此您可以直接将其归档。要归档正在运行的线程，请先中断它：
 
 <CodeGroup>
   ```bash cURL
@@ -401,7 +401,7 @@ featureMetadata:
 
 ## 主线程事件
 
-这些事件在 `/v1/sessions/{session_id}/events/stream` 的主线程上呈现多智能体活动。消息方向类事件的命名是相对于其所在流的线程而言的：`agent.thread_message_received` 表示有消息从另一个线程到达此线程，`agent.thread_message_sent` 表示此线程发送了一条消息。例如，主线程的智能体委派的任务会以 `agent.thread_message_received` 事件的形式到达子线程自己的流。
+这些事件在 `/v1/sessions/{session_id}/events/stream` 的主线程上呈现多智能体活动。消息方向类事件是相对于显示它们的流所属的线程来命名的：`agent.thread_message_received` 表示有消息从另一个线程到达了此线程，`agent.thread_message_sent` 表示此线程发送了一条消息。例如，主线程的智能体委派的任务会以 `agent.thread_message_received` 事件的形式到达子线程自己的流。
 
 | 类型                                 | 描述                                                                                                                                                                                                                                                                   |
 | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -412,20 +412,20 @@ featureMetadata:
 | `agent.thread_message_received`    | 在主线程上，子智能体向主线程的智能体发送了报告或问题。包含 `from_session_thread_id` (java: `fromSessionThreadId`; php: `fromSessionThreadID`; csharp, go: `FromSessionThreadID`)、`from_agent_name` (java, php: `fromAgentName`; csharp, go: `FromAgentName`) 和 `content` (csharp, go: `Content`)。 |
 | `agent.thread_message_sent`        | 在主线程上，主线程的智能体向子智能体发送了任务或后续消息。包含 `to_session_thread_id` (java: `toSessionThreadId`; php: `toSessionThreadID`; csharp, go: `ToSessionThreadID`)、`to_agent_name` (java, php: `toAgentName`; csharp, go: `ToAgentName`) 和 `content` (csharp, go: `Content`)。             |
 
-顾问咨询会以保留名称 `anthropic.advisor` 发出这些相同的线程事件（在线程生命周期事件中作为 `agent_name` (java, php: `agentName`; csharp, go: `AgentName`)，在建议传递中作为 `from_agent_name` (java, php: `fromAgentName`; csharp, go: `FromAgentName`)）；有关事件顺序，请参阅[为会话配置顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)。
+顾问咨询会以保留名称 `anthropic.advisor` 发出这些相同的线程事件。该名称在线程生命周期事件中显示为 `agent_name` (java, php: `agentName`; csharp, go: `AgentName`)，在建议传递中显示为 `from_agent_name` (java, php: `fromAgentName`; csharp, go: `FromAgentName`)。有关事件顺序，请参阅[为会话配置顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)。
 
 [工作流运行](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs)的线程在主事件流上的呈现方式如下：
 
 * **生命周期事件：** 每个运行线程都会发送带有该运行的 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 的 `session.thread_created`，以及其 `session.thread_status_running`、`session.thread_status_idle` 和 `session.thread_status_terminated` 事件。
 * **消息事件：** 运行线程的提示（一个 `agent.thread_message_received` 事件）保留在其自己的流上。
 * **运行事件：** `workflow_run.*` 事件也会到达此流；请参阅[运行事件](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#run-events)。
-* **等待您处理的工具调用：** 与任何子线程一样，运行线程中需要您的客户端处理的工具调用会被交叉发布到此流。请参阅[工具权限和自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads#tool-permissions-and-custom-tools)。
+* **等待您处理的工具调用：** 与任何子线程一样，服务器会将运行线程中需要您的客户端处理的工具调用交叉发布到此流。请参阅[工具权限和自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads#tool-permissions-and-custom-tools)。
 
 ## 会话线程事件
 
 关键事件会被代理转发到主线程。不过，您可能仍希望调查特定智能体的推理和工具调用。为此，请对关联的会话线程的事件进行流式传输或列出。
 
-每个会话线程在 `/v1/sessions/{session_id}/threads/{thread_id}/stream` 都有自己的事件流，并且它接受与会话级流相同的 `event_deltas[]` 参数，因此您可以在模型生成子智能体文本时预览该文本。一个连接只预览它正在读取的线程：子线程的预览永远不会出现在会话级流上，因此要实时观察子智能体，请打开其自己的线程流。有关选择启用、累积和协调预览的信息，请参阅[预览会话线程事件](https://platform.claude.com/docs/zh-CN/managed-agents/event-deltas#preview-session-thread-events)。
+每个会话线程在 `/v1/sessions/{session_id}/threads/{thread_id}/stream` 都有自己的事件流，它接受与会话级流相同的 `event_deltas[]` 参数，因此您可以在模型生成子智能体文本时预览该文本。一个连接只预览它正在读取的线程：子线程的预览永远不会出现在会话级流上，因此要实时观察子智能体，请打开其自己的线程流。有关选择启用、累积和协调预览的信息，请参阅[预览会话线程事件](https://platform.claude.com/docs/zh-CN/managed-agents/event-deltas#preview-session-thread-events)。
 
 在工作流运行中，服务器运行一个工作流：即由主线程的智能体编写的程序。在该运行的每个线程上，第一个 `agent.thread_message_received` 是工作流编写的提示。其 `from_session_thread_id` (java: `fromSessionThreadId`; php: `fromSessionThreadID`; csharp, go: `FromSessionThreadID`) 是主线程的 ID，并且 API 不会设置其 `from_agent_name` (java, php: `fromAgentName`; csharp, go: `FromAgentName`)。API 不保证提示的文本内容，因此请勿解析它。主线程流上该线程的 `session.thread_status_terminated` 事件会告诉您该线程已完成。没有任何事件记录它返回给工作流的结果。
 
@@ -831,10 +831,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

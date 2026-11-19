@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -37,7 +37,7 @@ featureMetadata:
     Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
-“Permission policy”（权限策略）控制服务器执行的工具（预构建的智能体工具集和 MCP 工具集）是自动运行、等待您的批准，还是由服务器评估每次调用。自定义工具由您的应用程序运行并由您控制，因此不受权限策略约束。
+“Permission policy”（权限策略）适用于服务器执行的工具：预构建的智能体工具集和 MCP 工具集。策略决定工具的调用是自动运行、等待您的批准，还是交由服务器评估每次调用。自定义工具在您的应用程序中运行并由您控制，因此权限策略不适用于自定义工具。
 
 ## 权限策略类型
 
@@ -655,7 +655,7 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
   ```
 </CodeGroup>
 
-在创建智能体的请求中传入此 `tools` (csharp, go: `Tools`) 配置（CLI 选项卡显示了完整命令）。MCP 工具集支持相同的按工具覆盖，其中 `name` (csharp, go: `Name`) 设置为 MCP 服务器报告的工具名称。请参阅[配置可用的 MCP 工具](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector#configure-which-mcp-tools-are-available)。
+在创建智能体时传入此 `tools` (csharp, go: `Tools`) 配置。MCP 工具集支持相同的按工具覆盖，其中 `name` (csharp, go: `Name`) 设置为 MCP 服务器报告的工具名称。请参阅[配置可用的 MCP 工具](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector#configure-which-mcp-tools-are-available)。
 
 ## 使用 `auto` 让服务器评估每次调用
 
@@ -665,7 +665,7 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
 * **调用被拒绝。** 当服务器将调用评估为高风险时，工具不会运行。智能体会收到一个错误工具结果，其内容为 `Permission to use {tool_name} has been denied.` 且 `is_error: true`。会话继续运行，您的客户端无法覆盖该拒绝。
 * **调用暂停以等待您的批准。** 当服务器无法做出判定时，会话会像在 `always_ask` 下一样暂停。请参阅[响应确认请求](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#respond-to-confirmation-requests)。
 
-要启用 `auto`，请将 `permission_policy` 设置为 `{"type": "auto"}`。它与其他策略放在相同的两个位置：工具集的 [`default_config` (java, php: `defaultConfig`; csharp, go: `DefaultConfig`)](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#set-a-policy-for-a-toolset)（适用于整个工具集），或 [`configs` (csharp, go: `Configs`) 条目](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#override-an-individual-tool-policy)（适用于单个工具）。智能体工具集和 MCP 工具集都接受它。没有任何工具集默认使用 `auto`。
+要启用 `auto`，请将 `permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`) 设置为 `{"type": "auto"}`。它与其他策略放在相同的两个位置：工具集的 [`default_config` (java, php: `defaultConfig`; csharp, go: `DefaultConfig`)](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#set-a-policy-for-a-toolset)（适用于整个工具集），或 [`configs` (csharp, go: `Configs`) 条目](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#override-an-individual-tool-policy)（适用于单个工具）。智能体工具集和 MCP 工具集都接受它。没有任何工具集默认使用 `auto`。
 
 以下示例将 `auto` 设置为智能体工具集和 `github` MCP 工具集的默认值，并将 `bash` 覆盖为 `always_ask`：
 
@@ -1069,7 +1069,7 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
 <CodeGroup>
   ```bash cURL
   # 允许该工具运行
-  curl -fsSL "https://api.anthropic.com/v1/sessions/$SESSION_ID/events" \
+  curl -fsSL https://api.anthropic.com/v1/sessions/sesn_011CZkZAtmR3yMPDzynEDxu7/events \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
     -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
@@ -1078,14 +1078,14 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
       "events": [
         {
           "type": "user.tool_confirmation",
-          "tool_use_id": "'$AGENT_TOOL_USE_EVENT_ID'",
+          "tool_use_id": "sevt_011CZkZbMpR8aS3Wtv5Yq2Ln",
           "result": "allow"
         }
       ]
     }'
 
-  # 或拒绝执行并附上说明
-  curl -fsSL "https://api.anthropic.com/v1/sessions/$SESSION_ID/events" \
+  # 拒绝另一次调用并附上说明
+  curl -fsSL https://api.anthropic.com/v1/sessions/sesn_011CZkZAtmR3yMPDzynEDxu7/events \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
     -H "anthropic-version: 2026-10-21" \
     -H "anthropic-beta: managed-agents-2026-04-01" \
@@ -1094,9 +1094,9 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
       "events": [
         {
           "type": "user.tool_confirmation",
-          "tool_use_id": "'$MCP_TOOL_USE_EVENT_ID'",
+          "tool_use_id": "sevt_011CZkZcNqT9bT4Xuw6Zr3Mo",
           "result": "deny",
-          "deny_message": "Don'\''t create issues in the production project. Use the staging project."
+          "deny_message": "Do not create issues in the production project. Use the staging project."
         }
       ]
     }'
@@ -1105,38 +1105,37 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
   ```bash CLI
   # 允许该工具运行
   ant beta:sessions:events send \
-    --session-id "$SESSION_ID" \
-    --event "{type: user.tool_confirmation, tool_use_id: $AGENT_TOOL_USE_EVENT_ID, result: allow}"
+    --session-id sesn_011CZkZAtmR3yMPDzynEDxu7 \
+    --event '{type: user.tool_confirmation, tool_use_id: sevt_011CZkZbMpR8aS3Wtv5Yq2Ln, result: allow}'
 
-  # 或拒绝执行并给出说明
+  # 拒绝另一次调用并说明原因
   ant beta:sessions:events send \
-    --session-id "$SESSION_ID" \
-    --event "{type: user.tool_confirmation, tool_use_id: $MCP_TOOL_USE_EVENT_ID, result: deny,
-      deny_message: Don't create issues in the production project. Use the staging project.}"
+    --session-id sesn_011CZkZAtmR3yMPDzynEDxu7 \
+    --event '{type: user.tool_confirmation, tool_use_id: sevt_011CZkZcNqT9bT4Xuw6Zr3Mo, result: deny, deny_message: "Do not create issues in the production project. Use the staging project."}'
   ```
 
   ```python Python
   # 允许该工具运行
   client.beta.sessions.events.send(
-      session.id,
+      "sesn_011CZkZAtmR3yMPDzynEDxu7",
       events=[
           {
               "type": "user.tool_confirmation",
-              "tool_use_id": agent_tool_use_event.id,
+              "tool_use_id": "sevt_011CZkZbMpR8aS3Wtv5Yq2Ln",
               "result": "allow",
           },
       ],
   )
 
-  # 或拒绝执行并给出说明
+  # 拒绝另一次调用并附上说明
   client.beta.sessions.events.send(
-      session.id,
+      "sesn_011CZkZAtmR3yMPDzynEDxu7",
       events=[
           {
               "type": "user.tool_confirmation",
-              "tool_use_id": mcp_tool_use_event.id,
+              "tool_use_id": "sevt_011CZkZcNqT9bT4Xuw6Zr3Mo",
               "result": "deny",
-              "deny_message": "Don't create issues in the production project. Use the staging project.",
+              "deny_message": "Do not create issues in the production project. Use the staging project.",
           },
       ],
   )
@@ -1144,53 +1143,55 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
 
   ```typescript TypeScript
   // 允许该工具运行
-  await client.beta.sessions.events.send(session.id, {
+  await client.beta.sessions.events.send("sesn_011CZkZAtmR3yMPDzynEDxu7", {
     events: [
       {
         type: "user.tool_confirmation",
-        tool_use_id: agent_tool_use_event.id,
+        tool_use_id: "sevt_011CZkZbMpR8aS3Wtv5Yq2Ln",
         result: "allow"
       }
     ]
   });
 
-  // 或拒绝执行并给出说明
-  await client.beta.sessions.events.send(session.id, {
+  // 拒绝另一个调用并附上说明
+  await client.beta.sessions.events.send("sesn_011CZkZAtmR3yMPDzynEDxu7", {
     events: [
       {
         type: "user.tool_confirmation",
-        tool_use_id: mcp_tool_use_event.id,
+        tool_use_id: "sevt_011CZkZcNqT9bT4Xuw6Zr3Mo",
         result: "deny",
-        deny_message: "Don't create issues in the production project. Use the staging project."
+        deny_message: "Do not create issues in the production project. Use the staging project."
       }
     ]
   });
   ```
 
   ```csharp C#
+  using Anthropic.Models.Beta.Sessions.Events;
+
   // 允许该工具运行
-  await client.Beta.Sessions.Events.Send(session.ID, new()
+  await client.Beta.Sessions.Events.Send("sesn_011CZkZAtmR3yMPDzynEDxu7", new()
   {
       Events =
       [
           new BetaManagedAgentsUserToolConfirmationEventParams
           {
-              ToolUseID = agentToolUseEvent.ID,
+              ToolUseID = "sevt_011CZkZbMpR8aS3Wtv5Yq2Ln",
               Result = "allow",
           },
       ],
   });
 
-  // 或拒绝执行并给出说明
-  await client.Beta.Sessions.Events.Send(session.ID, new()
+  // 拒绝另一次调用并附上说明
+  await client.Beta.Sessions.Events.Send("sesn_011CZkZAtmR3yMPDzynEDxu7", new()
   {
       Events =
       [
           new BetaManagedAgentsUserToolConfirmationEventParams
           {
-              ToolUseID = mcpToolUseEvent.ID,
+              ToolUseID = "sevt_011CZkZcNqT9bT4Xuw6Zr3Mo",
               Result = "deny",
-              DenyMessage = "Don't create issues in the production project. Use the staging project.",
+              DenyMessage = "Do not create issues in the production project. Use the staging project.",
           },
       ],
   });
@@ -1198,10 +1199,10 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
 
   ```go Go
   // 允许该工具运行
-  _, err = client.Beta.Sessions.Events.Send(ctx, session.ID, anthropic.BetaSessionEventSendParams{
+  _, err := client.Beta.Sessions.Events.Send(ctx, "sesn_011CZkZAtmR3yMPDzynEDxu7", anthropic.BetaSessionEventSendParams{
   	Events: []anthropic.BetaManagedAgentsEventParamsUnion{{
   		OfUserToolConfirmation: &anthropic.BetaManagedAgentsUserToolConfirmationEventParams{
-  			ToolUseID: agentToolUseEvent.ID,
+  			ToolUseID: "sevt_011CZkZbMpR8aS3Wtv5Yq2Ln",
   			Result:    anthropic.BetaManagedAgentsUserToolConfirmationEventParamsResultAllow,
   		},
   	}},
@@ -1210,13 +1211,13 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
   	panic(err)
   }
 
-  // 或拒绝执行并给出说明
-  _, err = client.Beta.Sessions.Events.Send(ctx, session.ID, anthropic.BetaSessionEventSendParams{
+  // 拒绝另一个调用并附上说明
+  _, err = client.Beta.Sessions.Events.Send(ctx, "sesn_011CZkZAtmR3yMPDzynEDxu7", anthropic.BetaSessionEventSendParams{
   	Events: []anthropic.BetaManagedAgentsEventParamsUnion{{
   		OfUserToolConfirmation: &anthropic.BetaManagedAgentsUserToolConfirmationEventParams{
-  			ToolUseID:   mcpToolUseEvent.ID,
+  			ToolUseID:   "sevt_011CZkZcNqT9bT4Xuw6Zr3Mo",
   			Result:      anthropic.BetaManagedAgentsUserToolConfirmationEventParamsResultDeny,
-  			DenyMessage: anthropic.String("Don't create issues in the production project. Use the staging project."),
+  			DenyMessage: anthropic.String("Do not create issues in the production project. Use the staging project."),
   		},
   	}},
   })
@@ -1226,28 +1227,31 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
   ```
 
   ```java Java
+  import com.anthropic.models.beta.sessions.events.BetaManagedAgentsUserToolConfirmationEventParams;
+  import com.anthropic.models.beta.sessions.events.EventSendParams;
+
   // 允许该工具运行
   client.beta().sessions().events().send(
-      session.id(),
+      "sesn_011CZkZAtmR3yMPDzynEDxu7",
       EventSendParams.builder()
           .addEvent(
               BetaManagedAgentsUserToolConfirmationEventParams.builder()
-                  .toolUseId(agentToolUseEvent.id())
+                  .toolUseId("sevt_011CZkZbMpR8aS3Wtv5Yq2Ln")
                   .result(BetaManagedAgentsUserToolConfirmationEventParams.Result.ALLOW)
                   .build()
           )
           .build()
   );
 
-  // 或拒绝执行并给出说明
+  // 拒绝另一次调用并附上说明
   client.beta().sessions().events().send(
-      session.id(),
+      "sesn_011CZkZAtmR3yMPDzynEDxu7",
       EventSendParams.builder()
           .addEvent(
               BetaManagedAgentsUserToolConfirmationEventParams.builder()
-                  .toolUseId(mcpToolUseEvent.id())
+                  .toolUseId("sevt_011CZkZcNqT9bT4Xuw6Zr3Mo")
                   .result(BetaManagedAgentsUserToolConfirmationEventParams.Result.DENY)
-                  .denyMessage("Don't create issues in the production project. Use the staging project.")
+                  .denyMessage("Do not create issues in the production project. Use the staging project.")
                   .build()
           )
           .build()
@@ -1259,23 +1263,23 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
 
   // 允许该工具运行
   $client->beta->sessions->events->send(
-      $session->id,
+      'sesn_011CZkZAtmR3yMPDzynEDxu7',
       events: [
           ManagedAgentsUserToolConfirmationEventParams::with(
-              toolUseID: $agentToolUseEvent->id,
+              toolUseID: 'sevt_011CZkZbMpR8aS3Wtv5Yq2Ln',
               result: 'allow',
           ),
       ],
   );
 
-  // 或拒绝执行并给出说明
+  // 拒绝另一次调用并附上说明
   $client->beta->sessions->events->send(
-      $session->id,
+      'sesn_011CZkZAtmR3yMPDzynEDxu7',
       events: [
           ManagedAgentsUserToolConfirmationEventParams::with(
-              toolUseID: $mcpToolUseEvent->id,
+              toolUseID: 'sevt_011CZkZcNqT9bT4Xuw6Zr3Mo',
               result: 'deny',
-              denyMessage: "Don't create issues in the production project. Use the staging project.",
+              denyMessage: 'Do not create issues in the production project. Use the staging project.',
           ),
       ],
   );
@@ -1284,25 +1288,25 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
   ```ruby Ruby
   # 允许该工具运行
   client.beta.sessions.events.send_(
-    session.id,
+    "sesn_011CZkZAtmR3yMPDzynEDxu7",
     events: [
       {
         type: "user.tool_confirmation",
-        tool_use_id: agent_tool_use_event.id,
+        tool_use_id: "sevt_011CZkZbMpR8aS3Wtv5Yq2Ln",
         result: "allow"
       }
     ]
   )
 
-  # 或拒绝执行并给出说明
+  # 拒绝另一个调用并附上说明
   client.beta.sessions.events.send_(
-    session.id,
+    "sesn_011CZkZAtmR3yMPDzynEDxu7",
     events: [
       {
         type: "user.tool_confirmation",
-        tool_use_id: mcp_tool_use_event.id,
+        tool_use_id: "sevt_011CZkZcNqT9bT4Xuw6Zr3Mo",
         result: "deny",
-        deny_message: "Don't create issues in the production project. Use the staging project."
+        deny_message: "Do not create issues in the production project. Use the staging project."
       }
     ]
   )
@@ -1351,10 +1355,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

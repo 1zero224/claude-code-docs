@@ -32,6 +32,7 @@ featureMetadata:
     Amazon Bedrock: stable
     Amazon Bedrock (bedrock-runtime): stable
     Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
     Claude Models on Google Cloud (Google managed): stable
     Microsoft Foundry: stable
 ---
@@ -1595,7 +1596,7 @@ Claude 识别出语法错误，并使用 `str_replace` 命令进行修复：
       func handleEditorTool(input map[string]any) string {
       	command, _ := input["command"].(string)
       	filePath, _ := input["path"].(string)
-      // ...
+      	// ...
 
       	switch command {
       	case "view":
@@ -1739,7 +1740,7 @@ Claude 识别出语法错误，并使用 `str_replace` 命令进行修复：
       		result := handleEditorTool(input)
 
       		toolResult := anthropic.NewToolResultBlock(block.ID, result, false)
-      // ...
+      		// ...
       	}
       }
       ```
@@ -2314,9 +2315,9 @@ Claude 识别出语法错误，并使用 `str_replace` 命令进行修复：
 
 * 可用性：可用
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| -- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 可用 | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 状态 | 云平台     |
+| -- | ------- |
+| 可用 | 所有支持的平台 |
 
 ### 数据处理
 

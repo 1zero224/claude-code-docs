@@ -49,7 +49,7 @@ description: 一个开源的 Agent Skill，为 Claude 提供最新的 API 参考
 * 您请求 Claude 帮助使用 Claude API、Anthropic SDK 或 Managed Agents 构建、调试或优化某些内容
 * 您在文件中添加、修改或调整 Claude 功能（提示缓存、自适应思考、压缩、工具使用、批处理、文件、引用、记忆）或模型引用
 
-**手动调用**发生在您在任何安装了该 skill 的环境中输入 `/claude-api`（可附带可选的子命令或文字描述）时。
+**手动调用**发生在您在任何安装了该技能的环境中输入 `/claude-api`（可附带可选的子命令或文字描述）时。
 
 该技能不会针对一般编程任务、机器学习/数据科学工作或导入其他 AI SDK（例如 OpenAI）的代码激活。
 
@@ -133,7 +133,7 @@ Claude API 技能可以在整个代码库中执行 Claude 模型迁移。使用 
 /claude-api migrate 将 apps/api.py 和 apps/worker.py 迁移到最新的 Claude Opus 模型
 ```
 
-当范围不明确时（例如，单独的 `/claude-api migrate to claude-opus-5-5`），该 skill 会在编辑任何文件之前要求您在整个工作目录、特定子目录或明确的文件列表之间进行选择。这同时适用于 Messages API 和 Managed Agents 的调用方。
+当范围不明确时（例如，单独的 `/claude-api migrate to claude-opus-5-5`），该技能会在编辑任何文件之前要求您在整个工作目录、特定子目录或明确的文件列表之间进行选择。这同时适用于 Messages API 和 Managed Agents 的调用方。
 
 该技能处理以下内容：
 
@@ -171,7 +171,7 @@ Claude API 技能可以在整个代码库中执行 Claude 模型迁移。使用 
 
 ## 检查集成的保留思考
 
-“Preserved thinking”（[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)）仅在其之前的 `system` 提示、`tools` 和消息保持不变时，才会使 `thinking` 块保持有效。要查找并修复代码中编辑该历史记录的位置，请打开构建请求的代码仓库，并调用 `preserved-thinking-migration` 子命令：
+“Preserved thinking”（[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)）仅在其之前的 `system` 提示、`tools` 和消息保持不变时，才会使 `thinking` 块保持有效。要查找并修复代码中编辑该历史的位置，请打开构建请求的代码仓库，并调用 `preserved-thinking-migration` 子命令：
 
 让 Claude Code 为您检查代码
 
@@ -184,7 +184,7 @@ Claude API 技能可以在整个代码库中执行 Claude 模型迁移。使用 
 1. **确定范围：** 检查您的集成是否受到影响，然后发送三个测试请求，以确认 API 会报告有意的编辑。
 2. **查找：** 捕获您自己的几个多轮会话，对比连续请求之间的差异，并列出代码编辑前缀的每个位置。
 3. **衡量：** 使用 `"drop_block"` 重放这些会话，并报告哪些对话丢失了 `thinking` 块、在哪一轮以及原因。
-4. **修复：** 每次将一处编辑替换为[在不编辑前缀的情况下进行更改](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#replace-prefix-edits)中的对应模式，并在每次更改后重新衡量。
+4. **修复：** 将每处编辑替换为[更改工具或指令而不会导致前缀检查失败](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions)中的对应模式，并在每次更改后重新衡量。
 5. **报告：** 总结每个原因、为其所做的更改以及更改前后的计数。
 
 如果您的项目有评估（eval），该技能还会比较有无丢弃 `thinking` 块时的分数和令牌用量。
@@ -201,7 +201,7 @@ Claude API 技能可以在整个代码库中执行 Claude 模型迁移。使用 
 /claude-api managed-agents-onboard
 ```
 
-该 skill 会运行一个访谈，引导您了解 Managed Agents 的心智模型（智能体配置与会话），为智能体配置生成模板，配置环境和工具，设置会话循环，并为您的语言生成可运行的代码。该 skill 还涵盖强制性的**智能体（一次）→ 会话（每次运行）** 流程：`model`、`system` 和 `tools` 位于智能体上，而不在会话上，您只需创建每个智能体一次，并通过 ID 引用它。
+该技能会运行一个访谈，引导您了解 Managed Agents 的心智模型（智能体配置与会话），为智能体配置生成模板，配置环境和工具，设置会话循环，并为您的语言生成可运行的代码。该技能还涵盖强制性的**智能体（一次）→ 会话（每次运行）** 流程：`model`、`system` 和 `tools` 位于智能体上，而不在会话上，您只需创建每个智能体一次，并通过 ID 引用它。
 
 Managed Agents 需要 `managed-agents-2026-04-01` beta 标头，SDK 会为所有 `client.beta.agents.*`、`client.beta.environments.*`、`client.beta.sessions.*` 和 `client.beta.vaults.*` 调用自动设置该标头。
 
@@ -215,7 +215,7 @@ Managed Agents 需要 `managed-agents-2026-04-01` beta 标头，SDK 会为所有
 /claude-api managed-agents-secure
 ```
 
-在子命令后添加智能体的 ID，否则该技能会向您询问。该技能会获取该指南，然后读取智能体、其最近的会话和[计划部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)，以及它们使用的环境和保管库。除非您要求不这样做，否则它还会在当前文件夹的文件中搜索看起来像密钥的文本。它只列出匹配文件的名称。它不会更改任何内容。报告会列出每项需要更改的设置及其推荐值、只有您才能回答的问题，以及它未读取的内容。
+在子命令后添加智能体的 ID，否则该技能会向您询问。该技能会获取该指南，然后读取智能体、其最近的会话和[计划部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)，以及它们使用的环境和保管库。除非您要求不这样做，否则它还会在当前文件夹的文件中搜索看起来像机密密钥的文本。它只列出匹配文件的名称。它不会更改任何内容。报告会列出每项需要更改的设置及其推荐值、只有您才能回答的问题，以及它未读取的内容。
 
 该技能使用 `ant` CLI 读取智能体，因此请先按照 [CLI 快速入门](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/quickstart)所示，为智能体的工作区设置 CLI。它需要最新版本的 Claude Code；运行 `claude update` 进行升级。
 

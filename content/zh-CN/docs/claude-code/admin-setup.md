@@ -59,7 +59,7 @@ plist 和 HKLM 注册表位置适用于任何提供商，并且由于需要管�
 
 默认情况下，WSL 仅读取 `/etc/claude-code` 处的 Linux 文件路径。要将您的 Windows 注册表和 `C:\Program Files\ClaudeCode` 策略扩展到同一台机器上的 WSL，请在这些仅限管理员的 Windows 来源之一中设置 [`wslInheritsWindowsSettings: true`](https://code.claude.com/docs/zh-CN/settings-reference#wslinheritswindowssettings)。
 
-无论您选择哪种机制，托管值都优先于用户和项目设置，除了一些安全敏感的[例外](https://code.claude.com/docs/zh-CN/settings.md#exceptions-to-managed-settings-precedence)。数组设置（如 `permissions.allow` 和 `permissions.deny`）合并来自所有源的条目，因此开发人员可以扩展托管列表但不能从中删除。对于 `fallbackModel`、`availableModels` 和 [`modelPicker`](https://code.claude.com/docs/zh-CN/settings-reference#modelpicker)，托管值替换较低层而不是合并。
+无论您选择哪种机制，托管值都优先于用户和项目设置，除了一些安全敏感的[例外](https://code.claude.com/docs/zh-CN/settings.md#exceptions-to-managed-settings-precedence)。数组设置（如 `permissions.allow` 和 `permissions.deny`）会将来自[较低优先级设置](https://code.claude.com/docs/zh-CN/settings.md#lists-merge-instead-of-overriding)的条目合并到[适用的托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md#how-claude-code-combines-managed-sources)中，因此开发人员可以扩展托管列表但不能从中删除。对于 `fallbackModel`、`availableModels` 和 [`modelPicker`](https://code.claude.com/docs/zh-CN/settings-reference#modelpicker)，托管值替换较低层而不是合并。
 
 ### WSL 会话在 Claude Code Desktop 中
 
@@ -112,7 +112,7 @@ WSL 2 实用程序 VM 内的进程对 Windows 端端点检测传感器不可见�
 如果您的成员通过 claude.ai 或 Anthropic API 登录，并且您使用的是 Claude Enterprise 计划，您还可以在组织的管理设置中管理模型，无需部署任何内容：
 
 * [组织模型限制](https://code.claude.com/docs/zh-CN/model-config.md#organization-model-restrictions)：禁用单个模型。在服务器端强制执行。
-* [组织默认模型](https://code.claude.com/docs/zh-CN/model-config.md#organization-default-model)：设置新会话启动时使用的模型。成员仍可切换模型。若要在启动时将其恢复为您的默认模型，请打开该章节中描述的覆盖选项。若要限制他们可以选择的模型，请使用[组织模型限制](https://code.claude.com/docs/zh-CN/model-config.md#organization-model-restrictions)。
+* [组织默认模型](https://code.claude.com/docs/zh-CN/model-config.md#organization-default-model)：设置新会话启动时使用的模型。成员仍可切换模型。若要将其恢复为您的默认模型，请打开该章节中描述的覆盖选项。若要限制他们可以选择的模型，请使用[组织模型限制](https://code.claude.com/docs/zh-CN/model-config.md#organization-model-restrictions)。
 * [组织 effort 限制](https://code.claude.com/docs/zh-CN/model-config.md#organization-effort-limits)：按角色限制 effort 级别上限。在服务器端强制执行。
 
 这些控制项均不作用于 Amazon Bedrock、Google Cloud 的 Agent Platform、Microsoft Foundry 或 [Claude Platform on AWS](https://code.claude.com/docs/zh-CN/claude-platform-on-aws.md) 上的会话。在这些提供商上，请改用托管设置：用 `availableModels` 进行限制，用 `model` 设置默认模型，用 [`maxEffortLevel`](https://code.claude.com/docs/zh-CN/settings-reference#maxeffortlevel) 设置 effort 上限。

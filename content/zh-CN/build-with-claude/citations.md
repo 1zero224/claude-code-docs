@@ -32,6 +32,7 @@ featureMetadata:
     Amazon Bedrock: stable
     Amazon Bedrock (bedrock-runtime): stable
     Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
     Claude Models on Google Cloud (Google managed): stable
     Microsoft Foundry: stable
 ---
@@ -259,7 +260,7 @@ Claude 在回答有关文档的问题时可以提供详细的 “citations”（
       .build();
 
   Message message = client.messages().create(params);
-  System.out.println(message);
+  IO.println(message);
   ```
 
   ```php PHP
@@ -275,7 +276,7 @@ Claude 在回答有关文档的问题时可以提供详细的 “citations”（
                       'type' => 'document',
                       'source' => [
                           'type' => 'text',
-                          'media_type' => 'text/plain',
+                          'mediaType' => 'text/plain',
                           'data' => 'The grass is green. The sky is blue.',
                       ],
                       'title' => 'My Document',
@@ -343,27 +344,27 @@ Claude 在回答有关文档的问题时可以提供详细的 “citations”（
 
 ## 引用的工作原理
 
-按以下步骤将引用功能与 Claude 集成：
+引用功能分三个阶段工作：
 
 <Steps>
-  <Step title="提供文档并启用引用">
+  <Step title="您提供文档并启用引用">
     * 以任一受支持的格式包含文档：[PDF](https://platform.claude.com/docs/zh-CN/build-with-claude/citations#pdf-documents)、[纯文本](https://platform.claude.com/docs/zh-CN/build-with-claude/citations#plain-text-documents)或[自定义内容](https://platform.claude.com/docs/zh-CN/build-with-claude/citations#custom-content-documents)文档。
-    * 在每个文档上设置 `citations.enabled=true`。目前，在一个请求中必须对所有文档全部启用或全部不启用引用。
-    * 目前仅支持文本引用。尚不支持图像引用。
+    * 在每个文档上设置 `citations.enabled=true`。一个请求不能混用启用了引用的文档和未启用引用的文档。
+    * Claude 可以引用文本，但不能引用图像。
   </Step>
 
-  <Step title="文档被处理">
+  <Step title="API 处理文档">
     * 文档内容会被 “chunked”（分块），以定义可能引用的最小粒度。例如，句子分块允许 Claude 引用单个句子，或将多个连续句子串联起来以引用一个段落或更长的篇幅。
 
-      * **对于 PDF：** 按照 [PDF 支持](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support)中所述提取文本，并将内容分块为句子。目前不支持引用 PDF 中的图像。
-      * **对于纯文本文档：** 内容被分块为可供引用的句子。
-      * **对于自定义内容文档：** 您提供的内容块按原样使用，不做进一步分块。
+      * **对于 PDF：** API 按照 [PDF 支持](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support)中所述提取文本，并将其分块为句子。Claude 无法引用 PDF 中的图像。
+      * **对于纯文本文档：** API 将内容分块为句子。
+      * **对于自定义内容文档：** API 按原样使用您的内容块，不做进一步分块。
   </Step>
 
-  <Step title="Claude 提供带引用的回答">
-    * 回答现在可能包含多个文本块，每个文本块可以包含 Claude 提出的陈述以及支持该陈述的引用列表。
+  <Step title="Claude 给出带引用的回答">
+    * 回答可能包含多个文本块。每个文本块可以包含 Claude 提出的陈述以及支持该陈述的引用列表。
 
-    * 引用指向源文档中的特定位置。这些引用的格式取决于被引用文档的类型。
+    * 引用指向源文档中的特定位置。引用的格式取决于 Claude 所引用文档的类型。
 
       * **对于 PDF：** 引用包含页码范围（从 1 开始索引）。
       * **对于纯文本文档：** 引用包含字符索引范围（从 0 开始索引）。
@@ -472,8 +473,6 @@ Answer with one line per field in the form "field: value", and cite the document
 4. 检查每个字段是否都有值且至少有一个引用。API 不保证这两点。
 
 ### 将提示缓存与引用结合使用
-
-引用和提示缓存可以有效地结合使用。
 
 响应中生成的引用块无法直接缓存，但它们所引用的源文档可以被缓存。为了优化性能，请将 `cache_control` 应用于您的顶层文档内容块。
 
@@ -703,7 +702,7 @@ Answer with one line per field in the form "field: value", and cite the document
       .build();
 
   Message message = client.messages().create(params);
-  System.out.println(message);
+  IO.println(message);
   ```
 
   ```php PHP
@@ -724,11 +723,11 @@ Answer with one line per field in the form "field: value", and cite the document
                       'type' => 'document',
                       'source' => [
                           'type' => 'text',
-                          'media_type' => 'text/plain',
+                          'mediaType' => 'text/plain',
                           'data' => $longDocument,
                       ],
                       'citations' => ['enabled' => true],
-                      'cache_control' => ['type' => 'ephemeral'], // Cache the document content
+                      'cacheControl' => ['type' => 'ephemeral'], // Cache the document content
                   ],
                   [
                       'type' => 'text',
@@ -810,7 +809,7 @@ Answer with one line per field in the form "field: value", and cite the document
 
 <Tabs>
   <Tab title="内联文本">
-    本页顶部的入门示例展示了每种 SDK 中完整的纯文本请求。文档块使用 `text` 源：
+    有关完整的纯文本请求，请参阅本页的第一个示例。文档块使用 `text` 源：
 
     ```json
     {
@@ -828,7 +827,7 @@ Answer with one line per field in the form "field: value", and cite the document
   </Tab>
 
   <Tab title="Files API">
-    这些示例将通过 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) 上传的文件作为 `document` 源进行引用。
+    在这些示例中，`document` 块的 `source` 引用了通过 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) 上传的文件。每个示例中的文件 ID 是上传时返回的 `id`（请参阅[上传文件](https://platform.claude.com/docs/zh-CN/build-with-claude/files#uploading-a-file)）。
 
     <CodeGroup>
       ```bash cURL
@@ -1004,7 +1003,7 @@ Answer with one line per field in the form "field: value", and cite the document
           .build();
 
       Message citedMessage = client.messages().create(citedParams);
-      System.out.println(citedMessage);
+      IO.println(citedMessage);
       ```
 
       ```php PHP
@@ -1025,7 +1024,7 @@ Answer with one line per field in the form "field: value", and cite the document
                   ],
               ],
           ],
-          model: 'claude-opus-5-5',
+          model: Model::CLAUDE_OPUS_5_5,
       );
 
       echo $citedResponse;
@@ -1076,7 +1075,9 @@ Answer with one line per field in the form "field: value", and cite the document
 
 ### PDF 文档
 
-PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PDF 文本会被提取并分块为句子。由于尚不支持图像引用，因此作为文档扫描件且不包含可提取文本的 PDF 无法被引用。
+您可以以 base64 编码数据、URL 或 `file_id` 的形式提供 PDF 文档。API 会提取其文本并将其分块为句子。
+
+Claude 无法引用图像，因此无法引用作为文档扫描件且不包含可提取文本的 PDF。
 
 <Tabs>
   <Tab title="Base64">
@@ -1088,32 +1089,34 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
         -H "content-type: application/json" \
         -H "x-api-key: $ANTHROPIC_API_KEY" \
         -H "anthropic-version: 2026-10-21" \
-        -d '{
-          "model": "claude-opus-5-5",
-          "max_tokens": 1024,
-          "messages": [
-            {
-              "role": "user",
-              "content": [
-                {
-                  "type": "document",
-                  "source": {
-                    "type": "base64",
-                    "media_type": "application/pdf",
-                    "data": "'"$PDF_BASE64"'"
-                  },
-                  "title": "Document Title",
-                  "context": "Context about the document that will not be cited from",
-                  "citations": {"enabled": true}
+        -d @- <<EOF
+      {
+        "model": "claude-opus-5-5",
+        "max_tokens": 1024,
+        "messages": [
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "document",
+                "source": {
+                  "type": "base64",
+                  "media_type": "application/pdf",
+                  "data": "$PDF_BASE64"
                 },
-                {
-                  "type": "text",
-                  "text": "Summarize this document."
-                }
-              ]
-            }
-          ]
-        }'
+                "title": "Document Title",
+                "context": "Context about the document that will not be cited from",
+                "citations": {"enabled": true}
+              },
+              {
+                "type": "text",
+                "text": "Summarize this document."
+              }
+            ]
+          }
+        ]
+      }
+      EOF
       ```
 
       ```bash CLI
@@ -1305,13 +1308,15 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
           .build();
 
       Message message = client.messages().create(params);
-      System.out.println(message);
+      IO.println(message);
       ```
 
       ```php PHP
       $client = new Client();
 
-      $pdfBase64 = base64_encode(file_get_contents('/path/to/document.pdf'));
+      $pdfBytes = file_get_contents('/path/to/document.pdf')
+          ?: throw new \RuntimeException('Could not read /path/to/document.pdf.');
+      $pdfBase64 = base64_encode($pdfBytes);
 
       $response = $client->messages->create(
           maxTokens: 1024,
@@ -1323,7 +1328,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
                           'type' => 'document',
                           'source' => [
                               'type' => 'base64',
-                              'media_type' => 'application/pdf',
+                              'mediaType' => 'application/pdf',
                               'data' => $pdfBase64,
                           ],
                           'title' => 'Document Title',
@@ -1337,7 +1342,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
                   ],
               ],
           ],
-          model: 'claude-opus-5-5',
+          model: Model::CLAUDE_OPUS_5_5,
       );
 
       echo json_encode($response, JSON_PRETTY_PRINT);
@@ -1586,7 +1591,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
           .build();
 
       Message message = client.messages().create(params);
-      System.out.println(message);
+      IO.println(message);
       ```
 
       ```php PHP
@@ -1615,7 +1620,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
                   ],
               ],
           ],
-          model: 'claude-opus-5-5',
+          model: Model::CLAUDE_OPUS_5_5,
       );
 
       echo json_encode($response, JSON_PRETTY_PRINT);
@@ -1625,7 +1630,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
       client = Anthropic::Client.new
 
       response = client.messages.create(
-        model: "claude-opus-5-5",
+        model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 1024,
         messages: [
           {
@@ -1656,7 +1661,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
   </Tab>
 
   <Tab title="Files API">
-    这些示例将通过 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) 上传的文件作为 `document` 源进行引用。
+    在这些示例中，`document` 块的 `source` 引用了通过 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) 上传的文件。每个示例中的文件 ID 是上传时返回的 `id`（请参阅[上传文件](https://platform.claude.com/docs/zh-CN/build-with-claude/files#uploading-a-file)）。
 
     <CodeGroup>
       ```bash cURL
@@ -1832,7 +1837,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
           .build();
 
       Message citedMessage = client.messages().create(citedParams);
-      System.out.println(citedMessage);
+      IO.println(citedMessage);
       ```
 
       ```php PHP
@@ -1853,7 +1858,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
                   ],
               ],
           ],
-          model: 'claude-opus-5-5',
+          model: Model::CLAUDE_OPUS_5_5,
       );
 
       echo $citedResponse;
@@ -1904,7 +1909,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
 
 ### 自定义内容文档
 
-自定义内容文档让您可以控制引用粒度。不会进行额外的分块，各块将按照所提供的内容块提供给模型。
+自定义内容文档让您可以控制引用粒度。在文档的 `source` 中，`type` 为 `content`，`content` 字段包含一个内容块列表。API 不做进一步分块：您提供的每个文本块就是一个块，即 Claude 可以引用的最小单位。
 
 <CodeGroup>
   ```bash cURL
@@ -2142,7 +2147,7 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
       .build();
 
   Message message = client.messages().create(params);
-  System.out.println(message);
+  IO.println(message);
   ```
 
   ```php PHP
@@ -2374,9 +2379,9 @@ PDF 文档可以以 base64 编码数据、URL 或 `file_id` 的形式提供。PD
 
 * 可用性：可用
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| -- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 可用 | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 状态 | 云平台     |
+| -- | ------- |
+| 可用 | 所有支持的平台 |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 

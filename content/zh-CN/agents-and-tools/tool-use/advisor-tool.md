@@ -443,7 +443,15 @@ Advisor 工具还接受任何工具定义都可用的通用属性：`cache_contr
 
 在后续请求中，将完整的助手内容（包括 `advisor_tool_result` 块）传回 API。请原样回传结果块。如本示例所示，使用最新的 Opus 模型作为顾问时，结果块的 `content` 是加密的 `advisor_redacted_result` 变体。在下一个请求中，服务器会将其解密并把建议渲染到执行器的提示中（请参阅[结果变体](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#result-variants)）。对于任何顾问模型，其机制都是相同的。
 
-<CodeGroup exclude="shell">
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    此工作流需要的逻辑超出了单条 shell 命令所能实现的范围。请使用 Anthropic SDK 运行它。
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    此工作流需要的逻辑超出了单条 shell 命令所能实现的范围。请使用 Anthropic SDK 运行它。
+  </CodeGroupItem>
+
   ```python Python
   client = anthropic.Anthropic()
 
@@ -744,24 +752,23 @@ Advisor 工具还接受任何工具定义都可用的通用属性：`cache_contr
   ```
 </CodeGroup>
 
-当消息历史记录仍然包含 `advisor_tool_result` 块时，您可以在后续请求中从 `tools` 中删除 Advisor 工具。API 会接受该请求并保留历史块，但模型无法在该请求中调用顾问。需满足两个条件：
+当消息历史记录仍然包含 `advisor_tool_result` 块时，您可以在后续请求中从 `tools` 中移除 Advisor 工具。API 会接受该请求并保留历史块，但模型无法在该请求中调用顾问。需满足两个条件：
 
 * **没有仍在等待中的顾问调用。** 请参阅[恢复暂停的回合](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#resuming-a-paused-turn)。
 * **您仍然发送 `advisor-tool-2026-03-01` 测试版标头。** API 需要该标头才能接受这些历史块。该标头仅适用于 `advisor_tool_result` 块，而不适用于思考块。
 
-**例外情况：历史记录中还包含思考块。** 删除 Advisor 工具属于[对 `tools` 的编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#what-counts-as-an-edit)。更改其 `model` 或 `caching` 也同样如此。对 `tools` 的编辑会使历史记录中已有的思考块失效。
+**例外情况：历史记录中还包含思考块。** 删除 Advisor 工具属于[对 `tools` 的编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#what-counts-as-an-edit)。更改其 `model`、`max_uses`、`max_tokens` 或 `caching` 也同样如此。对 `tools` 的编辑会使历史记录中已有的思考块失效。
 
-* **会发生什么：** 在 API 强制执行[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)的情况下，该请求会返回 400 错误。
-* **API 在何处强制执行：** 当执行器为 Claude Fable 5.2 或 Claude Mythos 5.2 时，对所有账户强制执行。对于其他执行器，请参阅[未设置 `prefix_mismatch_behavior` 时](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#enforcement)中的表格。
+* **会发生什么：** 如果执行器模型[会运行前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#enforcement)，该请求可能会收到 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。
 * **如何继续：** 在该请求以及对话中所有后续请求上将 `thinking.block_binding.prefix_mismatch_behavior` 设置为 `"drop_block"`。API 随后会丢弃这些思考块。此设置处于测试阶段，需要 `thinking-binding-controls-2026-08-01` 测试版标头。
 
 <Note>
-  Advisor 工具没有内置的对话级别上限。要限制整个对话中的顾问调用，请在客户端对它们进行计数。当您达到上限时，从 `tools` 数组中删除 Advisor 工具。您无需从消息历史记录中剥离 `advisor_tool_result` 块。如果您的历史记录中还包含思考块，请先阅读上述例外情况。在这种情况下，在强制执行前缀检查时，除非您设置 `"drop_block"`，否则该请求会返回 400 错误。
+  Advisor 工具没有内置的对话级别上限。要限制整个对话中的顾问调用，请在客户端对它们进行计数。当您达到上限时，从 `tools` 数组中删除 Advisor 工具。您无需从消息历史记录中剥离 `advisor_tool_result` 块。如果您的历史记录中还包含思考块，请先阅读上述例外情况。在这种情况下，除非您设置 `"drop_block"`，否则该请求可能会收到 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。
 </Note>
 
 ### 恢复暂停的回合
 
-响应可能以 `stop_reason: "pause_turn"` 结束，而顾问调用仍在等待中。发生这种情况时，响应包含顾问的 `server_tool_use` 块，但没有对应的 `advisor_tool_result`。要恢复，请将该助手消息附加到 `messages`，其内容保持不变，保留 `server_tool_use` 块，并使用相同的 Advisor 工具和测试版标头再次发送请求。您无需添加用户消息或 `tool_result` 块。API 运行待处理的顾问调用，并在新响应中继续执行器的回合。恢复的回合可能会再次暂停。如果发生这种情况，请重复相同的步骤。从恢复请求中省略 Advisor 工具会返回 400 `invalid_request_error`，因为待处理的 `server_tool_use` 块没有可运行的工具定义；每当有调用待处理时都要包含该工具。如果执行器在同一回合中调用了您的某个工具，则响应以 `stop_reason: "tool_use"` 结束，而顾问调用仍在等待中。像往常一样发送 `tool_result` 块，待处理的顾问调用将在下一个请求开始时运行。请参阅[在一个回合中混合服务器工具和客户端工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#mixing-server-tools-and-client-tools-in-one-turn)。
+响应可能以 `stop_reason: "pause_turn"` 结束，而顾问调用仍在等待中。发生这种情况时，响应包含顾问的 `server_tool_use` 块，但没有对应的 `advisor_tool_result`。要恢复，请将该助手消息附加到 `messages`，其内容保持不变，保留 `server_tool_use` 块，并使用相同的 Advisor 工具和测试版标头再次发送请求。您无需添加用户消息或 `tool_result` 块。API 运行待处理的顾问调用，并在新响应中继续执行器的回合。恢复的回合可能会再次暂停。如果发生这种情况，请重复相同的步骤。从恢复请求中省略 Advisor 工具会返回 400 `invalid_request_error`，因为待处理的 `server_tool_use` 块没有可运行的工具定义；每当有调用待处理时都要包含该工具。如果执行器在同一回合中调用了您的某个工具，则响应以 `stop_reason: "tool_use"` 结束，而顾问调用仍在等待中。像往常一样发送 `tool_result` 块，待处理的顾问调用将在下一个请求开始时运行。请参阅[在一个轮次中混合使用服务器工具和客户端工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#mixing-server-tools-and-client-tools-in-one-turn)。
 
 ### 针对调用不足的执行器的对话中途提醒
 
@@ -769,7 +776,15 @@ Advisor 工具还接受任何工具定义都可用的通用属性：`cache_contr
 
 在默认 `NUDGE_TURN` 为 2 的情况下，提醒通常会在模型已经熟悉任务、但尚未确定方法之前到达。
 
-<CodeGroup exclude="shell">
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    此工作流需要的逻辑超出了单条 shell 命令所能实现的范围。请使用 Anthropic SDK 运行它。
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    此工作流需要的逻辑超出了单条 shell 命令所能实现的范围。请使用 Anthropic SDK 运行它。
+  </CodeGroupItem>
+
   ```python Python
   client = anthropic.Anthropic()
 
@@ -1264,7 +1279,7 @@ Advisor 工具还接受任何工具定义都可用的通用属性：`cache_contr
   ```
 </CodeGroup>
 
-当停止原因不是 `tool_use` 或 `pause_turn` 时，循环结束。如果 `max_tokens` 截断了响应，请从 `messages` 中删除被截断的助手回合，并[使用更高的 `max_tokens` 重试](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#max-tokens)。当该回合不包含 `tool_use` 块时，您也可以保留它，并通过新的用户消息[继续响应](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#ensuring-complete-responses)。将被截断的助手回合作为最后一条消息重新发送属于 [prefill](https://platform.claude.com/docs/zh-CN/api/errors#prefill-not-supported)（预填充），Claude 4.6 及更高版本的模型会拒绝这种做法。
+当停止原因不是 `tool_use` 或 `pause_turn` 时，循环结束。如果 `max_tokens` 截断了响应，请从 `messages` 中移除被截断的助手回合，并[使用更高的 `max_tokens` 重试](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#max-tokens)。当该回合不包含 `tool_use` 块时，您也可以保留它，并通过新的用户消息[继续响应](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#ensuring-complete-responses)。将被截断的助手回合作为最后一条消息重新发送属于 [prefill](https://platform.claude.com/docs/zh-CN/api/errors#prefill-not-supported)（预填充），Claude 4.6 及更高版本的模型会拒绝这种做法。
 
 请将提醒作为独立的用户消息追加在工具结果之后，而不是作为同一消息中的同级块。连续的用户消息是有效的。在 Anthropic 针对 Claude Haiku 4.5 和 Sonnet 执行器的测试中，它们的表现与同级块相同。独立消息的形式还能使提醒与工具输出明确区分开来。
 
@@ -1436,7 +1451,7 @@ Advisor 工具还接受任何工具定义都可用的通用属性：`cache_contr
 **保持一致：** 设置一次 `caching` 后，在整个对话中保持不变。在对话中途关闭再开启会导致缓存未命中。每次切换也属于对 `tools` 的编辑。该编辑可能导致下一个请求返回 400 错误。[多轮对话](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#multi-turn-conversations)说明了何时会发生这种情况以及应如何设置。
 
 <Warning>
-  `keep` 值不是 `"all"` 的 [`clear_thinking`](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) 会在每一轮改变顾问的引用对话记录，导致顾问侧缓存未命中。这只会造成成本上升。建议 质量不受影响。当启用思考但没有显式的 `clear_thinking` 配置时，API 默认使用 `keep: {type: "thinking_turns", value: 1}`，这会触发此行为 （这是较早的 Opus 和 Sonnet 模型以及截至 Claude Haiku 4.5 的 Haiku 模型上的默认值；而在 Claude Opus 4.5 及更高版本的 Opus 模型、 Claude Sonnet 4.6 及更高版本的 Sonnet 模型以及 Claude Haiku 5.5 上，默认保留所有轮次）。请设置 `keep: "all"` 以保持顾问缓存的稳定性。
+  `keep` 值不是 `"all"` 的 [`clear_thinking`](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) 会在每一轮改变顾问的引用对话记录，导致顾问侧缓存未命中。这只会造成成本上升。建议 质量不受影响。当启用思考但没有显式的 `clear_thinking` 配置时，Claude Opus 4.5 之前的 Opus 模型、Claude Sonnet 4.6 之前的 Sonnet 模型以及截至 Claude Haiku 4.5 的 Haiku 模型 默认使用 `keep: {type: "thinking_turns", value: 1}`， 这会触发此行为。Claude Opus 4.5 及更高版本的 Opus 模型、Claude Sonnet 4.6 及更高版本的 Sonnet 模型、Claude Haiku 5.5 以及 Claude Fable 和 Claude Mythos 模型默认保留所有轮次。请设置 `keep: "all"` 以保持顾问缓存的稳定性。
 </Warning>
 
 ## 与其他工具组合使用
@@ -1608,12 +1623,12 @@ Advisor 工具可以与其他服务器端和客户端工具组合使用。将它
 
 执行器可以在同一回合中搜索网络、调用顾问并使用您的自定义工具。顾问的计划可以影响执行器接下来选用哪些工具。
 
-| 功能                                                                                | 交互                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)  | 支持。`usage.iterations` 按每个条目报告。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| [令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting)   | 仅返回执行器第一次迭代的输入令牌。若要粗略估算顾问用量，请调用 `client.beta.messages.count_tokens()` (typescript: `client.beta.messages.countTokens()`; go, csharp: `client.Beta.Messages.CountTokens()`; java: `client.beta().messages().countTokens()`; php: `$client->beta->messages->countTokens()`; cli: `ant beta:messages count-tokens`; curl: `POST /v1/messages/count_tokens`)，并将 `model` 设置为顾问模型，使用相同的消息。                                                                                                                                                                                                                                                            |
-| [上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) | `clear_tool_uses` 与 Advisor 工具块并不完全兼容。关于 `clear_thinking`，请参阅前面的缓存警告。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| `pause_turn`                                                                      | 当同一轮中没有等待您结果的客户端 `tool_use` 块时，悬而未决的顾问调用会使响应以 `stop_reason: "pause_turn"` 结束，并带有一个没有结果的 `server_tool_use` 块。顾问会在恢复时运行。如果执行器在该轮中还调用了您的某个工具，响应则会改为以 `stop_reason: "tool_use"` 结束，待处理的顾问调用会在您发送 `tool_result` 块后，于下一个请求开始时运行。请参阅[恢复暂停的轮次](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#resuming-a-paused-turn)、[在一个轮次中混合使用服务器工具和客户端工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#mixing-server-tools-and-client-tools-in-one-turn)以及[服务器端循环和 pause\_turn](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn)。 |
+| 功能                                                                                | 交互                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)  | 支持。`usage.iterations` 按每个条目报告。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| [令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting)   | 仅返回执行器第一次迭代的输入令牌。若要粗略估算顾问用量，请调用 `client.beta.messages.count_tokens()` (typescript: `client.beta.messages.countTokens()`; go, csharp: `client.Beta.Messages.CountTokens()`; java: `client.beta().messages().countTokens()`; php: `$client->beta->messages->countTokens()`; cli: `ant beta:messages count-tokens`; curl: `POST /v1/messages/count_tokens`)，并将 `model` 设置为顾问模型，使用相同的消息。                                                                                                                                                                                                                                                              |
+| [上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) | `clear_tool_uses` 与 Advisor 工具块并不完全兼容。关于 `clear_thinking`，请参阅前面的缓存警告。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `pause_turn`                                                                      | 当同一回合中没有等待您结果的客户端 `tool_use` 块时，悬而未决的顾问调用会使响应以 `stop_reason: "pause_turn"` 结束，并带有一个没有结果的 `server_tool_use` 块。顾问会在恢复时运行。如果执行器在该回合中还调用了您的某个工具，响应则会改为以 `stop_reason: "tool_use"` 结束，待处理的顾问调用会在您发送 `tool_result` 块后，于下一个请求开始时运行。请参阅[恢复暂停的回合](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#resuming-a-paused-turn)、[在一个轮次中混合使用服务器工具和客户端工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#mixing-server-tools-and-client-tools-in-one-turn)以及[服务器端循环和 pause\_turn](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn)。 |
 
 ## 最佳实践
 
@@ -1696,7 +1711,7 @@ Call advisor for design, architecture, and risk questions where you won't touch 
 Hard rule: your first write_file, edit_file, or state-changing bash call on a task must be preceded by an advisor call in the same or an earlier turn. Read-only orientation commands (ls, cat, grep, find) are not state-changing. This is a checkpoint, not a difficulty judgment. It applies to one-line edits too.
 ```
 
-**注意事项：** 在 Anthropic 的测试中，此块的一个接近变体（Hard 规则中的只读例外是在测量后添加的）将调用不足任务的通过率提高了大约 7 到 10 个百分点，但导致 Opus 在首次操作不需要规划的任务上过度调用。在混合工作负载上的净效果大致持平。仅当您观察到 Opus 在咨询本会有帮助的任务上跳过顾问时才添加它。不要将其作为默认值添加。
+**注意事项：** 在 Anthropic 的测试中，此块的一个接近变体（Hard rule 中的只读例外是在测量后添加的）将调用不足任务的通过率提高了大约 7 到 10 个百分点，但导致 Opus 在首次操作不需要规划的任务上过度调用。在混合工作负载上的净效果大致持平。仅当您观察到 Opus 在咨询本会有帮助的任务上跳过顾问时才添加它。不要将其作为默认值添加。
 
 #### 修剪顾问输出长度
 
@@ -1706,10 +1721,10 @@ Hard rule: your first write_file, edit_file, or state-changing bash call on a ta
 (Advisor: please keep your guidance under 80 words. I need a focused starting point, not a comprehensive plan.)
 ```
 
-此行可以由您的智能体框架在发送请求之前以编程方式添加前缀。该限制是软约束。顾问偶尔会超过它，因此请要求大约为您真实上限的 80%。
+您的智能体框架可以一次性添加此行前缀并一直保留。该限制是软约束。顾问可能会超过它，因此请要求大约为您真实上限的 80%。
 
 <Note>
-  在 Anthropic 的测试中，此行还增加了执行器咨询顾问的频率，但净效果仍然是更低的总成本（更多咨询，每次更短）。
+  在 Anthropic 的测试中，此行还增加了执行器咨询顾问的频率， 但净效果仍然是更低的总成本 （更多咨询，每次更短）。
 </Note>
 
 将此方法与[针对编码任务的建议系统提示](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#suggested-system-prompt-for-coding-tasks)中的时机指导（或者如果您切换了它，则使用[替代 Haiku 块](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#alternative-system-prompt-for-haiku-on-coding-workloads)）配对，以获得最强的成本与质量权衡。对于硬上限而不是软请求，请参阅[限制顾问输出](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#capping-advisor-output)。
@@ -1837,7 +1852,7 @@ Hard rule: your first write_file, edit_file, or state-changing bash call on a ta
 
 ### 成本控制
 
-* 对于对话级别的预算，请在客户端统计顾问调用次数。当您达到上限时，从 `tools` 中移除 Advisor 工具；您无需从消息历史中剥离 `advisor_tool_result` 块（请参阅[多轮对话](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#multi-turn-conversations)中的说明）。在 API 强制执行前缀检查的情况下，除非您将 `prefix_mismatch_behavior` 设置为 `"drop_block"`，否则移除该工具的请求会返回 400 错误，详见该部分。当执行器为 Claude Fable 5.2 或 Claude Mythos 5.2 时，API 会对所有账户强制执行该检查。
+* 对于对话级别的预算，请在客户端统计顾问调用次数。当您达到上限时，从 `tools` 中移除 Advisor 工具。您无需从消息历史中剥离 `advisor_tool_result` 块。如果您发回较早的思考块，移除该工具可能会返回 400 错误。为避免这种情况，请将 `prefix_mismatch_behavior` 设置为 `"drop_block"`，详见[多轮对话](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#multi-turn-conversations)。
 * 仅对您预期会有三次或更多顾问调用的对话启用 `caching`。
 
 ## 模型兼容性

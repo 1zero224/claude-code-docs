@@ -110,7 +110,7 @@ Claude Code 支持可自定义的快捷键。运行 `/keybindings` 来创建或�
 | :- | :- | :- |
 | `chat:cancel` | Escape | 取消当前输入 |
 | `chat:clearInput` | Ctrl+L | 强制全屏重绘，保留输入和对话 |
-| `chat:clearScreen` | Cmd+K | 与 `chat:clearInput` 相同。有关 Cmd+K 在 iTerm2 和 Terminal.app 上的行为，请参阅[清除对话](https://code.claude.com/docs/zh-CN/fullscreen.md#clear-the-conversation) |
+| `chat:clearScreen` | Cmd+K | 与 `chat:clearInput` 相同。有关 Cmd+K 在 iTerm2 上的行为，请参阅[清除对话](https://code.claude.com/docs/zh-CN/fullscreen.md#clear-the-conversation) |
 | `chat:killAgents` | Ctrl+X Ctrl+K | 停止此会话中所有正在运行的[后台子代理](https://code.claude.com/docs/zh-CN/sub-agents.md#run-subagents-in-foreground-or-background)，并在此会话剩余时间内关闭 [Artifact 自动回复](https://code.claude.com/docs/zh-CN/artifacts.md#let-claude-reply-to-comments-on-its-own)。在 3 秒内按两次快捷键以确认。在后台子代理的权限提示打开时也可以按下此快捷键 |
 | `chat:cycleMode` | Shift+Tab\* | 循环切换权限模式 |
 | `chat:modelPicker` | Meta+P | 打开模型选择器 |
@@ -581,7 +581,7 @@ ctrl+k ctrl+s   按 Ctrl+K，释放，然后按 Ctrl+S
 
 Claude Code 在 `ctrl+x` 前缀上按上下文绑定以下默认和弦：
 
-* `Chat`：`ctrl+x ctrl+k`、`ctrl+x ctrl+e`、`ctrl+x enter`、`ctrl+x ctrl+a`、`ctrl+x ctrl+s` 和 `ctrl+x tab`
+* `Chat`：`ctrl+x ctrl+k`、`ctrl+x ctrl+e`、`ctrl+x enter`、`ctrl+x ctrl+a`、`ctrl+x ctrl+s`、`ctrl+x tab`、`ctrl+x ctrl+=`、`ctrl+x ctrl+-`、`ctrl+x ctrl+_`、`ctrl+x =` 和 `ctrl+x -`
 * `Task`：`ctrl+x ctrl+b`
 * `DiffPanel`：`ctrl+x b`
 * `Pane`：`ctrl+x left`、`ctrl+x right`、`ctrl+x up`、`ctrl+x down` 和 `ctrl+x x`
@@ -631,6 +631,11 @@ Claude Code 在 `ctrl+x` 前缀上按上下文绑定以下默认和弦：
         "ctrl+x ctrl+a": null,
         "ctrl+x ctrl+s": null,
         "ctrl+x tab": null,
+        "ctrl+x ctrl+=": null,
+        "ctrl+x ctrl+-": null,
+        "ctrl+x ctrl+_": null,
+        "ctrl+x =": null,
+        "ctrl+x -": null,
         "ctrl+x": "chat:newline"
       }
     }
@@ -715,11 +720,10 @@ Claude Code 在 `ctrl+x` 前缀上按上下文绑定以下默认和弦：
 
 Claude Code 验证您的快捷键并向调试日志写入以下警告：
 
-* 解析错误（无效的 JSON 或结构）
-* 拼写错误的修饰符，例如 `ctl+k`。Claude Code 会删除它无法识别的部分，并将绑定应用于剩余的按键，在此示例中为 `k`。
+* 无效的 JSON
+* 拼写错误的修饰符，例如 `ctl+k`。Claude Code 会忽略整个绑定。请更正该修饰符，在此示例中应更正为 `ctrl+k`。
 * 按键字符串中 `+` 旁边有空格，例如 `ctrl+ k`。Claude Code 会将该字符串解读为由 `ctrl+` 后跟 `k` 组成的[组合键序列](#chords)。没有任何按键能单独匹配 `ctrl+`，因此该绑定永远不会触发。请删除该空格。
 * 无效的上下文名称
-* 无效的操作值，例如不是字符串或 `null` 的操作
 * 未知的操作名称，例如注册操作的拼写错误。Claude Code 跳过该绑定并保持该键的任何默认绑定有效。
 * 保留快捷键冲突
 * 同一上下文中的重复绑定

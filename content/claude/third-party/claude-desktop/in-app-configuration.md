@@ -10,7 +10,7 @@ The in-app configuration window is the recommended way to configure Claude Deskt
 
 ## Open the configuration window
 
-From the macOS menu bar (or on Windows, the application menu ☰ in the top-left of the sign-in screen), go to **Help → Troubleshooting → Enable Developer Mode**, then **Developer → Configure Third-Party Inference…**.
+From the macOS menu bar (or on Windows and Linux, the application menu ☰ in the top-left of the sign-in screen), go to **Help → Troubleshooting → Enable Developer Mode**, then **Developer → Configure Third-Party Inference…**.
 
 If you turn on Developer mode while the app is running a third-party configuration, it stays on across restarts. If you turned it on before that, the **Developer** menu is gone once the app relaunches into a third-party configuration, for example after **Apply Changes**. Go to **Help → Troubleshooting → Enable Developer Mode** again, and it stays on from then on. If the configuration sets [`developerModeEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#developermodeenabled) to `false`, neither that item nor the **Developer** menu appears.
 
@@ -33,13 +33,13 @@ Use the **Export** menu to generate deployment artifacts for a fleet:
 | `.mobileconfig` profile | Jamf or any macOS MDM |
 | `.reg` policy file | Intune, Group Policy, or any Windows MDM |
 | ADMX template (`.zip`) | Intune or Group Policy; a schema-only template, you enter values in the management console |
-| Profile Manifest (`.plist`) | Jamf, ProfileCreator, or similar macOS tools; a schema-only template, you enter values in your tool |
-| JSON config | The response body for a [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md), a file to import into the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#start-from-an-existing-configuration-file), or a file that a user loads with **Import configuration…** on a device without MDM |
+| Profile Manifest (`.plist`) | A profile editor such as iMazing Profile Editor or ProfileCreator; a schema-only template, you enter values there to build the profile that your MDM installs |
+| JSON config | The [Linux configuration file](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#the-linux-configuration-file), the response body for a [bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md), a file to import into the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#start-from-an-existing-configuration-file), or a file that a user loads with **Import configuration…** on a device without MDM |
 | Firewall allowlist (`.txt`) | Your firewall or network team |
 
 See [Deploy with MDM](https://claude.com/docs/third-party/claude-desktop/mdm.md) or [Deploy with a bootstrap server](https://claude.com/docs/third-party/claude-desktop/bootstrap.md) to distribute what you exported.
 
-When a managed profile is already present on the device, the window opens in read-only mode and shows the deployed values. Its **Export** menu offers **JSON config (redacted)**, a file to [import into the Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#start-from-an-existing-configuration-file). This option requires Claude Desktop 4.23118.0 or later. Author new configurations from a device without a managed profile.
+When a managed profile on the device sets any key other than the [app-behavior keys and the keys treated like them](https://claude.com/docs/third-party/claude-desktop/mdm.md#update-keys-and-managed-precedence), the window opens in read-only mode and shows the deployed values. Its **Export** menu offers **JSON config (redacted)**, a file to [import into the Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#start-from-an-existing-configuration-file). This option requires Claude Desktop 4.23118.0 or later. Author new configurations from a device without such a profile.
 
 ### Set up a device without MDM
 

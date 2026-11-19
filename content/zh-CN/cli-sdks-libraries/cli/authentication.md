@@ -4,7 +4,7 @@ url: https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/authenticatio
 description: 使用交互式登录、API 密钥、命名配置文件和工作负载身份联合对 ant CLI 进行身份验证。
 ---
 
-`ant` CLI 支持多种凭据来源。[快速入门](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/quickstart#authentication)介绍了一条命令即可完成的登录方式（`ant auth login`）。本页完整介绍每一种选项。
+`ant` CLI 支持多种凭据来源。[CLI 快速入门](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/quickstart#authentication)介绍了一条命令即可完成的登录方式（`ant auth login`）。本页完整介绍每一种选项。
 
 ## 交互式登录
 
@@ -19,29 +19,39 @@ ant auth login --no-browser
 # 绑定到特定工作区并跳过浏览器选择器：
 ant auth login --workspace-id wrkspc_01...
 
-# 如果您通过 --profile 传入的命名配置文件不存在，
-# 将使用该名称创建一个新的命名配置文件。
+# 如果您通过 --profile 指定的配置文件不存在，
+# 登录时会自动创建该配置文件。
 ant auth login --profile work
 ```
 
-在浏览器流程中，您需要选择一个组织，然后选择一个[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)。颁发的令牌[限定于该工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#api-keys-and-resource-scoping)，因此 CLI 只能看到属于该工作区的资源。传递 `--workspace-id` 可直接绑定并跳过选择器。要在多个工作区中工作，请参阅[在工作区之间切换](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/authentication#switch-between-workspaces)。
+CLI 将每次登录存储在一个配置文件下。首次在某个配置文件下登录时，您需要在浏览器中选择一个[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)。如果您属于多个 Claude Console 组织，则需要先选择组织。颁发的令牌[限定于该工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#api-keys-and-resource-scoping)，因此 CLI 只能看到属于该工作区的资源。传递 `--workspace-id` 可直接绑定到某个工作区并跳过工作区选择器。
+
+该配置文件会在后续登录中保留该组织和工作区。要在其他组织或工作区中工作，请在新的配置文件下登录（请参阅[在工作区之间切换](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/authentication#switch-between-workspaces)）。
 
 交互式登录适用于您自己机器上的本地开发和脚本编写。对于 CI、服务器和容器等非交互式工作负载，请改用[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)。
 
-登录会将凭据写入 `credentials/<profile>.json`。配置文件的首次登录还会创建 `configs/<profile>.json` 并将其设置为活动配置文件。要删除存储的凭据，请运行 `ant auth logout`，或运行 `ant auth logout --all` 以清除每个配置文件。
+登录会将凭据写入 `credentials/<profile>.json`。配置文件的首次登录还会创建 `configs/<profile>.json`。
+
+通过 `--profile` 或 `ANTHROPIC_PROFILE` 指定配置文件的登录会使该配置文件成为[活动配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/wif-reference#active-profile)。任何未指定配置文件的命令（包括登录）都会使用活动配置文件。在您将其他配置文件设为活动状态之前，活动配置文件为 `default`。
+
+要删除活动配置文件存储的凭据，请运行 `ant auth logout`。该配置文件会保留其组织和工作区。要清除每个配置文件（包括这些设置），请运行 `ant auth logout --all`。
 
 ## 管理员访问
 
-默认情况下，`ant auth login` 请求一个限定于工作区的令牌。要管理 [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 页面上记录的资源，请在专用配置文件下请求 `org:admin` 范围：
+默认情况下，`ant auth login` 请求一个限定于工作区的令牌。要管理 [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 页面上记录的资源，请在专用配置文件下请求 `org:admin` 范围。登录会使该配置文件成为活动配置文件，因此示例最后会切换回您的日常配置文件：
 
 ```bash CLI
 ant auth login --profile admin --scope "org:admin"
 
 # 打印用于 Authorization 标头的 bearer 令牌：
 ant auth print-credentials --profile admin --access-token
+
+# 切换回您日常使用的配置文件，即登录前处于活动状态的那个，
+# 例如 default：
+ant profile activate default
 ```
 
-`org:admin` 范围仅授予具有管理员、所有者或主要所有者角色的组织成员。颁发的令牌具有组织范围的访问权限，配置文件上的任何工作区绑定都不会对其进行约束。请将管理员配置文件与您的日常配置文件分开，这样常规命令就永远不会以提升的访问权限运行。
+Anthropic 仅向具有管理员角色的用户和服务账户授予 `org:admin` 范围。颁发的令牌具有组织范围的访问权限，配置文件上的任何工作区绑定都不会对其进行约束。请将管理员配置文件与您的日常配置文件分开，这样常规命令就永远不会以提升的访问权限运行。
 
 ## API 密钥
 
@@ -116,10 +126,11 @@ Workspace
 #    或传入 --workspace-id 以跳过选择器）：
 # ant auth login --profile other-ws
 
-# 2. 将其设为后续命令的默认值：
-ant profile activate other-ws
+# 2. 登录操作已将 other-ws 设为活动配置文件。切换回您日常使用的
+#    配置文件，例如 default：
+ant profile activate default
 
-# 3. 或在不更改默认值的情况下为单个命令选择它：
+# 3. 仅对一条命令使用 other-ws；后续命令仍使用 default：
 ant --profile other-ws models list
 ANTHROPIC_PROFILE=other-ws ant models list
 ```
@@ -142,7 +153,7 @@ ant profile set workspace_id wrkspc_01... --profile other-ws
 
 `ant profile set` 的可写键为 `workspace_id`、`base_url`、`organization_id`、`scope`、`client_id` 和 `console_url`。设置 `workspace_id` 会在配置文件配置中记录目标工作区，但不会重新绑定已颁发的凭据；请在该配置文件下再次运行 `ant auth login` 以为新工作区铸造令牌。
 
-有关配置文件的文件架构和联合身份验证块，请参阅[配置文件配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/wif-reference#profile-configuration-file)。有关工作负载身份联合，请参阅[身份验证概述](https://platform.claude.com/docs/zh-CN/manage-claude/authentication)和 [WIF 参考](https://platform.claude.com/docs/zh-CN/manage-claude/wif-reference)。
+有关配置文件的文件架构和联合身份验证块，请参阅[配置文件配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/wif-reference#profile-configuration-file)。有关工作负载身份联合，请参阅[身份验证](https://platform.claude.com/docs/zh-CN/manage-claude/authentication)和 [WIF 参考](https://platform.claude.com/docs/zh-CN/manage-claude/wif-reference)。
 
 ## 后续步骤
 

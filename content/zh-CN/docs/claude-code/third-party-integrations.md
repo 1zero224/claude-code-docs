@@ -133,6 +133,7 @@ Contact sales
 * [Claude 应用网关](https://code.claude.com/docs/zh-CN/claude-apps-gateway)，一个自托管网关，在 Amazon Bedrock、Claude Platform on AWS、Google Cloud's Agent Platform、Microsoft Foundry 或 Anthropic API 前面添加 IdP 登录
 * [Amazon Bedrock](https://code.claude.com/docs/zh-CN/amazon-bedrock.md)
 * [Claude Platform on AWS](https://code.claude.com/docs/zh-CN/claude-platform-on-aws.md)
+* [Google Cloud 上的 Claude 模型（由 Anthropic 管理）](https://code.claude.com/docs/zh-CN/claude-models-on-google-cloud-anthropic-managed.md)
 * [Google Cloud's Agent Platform](https://code.claude.com/docs/zh-CN/google-vertex-ai.md)
 * [Microsoft Foundry](https://code.claude.com/docs/zh-CN/microsoft-foundry.md)
 
@@ -172,6 +173,10 @@ Contact sales
 安全团队可以配置托管权限，定义 Claude Code 允许和不允许做什么，这不能被本地配置覆盖。[了解更多](https://code.claude.com/docs/zh-CN/security.md)。
 
 要限制托管机器可以使用的这些部署选项，请在托管设置中设置 [`allowedProviders`](https://code.claude.com/docs/zh-CN/settings-reference#allowedproviders)。例如，`["bedrock"]` 仅允许 Amazon Bedrock；同时启用 Mantle 端点的 Bedrock 队列也列出 `"mantle"`。该条目说明哪些端点变量还需要托管 `env` 固定。需要 Claude Code v2.1.285 或更高版本。
+
+> [!NOTE]
+>
+> 当 Desktop 已登录 claude.ai 时，用户机器上的 Cowork 会话计为 [`"anthropic"`](https://code.claude.com/docs/zh-CN/settings-reference#allowedproviders)。如果您在 MDM 策略或托管设置文件中未将其列入此列表，该会话将被拒绝。如果将其列入，直接发送到 Anthropic 的会话也会通过此列表。
 
 ### 利用 MCP 进行集成
 

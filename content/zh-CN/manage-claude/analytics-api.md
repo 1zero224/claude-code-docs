@@ -13,19 +13,24 @@ Anthropic 提供两种产品分析 API，您使用哪一种取决于您的组织
 
 ## 您需要哪种 API？
 
-| API                                 | 密钥类型                               | 创建位置                                                                                                                   | 谁可以创建 | 涵盖内容                                                     |
-| ----------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----- | -------------------------------------------------------- |
-| **Claude Code 分析 API**              | Admin API 密钥（`sk-ant-admin01-...`） | Claude Console 中的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面（`platform.claude.com/settings/admin-keys`） | 组织管理员 | 每位用户的每日 Claude Code 指标：会话、代码行数、提交、拉取请求、工具接受情况，以及按模型估算的成本 |
-| **Claude Enterprise Analytics API** | Analytics API 密钥                   | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access)                                                  | 主要所有者 | 全组织范围的参与度和采用情况（用户活动、活跃用户摘要、项目、技能和连接器使用情况），以及成本和使用报告      |
+| API                                 | 密钥类型             | 创建位置                                                                        | 谁可以创建 | 涵盖内容                                                     |
+| ----------------------------------- | ---------------- | --------------------------------------------------------------------------- | ----- | -------------------------------------------------------- |
+| **Claude Code 分析 API**              | Admin API 密钥     | Claude Console 中的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面 | 组织管理员 | 每位用户的每日 Claude Code 指标：会话、代码行数、提交、拉取请求、工具接受情况，以及按模型估算的成本 |
+| **Claude Enterprise Analytics API** | Analytics API 密钥 | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access)       | 主要所有者 | 全组织范围的参与度和采用情况（用户活动、活跃用户摘要、项目、技能和连接器使用情况），以及成本和使用报告      |
 
-这两种密钥类型不可互换：Admin API 密钥无法调用 Claude Enterprise Analytics API，Analytics API 密钥也无法调用 Admin API。唯一的例外是 [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)，Claude Enterprise 组织使用其 Analytics API 密钥调用该 API。两种产品分析 API 都出现在 [Admin API 参考](https://platform.claude.com/docs/zh-CN/api/beta/organization)下，但它们是使用不同密钥类型的独立 API。如果您的组织同时使用 Claude Platform 和 Claude Enterprise，您可以配置两种密钥，并分别使用每种 API 获取其对应的数据。
+这两种密钥类型可调用的内容有所不同：
+
+* **Admin API 密钥**（`sk-ant-admin01-...`）无法调用 Claude Enterprise Analytics API。
+* **Analytics API 密钥**是在 claude.ai 中创建的、具有 `read:analytics` 作用域的密钥。除 Claude Enterprise Analytics API 外，它还可用于 [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api) 和旧版 [用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)。要调用成员和邀请等 Admin API 端点，在 claude.ai 中创建的密钥需要其他作用域（请参阅[为 Claude Enterprise 密钥选择作用域](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys#choose-scopes-for-a-claude-enterprise-key)）。
+
+Claude Code 分析 API 和 Claude Enterprise Analytics API 都出现在 [Admin API 参考](https://platform.claude.com/docs/zh-CN/api/beta/organization)下，但它们是独立的 API。如果您的组织同时使用 Claude Platform 和 Claude Enterprise，您可以配置两种密钥，并分别使用每种 API 获取其对应的数据。
 
 <Note>
   想要获取令牌使用量和成本数据而非产品分析数据？请参阅 [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)，它同时服务于 Claude Console 和 Claude Enterprise 组织。
 </Note>
 
 <Note>
-  如果您希望在产品中而非以编程方式查看参与度和采用数据，请使用 claude.ai 中的[分析仪表板](https://claude.ai/analytics/activity)。对于治理和审计用例（单个用户操作、原始活动事件、对话内容），请参阅 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
+  如果您希望在产品中而非以编程方式查看参与度和采用数据，请使用 claude.ai 中的[分析仪表板](https://claude.ai/analytics/activity)。对于治理和审计用例（单个用户操作、原始活动事件、对话内容），请参阅 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api)。
 </Note>
 
 ## 获取 Claude Code Analytics API 的访问权限

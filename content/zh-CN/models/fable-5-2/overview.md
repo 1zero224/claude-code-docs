@@ -107,7 +107,7 @@ Claude Fable 5.2 专为高要求的推理和长周期的智能体工作而打造
   </Card>
 
   <Card title="保留思考" icon="brain" href="https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking">
-    对于所有账户，编辑较早的轮次都会使思考块失效。
+    编辑较早的轮次会使思考块失效。
   </Card>
 
   <Card title="自适应思考" icon="brain" href="https://platform.claude.com/docs/zh-CN/build-with-claude/thinking">

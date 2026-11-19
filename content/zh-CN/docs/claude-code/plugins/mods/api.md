@@ -34,9 +34,13 @@ on('command.run', { command: 'standup' }, async ($, e) => {
 
 会话启动后，`/standup` 及其描述会出现在您键入 `/` 时看到的列表中。`argumentHint` 在您键入命令和空格后显示在提示中，如 `/standup [days]`。当您运行 `/standup 3` 时，第二个 hook 返回 `Summary for the last 3 day(s): ...`，并且成绩单在插件名称后显示该文本。hook 永远不会调用 `next`，因为该命令除了您的行为外没有其他行为。
 
-您返回的 `text` 会打印在成绩单中，Claude 会读取它。要不打印任何内容，如仅打开[窗格](https://code.claude.com/docs/zh-CN/plugins/mods/interface.md#pick-where-to-draw)的命令，请返回 `{}`。要让命令在 Claude 工作时运行，请在注册中添加 `immediate: true`。
+您返回的 `text` 会打印在会话记录中，Claude 会读取它，除非您[对 Claude 隐藏它](#hide-command-text-from-claude)。要不打印任何内容，如仅打开[窗格](https://code.claude.com/docs/zh-CN/plugins/mods/interface.md#pick-where-to-draw)的命令，请返回 `{}`。要让命令在 Claude 工作时运行，请在注册中添加 `immediate: true`。
 
 选择一个没有内置命令使用的名称。在会话中键入 `/` 以查看它们。`$.command.register` 对于已占用的名称会抛出异常，并显示诸如 `"/focus" refused: it is the built-in /focus` 的消息。抛出异常的 hook 会被跳过，因此您的 `session.start` hook 的其余部分也不会运行。在该 hook 中最后注册命令，或将调用包装在 `try` 和 `catch` 中。
+
+#### 对 Claude 隐藏命令文本
+
+要打印命令的文本而不让 Claude 读取，请从不调用 [`next`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#the-hook-function) 的 hook 中返回 `{ text, isTextDisplayOnly: true }`，并且不要在注册中设置 `immediate`。否则，或在 v2.1.326 之前，Claude 可以读取该文本。
 
 ### 添加工具
 
@@ -324,7 +328,7 @@ on('turn.complete', async ($, e, next) => {
 | 向 [agent team](https://code.claude.com/docs/zh-CN/agent-teams.md) 队友调用 `$.session.send` | 解析为 `{ isDelivered: false, reason: 'Teammate "<name>" was not messaged: <reason>.' }`，其中 `<name>` 是队友的名称 |
 | 对带有 `run_in_background: true` 的 Bash、Monitor 或 CronCreate 调用 [`$.tool.call`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#mods-api-methods) | 解析为 `{ deny: '<tool> was not run: it starts background work, a schedule or a goal, and <reason>' }`，其中 `<tool>` 是工具的名称 |
 
-当这些 `$.session.send` 或 `$.tool.call` 调用之一在交互式会话中因中断而被拒绝时，用户可能会看到 [`Stopped:` toast](https://code.claude.com/docs/zh-CN/plugins/mods/troubleshoot#stopped-type-a-message-to-continue)。
+当这些 `$.session.send` 或 `$.tool.call` 调用之一在交互式会话中因中断而被拒绝时，用户可能会看到 [`type a message to continue` toast](https://code.claude.com/docs/zh-CN/plugins/mods/troubleshoot#stopped-type-a-message-to-continue)。
 
 #### 您的 mod 在中断前启动的工作
 
@@ -336,11 +340,9 @@ on('turn.complete', async ($, e, next) => {
 | 来自 `$.command.run` 且仍在队列中的命令 | 被丢弃。调用以一个消息包含 `the command was removed from the queue before it ran` 的错误 reject。 | 按照[重试被拒绝或被丢弃的调用](#retry-a-refused-or-dropped-call)所示再次运行 |
 | 使用 CronCreate 等工具安排、在用户下一次输入之前到期的一次性作业 | 此时不启动轮次，并在该输入之后运行 | 无需处理 |
 | 使用 CronCreate 等工具安排、在用户下一次输入之前到期的周期性作业 | 此时不启动轮次。该作业会错过这次运行，并保留其计划。 | 无需处理 |
-| 来自您的 mod 启动的监视器的事件 | 监视器继续运行。监视器在用户下一次输入之前触发的事件会被丢弃，但监视器结束的通知除外，该通知会在该输入之后到达。 | 无法处理 |
+| 来自您的 mod 启动的监视器的事件 | 监视器继续运行，Claude Code 会丢弃监视器在运行期间触发的事件。 | 无法处理 |
 | 您的 mod 生成并随后通过 `$.session.send` 恢复、在用户下一次输入之前完成的子代理 | 其完成通知会等待，并在该输入之后到达对话 | 无需处理 |
 | 来自 `$.tool.call`、在用户停止轮次时已在运行、并在用户下一次输入之前达到超时的前台 Bash 或 PowerShell 命令 | 在超时时被停止，而不是[移至后台](https://code.claude.com/docs/zh-CN/tools-reference.md#foreground-commands-that-move-to-the-background)。调用解析时会设置 `isError`，输出中包含以下行：`Ended instead of moving to the background: plugins' input is held, by a Stop or by the host's limits.` | 在用户下一次输入之后，按照[重试被拒绝或被丢弃的调用](#retry-a-refused-or-dropped-call)所示再次运行 |
-
-当计划作业到期或监视器在用户下一次输入之前触发事件时，用户可能会看到 [`Stopped:` toast](https://code.claude.com/docs/zh-CN/plugins/mods/troubleshoot#stopped-type-a-message-to-continue)。
 
 ### 在 `claude -p` 运行和 Agent SDK 会话中被拒绝的调用
 

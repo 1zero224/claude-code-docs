@@ -102,24 +102,26 @@ Claude Platform 中可跨其各个 API 使用的功能。每项功能的页面�
 
 ## Managed Agents 功能
 
-| 功能                                                                                                  | 描述                                                                 |
-| :-------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------- |
-| [智能体配置](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)                          | 可复用、带版本的配置，包含会话运行的模型、系统提示、工具、MCP 服务器和技能。                           |
-| [智能体工具集](https://platform.claude.com/docs/zh-CN/managed-agents/tools)                               | 智能体在其沙箱中使用的一组内置工具（bash、read、write、edit、glob、grep、Web fetch 和网页搜索）。 |
-| [云沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/environments)                           | 位于 Anthropic 管理的基础设施上的隔离 Linux 容器，会话的工具和代码在其中运行。                   |
-| [Console 智能体构建器](https://platform.claude.com/docs/zh-CN/managed-agents/onboarding)                  | Claude Console 中用于创建、配置和测试智能体的可视化界面。                               |
-| [梦境](https://platform.claude.com/docs/zh-CN/managed-agents/dreams)                                  | 一个作业，读取记忆存储和过去的会话记录，并写入一个经过重新组织的新记忆存储。                             |
-| [事件增量](https://platform.claude.com/docs/zh-CN/managed-agents/event-deltas)                          | 在模型仍在生成时，于会话事件流上实时预览智能体的响应文本。                                      |
-| [GitHub 访问](https://platform.claude.com/docs/zh-CN/managed-agents/github)                           | 从会话访问 GitHub：挂载在沙箱中的代码仓库，以及用于拉取请求的 GitHub MCP 服务器。                 |
-| [记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory)                                | 智能体读取和写入的文本文档集合，使信息能够跨会话保留。                                        |
-| [多智能体编排](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)            | 让会话的智能体将工作交给其他智能体（作为子智能体或在工作流中），并咨询顾问模型。                           |
-| ↳ [动态工作流](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs)                      | 由智能体编写的程序，用于在后台运行多个智能体并合并它们的结果。                                    |
-| ↳ [会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)                     | 多智能体会话中每个智能体工作所在的线程，您可以列出、流式传输、中断和归档这些线程。                          |
-| [结果](https://platform.claude.com/docs/zh-CN/managed-agents/define-outcomes)                         | 会话的目标结果，附带一份评分标准，由独立的评分器据此检查智能体的工作，直到达成目标。                         |
-| [权限策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)                   | 用于控制智能体的内置工具和 MCP 工具是自动运行、等待您的批准，还是在每次调用时由服务器检查的设置。                |
-| [计划部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)                 | 按 cron 计划运行智能体，使智能体自行启动会话。                                         |
-| [自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes)                | 位于您自己基础设施上的沙箱，用于运行智能体的工具调用，而 Claude 仍在 Anthropic 一侧运行。             |
-| ↳ [自托管 worker](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers) | 您在自己的基础设施上运行的进程，用于从自托管环境的队列中认领会话并运行其工具调用。                          |
-| [会话查看器](https://platform.claude.com/docs/zh-CN/managed-agents/session-observability)                | Claude Console 中的会话查看器以及每个会话的用量汇总，用于查看智能体做了什么以及用了多少。               |
-| [保管库](https://platform.claude.com/docs/zh-CN/managed-agents/vaults)                                 | 存放各用户第三方服务凭据的存储，您只需注册一次，并在创建会话时通过 ID 引用。                           |
-| [Webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks)                           | 当您的 Managed Agents 资源中发生事件（例如会话状态变化）时，向您的 HTTPS 端点发送的通知。           |
+| 功能                                                                                                      | 描述                                                                       |
+| :------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------- |
+| [智能体配置](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)                              | 可复用、带版本的配置，包含会话运行的模型、系统提示、工具、MCP 服务器和技能。                                 |
+| [智能体工具集](https://platform.claude.com/docs/zh-CN/managed-agents/tools)                                   | 智能体在其沙箱中使用的一组内置工具（bash、read、write、edit、glob、grep、Web fetch 和网页搜索）。       |
+| [云沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/environments)                               | 位于 Anthropic 管理的基础设施上的隔离 Linux 容器，会话的工具和代码在其中运行。                         |
+| [Console 智能体构建器](https://platform.claude.com/docs/zh-CN/managed-agents/onboarding)                      | Claude Console 中用于创建、配置和测试智能体的可视化界面。                                     |
+| [梦境](https://platform.claude.com/docs/zh-CN/managed-agents/dreams)                                      | 一个作业，读取记忆存储和过去的会话记录，并写入一个经过重新组织的新记忆存储。                                   |
+| [事件增量](https://platform.claude.com/docs/zh-CN/managed-agents/event-deltas)                              | 在模型仍在生成时，于会话事件流上实时预览智能体的响应文本。                                            |
+| [GitHub 访问](https://platform.claude.com/docs/zh-CN/managed-agents/github)                               | 从会话访问 GitHub：挂载在沙箱中的代码仓库，以及用于拉取请求的 GitHub MCP 服务器。                       |
+| [记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory)                                    | 智能体读取和写入的文本文档集合，使信息能够跨会话保留。                                              |
+| [多智能体编排](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)                | 让会话的智能体将工作交给其他智能体（作为子智能体或在工作流中），并咨询顾问模型。                                 |
+| ↳ [动态工作流](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs)                          | 由智能体编写的程序，用于在后台运行多个智能体并合并它们的结果。                                          |
+| ↳ [会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)                         | 多智能体会话中每个智能体工作所在的线程，您可以列出、流式传输、中断和归档这些线程。                                |
+| [结果](https://platform.claude.com/docs/zh-CN/managed-agents/define-outcomes)                             | 会话的目标结果，附带一份评分标准，由独立的评分器据此检查智能体的工作，直到达成目标。                               |
+| [权限策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)                       | 用于控制智能体的内置工具和 MCP 工具是自动运行、等待您的批准，还是在每次调用时由服务器检查的设置。                      |
+| [计划部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)                     | 按 cron 计划运行智能体，使智能体自行启动会话。                                               |
+| [自托管 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted)          | 在您自己的基础设施上运行的完整 Managed Agents 服务：由您托管 API、智能体循环、存储和沙箱。                  |
+| [自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes)                    | 位于您自己基础设施上的沙箱，用于运行智能体的工具调用，而 Claude 仍在 Anthropic 一侧运行。                   |
+| ↳ [自托管沙箱中的记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory)     | 由您的 worker 下载到自托管沙箱中并同步回存储的记忆存储。                                         |
+| ↳ [预构建的自托管 worker](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers) | `ant` CLI 以及 Python、TypeScript 和 Go SDK 中的 worker，用于从自托管环境中认领会话并运行其工具调用。 |
+| [会话查看器](https://platform.claude.com/docs/zh-CN/managed-agents/session-observability)                    | Claude Console 中的会话查看器以及每个会话的用量汇总，用于查看智能体做了什么以及用了多少。                     |
+| [保管库](https://platform.claude.com/docs/zh-CN/managed-agents/vaults)                                     | 存放各用户第三方服务凭据的存储，您只需注册一次，并在创建会话时通过 ID 引用。                                 |
+| [Webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks)                               | 当您的 Managed Agents 资源中发生事件（例如会话状态变化）时，向您的 HTTPS 端点发送的通知。                 |

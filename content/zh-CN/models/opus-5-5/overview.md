@@ -107,7 +107,7 @@ Claude Opus 5.5 专为长时间运行的智能体编码和知识工作而构建�
   </Card>
 
   <Card title="快速模式" icon="lightning" href="https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode">
-    Claude API 上更低延迟的 Claude Opus 5.5，单独定价。
+    Claude Opus 5.5 更快的输出速度，采用溢价定价。
   </Card>
 </CardGroup>
 

@@ -19,7 +19,7 @@ data sets.
 > `io.modelcontextprotocol/clientInfo`, and
 > `io.modelcontextprotocol/clientCapabilities`). Every request **MUST** include
 > the required `_meta` fields; see
-> [`_meta`](https://modelcontextprotocol.io/specification/draft/basic/index#meta).
+> [`_meta`](https://modelcontextprotocol.io/specification/draft/basic/index#_meta).
 
 ## Pagination Model
 
@@ -61,7 +61,7 @@ including that cursor:
   "id": "124",
   "method": "resources/list",
   "params": {
-    "cursor": "eyJwYWdlIjogMn0="
+    "cursor": "eyJwYWdlIjogM30="
   }
 }
 ```
@@ -109,3 +109,6 @@ The following MCP operations support pagination:
 ## Error Handling
 
 Invalid cursors **SHOULD** result in an error with code -32602 (Invalid params).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

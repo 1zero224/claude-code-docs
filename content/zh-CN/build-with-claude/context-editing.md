@@ -33,6 +33,7 @@ featureMetadata:
     Amazon Bedrock: beta
     Amazon Bedrock (bedrock-runtime): beta
     Claude Platform on AWS: beta
+    Claude Models on Google Cloud (Anthropic managed): beta
     Claude Models on Google Cloud (Google managed): beta
     Microsoft Foundry: beta
 ---
@@ -91,7 +92,9 @@ featureMetadata:
 
 上下文编辑在提示到达 Claude 之前于服务端应用。您的客户端应用程序保留完整、未经修改的对话历史。您无需将客户端状态与编辑后的版本同步。请像往常一样继续在本地管理您的完整对话历史。
 
-在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 上，服务器端上下文管理永远不会使思考块失效。客户端对较早轮次的编辑可能会使之后每个助手轮次中的思考块失效。请参阅[保持前缀不变](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)。
+在[支持保留思考的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#outcomes)上，服务器端上下文管理永远不会使思考块失效。客户端对较早轮次的编辑可能会使之后每个助手轮次中的思考块失效。请参阅[哪些内容必须保持不变，以及原因](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)。
+
+具有"preserved thinking"（保留思考）的模型是 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5。
 
 ### 上下文编辑与提示缓存
 
@@ -107,7 +110,7 @@ featureMetadata:
 
 ## 工具结果清除的用法
 
-启用工具结果清除最简单的方法是仅指定策略类型。所有其他[配置选项](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#configuration-options-for-tool-result-clearing)均使用其默认值：
+启用工具结果清除的一种方法是仅指定策略类型。所有其他[配置选项](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#configuration-options-for-tool-result-clearing)均使用其默认值：
 
 <CodeGroup>
   ```bash cURL
@@ -2851,7 +2854,7 @@ SDK 将总用量计算为 63,000 + 0 + 270,000 + 1,400 = 334,400 个令牌。然
 
 #### 工具使用的边界情况
 
-当 SDK 在某个工具使用响应尚未完成时触发压缩，它会在生成摘要之前从消息历史中移除该工具使用块。如果仍有需要，Claude 会在从摘要恢复后重新发起该工具调用。
+当 SDK 在某个工具使用响应尚未完成时触发压缩，它会在生成摘要之前从消息历史中移除该工具使用块。从摘要恢复后，如果仍然需要，Claude 会重新发起该工具调用。
 
 ### 监控压缩
 
@@ -2980,9 +2983,9 @@ SDK 将总用量计算为 63,000 + 0 + 270,000 + 1,400 = 334,400 个令牌。然
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Beta | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 状态   | 云平台     |
+| ---- | ------- |
+| Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
 

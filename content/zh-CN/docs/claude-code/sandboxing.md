@@ -6,7 +6,7 @@
 
 > 使用内置沙箱限制 Claude Code 的 shell 命令可以访问的文件和网络主机。启用沙箱、设置边界，并修复它导致的问题。
 
-Bash 沙箱是操作系统围绕 Claude 在您的计算机上运行的 shell 命令强制执行的边界。您可以设置这些命令可以访问哪些文件和网络域，这些限制适用于 Bash、PowerShell 和 Monitor 命令及其启动的进程。由于操作系统会在命令运行时应用这些限制，Claude Code 可以[运行沙箱化命令而无需询问您](#sandbox-modes)逐一批准。
+Bash 沙箱是操作系统围绕 Claude 在您的计算机上运行的 shell 命令强制执行的边界。您可以设置这些命令可以访问哪些文件和网络域，这些限制适用于 Bash、PowerShell 和 Monitor 命令及其启动的进程。沙箱化命令仍会经过常规的权限流程，除非您选择[自动允许模式](#sandbox-modes)，该模式可以在不询问您的情况下运行这些命令。
 
 沙箱仅涵盖 shell 命令。Claude 的文件工具、MCP 服务器和 hook [在沙箱之外运行](#what-runs-outside-the-sandbox)。
 
@@ -143,7 +143,7 @@ Ripgrep 已随原生 Claude Code 二进制文件捆绑提供。seccomp 过滤器
 
 > [accordion] WSL2 注意事项
 >
-> 在 PowerShell 中使用 `wsl -l -v` 检查您的 WSL 版本。如果看到 `Sandboxing requires WSL2`，则说明您的发行版运行的是 WSL1。请将其升级到 WSL2，或在不使用沙箱隔离的情况下运行 Claude Code。
+> 在 PowerShell 中使用 `wsl -l -v` 检查您的 WSL 版本。如果看到 `Sandboxing needs WSL2` 或 `Sandboxing requires WSL2`，则说明您的发行版运行的是 WSL1。请将其升级到 WSL2，或在不使用沙箱隔离的情况下运行 Claude Code。
 >
 > 在 WSL2 上，WSL 会通过 Unix 套接字将 Windows 二进制文件（例如 `cmd.exe`、`powershell.exe` 或 `/mnt/c/` 下的任何内容）的启动交给 Windows 主机处理，因此沙箱命令能否启动这些程序取决于沙箱的 [Unix 套接字设置](https://code.claude.com/docs/zh-CN/settings-reference.md#sandbox-network-allowunixsockets)：必须先安装可选的 seccomp 过滤器，才能阻止该套接字。要允许这些启动，请设置 `allowAllUnixSockets`，这会向沙箱命令开放所有 Unix 套接字。
 
@@ -276,6 +276,8 @@ Claude Code 提供两种沙箱模式。在这两种模式下，沙箱都会强�
 
 这些路径在操作系统层面强制执行，因此在沙箱内运行的所有命令（包括其子进程）都会遵守这些限制。当某个工具需要对特定位置的写入权限时，推荐使用这种方法，而不是使用 `excludedCommands` 将该工具完全排除在沙箱之外。
 
+在 Linux 和 WSL2 上，针对尚不存在的路径的条目不会生效，因此请先创建该路径。
+
 当您在多个[设置作用域](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)中定义同一个文件系统数组时，Claude Code 会将它们合并，组合来自每个作用域的路径，而不是用一个作用域的数组替换另一个作用域的数组。当某个条目受到[防止开发者放宽策略](#keep-developers-from-widening-the-policy)中的锁定约束时，Claude Code 会将该条目排除在合并之外。
 
 如果您在 CLI 上使用 [`--setting-sources`](https://code.claude.com/docs/zh-CN/cli-reference) 或在 Agent SDK 中使用 [`settingSources`](https://code.claude.com/docs/zh-CN/agent-sdk/claude-code-features#control-filesystem-settings-with-settingsources) 排除了某个来源，Claude Code 在构建沙箱配置时会忽略该来源的 `sandbox.filesystem` 条目、`Edit` 权限规则以及 `Read` 拒绝规则。需要 Claude Code v2.1.246 或更高版本。
@@ -376,9 +378,9 @@ Claude Code 会将您的条目与每次 Bash 和 Monitor 调用进行比对。�
 
 由于关闭文件系统隔离会扩大沙箱命令的能力范围，Claude Code 仅接受来自以下设置来源的 `filesystem.disabled`：
 
-* 用户设置、托管设置和 `--settings` CLI 标志可以设置它。`.claude/settings.json` 和 `.claude/settings.local.json` 中的项目设置不能设置它，因此检出的项目无法关闭文件系统隔离。
-* 当托管设置配置了任何 `sandbox.filesystem` 内容，或列出了任何 `"mode": "deny"` 的 `sandbox.credentials.files` 条目时，只有托管设置可以设置该键。这可防止开发者在此类部署中关闭文件系统隔离；要为所有人关闭它，请在托管设置中设置 `"disabled": true`。
-* 当设置了 [`CLAUDE_CODE_SUBPROCESS_ENV_SCRUB`](https://code.claude.com/docs/zh-CN/env-vars) 时，Claude Code 会忽略来自所有来源（包括托管设置）的 `filesystem.disabled`，并保持文件系统隔离开启。
+* 用户设置、托管设置和 `--settings` CLI 标志可以设置它。`.claude/settings.json` 和 `.claude/settings.local.json` 中的项目设置不能设置它。
+* 当托管设置配置了任何 `sandbox.filesystem` 内容，或列出了任何 `"mode": "deny"` 的 `sandbox.credentials.files` 条目时，只有托管设置可以设置该键。要为所有人关闭文件系统隔离，请在托管设置中设置 `"disabled": true`。
+* 当设置了 [`CLAUDE_CODE_SUBPROCESS_ENV_SCRUB`](https://code.claude.com/docs/zh-CN/env-vars) 时，Claude Code 会忽略来自所有来源（包括托管设置）的 `filesystem.disabled`。
 
 [有效的](https://code.claude.com/docs/zh-CN/settings-reference.md#invalid-credential-entries-in-managed-settings) `mask` 条目不会锁定该键，即使 Claude Code 在启动时对其[回退为 `deny`](#mask-credential-files) 也是如此。请将无法掩码的路径（例如凭据目录）在托管设置中列为显式的 `deny` 条目，这样会锁定该键。
 
@@ -392,12 +394,9 @@ Claude Code 会将您的条目与每次 Bash 和 Monitor 调用进行比对。�
 | `credentials.envVars` `deny` 和 `mask` 条目 | 强制执行。环境变量清除独立于文件系统层 |
 | 以掩码方式应用的 [`credentials.files` `mask` 条目](#mask-credential-files) | 强制执行：掩码独立于文件系统层。[已回退为 `deny`](#mask-credential-files) 的条目与任何 `deny` 条目一样不强制执行 |
 
-另外还有两项变化：
+沙箱命令还会继承您 shell 的 `$TMPDIR`，而不是每用户临时目录，因为所有临时目录都可写，Claude Code 不再将命令重定向到每用户临时目录。
 
-* 沙箱命令会继承您 shell 的 `$TMPDIR`，而不是每用户临时目录，因为所有临时目录都可写，Claude Code 不再将命令重定向到每用户临时目录。
-
-  在 Linux 上，父 shell 中通常未设置该变量。Bash 工具指引会告诉 Claude 使用 `mktemp -d` 创建临时工作目录，而不是依赖 `$TMPDIR`。
-* [`autoAllowBashIfSandboxed`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-autoallowbashifsandboxed) 默认仍为 `true`，因此沙箱命令会继续在无确认提示的情况下运行。将其设置为 `false` 可对沙箱命令进行确认提示。
+在 Linux 上，父 shell 中通常未设置该变量。Bash 工具指引会告诉 Claude 使用 `mktemp -d` 创建临时工作目录，而不是依赖 `$TMPDIR`。
 
 ### 保护凭据
 
@@ -1064,9 +1063,9 @@ git remote set-url origin https://git.example.com/example-org/example-repo.git
 
 在设置了 `CLAUDE_CODE_SUBPROCESS_ENV_SCRUB` 的 Linux 会话中，每条命令都在沙箱中运行，因此被排除的命令和您输入的命令也会被拒绝。
 
-### `/sandbox` 因 `Sandbox settings are overridden by a higher-priority configuration` 失败
+### `/sandbox` 因 `Sandbox settings can't be changed here` 失败
 
-当更高的[设置级别](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)设置了 `sandbox.enabled`、`sandbox.autoAllowBashIfSandboxed` 或 `sandbox.allowUnsandboxedCommands` 时，`/sandbox` 会打印 `Error: Sandbox settings are overridden by a higher-priority configuration and cannot be changed locally.`，而不是打开其面板。该面板会将您的选择保存到 `.claude/settings.local.json`，而保存在那里的值无法覆盖这些级别。
+当 `sandbox.enabled`、`sandbox.autoAllowBashIfSandboxed` 或 `sandbox.allowUnsandboxedCommands` 在高于本地[设置级别](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)的级别上设置时，`/sandbox` 会打印 `Sandbox settings can't be changed here. Higher-priority settings override them.`，且其面板保持关闭。该面板会将您的选择保存到 `.claude/settings.local.json`，而保存在那里的值无法覆盖更高的级别。
 
 托管设置和 `--settings` 的优先级高于本地设置。要查看此会话加载了其中哪些，请运行 `/status` 并查看 `Setting sources` 行：
 
@@ -1078,7 +1077,7 @@ git remote set-url origin https://git.example.com/example-org/example-repo.git
 此行表示 `/sandbox` 无法将您在其面板中所做的选择保存到项目的 `.claude/settings.local.json`：
 
 ```text theme={null}
-✗ Sandbox settings not changed: /home/you/project/.claude/settings.local.json couldn't be updated (EACCES). Start Claude Code in a project folder you can write to.
+✗ Sandbox settings not changed: /home/you/project/.claude/settings.local.json couldn't be updated (EACCES). Start Claude Code in a project directory you can write to.
 ```
 
 如果括号中的原因是 `EACCES`、`EPERM` 或 `EROFS`，请在您可以写入的项目文件夹中启动 Claude Code，然后在该会话中再次运行 `/sandbox`。如果原因以 `Invalid JSON syntax in settings file` 开头，请更正项目的 `.claude/settings.local.json` 中的 JSON，然后再次运行 `/sandbox`。
@@ -1093,7 +1092,7 @@ git remote set-url origin https://git.example.com/example-org/example-repo.git
 }
 ```
 
-这会启用[自动允许模式](#sandbox-modes)。如需使用常规权限模式，还需将 [`sandbox.autoAllowBashIfSandboxed`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-autoallowbashifsandboxed) 设置为 `false`。该更改会在 Claude 运行下一条 shell 命令时在您正在运行的会话中生效，随后 `/sandbox` 的 **Mode** 选项卡会标记当前生效的模式。
+这会启用[常规权限模式](#sandbox-modes)。如需使用自动允许模式，还需将 [`sandbox.autoAllowBashIfSandboxed`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-autoallowbashifsandboxed) 设置为 `true`。该更改会在 Claude 运行下一条 shell 命令时在您正在运行的会话中生效，随后 `/sandbox` 的 **Mode** 选项卡会标记当前生效的模式。
 
 ## 限制
 

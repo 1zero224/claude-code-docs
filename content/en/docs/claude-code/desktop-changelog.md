@@ -216,7 +216,7 @@ To have Claude review your changes before you commit, enter `/code-review` in th
 
 In local, [SSH](#ssh-sessions), and [WSL](https://code.claude.com/docs/en/desktop-wsl.md) sessions, the findings appear as a **Code review** card, grouped by file. Use the card to act on them:
 
-* Click **Walk through in diff** to open the diff view and step through the findings one at a time. A finding in the current diff appears at its line, where you can click **Fix this one** or dismiss it.
+* Click **Walk through in Changes** to open the diff view and step through the findings one at a time. A finding in the current diff appears at its line, where you can click **Fix this one** or dismiss it.
 * Click **Apply fixes** to ask Claude to fix the findings that are still open.
 
 In any session, you can also ask Claude in the prompt box to fix what the review found. For what `/code-review` looks for and the arguments it takes, see [Review locally with `/code-review`](https://code.claude.com/docs/en/code-review-local).
@@ -264,7 +264,7 @@ To hide or show the panel, click **Hide session rail** or **Show session rail** 
 
 ### Minimize a pane
 
-To keep the Terminal, Browser, [iOS Simulator](https://code.claude.com/docs/en/desktop-ios-simulator.md), or a [side chat](#ask-a-side-question-without-derailing-the-session) in view at a small size, click **Minimize** in the pane's header. The button requires Claude Desktop v4.0.0 or later and a Claude account rather than a [third-party provider](https://code.claude.com/docs/en/third-party-integrations.md). The Browser pane has it only in local sessions.
+To keep the Terminal, Browser, [iOS Simulator](https://code.claude.com/docs/en/desktop-ios-simulator.md), or a [side chat](#ask-a-side-question-without-derailing-the-session) in view at a small size, click **Minimize** in the pane's header. The button requires Claude Desktop v4.0.0 or later. With a [third-party provider](https://code.claude.com/docs/en/third-party-integrations.md) it requires v5.11492.0 or later, so [check your version](#check-your-version). The Browser pane has the button only in local sessions.
 
 The minimized pane sits in the [session details panel](#see-session-details) while that panel is on screen, and floats in a corner of the chat otherwise:
 
@@ -620,7 +620,7 @@ Dispatch is one of several ways to work with Claude when you're away from your t
 
 ## Extend Claude Code
 
-Connect external services, add reusable workflows, customize Claude's behavior, and configure preview servers. To manage connectors, skills, and plugins in one place, click **Customize** in the sidebar. [Cowork](https://claude.com/product/cowork) in the Desktop app sources its skills, plugins, and connectors from this Customize configuration, which syncs through your claude.ai account, not from the CLI's `~/.claude` directory.
+Connect external services, add reusable workflows, customize Claude's behavior, and configure preview servers. To manage connectors, skills, and plugins in one place, click **Customize** or **Plugins** in the sidebar. [Cowork](https://claude.com/product/cowork) in the Desktop app sources its skills, plugins, and connectors from this configuration, which syncs through your claude.ai account, not from the CLI's `~/.claude` directory.
 
 Claude Code also loads the skills and plugins enabled for your claude.ai account in terminal sessions where you sign in with the same account. See [Skills synced from claude.ai](https://code.claude.com/docs/en/skills.md#how-synced-skills-behave) and [Plugins synced from claude.ai](https://code.claude.com/docs/en/plugins/loading.md#synced-plugins).
 
@@ -628,7 +628,11 @@ Claude Code also loads the skills and plugins enabled for your claude.ai account
 
 Connectors are [MCP servers](https://code.claude.com/docs/en/mcp.md) with a graphical setup flow.
 
-Click **+** next to the prompt box, before or during the session, to add connectors in a local or [SSH](#ssh-sessions) session with a Claude account. Select **Add connectors** to open the connector directory. If the menu shows **Connectors** instead, select it, then **Browse connectors**.
+Click **+** next to the prompt box, before or during the session, to add connectors in a local or [SSH](#ssh-sessions) session with a Claude account. Open the connector directory from the entry the menu shows:
+
+* **Add connectors**: select it
+* **Connectors**: select it, then **Browse connectors**
+* **Neither entry**: click **Plugins** in the sidebar, where the directory lists connectors and plugins together
 
 > [!NOTE]
 >
@@ -637,9 +641,9 @@ Click **+** next to the prompt box, before or during the session, to add connect
 > * **Connectors is grayed out in a WSL session**: see [If the terminal or connectors are unavailable](https://code.claude.com/docs/en/desktop-wsl.md#check-for-the-terminal-and-connectors)
 > * **Cloud sessions**: see [How connectors reach Claude Code](https://code.claude.com/docs/en/mcp.md#how-connectors-reach-claude-code)
 
-Once connected, Claude can read your calendar, send messages, create issues, and interact with your tools directly. You can ask Claude what connectors are configured in your session. To manage or disconnect connectors, click **Customize** in the sidebar and open **Connectors**.
+Once connected, Claude can read your calendar, send messages, create issues, and interact with your tools directly. You can ask Claude what connectors are configured in your session. To manage or disconnect connectors, click **Customize** in the sidebar and open **Connectors**. If the sidebar shows **Plugins** instead, click it and look under **Your plugins**.
 
-For integrations not listed in Connectors, add MCP servers manually via [settings files](https://code.claude.com/docs/en/mcp.md#installing-mcp-servers). You can also [create custom connectors](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp).
+For integrations not in the connector directory, add MCP servers manually via [settings files](https://code.claude.com/docs/en/mcp.md#installing-mcp-servers). You can also [create custom connectors](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp).
 
 ### Use skills
 
@@ -655,7 +659,12 @@ Local and cloud sessions also load the skills enabled for your claude.ai account
 
 [Plugins](https://code.claude.com/docs/en/plugins/overview.md) are reusable packages that add skills, agents, hooks, MCP servers, and LSP configurations to Claude Code. You can install plugins from the desktop app without using the terminal.
 
-In a local session or an [SSH session](#ssh-sessions), click **+** next to the prompt box and select **Add plugins** to open the plugin browser. If the menu shows **Plugins** instead, select it, then **Browse plugins**, or **Manage plugins** to enable, disable, or uninstall plugins.
+In a local session or an [SSH session](#ssh-sessions), click **+** next to the prompt box. Open the plugin browser from the entry the menu shows:
+
+* **Add plugins**: select it
+* **Plugins**: select it, then **Browse plugins**. If that's missing, select **Manage plugins**.
+
+To enable, disable, or uninstall plugins when the **+** menu shows **Plugins**, select **Plugins > Manage plugins**. In a local session, you can also click **Customize** or **Plugins** in the sidebar.
 
 You can scope plugins to your user account, a specific project, or local-only. If your organization manages plugins centrally, those plugins are available in desktop sessions the same way they are in the CLI, except the ones the desktop app [withholds under `disableSideloadFlags`](https://code.claude.com/docs/en/settings-reference#disablesideloadflags).
 
@@ -2127,10 +2136,11 @@ If you set `forceLoginMethod` and `forceLoginOrgUUID` in Claude Code's [managed 
 
 To stop that, also deploy `forceLoginOrgUUID` in the Claude Desktop policy (in `HKLM` on Windows), with your claude.ai organization ID. Unless the policy itself [selects the Claude API](https://claude.com/docs/third-party/claude-desktop/claude-api#choose-an-authentication-approach), Claude Desktop stops using a person's own API key or Console account at the app's next launch.
 
-Check two cases before you deploy it:
+Check three cases before you deploy it:
 
 * **Claude Console organizations**: don't deploy `forceLoginOrgUUID` on its own with a Claude Console organization's ID, or you'd lock your people out of Claude Desktop. See [Which devices offer the Claude API account sign-in](https://claude.com/docs/third-party/claude-desktop/claude-api#which-devices-offer-the-claude-api-account-sign-in) instead.
 * **Enterprise Admin Console**: if it delivers your computers' Claude Desktop configuration, update them to Claude Desktop v2.37337.0 or later first, because earlier versions ignore it once this key is set. See [Keep a device on its managed profile](https://claude.com/docs/third-party/claude-desktop/admin-console#keep-a-device-on-its-managed-profile).
+* **Third-party providers**: if people set up their own [third-party inference configuration](https://claude.com/docs/third-party/claude-desktop/in-app-configuration) in the app, Claude Desktop ignores that configuration from the next launch after you deploy this key. To keep people on Amazon Bedrock, Google Cloud's Agent Platform, Microsoft Foundry, or an LLM gateway, [deploy a configuration](https://claude.com/docs/third-party/claude-desktop/configuration) to their computers in the same Claude Desktop policy.
 
 ### Network access requirements
 
@@ -2261,10 +2271,6 @@ Desktop and CLI read the same configuration files, so your setup carries over:
 
 The Desktop app loads MCP servers from `claude_desktop_config.json` into local Code tab sessions, alongside servers from `~/.claude.json` and `.mcp.json`. A server you define in `claude_desktop_config.json` is available in both the Desktop chat surface and local Code tab sessions.
 
-If you define the same server name in `claude_desktop_config.json` and in `~/.claude.json` or `.mcp.json`, the Code tab in local sessions connects once and uses the `claude_desktop_config.json` definition.
-
-The app also re-delivers stdio servers from `~/.claude.json` to the embedded CLI in local sessions. When the top level of `~/.claude.json` (user scope) and `.mcp.json` define the same stdio server name, the Code tab uses the `~/.claude.json` definition, departing from the CLI [scope hierarchy](https://code.claude.com/docs/en/mcp.md#scope-hierarchy-and-precedence).
-
 > [!NOTE]
 >
 > The standalone CLI does not read `claude_desktop_config.json`. On macOS and WSL, run `claude mcp add-from-claude-desktop` to copy those servers into `~/.claude.json`. See [Import MCP servers from Claude Desktop](https://code.claude.com/docs/en/mcp.md#import-mcp-servers-from-claude-desktop) for the import flow and scope options.
@@ -2353,6 +2359,10 @@ If the app opens but shows a blank or unresponsive screen:
 ### "Failed to load session"
 
 If you see `Failed to load session`, the selected folder may no longer exist, a Git repository may require Git LFS that isn't installed, or file permissions may prevent access. Try selecting a different folder or restarting the app.
+
+### Claude Code is "newer than the maximum version allowed by your organization"
+
+When the desktop app's [own copy of Claude Code](#claude-code-version-in-the-code-tab) is newer than the limit your organization sets with [`requiredMaximumVersion`](https://code.claude.com/docs/en/settings-reference#requiredmaximumversion), local sessions fail with an error whose details show this message. Ask your administrator to raise the limit to at least the Claude Code version in the message, or to remove it.
 
 ### Session not finding installed tools
 

@@ -388,7 +388,7 @@ sudo chown -R $(whoami) ~/.local
 > Get-Command claude | Select-Object Source
 > ```
 
-在 Linux 上，检查缺失的共享库。如果 `ldd` 显示缺失的库，您可能需要安装系统包。在 Alpine Linux 和其他基于 musl 的发行版上，请参阅 [Alpine Linux setup](https://code.claude.com/docs/zh-CN/setup.md#alpine-linux-and-musl-based-distributions)。
+在 Linux 上，检查缺失的共享库。如果 `ldd` 显示缺失的库，您可能需要安装系统包。在 Alpine Linux 和其他基于 musl 的发行版上，请参阅 [Linux musl 或 glibc 二进制文件不匹配](#linux-musl-or-glibc-binary-mismatch)。
 
 ```bash theme={null}
 ldd "$(command -v claude)" | grep "not found"
@@ -624,7 +624,7 @@ brew list --cask | grep claude-code
 The connection dropped while downloading the update (attempt 3/3: aborted). Check your network — proxies sometimes cut off large downloads.
 ```
 
-括号中的文本指出了失败的是哪一次尝试以及底层网络错误。`claude update` 会在 stderr 上于该消息之前打印 `Error: Failed to install native update`。
+括号中的文本指出了失败的是哪一次尝试以及底层网络错误。`claude update` 会在该消息之前加上 `Failed to install native update`。
 
 保持连接但未在 10 分钟内完成的下载则会失败并显示 `Download timed out: exceeded the total deadline`。Claude Code 不会重试超时的下载，因为一个慢到无法在截止时间内完成的连接，立即重试也同样无法完成。以下步骤适用于这两条消息。
 
@@ -647,7 +647,7 @@ Release verification failed for Claude Code <version> (<reason>). The update was
 
 根据消息中括号内的值采取相应的步骤：
 
-* **以 `sidecar_fetch_` 开头的值**：从您的 shell 再次运行相同的命令。如果 `claude update` 打印以 `Successfully updated from` 开头的行，则表示更新成功；如果 `claude install` 打印 `Claude Code successfully installed!`，则表示安装成功。
+* **以 `sidecar_fetch_` 开头的值**：从您的 shell 再次运行相同的命令。如果 `claude update` 打印以 `to version <new version>` 结尾的行，则表示更新成功；如果 `claude install` 打印 `Claude Code successfully installed!`，则表示安装成功。
 * **任何其他值**：稍后再次尝试相同的命令
 
 无论是哪个值，如果该消息反复出现，请[报告问题](#still-stuck)并附上完整消息。
@@ -906,13 +906,11 @@ Windows 在"开始"菜单中包括两个 PowerShell 条目：`Windows PowerShell
 
 ### Linux musl 或 glibc 二进制不匹配
 
-如果在安装后看到有关缺失共享库的错误，例如 `libstdc++.so.6` 或 `libgcc_s.so.1`，安装程序可能为您的系统下载了错误的二进制变体。
+如果在安装后看到有关缺失共享库的错误，例如 `ld-linux-x86-64.so.2` 或 `ld-linux-aarch64.so.1`，安装程序可能为您的系统下载了错误的二进制变体。
 
 ```text theme={null}
-Error loading shared library libstdc++.so.6: No such file or directory
+Error loading shared library ld-linux-x86-64.so.2: No such file or directory
 ```
-
-这可能发生在安装了 musl 交叉编译包的基于 glibc 的系统上，导致安装程序将系统误检测为 musl。
 
 **解决方案：**
 
@@ -924,11 +922,7 @@ Error loading shared library libstdc++.so.6: No such file or directory
 
 2. **如果您在 glibc 上但获得了 musl 二进制文件**，删除安装并重新安装。您也可以使用 `https://downloads.claude.ai/claude-code-releases/{VERSION}/manifest.json` 处的清单手动下载正确的二进制文件。使用 `ldd --version` 和 `ls /lib/libc.musl*` 的输出提交 [GitHub 问题](https://github.com/anthropics/claude-code/issues)。
 
-3. **如果您实际上在 musl 上**，例如 Alpine Linux，请安装所需的包：
-   ```bash theme={null}
-   apk add libgcc libstdc++ ripgrep
-   ```
-   在 Alpine 上，`ripgrep` 在社区仓库中。如果 `apk` 报告包丢失，请参阅 [Alpine Linux 设置](https://code.claude.com/docs/zh-CN/setup.md#alpine-linux-and-musl-based-distributions)。
+3. **如果您在 musl 上但获得了 glibc 二进制文件**，请[删除安装](https://code.claude.com/docs/zh-CN/setup.md#uninstall-claude-code)。在 Alpine Linux 上，请先安装 [Alpine Linux 设置](https://code.claude.com/docs/zh-CN/setup.md#alpine-linux-and-musl-based-distributions)中列出的包。然后运行[安装命令](https://code.claude.com/docs/zh-CN/setup.md#install-claude-code)，它会安装 musl 二进制文件。
 
 ### `Illegal instruction`
 
@@ -1001,7 +995,7 @@ claude() {
 
 如果您在 WSL 内使用 `npm install -g` 安装了 Claude Code，这些问题适用。如果您使用了[本机安装程序](https://code.claude.com/docs/zh-CN/setup.md)，请跳过本部分。在 npm 12 上，请按照[修复 npm 12 安装](#fix-an-npm-12-install)中的说明进行安装。
 
-**OS 或平台检测问题。** 如果 npm 在安装期间报告平台不匹配，WSL 可能正在选择 Windows `npm`。首先运行 `npm config set os linux`，然后使用 `npm install -g @anthropic-ai/claude-code --force` 安装。不要使用 `sudo`。
+**OS 或平台检测问题。** 如果 npm 在安装期间报告平台不匹配，请首先运行 `npm config set os linux`，然后使用 `npm install -g @anthropic-ai/claude-code@latest --force` 安装。不要使用 `sudo`。
 
 **运行 `claude` 时 `exec: node: not found`。** 您的 WSL 环境可能使用 Node.js 的 Windows 安装。使用 `which npm` 和 `which node` 确认：以 `/mnt/c/` 开头的路径是 Windows 二进制文件，而 Linux 路径以 `/usr/` 开头。要修复此问题，请通过您的 Linux 发行版的包管理器或通过 [`nvm`](https://github.com/nvm-sh/nvm) 安装 Node。
 
@@ -1088,7 +1082,7 @@ Or reinstall without --ignore-scripts / --omit=optional.
   3. 重新安装：
 
      ```bash theme={null}
-     npm install -g @anthropic-ai/claude-code
+     npm install -g @anthropic-ai/claude-code@latest
      ```
 
      如果此命令或第 1 步因 `EACCES` 失败，请切换到本机安装程序，而不是使用 `sudo` 重新运行。Claude Code 在自我更新时不使用 `sudo` 运行 npm，因此自动更新也会以同样的方式失败。
@@ -1099,7 +1093,7 @@ Or reinstall without --ignore-scripts / --omit=optional.
 
 ### npm `ENOTEMPTY` 更新或重新安装期间的错误
 
-当您在现有安装上运行 `npm install -g @anthropic-ai/claude-code` 时，npm 在移动旧包目录时可能会失败：
+当您在现有安装上运行 `npm install -g @anthropic-ai/claude-code@latest` 时，npm 在移动旧包目录时可能会失败：
 
 ```text theme={null}
 npm error code ENOTEMPTY
@@ -1133,7 +1127,7 @@ npm error ENOTEMPTY: directory not empty, rename '...'
 然后重新安装。在 npm 12 上，请按照[修复 npm 12 安装](#fix-an-npm-12-install)操作。否则，请运行：
 
 ```bash theme={null}
-npm install -g @anthropic-ai/claude-code
+npm install -g @anthropic-ai/claude-code@latest
 ```
 
 使用 `claude --version` 确认，它打印版本号，例如 `2.1.211 (Claude Code)`。

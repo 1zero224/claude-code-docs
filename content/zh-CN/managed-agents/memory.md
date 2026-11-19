@@ -7,7 +7,7 @@ featureMetadata:
   betaHeader: agent-memory-2026-07-22
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -419,9 +419,7 @@ featureMetadata:
 `access` (csharp, go: `Access`) 在文件系统层面强制执行：`read_only` 挂载会拒绝写入，而对 `read_write` 挂载的写入会生成归属于该会话的[记忆版本](https://platform.claude.com/docs/zh-CN/managed-agents/memory#audit-memory-changes)。
 
 <Note>
-  在[自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory)上，每个存储的目录是由 worker 管理的本地副本，而不是实时挂载。worker 会在工具调用之后将每个副本与其存储进行协调，每个同步间隔（默认 15 秒）最多一次，并在会话结束时再进行一次。智能体的 `write` 和 `edit` 工具只更改本地副本；worker 会在下一次同步时上传这些更改，因此在自托管沙箱上运行的另一个会话只有在两个 worker 都完成同步后才能看到更改。在那里，`/mnt/memory/` 下存储目录之外的路径不是临时空间：worker 的文件工具会拒绝写入这些路径，而 shell 命令写入那里的任何内容都不会同步到存储。
-
-  对于 `read_only` 存储，worker 的 `write` 和 `edit` 工具会拒绝该目录下的更改，并且 worker 永远不会从中上传任何内容。要了解 worker 如何解决写入冲突，以及 `bash` 工具仍然可以在只读存储的本地副本中更改什么，请参阅[只读存储和冲突](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#read-only-stores-and-conflicts)。
+  在自托管沙箱上，每个存储的目录是由 worker 与存储进行同步的本地副本，而不是实时挂载。更改只有在同步时才会到达存储以及其他会话。请参阅 [worker 如何处理记忆](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#how-the-worker-handles-memory)和[只读存储和冲突](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#read-only-stores-and-conflicts)。
 </Note>
 
 智能体的读写操作会在[事件流](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)中显示为普通的 `agent.tool_use` 和 `agent.tool_result` 事件，对应于触及该挂载的任何工具。
@@ -1403,10 +1401,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

@@ -799,7 +799,7 @@ description: 按模型、工作区、API 密钥、操作者等维度查询您的
 
 ## 从用量和成本 API 迁移
 
-本节适用于调用旧版[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)（`/v1/organizations/usage_report/messages` 和 `/v1/organizations/cost_report`）的 Claude Console 组织。您的 Admin API 密钥、`anthropic-version` 标头、`starting_at` 和 `ending_at`、时间桶宽度值（`1m`、`1h`、`1d`）、方括号表示法、分页字段名称以及令牌和成本字段名称均保持不变。变化如下：
+本节适用于调用旧版[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)（`/v1/organizations/usage_report/messages` 和 `/v1/organizations/cost_report`）的组织。您的凭据和 `anthropic-version` 标头保持不变。`starting_at` 和 `ending_at` 名称、数组参数上的 `[]` 后缀、分页字段名称以及令牌和成本字段名称也同样保持不变。用量端点的时间桶宽度（`1m`、`1h`、`1d`）同样保持不变。下表列出了变化内容：
 
 | 用量和成本 API                                                                                       | 用量和成本分析 API                                                                                                                                                                                                                                                      |
 | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -817,6 +817,11 @@ description: 按模型、工作区、API 密钥、操作者等维度查询您的
 | 没有地理位置或层级的用量为 `inference_geo: "not_available"` 和 `service_tier: "standard"`                     | 两者均为 `null`。`inference_geos[]=not_available` 仍会匹配没有推理地理位置的行。                                                                                                                                                                                                     |
 | 成本的 `service_tier` 为 `standard` 或 `batch`；`amount` 形如 `"123.45"`                                | 实际层级；`amount` 保留六位小数，形如 `"123.450000"`，另加 `list_amount`。                                                                                                                                                                                                         |
 | 代码执行不在用量报告中；没有请求计数                                                                              | 代码执行以 `model: null` 的用量行出现；两个端点都新增 `requests`，用量行新增 `total_tokens`                                                                                                                                                                                               |
+
+对于 Claude Enterprise 组织，有两点不同：
+
+* **工作区和 API 密钥：** 用量和成本分析 API 对 `workspace_id` 和 `api_key_id` 返回 `null`（请参阅[结果的结构](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#how-results-are-shaped)），因此表中关于默认工作区的行不适用。
+* **用量总计：** 用量和成本分析 API 会统计旧版用量报告遗漏的用量，因此其用量总计可能更高。请参阅 [Claude Enterprise 组织](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api#claude-enterprise-organizations)。
 
 要重现旧版每日报告，请使用相同的 `group_by[]` 请求 `time_bucket_width=1d`，使用 `limit=1000` 逐页获取，然后按 `starting_at` 对行进行分组，并用零填充缺失的日期。添加 `order_by=time&order=asc` 可按顺序获取各天数据。以下是按模型统计 1 周每日用量的旧写法：
 
@@ -1290,7 +1295,8 @@ bucket_width=1d" \
   )
 
   for row in rows:
-      print(f"{row.actor.user_id}: {row.amount}")
+      if row.actor.type == "user_actor":
+          print(f"{row.actor.user_id}: {row.amount}")
   ```
 
   ```typescript TypeScript
@@ -1303,7 +1309,9 @@ bucket_width=1d" \
   });
 
   for await (const row of rows) {
-    console.log(`${row.actor.user_id}: ${row.amount}`);
+    if (row.actor.type === "user_actor") {
+      console.log(`${row.actor.user_id}: ${row.amount}`);
+    }
   }
   ```
 
@@ -1321,7 +1329,10 @@ bucket_width=1d" \
 
   await foreach (var row in page.Paginate())
   {
-      Console.WriteLine($"{row.Actor.UserID}: {row.Amount}");
+      if (row.Actor.TryPickBetaAnalyticsUser(out var user))
+      {
+          Console.WriteLine($"{user.UserID}: {row.Amount}");
+      }
   }
   ```
 
@@ -1336,7 +1347,9 @@ bucket_width=1d" \
 
   for rows.Next() {
   	row := rows.Current()
-  	fmt.Printf("%s: %s\n", row.Actor.UserID, row.Amount)
+  	if user, ok := row.Actor.AsAny().(anthropic.BetaAnalyticsUserActor); ok {
+  		fmt.Printf("%s: %s\n", user.UserID, row.Amount)
+  	}
   }
   if err := rows.Err(); err != nil {
   	log.Fatal(err)
@@ -1358,7 +1371,9 @@ bucket_width=1d" \
       var rows = client.beta().organization().analytics().userCostReport().list(params);
 
       for (var row : rows.autoPager()) {
-          IO.println(row.actor().userId() + ": " + row.amount());
+          row.actor().user().ifPresent(user ->
+              IO.println(user.userId() + ": " + row.amount())
+          );
       }
   }
   ```
@@ -1387,7 +1402,9 @@ bucket_width=1d" \
   )
 
   page.auto_paging_each do |row|
-    puts "#{row.actor.user_id}: #{row.amount}"
+    if row.actor.type == :user_actor
+      puts "#{row.actor.user_id}: #{row.amount}"
+    end
   end
   ```
 </CodeGroup>

@@ -55,17 +55,50 @@ Amazon Bedrock 中的 Claude 支持三种身份验证路径。请选择最符合
 
 ### Bearer 令牌
 
-用于无需 IAM 角色的短期访问（最长 12 小时，最不推荐）：
+“Bearer token”（bearer 令牌）让您无需使用 AWS 凭证对请求进行签名即可调用端点。AWS 将此令牌称为 Amazon Bedrock API 密钥。AWS 建议尽可能使用临时 AWS 凭证进行签名，因此 bearer 令牌是三种身份验证路径中最不推荐的一种。当您的软件无法对请求进行签名时，请使用 bearer 令牌。
+
+Bearer 令牌有两种类型：
+
+| 方面      | 短期                               | 长期                      |
+| ------- | -------------------------------- | ----------------------- |
+| **有效期** | 最长 12 小时，或直到生成它的 AWS 会话结束，以先到者为准 | 直到其到期日期。如果没有到期日期，则永不过期。 |
+| **权限**  | 生成它的 IAM 身份的权限                   | 它所属的 IAM 用户的权限          |
+| **备注**  | 仅在您生成它的 AWS 区域中有效                | AWS 仅建议用于探索             |
+
+对于任一类型，令牌所承载权限对应的 IAM 身份都需要 `bedrock-mantle:CallWithBearerToken` 和 `bedrock-mantle:CreateInference` 权限。
+
+要使用 bearer 令牌：
 
 <Steps>
-  <Step title="管理员：限制令牌类型">
-    通过附加一个策略来阻止长期密钥：除非 `bedrock:BearerTokenType` 条件匹配短期令牌，否则拒绝 `bedrock:CallWithBearerToken`。
+  <Step title="生成令牌">
+    在 Amazon Bedrock 控制台中生成任一类型的令牌。您也可以使用 AWS 的令牌生成器库之一生成短期令牌。有关说明，请参阅 Amazon Bedrock 用户指南中的 [API 密钥](https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys.html)。
   </Step>
 
-  <Step title="开发人员：生成令牌">
-    使用 `aws-bedrock-token-generator` CLI 生成一个 bearer 令牌。在每个请求的 `x-api-key` 标头中传递该令牌。
+  <Step title="发送令牌">
+    发送令牌的方式取决于您调用端点的方式：
+
+    * **使用 SDK：** 设置 `AWS_BEARER_TOKEN_BEDROCK` 环境变量。有关客户端如何查找凭证，请参阅[发出您的第一个请求](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#making-your-first-request)。
+    * **使用直接 HTTP 请求：** 无需对每个请求进行签名，而是在 `x-api-key` 标头中或以 `Authorization: Bearer <token>` 形式传递令牌。省略请求签名相关部分，例如 `x-amz-security-token` 标头以及 cURL 的 `--aws-sigv4` 和 `-u` 选项。
   </Step>
 </Steps>
+
+#### 阻止长期 bearer 令牌
+
+管理员可以阻止 IAM 用户使用长期令牌调用 Amazon Bedrock。一个令牌在两个 Amazon Bedrock 端点上都有效，并且每个端点都有自己的 IAM 操作和条件键：
+
+| 端点                | 要拒绝的操作                               | 条件键                              |
+| ----------------- | ------------------------------------ | -------------------------------- |
+| `bedrock-mantle`  | `bedrock-mantle:CallWithBearerToken` | `bedrock-mantle:bearerTokenType` |
+| `bedrock-runtime` | `bedrock:CallWithBearerToken`        | `bedrock:bearerTokenType`        |
+
+编写一个策略，为每个端点各包含一条 Deny 语句。在每条语句中，将 `Resource` 设置为 `*`，并使用 `StringEquals` 要求条件键等于 `LONG_TERM`。
+
+策略附加的位置决定了它会阻止哪些令牌：
+
+* **单个 IAM 用户：** 它会阻止该用户的令牌。Amazon Bedrock 控制台会为每个长期令牌创建一个新的 IAM 用户，因此这种方式无法覆盖之后在控制台中生成的令牌。
+* **AWS Organizations 中的成员账户：** 作为服务控制策略（SCP），它会阻止该账户中每个 IAM 用户的令牌，包括新用户。
+
+该策略阻止的是使用长期令牌，而不是生成长期令牌。有关此策略的示例以及控制令牌生成的策略，请参阅 Amazon Bedrock 用户指南中的[控制生成和使用 Amazon Bedrock API 密钥的权限](https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys-permissions.html)。
 
 ## 安装 SDK
 
@@ -100,8 +133,8 @@ Amazon Bedrock 中的 Claude 支持三种身份验证路径。请选择最符合
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.8.0")
-        implementation("com.anthropic:anthropic-java-bedrock:3.8.0")
+        implementation("com.anthropic:anthropic-java:3.10.0")
+        implementation("com.anthropic:anthropic-java-bedrock:3.10.0")
         ```
       </Tab>
 
@@ -110,12 +143,12 @@ Amazon Bedrock 中的 Claude 支持三种身份验证路径。请选择最符合
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-bedrock</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         ```
       </Tab>
@@ -130,9 +163,8 @@ Amazon Bedrock 中的 Claude 支持三种身份验证路径。请选择最符合
 
   <Tab title="Ruby">
     ```bash
-    # Gemfile
-    gem "anthropic"
-    gem "aws-sdk-core"
+    bundle add anthropic
+    bundle add aws-sdk-core
     ```
   </Tab>
 </Tabs>
@@ -232,28 +264,39 @@ Amazon Bedrock 中的 Claude 支持三种身份验证路径。请选择最符合
 
   <Tab title="Go">
     ```go
-    client, err := bedrock.NewMantleClient(context.Background(), bedrock.MantleClientConfig{
-    	AWSRegion: "us-east-1",
-    })
-    if err != nil {
-    	panic(err)
-    }
+    import (
+    	"context"
+    	"fmt"
 
-    message, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
-    	Model:     "anthropic.claude-opus-5-5",
-    	MaxTokens: 1024,
-    	Messages: []anthropic.MessageParam{
-    		anthropic.NewUserMessage(anthropic.NewTextBlock("Hello, Claude")),
-    	},
-    })
-    if err != nil {
-    	panic(err)
-    }
+    	"github.com/anthropics/anthropic-sdk-go/v2"
+    	"github.com/anthropics/anthropic-sdk-go/v2/bedrock"
+    )
 
-    for _, block := range message.Content {
-    	if textBlock, ok := block.AsAny().(anthropic.TextBlock); ok {
-    		fmt.Println(textBlock.Text)
-    		break
+    func main() {
+    	client, err := bedrock.NewMantleClient(
+    		context.Background(),
+    		bedrock.MantleClientConfig{AWSRegion: "us-east-1"},
+    	)
+    	if err != nil {
+    		panic(err)
+    	}
+
+    	message, err := client.Messages.New(context.Background(), anthropic.MessageNewParams{
+    		Model:     "anthropic.claude-opus-5-5",
+    		MaxTokens: 1024,
+    		Messages: []anthropic.MessageParam{
+    			anthropic.NewUserMessage(anthropic.NewTextBlock("Hello, Claude")),
+    		},
+    	})
+    	if err != nil {
+    		panic(err)
+    	}
+
+    	for _, block := range message.Content {
+    		if textBlock, ok := block.AsAny().(anthropic.TextBlock); ok {
+    			fmt.Println(textBlock.Text)
+    			break
+    		}
     	}
     }
     ```
@@ -319,7 +362,8 @@ Amazon Bedrock 中的 Claude 支持三种身份验证路径。请选择最符合
       messages: [{role: "user", content: "Hello, Claude"}]
     )
 
-    puts message.content.find { it.type == :text }.text
+    text_block = message.content.grep(Anthropic::Models::TextBlock).first
+    puts text_block.text if text_block
     ```
   </Tab>
 </Tabs>
@@ -422,7 +466,7 @@ Amazon Bedrock 中的 Claude 在以下 AWS 区域可用。Amazon Bedrock 提供�
 
 ## 数据保留
 
-此产品的数据处理由 Amazon Bedrock 管理。有关详细信息，请参阅 [Amazon Bedrock 中的数据保护](https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html)。
+Amazon Bedrock 管理 Amazon Bedrock 中的 Claude 的数据处理。有关详细信息，请参阅 [Amazon Bedrock 中的数据保护](https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html)。
 
 ## 监控和日志记录
 

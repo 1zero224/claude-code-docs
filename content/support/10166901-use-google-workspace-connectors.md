@@ -16,9 +16,11 @@ For Team and Enterprise plans, an Owner or Primary Owner must enable these conne
 
 - **Draft emails** with proper formatting and context
 
-- **Send, reply to, and forward emails** from Gmail. By default, Claude asks for your approval before each of these actions. On Team and Enterprise plans, owners decide whether members can allow these actions to run without asking each time.
+- **Send, reply to, and forward emails** from Gmail. By default, outside Auto mode, Claude asks for your approval before each of these actions. On Team and Enterprise plans, owners decide whether members can allow these actions to run without asking each time.
 
-- **Access email metadata**, including attachment metadata (not attachment content)
+- **Access email metadata**, including attachment metadata
+
+- **Open email attachments** so Claude can read or work with the file, up to about 12 MB each. In chat, this requires code execution and file creation to be on.
 
 - **Manage email organization** with labels and threads
 
@@ -40,7 +42,7 @@ For Team and Enterprise plans, an Owner or Primary Owner must enable these conne
 
 - **Search and retrieve Google Docs** from your Drive.
 
-- **Share, move, and trash files** in Google Drive. By default, Claude asks for your approval before each of these actions. On Team and Enterprise plans, owners decide whether members can allow these actions to run without asking each time.
+- **Share, move, and trash files** in Google Drive. By default, outside Auto mode, Claude asks for your approval before each of these actions. On Team and Enterprise plans, owners decide whether members can allow these actions to run without asking each time.
 
 - **Look up file metadata** and preview directly without searching first.
 
@@ -72,7 +74,7 @@ These are separate connectors from Google Drive. Google Drive still handles sear
 
 ## How to use the connectors
 
-Ask Claude a question that requires access to your Gmail, Calendar, or Drive. Claude automatically detects which tools it needs and uses them to respond. By default, each action Claude takes on your behalf requires your explicit approval. On Team and Enterprise plans, owners decide whether members can allow certain actions to run without asking each time.
+Ask Claude a question that requires access to your Gmail, Calendar, or Drive. Claude automatically detects which tools it needs and uses them to respond. By default, outside Auto mode, each action Claude takes on your behalf requires your explicit approval. In **[Auto mode](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork#h_c274f6c9b5)**, these actions can run without asking you, unless an automated check flags them as risky or your organization requires approval. The check can miss risky actions. To approve them yourself, use Manual or set the tool's permission to **["Always ask"](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork#h_c274f6c9b5)** if that option is available. On Team and Enterprise plans, owners decide whether members can allow certain actions to run without asking each time.
 
 Claude's response includes citations indicating which emails, calendar events, or documents were used as sources, with links to the originals when available. You can ask follow-up questions to dig deeper into any source.
 
@@ -154,9 +156,11 @@ Live editing uses separate Google Docs, Google Sheets, and Google Slides connect
 
 - Data is encrypted at rest and in transit.
 
+- Claude Meetings (beta) also uses your Google Calendar connection, and works differently from the above. See **[Use Claude Meetings](https://support.claude.com/en/articles/18325154-use-claude-meetings)**.
+
 ### A note on Gmail permissions
 
-During authentication, Google's OAuth screen mentions email sending permissions. Claude can send, reply to, and forward emails, but only does so with your explicit approval by default. On Team and Enterprise plans, owners decide whether members can allow these actions to run without asking each time.
+During authentication, Google's OAuth screen mentions email sending permissions. Claude can send, reply to, and forward emails, but outside Auto mode only does so with your explicit approval by default. On Team and Enterprise plans, owners decide whether members can allow these actions to run without asking each time.
 
 ---
 
@@ -166,7 +170,7 @@ During authentication, Google's OAuth screen mentions email sending permissions.
 
 - Live editing in the pane works on Claude on the web in Chrome and on Claude Desktop with the built-in browser turned on. In other cases, use “Open in Google” on the file card.
 
-- Attachment content is not directly accessible through Gmail (metadata only).
+- Claude can't open a Gmail attachment over about 12 MB. Opening attachments isn't available in every organization, or when an organization sets reading email to need approval or blocks it.
 
 - Some advanced Gmail filters may not be supported.
 
@@ -246,7 +250,7 @@ The connector lets Claude change your file, and the pane needs its own Google se
 
 ### Can Claude send emails on my behalf?
 
-Yes. Claude can send, reply to, and forward emails from Gmail, and asks for your approval by default before each of these actions. On Team and Enterprise plans, owners decide whether members can allow these actions to run without asking each time.
+Yes. Claude can send, reply to, and forward emails from Gmail, and, outside Auto mode, asks for your approval by default before each of these actions. In **[Auto mode](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork#h_c274f6c9b5)**, these actions can run without asking you, unless an automated check flags them as risky or your organization requires approval. The check can miss risky actions. To approve them yourself, use Manual or set the tool's permission to **["Always ask"](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork#h_c274f6c9b5)** if that option is available. On Team and Enterprise plans, owners decide whether members can allow these actions to run without asking each time.
 
 ### Can I opt out of using these connectors?
 

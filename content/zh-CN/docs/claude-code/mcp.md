@@ -389,10 +389,14 @@ Claude Code 会重新连接在会话中途断开的远程服务器，并在出�
 
 Claude Code 首先会以指数退避方式尝试重新连接断开的远程服务器，最多五次，初始延迟为一秒，每次加倍：
 
-* **在交互式会话中**：Claude Code 重新连接期间，`/mcp` 会将该服务器显示为待定状态。五次尝试失败后，Claude Code 会将该服务器标记为失败，或在服务器需要重新授权时标记为需要身份验证。当它将服务器标记为失败时，您会看到 `MCP server "<name>" disconnected · open /mcp to reconnect` 通知。您可以从 `/mcp` 手动重试。
-* **在 [`claude -p`](https://code.claude.com/docs/zh-CN/headless) 运行和 [Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/overview.md) 会话中**：Claude Code 进行同样的五次尝试，但没有 `/mcp` 面板来显示它们。如果五次都失败，运行会在没有该服务器工具的情况下继续：
-  * **在暂时性错误（例如 5xx 响应或超时）之后**：Claude Code 会在后台持续重试 HTTP 或 SSE 服务器。重试最多持续约半小时，当某次连接成功时，该服务器的工具会重新可用。在此之前，Agent SDK 会话会报告[状态](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling) `failed`，您的代码可以[重新连接该服务器](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling)。若要在 `claude -p` 中重新连接它，请重新开始运行。
-  * **当服务器[需要您重新登录](#authenticate-with-remote-mcp-servers)时**：Claude Code 停止重试，Agent SDK 会话会将该服务器的状态报告为 `needs-auth`。在 shell 中使用 [`claude mcp login <name>`](#authenticate-from-the-command-line) 登录。然后重新开始运行，或者在 Agent SDK 会话中改为[重新连接该服务器](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling)。
+* **在交互式会话中**：Claude Code 重新连接期间，`/mcp` 会将该服务器显示为待处理。五次尝试失败后，Claude Code 会将服务器标记为失败，或者在服务器需要重新授权时标记为需要身份验证。当它将服务器标记为失败时，会有一条通知告诉您 Claude Code 是否仍在重试：
+  * `MCP server "<name>" disconnected · still retrying · open /mcp to reconnect now`：Claude Code 可以在最长约一天的时间内持续重试该服务器。在 `/mcp` 中，失败的服务器显示为 `retrying`。您可以等待，或从 `/mcp` 重新连接它。要停止重试，请从 `/mcp` [为该项目禁用该服务器](#disable-a-server-without-removing-it)。
+  * `MCP server "<name>" disconnected · open /mcp to reconnect`：Claude Code 不会在后台重试该服务器。请从 `/mcp` 重新连接它。
+* **在 [`claude -p`](https://code.claude.com/docs/zh-CN/headless) 运行和 [Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/overview.md) 会话中**：Claude Code 会进行同样的五次尝试，但没有 `/mcp` 面板来显示它们。如果五次全部失败，运行会在没有该服务器工具的情况下继续：
+  * **发生暂时性错误（例如 5xx 响应或超时）后**：Claude Code 会在后台持续重试 HTTP 或 SSE 服务器。重试最长持续约半小时，对于某些服务器则约一天，当某次重试连接成功时，该服务器的工具会再次变得可用。
+
+    在此之前，Agent SDK 会话会报告[状态](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling) `failed`，您的代码可以[重新连接该服务器](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling)。要在 `claude -p` 中重新连接它，请重新开始运行。
+  * **当服务器[需要您重新登录](#authenticate-with-remote-mcp-servers)时**：Claude Code 会停止重试，Agent SDK 会话会将服务器状态报告为 `needs-auth`。在 shell 中使用 [`claude mcp login <name>`](#authenticate-from-the-command-line) 登录。然后重新开始运行，或者在 Agent SDK 会话中改为[重新连接该服务器](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling)。
 
 #### 首次连接失败
 
@@ -449,7 +453,7 @@ Claude Code 默认会向 stdio 服务器询问该修订版。若要让 stdio 频
 > * `--transport` 和 `--header` 标志也接受 `-t` 和 `-H` 简写形式
 > * 使用 `MCP_TIMEOUT` 环境变量配置 MCP 服务器启动超时时间（例如，`MCP_TIMEOUT=10000 claude` 设置 10 秒的超时时间）
 > * 通过在服务器的 `.mcp.json` 条目中添加以毫秒为单位的 `timeout` 字段来设置单个服务器的工具执行超时时间，例如 `"timeout": 600000` 表示十分钟。这仅对该服务器覆盖 `MCP_TOOL_TIMEOUT` 环境变量
-> * 当 MCP 工具输出超过 10,000 个 token 时，Claude Code 会显示警告，并默认将输出限制为 25,000 个 token。若要更改 token 限制，请设置 `MAX_MCP_OUTPUT_TOKENS` 环境变量，例如 `MAX_MCP_OUTPUT_TOKENS=50000`。警告阈值是固定的。除非服务器提高了某个工具自身的限制，否则超过 50,000 个字符的成功文本结果会保存到文件中，不受此变量影响。请参阅 [MCP 输出限制和警告](#mcp-output-limits-and-warnings)
+> * 有关工具输出大小的限制，请参阅 [MCP 输出限制与警告](#mcp-output-limits-and-warnings)
 > * 使用 `/mcp` 对需要 OAuth 2.0 身份验证的远程服务器进行身份验证
 
 ### MCP 工具调用的时间限制
@@ -471,7 +475,7 @@ Claude Code 默认会向 stdio 服务器询问该修订版。若要让 stdio 频
 
 ### 长时间工具调用的自动后台化
 
-如果后台调用在 [`/tasks`](https://code.claude.com/docs/zh-CN/commands#all-commands) 中的详情视图显示 `runs on the server; survives exiting this session`，请参阅[在服务器上运行的 MCP 任务](#mcp-tasks-that-run-on-the-server)。
+如果 [`/tasks`](https://code.claude.com/docs/zh-CN/commands#all-commands) 中某个后台调用的详情视图显示该调用在您退出后仍会继续运行，请参阅[在服务器上运行的 MCP 任务](#mcp-tasks-that-run-on-the-server)。
 
 主对话中的 MCP 工具调用如果在两分钟后仍在运行，会转为后台任务，而不是阻塞会话。Claude 会立即收到任务 ID 并继续工作，调用结束时结果会以任务通知的形式到达。
 
@@ -504,7 +508,7 @@ MCP 任务是由 MCP 服务器使用 [MCP tasks 扩展](https://modelcontextprot
 
 #### 停止 MCP 任务或获取其结果
 
-若要停止正在运行的任务，请在 [`/tasks`](https://code.claude.com/docs/zh-CN/commands#all-commands) 中选择它并按 `x`，或者让 Claude 来停止。Claude Code 会停止跟踪该任务并请求服务器取消它，但服务器仍可能完成它。请先从 `/mcp` 重新连接已断开的服务器，否则取消请求不会发出，Claude Code 会遗忘该任务且无法再次跟踪它。按 `Esc` 不会停止后台任务。
+要停止正在运行的任务，请在 [`/tasks`](https://code.claude.com/docs/zh-CN/commands#all-commands) 中选中它并按 `x`，或者让 Claude 来停止。Claude Code 会停止跟踪该任务并请求服务器取消它，但服务器仍可能完成它。请先从 `/mcp` 重新连接已断开的服务器，以便取消请求能够发出。Claude Code 无法再次跟踪已停止的任务。按 `Esc` 不会停止后台任务。
 
 任务结束时，会话记录中会出现如下一行：
 
@@ -516,13 +520,15 @@ MCP task <server task id> (<server>/<tool>) completed.
 
 #### 回答来自 MCP 任务的问题
 
-正在运行的任务可以打开[引导对话框](#respond-to-mcp-elicitation-requests)来请求您输入。`/tasks` 打开期间，该对话框保持隐藏，因此请关闭 `/tasks` 以进行回答。拒绝或按 `Esc` 也是对服务器的一种回答，服务器随后决定任务是否继续。
+正在运行的任务可以打开[引导请求对话框](#respond-to-mcp-elicitation-requests)来向您请求输入。当 `/tasks` 打开时，该对话框会保持隐藏，因此请关闭 `/tasks` 以作答。拒绝也是对服务器的一种回答，之后由服务器决定任务是否继续。
+
+除非您已将 Claude 设置为[等待结果](#make-claude-wait-for-the-result-of-an-mcp-task)，否则可以在对话框中按 `Esc` 稍后再回答。要重新打开该问题，请运行 `/tasks`，打开任务的详情，然后按 `Enter`。稍后回答需要 Claude Code v2.1.324 或更高版本。
 
 在[非交互](https://code.claude.com/docs/zh-CN/headless.md)会话中，Claude Code 会请求服务器取消请求输入的任务，而不会运行您的 [`Elicitation` hook](https://code.claude.com/docs/zh-CN/hooks#elicitation)，也不会调用 Agent SDK 的 `onElicitation` 回调。
 
 #### MCP 任务运行期间退出、清除或恢复
 
-远程服务器上的任务在您退出后仍会继续运行。stdio 服务器的进程会在 Claude Code 退出时停止，尽管其任务在 `/tasks` 中显示 `runs on the server; survives exiting this session`。除非该服务器的文档说明工作会在进程结束后继续，否则请先让这些任务完成，或在 `/tasks` 中停止它们。
+远程服务器上的任务在您退出后会继续运行。stdio 服务器的进程会在 Claude Code 退出时停止，即使 `/tasks` 显示该服务器的任务会继续运行。除非该服务器的文档说明其工作会在进程结束后继续，否则请先让这些任务完成，或在 `/tasks` 中停止它们。
 
 | 情况 | 任务会怎样 | 您可以做什么 |
 | - | - | - |
@@ -806,7 +812,7 @@ claude mcp add --transport http shared-server --scope project https://example.co
 
 * 将其添加到 [`disabledMcpjsonServers`](https://code.claude.com/docs/zh-CN/settings-reference#disabledmcpjsonservers)，这会在所有权限模式下阻止它。
 * 使用 [`--setting-sources`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 或 SDK 的 `settingSources` 选项完全排除项目设置。
-* 使用 [`--strict-mcp-config`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 启动会话。此时 Claude Code 仅使用您通过 `--mcp-config` 传入的 MCP 服务器。对于 Claude Code 未加载的 Project 作用域服务器跳过批准提示，需要 Claude Code v2.1.246 或更高版本；在 v2.1.246 之前，strict 会话仍会等待对这些服务器的批准，导致后台会话在启动时处于等待状态。有关在托管 MCP 文件下该标志的作用，请参阅[使用 managed-mcp.json 进行独占控制](https://code.claude.com/docs/zh-CN/managed-mcp.md#exclusive-control-with-managed-mcp-json)。
+* 使用 [`--strict-mcp-config`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 启动会话。此时 Claude Code 会加载您通过 `--mcp-config` 传入的服务器，并跳过在 `.mcp.json` 等位置配置的服务器。对于 Claude Code 未加载的 Project 作用域服务器跳过批准提示，需要 Claude Code v2.1.246 或更高版本。有关在托管 MCP 文件下该标志的作用，请参阅[使用 managed-mcp.json 进行独占控制](https://code.claude.com/docs/zh-CN/managed-mcp.md#exclusive-control-with-managed-mcp-json)。
 
 [项目服务器批准与工作区信任](#project-server-approvals-and-workspace-trust)介绍了提交到仓库中的批准如何与工作区信任相互作用。
 
@@ -834,8 +840,6 @@ Claude Code 在三个作用域之间按名称匹配重复项。对于插件和�
 如果两种 URL 写法仅在以下方面不同，则视为同一端点：scheme 或 host 的字母大小写、scheme 的默认端口（例如 `https` 上的 `:443`），或末尾的斜杠。路径、查询字符串、userinfo 或非默认端口不同，则视为两个服务器。
 
 您的组织通过 [`managedMcpServers`](https://code.claude.com/docs/zh-CN/managed-mcp#provide-servers-through-managed-settings) 托管设置提供的服务器优先级高于上述所有来源，因此当上述某个服务器与之重复时，Claude Code 会连接组织的定义。需要 Claude Code v2.1.259 或更高版本。
-
-如果您在 [Desktop 应用的 Code 标签页](https://code.claude.com/docs/zh-CN/desktop.md#mcp-servers-from-the-claude-desktop-chat-app)中打开本地会话，而 `~/.claude.json` 顶层（User 作用域）和 `.mcp.json` 中存在同名的 stdio 服务器，Code 标签页会使用 `~/.claude.json` 中的定义。
 
 ### `.mcp.json` 中的环境变量扩展
 
@@ -1301,6 +1305,7 @@ claude mcp get weather-api
 > 提示：
 >
 > * 确保 JSON 在您的 shell 中正确转义
+> * 要通过管道传入 JSON，请在其位置传入 `-`：`cat server.json | claude mcp add-json <name> -`。请在 Claude Code 会话之外运行该命令。需要 Claude Code v2.1.327 或更高版本。
 > * JSON 必须符合 MCP 服务器配置架构
 > * 您可以使用 `--scope user` 将服务器添加到您的用户配置而不是项目特定的配置
 
@@ -1408,8 +1413,8 @@ Connectors 来自 claude.ai 仅在您的活跃 [身份验证方法](https://code
 
 您的组织可以在 [claude.ai connectors](https://claude.com/docs/connectors) 上设置每个工具的控制。Claude Code 在启动时读取这些设置并在本地强制执行它们，除了桌面应用的 [本地和 SSH 会话](#how-connectors-reach-claude-code)。在那里，桌面应用在传入 connector 之前扣留 `blocked` 工具，`ask` 设置不会到达 Claude Code，因此它将会话的普通 [权限规则](https://code.claude.com/docs/zh-CN/permissions.md) 应用于这些工具，而不是在每次调用时提示。在 Claude Code 自身获取 connectors 的会话中，运行 `/mcp` 以查看哪个设置适用于 connector 上的每个工具。
 
-* **工具设置为 `ask`**：Claude Code 在每次调用时提示，原因是 `Your organization requires approval for this tool`。即使在 `acceptEdits`、`auto` 和 `bypassPermissions` [权限模式](https://code.claude.com/docs/zh-CN/permissions.md#permission-modes)中，提示也会出现。在终端中，该提示不提供记住您选择的选项。匹配该工具的 [Allow 规则](https://code.claude.com/docs/zh-CN/permissions.md)也不会跳过提示。在 `dontAsk` 模式中（从不提示），Claude Code 会改为拒绝调用。
-* **工具设置为 `blocked`**：Claude Code 在 Claude 看到它之前过滤掉该工具，因此它从不出现在 Claude 的工具列表中。在 Claude Code 自身获取 connectors 的会话中，`/mcp` 工具列表仍然显示该工具，标记为 `disabled by your organization`。
+* **工具设置为 `ask`**：Claude 每次调用该工具时，Claude Code 都会提示，原因为 `Your organization requires approval for this tool`。即使在 `acceptEdits`、`auto` 和 `bypassPermissions` [权限模式](https://code.claude.com/docs/zh-CN/permissions.md#permission-modes)中，该提示也会出现。在终端中，您无法保存您的选择。匹配的[允许规则](https://code.claude.com/docs/zh-CN/permissions.md)不会跳过该提示。在 `dontAsk` 模式中，或在没有任何方式回应提示的 `-p` 运行中，Claude Code 会改为拒绝该调用。
+* **工具设置为 `blocked`**：Claude Code 在 Claude 看到该工具之前将其过滤掉，因此它从不出现在 Claude 的工具列表中。在 Claude Code 自身获取连接器的会话中，`/mcp` 工具列表仍然显示该工具，并标记为 `turned off by your organization`。
 
 桌面应用和 claude.ai 聊天应用相同的 `blocked` 设置，因此 Claude 也无法在那里使用被阻止的工具，您无法从桌面应用的会话中扣留工具，同时在聊天中保持其可用。桌面应用跳过其所有工具都被阻止的 connector。
 
@@ -1512,7 +1517,7 @@ claude mcp serve
 
 当 MCP 工具产生大量输出时，Claude Code 会帮助管理 token 使用情况，以防止压倒您的对话上下文：
 
-* **输出警告阈值**：当任何 MCP 工具输出超过 10,000 个 token 时，Claude Code 会显示警告
+* **输出警告阈值**：当任何 MCP 工具输出超过固定的 10,000 个 token 时，[会话记录查看器](https://code.claude.com/docs/zh-CN/interactive-mode.md#transcript-viewer)会显示警告
 * **可配置限制**：您可以使用 `MAX_MCP_OUTPUT_TOKENS` 环境变量调整允许的最大 MCP 输出 token 数
 * **默认限制**：默认最大值为 25,000 个 token
 * **范围**：环境变量适用于未声明自己限制的工具。设置了 [`anthropic/maxResultSizeChars`](#raise-the-limit-for-a-specific-tool) 的工具会对文本内容使用该值，而不管 `MAX_MCP_OUTPUT_TOKENS` 设置为什么。返回图像数据的工具仍然受 `MAX_MCP_OUTPUT_TOKENS` 限制
@@ -1565,7 +1570,7 @@ claude
 具有根级组合器的工具保持可用。在将工具发送到 API 之前，Claude Code 将模式展平为单个对象，并在工具描述前面添加一句话，告诉 Claude 哪些参数组属于一起：
 
 * `allOf`：来自每个分支的属性被合并，每个分支的 `required` 列表仍然适用
-* `anyOf` 和 `oneOf`：来自每个分支的属性被合并，每个分支的 `required` 列表在工具描述中描述，而不是由模式强制执行
+* `anyOf` 和 `oneOf`：来自每个分支的属性被合并，每个分支的 `required` 列表在工具描述中描述
 
 您的服务器接收 Claude 选择的任何参数，因此请继续在服务器端验证组合。
 
@@ -1611,15 +1616,15 @@ claude
 
 ## 要求对特定工具进行批准
 
-如果您正在构建 MCP 服务器，可以通过在工具的 `tools/list` 响应条目中将 `_meta["anthropic/requiresUserInteraction"]` 设置为 `true` 来标记工具需要在每次调用时获得明确批准。该值必须是 JSON 布尔值 `true`；任何其他值都会被忽略。
+如果您正在构建 MCP 服务器，可以通过在工具的 `tools/list` 响应条目中将 `_meta["anthropic/requiresUserInteraction"]` 设置为 `true` 来标记工具需要明确批准。该值必须是 JSON 布尔值 `true`；任何其他值都会被忽略。
 
-Claude Code 会在每次调用时显示该工具的权限提示，即使在 `acceptEdits`、`auto` 和 `bypassPermissions` [权限模式](https://code.claude.com/docs/zh-CN/permissions.md#permission-modes)中也是如此，并且不会为其提供"不再询问"选项。与该工具匹配的 [允许规则](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax)也不会跳过提示。在 `dontAsk` 模式中（从不提示），Claude Code 会拒绝该调用。
+Claude Code 会在 Claude 每次调用该工具时显示其权限提示，即使在 `acceptEdits`、`auto` 和 `bypassPermissions` [权限模式](https://code.claude.com/docs/zh-CN/permissions.md#permission-modes)中也是如此，并且不会为其提供"不再询问"选项。与该工具匹配的 [允许规则](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax)也不会跳过提示。在 `dontAsk` 模式下，或在没有任何方式回答提示的 `-p` 运行中，Claude Code 会改为拒绝该调用。
 
 提示必须到达一个人。在非交互模式下使用 [`--permission-prompt-tool`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags)，来自提示工具的标记工具的 `allow` 结果会被转换为拒绝，消息为 `MCP tool requires user interaction; not supported via --permission-prompt-tool`。Agent SDK 的 [`canUseTool` 回调](https://code.claude.com/docs/zh-CN/agent-sdk/permissions)确实会接收这些调用并可以批准它们，因为您的 SDK 应用程序应该将它们显示给用户。
 
 将此用于权限提示本身就是目的的工具，例如同意或访问授予步骤，其中自动批准意味着没有人类曾经同意。来自同一服务器的其他工具保持其正常的权限行为。
 
-以下 `tools/list` 条目将一个工具标记为始终需要批准。
+以下 `tools/list` 条目标记了一个工具：
 
 ```json theme={null}
 {
@@ -1694,7 +1699,7 @@ MCP 服务器可以在任务进行中使用引出功能向您请求结构化输�
 
 ## 使用 MCP 资源
 
-MCP 服务器可以公开资源，您可以使用 @ 提及来引用这些资源，类似于引用文件的方式。
+MCP 服务器可以公开资源，您可以使用 @ 提及来引用这些资源，类似于引用文件的方式。使用 `claude -p` 时，资源提及会保留为纯文本。
 
 ### 引用 MCP 资源
 

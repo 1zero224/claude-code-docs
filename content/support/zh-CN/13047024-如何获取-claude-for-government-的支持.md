@@ -6,6 +6,6 @@
 
 ## 如何开始
 
-Claude for Government Desktop 组织管理员或租户管理员可以点击 Claude for Government 管理门户底部的"支持"。这将打开一篇帮助中心文章，在右下角有一个信使图标。点击"给我们发送消息"以启动支持流程。
+Claude for Government Desktop 组织管理员或租户管理员可以点击 Claude for Government 管理门户底部的 “支持”。这将打开一篇帮助中心文章，右下角有一个信使图标。点击 “给我们发送消息”以启动支持流程。
 
-**注意：**只有 Claude for Government Desktop 组织管理员和租户管理员可以访问此优先支持路径。如果您拥有不同的角色并需要联系支持，请让组织管理员或租户管理员代表您提交请求。
+**注意：**只有 Claude for Government Desktop 组织管理员和租户管理员可以访问此优先支持路径。如果您的角色不同且需要联系支持，请让组织管理员或租户管理员代表您提交请求。

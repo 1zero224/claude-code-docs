@@ -980,14 +980,14 @@ Assistant: [thinking] + [text: "..."] (thinking enabled - new turn)
 
 * **必需：** 在工具使用轮次内，传回思考块。
 * **建议：** 跨轮次时，传回所有内容。
-* **允许：** 在工具使用之外，省略之前轮次的思考。
+* **允许：** 在工具使用之外，省略之前轮次的思考，但不能省略您保留的两个块之间的块。
 
 您无需自行修剪旧的思考。在多轮对话中传回所有思考块，API 会自动过滤它们，保留维持模型推理所需的块，并且只对实际展示给 Claude 的块计算输入令牌费用。保留哪些之前轮次的块因模型而异。请参阅[按模型划分的思考块保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-block-preservation-by-model)。要覆盖默认行为，请使用 [`clear_thinking_20251015` 上下文编辑策略](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#thinking-block-clearing)。
 
-在最新的助手消息中，连续 `thinking` 块的顺序必须与模型在原始请求中生成的内容一致：您不能重新排列、编辑或部分删除它们。这也包括 [`redacted_thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#redacted-thinking-blocks)。
+在最新的助手消息中，连续 `thinking` 块的顺序必须与模型在原始请求中生成的内容一致：您不能重新排列、编辑或部分丢弃它们。这也包括 [`redacted_thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#redacted-thinking-blocks)。
 
 <Note>
-  被修改的思考块会以 400 错误被拒绝。有关确切的错误消息、常见原因和修复方法，请参阅[400 错误提示思考块不能被修改](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-blocks-modified)。唯一的例外是：放在[省略](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display)块的空 `thinking` 字段中的文本会被忽略，而不是被拒绝。
+  被修改的思考块会以 400 错误被拒绝。有关确切的错误消息和修复方法，请参阅[400 错误提示思考块不能被修改](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#error-thinking-blocks-modified)。唯一的例外是：放在[省略](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display)块的空 `thinking` 字段中的文本会被忽略，而不是被拒绝。
 </Note>
 
 有关包含每种 SDK 代码的完整示例，请参阅[演练两轮工具使用往返](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-tool-workflows#two-turn-tool-use-round-trip)。该示例定义了一个工具，接收思考加工具使用的响应，并将助手轮次与工具结果一起回传。
@@ -1024,7 +1024,7 @@ Assistant: [thinking] + [text: "..."] (thinking enabled - new turn)
 
 在 Claude Sonnet 5.5 上，最低的思考设置是 `thinking: {type: "between_tools"}`。它会关闭预先思考，并且每个进度更新都会附带摘要文本返回，就像在 `display: "updates"` 下一样。`between_tools` 仅在 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 为 `high` 或以下时被接受。在 `xhigh` 或 `max` 下，使用该设置的请求会返回 400 错误。`between_tools` 不接受任何其他字段：与其一起发送 `display`、`budget_tokens` 或 `block_binding` 都会返回 400 错误。该设置适用于所有提供 Claude Sonnet 5.5 的平台。请原样传回这些块：您传回的进度更新块会为模型提供它所编写的完整说明，而不是摘要。
 
-对于隐藏推理、并在每一步向用户显示状态行的智能体界面，请使用 `display: "updates"`。在该设置下，任何带有非空文本的 `thinking` 块都是进度更新，因此只渲染这些块即可。该功能处于 beta 阶段，需要 beta 标头 `thinking-display-updates-2026-08-18`（要在 Amazon Bedrock、Claude Models on Google Cloud (Google managed) 或 Microsoft Foundry 上发送该标头，请参阅[其他平台上的 beta 功能](https://platform.claude.com/docs/zh-CN/api/beta-headers#beta-features-on-other-platforms)）。如果没有该标头，该值会被拒绝，并返回与未知 `display` 值相同的 400 `invalid_request_error`。
+对于隐藏推理、并在每一步向用户显示状态行的智能体界面，请使用 `display: "updates"`。在该设置下，任何带有非空文本的 `thinking` 块都是进度更新，因此只渲染这些块即可。该功能处于 beta 阶段，需要 beta 标头 `thinking-display-updates-2026-08-18`。要在云平台上发送该标头，请参阅[其他平台上的 beta 功能](https://platform.claude.com/docs/zh-CN/api/beta-headers#beta-features-on-other-platforms)。如果没有该标头，API 会拒绝该值，并返回与未知 `display` 值相同的 400 `invalid_request_error`。
 
 ```json
 {
@@ -1086,7 +1086,7 @@ Assistant: [thinking] + [text: "..."] (thinking enabled - new turn)
 * 在任何 `display` 值下，进度更新块都可能以空 `thinking` 字段返回。对于空块，不要渲染任何内容。在 `"updates"` 下，它看起来与空推理块相同，无需单独处理。
 * 当响应在工具调用或工具结果之后不久因 `max_tokens`、`model_context_window_exceeded` 或 `stop_sequence` 而停止时，其最后一个块可能是一个进度更新块，代表模型尚未完成的工作。在 `"updates"` 和 `"summarized"` 下，其文本恰好为 `This part of the response was interrupted before it finished.`，您可以像显示其他更新一样显示它。在 `"omitted"` 下它为空。要继续，请原样传回助手轮次，并追加一条新的 `user` 消息（针对该轮次中的每个 `tool_use` 块附带一个 `tool_result`）。
 * 在流式传输时，预计进度更新块打开前会有数秒的停顿。请参阅[流式传输思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#streaming-thinking)中的 `"updates"` 跟踪。
-* 在较高的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 下以及在较长的工具链中，这些模型编写的进度更新会更少。如果您的界面依赖于它们，请参阅[要求提供面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#ask-for-user-facing-progress-updates)。对于 Claude Opus 5.5 和 Claude Sonnet 5.5，请参阅[为 Claude Opus 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#user-facing-progress-updates) 或[为 Claude Sonnet 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5#user-facing-progress-updates) 中的"面向用户的进度更新"部分。对于 Claude Fable 5.2，请参阅[在较长轮次中让用户了解进展](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#keep-users-informed-during-long-turns)。
+* 在较高的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 下以及在较长的工具链中，这些模型编写的进度更新会更少。如果您的界面依赖于它们，请参阅[要求提供面向用户的进度更新](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#ask-for-user-facing-progress-updates)。对于 Claude Opus 5.5 和 Claude Sonnet 5.5，请参阅[为 Claude Opus 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5#user-facing-progress-updates)或[为 Claude Sonnet 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5#user-facing-progress-updates)中的"面向用户的进度更新"部分。对于 Claude Fable 5.2，请参阅[在较长轮次中让用户了解进展](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#keep-users-informed-during-long-turns)。
 
 ### 按模型划分的思考块保留
 
@@ -1102,39 +1102,37 @@ Assistant: [thinking] + [text: "..."] (thinking enabled - new turn)
 
 代价是上下文占用：在保留全部轮次的模型上，长对话会消耗更多上下文空间，因为保留的思考块与其他对话历史一样计为输入（请参阅[思考与上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-the-context-window)）。在这两种机制下，该行为都是自动的。请按照[保留思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)中的说明，继续传回完整、未经修改的思考块。要在任一方向上覆盖默认行为，请使用[思考块清除](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#thinking-block-clearing)。
 
-**在对话中途切换模型。** 切换模型时（例如在[分类器拒绝回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)之后），请继续原样传回思考块。思考块只能由生成它的模型和某些其他模型读取。API 会忽略或丢弃目标模型无法读取的块（请参阅[被丢弃的块如何计费和报告](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)）。下表针对其中的每个模型，列出了该模型可以读取哪些块，以及哪些模型可以读取它的块：
+**在对话中途切换模型。** 切换模型时（例如在[分类器拒绝回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)之后），请继续原样传回思考块。思考块只能由生成它的模型和某些其他模型读取。API 会忽略或丢弃目标模型无法读取的块（请参阅[切换模型再切换回来](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)）。下面的列表针对其中的每个模型，列出了该模型可以读取哪些块，以及哪些模型可以读取它的块：
 
 * **Claude Fable 5.2 和 Claude Mythos 5.2：** 在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它们可以读取彼此的思考块。在这些平台上，它们还可以读取来自其他模型的块，包括 Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5。没有任何其他模型可以读取 Claude Fable 5.2 或 Claude Mythos 5.2 的块。因此，从它们中的任何一个切换到这对模型之外的模型都会丢弃之前轮次的推理。
-* **Claude Fable 5.1 和 Claude Mythos 5.1：** 它们可以读取彼此的思考块以及较早模型的思考块，但 Claude Mythos Preview 的思考块除外。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，Claude Fable 5.2 和 Claude Mythos 5.2 也可以读取它们的块。其他模型都不能。从它们可以读取其块的模型切换到 Claude Fable 5.1 或 Claude Mythos 5.1 会保留对话的推理。从它们中的任何一个切换到无法读取其块的模型则会丢弃推理。
-* **Claude Opus 5.5：** 它可以读取来自 Claude Opus 5 以及较早的 Opus、Sonnet 和 Haiku 模型的思考块。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它还可以读取来自 Claude Sonnet 5.5 和 Claude Haiku 5.5 的思考块。它不能读取来自 Claude Fable 和 Claude Mythos 模型的思考块。在 Claude API 上，Claude Fable 5.1 和 Claude Mythos 5.1 可以读取 Claude Opus 5.5 的块。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，Claude Fable 5.2 和 Claude Mythos 5.2 也可以读取它们。在 Claude API 上从 Claude Opus 5.5 升级切换到 Claude Fable 5.1 会保留之前轮次的推理。从 Claude Fable 5.1 切换到 Claude Opus 5.5 则会丢弃推理。
-* **Claude Sonnet 5.5：** 它可以读取来自 Claude Sonnet 5、Claude Opus 4.8、Claude Haiku 4.5 及更早模型的思考块。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它还可以读取来自 Claude Haiku 5.5 的思考块。它不能读取来自 Claude Opus 5、Claude Opus 5.5 或任何 Claude Fable 或 Claude Mythos 模型的思考块。在这两个平台上，Claude Opus 5.5、Claude Fable 5.2 和 Claude Mythos 5.2 可以读取 Claude Sonnet 5.5 的块。其他模型都不能。在这些平台上从 Claude Sonnet 5.5 升级切换到这三个模型之一会保留之前轮次的推理。从 Claude Sonnet 5.5 进行的任何其他切换都会丢弃推理。
-* **Claude Haiku 5.5：** 它可以读取来自 Claude Sonnet 5、Claude Opus 4.8、Claude Haiku 4.5 及更早模型的思考块。它不能读取来自 Claude Opus 5、Claude Opus 5.5、Claude Sonnet 5.5 或任何 Claude Fable 或 Claude Mythos 模型的思考块。有四个模型可以读取 Claude Haiku 5.5 的块：Claude Opus 5.5、Claude Sonnet 5.5、Claude Fable 5.2 和 Claude Mythos 5.2。它们在 Claude API 和 Claude Models on Google Cloud (Google managed) 上可以这样做。其他模型都不能。
+* **Claude Fable 5.1 和 Claude Mythos 5.1：** 它们可以读取彼此的思考块以及[较早模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#which-model-switches-keep-reasoning)的思考块，但 Claude Mythos Preview 的思考块除外。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，Claude Fable 5.2 和 Claude Mythos 5.2 也可以读取它们的块。其他模型都不能。从它们可以读取其块的模型切换到 Claude Fable 5.1 或 Claude Mythos 5.1 会保留对话的推理。从它们中的任何一个切换到无法读取其块的模型则会丢弃推理。
+* **Claude Opus 5.5：** 它可以读取来自 Claude Opus 5 以及[较早的 Claude Opus、Claude Sonnet 和 Claude Haiku 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#earlier-models)的思考块。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它还可以读取来自 Claude Sonnet 5.5 和 Claude Haiku 5.5 的思考块。它不能读取来自 Claude Fable 和 Claude Mythos 模型的思考块。在 Claude API 上，Claude Fable 5.1 和 Claude Mythos 5.1 可以读取 Claude Opus 5.5 的块。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，Claude Fable 5.2 和 Claude Mythos 5.2 也可以读取它们。在 Claude API 上从 Claude Opus 5.5 升级切换到 Claude Fable 5.1 会保留之前轮次的推理。从 Claude Fable 5.1 切换到 Claude Opus 5.5 则会丢弃推理。
+* **Claude Sonnet 5.5：** 它可以读取来自 Claude Sonnet 5、Claude Opus 4.8、Claude Haiku 4.5 以及[更早的 Claude Opus、Claude Sonnet 和 Claude Haiku 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#earlier-models)的思考块。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，它还可以读取来自 Claude Haiku 5.5 的思考块。它不能读取来自 Claude Opus 5、Claude Opus 5.5 或任何 Claude Fable 或 Claude Mythos 模型的思考块。在这两个平台上，Claude Opus 5.5、Claude Fable 5.2 和 Claude Mythos 5.2 可以读取 Claude Sonnet 5.5 的块。其他模型都不能。在这些平台上从 Claude Sonnet 5.5 升级切换到这三个模型之一会保留之前轮次的推理。从 Claude Sonnet 5.5 进行的任何其他切换都会丢弃推理。
+* **Claude Haiku 5.5：** 它可以读取来自 Claude Sonnet 5、Claude Opus 4.8、Claude Haiku 4.5 以及[更早的 Claude Opus、Claude Sonnet 和 Claude Haiku 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#earlier-models)的思考块。它不能读取来自 Claude Opus 5、Claude Opus 5.5、Claude Sonnet 5.5 或任何 Claude Fable 或 Claude Mythos 模型的思考块。有四个模型可以读取 Claude Haiku 5.5 的块：Claude Opus 5.5、Claude Sonnet 5.5、Claude Fable 5.2 和 Claude Mythos 5.2。它们在 Claude API 和 Claude Models on Google Cloud (Google managed) 上可以这样做。其他模型都不能。
 
-仅在会忽略（而非丢弃）之前的 `thinking` 和 `redacted_thinking` 块的模型上，为节省输入令牌才应自行剥离这些块。在兑换[回退额度](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit)时切勿剥离它们，因为兑换要求请求体保持不变。
+切换模型时不要剥离思考块。API 会丢弃无法读取的块且不对其计费，而能够读取它们的模型仍会收到它们。剥离还会使您失去[回退额度](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit)，因为回退额度要求请求体保持不变。
 
-## 保留的思考
+## 保留思考
 
-[保留的思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)决定了模型能否使用您从较早轮次传回的思考块。API 会检查请求中每个 `thinking` 或 `redacted_thinking` 块的 `signature`，确认两件事：
+在[支持保留思考的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#outcomes)上，每个传回思考块的请求都会经过[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)。如果您的代码更改了 `system`、`tools` 或较早的消息，则已经位于该更改之后的每个思考块都无法通过前缀检查。此时，该请求可能会收到 400 错误。
 
-* **生成它的模型。** 每个模型都可以读取自己的思考块以及一组固定的其他模型的思考块。Claude Fable 5.1 可以读取来自 Claude Opus 5 的块，并且在 Claude API 上还可以读取来自 Claude Opus 5.5 的块；Claude Opus 5 和 Claude Opus 5.5 都不能读取来自 Claude Fable 5.1 的块。API 会丢弃当前模型无法读取的块，不会报错，也不会对其计费。请参阅[在对话中途切换模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。
-* **在它之前发送的所有内容。** 只有当顶层 `system` 提示、`tools` 以及它之前的消息保持不变时，思考块才保持有效。如果其中任何一项发生变化，该思考块以及历史记录中已有的之后所有思考块都将无法通过前缀检查。请参阅[保持前缀不变](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)。
+另有两条规则会丢弃思考块，且不会报错。一个模型只能读取部分其他模型的思考块（请参阅[切换模型再切换回来](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)）。此外，来自某些模型的块仅在生成它们的账户或与之关联的账户中有效（请参阅[账户和云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)）。
 
-来自 Claude Sonnet 5.5、Claude Haiku 5.5、Claude Fable 5.2 和 Claude Mythos 5.2 的思考块还与生成它们的账户绑定。有关此规则的适用范围，请参阅[思考块仅限于生成它们的账户](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)。
+具有"preserved thinking"（保留思考）的模型是 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5。
 
-前缀检查在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 上运行。请将您的集成设计为仅追加（append-only），以便您回传的思考块能够通过该检查。[API 如何处理无效思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#mismatch-behavior)介绍了思考块未通过检查时会发生什么。
-
-要使思考保持有效，请将每个助手轮次完全按照接收时的样子传回，并且只在 `messages` 的末尾添加新消息。如果您的代码自行构建 `messages` 数组，"保留的思考"页面涵盖以下内容：
-
-* [哪些操作算作编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#what-counts-as-an-edit)，以及[如何检查您的代码是否进行了编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#how-to-tell-whether-your-integration-is-impacted)。
-* [替代每种常见编辑的 API 功能](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#replace-prefix-edits)：用于新指令和每轮提醒的对话中途系统消息、用于工具变更的 `tool_addition` 和 `tool_removal` 块、用于 effort 变更的逐消息 `output_config`，以及用于裁剪的服务器端压缩和上下文编辑。
-* [客户端压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#custom-compaction-on-the-client)：哪些模式能使思考保持有效，哪些不能。
-* [`thinking-binding-controls-2026-08-01` beta 标头](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#preserved-thinking-controls)。它会在思考配置中添加一个 `block_binding.prefix_mismatch_behavior` 字段（`"error"` 或 `"drop_block"`），并在每个响应中添加一个 `input_transformations` 数组。该数组列出了 API 丢弃的每个思考块，以及未通过前缀检查但仍到达模型的每个思考块。
+有关什么算作更改以及应改为发送什么，请参阅[思考块的前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks)。如果请求因“The block is bound to a different conversation”而失败，请前往[修复绑定到其他对话的思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation)。
 
 ## 思考与提示缓存
 
 “Prompt caching”（提示缓存）（[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)）与思考之间存在几种特定的交互方式。以下规则适用于两种思考模式。
 
-**配置变更会使缓存失效。** 思考配置和解析后的 [`effort`](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 级别会被渲染到提示本身中，因此更改其中任何一项都会开始一个新的缓存前缀。在 `adaptive`、`enabled` 和 `disabled` 之间切换、更改 `budget_tokens` 以及更改 effort 值，都会使缓存断点失效：消息级断点总是会未命中，而工具和系统提示断点也可能未命中，具体取决于模型在何处渲染该配置。请将任何思考或顶层 effort 变更视为重新开始缓存。在支持[逐消息 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 的模型上，通过 `messages` 中的 `role: "system"` 消息进行的 effort 变更会使缓存前缀保持不变。保持相同配置的连续请求会保留缓存，并且将参数显式设置为其默认值等同于省略该参数。在任何[保留思考条件](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-thinking)下被 API 丢弃的思考块，会从该块的位置开始改变缓存前缀。原样传回的块会使缓存保持完整。包含用量输出的实际演示请参阅[引导思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-steering-and-cost#prompt-caching)页面。
+**配置变更可能会使缓存失效。** 思考配置和解析后的 [`effort`](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 级别会被渲染到提示本身中，因此更改其中任何一项都会改变提示。
+
+在 `adaptive`、`enabled` 和 `disabled` 之间切换，或更改 `budget_tokens`，都会使缓存断点失效。消息级断点总是会未命中，而工具和系统提示断点也可能未命中，具体取决于模型在何处渲染该配置。更改 effort 值可能会使任何模型上的消息级断点失效。在 Claude Opus 5、Claude Sonnet 5、Claude Fable 5、Claude Mythos 5 以及支持 effort 的更早模型上，更改 effort 值还可能使工具和系统提示断点失效。请将任何思考或顶层 effort 变更视为使整个缓存失效。
+
+在支持[逐消息 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 的模型上，通过 `messages` 中的 `role: "system"` 消息进行的 effort 变更会使缓存前缀保持不变。保持相同配置的连续请求会保留缓存，并且将参数显式设置为其默认值等同于省略该参数。
+
+在任何[保留思考条件](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-thinking)下被 API 丢弃的思考块，会从该块的位置开始改变缓存前缀。原样传回的块会使缓存保持完整。
 
 **思考块会与工具结果一起缓存。** 在工具使用循环中，当您发出包含工具结果的后续请求时，就会发生缓存。此时，之前的对话历史（包括其中的思考块）可以被缓存，并且这些缓存的思考块在从缓存读取时会在您的用量指标中计为输入令牌。即使没有显式的 `cache_control` 标记，这也会自动发生，并且对于常规思考和交错思考的行为相同。代价是：您在响应中再也看不到的思考块，在从缓存读取时仍然会计入输入令牌用量。
 
@@ -1200,12 +1198,13 @@ User: [Text response, cache=True]
 
 使用签名时，请注意以下几点：
 
-* 仅在[结合思考使用工具](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-with-tool-use)时才严格需要传回思考块。否则，您可以省略之前轮次的思考块。如果您确实传回了它们，API 是保留还是剥离它们取决于模型（请参阅[按模型划分的思考块保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-block-preservation-by-model)）。使用[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)来配置此行为。
+* 仅在[结合思考使用工具](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-with-tool-use)时才严格需要传回思考块。否则，您可以省略之前轮次的思考块，但不能省略您保留的两个块之间的块。如果您确实传回了它们，API 是保留还是剥离它们取决于模型（请参阅[按模型划分的思考块保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-block-preservation-by-model)）。使用[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)来配置此行为。
 * 传回思考块时，请将所有内容完全按照接收时的样子传回，以保持一致性并避免潜在问题。
 * 在[流式传输响应](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#streaming-thinking)时，签名会在 `content_block_stop` 事件之前，作为 `content_block_delta` 事件中的 `signature_delta` 到达。
 * Claude 4 及更高版本模型中的 `signature` 值明显比之前的模型更长。
 * `signature` 字段是不透明的：请勿解释或解析它。
-* `signature` 值在各平台之间兼容，包括 Claude API、[Amazon Bedrock (`bedrock-mantle`)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) 和 [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)。在一个平台上生成的值可以在另一个平台上使用，但来自 Claude Sonnet 5.5、Claude Haiku 5.5、Claude Fable 5.2 和 Claude Mythos 5.2 的思考块仅在生成它们的账户或与之关联的账户中有效。请参阅[思考块仅限于生成它们的账户](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)。
+* `signature` 值在各平台之间兼容：在一个平台上生成的值可以在另一个平台上使用。
+* 来自某些模型的思考块是例外。它们仅在生成它们的账户或与之关联的账户中有效。有关这些模型，请参阅[账户和云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)。
 
 ## 已编辑的思考块
 
@@ -1220,13 +1219,9 @@ User: [Text response, cache=True]
 
 `data` 字段是不透明且经过加密的。与常规思考块上的 `signature` 字段一样，在结合[工具](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-with-tool-use)继续多轮对话时，请将 `redacted_thinking` 块原样传回 API。
 
-<Tip>
-  如果您的代码在结合工具使用往返传递响应时按类型过滤内容块（例如 `block.type == "thinking"`），请同时包含 `redacted_thinking` 块。仅按 `block.type == "thinking"` 过滤会静默丢弃 `redacted_thinking` 块，并破坏[保留思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)中描述的多轮协议。
-</Tip>
+如果您的代码在结合工具使用往返传递响应时按类型过滤内容块（例如 `block.type == "thinking"`），请同时包含 `redacted_thinking` 块。仅按 `block.type == "thinking"` 过滤会静默丢弃 `redacted_thinking` 块，并破坏[保留思考块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserving-thinking-blocks)中描述的多轮协议。
 
-<Note>
-  `redacted_thinking` 块是一种独立的内容块类型，在思考因安全原因被编辑时返回。这与 [`display: "omitted"`](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display) 选项不同，后者返回 `thinking` 字段为空的常规 `thinking` 块。
-</Note>
+`redacted_thinking` 块是一种独立的内容块类型，在思考因安全原因被编辑时返回。这与 [`display: "omitted"`](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display) 选项不同，后者返回 `thinking` 字段为空的常规 `thinking` 块。
 
 ## 限制与功能兼容性
 
@@ -1281,7 +1276,7 @@ Claude 4.6 及更高版本的模型以及 Claude Mythos Preview 会以 400 错�
     逐步完成一个正确保留思考块的完整两轮工具使用往返流程，并了解交错思考如何改变该流程。
   </Card>
 
-  <Card title="保留的思考" icon="stack" href="https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking">
+  <Card title="保留思考" icon="stack" href="https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking">
     了解您的 Messages API 集成是否会编辑对话历史，并用能使较早思考块保持有效的 API 功能替换每种编辑。
   </Card>
 

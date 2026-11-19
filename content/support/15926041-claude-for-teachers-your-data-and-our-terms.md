@@ -2,7 +2,7 @@
 
 ## Overview
 
-**[Claude for Teachers](https://claude.com/solutions/teachers)** is free for verified US K-12 educators, whether you sign up as an individual teacher or your school or district sets up an organization for everyone. Qualifying teachers or organizations that sign up by June 30, 2027 get a full year of free access. This offering includes free access to Claude Pro features, teaching skills built for lesson planning and differentiation, a connection to curriculum mapped to academic standards in all 50 states, and terms written for K-12.
+**[Claude for Teachers](https://claude.com/solutions/teachers)** is free for verified US K-12 educators through July 30, 2028, whether you sign up as an individual teacher or your school or district sets up an organization for everyone. This offering includes free access to Claude Pro features, teaching skills built for lesson planning and differentiation, a connection to curriculum mapped to academic standards in all 50 states, and terms written for K-12.
 
 This page explains the **[U.S. K-12 Terms of Service](https://www.anthropic.com/legal/k12-terms)**, **[US K-12 Public Sector Addendum](https://anthropic.com/legal/k12-addendum)**, and the **[U.S. K-12 Data Processing Agreement](https://www.anthropic.com/legal/k12-dpa)**.
 
@@ -68,7 +68,7 @@ Your district's admins can also delete any member's data through the Compliance 
 
 When you verify, your account moves onto a Claude for Teachers plan—a free Claude for Teams plan for verified educators. It comes with educator-specific terms and a data processing agreement, your chats and files aren't used to train our models, and student-data protections are built in. Your usage limits are higher than a standard free account—enough for everyday classroom work like lesson planning, quizzes, and parent communication.
 
-Some Team plan features are turned off for Claude for Teachers. You won't see billing and seat purchasing, **[member invitations and management](https://support.claude.com/en/articles/13133750-manage-members-on-team-and-enterprise-plans)**, roles and permissions, SSO and domain capture, spend controls, usage credits, or premium seats. For questions, **[reach out to our Support team](https://support.claude.com/en/articles/9015913-how-to-get-support)**.
+Some Team plan features are turned off for Claude for Teachers. You won't see billing and seat purchasing, **[member invitations and management](https://support.claude.com/en/articles/13133750-manage-members-on-team-and-enterprise-plans)**, roles and permissions, SSO and domain capture, or premium seats. For questions, **[reach out to our Support team](https://support.claude.com/en/articles/9015913-how-to-get-support)**.
 
 ### School and district organizations
 
@@ -90,4 +90,4 @@ What's different from an individual Claude for K-12 Teachers account:
 
 ## Get started
 
-Teachers, schools, and districts can all get started for free at **[Claude for Teachers](https://claude.com/solutions/teachers)**. Sign up by June 30, 2027 for your full year of free access.
+Teachers, schools, and districts can all get started for free at **[Claude for Teachers](https://claude.com/solutions/teachers)**. Claude for Teachers is free through July 30, 2028.

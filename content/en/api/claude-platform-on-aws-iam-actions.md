@@ -298,11 +298,17 @@ Actions follow the AWS `VerbNoun` convention and use verb discipline so that `Ge
 | --------------- | ----------------- |
 | `AssumeConsole` | (none)            |
 
-`AssumeConsole` authorizes a principal to open the Claude Console for a Claude Platform on AWS workspace through the AWS Console federation flow. It does not map to a route. Grant it to principals who should be able to click **Open Claude Console** on the Claude Platform on AWS service page in the AWS Console. The Claude Console role (Admin or Developer) is assigned separately by your Anthropic account representative; it is not derived from the principal’s IAM permissions. See [Using the Claude Console](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#using-the-claude-console) for the sign-in flow and role descriptions.
+`AssumeConsole` authorizes a principal to open the Claude Console for its Claude Platform on AWS organization through the AWS Console federation flow. It does not map to a route or bind to a workspace ARN, so a statement that grants it needs `Resource: "*"`. Grant it to principals who should be able to click **Open Claude Console** on the Claude Platform on AWS service page in the AWS Console. See [Using the Claude Console](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#using-the-claude-console) for the sign-in flow and what each Claude Console role (Admin or Developer) can do.
+
+A Claude Console session covers the whole organization, not one workspace, and some Claude Console pages bypass IAM action checks. On those pages, a principal with either Claude Console role can see the whole organization’s usage, cost, and rate limits, whatever its IAM policies allow. With the Admin role, it can also see request metadata on the **Logs** page. An Admin session can also change settings outside IAM, such as spend limits for the organization and each workspace. Grant `AssumeConsole` only to principals who may see and act on the whole organization. [Claude Console pages available on Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#available-pages) shows which pages check IAM actions and which bypass them.
+
+On the **Rate limits** page, viewing limits bypasses IAM action checks, but **Request higher limits** does not. `ListAccountRateLimitIncreaseRequests` authorizes seeing the button, and `CreateAccountRateLimitIncreaseRequest` authorizes sending a request. The button also needs the Admin role. Both actions are account-scoped. A statement whose `Resource` is a workspace ARN does not grant them; use `Resource: "*"`. They have no public API route, so the tables in [Route-to-action mapping](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#route-to-action-mapping) don’t list them. See [Rate limits and quotas](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws#rate-limits-and-quotas).
 
 ## Route-to-action mapping
 
-The following tables list every route on Claude Platform on AWS and the IAM action required to call it. Each IAM action also authorizes requests that use the `anthropic-beta` header; beta variants of a route do not require a separate IAM action. CloudTrail classifies each action as either a Data event (high-volume, data-plane operations) or a Management event (control-plane operations). Vault and webhook actions are classified as Management events because they hold secrets (vault credentials and webhook signing secrets) and benefit from default-on audit logging. Workspace, external key, telemetry destination, and compliance actions are also classified as Management events because they are organization-scoped control-plane operations. All other actions, including inference, batch, model, file, skill, user profile, usage and cost, and the remaining Claude Managed Agents actions, are classified as Data events.
+The following tables list the public API routes on Claude Platform on AWS and the IAM action required to call each one. Each IAM action also authorizes requests that use the `anthropic-beta` header; beta variants of a route do not require a separate IAM action.
+
+CloudTrail classifies each action as either a Data event (high-volume, data-plane operations) or a Management event (control-plane operations). It classifies vault and webhook actions as Management events because they hold secrets (vault credentials and webhook signing secrets) and benefit from default-on audit logging. It also classifies workspace, external key, telemetry destination, compliance, and rate limit increase request actions as Management events. These actions are organization-scoped control-plane operations. CloudTrail classifies all other actions as Data events. These include inference, batch, model, file, skill, user profile, usage and cost, and the remaining Claude Managed Agents actions.
 
 | Method   | Route                                                                     | IAM action                                  | CloudTrail event type |
 | -------- | ------------------------------------------------------------------------- | ------------------------------------------- | --------------------- |
@@ -433,7 +439,7 @@ The following tables list every route on Claude Platform on AWS and the IAM acti
 | `GET`  | `/v1/organizations/analytics/usage` | `ListAccountUsage` | Data                  |
 | `GET`  | `/v1/organizations/analytics/cost`  | `ListAccountCost`  | Data                  |
 
-Routes not in these tables are not available on Claude Platform on AWS. The gateway denies any route not listed here by default.
+Public API routes not in these tables are not available on Claude Platform on AWS. The gateway denies them.
 
 <Note>
   Workspace, external key, telemetry destination, and Usage and Cost Analytics API routes are the only Admin API routes available on Claude Platform on AWS. You can also create, update, or archive workspaces in the AWS Console or, with the Admin role, in the Claude Console. Encryption keys can also be registered and attached in the Claude Console.
@@ -461,7 +467,7 @@ AWS provides five managed policies for Claude Platform on AWS. All managed polic
 
 `AnthropicSelfHostedEnvironmentAccess` is the narrowest managed policy sufficient to run a [self-hosted sandbox](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes) worker. Attach it to the principal your environment worker authenticates as.
 
-`AssumeConsole` is not included in `AnthropicReadOnlyAccess`, `AnthropicInferenceAccess`, `AnthropicLimitedAccess`, or `AnthropicSelfHostedEnvironmentAccess`. Principals who need Claude Console access require either `AnthropicFullAccess` or a custom policy that grants `aws-external-anthropic:AssumeConsole`. See [Console access](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#console-access).
+To open the Claude Console, a principal needs `AssumeConsole` (see [Console access](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#console-access)). `AnthropicFullAccess` allows it through `aws-external-anthropic:*`. `AnthropicLimitedAccess` allows it only under a condition (see [AnthropicLimitedAccess in the AWS Managed Policy Reference](https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AnthropicLimitedAccess.html)). A custom policy can also grant `aws-external-anthropic:AssumeConsole`.
 
 <Note>
   `CreateInference` and `CreateBatchInference` are separate actions. Denying one does not block the other. If you intend to prevent all model calls, deny both.
@@ -513,21 +519,20 @@ Restricts a role to a single workspace:
     },
     {
       "Effect": "Allow",
-      "Action": [
-        "aws-external-anthropic:CallWithBearerToken",
-        "aws-external-anthropic:AssumeConsole"
-      ],
+      "Action": "aws-external-anthropic:CallWithBearerToken",
       "Resource": "*"
     }
   ]
 }
 ```
 
-<Note>
-  The `aws-external-anthropic:*` wildcard in the first statement includes account-scoped actions (`CreateWorkspace`, `ListWorkspaces`, `ListComplianceActivities`, the external key actions, the account-scoped telemetry destination actions, the user profile actions, and the usage and cost actions) that the workspace ARN constraint silently filters out. This is consistent with the “isolation” intent (the role cannot create workspaces, enumerate workspaces, manage encryption key registrations, read the compliance Activity Feed, read usage or cost reports, or read or manage user profiles, and it cannot create, read, or change telemetry destinations; it can still attach an already-registered key to its own workspace through `UpdateWorkspace`, and add its own workspace to a destination, or remove it from one, given the destination’s ID), but the policy contains permissions that have no effect. If the role needs user profiles or usage and cost reports, add a separate `Allow` statement for those actions with `Resource: "*"`. See [Provisioning automation](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#provisioning-automation) for the account-scoped pattern.
+The second statement grants `CallWithBearerToken` on `Resource: "*"` so the role can authenticate with an API key. That action does not bind to a workspace ARN, so the first statement does not grant it. Omit the second statement if the role uses SigV4 only.
 
-  `CallWithBearerToken` and `AssumeConsole` are route-less actions that do not bind to a workspace ARN. The second statement grants them on `Resource: "*"` so the role can authenticate with an API key and open the Claude Console. Omit this statement if the role uses SigV4 only and does not need Claude Console access.
-</Note>
+The `aws-external-anthropic:*` wildcard in the first statement includes account-scoped actions, such as `CreateWorkspace` and `ListWorkspaces`. The workspace ARN constraint silently filters them out.
+
+The [encryption key actions](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#encryption-keys) and the account-scoped [telemetry destination actions](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#telemetry-destinations) are among those filtered out. The role can still attach an already-registered encryption key to its own workspace through `UpdateWorkspace`. Given a telemetry destination’s ID, it can also add its own workspace to that destination or remove the workspace from it.
+
+Like `CallWithBearerToken`, `AssumeConsole` does not bind to a workspace ARN, so the first statement does not grant it. No statement grants `AssumeConsole`; see [Console access](https://platform.claude.com/docs/en/api/claude-platform-on-aws-iam-actions#console-access) for why a role limited to one workspace should not have it.
 
 ### Feature lockdown for a ZDR-sensitive workspace
 

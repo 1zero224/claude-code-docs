@@ -639,6 +639,26 @@ signature is missing or invalid.
 
       - `organization_id: str`
 
+    - `class BetaWebhookExternalKeyFailedEventData`
+
+      - `type: Literal["external_key.failed"]`
+
+      - `id: str`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `organization_id: str`
+
+    - `class BetaWebhookExternalKeyRecoveredEventData`
+
+      - `type: Literal["external_key.recovered"]`
+
+      - `id: str`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `organization_id: str`
+
 ## Example
 
 ```python
@@ -650,7 +670,13 @@ client = Anthropic(
         "ANTHROPIC_API_KEY"
     ),  # This is the default and can be omitted
 )
-# `payload` is the raw body of the incoming webhook request and `headers` are its HTTP headers.
+# Replace these with the raw body and the HTTP headers of the incoming webhook request.
+payload = '{"type":"event","id":"whe_0f1e2d3c4b5a69788796a5b4c3d2e1f0","created_at":"2026-03-15T10:00:00Z","data":{"type":"session.status_idled"}}'
+headers = {
+    "webhook-id": "msg_0123456789",
+    "webhook-timestamp": "1773568800",
+    "webhook-signature": "v1,ZmFrZS1zaWduYXR1cmU=",
+}
 event = client.beta.webhooks.unwrap(
     payload,
     headers=headers,

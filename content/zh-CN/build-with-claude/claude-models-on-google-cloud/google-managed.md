@@ -1,7 +1,7 @@
 ---
 title: Claude Models on Google Cloud (Google managed)
 url: https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed
-description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Google Cloud's Agent Platform 的一部分进行运营。您可以使用 Anthropic 的客户端 SDK 调用 Claude。
+description: 设置 Claude Models on Google Cloud (Google managed)（由 Google 作为 Google Cloud's Agent Platform 的一部分进行运营）。然后，使用 Anthropic SDK 或 cURL 调用 Claude。
 ---
 
 [Claude Models on Google Cloud](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/overview) 对比了这两种 Google Cloud 产品，并说明了如何判断您使用的是哪一种。
@@ -49,8 +49,8 @@ description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Go
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.8.0")
-        implementation("com.anthropic:anthropic-java-vertex:3.8.0")
+        implementation("com.anthropic:anthropic-java:3.10.0")
+        implementation("com.anthropic:anthropic-java-vertex:3.10.0")
         ```
       </Tab>
 
@@ -59,12 +59,12 @@ description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Go
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-vertex</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         ```
       </Tab>
@@ -79,9 +79,8 @@ description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Go
 
   <Tab title="Ruby">
     ```bash
-    # Gemfile
-    gem "anthropic"
-    gem "googleauth"
+    bundle add anthropic
+    bundle add googleauth
     ```
   </Tab>
 </Tabs>
@@ -95,7 +94,11 @@ description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Go
 请求与 [Messages API](https://platform.claude.com/docs/zh-CN/api/messages/create) 请求几乎完全相同，主要有两点区别：
 
 * **模型：** 端点 URL 中指定了模型。在 cURL 请求中，请勿在请求体中包含 `model`。
-* **版本：** 在 cURL 请求中，请在请求体中传递 `anthropic_version`，而不是作为请求头传递。将其设置为 `vertex-2023-10-16`，或设置为 [API 版本 `2026-10-21`](https://platform.claude.com/docs/zh-CN/api/migration-2026-10-21)。
+* **版本：** 在 cURL 请求中，请在请求体中传递 `anthropic_version`，而不是作为请求头传递。将其设置为 `vertex-2023-10-16` 或 [API 版本 `2026-10-21`](https://platform.claude.com/docs/zh-CN/api/migration-2026-10-21)。
+
+SDK 会为您处理这两点区别。它会将您的 `model` 值移入 URL，并将 `anthropic_version` 设置为它与 Claude API 配合使用的 API 版本。有关要传递的模型 ID，请参阅 [API 模型 ID](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#api-model-ids)。
+
+在以下示例中，SDK 客户端使用 Application Default Credentials 进行身份验证。要设置 Application Default Credentials，请参阅[进行 API 调用之前](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#before-making-api-calls)。
 
 以下示例使用全局端点。有关其他端点类型，请参阅[全局、多区域和区域端点](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#global-multi-region-and-regional-endpoints)。
 
@@ -189,8 +192,9 @@ description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Go
   	"github.com/anthropics/anthropic-sdk-go/v2"
   	"github.com/anthropics/anthropic-sdk-go/v2/vertex"
   )
-  // ...
-  	// 使用默认的 Google Cloud 凭据
+
+  func main() {
+  	// 使用 Application Default Credentials（应用默认凭据）。参数：context、区域、项目 ID。
   	client := anthropic.NewClient(
   		vertex.WithGoogleAuth(context.Background(), "global", "MY_PROJECT_ID"),
   	)
@@ -206,6 +210,7 @@ description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Go
   		panic(err)
   	}
   	fmt.Printf("%+v\n", message)
+  }
   ```
 
   ```java Java
@@ -245,9 +250,9 @@ description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Go
   ```php PHP
   use Anthropic\Messages\Model;
   use Anthropic\Messages\TextBlock;
-  use Anthropic\Vertex;
+  use Anthropic\Vertex\Client;
 
-  $client = Vertex\Client::fromEnvironment(
+  $client = Client::fromEnvironment(
       region: 'global',
       projectId: 'MY_PROJECT_ID',
   );
@@ -281,7 +286,7 @@ description: Google 将 Claude Models on Google Cloud (Google managed) 作为 Go
     messages: [{ role: "user", content: "Hey Claude!" }]
   )
 
-  puts message.content.find { |block| block.is_a?(Anthropic::Models::TextBlock) }.text
+  message.content.grep(Anthropic::Models::TextBlock).each { |block| puts block.text }
   ```
 </CodeGroup>
 
@@ -405,11 +410,14 @@ Claude Models on Google Cloud (Google managed) 提供三种端点类型。您可
   	"github.com/anthropics/anthropic-sdk-go/v2"
   	"github.com/anthropics/anthropic-sdk-go/v2/vertex"
   )
-  // ...
+
+  func main() {
   	// 多区域标识符："us" 或 "eu"
   	client := anthropic.NewClient(
   		vertex.WithGoogleAuth(context.Background(), "us", "MY_PROJECT_ID"),
   	)
+  	// ...
+  }
   ```
 
   ```java Java
@@ -433,9 +441,9 @@ Claude Models on Google Cloud (Google managed) 提供三种端点类型。您可
   ```
 
   ```php PHP
-  use Anthropic\Vertex;
+  use Anthropic\Vertex\Client;
 
-  $client = Vertex\Client::fromEnvironment(
+  $client = Client::fromEnvironment(
       region: 'us', // Multi-region identifier: "us" or "eu"
       projectId: 'MY_PROJECT_ID',
   );
@@ -599,14 +607,16 @@ Anthropic 建议您至少保留最近 30 天的日志。这些日志有助于您
       import (
       	"context"
 
-      	"github.com/anthropics/anthropic-sdk-go/v2"
       	"github.com/anthropics/anthropic-sdk-go/v2/googlecloud"
       )
-      // ...
+
+      func main() {
       	client, err := googlecloud.NewClient(context.Background(), googlecloud.ClientConfig{})
       	if err != nil {
       		panic(err)
       	}
+      	// ...
+      }
       ```
 
       ```java Java
@@ -689,11 +699,14 @@ Anthropic 建议您至少保留最近 30 天的日志。这些日志有助于您
       	"github.com/anthropics/anthropic-sdk-go/v2"
       	"github.com/anthropics/anthropic-sdk-go/v2/vertex"
       )
-      // ...
-      	// 使用默认的 Google Cloud 凭据
+
+      func main() {
+      	// 使用 Application Default Credentials（应用默认凭据）。参数：context、区域、项目 ID。
       	client := anthropic.NewClient(
       		vertex.WithGoogleAuth(context.Background(), "global", "MY_PROJECT_ID"),
       	)
+      	// ...
+      }
       ```
 
       ```java Java
@@ -716,9 +729,9 @@ Anthropic 建议您至少保留最近 30 天的日志。这些日志有助于您
       ```
 
       ```php PHP
-      use Anthropic\Vertex;
+      use Anthropic\Vertex\Client;
 
-      $client = Vertex\Client::fromEnvironment(
+      $client = Client::fromEnvironment(
           region: 'global',
           projectId: 'MY_PROJECT_ID',
       );

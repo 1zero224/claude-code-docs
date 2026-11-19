@@ -1,6 +1,6 @@
 # 在 iOS 应用中使用 Claude
 
-Claude 现在可以连接到您 iOS 设备的系统应用，帮助您直接从对话中采取行动。与 Claude 聊天时，它可以起草消息、电子邮件或日历事件，查找位置、管理提醒以及分析您的健康和健身数据 — 所有这些都与您的移动应用无缝集成。
+Claude 现在可以连接您 iOS 设备的系统应用，帮助您直接从对话中采取行动。与 Claude 聊天时，它可以起草消息、电子邮件或日历事件，查找位置、管理提醒，以及分析您的健康和健身数据——所有这些都与您的移动应用无缝集成。
 
 此功能在所有 Claude 计划上都受支持，适用于 iOS 系统应用（消息、邮件、日历、地图、提醒和位置服务），以及兼容的第三方应用。健康功能目前处于测试阶段，需要 Pro、Max 或 Ultra 计划，仅在美国提供。
 
@@ -10,17 +10,17 @@ Claude 可以帮助您：
 
 - **通过消息应用或任何消息平台（如 WhatsApp、Slack 或 Messenger）起草并发送消息**。
 
-- **撰写电子邮件**，直接在邮件应用或任何其他电子邮件平台（如 Gmail 或 Outlook）中打开，主题和内容已预填。
+- **撰写电子邮件**，直接在邮件应用或其他电子邮件平台（如 Gmail 或 Outlook）中打开，主题和内容已预填。
 
-- **访问您的位置**，为附近的地点和服务提供上下文建议。
+- **访问您的位置**，为附近的地点和服务提供情境建议。
 
 - **在地图上显示位置**，帮助您导航到餐厅、商店和其他目的地。
 
-- **读取和管理您的日历**，检查可用性、创建事件和安排会议。
+- **读取和管理您的日历**，以检查可用性、创建事件和安排会议。
 
 - **创建和管理提醒**，帮助您使用任务和列表保持井井有条。
 
-- **读取和分析您的健康数据**，帮助您了解健身模式、跟踪目标进度并使用原生图表可视化趋势（仅限 Pro、Max 和 Ultra 计划）。
+- **读取和分析您的健康数据**，帮助您了解健身模式、跟踪目标进度，并使用原生图表可视化趋势（仅限 Pro、Max 和 Ultra 计划）。
 
 ### 限制
 
@@ -38,11 +38,11 @@ Claude 可以帮助您：
 
 ## Claude 如何帮助您采取行动
 
-当 Claude 确定使用其中一项功能会有帮助时，它会自动建议。您会在对话中看到一张卡片或提示，让您查看并在 Claude 的帮助下采取行动。
+当 Claude 确定使用这些功能之一会有帮助时，它会自动建议。您会在对话中看到一张卡片或提示，让您可以查看并在 Claude 的帮助下采取行动。
 
-### 使用消息和邮件发送短信和电子邮件
+### 使用消息和邮件发送文本和电子邮件
 
-1. 要求 Claude 帮助起草消息或电子邮件（例如："帮我写一条关于明天会议的短信给我的团队"）。
+1. 请求 Claude 帮助起草消息或电子邮件（例如：“帮我给我的团队写一条关于明天会议的短信”）。
 
 2. Claude 将准备消息并向您显示预览。
 
@@ -50,15 +50,15 @@ Claude 可以帮助您：
 
   1. 还支持第三方应用（WhatsApp、Messenger、Signal）。
 
-4. 查看预填充的内容，如需要可进行任何更改。
+4. 查看预填的内容，如需要可进行任何更改。
 
 5. 像往常一样发送消息。
 
-**示例：**"起草一封电子邮件给我的经理，解释我因为医生预约而迟到早上的会议。"
+**示例：**“起草一封电子邮件给我的经理，解释我因为医生预约会迟到早上的会议。”
 
-### 使用位置获取上下文建议
+### 使用位置获取情境建议
 
-1. 要求 Claude 提供基于位置的建议（例如："附近有什么晚餐选择？"）。
+1. 向 Claude 请求基于位置的建议（例如：“附近有什么晚餐选择？”）。
 
 2. 如果尚未授予，Claude 将请求访问您的位置。
 
@@ -66,7 +66,7 @@ Claude 可以帮助您：
 
 4. 您可以在地图上查看位置并获取导航方向。
 
-**示例：**"查找我附近现在营业的好餐厅。"
+**示例：**“找到我附近现在营业的好餐厅。”
 
 ### 使用地图显示位置
 
@@ -78,49 +78,49 @@ Claude 可以帮助您：
 
 4. 直接从地图获取逐向导航。
 
-**示例：**"在地图上显示步行距离内的咖啡店。"
+**示例：**“在地图上显示步行距离内的咖啡店。”
 
 ### 管理您的日历
 
-1. 要求 Claude 检查您的日程或创建事件。
+1. 请求 Claude 检查您的日程或创建事件。
 
 2. 如果尚未授予，Claude 将请求日历访问权限。
 
-3. 检查可用性：Claude 读取您的日历并识别空闲时段。
+3. 对于检查可用性：Claude 读取您的日历并识别空闲时段。
 
-4. 创建事件：Claude 准备事件详情并将其添加到您的日历。
+4. 对于创建事件：Claude 准备事件详情并将其添加到您的日历。
 
 5. 您可以根据需要编辑或删除事件。
 
 **示例：**
 
-- 这周我什么时候有 30 分钟的会议时间？
+- “我这周什么时候有空参加 30 分钟的会议？”
 
-- 下周五上午 10 点安排牙医预约。
+- “为下周五上午 10 点安排牙医预约。”
 
-- 每周一上午 9 点添加一个每周团队站会。
+- “添加每周一上午 9 点的团队站会。”
 
 ### 创建和管理提醒
 
 1. 要求 Claude 创建提醒或将项目添加到列表。
 
-2. 如果尚未授予权限，Claude 将请求访问提醒权限。
+2. 如果尚未授予权限，Claude 将请求访问“提醒”的权限。
 
 3. Claude 可以将项目添加到现有列表或创建新提醒。
 
 4. 为提醒设置截止日期、优先级和备注。
 
-5. 管理定期提醒以完成常规任务。
+5. 管理定期提醒以处理常规任务。
 
 **示例：**
 
-- "Add milk and eggs to my grocery list."
+- “将牛奶和鸡蛋添加到我的购物清单。”
 
-- "Remind me to call the dentist tomorrow at 2 PM."
+- “提醒我明天下午 2 点给牙医打电话。”
 
-- "Create a packing list for my trip next week."
+- “为我下周的旅行创建一个打包清单。”
 
-请注意，当 Claude 使用工具执行这些操作时，其使用情况会以与任何工具相同的方式保存在对话历史中。
+请注意，当 Claude 使用工具执行这些操作时，其使用情况会以与任何工具相同的方式保存在对话历史记录中。
 
 ---
 
@@ -128,13 +128,13 @@ Claude 可以帮助您：
 
 **注意：**健康功能仅在 Pro、Max 和 Ultra 计划中以测试版形式提供，目前仅限美国用户使用。
 
-Claude 可以从 Apple Health 读取您的健康和健身数据，帮助您了解模式、跟踪进度并做出有关健康的明智决定。当您向 Claude 询问您的健康数据时，它可以使用与 iOS 集成的原生图表显示见解。
+Claude 可以从 Apple Health 读取您的健康和健身数据，帮助您了解模式、跟踪进度并做出有关您健康的明智决定。当您向 Claude 询问您的健康数据时，它可以使用与 iOS 集成的原生图表显示见解。
 
 **重要提示：**我们不是医疗设备，无法提供医疗建议。请始终咨询持证专业人士。
 
 ### Claude 可以访问哪些健康数据？
 
-获得您的许可后，Claude 可以从 Apple Health 读取以下类型的数据：
+在您的许可下，Claude 可以从 Apple Health 读取以下类型的数据：
 
 - **活动指标：**步数、距离、爬升楼层数、活动卡路里、运动分钟数、移动和站立时间。
 
@@ -146,35 +146,35 @@ Claude 可以从 Apple Health 读取您的健康和健身数据，帮助您了�
 
 - **睡眠：**总睡眠时间、睡眠阶段、卧床时间和睡眠效率。
 
-- **营养：**摄入的卡路里、宏量营养素、水摄入量和微量营养素（如已跟踪）。
+- **营养：**摄入的卡路里、宏量营养素、水摄入量和微量营养素（如果跟踪）。
 
 **注意：**默认情况下，Claude 不会将健康信息保存到记忆中。如果您启用**在记忆中包含敏感主题**，Claude 可能会记住您对话中与健康相关的内容。详细了解**[记忆中的敏感主题](https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context#h_6fe1d0e66f)**。
 
 ### 如何使用健康功能
 
-1. 向 Claude 提出关于您的健康或健身数据的问题（例如：
+1. 向 Claude 提问有关您的健康或健身数据的问题（例如：“我这个月的跑步趋势如何？”或“显示我过去两周的睡眠模式”）。
 
 2. 如果尚未授予权限，Claude 将请求访问您的健康数据。
 
 3. 查看权限提示并选择您的首选选项。
 
-4. Claude 分析您的数据并提供见解，通常使用可视化图表来帮助您了解趋势。
+4. Claude 分析您的数据并提供见解，通常使用可视化图表帮助您了解趋势。
 
 ### 示例提示
 
-- "Help me create a training plan for my upcoming half-marathon based on my recent running data."
+- “根据我最近的跑步数据，帮我为即将到来的半程马拉松制定训练计划。”
 
-- "Why have I been feeling tired lately? Can you look at my sleep and activity data?"
+- “我最近为什么一直感到疲劳？您能查看我的睡眠和活动数据吗？”
 
-- "Show me how my resting heart rate has changed over the past three months."
+- “显示我的静息心率在过去三个月中的变化。”
 
-- "Compare my workout consistency this month versus last month."
+- “比较我这个月与上个月的锻炼一致性。”
 
-- "What patterns do you see in my step count throughout the week?"
+- “您在我整周的步数中看到了什么模式？”
 
 ### 了解健康可视化
 
-Claude 使用直接显示在您的对话中的原生 iOS 图表来显示健康见解。这些图表可以显示：
+Claude 使用原生 iOS 图表显示健康见解，这些图表直接显示在您的对话中。这些图表可以显示：
 
 - **柱状图**用于比较各天或各周的活动。
 
@@ -182,11 +182,11 @@ Claude 使用直接显示在您的对话中的原生 iOS 图表来显示健康�
 
 - **进度指示器**用于目标和里程碑
 
-点击图表元素以查看有关特定数据点的更多详细信息。
+点击图表元素以查看有关特定数据点的更多详情。
 
-## 获得最佳结果的使用指南
+## 获得最佳效果的使用指南
 
-为了获得最佳结果，请具体说明您想要的内容，在您的请求中包含相关详细信息（如日期、时间和位置），并在发送或保存前查看内容。Claude 理解自然语言，因此您可以进行对话式请求。
+为了获得最佳效果，请具体说明您想要的内容，在您的请求中包含相关详情（如日期、时间和位置），并在发送或保存前查看内容。Claude 理解自然语言，因此您可以进行对话式请求。
 
 ---
 
@@ -204,7 +204,7 @@ Claude 仅访问每个特定请求所需的数据：
 
 - **健康：**活动、锻炼、生命体征、身体测量、睡眠和营养数据 — 仅当您提出需要此信息的问题且已授予权限时。
 
-Claude 与您的 iOS 应用的连接通过您设备的内置共享和权限系统运作——这与您在任何 iPhone 应用中使用的安全方法相同。
+Claude 与您的 iOS 应用的连接通过您设备内置的共享和权限系统运作——这与您在任何 iPhone 应用中使用的安全方法相同。
 
 ## 我需要为 Claude iOS 版本授予权限吗？
 
@@ -212,68 +212,68 @@ Claude 与您的 iOS 应用的连接通过您设备的内置共享和权限系�
 
 - **消息和电子邮件：**无需权限（使用您设备的内置共享系统）。
 
-- **日历事件：**读取日历需要权限；写入可以使用系统 UI 而无需权限。
+- **日历事件：**读取日历需要权限；写入可以使用系统界面而无需权限。
 
-- **位置和地图：**当 Claude 需要访问您的位置时需要权限。
+- **位置和地图：**Claude 需要访问您的位置时需要权限。
 
-- **提醒：**当 Claude 需要访问提醒列表时会提示。
+- **提醒：**Claude 需要访问提醒列表时会提示。
 
 - **健康：**需要权限。Claude 在需要时会请求访问特定健康数据类别的权限。
 
-对于需要权限的功能（如位置或日历访问），Claude 会在上下文中请求权限，并清楚地说明为什么需要访问。您将被提示批准该操作，有三个选项：仅此一次、始终允许或不允许。
+对于需要权限的功能（如位置或日历访问），Claude 会根据情况请求权限，并清楚地说明为什么需要访问。您将看到三个选项的提示：仅此一次允许、始终允许或不允许。
 
-这些权限可以随时在您的设备设置中管理，方法是进入
+这些权限可以随时在您的设备设置中管理，方法是进入“设置”>“Claude”。您将看到所有可用权限，如位置、日历和提醒，可以点击每个权限来调整访问级别。您可以在“使用应用时”和“下次询问”之间切换来更改 Claude 的访问权限，或通过选择“从不”来移除权限。
 
-Health permissions work differently from other app permissions. When Claude requests health access, you'll see the standard iOS Health permissions screen where you can choose exactly which data types to share. You can modify these permissions at any time by going to Settings > Health > Data Access & Devices > Claude.
+健康权限的工作方式与其他应用权限不同。当 Claude 请求健康访问权限时，您将看到标准的 iOS 健康权限屏幕，可以选择要共享的具体数据类型。您可以随时通过进入“设置”>“健康”>“数据访问和设备”>“Claude”来修改这些权限。
 
-Claude will only request permissions if needed for specific features, and you can always choose to decline while still using other capabilities.
+Claude 仅在特定功能需要时才会请求权限，您始终可以选择拒绝，同时继续使用其他功能。
 
 ---
 
-## Troubleshooting
+## 故障排除
 
-### Claude isn't offering to use my apps
+### Claude 没有提供使用我的应用
 
-- Make sure you're using the latest version of the Claude iOS app. For instructions, see **[How to update Claude for iOS](https://support.claude.com/en/articles/11825384-).**
+- 确保您使用的是最新版本的 Claude iOS 应用。有关说明，请参阅**[如何更新 Claude iOS 版本](https://support.claude.com/en/articles/11825384-)。**
 
-- Try being more specific in your request (refer to the examples listed above).
+- 尝试在您的请求中更具体（参考上面列出的示例）。
 
-- Restart Claude for iOS and try again.
+- 重启 Claude iOS 应用并重试。
 
-### Permission prompts don't appear
+### 权限提示不出现
 
-- Check that the app for which Claude needs permissions is installed and set up on your phone.
+- 检查 Claude 需要权限的应用是否已安装并在您的手机上设置。
 
-- Verify iOS system permissions by navigating to Settings > Privacy & Security.
+- 通过进入“设置”>“隐私和安全”来验证 iOS 系统权限。
 
-- Ensure Claude for iOS has the necessary permissions enabled.
+- 确保 Claude iOS 版本已启用必要的权限。
 
-### Features aren't working as expected
+### 功能未按预期工作
 
-- Your iOS mobile apps may format content slightly differently than Claude.
+- 您的 iOS 移动应用可能会以与 Claude 略有不同的方式格式化内容。
 
-- You can always edit the content in the destination app before sending or saving.
+- 您始终可以在发送或保存前在目标应用中编辑内容。
 
-- Some features may vary based on your iOS version.
+- 某些功能可能因您的 iOS 版本而异。
 
-### Calendar events aren't opening correctly
+### 日历事件未正确打开
 
-- Verify you have a calendar app installed.
+- 验证您已安装日历应用。
 
-- Check that your preferred calendar app is set as the default for calendar events.
+- 检查您首选的日历应用是否设置为日历事件的默认应用。
 
-- Make sure the calendar app you’re trying to use is up to date.
+- 确保您尝试使用的日历应用是最新版本。
 
-### Health data isn't appearing or seems incomplete
+### 健康数据未显示或似乎不完整
 
-- Verify that you have a Pro, Max, or Ultra plan and are located in the US.
+- 验证您拥有 Pro、Max 或 Ultra 计划且位于美国。
 
-- Check that you've granted Claude access to the relevant health data types in Settings > Health > Data Access & Devices > Claude.
+- 检查您是否已在“设置”>“健康”>“数据访问和设备”>“Claude”中授予 Claude 访问相关健康数据类型的权限。
 
-- Ensure your health data is being recorded. Some data types require an Apple Watch or compatible device.
+- 确保您的健康数据正在被记录。某些数据类型需要 Apple Watch 或兼容设备。
 
-- If you recently started tracking a metric, there may not be enough historical data for trend analysis.
+- 如果您最近开始跟踪某个指标，可能没有足够的历史数据用于趋势分析。
 
-- Try asking about a specific data type to confirm which categories Claude can access.
+- 尝试询问特定数据类型以确认 Claude 可以访问哪些类别。
 
-**Need more help?** If you're experiencing issues with these features, try restarting Claude for iOS or **[updating to the latest version from the App Store](https://support.claude.com/en/articles/11825384-)**.
+**需要更多帮助？**如果您在使用这些功能时遇到问题，请尝试重启 Claude iOS 应用或**[从 App Store 更新到最新版本](https://support.claude.com/en/articles/11825384-)**。

@@ -4,40 +4,40 @@
 
 **[Claude Security](https://claude.com/product/claude-security)** 是内置于 Claude 中的一项功能，可持续监控您的代码库中的安全漏洞，跟踪每个发现直到修复，并建议针对性的补丁供人工审查。它帮助团队发现和修复传统方法经常遗漏的问题。
 
-Claude Security 目前以测试版形式提供给企业计划的用户。
+Claude Security 目前以测试版形式向企业计划用户提供。
 
-了解如何开始使用以及领先企业如何使用该工具，请访问：**[Claude Security 入门](https://academy.claude.com/tutorials/getting-started-with-claude-security)**。
+了解如何开始使用以及领先企业如何使用该工具，请访问：**[Claude Security 入门指南](https://academy.claude.com/tutorials/getting-started-with-claude-security)**。
 
 Claude Security 允许您：
 
-1. **全面扫描您的代码库** — Claude Security 理解您的代码如何组织在一起，跟踪跨文件和项目中存储库的数据流，并识别传统基于规则的扫描器无法检测的复杂多组件漏洞和错误。
+1. **全面扫描代码库** — Claude Security 理解代码如何组织在一起，跟踪文件间和项目中存储库间的数据流，并识别传统基于规则的扫描器无法检测的复杂多组件漏洞和缺陷。
 
 2. **深度扫描** — 创建项目并连接来自 GitHub 或其他 Git 提供商的最多八个存储库。Claude 读取代码、编写威胁模型并运行深度基线扫描。
 
-3. **持续扫描** — Claude Security 在新提交到达时运行高效扫描，并立即显示任何新发现以便快速修复。
+3. **持续扫描** — Claude Security 在新提交到达时运行高效扫描，并快速显示任何新发现以便及时修复。
 
-4. **添加代码无法显示的内容** — 告诉 Claude 您的代码如何部署、谁可以访问它以及您已接受的风险。每个项目在威胁模型中保存这些信息，Claude 使用它来决定标记什么以及如何评级。
+4. **添加代码无法显示的信息** — 告诉 Claude 您的代码如何部署、谁可以访问它以及您已接受的风险。每个项目在威胁模型中保存这些信息，Claude 使用它来决定标记什么以及如何评级。
 
-5. **验证发现** — 每个发现都经过多阶段验证，Claude 在显示发现之前会严格审查自己的发现。结果是：误报更少，噪音更少。
+5. **验证发现** — 每个发现都经过多阶段验证，Claude 在显示发现前会严格审查自己的发现。结果是：误报更少，噪音更少。
 
-6. **审查和修补** — 无缝地从发现进入 Claude Code 会话以生成针对性的修复。快速解决漏洞，而不是积累待办事项。
+6. **审查和修补** — 无缝从发现进入 Claude Code 会话以生成针对性修复。快速解决漏洞，而不是积累待办事项。
 
-7. **跟踪修复** — Claude 检查开放发现与已更改的代码，并在修复到达时将其标记为已修复。
+7. **跟踪修复** — Claude 检查开放发现与已更改的代码，并在修复到位时将其标记为已修复。
 
-8. **集成到您的工作流程中** — 通过 Claude Security API 或 Claude 和 Claude Code 中的 Claude Security 连接器 (MCP) 读取和解决发现，并在添加新发现时获得 webhook。
+8. **集成到您的工作流** — 通过 Claude Security API 或 Claude 和 Claude Code 中的 Claude Security 连接器 (MCP) 读取和解决发现，并在添加新发现时获得 webhook。
 
 9. **控制访问** — 与具有完全、分类或查看角色的用户共享每个项目。管理员可以决定谁可以创建项目以及谁可以通过 RBAC 查看、分类或管理所有项目。
 
 ## 严重程度
 
-严重程度是根据发现在您的代码库中的可利用程度分配的，而不是类别本身，因此相同的类别在不同的存储库中可能会处于不同的严重程度。Claude 使用项目的威胁模型来评估严重程度。
+严重程度根据漏洞在您的代码库中的可利用程度分配，而不是类别本身，因此同一类别在不同存储库中可能处于不同的严重程度。Claude 使用项目的威胁模型来评估严重程度。
 
 | **严重程度** | **标准**                                               | **典型示例**                  |
 | -------- | ---------------------------------------------------- | ------------------------- |
 | 严重       | 任何人都可以通过网络利用，无需登录、无需受害者操作且无特殊条件。它允许攻击者读取和更改数据。       | 面向互联网的服务中的未经身份验证的远程代码执行。  |
 | 高        | 影响严重，但不属于严重级别：攻击者需要登录或受害者操作，或损害是部分的（例如，数据可以读取但不能更改）。 | 登录后的 SQL 注入，允许攻击者读取和更改数据。 |
-| 中        | 影响有限（例如，少量非敏感数据），具有一个现实的前置条件，例如登录。                   | 登录后的 SQL 注入，仅暴露少数非敏感字段。   |
-| 低        | 影响有限，需要登录或网络邻近性加上攻击者控制之外的特殊条件。                       | 需要网络邻近性和数千个请求的时序侧信道。      |
+| 中        | 影响有限（例如，少量非敏感数据），具有一个现实的前置条件，如登录。                    | 登录后的 SQL 注入，仅暴露少数非敏感字段。   |
+| 低        | 影响有限，需要登录或网络邻近性加上攻击者无法控制的特殊条件。                       | 需要网络邻近性和数千个请求的时序侧信道。      |
 
 ---
 
@@ -49,19 +49,19 @@ Claude Security 允许您：
 
 - 严重程度 — 严重/高/中/低
 
-- 类别 — 发现类型，适用时包含其 CWE ID
+- 类别 — 发现类型，及其适用的 CWE ID
 
 - 位置 — 文件路径和行范围，链接到源代码。一个发现可以引用多个文件和存储库。
 
-- 状态 — 开放或已解决，包含发现日期。
+- 状态 — 开放或已解决，包括发现日期。
 
 - 受理人 — 分配给该发现的人员（如有）
 
-- Claude 发现的内容 — 发现的描述及其重要性。它可以包括攻击路径图。
+- Claude 发现的内容 — 发现内容及其重要性的描述。可以包括攻击路径图。
 
 - 如何修复 — 关于如何解决它的指导
 
-- 证据 — Claude 引用的文件和行范围，按存储库分组，包含扫描的分支和提交
+- 证据 — Claude 引用的文件和行范围，按存储库分组，包括扫描的分支和提交
 
 - 攻击如何工作 — 攻击者如何到达和利用该问题
 
@@ -71,7 +71,7 @@ Claude Security 允许您：
 
 - 仅在发现已解决时显示：
 
-  - 解决方案 — 标记为已修复、通过合并的拉取请求修复或作为误报、已接受的风险、重复项或其他原因而被驳回
+  - 解决方案 — 标记为已修复、通过合并的拉取请求修复或作为误报、已接受的风险、重复项或其他原因而驳回
 
   - 分类说明 — 可选
 
@@ -83,11 +83,11 @@ Claude Security 允许您：
 
 **使用 Claude Security 之前我需要什么？**
 
-需要有效的 Claude Enterprise 计划、为每个用户配置高级席位，以及为消费计费启用使用额度。所有者可在 **[组织设置 > Claude Security](https://claude.ai/admin-settings/claude-security)** 中启用 Claude Security。请参阅 **[快速入门指南](https://academy.claude.com/tutorials/getting-started-with-claude-security)** 了解设置步骤。
+每个 Claude Security 用户需要一个有效的 Claude Enterprise 计划和**[包含 Claude Code 的席位](https://support.claude.com/en/articles/11845131-use-claude-code-with-your-team-or-enterprise-plan)**。在基于席位的 Enterprise 计划中，还必须启用使用额度。拥有包含 Claude Code 的席位的所有者可在**[组织设置 > Claude Security](https://claude.ai/admin-settings/claude-security)** 中启用 Claude Security。请参阅**[快速入门指南](https://academy.claude.com/tutorials/getting-started-with-claude-security)**了解设置步骤。
 
 **如何授予 Claude Security 访问我的代码库的权限？**
 
-对于 GitHub.com 和 GitHub Enterprise Server，所有者需安装 **[Claude GitHub App](https://github.com/apps/claude)** 并授予其访问您要扫描的代码库的权限。对于其他 Git 提供商（如 GitLab、Azure DevOps 和 Bitbucket），请输入代码库的 https 地址和可读取该代码库的身份验证令牌。地址应使用小写字母，不包含用户名、密码、查询参数或端口，例如：`https://gitlab.com/group/project`。
+对于 GitHub.com 和 GitHub Enterprise Server，所有者安装**[Claude GitHub App](https://github.com/apps/claude)** 并授予其访问您要扫描的代码库的权限。对于其他 Git 提供商（如 GitLab、Azure DevOps 和 Bitbucket），输入代码库的 https 地址和可读取该代码库的身份验证令牌。地址应使用小写字母，不包含用户名、密码、查询或端口，例如：`https://gitlab.com/group/project`。
 
 **我可以扫描不在 GitHub 上的代码库吗？**
 
@@ -95,25 +95,29 @@ Claude Security 允许您：
 
 **我需要允许哪些 IP 地址？**
 
-使用 **[出站 IP 地址](https://platform.claude.com/docs/en/api/ip-addresses#outbound-ip-addresses)** 列表进行 IP 地址白名单设置。如果您使用 GitHub Enterprise Server 或其他 Git 提供商，您的实例必须允许来自这些 IP 地址的入站流量，以便 Claude Security 可以访问您的代码库。
+使用**[出站 IP 地址](https://platform.claude.com/docs/en/api/ip-addresses#outbound-ip-addresses)**列表进行 IP 地址白名单设置。如果您使用 GitHub Enterprise Server 或其他 Git 提供商，您的实例必须允许来自这些 IP 地址的入站流量，以便 Claude Security 可以访问您的代码库。
 
 **Claude Security 是否支持零数据保留 (ZDR)？**
 
-不支持。Anthropic 可能会在法律要求或处理使用政策违规时保留数据。
+不支持。Anthropic 可能会在法律要求或解决使用政策违规时保留数据。
+
+**Claude Security 是否支持客户管理的加密密钥 (CMEK)？**
+
+不支持。启用**[客户管理的加密密钥](https://platform.claude.com/docs/en/manage-claude/cmek-coverage-claude-enterprise)**会为您的组织关闭 Claude Security。
 
 **最新更新后我现有的项目会发生什么？**
 
-现有项目将继续按照现在的方式运行，仍可从 Claude Security 主页访问。新项目将使用新体验。
+我们会自动将现有项目迁移到新体验，早期版本将在 2026 年 11 月 25 日停用。您的发现结果会复制到新项目，原项目会被存档。如果您的项目处于暂停状态，其所有者可以恢复它。
 
 **我可以迁移现有项目吗？**
 
-可以，如果您是项目所有者。打开项目并点击
+可以，如果您是项目所有者。打开项目并点击 “迁移项目”，或在 Claude Security 主页上点击 “迁移您的项目” 来迁移您拥有的所有项目。Claude Security 会创建新项目，将发现结果复制到其中，并存档原项目。成员、排除的目录、扫描历史记录和计划扫描不会被复制。迁移项目会尽可能复制项目的 webhook，并告知您它们的变化。GitHub Enterprise 项目无法迁移。
 
 ### 持续监控
 
 **首次扫描需要多长时间？**
 
-根据代码库的大小，基线扫描可能需要几分钟到几小时。您可以在扫描运行时离开该页面。如果您为 Claude Security 启用了电子邮件通知，当项目扫描完成并发现新问题时，您将收到一封电子邮件。
+根据代码库的大小，基线扫描可能需要几分钟或几小时。您可以在扫描运行时离开页面。如果您为 Claude Security 启用了电子邮件通知，当您的项目扫描完成并有新发现时，您将收到一封电子邮件。
 
 **首次扫描后 Claude 多久扫描一次？**
 
@@ -125,122 +129,122 @@ Claude 根据风险和复杂性定期检查新提交并扫描更改。没有固�
 
 **后续扫描读取什么？**
 
-Claude 检查更改、审查更改，并根据风险、复杂性和您的扫描工作量智能地确定扫描范围。根据您的设置、范围和时间间隔，Claude 可能会选择完整扫描或增量扫描。您可以在
+Claude 检查更改、审查它们，并根据风险、复杂性和您的扫描工作量智能地确定扫描范围。根据您的设置、范围和时间长度，Claude 可能会选择完整扫描或增量扫描。您可以在“活动”选项卡中查看它是否运行了完整或增量扫描以及特定的范围更改。
 
 **为什么同一代码的两次扫描会返回不同的结果？**
 
-扫描在设计上是随机的。与传统的静态分析器不同，Claude Security 使用一个代理，该代理会根据每次运行进行调整，对代码上下文进行推理，而不是应用固定的模式匹配。这使得能够进行深度分析，以捕获逻辑级别的漏洞。
+扫描在设计上是随机的。与传统的静态分析器不同，Claude Security 使用一个代理，该代理会根据每次运行调整其分析，对代码上下文进行推理，而不是应用固定的模式匹配。这使得能够进行深度分析，以捕获逻辑级别的漏洞。
 
-**我应该如何设置大型代码库或单一代码库？**
+**我应该如何设置大型代码库或单体仓库？**
 
 在代码库上设置文件夹范围，而不是扫描整个代码库，并排除您不需要覆盖的文件夹。Claude 仍然可以根据需要从代码库的其余部分提取上下文。
 
 **一个项目可以有多少个代码库？**
 
-最多八个。代码库可以在范围内（Claude 扫描它并报告发现），或仅用于上下文（Claude 在扫描期间读取它但不报告其中的发现）。两者都计入限制。在项目的
+最多八个。代码库可以在范围内（Claude 扫描它并报告发现结果），或仅用于上下文（Claude 在扫描期间读取它，但不在其中报告发现结果）。两者都计入限制。在项目的“资源”选项卡上管理项目的代码库。
 
 **我如何告诉 Claude 我的环境？**
 
-打开项目的
+打开项目的“资源”选项卡以编辑威胁模型并添加文档（如架构文档）。Claude 使用它们来决定要标记什么以及如何评级。
 
 **Claude Security 使用哪些模型？**
 
-Claude Security 扫描由 Claude Mythos 模型提供支持。用户接收发现结果，无需直接访问模型。每个项目与 Claude 的聊天使用您的团队从组织允许的模型中选择的模型。Claude Security 的某些子组件在不需要 Mythos 级别推理时可能使用其他模型，例如枚举项目目录。
+Claude Security 扫描由 Claude Mythos 模型提供支持。用户获得发现结果，无需直接访问模型。每个项目与 Claude 的聊天使用您的团队从您的组织允许的模型中选择的模型。当不需要 Mythos 级别的推理时，Claude Security 的某些子组件可能会使用其他模型，例如枚举项目目录。
 
-### 发现和修复
+### 发现结果和修复
 
 **严重性如何分配，我可以更改它吗？**
 
-Claude 根据项目的威胁模型对每个发现进行评级，您的团队可以编辑和更正该模型。
+Claude 根据项目的威胁模型对每个发现结果进行评级，您的团队可以编辑和更正该模型。
 
-**如果发现描述的攻击在我的环境中不可能发生怎么办？**
+**如果发现结果描述的攻击在我的环境中不可能发生怎么办？**
 
-Claude 从您的代码编写威胁模型，因此可能会遗漏部署上下文和您公司已接受的模式。在项目的聊天中，告诉 Claude 为什么发现是错误的，并要求它更新威胁模型。Claude 使用威胁模型来决定要标记什么以及如何评级。
+Claude 从您的代码编写威胁模型，因此可能会遗漏部署上下文和您的公司已接受的模式。在项目的聊天中，告诉 Claude 为什么发现结果是错误的，并要求它更新威胁模型。Claude 使用威胁模型来决定要标记什么以及如何评级。
 
-**我如何修复发现？**
+**我如何修复发现结果？**
 
-点击发现上的
+点击发现结果上的 “修复” 以打开 Claude Code 并修复该特定漏洞。如果没有**[云中的 Claude Code](https://code.claude.com/docs/en/claude-code-on-the-web)**，您可以将提示复制到您自己的 Claude Code 中。Claude 将在未来的扫描中检测代码修复并自动解决发现结果。此外，您始终可以在 UI 中手动将发现结果标记为已修复。
 
 **修复跟踪如何工作？**
 
-当代码库中的代码更改时，Claude 会重新检查发现。无论发现是手动还是自动标记为已修复，如果 Claude 后来发现问题未解决，它都会自动重新打开该发现。
+当代码库中的代码更改时，Claude 会重新检查发现结果。无论发现结果是手动还是自动标记为已修复，如果 Claude 稍后发现问题未解决，它都会自动重新打开发现结果。
 
-**关闭发现时会发生什么？**
+**当我关闭发现结果时会发生什么？**
 
-您可以将发现关闭为误报、已接受的风险、重复项或其他原因，并添加分类说明。已关闭的发现保持关闭状态。当后续扫描报告相同问题时，Claude 会将其与已关闭的发现匹配并保持关闭。您可以随时自己重新打开已关闭的发现。
+您可以将发现结果关闭为误报、已接受的风险、重复项或其他原因，并添加分类说明。已关闭的发现结果保持关闭状态。当稍后的扫描报告相同问题时，Claude 会将其与已关闭的发现结果匹配并保持关闭。您可以随时自己重新打开已关闭的发现结果。
 
 ### 集成和通知
 
-**我如何将发现导出到我自己的工具？**
+**我如何将发现结果导出到我自己的工具？**
 
-要将发现导出到您自己的跟踪和通知系统，请使用 Claude Security API、Claude Security 连接器或 webhook。
+要将发现结果导出到您自己的跟踪和通知系统，请使用 Claude Security API、Claude Security 连接器或 webhook。
 
 **我如何使用 Claude Security API？**
 
-在 Claude Security 设置下创建个人访问令牌。令牌代表您：它只能查看和更改您可以查看和更改的内容。使用 API，您可以列出和读取项目和发现、解决和重新打开发现，以及创建和管理项目及其代码库。
+在 Claude Security 设置下创建个人访问令牌。令牌代表您：它只能查看和更改您能够查看和更改的内容。使用 API，您可以列出和读取项目和发现，解决和重新打开发现，以及创建和管理项目及其存储库。
 
-**Claude Security 连接器 (MCP) 可以做什么?**
+**Claude Security 连接器 (MCP) 可以做什么？**
 
-使用 Claude Security 连接器，Claude 和 Claude Code 可以列出并读取您的项目和发现结果，并在您要求时解决或重新打开发现结果。
+使用 Claude Security 连接器，Claude 和 Claude Code 可以列出和读取您的项目和发现，并在您要求时解决或重新打开发现。
 
-**当有新发现时，我如何获得通知?**
+**当有新发现时，我如何获得通知？**
 
-在 Claude Security 设置中创建 webhook，将新发现事件推送到您自己的系统，例如 Slack 或 Jira。
+在 Claude Security 设置下创建 webhook，将新发现事件推送到您自己的系统，例如 Slack 或 Jira。
 
 ### 访问和共享
 
-**管理员如何控制谁可以使用 Claude Security?**
+**管理员如何控制谁可以使用 Claude Security？**
 
-管理员可以通过在**[自定义角色](https://support.claude.com/en/articles/13930452-manage-custom-roles-on-enterprise-plans)**中配置功能，决定哪些 RBAC 角色可以创建项目，以及哪些可以查看、分类或管理所有项目。
+自定义角色上的成员需要同时具有 **Claude Security** 和 **Claude Code** 功能。在 Claude Security 处于测试版期间，“所有通常可用”功能设置不包括它。管理员可以通过在 **[自定义角色](https://support.claude.com/en/articles/13930452-manage-custom-roles-on-enterprise-plans)**中配置功能来决定哪些 RBAC 角色可以创建项目，以及哪些可以查看、分类或管理所有项目。
 
-**我如何共享项目，每个角色可以做什么?**
+**我如何共享项目，每个角色可以做什么？**
 
-在项目中，点击
+在项目中，点击 “共享”为成员分配角色：完全访问权限（管理发现、设置和访问权限）、分类（查看发现、更新其状态和启动修复）或查看。您也可以与整个组织共享项目。
 
-### Pricing
+### 定价
 
-**How much does Claude Security cost?**
+**Claude Security 的成本是多少？**
 
-Claude Security is charged at direct token cost only. There is no additional platform fee. Usage covers scans and other work Claude Security does in a project: writing a threat model, the project chat, and checking fixes.
+Claude Security 仅按直接令牌成本收费。没有额外的平台费用。使用费涵盖 Claude Security 在项目中执行的扫描和其他工作：编写威胁模型、项目聊天和检查修复。
 
-**How do I control and track what Claude Security costs?**
+**我如何控制和跟踪 Claude Security 的成本？**
 
-You can set a separate spend limit for Claude Security. Open Usage in a project’s settings to see its cost for the month to date and per day.
+您可以为 Claude Security 设置单独的支出限制。在项目设置中打开“使用情况”以查看其本月至今和每日成本。
 
-**Is there a launch offer for the updated Claude Security?**
+**更新的 Claude Security 是否有启动优惠？**
 
-Yes, eligible Claude Enterprise organizations receive free usage credits up to $25,000 a month, for two months, through December 31, 2026. This appears as a credit in **Organization settings > Usage**. Full **[launch offer terms](#h_07eed9f41c)** below.
+是的，符合条件的 Claude Enterprise 组织可获得免费使用额度，每月最高 $25,000，为期两个月，至 2026 年 12 月 31 日。对于在 2026 年 10 月 21 日已拥有 Claude Enterprise 的组织，第一个月在 11 月 21 日 00:00 UTC 结束，第二个月在 12 月 21 日 00:00 UTC 结束。这显示为 **组织设置 > 使用情况**中的额度。完整的 **[启动优惠条款](#h_07eed9f41c)**如下。
 
-**Does the launch offer also apply to the old experience?**
+**启动优惠也适用于旧体验吗？**
 
-No, the launch offer only applies to projects created with the new experience.
+不，启动优惠仅适用于使用新体验创建的项目。
 
-### Claude Security plugin for Claude Code
+### Claude Code 的 Claude Security 插件
 
-**What is the Claude Security plugin for Claude Code?**
+**Claude Code 的 Claude Security 插件是什么？**
 
-The Claude Security plugin for Claude Code is a separate feature, based on the same technology as Claude Security. It is available for users who wish to directly integrate the scanner into their workflows without relying on Anthropic’s hosted agent infrastructure, who have Zero Data Retention (ZDR) requirements, or who need model access through a third-party provider. Learn more here: **[Scan your codebase for vulnerabilities](https://code.claude.com/docs/en/claude-security)**.
+Claude Code 的 Claude Security 插件是一项独立功能，基于与 Claude Security 相同的技术。它适用于希望直接将扫描器集成到工作流中而不依赖 Anthropic 托管代理基础设施的用户、具有零数据保留 (ZDR) 要求的用户，或需要通过第三方提供商访问模型的用户。了解更多信息：**[扫描代码库以查找漏洞](https://code.claude.com/docs/en/claude-security)**。
 
-**Does the Claude Security plugin for Claude Code use the same model?**
+**Claude Code 的 Claude Security 插件是否使用相同的模型？**
 
-Not necessarily. The plugin uses whichever models are available in your Claude Code account.
+不一定。该插件使用 Claude Code 账户中可用的任何模型。
 
-**Scope of use:** You will only use Claude Security to scan code that you or your company owns and to which you or your company holds all necessary rights to scan. You will not use Claude Security to scan code owned by or licensed from third parties, including but not limited to open source projects or repositories other than those included in your company's codebase(s).
+**使用范围：**您只能使用 Claude Security 扫描您或您的公司拥有的代码，以及您或您的公司拥有扫描所有必要权利的代码。您不能使用 Claude Security 扫描由第三方拥有或许可的代码，包括但不限于开源项目或您公司代码库之外的存储库。
 
-## Claude Security launch offer terms
+## Claude Security 启动优惠条款
 
-**Who is eligible:** Claude Enterprise organizations, including Claude Enterprise purchased through AWS Marketplace.
+**谁符合条件：**Claude Enterprise 组织，包括通过 AWS Marketplace 购买的 Claude Enterprise。
 
-**What you get:** Up to $25,000 in promotional credits for Claude Security usage in each of two consecutive months. Each month runs from your organization's start date to the same date the following month. Unused credits from a month don't carry over.
+**您将获得：**在连续两个月中，每月最高 $25,000 的 Claude Security 使用促销额度。每个月从您组织的开始日期运行到下个月的同一日期。一个月未使用的额度不会结转。
 
-**How to get it:** No sign-up is needed. Credits apply automatically to usage in the new Claude Security. Usage in projects from the earlier version isn't covered until they're migrated.
+**如何获得：**无需注册。额度自动应用于新 Claude Security 中的使用。早期版本中的项目使用不包括在内，直到它们被迁移。
 
-**When it starts:** Organizations that already have Claude Enterprise start on October 21, 2026. Organizations that sign up for Claude Enterprise after that date start on the day they sign up. The two months run whether or not your organization uses Claude Security.
+**何时开始：**已拥有 Claude Enterprise 的组织从 2026 年 10 月 21 日开始。在该日期之后注册 Claude Enterprise 的组织从注册之日开始。无论您的组织是否使用 Claude Security，这两个月都会运行。
 
-**When it ends:** The offer ends at the end of the day on December 31, 2026 (UTC), even if your two months haven't finished. Organizations that sign up after November 1, 2026 won't get two full months.
+**何时结束：**优惠在 2026 年 12 月 31 日 (UTC) 当天结束，即使您的两个月尚未完成。在 2026 年 11 月 1 日之后注册的组织将无法获得两个完整月份。
 
-**How credits apply:** Credits are used before your organization's committed spend or usage credits, and are separate from any prepaid usage credits. After the credits are used or the offer ends, Claude Security usage is charged at direct token cost.
+**额度如何应用：**额度在您组织的承诺支出或使用额度之前使用，并与任何预付使用额度分开。在额度用完或优惠结束后，Claude Security 使用按直接令牌成本收费。
 
-**Where to see it:** Organization admins can see the promotional balance in **[Organization Settings > Usage](https://claude.ai/admin-settings/usage)**, under **Services**, or in **Organization Settings > Claude Security**, under **Spend limit**.
+**在哪里查看：**组织管理员可以在 **[组织设置 > 使用情况](https://claude.ai/admin-settings/usage)**中的 **服务**下，或在 **组织设置 > Claude Security** 中的 **支出限制**下查看促销余额。
 
-The **[Claude Promotional Credit Offer Terms](https://www.anthropic.com/legal/promotion-credit-terms)** also apply, including when credits can be forfeited and when the offer can change. If they differ from this article on this offer, this article controls.
+**[Claude 促销额度优惠条款](https://www.anthropic.com/legal/promotion-credit-terms)**也适用，包括何时可以没收额度以及何时可以更改优惠。如果它们与本文关于此优惠的内容不同，本文优先。

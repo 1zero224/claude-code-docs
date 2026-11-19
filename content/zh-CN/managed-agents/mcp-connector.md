@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -48,7 +48,7 @@ MCP 配置分为两个步骤：
 
 ## 在智能体上声明 MCP 服务器
 
-创建智能体时，在 `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) 数组中指定 MCP 服务器。每个服务器都有一个值为 `url` 的 `type` (csharp, go: `Type`)、一个唯一的 `name` (csharp, go: `Name`) 以及一个 `url` (csharp: `Url`; go: `URL`)。此阶段不提供任何身份验证令牌。
+创建智能体时，在 `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) 数组中指定 MCP 服务器。每个服务器都有一个值为 `url` 的 `type` (csharp, go: `Type`)、一个唯一的 `name` (csharp, go: `Name`) 以及一个 `url` (csharp: `Url`; go: `URL`)。此阶段您无需提供任何身份验证令牌。
 
 每个声明的服务器还需要在 `tools` (csharp, go: `Tools`) 数组中有一个对应的 `mcp_toolset` 条目。该工具集的 `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`) 必须与服务器的 `name` (csharp, go: `Name`) 相匹配。
 
@@ -260,7 +260,7 @@ MCP 配置分为两个步骤：
 
 `mcp_toolset` 条目支持一个 `default_config` (java, php: `defaultConfig`; csharp, go: `DefaultConfig`) 对象和一个 `configs` (csharp, go: `Configs`) 数组，它们应用于 MCP 服务器公开的工具。每个 `configs` (csharp, go: `Configs`) 条目仅接受 `name` (csharp, go: `Name`)、`enabled` (csharp, go: `Enabled`) 和 `permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)。与内置智能体工具集中的条目不同，MCP 工具条目不接受 `type` (csharp, go: `Type`) 字段，并且 `web_search` 和 `web_fetch` 上可用的 [Web 设置](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#settings)不适用于 MCP 工具。每个 `configs` (csharp, go: `Configs`) 条目中的 `name` (csharp, go: `Name`) 是服务器报告的原始工具名称。
 
-默认情况下，MCP 服务器公开的所有工具均已启用。若要仅启用特定工具，请将 `default_config.enabled` 设置为 `false`，并显式启用您需要的工具：
+默认情况下，MCP 服务器公开的所有工具均已启用。若要仅启用特定工具，请将 `default_config.enabled` (java, php: `defaultConfig.enabled`; csharp, go: `DefaultConfig.Enabled`) 设置为 `false`，并显式启用您需要的工具：
 
 ```json
 {
@@ -277,7 +277,7 @@ MCP 配置分为两个步骤：
 
 当服务器公开了许多工具但智能体只需要其中几个时，或者当您希望服务器运营方新增的工具在您审核之前保持关闭状态时，此模式非常有用。
 
-若要禁用特定工具而保持其余工具启用，请省略 `default_config`，并在各个条目上设置 `enabled: false`：
+若要禁用特定工具而保持其余工具启用，请省略 `default_config` (java, php: `defaultConfig`; csharp, go: `DefaultConfig`)，并在各个条目上设置 `enabled: false`：
 
 ```json
 {
@@ -297,7 +297,7 @@ MCP 配置分为两个步骤：
 
 启动会话时，传入 `vault_ids` (java: `vaultIds`; php: `vaultIDs`; csharp: `VaultIds`; go: `VaultIDs`) 以为您的 MCP 服务器提供凭据。保管库是凭据的集合，您只需注册一次，之后即可通过 ID 引用。有关如何创建保管库和管理凭据，请参阅[使用保管库进行身份验证](https://platform.claude.com/docs/zh-CN/managed-agents/vaults)。
 
-使用 `limited` [环境](https://platform.claude.com/docs/zh-CN/managed-agents/environments#networking)时，如果智能体声明的 MCP 服务器的主机不在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中，会话创建将失败并返回 400 错误。在环境的网络设置中将 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 设置为 `true` 可关闭此检查。
+使用 `limited` 网络时，如果智能体声明的 MCP 服务器的主机不在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中，会话创建将失败并返回 400 错误。在环境的网络设置中将 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 设置为 `true` 可关闭此检查。请参阅云环境设置中的[网络](https://platform.claude.com/docs/zh-CN/managed-agents/environments#networking)。
 
 <CodeGroup>
   ```bash cURL
@@ -387,7 +387,7 @@ MCP 配置分为两个步骤：
 
 ### 处理连接和身份验证失败
 
-会话创建不会验证 MCP 连接性或凭据。但它会根据环境的网络设置检查每个已声明服务器的主机：使用 `limited` 环境时，如果某个主机不被允许，会话创建将失败并返回 400 错误，如[在会话创建时提供身份验证](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector#provide-authentication-at-session-creation)中所述。如果 MCP 服务器无法访问或拒绝所提供的凭据，会话仍会启动，并且仍可进行交互。系统会发出一个 [`session.error`](https://platform.claude.com/docs/zh-CN/managed-agents/reference#event-types) 事件，其中包含受影响服务器的 `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`) 以及一个 `retry_status` (java, php: `retryStatus`; csharp, go: `RetryStatus`)：
+会话创建不会验证 MCP 连接性或凭据。但它会根据环境的网络设置检查每个已声明服务器的主机。使用 `limited` 网络时，如果某个主机不被允许，会话创建将失败并返回 400 错误，如[在会话创建时提供身份验证](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector#provide-authentication-at-session-creation)中所述。如果 MCP 服务器无法访问或拒绝所提供的凭据，会话仍会启动，并且您仍可与其交互。会话会发出一个 [`session.error`](https://platform.claude.com/docs/zh-CN/managed-agents/reference#event-types) 事件，其中包含受影响服务器的 `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`) 以及一个 `retry_status` (java, php: `retryStatus`; csharp, go: `RetryStatus`)：
 
 | 错误类型                              | 含义                                                                    |
 | --------------------------------- | --------------------------------------------------------------------- |

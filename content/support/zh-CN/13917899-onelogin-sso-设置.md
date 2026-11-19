@@ -4,37 +4,37 @@
 
 ## 前置条件
 
-- Claude Team 计划、Enterprise 计划或具有父组织的 Console 组织（请参阅**[启用 SSO 前的重要注意事项](https://support.claude.com/en/articles/10276682)**了解 Console 父组织的要求）
+- Claude Team 计划、Enterprise 计划或具有父组织的 Console 组织（有关 Console 父组织要求，请参阅**[启用 SSO 前的重要注意事项](https://support.claude.com/en/articles/10276682)**）
 
-- Owner 或 Primary Owner 角色（Team 和 Enterprise）或 Admin 角色（Console）
+- 所有者或主要所有者角色 (Team 和 Enterprise) 或管理员角色 (Console)
 
 - OneLogin 超级用户访问权限
 
-- 在 Claude 的身份和访问设置中验证的域名——请参阅**[设置单点登录](https://support.claude.com/en/articles/13132885)**了解完整的设置路径，包括域名验证
+- 在 Claude 的身份和访问设置中验证的域名——有关包括域名验证在内的完整设置路径，请参阅**[设置单点登录](https://support.claude.com/en/articles/13132885)**
 
 ## 查找配置值的位置
 
-下面引用的 Audience（Entity ID）、ACS URL 和 SCIM 凭证在身份和访问设置中的 WorkOS 设置流程中提供，不需要联系支持团队。
+下面引用的受众 (Entity ID)、ACS URL 和 SCIM 凭证由身份和访问设置中的 WorkOS 设置流程提供，不需要联系支持团队。
 
 - **Team 和 Enterprise 计划：**转到**[claude.ai/admin-settings/identity](https://claude.ai/admin-settings/identity)**
 
 - **Console 组织：**转到**[platform.claude.com/settings/identity](https://platform.claude.com/settings/identity)**
 
-在那里启动 SSO 设置流程，并在完成以下步骤时将其与 OneLogin 管理门户并排打开。
+在那里启动 SSO 设置流程，并在执行以下步骤时将其与 OneLogin 管理门户并排打开。
 
 ---
 
-## 步骤 1 — 在 OneLogin 中创建新应用程序
+## 步骤 1 — 在 OneLogin 中创建新应用
 
-1. 在 OneLogin 管理门户中，转到**应用程序 → 应用程序 → 添加应用程序**。
+1. 在 OneLogin 管理门户中，转到**应用程序 → 应用程序 → 添加应用**。
 
-2. 搜索"SAML 自定义连接器"并选择"SAML 自定义连接器（高级）"。
+2. 搜索“SAML Custom Connector”并选择“SAML Custom Connector (Advanced)”。
 
-3. 将其命名为"Claude"并点击"保存"。
+3. 将其命名为“Claude”并点击“保存”。
 
 ## 步骤 2 — 配置 SAML 设置
 
-1. 在**配置**选项卡中，输入 WorkOS 设置流程中的值：**Audience（EntityID）**、**ACS（Consumer）URL** 和 **ACS URL 验证器**（ACS URL 的正则表达式或精确匹配）。
+1. 在**配置**选项卡中，输入 WorkOS 设置流程中的值：**受众 (EntityID)**、**ACS (Consumer) URL** 和 **ACS URL 验证器**（ACS URL 的正则表达式或精确匹配）。
 
 2. 将**SAML 发起者**设置为**服务提供商**。
 
@@ -60,17 +60,17 @@
 
 4. 在**权利**中，将电子邮件属性映射到与 SAML 相同的 OneLogin 字段。
 
-5. 点击"保存"。
+5. 点击“保存”。
 
-**重要：**SAML 和 SCIM 必须发送相同的电子邮件值。如果人员在配置后遇到登录失败，请参阅**[OneLogin SSO/SCIM 电子邮件不匹配](https://support.claude.com/en/articles/13917861)**。
+**重要：**SAML 和 SCIM 必须发送相同的电子邮件值。如果用户在配置后遇到登录失败，请参阅**[OneLogin SSO/SCIM 电子邮件不匹配](https://support.claude.com/en/articles/13917861)**。
 
-## 步骤 5 — 分配人员
+## 步骤 5 — 分配用户
 
-在**用户**选项卡中，分配个人或使用**规则**根据角色或组自动分配。
+在**用户**选项卡中，分配个人用户或使用**规则**根据角色或组自动分配。
 
 ## 步骤 6 — 验证
 
-1. 如果启用了 SCIM，请检查 OneLogin 配置活动日志以确认人员已在 Claude 中创建。
+1. 如果启用了 SCIM，请检查 OneLogin 配置活动日志以确认用户已在 Claude 中创建。
 
 2. 让测试用户完成 SSO 登录，并验证他们进入您的组织工作区。
 
@@ -78,4 +78,4 @@
 
 ## 需要帮助？
 
-请参阅**[设置单点登录](https://support.claude.com/en/articles/13132885)**了解完整的端到端流程，包括域名验证和选择配置方法。如果遇到问题，请联系**[我们的支持团队](https://support.claude.com/en/articles/9015913)**，并提供您的 OneLogin 域名和 SAML 配置的屏幕截图。
+有关包括域名验证和选择配置方法在内的完整端到端流程，请参阅**[设置单点登录](https://support.claude.com/en/articles/13132885)**。如果遇到问题，请**[联系我们的支持团队](https://support.claude.com/en/articles/9015913)**，并提供您的 OneLogin 域名和 SAML 配置的屏幕截图。

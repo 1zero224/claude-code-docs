@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -53,7 +53,7 @@ featureMetadata:
 
 * **工作流运行：**&#x670D;务器在后台以一次工作流运行的形式运行工作流。一个会话可以同时有多个处于打开状态的运行。
 * **阶段：** 工作流可以将其工作划分为多个阶段。阶段是运行中一个具名的环节，例如"阅读合同"。您可以通过阶段事件跟踪运行的进度。
-* **智能体线程：** 在一个阶段中，程序运行智能体。每个智能体在自己的[会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)中，基于程序编写的提示进行工作。运行中的智能体可以是内联智能体（由程序自行定义），也可以是[预定义智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#predefined-and-inline-agents)（由您在 `workflows` (csharp, go: `Workflows`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表中列出）。有关每个线程显示的内容，请参阅[运行的线程](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#a-runs-threads)。
+* **智能体线程：** 在一个阶段中，程序运行智能体。每个智能体在自己的[会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)中，基于程序编写的提示进行工作。运行中的智能体可以是内联智能体（由程序自行定义）。它也可以是[预定义智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#predefined-and-inline-agents)（由您在 `workflows` (csharp, go: `Workflows`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表中列出）。有关每个线程显示的内容，请参阅[运行的线程](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#a-runs-threads)。
 
 程序可以执行以下操作：
 
@@ -75,13 +75,13 @@ featureMetadata:
   ![工作流运行状态：running（运行中）、idle（空闲）和 ended（已结束），以及使运行从一个状态转换到另一个状态的因素。](https://platform.claude.com/docs/zh-CN/images/workflow-run-states.svg)
 </Frame>
 
-运行以运行中或空闲状态开始。例如，达到预算会暂停正在运行的运行，使其变为空闲；随后提高或移除预算会使其再次运行，除非中断也暂停了它。当其工作流完成、智能体停止它、它失败、其生命周期到期或会话被归档时，正在运行的运行会结束。空闲的运行也可能结束，例如当智能体停止它或会话被归档时。
+运行以运行中或空闲状态开始。例如，达到预算会暂停正在运行的运行，使其变为空闲。随后提高或移除预算会使其再次运行，除非中断也暂停了它。当其工作流完成、智能体停止它、它失败、其生命周期到期或会话被归档时，正在运行的运行会结束。空闲的运行也可能结束，例如当智能体停止它或会话被归档时。
 
-运行从其 `workflow_run.created` 事件开始到其 `workflow_run.status_ended` 事件为止处于**打开**（open）状态，无论它是正在运行还是空闲。运行在暂停期间处于空闲状态，例如在达到会话预算时。运行有一个[生命周期](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)，智能体可以在启动运行时设置它。运行等待您的客户端所花费的时间也计入该生命周期。暂停不会阻止运行的生命周期流逝，因此一直处于暂停状态的运行可能会以 `timeout_error` 结束。以下事件报告运行的开始、其阶段以及其结束。因达到预算而暂停时也会发送一个事件。中断后的暂停可能不会发送任何事件。每个 `workflow_run.*` 事件都包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)，仅当未创建运行时，它在 `workflow_run.error` 上才为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)。
+运行从其 `workflow_run.created` 事件开始到其 `workflow_run.status_ended` 事件为止处于**打开**（open）状态，无论它是正在运行还是空闲。运行在暂停期间处于空闲状态，例如在达到会话预算时。运行有一个[生命周期限制](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)，智能体可以在启动运行时设置它。运行等待您的客户端所花费的时间也计入该生命周期。暂停不会阻止运行的生命周期流逝，因此一直处于暂停状态的运行可能会以 `timeout_error` 结束。以下事件报告运行的开始、其阶段以及其结束。因达到预算而暂停时也会发送一个事件。中断后的暂停可能不会发送任何事件。每个 `workflow_run.*` 事件都包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)，仅当未创建运行时，它在 `workflow_run.error` 上才为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)。
 
 ## 运行事件
 
-运行事件到达会话的事件流（即主线程的流），列出会话的事件时也会返回它们。运行事件不会触发 [webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks)。来自运行线程的状态事件也到达同一个流。每个事件都在 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 中指明其线程，而运行的线程就是那些 `session.thread_created` 事件带有该运行的 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 的线程。
+运行事件到达会话的事件流（即主线程的流），列出会话的事件时也会返回它们。运行事件不会[触发 webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks)。来自运行线程的状态事件也到达同一个流。每个事件都在 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 中指明其线程，而运行的线程就是那些 `session.thread_created` 事件带有该运行的 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 的线程。
 
 | 事件                                                      | 何时到达                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 如何处理                                                                                                                                                                                                                                                                                                                                  |
 | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -96,7 +96,7 @@ featureMetadata:
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `{"type": "completed"}`           | 工作流已运行完毕。该结果不说明工作是否通过。即使其线程上的工作失败，或某个线程无法创建，运行也可能以 `completed` 结束。要查找失败的工作，请读取每个[运行线程](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#a-runs-threads)的事件。 |
 | `{"type": "stopped"}`             | 智能体停止了运行，或会话被归档。该事件不会说明是哪一种。不要将这些视为仅有的原因。                                                                                                                                      |
-| 带有 `timeout_error` 的 `error`      | 运行的[生命周期](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)已到期，智能体可以设置该生命周期。                                                                         |
+| 带有 `timeout_error` 的 `error`      | 运行达到了其[生命周期限制](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)，智能体可以设置该限制。                                                                         |
 | 带有 `program_error` 的 `error`      | 工作流失败。其代码失败，或违反了工作流的某条规则（限制除外）。或者运行的某个线程失败或无法创建，而工作流让这一情况结束了运行。                                                                                                                |
 | 带有 `thread_limit_error` 的 `error` | 运行超出了其[对工作流启动的智能体数量的限制](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)。                                                                           |
 | 带有 `unknown_error` 的 `error`      | 服务器无法继续运行，或运行超出了服务器对工作流的其他某项限制。                                                                                                                                                |
@@ -160,15 +160,15 @@ featureMetadata:
 一次运行中的每个智能体都在自己的[会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)中工作，该线程由服务器根据工作流的需要创建。您可以像对待任何子线程一样列出、读取和流式传输运行的线程，并从主事件流中回答它们的工具调用。要停止它们，请让智能体停止该运行（请参阅[在有打开的运行时中断会话](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#interrupt-a-session-with-runs-open)）。
 
 * **分组：** 运行的线程带有该运行的 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)，宣告该线程的 `session.thread_created` 事件也是如此。其他线程以及宣告它们的 `session.thread_created` 事件的 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 设置为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)。
-* **智能体：** `agent` (csharp, go: `Agent`) 显示线程所运行的智能体。对于您在 `multiagent` (csharp, go: `Multiagent`) 中 [`workflows` (csharp, go: `Workflows`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#turn-on-dynamic-workflows)中列出的智能体，`agent` (csharp, go: `Agent`) 包含该智能体的 `id` (csharp, go: `ID`) 和 `version` (csharp, go: `Version`)，与您列出的子智能体的线程相同。对于工作流定义的智能体（内联智能体），`agent` (csharp, go: `Agent`) 的 `type` 为 `inline`，且没有 `id` (csharp, go: `ID`) 或 `version` (csharp, go: `Version`)。它使用工作流编写的系统提示，而不是会话智能体的系统提示。它还带有工作流为其指定的名称和描述。如果工作流未指定名称，服务器会分配一个。它使用会话智能体（即会话所运行的智能体）的模型。它的工具、MCP 服务器和技能是会话智能体的子集。它会获得全部这些内容，但 API 不保证这一点。它的工具保留各自的权限策略。
+* **智能体：** `agent` (csharp, go: `Agent`) 显示线程所运行的智能体。对于您在 `multiagent` (csharp, go: `Multiagent`) 中 [`workflows` (csharp, go: `Workflows`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#turn-on-dynamic-workflows)中列出的智能体，`agent` (csharp, go: `Agent`) 包含该智能体的 `id` (csharp, go: `ID`) 和 `version` (csharp, go: `Version`)。您列出的子智能体的线程也会显示它们。对于工作流定义的智能体（内联智能体），`agent` (csharp, go: `Agent`) 的 `type` 为 `inline`，且没有 `id` (csharp, go: `ID`) 或 `version` (csharp, go: `Version`)。它使用工作流编写的系统提示，而不是会话智能体的系统提示。它还带有工作流为其指定的名称和描述。如果工作流未指定名称，服务器会分配一个。它使用会话智能体（即会话所运行的智能体）的模型。它的工具、MCP 服务器和技能是会话智能体的子集。它会获得全部这些内容，但 API 不保证这一点。它的工具保留各自的权限策略。
 * **线程共享的内容：** 运行的线程在会话的沙箱中工作，因此每个线程都处理相同的文件。这包括会话挂载的记忆存储中的文件。工作流定义的智能体使用会话为其 MCP 服务器解析的凭据来使用这些服务器。每个线程都有自己的对话历史。
-* **事件：**&#x8FD0;行线程的 `session.thread_created`、`session.thread_status_running`、`session.thread_status_idle` 和 `session.thread_status_terminated` 事件也会到达主事件流（请参阅[运行事件](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#run-events)）。其消息事件保留在它自己的流上。其线程 webhook 的发送方式与任何子线程相同。关于线程自身的流记录了什么，请参阅[会话线程事件](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads#session-thread-events)。
-* **阶段：** 没有任何事件或字段说明线程在哪个阶段工作，并且同一运行的线程可能具有相同的 `agent_name`。请通过运行的阶段事件跟踪其进度，并通过 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 区分其线程。
+* **事件：**&#x8FD0;行线程的 `session.thread_created`、`session.thread_status_running`、`session.thread_status_idle` 和 `session.thread_status_terminated` 事件也会到达主事件流（请参阅[运行事件](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#run-events)）。其消息事件保留在它自己的流上。服务器发送其线程 webhook 的方式与任何子线程相同。关于线程自身的流记录了什么，请参阅[会话线程事件](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads#session-thread-events)。
+* **阶段：** 没有任何事件或字段说明线程在哪个阶段工作，并且同一运行的线程可能具有相同的 `agent_name` (java, php: `agentName`; csharp, go: `AgentName`)。请通过运行的阶段事件跟踪其进度，并通过 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 区分其线程。
 * **归档：** 服务器最迟在运行结束时归档每个线程。一旦线程返回其结果或运行不再需要它，服务器可以更早地归档它。如果此时线程仍在运行或正在等待您的客户端，服务器会先停止它。已归档的线程仍保留在线程列表中，状态为 `terminated`。您无需自行归档运行的线程。
 * **工具：** 运行可能会为同一项工作创建多个线程，因此请确保您的智能体调用的工具可以安全地被调用两次。
 
 <Tip>
-  您可以向智能体索要它为您的请求编写的工作流。等待运行结束且会话处于 `idle` 状态。然后发送一条 `user.message`，要求智能体逐字打印它用于启动运行的工作流，并且不要启动另一个运行。
+  您可以向智能体索要它为您的请求编写的工作流。等待运行结束且会话处于 `idle` 状态。然后发送一条 `user.message`，要求智能体逐字打印该工作流，并且不要启动另一个运行。
 
   ```text wrap
   Print the workflow that you started the run with, word for word, in one code block. Do not start another run.
@@ -192,8 +192,15 @@ featureMetadata:
 此示例跟踪一个会话，从您的消息到智能体的回答。它打开流并发送消息。然后执行以下操作：
 
 * **跟踪每个运行**，从其 `workflow_run.created` 到其 `workflow_run.status_ended`，并在每个阶段开始时打印该阶段。
+
 * **回答自定义工具调用**，在每个 `agent.custom_tool_use` 到达时进行回答，因为运行的线程可能在会话保持 `running` 时等待您的客户端。如果您的智能体的工具[要求确认](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#tool-confirmation)，请添加一个分支，回答每个 `evaluated_permission` (java, php: `evaluatedPermission`; csharp, go: `EvaluatedPermission`) 为 `ask` 的 `agent.tool_use` 或 `agent.mcp_tool_use`。示例中没有这样的分支，因为允许每个调用的分支会把 `always_ask` 变成始终允许。
-* **停止**：当[工作完成](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#know-when-the-work-is-done)时停止：没有打开的运行，并且会话以 `end_turn` 变为空闲。如果会话终止，它也会停止。当空闲的停止原因不是 `requires_action` 而是其他原因（例如 `budget_reached`、`retries_exhausted` 或 `refusal`）时，它会打印原因并停止，因此请在您自己的代码中处理这些情况。即使服务器即将自行启动新轮次，它也会在 `retries_exhausted` 时停止。在 `requires_action` 时，以及在运行打开期间的 `end_turn` 时，它会继续等待。
+
+* **停止**：当[工作完成](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#know-when-the-work-is-done)时停止：没有打开的运行，并且会话以 `end_turn` 变为空闲。在以下情况下它也会停止：
+
+  * 会话终止。
+  * 会话以 `end_turn` 或 `requires_action` 以外的任何停止原因变为空闲，例如 `budget_reached`、`retries_exhausted` 或 `refusal`。示例会打印原因并停止，因此请在您自己的代码中处理这些情况。即使服务器即将自行启动新轮次，它也会在 `retries_exhausted` 时停止。
+
+* **继续等待**：在 `requires_action` 时，以及在运行打开期间的 `end_turn` 时，它会继续等待。
 
 <CodeGroup exclude="shell">
   <CodeGroupItem language="cURL">
@@ -779,8 +786,8 @@ featureMetadata:
 发送不带 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 或带有主线程 ID 的 [`user.interrupt`](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#interrupt-the-agent)。它会停止智能体的轮次。它不会结束任何运行。会话的运行可能会暂停或继续运行，而它们的事件可能不会显示是哪一种。已暂停运行的生命周期会继续流逝，因此运行可能在暂停期间以 `timeout_error` 结束。
 
 * **等待中的工具调用：** 中断后，运行线程的工具调用可能仍在等待您的客户端。请逐一回答。要取消要求确认的调用，请拒绝它。要取消自定义工具调用，请发送一个结果，将 `is_error` (java, php: `isError`; csharp, go: `IsError`) 设置为 `true`，并在 `content` (csharp, go: `Content`) 中提供说明原因的文本。当会话以 `requires_action` 处于 `idle` 状态时，`user.message` 会返回 400，因此请先回答这些调用。
-* **停止运行：**&#x53D1;送一条 `user.message`，要求智能体停止其运行。已停止的运行以 `result` `{"type": "stopped"}` 结束。当会话以 `budget_reached` 处于 `idle` 状态时，在您提高或移除预算之前，`user.message` 会返回 400。提高或移除预算还会恢复因预算而暂停的运行，除非这些运行也因该中断而暂停。
-* **继续：**&#x53D1;送一条 `user.message`，要求智能体继续其运行。中断后，运行可能会等待这条消息。如果会话以 `budget_reached` 处于 `idle` 状态，请先提高或移除预算。
+* **停止运行：**&#x53D1;送一条 `user.message`，要求智能体停止其运行。已停止的运行以 `result` (csharp, go: `Result`) `{"type": "stopped"}` 结束。当会话以 `budget_reached` 处于 `idle` 状态时，在您提高或移除预算之前，`user.message` 会返回 400。提高或移除预算还会恢复因预算而暂停的运行，除非这些运行也因该中断而暂停。
+* **继续运行：**&#x53D1;送一条 `user.message`，要求智能体继续其运行。中断后，运行可能会等待这条消息。如果会话以 `budget_reached` 处于 `idle` 状态，请先提高或移除预算。
 * **运行结果：**&#x5728;中断后结束的运行仍会发送 `workflow_run.status_ended`。
 
 ## 运行处于打开状态时
@@ -816,7 +823,7 @@ featureMetadata:
 
 | 发生的情况                         | 您看到的内容                                                  |
 | ----------------------------- | ------------------------------------------------------- |
-| 智能体启动运行时，工作流超出了其他某项限制         | 启动被拒绝。您会收到一个 `workflow_run.error`，并且没有运行。               |
+| 智能体启动运行时，工作流超出了其他某项限制         | 服务器拒绝启动。您会收到一个 `workflow_run.error`，并且没有运行。             |
 | 运行在之后超出了其他某项限制                | 您会收到一个 `workflow_run.error`，然后运行可能以 `unknown_error` 结束。 |
 | 服务器在启动后发现工作流违反了工作流的某条规则（限制除外） | 您会收到一个 `workflow_run.error`，然后运行可能以 `program_error` 结束。 |
 
@@ -837,7 +844,7 @@ featureMetadata:
 | 您的客户端检索或列出会话、其线程及其事件的请求 | [Managed Agents 端点](https://platform.claude.com/docs/zh-CN/managed-agents/reference#rate-limits)的读取限制 | 在会话的事件流上跟踪运行，而不是轮询。                                                                                        |
 | 来自运行线程的模型请求             | 您针对每个线程所用模型的 [Messages API 速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)，与您的其他流量一起计算  | 在这些限制中为运行预留空间，或[申请更高的限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#requesting-higher-limits)。 |
 
-当来自运行某个线程的模型请求受到速率限制，或模型过载时，该线程自己的流可能会收到类型为 `model_rate_limited_error` 或 `model_overloaded_error` 的 `session.error`：
+当线程的某个模型请求受到速率限制，或模型过载时，该线程自己的流可能会收到 `session.error`。该错误的类型为 `model_rate_limited_error` 或 `model_overloaded_error`：
 
 * 如果其 `retry_status.type` 为 `retrying`，则服务器正在重试该请求，线程仍在工作。
 * 如果为 `exhausted`，则线程已失败。如果工作流让该失败结束运行，运行将以 `program_error` 结束，而它不会指明原因。请读取失败线程的事件来查找原因。
@@ -870,10 +877,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

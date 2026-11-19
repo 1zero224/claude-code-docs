@@ -18,12 +18,12 @@ VS Code 扩展为 Claude Code 提供了原生图形界面，直接集成到您�
 * 访问对话历史记录
 * 在单独的选项卡或窗口中打开多个对话
 
-## 前置条件
+## 前提条件
 
 安装前，请确保您拥有：
 
 * VS Code 1.94.0 或更高版本
-* Anthropic 账户：任何付费 Claude 订阅（Pro、Max、Ultra、Team 或 Enterprise）或 Claude Console 账户都可以使用，无需 API 密钥。首次打开扩展时，您将[使用此账户登录](https://code.claude.com/docs/zh-CN/authentication.md#log-in-to-claude-code)。如果您通过第三方提供商（如 Amazon Bedrock 或 Google Cloud 的 Agent Platform）访问 Claude，请参阅[使用第三方提供商](#use-third-party-providers)了解设置说明。
+* Anthropic 账户：任何付费 Claude 订阅（Pro、Max、Ultra、Team 或 Enterprise）或 Claude Console 账户都可以使用，无需 API 密钥。首次打开扩展时，您将[使用此账户登录](https://code.claude.com/docs/zh-CN/authentication.md#log-in-to-claude-code)。如需使用 Amazon Bedrock 或 Google Cloud 的 Agent Platform 等提供商，请参阅[使用第三方提供商](#use-third-party-providers)。如需使用 Claude apps 网关，请参阅[登录 Claude apps 网关](#sign-in-to-a-claude-apps-gateway)。
 
 > [!TIP]
 >
@@ -202,6 +202,15 @@ Claude Code 还可以在其他编辑器和容器中运行：
   已有的思考块仍保持为空。在重新加载之后的回复中，点击某个块或按 `Ctrl+O` 即可将它们全部展开。
 * **多行输入**：按 `Shift+Enter` 可添加新行而不发送。这在问题对话框的"Other"自由文本输入中同样适用。
 
+### 使用或关闭建议的提示词
+
+Claude 回复后，面板可能会在空的输入框中以灰色斜体文本显示建议的下一条提示词。每条建议都会使用一个[简短的后台请求](https://code.claude.com/docs/zh-CN/interactive-mode.md#prompt-suggestions)，该请求会计入您套餐的用量限制或 API 费用。
+
+* **使用建议**：按 `Tab` 将其转为可编辑文本，然后发送。在接受建议之前按 `Enter` 不会发送该建议。
+* **编写您自己的提示词**：开始输入，建议即会隐藏。
+
+要关闭建议，请在 `~/.claude/settings.json` 中将 [`promptSuggestionEnabled`](https://code.claude.com/docs/zh-CN/settings-reference#promptsuggestionenabled) 设置为 `false`。之后在新对话中将不再显示建议；对于已打开的对话，则在您从命令面板运行 **Developer: Reload Window** 之后不再显示。如果您将 [`CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION`](https://code.claude.com/docs/zh-CN/env-vars) 设置为 `true`，请在设置它的位置将其改为 `false`，否则您仍会看到建议。
+
 ### 引用文件和文件夹
 
 使用 @ 提及为 Claude 提供有关特定文件或文件夹的上下文。当您输入 `@` 后跟文件或文件夹名称时，Claude 会读取该内容，并可以回答相关问题或对其进行更改。Claude Code 支持模糊匹配，因此您可以输入部分名称来查找所需内容：
@@ -210,6 +219,8 @@ Claude Code 还可以在其他编辑器和容器中运行：
 Explain the logic in @auth (fuzzy matches auth.js, AuthService.ts, etc.)
 What's in @src/components/ (include a trailing slash for folders)
 ```
+
+要从资源管理器中 @ 提及文件或文件夹，请右键点击它们并选择 **Claude Code: Add to Chat**。需要 Claude Code v2.1.327 或更高版本。
 
 ### 读取 PDF 的特定页面
 
@@ -295,6 +306,7 @@ Claude Code 还会从您粘贴到输入框中的文本以及您发送的任何�
 * 扩展根据 `claudeCode.initialPermissionMode` 或从之前对话沿用的选择来[选择初始权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md#switch-permission-modes)
 * 您配置了 `claudeCode.claudeProcessWrapper`
 * 某条[拒绝规则](https://code.claude.com/docs/zh-CN/permissions.md#manage-permissions)移除了 [`ExitPlanMode`](https://code.claude.com/docs/zh-CN/tools-reference) 工具
+* [`permissions.denyInsteadOfPrompting`](https://code.claude.com/docs/zh-CN/settings-reference#permissions-denyinsteadofprompting) 已打开
 
 #### 对话仍在其他位置打开
 
@@ -368,7 +380,7 @@ VS Code 扩展支持检查点，它会跟踪 Claude 的文件编辑，并允许�
 
 ## 自定义您的工作流
 
-您可以调整 Claude 面板的位置、运行多个对话、对会话列表进行分组或筛选，或切换到终端模式。
+您可以调整 Claude 面板的位置并更改其字体。您还可以运行多个对话、对会话列表进行分组或筛选，或切换到终端模式。
 
 ### 选择 Claude 的位置
 
@@ -385,6 +397,19 @@ VS Code 扩展支持检查点，它会跟踪 Claude 的文件编辑，并允许�
 > [!TIP]
 >
 > 将侧边栏用于主要的 Claude 会话，并为辅助任务打开额外的标签页。Claude 会记住您偏好的位置。活动栏中的会话列表图标与 Claude 面板是分开的。会话列表始终显示在活动栏中，而 Claude 面板图标仅在面板停靠到左侧边栏时才会出现在那里。
+
+### 更改字体
+
+Claude 面板使用 VS Code 的聊天字体设置，与 VS Code 内置聊天视图所用的设置相同。在 Mac 上按 `Cmd+,` 或在 Windows 和 Linux 上按 `Ctrl+,` 打开 VS Code 设置，然后搜索 `chat font`。
+
+| 设置 | 适用于 |
+| - | - |
+| [`chat.fontSize`](vscode://settings/chat.fontSize) | 对话文本和输入框的字号，以像素为单位。代码块和工具输出会随之缩放。需要 VS Code 1.104 或更高版本 |
+| [`chat.fontFamily`](vscode://settings/chat.fontFamily) | 对话文本和输入框的字体。需要 VS Code 1.104 或更高版本 |
+| [`chat.editor.fontSize`](vscode://settings/chat.editor.fontSize) | diff 的字号，以像素为单位。需要 Claude Code v2.1.300 或更高版本 |
+| [`chat.editor.fontFamily`](vscode://settings/chat.editor.fontFamily) | 代码块和工具输出的字体 |
+
+若要将整个 VS Code 与 Claude 面板一起缩放，请在 Mac 上按 `Cmd+=` 或在 Windows 和 Linux 上按 `Ctrl+=` 缩放窗口。
 
 ### 重新加载后继续对话
 
@@ -596,6 +621,20 @@ summarize the changes I've made to the auth module
 
 例如，当您[要求 Claude 在某个 worktree 中工作](https://code.claude.com/docs/zh-CN/worktrees.md#ask-claude-to-create-a-worktree)时，对话就会移入该 worktree。当您重新打开该对话，或面板[在窗口重新加载后重新打开它](#continue-conversations-after-a-reload)时，如果该 worktree 是由 Claude Code 在 `.claude/worktrees/` 下创建的且仍然存在，对话将在该 worktree 中恢复。在 Claude Code v2.1.300 之前，打开的会是一个空对话。如果您使用的是这些版本，请更新扩展。
 
+## 使用 Jupyter notebook
+
+Claude Code 使用 [NotebookEdit 工具](https://code.claude.com/docs/zh-CN/tools-reference.md#notebookedit-tool-behavior)编辑 notebook。
+
+### 重新运行已编辑的单元格
+
+当 Claude 替换代码单元格时，它会重写文件中该单元格的源代码，并清除该单元格已保存的输出和执行计数。
+
+此编辑不需要重启内核：NotebookEdit 只写入文件，不会连接到您的内核。请重新运行该单元格，以及使用其所定义的函数或变量的任何单元格。
+
+### 在编辑前保存 notebook
+
+在请求编辑之前，请先保存 notebook；扩展的 [`autosave` 设置](#extension-settings)不会在 NotebookEdit 之前执行保存。
+
 ## 在后台运行工作
 
 将长时间运行的命令或子代理发送到后台，然后从输入框中查看其状态。
@@ -708,7 +747,7 @@ vscode://anthropic.claude-code/open?prompt=review%20my%20changes
 
 ## 配置设置
 
-您可以在两个位置配置该扩展：VS Code 的扩展设置和 Claude Code 设置文件：
+您可以在 VS Code 的扩展设置和 Claude Code 设置文件中配置该扩展：
 
 * VS Code 中的**扩展设置**：控制扩展在 VS Code 中的行为。使用 `Cmd+,`（Mac）或 `Ctrl+,`（Windows/Linux）打开，然后转到 **Extensions > Claude Code**。也可以输入 `/` 并选择 **General config…** 来打开设置。
 * `~/.claude/settings.json` 中的 **Claude Code 设置**：由扩展和 CLI 共享。用于配置允许的命令、环境变量、hook 和 MCP 服务器。在 Claude Code v2.1.283 或更高版本中，它也是决定对话起始权限模式的输入之一；在更早的版本中，仅适用于 Pro、Max、Ultra 和 Team 计划。[切换权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md#switch-permission-modes)列出了优先顺序。详情请参阅[设置](https://code.claude.com/docs/zh-CN/settings.md)。
@@ -727,7 +766,7 @@ VS Code 从您的用户设置中读取 `initialPermissionMode`，并忽略工作
 | `initialPermissionMode` | - | 控制新对话的批准提示：`default`、`plan`、`acceptEdits` 或 `bypassPermissions`。`manual` 是 `default` 的别名，会选择模式指示器中标记为 **Manual** 的模式。未设置时，扩展会按照[切换权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md#switch-permission-modes)中所述选择起始权限模式。 |
 | `preferredLocation` | `panel` | Claude 的打开位置：`sidebar`（右侧）或 `panel`（新标签页） |
 | `lockEditorGroups` | `true` | [锁定 Claude 为其标签页启动的编辑器组](#choose-where-claude-lives)，这样在 Claude 标签页获得焦点时打开的文件会进入另一个编辑器组。关闭时，扩展永远不会锁定编辑器组。需要 Claude Code v2.1.274 或更高版本 |
-| `autosave` | `true` | 在 Claude 读取或写入文件之前自动保存文件 |
+| `autosave` | `true` | 在 Read、Edit 和 Write 工具运行之前自动保存文件 |
 | `attachOpenFile` | `true` | 将编辑器中打开的文件添加到您的消息中，并在输入框中显示。关闭时，仅在您选中文本时才随之添加该文件。需要 Claude Code v2.1.271 或更高版本 |
 | `attachSelection` | `true` | 将您在编辑器中选中的文本添加到您的消息中，并在输入框中显示。关闭时，您仍然可以[将选区作为 @-mention 添加](#automatic-context-from-your-selection-and-open-file)。需要 Claude Code v2.1.300 或更高版本 |
 | `useCtrlEnterToSend` | `false` | 使用 Ctrl/Cmd+Enter 而非 Enter 发送提示词 |
@@ -770,6 +809,17 @@ VS Code 从您的用户设置中读取 `initialPermissionMode`，并忽略工作
 使用第三方提供商时，扩展不提供需要 claude.ai 账户的功能，例如计划用量条、[语音听写](https://code.claude.com/docs/zh-CN/voice-dictation.md)以及用于[云端会话](#resume-cloud-sessions-from-claude-ai)的 Web 标签页。有关使用这些登录方式时 Account & usage 对话框显示的内容，请参阅[查看账户和用量](#check-account-and-usage)。
 
 之前通过 `/login` 遗留的 claude.ai 登录将保持未使用状态：扩展不会在任何请求中发送它。
+
+## 登录 Claude apps 网关
+
+当您计算机上的设置[指定了网关](https://code.claude.com/docs/zh-CN/claude-apps-gateway#set-the-gateway-url)后，您可以从 Claude Code 面板登录 [Claude apps 网关](https://code.claude.com/docs/zh-CN/claude-apps-gateway)。需要 Claude Code v2.1.316 或更高版本。
+
+1. 如果面板打开的是聊天界面，请在输入框中输入 `/` 并选择 **Sign in to Cloud gateway**。如果未列出该选项，请选择 **Switch account**。
+2. 在登录界面上，点击 **Cloud gateway**。
+3. 将显示给您的网关 URL 以及任何证书指纹与管理员发布的信息进行比对。如果任一项不一致，请点击 **Cancel sign-in** 并告知您的管理员。否则，针对 URL 点击 **Sign in**，针对指纹点击 **Yes, trust this gateway**。
+4. 在浏览器中打开的页面上，检查代码是否与面板中显示的代码一致。如果一致，请继续并使用您的工作账户登录。如果不一致，请关闭该页面并告知您的管理员。
+
+如果界面显示 `Login is managed by your organization and must be completed in the terminal.`，请更新扩展。如需在不更新的情况下登录，请[安装 CLI](https://code.claude.com/docs/zh-CN/setup.md)，点击 **Run `claude` in terminal**，然后在其中运行 `/login`。
 
 ## 使用屏幕阅读器
 
@@ -886,7 +936,7 @@ claude mcp add --transport http github https://api.githubcopilot.com/mcp/ \
 * **身份验证令牌**：每次激活扩展时都会生成一个新的随机身份验证令牌，并将其写入位于 `~/.claude/ide/<port>.lock` 的锁文件。CLI 必须以 `X-Claude-Code-Ide-Authorization` 标头的形式提供该令牌才能连接。
 * **锁文件权限**：锁文件的权限为 `0600`，位于权限为 `0700` 的目录中，因此只有运行 VS Code 的用户才能读取它。如果设置了 `CLAUDE_CONFIG_DIR`，锁文件将改为写入 `$CLAUDE_CONFIG_DIR/ide/`。
 
-**向模型公开的工具。** 该服务器托管了十几个工具，但只有两个对模型可见。其余工具是 CLI 用于自身 UI 的内部 RPC，例如打开 diff、读取选中内容和保存文件。这些工具会在工具列表到达 Claude 之前被过滤掉。
+**向模型公开的工具。** 该服务器的工具中只有两个对模型可见。其余工具会在工具列表到达 Claude 之前被 CLI 过滤掉。
 
 | 工具名称（hook 中看到的名称） | 功能 | 只读 |
 | - | - | - |
@@ -932,10 +982,12 @@ hook 和权限规则会将聊天面板的诊断工具视为 `mcp__claude-vscode_
 | - | - |
 | 登录后出现 `API Error: 403 Request not allowed` | [登录后出现 403 Forbidden](https://code.claude.com/docs/zh-CN/troubleshoot-install.md#403-forbidden-after-login) |
 | 已经登录后又被要求重新登录 | [未登录或令牌已过期](https://code.claude.com/docs/zh-CN/troubleshoot-install.md#not-logged-in-or-token-expired) |
+| `Login is managed by your organization and must be completed in the terminal.` | [登录到 Claude apps 网关](#sign-in-to-a-claude-apps-gateway) |
 | 云提供商凭据在终端中有效，但在扩展中无效 | [Bedrock、Agent Platform 或 Foundry 凭据未加载](https://code.claude.com/docs/zh-CN/troubleshoot-install.md#bedrock-agent-platform-or-foundry-credentials-not-loading) |
 | `SSL certificate verification failed` 或 `Self-signed certificate detected` | [SSL 证书错误](https://code.claude.com/docs/zh-CN/errors.md#ssl-certificate-errors) |
 | `Dictation error: WebSocket error:` 后跟证书错误（例如 `unable to get local issuer certificate`），或 Web 标签页上出现 `Remote server is not connected` | [在执行 TLS 检查的代理后方，听写或 Web 标签页失败](#dictation-or-the-web-tab-fails-behind-a-tls-inspecting-proxy) |
 | `Claude Code process exited with code 1` 或其他代码 | [Claude Code process exited with code N](https://code.claude.com/docs/zh-CN/errors.md#claude-code-process-exited-with-code-n) |
+| `Claude Code did not finish starting` 或 `Subprocess initialization did not complete within 60000ms` | [Subprocess initialization did not complete within 60000ms](https://code.claude.com/docs/zh-CN/errors.md#subprocess-initialization-did-not-complete-within-60000ms) |
 | `Could not locate the Claude CLI on PATH` | [Could not locate the Claude CLI on PATH](https://code.claude.com/docs/zh-CN/errors.md#could-not-locate-the-claude-cli-on-path) |
 | `The connection to Claude Code ended before this message completed` | [The connection to Claude Code ended before this message completed](https://code.claude.com/docs/zh-CN/errors.md#the-connection-to-claude-code-ended-before-this-message-completed) |
 | `The Claude Code program for this computer, the <build> build, could not be found` | [The Claude Code program for this computer could not be found](https://code.claude.com/docs/zh-CN/errors.md#the-claude-code-program-for-this-computer-could-not-be-found) |

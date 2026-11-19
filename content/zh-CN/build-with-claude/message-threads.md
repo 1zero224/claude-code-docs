@@ -37,7 +37,7 @@ featureMetadata:
 
 使用 “message thread”（消息线程）时，请求更小，并且随着对话增长，"time to first token"（首个令牌时间）保持更低、更稳定。线程在较长的智能体循环中最有帮助。没有线程时，每一轮都会重新上传整个对话，API 也会重新验证并对其全部进行分词。使用线程后，大部分工作只涉及新的一轮。
 
-“Message thread”（消息线程）会在服务器上短时间保留一段对话。您只需发送一次完整对话，连同您的系统提示和工具。在之后的每一轮中，您只需发送新消息以及上一个响应的 `id`。API 会在调用模型之前重建对话。您只需在 [Messages API](https://platform.claude.com/docs/zh-CN/api/messages) 请求中添加一个参数 `thread`。响应就是通常的消息。
+消息线程会在服务器上短时间保留一段对话。您只需发送一次完整对话、您的系统提示和您的工具。在之后的每一轮中，您发送新消息以及上一个响应的 `id`，而不是完整对话。API 会在调用模型之前重建对话。您需要在 Messages API 请求中添加 [`thread`](https://platform.claude.com/docs/zh-CN/api/beta/messages/create#create.thread) 参数和一个 beta 标头。响应就是通常的消息。
 
 <Note>
   消息线程不同于 Claude Managed Agents 中的[会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)。
@@ -45,15 +45,15 @@ featureMetadata:
 
 ## 消息线程的工作原理
 
-* **创建。** 像现在一样发送您的第一个请求，包含完整对话、`system` 和 `tools`，并添加 `"thread": {"type": "create"}`。API 会将对话（包括 Claude 的回复）存储在响应 `id` 下。
+* **创建。** 像现在一样发送您的第一个请求，包含完整对话、`system` 和 `tools`。在请求中添加 `"thread": {"type": "create"}`。API 会将对话（包括 Claude 的回复）存储在响应 `id` 下。
 * **继续。** 仅发送自上一个响应以来的消息，并添加 `"thread": {"type": "continue", "previous_message_id": "<previous id>"}`。请求中不要包含 `system` 和 `tools`。线程会保留创建请求中的值。每个新响应的 `id` 用于下一轮。
-* **重放。** 线程是尽力而为的。线程会在其最后一次请求后 5 分钟过期，API 会在其最后一次使用后不超过 1 小时内将其删除。API 存储的每个响应都会重新开始这 5 分钟的计时。如果 API 无法再继续该线程，继续请求会返回 404 错误。请在新的创建请求中再次发送完整对话，并从该响应的 `id` 继续。SDK 线程辅助工具会为您执行此重放（请参阅[SDK 辅助工具的工作方式](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#sdk-helper-handles)）。在收到来自回退模型的响应后，请参阅[在线程中使用回退](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#fallbacks)。
+* **重放。** 线程是尽力而为的。线程会在其最后一次请求后 5 分钟过期，API 会在其最后一次使用后不超过 1 小时内将其删除。API 存储的每个响应都会重新开始这 5 分钟的计时。如果 API 无法再继续该线程，继续请求会返回 404 错误。请在新的创建请求中再次发送完整对话，并从新响应的 `id` 继续。SDK 线程辅助工具会为您执行此重放（请参阅[SDK 辅助工具的工作方式](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#sdk-helper-handles)）。在收到来自回退模型的响应后，请参阅[在线程中使用回退](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#fallbacks)。
 
 您的应用程序始终是对话的事实来源。请保留每条消息的副本，并从一开始就构建[重放路径](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#recover)。无论是对创建请求还是继续请求的响应，都不会说明 API 是否存储了该轮次。您会在下一次继续请求时才得知。SDK 线程辅助工具在辅助对象存在期间将此副本保存在内存中，不会保存到其他任何地方。如果对话需要在您的进程结束后继续存在，请保留您自己的副本。
 
 ## 通过 SDK 使用线程
 
-SDK 提供了一个线程辅助工具，可以为您构建线程请求。使用与 Messages 请求相同的字段创建它，然后一次发送一轮。该辅助工具会在内存中保留完整对话。
+SDK 提供了一个线程辅助工具，可以为您构建每个请求。使用与 Messages 请求相同的字段创建该辅助工具。然后一次发送一轮。该辅助工具会在内存中保留完整对话。
 
 此示例有两轮。辅助工具在第一轮创建线程，在第二轮继续该线程，并为您添加 beta 标头。顶层 `cache_control` 是可选的。它会在每一轮请求提示缓存（请参阅[线程上的提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#prompt-caching)）。没有它时，之后的每一轮仍然只发送新消息，但除非您自己添加缓存断点，否则不会缓存任何内容。
 
@@ -217,7 +217,7 @@ SDK 提供了一个线程辅助工具，可以为您构建线程请求。使用�
   $thread = $client->beta->messages->thread(
       maxTokens: 1024,
       model: Model::CLAUDE_OPUS_5_5,
-      cacheControl: new BetaCacheControlEphemeral,
+      cacheControl: new BetaCacheControlEphemeral(),
       system: 'You are a support agent for Acme. Keep replies short.',
   );
 
@@ -239,7 +239,7 @@ SDK 提供了一个线程辅助工具，可以为您构建线程请求。使用�
 
   # 创建辅助对象。此调用不会发送任何请求。
   thread = client.beta.messages.thread(
-    model: :"claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     cache_control: {type: "ephemeral"},
     system_: "You are a support agent for Acme. Keep replies short."
@@ -259,11 +259,11 @@ SDK 提供了一个线程辅助工具，可以为您构建线程请求。使用�
 
 ## 自行发送 `thread` 字段
 
-若要自行构建线程请求，例如使用 cURL、CLI 或 SDK 的常规 `create` 方法，请在每个请求中添加 `thread` 字段。
+请自行在每个请求中添加 `thread` 字段。您可以使用 cURL、CLI 或普通的 SDK 请求来完成此操作。
 
 在线程的每个请求上发送 `message-threads-2026-08-12` beta 标头。
 
-此示例在第一轮创建线程，在第二轮继续该线程。顶层 `cache_control` 会在每一轮请求提示缓存。一旦对话长度超过[最小可缓存长度](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)，它就会生效。
+此示例在第一轮创建线程，在第二轮继续该线程。顶层 `cache_control` 会在每一轮请求提示缓存。在完整对话（连同 `system` 和 `tools`）达到[最小可缓存长度](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-limitations)之前，不会缓存任何内容。
 
 <CodeGroup>
   ```bash cURL
@@ -526,7 +526,7 @@ SDK 提供了一个线程辅助工具，可以为您构建线程请求。使用�
   $first = $client->beta->messages->create(
       model: Model::CLAUDE_OPUS_5_5,
       maxTokens: 1024,
-      cacheControl: new BetaCacheControlEphemeral,
+      cacheControl: new BetaCacheControlEphemeral(),
       system: 'You are a support agent for Acme. Keep replies short.',
       messages: [
           ['role' => 'user', 'content' => 'Hi! I have a question about an order.'],
@@ -540,7 +540,7 @@ SDK 提供了一个线程辅助工具，可以为您构建线程请求。使用�
   $second = $client->beta->messages->create(
       model: Model::CLAUDE_OPUS_5_5,
       maxTokens: 1024,
-      cacheControl: new BetaCacheControlEphemeral,
+      cacheControl: new BetaCacheControlEphemeral(),
       messages: [
           ['role' => 'user', 'content' => 'How long does standard shipping usually take?'],
       ],
@@ -560,7 +560,7 @@ SDK 提供了一个线程辅助工具，可以为您构建线程请求。使用�
 
   # 第 1 轮：发送完整对话并创建一个线程
   first = client.beta.messages.create(
-    model: :"claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     cache_control: {type: "ephemeral"},
     system_: "You are a support agent for Acme. Keep replies short.",
@@ -572,7 +572,7 @@ SDK 提供了一个线程辅助工具，可以为您构建线程请求。使用�
   # 第 2 轮：仅发送新消息以及第 1 轮响应的 id。
   # 省略 system_ 和 tools：线程会保留它们。
   second = client.beta.messages.create(
-    model: :"claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     cache_control: {type: "ephemeral"},
     messages: [{role: "user", content: "How long does standard shipping usually take?"}],
@@ -604,8 +604,8 @@ SDK 线程辅助工具会为您在继续请求中省略 `system` 和 `tools`，�
 
 **如果您更改 `system` 或 `tools`：** 在以下模型上，请在您通过新的创建请求发送的对话中省略所有 `thinking` 和 `redacted_thinking` 块：Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5。这样，模型在回答时将不会使用那些早先的推理。
 
-* **原因：** 更改 `system` 或 `tools` 会使对话中已有的 `thinking` 和 `redacted_thinking` 块失效。请参阅[哪些算作编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#what-counts-as-an-edit)。
-* **如果您仍然发送这些块：** 创建请求可能会返回 400 错误。是否返回错误取决于模型和您的账户。请参阅[未设置 `prefix_mismatch_behavior` 时](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#enforcement)和[API 如何处理无效的块](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#mismatch-behavior)。
+* **原因：** 更改 `system` 或 `tools` 会使对话中已有的 `thinking` 和 `redacted_thinking` 块失效。请参阅[什么算作更改](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#what-counts-as-an-edit)。
+* **如果您仍然发送这些块：** 创建请求可能会收到 400 错误（请参阅[绑定到其他对话的思考块](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)）。请参阅[哪些模型会运行前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#enforcement)。
 
 在继续请求上只发送新消息。API 不会将它们与已有的消息进行比对。您再次发送的消息可能会在对话中出现两次，或者请求可能返回错误。例如，以上一个响应开头的继续请求会返回错误。
 
@@ -624,7 +624,7 @@ SDK 线程辅助工具会为您在继续请求中省略 `system` 和 `tools`，�
 * 您在创建请求中发送的断点，如果位于 `tools`、`system` 或最后一个消息块之前的某个消息块上，则在之后的每一轮中都会持续生效。位于请求 `messages` 最后一个块上的断点会在该请求中写入缓存。要缓存每个新的轮次，请在每个请求中都发送一个断点。不带断点的请求仍可能从缓存中读取部分对话。
 * 断点发送后便无法移动或移除，因为继续请求无法再次发送较早的消息。
 * 带有 `thread` 的请求最多可携带 4 个 `cache_control` 断点。顶层 `cache_control` 计为一个。创建请求中 `system` 和 `tools` 上的断点会在每个继续请求中再次计数。较早存储的消息上的断点不计数。多出一个断点就会返回 400 错误，错误代码为 `thread_unsupported_request`。
-* 如果您自己在消息块上放置断点，那么在新的创建请求中重放对话时，请从较早的消息中移除这些断点，并在最后一个块上保留一个，以使请求保持在 4 个的限制之内。
+* 如果您自己在消息块上放置断点，那么在新的创建请求中重放对话时，请从较早的消息中移除这些断点，并在最后一个块上保留一个。这样，请求就会保持在 4 个的限制之内。
 
 ## 流式传输
 
@@ -632,7 +632,7 @@ SDK 线程辅助工具会为您在继续请求中省略 `system` 和 `tools`，�
 
 如果继续请求的流在 `message_stop` 之前中断，请再次发送相同的继续请求。如果该请求返回 `thread_already_continued` 或 `thread_continue_in_flight` 错误，请在新的创建请求中重放完整对话。
 
-您的连接可能在服务器仍在生成响应时中断，也可能在服务器保存响应之后中断。这就是 API 可能拒绝重试的原因。重放始终是安全的。
+您的连接可能在服务器仍在生成响应时中断，也可能在服务器保存响应之后中断。这就是 API 可能拒绝重试的原因。原样重放您的副本是安全的。
 
 SDK 线程辅助工具在流中断后不会重试继续请求。请参阅[SDK 辅助工具的工作方式](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#sdk-helper-handles)。
 
@@ -648,11 +648,21 @@ SDK 线程辅助工具在流中断后不会重试继续请求。请参阅[SDK �
 * 请求来自与创建线程的用户或服务账户不同的用户或服务账户。使用[工作区密钥（旧版）](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#key-types)创建的线程会绑定到该密钥，因此请在整个线程中使用同一个密钥。
 * 新消息添加了存储的对话无法接受的内容。例如，在原本没有图像的对话中加入第一张图像可能会返回此错误。
 
-若要恢复，请从您自己的副本中，在一个新的创建请求中发送完整对话，并附带 `system` 和 `tools`。SDK 线程辅助工具会自行发送一次此创建请求，并在发送时省略较早轮次的 `cache_control` 断点。如果您副本中较早的消息带有 `cache_control` 断点，请先将其移除（请参阅[线程上的提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#prompt-caching)）。然后从新响应的 `id` 继续。如果上一个响应由回退模型生成，请参阅[在线程中使用回退](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#fallbacks)。若要排除所有权方面的原因，请对一个线程的每个请求使用相同的 API 密钥和工作区。在 Claude Platform on AWS 上，请使用创建该线程的 IAM 角色或 IAM 用户的凭证为该线程的每个请求签名。
+若要恢复，请按照以下步骤操作：
+
+1. 如果您自己的对话副本中较早的消息带有 `cache_control` 断点，请将其移除（请参阅[线程上的提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#prompt-caching)）。
+2. 从您的副本中，在一个新的创建请求中发送完整对话，并附带 `system` 和 `tools`。
+3. 从新响应的 `id` 继续。
+
+SDK 线程辅助工具会自行发送一次此创建请求。在发送时，它会省略较早轮次的 `cache_control` 断点。
+
+如果上一个响应由回退模型生成，请参阅[在线程中使用回退](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#fallbacks)。
+
+其中一些原因取决于由谁发送请求。若要排除这些原因，请对一个线程的每个请求使用相同的工作区，以及相同的 API 密钥、用户或服务账户。在 Claude Platform on AWS 上，请使用创建该线程的 IAM 角色或 IAM 用户的凭证为该线程的每个请求签名。
 
 请求不存在的模型也会返回 404 错误，因此请在重放之前检查 `error.details.error_code`。
 
-如果在重放后继续请求仍然立即返回 404 错误，则 API 可能无法存储该对话，例如非常大的对话。请在不使用 `thread` 的情况下发送它。当您在创建 SDK 线程辅助工具时将 `unsupported_request_behavior` (typescript, java, php: `unsupportedRequestBehavior`; go, csharp: `UnsupportedRequestBehavior`) 设置为 `continue_unthreaded` (ruby: `:continue_unthreaded`; java: `CONTINUE_UNTHREADED`; csharp: `ContinueUnthreaded`; go: `BetaMessageThreadUnsupportedRequestBehaviorContinueUnthreaded`) 时，它会这样做。否则，它会在每一轮都进行重放。
+如果在重放后继续请求仍然立即返回 404 错误，则 API 可能无法存储该对话（例如非常大的对话）。请在不使用 `thread` 的情况下发送它。当您在创建 SDK 线程辅助工具时将 `unsupported_request_behavior` (typescript, java, php: `unsupportedRequestBehavior`; go, csharp: `UnsupportedRequestBehavior`) 设置为 `continue_unthreaded` (ruby: `:continue_unthreaded`; java: `CONTINUE_UNTHREADED`; csharp: `ContinueUnthreaded`; go: `BetaMessageThreadUnsupportedRequestBehaviorContinueUnthreaded`) 时，它会这样做。否则，辅助工具会在每一轮都进行重放。
 
 ### 拒绝之后
 
@@ -660,7 +670,7 @@ SDK 线程辅助工具在流中断后不会重试继续请求。请参阅[SDK �
 
 ### 在线程中使用回退
 
-[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)可在 Claude API 上与线程一起使用。请在创建线程时做出决定：在线程的每个请求上都发送 `fallbacks`，或者都不发送。`fallbacks` 的值可以在请求之间更改。添加或删除 `fallbacks` 的继续请求会返回代码为 `thread_fingerprint_mismatch` 的 400 错误。
+[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)可在 Claude API 上与线程一起使用。请在创建线程时做出决定：在线程的每个请求上都发送 `fallbacks`，或者都不发送。`fallbacks` 的值可以在请求之间更改。添加或移除 `fallbacks` 的继续请求会返回代码为 `thread_fingerprint_mismatch` 的 400 错误。
 
 一个线程只保留一个模型，因此 API 不会存储由回退模型编写的轮次。您会照常收到响应，但无法从其 `id` 继续。在每个响应之后，请按照以下步骤操作：
 
@@ -689,17 +699,17 @@ SDK 线程辅助工具在流中断后不会重试继续请求。请参阅[SDK �
 * 在第一轮创建线程，之后继续该线程，仅发送新消息，并省略 `system` 和 `tools`。
 * 当继续请求返回 `thread_not_found`、`thread_already_continued` 或 `thread_continue_in_flight` 时，在一个新的创建请求中重放一次完整对话。
 * 当您不带任何消息调用 `send()` (go, csharp: `Send()`; ruby: `send_message()`) 时，恢复 `pause_turn` 响应。
-* 在拒绝之后启动新的线程。您会像往常一样收到 `stop_reason: "refusal"` 响应，但辅助工具不会保留该轮次：它会撤回您在该次调用中提供的消息。您通过 `thread.append(...)` (csharp, go: `thread.Append(...)`; php: `$thread->append(...)`) 添加的消息，或在创建辅助工具时提供的消息，仍保持暂存状态。您的下一轮会在一个新的创建请求中，将它们与被拒绝轮次之前的对话一起发送。请发送改写后的消息；或者，如果是某条暂存消息导致了拒绝，请从不含该消息的参数启动新的线程。
+* 在拒绝之后启动新的线程。您会像往常一样收到 `stop_reason: "refusal"` 响应，但辅助工具不会保留该轮次：它会撤回您在该次调用中提供的消息。您通过 `thread.append(...)` (csharp, go: `thread.Append(...)`; php: `$thread->append(...)`) 添加的消息，或在创建辅助工具时提供的消息，仍保持暂存状态。您的下一轮会在一个新的创建请求中，将它们与被拒绝轮次之前的对话一起发送。请发送改写后的消息；或者，如果是某条暂存消息导致了拒绝，请从不含该消息的 params 启动新的线程。
 * 在收到来自回退模型的响应后发送一个新的创建请求。当响应的 `usage.iterations` 中包含 `fallback_message` 条目时，辅助工具会保留该响应，并在下一轮中通过一个新的创建请求发送完整对话。它不会等待 404 错误。该请求会保留您设置的 `model` 和 `fallbacks`。
-* 每当再次发送较早轮次时（例如在重放中或在分叉的第一轮中），省略这些轮次的 `cache_control` 断点。您最新的消息、`system`、`tools` 以及顶层 `cache_control` 会按您提供的原样发送。
+* 每当再次发送较早轮次时（例如在重放中或在线程副本的第一轮中），省略这些轮次的 `cache_control` 断点。您最新的消息、`system`、`tools` 以及顶层 `cache_control` 会按您提供的原样发送。
 
 您需要自己处理的工作：
 
-* **回退。** 当 API 持续由回退模型作答时，辅助工具会在每一轮中通过一个新的创建请求发送完整对话，因为 API 不会存储这些轮次中的任何一个。在收到来自您所请求模型的响应后，它会恢复使用继续请求。若要改为将对话转移到回退模型，请从 params 启动一个新的线程，使用该 `model` 且不带 `fallbacks`，如[在线程中使用回退](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#fallbacks)中所述。
+* **回退。** 当 API 持续由回退模型作答时，辅助工具会在每一轮中通过一个新的创建请求发送完整对话，因为 API 不会存储这些轮次中的任何一个。在收到来自您所请求模型的响应后，辅助工具会恢复使用继续请求。若要改为将对话转移到回退模型，请从 params 启动一个新的线程，使用该 `model` 且不带 `fallbacks`，如[在线程中使用回退](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#fallbacks)中所述。
 * **中断的流。** 如果流在响应中途结束，辅助工具会保留已完成的块以及已到达的任何文本，下一轮会在新的创建请求中发送完整对话。辅助工具不会自行重试：如果您想改为重新发送被中断的轮次，请不带任何消息调用 `send()` (go, csharp: `Send()`; ruby: `send_message()`)。如果保留的部分以工具调用结尾，请在下一条消息中回应它们。如果您在流显示 `stop_reason: "refusal"` 后停止读取，辅助工具会将该轮次视为拒绝。
 * **其他错误。** `thread_fingerprint_mismatch` 和 `thread_unsupported_request` 错误会传递到您的代码。若要在出现 `thread_unsupported_request` 错误后不使用 `thread` 继续，请在创建辅助工具时将 `unsupported_request_behavior` (typescript, java, php: `unsupportedRequestBehavior`; go, csharp: `UnsupportedRequestBehavior`) 设置为 `continue_unthreaded` (ruby: `:continue_unthreaded`; java: `CONTINUE_UNTHREADED`; csharp: `ContinueUnthreaded`; go: `BetaMessageThreadUnsupportedRequestBehaviorContinueUnthreaded`)。使用该设置时，如果重放后的第一个继续请求再次返回 `thread_not_found`，辅助工具也会停止使用 `thread`。API 可能无法存储该对话。如果没有该设置，辅助工具会在每一轮都进行重放。自行创建线程的工具运行器默认使用该设置。
 
-SDK 的 beta 工具运行器默认也使用线程，您可以在创建运行器时将其关闭。
+SDK 的 beta 工具运行器默认也使用线程。您可以在创建运行器时关闭此默认设置。
 
 ### 其他辅助方法
 
@@ -733,7 +743,7 @@ SDK 的 beta 工具运行器默认也使用线程，您可以在创建运行器�
 
 **复制。** 复制会拷贝对话、字段和请求选项，且不发送任何内容。其第一轮会在新的创建请求中发送完整对话，此后两个线程相互独立。复制始终从整个对话开始，而不是从较早的响应开始。
 
-**Params。** params 包含辅助工具的字段和完整对话。将它们传递给创建辅助工具的方法即可启动一个新的线程，例如使用不同的 `system`（请参阅[每个请求要发送的内容](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#what-to-send)），或将 `messages` 截短以丢弃较晚的轮次。从 params 启动的线程会按您提供的原样发送每条消息，包括 `cache_control` 断点，因此请保持在 4 个的限制之内（请参阅[线程上的提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#prompt-caching)）。除 Ruby 外，params 不包含请求选项，因此请再次传递这些选项。
+**Params。** params 包含辅助工具的字段和完整对话。将它们传递给创建辅助工具的方法即可启动一个新的线程。例如，启动线程时使用不同的 `system`（请参阅[每个请求要发送的内容](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#what-to-send)），或将 `messages` 截短以丢弃较晚的轮次。从 params 启动的线程会按您提供的原样发送每条消息，包括 `cache_control` 断点，因此请保持在 4 个的限制之内（请参阅[线程上的提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#prompt-caching)）。除 Ruby 外，params 不包含请求选项，因此请再次传递这些选项。
 
 **结构化输出。** 在创建辅助工具时指定输出格式。后续轮次无法更改它。获取解析结果的方式取决于 SDK：
 
@@ -756,7 +766,7 @@ API 会在模型运行之前返回此表中的错误。请求不消耗令牌，�
 | 400 | `thread_continue_in_flight`   | 从此响应 `id` 发起的另一个继续请求仍在运行。这通常是您自己之前的尝试。                    | 等待其完成并从其响应 `id` 继续，或者重放。             |
 | 400 | `thread_unsupported_request`  | 请求使用了线程不支持的功能或组织设置。如果存在，`error.details.unsupported` 会指出它。 | 从请求中删除该功能，或不使用 `thread` 发送完整对话。      |
 
-线程请求的某些 400 错误不带 `error_code`，例如缺少 `previous_message_id` 的继续请求，或包含 `system` 或 `tools` 的继续请求。
+某些带有 `thread` 的请求会返回不带 `error_code` 的 400 错误。例如，如果继续请求缺少 `previous_message_id`，或包含 `system` 或 `tools`，则会返回此错误。
 
 以下示例展示了一个错误正文：
 

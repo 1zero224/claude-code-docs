@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -725,7 +725,7 @@ MCP 服务器的作用域是智能体：每个智能体定义都声明自己的�
   ```ruby Ruby
   research_agent = client.beta.agents.create(
     name: "researcher",
-    model: "claude-haiku-5-5",
+    model: Anthropic::Beta::BetaManagedAgentsModel::CLAUDE_HAIKU_5_5,
     mcp_servers: [
       {type: "url", name: "github", url: "https://api.githubcopilot.com/mcp/"}
     ],
@@ -736,7 +736,7 @@ MCP 服务器的作用域是智能体：每个智能体定义都声明自己的�
 
   lead_agent = client.beta.agents.create(
     name: "lead",
-    model: "claude-opus-5-5",
+    model: Anthropic::Beta::BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
     tools: [
       {type: "agent_toolset_20260401"}
     ],
@@ -1317,7 +1317,7 @@ You review contracts. When you're asked to review more than a few contracts, sta
 4. `session.thread_status_idle`（`stop_reason: end_turn`）
 5. `session.thread_status_terminated`
 
-咨询不会发出 `agent.tool_use` 事件，会话的事件流中也不会出现 `agent.thread_message_sent` 事件，因为咨询输入是由平台组装的，而不是由智能体发送的。如果您列出顾问线程自身的事件，建议也会以 `agent.thread_message_sent` 事件的形式出现在其中。建议送达（事件 3）不保证在顾问线程的空闲和终止事件之前到达，因此不要将这些事件视为建议已送达的信号。
+咨询不会发出 `agent.tool_use` 事件，会话的事件流中也不会出现 `agent.thread_message_sent` 事件。咨询输入由平台组装，因此智能体不会发送它。如果您列出顾问线程自身的事件，建议也会以 `agent.thread_message_sent` 事件的形式出现在其中。建议送达（事件 3）不保证在顾问线程的空闲和终止事件之前到达，因此不要将这些事件视为建议已送达的信号。
 
 您的客户端能否读取建议取决于顾问模型的策略。这与 Messages API Advisor 工具上的[结果变体](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#result-variants)划分一致。在那里返回明文结果的顾问模型，在这里会送达可读文本。返回加密结果的模型则会在每个客户端接口上送达 `[{"type": "redacted"}]` 占位符，而智能体仍会在服务器端读取完整的建议。前面的示例使用您可用的最新 Opus 模型作为顾问。该模型返回加密结果，因此您的客户端只能看到占位符。要在事件流上读取建议，请使用返回明文的顾问，例如 Claude Opus 4.8。模型的策略可能会在 API 不变的情况下发生变化，因此请同时处理 `text` 和 `redacted` 块。某些智能体模型只能与返回加密结果的顾问配对；请参阅 Advisor 工具的[模型兼容性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#model-compatibility)部分。顾问的思考内容永远不会公开。客户端不能自行发送 `redacted` 块；包含此类块的事件会以 400 验证错误被拒绝。
 
@@ -1403,10 +1403,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

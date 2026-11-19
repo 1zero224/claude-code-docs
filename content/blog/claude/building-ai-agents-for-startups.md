@@ -28,7 +28,7 @@ Startups need world-class work across every function, but finding that talent is
 [**Gradient Labs**](https://claude.com/customers/gradient-labs?m=1), an AI-powered customer support platform for financial institutions, maintains 80-90% resolution rates in complex financial support with 98% customer satisfaction. Small teams now deliver analysis quality that previously required hiring PhD-level specialists with years of domain experience.
 ### The speed vs quality tradeoff
 Moving fast enough to stay ahead while maintaining quality standards has always been a struggle, regardless of your company size. Ship too fast and quality suffers. Overindex on shipping the perfect product and competitors outpace you. AI agents break this tradeoff by maintaining high standards while dramatically accelerating execution speed.
-[**Brex**](https://www.claude.com/customers/brex) hits 94% compliance rates compared to the 70% industry standard while automating 75% of transactions and saving customers $56.5M annually. [**StackBlitz**](https://www.claude.com/customers/stackblitz) went from zero to $4M ARR in just 4 weeks after integrating Claude into Bolt, with users seeing a 99% reduction in application development costs while maintaining production-ready quality.
+[**Brex**](https://www.claude.com/customers/brex) hits 94% compliance rates compared to the 70% industry standard while automating 75% of transactions and saving customers $56.5M annually. **StackBlitz** went from zero to $4M ARR in just 4 weeks after integrating Claude into Bolt, with users seeing a 99% reduction in application development costs while maintaining production-ready quality.
 When you can move at startup speed without the quality compromises that traditionally came with it, you get the best of both worlds. The work ships faster and the results hold up under scrutiny.
 ## **Popular agentic use cases**
 Startups are putting agents to work on operational challenges that once required dedicated hands that they often didn’t have. The results: lower costs, faster execution, and capabilities beyond team size.
@@ -65,22 +65,23 @@ These first deployments do more than deliver immediate wins. They teach startups
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 27, 2026
-### Manage costs and demonstrate ROI for Claude Code on Google Cloud
-Best practices for managing costs and measuring return on investment for Claude Code on Google Cloud.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-](https://claude.com/resources/articles/how-to-manage-costs-and-demonstrate-roi-for-claude-code-on-google-cloud)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

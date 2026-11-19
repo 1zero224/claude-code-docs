@@ -49,7 +49,17 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 思考令牌是您的 `max_tokens` 参数的子集，按输出令牌计费，并计入速率限制。使用 [adaptive thinking（自适应思考）](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)时，Claude 会动态确定其思考分配，因此思考令牌的使用量因请求而异。
 
-之前助手轮次中的思考块是否保留在上下文窗口中取决于模型。在 Claude Opus 4.5 及更高版本的 Opus 模型、Claude Sonnet 4.6 及更高版本的 Sonnet 模型、Claude Haiku 5.5、Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5、Claude Mythos 5 以及 Claude Mythos Preview 上，API 默认保留之前的思考块，它们会像其他输入令牌一样计入上下文窗口。在较早的 Opus 和 Sonnet 模型以及截至 Claude Haiku 4.5 的所有 Haiku 模型上，当您将之前的思考块传回时，API 会自动将其从对话历史中剥离，从而为对话内容保留令牌容量。有关各模型的默认行为，请参阅[各模型的思考块保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-block-preservation-by-model)。要在任一方向上覆盖默认行为，请使用[思考块清除](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#thinking-block-clearing)。
+之前助手轮次中的思考块是否保留在上下文窗口中取决于模型。
+
+在以下模型上，API 默认保留之前的思考块，这些块会像其他输入令牌一样计入上下文窗口：
+
+* Claude Opus 4.5 及更高版本的 Opus 模型
+* Claude Sonnet 4.6 及更高版本的 Sonnet 模型
+* Claude Haiku 5.5
+* Claude Fable 5.2、Claude Fable 5.1 和 Claude Fable 5
+* Claude Mythos 5.2、Claude Mythos 5.1、Claude Mythos 5 和 Claude Mythos Preview
+
+在较早的 Opus 和 Sonnet 模型以及截至 Claude Haiku 4.5 的所有 Haiku 模型上，当您将之前的思考块传回时，API 会自动将其从对话历史中剥离。这会为对话内容保留令牌容量。有关各模型的默认行为，请参阅[各模型的思考块保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-block-preservation-by-model)。要在任一方向上覆盖默认行为，请使用[思考块清除](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#thinking-block-clearing)。
 
 下图展示了在会剥离之前思考块的模型上启用思考时令牌的管理方式：
 
@@ -80,7 +90,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
   </Step>
 
   <Step title="工具结果处理（第 2 轮）">
-    * **输入组件：** 第一轮中的每个块以及 `tool_result`。您必须将思考块与相应的工具结果一起返回。这是您必须返回思考块的唯一情况。
+    * **输入组件：** 第一轮中的每个块以及 `tool_result`。请将思考块与相应的工具结果一起返回。
     * **输出组件：** 在工具结果传回给 Claude 之后，Claude 仅以文本响应（在下一条 `user` 消息之前不会有额外的思考，除非启用了[交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#interleaved-thinking)）。
     * **令牌计算：** 所有输入和输出组件都计入上下文窗口，所有输出组件都按输出令牌计费。
   </Step>
@@ -94,8 +104,8 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 * **思考与工具使用结合时的注意事项：**
 
-  * 当您提交工具结果时，必须包含伴随该工具请求的完整且未经修改的思考块，包括其签名。
-  * API 使用加密签名来验证思考块的真实性。如果您修改了思考块，API 会返回错误。
+  * 当您提交工具结果时，请包含伴随该工具请求的完整且未经修改的思考块，包括其签名。
+  * API 使用加密签名来验证思考块的真实性。
 
 <Note>
   大多数当前的 Claude 模型都支持[交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#interleaved-thinking)，它让 Claude 能够在工具调用之间进行思考，包括在收到工具结果之后。在支持自适应思考的模型上，它是自动启用的；Claude Opus 4.5、Claude Sonnet 4.5（已弃用）以及更早的 Claude 4 模型需要 `interleaved-thinking-2025-05-14` beta 标头，而 Claude Haiku 4.5 不支持它。

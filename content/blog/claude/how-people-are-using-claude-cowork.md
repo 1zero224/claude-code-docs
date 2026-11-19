@@ -29,7 +29,6 @@ While coding is still—understandably—one of the uses of AI that gets the mos
 This is just a single snapshot, and Claude Cowork is still new; its uses are evolving quickly. Our goal is to make this a reference point for people who are figuring out how to integrate AI products into their daily work, and to show where use is most concentrated. We plan to continue publishing data as usage grows and shifts, and we’ll report on what changes over time.
 ### Getting started with Cowork
 Claude Cowork is available to all Claude users. [Learn more](http://anthropic.com/product/claude-cowork) or [take our Introduction to Claude Cowork course](https://anthropic.skilljar.com/introduction-to-claude-cowork) to get started.
-++++
 ## Additional details about our research
 See below for more information about how we conducted this Claude Cowork user survey.
 ### **How we measured**

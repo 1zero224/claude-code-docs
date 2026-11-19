@@ -206,8 +206,6 @@ Claude Code reads only the number from the URL. It always fetches from your repo
 
 This fetch never waits for input in your terminal. If git or ssh would ask for a password, a key passphrase, or confirmation of a new SSH host, the fetch fails instead and Claude Code exits with an `Error creating worktree: Failed to fetch PR/MR #<number>` message. A key that `ssh-agent` holds still works, so load your key there and run `git fetch` once by hand to record a new host before you start.
 
-Before v2.1.233, Claude Code accepted only `#<number>` and GitHub-style pull request URLs for `--worktree`, and always fetched `pull/<number>/head`.
-
 ### Copy gitignored files into worktrees
 
 A worktree is a fresh checkout, so untracked files like `.env` or `.env.local` from your main repository are not present. To copy them automatically when Claude creates a worktree, add a `.worktreeinclude` file to your project root.
@@ -232,7 +230,8 @@ If a worktree with the name you pass to `--worktree` already exists, Claude Code
 
 With the default `"fresh"` [base](#choose-the-base-branch), a reopened worktree resets to the repository's default branch instead of continuing at its old tip when all of the following hold:
 
-* It has no uncommitted changes or untracked files.
+* The [sandbox](https://code.claude.com/docs/en/sandboxing.md#filesystem-isolation) isn't restricting file writes in your session, and neither the worktree's nor the main checkout's `.claude` settings files enable the sandbox.
+* The worktree has no uncommitted changes or untracked files.
 * It is still on the branch Claude Code created for it.
 * It has no commits of its own, or its pull request or merge request was merged and its remote branch deleted.
 
@@ -240,10 +239,12 @@ Claude Code detects the merged case from git state alone: the remote branch the 
 
 In every other case, Claude Code reopens the worktree at its old tip:
 
-* The worktree fails any of the conditions.
+* The worktree or session fails any of the conditions.
 * Claude Code can't verify the worktree's state.
 * `worktree.baseRef` is `"head"`.
 * The name is a pull request or merge request reference.
+
+If you use the sandbox with the `"fresh"` base, run `git fetch origin`, then pass a new name to `--worktree` to start from the latest default branch.
 
 ### Replace worktree creation with a hook
 
@@ -397,7 +398,7 @@ Claude Code leaves the refused directory in place, since it may hold work. Match
 * **Says `the protected checkout <path> has a .git entry that could not be examined` or `has git metadata that could not be resolved`**: the problem is the main checkout's git metadata, not the worktree's. Don't delete the worktree, and ignore the message's trailing advice to recreate it, which doesn't apply to these two endings. Repair the main checkout, for example a permissions problem or a git `dubious ownership` refusal on its `.git`, and retry.
 
   Before v2.1.302, with git 2.56 or later, the `could not be resolved` ending also appeared when the `<path>` after `the protected checkout` held a stray `.git` file. Stray here means the path on that file's `gitdir:` line doesn't lead to a valid git repository. To recover, [update Claude Code](https://code.claude.com/docs/en/setup.md#update-claude-code) and retry. When that `gitdir:` path no longer exists, you can also delete the `.git` file and retry.
-* **Says `its recorded path has a network spelling`**: Claude Code never resumes into a worktree at a network path. Recreate the worktree at a local path.
+* **Says `its recorded path`**: if you can't open a folder on that path, restore your access to it. Otherwise recreate the worktree at a local path. Claude Code doesn't resume into a worktree at a network path.
 * **Any other ending**: the message names the problem and its fix, such as removing a `core.worktree` redirect or recreating the worktree; follow it. Before deleting a directory whose message says its git identity could not be verified, address the named cause first, for example a symbolic link in the worktree's path or git itself failing to run, since the directory may be healthy. When you do recreate, salvage any changes you need from the old directory first; it stays on disk.
 
 ### The session resumes outside its worktree

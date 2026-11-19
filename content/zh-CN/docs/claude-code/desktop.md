@@ -216,7 +216,7 @@ Claude 读取您的评论并进行请求的更改，这些更改显示为您可�
 
 在本地、[SSH](#ssh-sessions) 和 [WSL](https://code.claude.com/docs/zh-CN/desktop-wsl.md) 会话中，结果会显示为一张按文件分组的 **Code review** 卡片。使用该卡片处理这些结果：
 
-* 点击 **Walk through in diff** 打开 diff 视图，逐条查看结果。当前 diff 中的结果会显示在其对应的行上，您可以在那里点击 **Fix this one** 或忽略它。
+* 点击 **Walk through in Changes** 打开 diff 视图，逐条查看结果。当前 diff 中的结果会显示在其对应的行上，您可以在那里点击 **Fix this one** 或忽略它。
 * 点击 **Apply fixes** 让 Claude 修复仍未处理的结果。
 
 在任何会话中，您也可以在输入框中要求 Claude 修复审查发现的问题。有关 `/code-review` 检查的内容及其接受的参数，请参阅[使用 `/code-review` 在本地审查](https://code.claude.com/docs/zh-CN/code-review-local)。
@@ -264,7 +264,7 @@ Code 选项卡围绕可以以任何布局排列的窗格构建：聊天、diff�
 
 ### 最小化窗格
 
-要让终端、浏览器、[iOS Simulator](https://code.claude.com/docs/zh-CN/desktop-ios-simulator.md) 或[侧边聊天](#ask-a-side-question-without-derailing-the-session)以较小尺寸保持在视野中，请点击窗格标题中的 **Minimize**。该按钮需要 Claude Desktop v4.0.0 或更高版本，并且需要使用 Claude 账户而非[第三方提供商](https://code.claude.com/docs/zh-CN/third-party-integrations.md)。浏览器窗格仅在本地会话中提供该按钮。
+要让终端、浏览器、[iOS Simulator](https://code.claude.com/docs/zh-CN/desktop-ios-simulator.md) 或[侧边聊天](#ask-a-side-question-without-derailing-the-session)以较小尺寸保持在视野中，请点击窗格标题中的 **Minimize**。该按钮需要 Claude Desktop v4.0.0 或更高版本。使用[第三方提供商](https://code.claude.com/docs/zh-CN/third-party-integrations.md)时，则需要 v5.11492.0 或更高版本，因此请[检查您的版本](#check-your-version)。浏览器窗格仅在本地会话中提供该按钮。
 
 当[会话详细信息面板](#see-session-details)显示在屏幕上时，最小化的窗格位于该面板中；否则，它会悬浮在聊天区域的一角：
 
@@ -620,7 +620,7 @@ Dispatch 是您离开终端时与 Claude 协作的几种方式之一。有关与
 
 ## 扩展 Claude Code
 
-连接外部服务、添加可重用工作流、自定义 Claude 的行为并配置预览服务器。要在一个地方管理连接器、skill 和插件，请点击侧边栏中的**自定义**。桌面应用中的 [Cowork](https://claude.com/product/cowork) 从此自定义配置获取其 skill、插件和连接器，该配置通过您的 claude.ai 账户同步，而不是从 CLI 的 `~/.claude` 目录获取。
+连接外部服务、添加可重用工作流、自定义 Claude 的行为并配置预览服务器。要在一个地方管理连接器、skill 和插件，请点击侧边栏中的**自定义**或 **Plugins**。桌面应用中的 [Cowork](https://claude.com/product/cowork) 从此配置获取其 skill、插件和连接器，该配置通过您的 claude.ai 账户同步，而不是从 CLI 的 `~/.claude` 目录获取。
 
 Claude Code 还会在你使用同一账户登录的终端会话中加载为你的 claude.ai 账户启用的 skills 和插件。请参阅[从 claude.ai 同步的 Skills](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave) 和[从 claude.ai 同步的插件](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)。
 
@@ -628,7 +628,11 @@ Claude Code 还会在你使用同一账户登录的终端会话中加载为你�
 
 连接器是具有图形设置流程的 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md)。
 
-在会话开始之前或期间，点击提示框旁的 **+**，即可在使用 Claude 账户的本地或 [SSH](#ssh-sessions) 会话中添加连接器。选择 **Add connectors** 打开连接器目录。如果菜单显示的是 **Connectors**，请选择它，然后选择 **Browse connectors**。
+在会话开始之前或期间，点击提示框旁的 **+**，即可在使用 Claude 账户的本地或 [SSH](#ssh-sessions) 会话中添加连接器。根据菜单显示的条目打开连接器目录：
+
+* **Add connectors**：选择它
+* **Connectors**：选择它，然后选择 **Browse connectors**
+* **两个条目都没有**：点击侧边栏中的 **Plugins**，该目录会同时列出连接器和插件
 
 > [!NOTE]
 >
@@ -637,9 +641,9 @@ Claude Code 还会在你使用同一账户登录的终端会话中加载为你�
 > * **WSL 会话中 Connectors 显示为灰色**：请参阅[如果终端或连接器不可用](https://code.claude.com/docs/zh-CN/desktop-wsl.md#check-for-the-terminal-and-connectors)
 > * **云端会话**：请参阅[连接器如何接入 Claude Code](https://code.claude.com/docs/zh-CN/mcp.md#how-connectors-reach-claude-code)
 
-连接后，Claude 可以读取您的日历、发送消息、创建问题并直接与您的工具交互。您可以询问 Claude 在您的会话中配置了哪些连接器。要管理或断开连接器，请点击侧边栏中的**自定义**并打开 **Connectors**。
+连接后，Claude 可以读取您的日历、发送消息、创建问题并直接与您的工具交互。您可以询问 Claude 在您的会话中配置了哪些连接器。要管理或断开连接器，请点击侧边栏中的**自定义**并打开 **Connectors**。如果侧边栏显示的是 **Plugins**，请点击它并在 **Your plugins** 下查看。
 
-对于 Connectors 中未列出的集成，通过[设置文件](https://code.claude.com/docs/zh-CN/mcp.md#installing-mcp-servers)手动添加 MCP 服务器。您也可以[创建自定义连接器](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp)。
+对于连接器目录中未列出的集成，通过[设置文件](https://code.claude.com/docs/zh-CN/mcp.md#installing-mcp-servers)手动添加 MCP 服务器。您也可以[创建自定义连接器](https://support.claude.com/en/articles/11175166-getting-started-with-custom-connectors-using-remote-mcp)。
 
 ### 使用 skills
 
@@ -655,7 +659,12 @@ Claude Code 还会在你使用同一账户登录的终端会话中加载为你�
 
 [Plugins](https://code.claude.com/docs/zh-CN/plugins/overview.md)是可重用的包，为 Claude Code 添加 skills、agents、hooks、MCP servers 和 LSP 配置。你可以从桌面应用安装插件，而无需使用终端。
 
-在本地会话或 [SSH 会话](#ssh-sessions)中，点击提示框旁的 **+** 并选择 **Add plugins** 打开插件浏览器。如果菜单显示的是 **Plugins**，请选择它，然后选择 **Browse plugins**，或选择 **Manage plugins** 来启用、禁用或卸载插件。
+在本地会话或 [SSH 会话](#ssh-sessions)中，点击提示框旁的 **+**。根据菜单显示的条目打开插件浏览器：
+
+* **Add plugins**：选择它
+* **Plugins**：选择它，然后选择 **Browse plugins**。如果没有该选项，请选择 **Manage plugins**。
+
+当 **+** 菜单显示 **Plugins** 时，要启用、禁用或卸载插件，请选择 **Plugins > Manage plugins**。在本地会话中，您也可以点击侧边栏中的**自定义**或 **Plugins**。
 
 你可以将插件限定到你的用户账户、特定项目或仅本地。如果你的组织集中管理插件，这些插件在桌面会话中的可用方式与在 CLI 中相同，除了桌面应用在 [`disableSideloadFlags`](https://code.claude.com/docs/zh-CN/settings-reference#disablesideloadflags) 下扣留的那些。
 
@@ -2127,10 +2136,11 @@ IT 团队可以通过 macOS 上的 MDM、Windows 上的组策略或 Linux 上的
 
 要阻止这种情况，还需在 Claude Desktop 策略中（Windows 上位于 `HKLM` 中）部署 `forceLoginOrgUUID`，并填入您的 claude.ai 组织 ID。除非策略本身[选择了 Claude API](https://claude.com/docs/third-party/claude-desktop/claude-api#choose-an-authentication-approach)，否则 Claude Desktop 会在应用下次启动时停止使用个人自己的 API 密钥或 Console 帐户。
 
-部署之前，请检查以下两种情况：
+部署之前，请检查以下三种情况：
 
 * **Claude Console 组织**：不要仅凭 Claude Console 组织的 ID 单独部署 `forceLoginOrgUUID`，否则会将您组织中的人员锁定在 Claude Desktop 之外。请改为参阅[哪些设备提供 Claude API 帐户登录](https://claude.com/docs/third-party/claude-desktop/claude-api#which-devices-offer-the-claude-api-account-sign-in)。
 * **Enterprise Admin Console**：如果它为您的计算机提供 Claude Desktop 配置，请先将这些计算机更新到 Claude Desktop v2.37337.0 或更高版本，因为一旦设置了此键，早期版本会忽略该配置。请参阅[使设备保持使用其托管配置文件](https://claude.com/docs/third-party/claude-desktop/admin-console#keep-a-device-on-its-managed-profile)。
+* **第三方提供商**：如果用户在应用中设置了自己的[第三方推理配置](https://claude.com/docs/third-party/claude-desktop/in-app-configuration)，则在您部署此键后，Claude Desktop 会从下次启动起忽略该配置。要让用户继续使用 Amazon Bedrock、Google Cloud 的 Agent Platform、Microsoft Foundry 或 LLM 网关，请在同一 Claude Desktop 策略中向其计算机[部署配置](https://claude.com/docs/third-party/claude-desktop/configuration)。
 
 ### 网络访问要求
 
@@ -2261,10 +2271,6 @@ Desktop 和 CLI 读取相同的配置文件，因此您的设置会沿用：
 
 Desktop 应用会将 `claude_desktop_config.json` 中的 MCP 服务器加载到本地 Code 选项卡会话中，与来自 `~/.claude.json` 和 `.mcp.json` 的服务器一起使用。在 `claude_desktop_config.json` 中定义的服务器在 Desktop 聊天使用入口和本地 Code 选项卡会话中都可用。
 
-如果您在 `claude_desktop_config.json` 和 `~/.claude.json` 或 `.mcp.json` 中定义相同的服务器名称，本地会话中的 Code 选项卡只连接一次并使用 `claude_desktop_config.json` 中的定义。
-
-该应用还将来自 `~/.claude.json` 的 stdio 服务器重新传递到本地会话中的嵌入式 CLI。当 `~/.claude.json` 的顶层（用户作用域）和 `.mcp.json` 定义相同的 stdio 服务器名称时，Code 选项卡使用 `~/.claude.json` 中的定义，这与 CLI 的[作用域层次结构](https://code.claude.com/docs/zh-CN/mcp.md#scope-hierarchy-and-precedence)不同。
-
 > [!NOTE]
 >
 > 独立 CLI 不读取 `claude_desktop_config.json`。在 macOS 和 WSL 上，运行 `claude mcp add-from-claude-desktop` 将这些服务器复制到 `~/.claude.json`。请参阅[从 Claude Desktop 导入 MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md#import-mcp-servers-from-claude-desktop)了解导入流程和作用域选项。
@@ -2353,6 +2359,10 @@ Desktop 应用会将 `claude_desktop_config.json` 中的 MCP 服务器加载到�
 ### "Failed to load session"
 
 如果你看到 `Failed to load session`，选定的文件夹可能不再存在，Git 存储库可能需要未安装的 Git LFS，或文件权限可能阻止访问。尝试选择不同的文件夹或重启应用。
+
+### Claude Code 报告 "newer than the maximum version allowed by your organization"
+
+当桌面应用[自带的 Claude Code 副本](#claude-code-version-in-the-code-tab)比您的组织通过 [`requiredMaximumVersion`](https://code.claude.com/docs/zh-CN/settings-reference#requiredmaximumversion) 设置的上限更新时，本地会话会失败，并出现一个详细信息中显示此消息的错误。请让管理员将该上限提高到至少为消息中的 Claude Code 版本，或者移除该上限。
 
 ### 会话找不到已安装的工具
 

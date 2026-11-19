@@ -637,6 +637,26 @@ signature is missing or invalid.
 
       - `OrganizationID string`
 
+    - `type BetaWebhookExternalKeyFailedEventData`
+
+      - `Type ExternalKeyFailed`
+
+      - `ID string`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `OrganizationID string`
+
+    - `type BetaWebhookExternalKeyRecoveredEventData`
+
+      - `Type ExternalKeyRecovered`
+
+      - `ID string`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `OrganizationID string`
+
 ### Example
 
 ```go
@@ -644,6 +664,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/anthropics/anthropic-sdk-go/v2"
 	"github.com/anthropics/anthropic-sdk-go/v2/option"
@@ -653,7 +674,12 @@ func main() {
 	client := anthropic.NewClient(
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
-	// payload is the raw body of the incoming webhook request and headers are its HTTP headers (an http.Header).
+	// Replace these with the raw body and the HTTP headers of the incoming webhook request.
+	payload := []byte(`{"type":"event","id":"whe_0f1e2d3c4b5a69788796a5b4c3d2e1f0","created_at":"2026-03-15T10:00:00Z","data":{"type":"session.status_idled"}}`)
+	headers := http.Header{}
+	headers.Set("webhook-id", "msg_0123456789")
+	headers.Set("webhook-timestamp", "1773568800")
+	headers.Set("webhook-signature", "v1,ZmFrZS1zaWduYXR1cmU=")
 	event, err := client.Beta.Webhooks.Unwrap(payload, headers)
 	if err != nil {
 		panic(err.Error())
@@ -1289,6 +1315,26 @@ you have already verified the signature yourself.
 
       - `OrganizationID string`
 
+    - `type BetaWebhookExternalKeyFailedEventData`
+
+      - `Type ExternalKeyFailed`
+
+      - `ID string`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `OrganizationID string`
+
+    - `type BetaWebhookExternalKeyRecoveredEventData`
+
+      - `Type ExternalKeyRecovered`
+
+      - `ID string`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `OrganizationID string`
+
 ### Example
 
 ```go
@@ -1305,7 +1351,8 @@ func main() {
 	client := anthropic.NewClient(
 		option.WithAPIKey("my-anthropic-api-key"),
 	)
-	// payload is the raw body of the incoming webhook request.
+	// Replace this with the raw body of the incoming webhook request.
+	payload := []byte(`{"type":"event","id":"whe_0f1e2d3c4b5a69788796a5b4c3d2e1f0","created_at":"2026-03-15T10:00:00Z","data":{"type":"session.status_idled"}}`)
 	event, err := client.Beta.Webhooks.ParseUnverified(payload)
 	if err != nil {
 		panic(err.Error())
@@ -2168,6 +2215,26 @@ func main() {
 
       - `OrganizationID string`
 
+    - `type BetaWebhookExternalKeyFailedEventData`
+
+      - `Type ExternalKeyFailed`
+
+      - `ID string`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `OrganizationID string`
+
+    - `type BetaWebhookExternalKeyRecoveredEventData`
+
+      - `Type ExternalKeyRecovered`
+
+      - `ID string`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `OrganizationID string`
+
 ### Beta Webhook Event Data
 
 - `type BetaWebhookEventDataUnion interface{…}`
@@ -2765,6 +2832,50 @@ func main() {
       ID of the user profile that triggered the event.
 
     - `OrganizationID string`
+
+  - `type BetaWebhookExternalKeyFailedEventData`
+
+    - `Type ExternalKeyFailed`
+
+    - `ID string`
+
+      ID (`ekey_...`) of the external key that stopped working or works again.
+
+    - `OrganizationID string`
+
+  - `type BetaWebhookExternalKeyRecoveredEventData`
+
+    - `Type ExternalKeyRecovered`
+
+    - `ID string`
+
+      ID (`ekey_...`) of the external key that stopped working or works again.
+
+    - `OrganizationID string`
+
+### Beta Webhook External Key Failed Event Data
+
+- `type BetaWebhookExternalKeyFailedEventData`
+
+  - `Type ExternalKeyFailed`
+
+  - `ID string`
+
+    ID (`ekey_...`) of the external key that stopped working or works again.
+
+  - `OrganizationID string`
+
+### Beta Webhook External Key Recovered Event Data
+
+- `type BetaWebhookExternalKeyRecoveredEventData`
+
+  - `Type ExternalKeyRecovered`
+
+  - `ID string`
+
+    ID (`ekey_...`) of the external key that stopped working or works again.
+
+  - `OrganizationID string`
 
 ### Beta Webhook Memory Store Archived Event Data
 

@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -41,22 +41,30 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
 
 ## 从 Messages API 智能体循环迁移
 
-如果您通过在循环中调用 `client.messages.create()` (csharp: `client.Messages.Create()`; go: `client.Messages.New()`; java: `client.messages().create()`; php: `$client->messages->create()`; cli: `ant messages create`; curl: `POST /v1/messages`)、自行运行工具调用并将结果追加到对话历史中来构建智能体，那么其中大部分代码都可以删除。
+如果您通过在循环中调用 `client.messages.create()` (csharp: `client.Messages.Create()`; go: `client.Messages.New()`; java: `client.messages().create()`; php: `$client->messages->create()`; cli: `ant messages create`; curl: `POST /v1/messages`)、自行运行工具调用并将结果追加到对话历史中来构建智能体，那么 Claude Managed Agents 会取代其中大部分循环代码。
 
 ### 您不再需要管理的内容
 
-| 之前                                                   | 之后                                                     |
-| ---------------------------------------------------- | ------------------------------------------------------ |
-| 您维护对话历史数组，并在每一轮将其传回。                                 | 会话在服务器端存储历史。您发送事件并接收事件。                                |
-| 您遍历 `tool_use` 内容块，运行每个工具，然后带着 `tool_result` 消息回到循环。 | 预构建工具在沙箱内自动运行。您只需通过 `agent.custom_tool_use` 事件处理自定义工具。 |
-| 您自行配置沙箱来运行智能体生成的代码。                                  | 会话沙箱负责处理代码执行、文件操作和 bash。                               |
-| 您决定循环何时结束。                                           | 当智能体没有更多事情要做时，会话会发出 `session.status_idle`。             |
+| 之前                                                   | 之后                                                    |
+| ---------------------------------------------------- | ----------------------------------------------------- |
+| 您维护对话历史数组，并在每一轮将其传回。                                 | 会话在服务器端存储历史。您发送事件并接收事件。                               |
+| 您遍历 `tool_use` 内容块，运行每个工具，然后带着 `tool_result` 消息回到循环。 | 内置工具在沙箱内自动运行。您只需通过 `agent.custom_tool_use` 事件处理自定义工具。 |
+| 您自行配置沙箱来运行智能体生成的代码。                                  | 会话沙箱负责处理代码执行、文件操作和 bash。                              |
+| 您决定循环何时结束。                                           | 当智能体没有更多事情要做时，会话会发出 `session.status_idle`。            |
 
 ### 代码对比
 
 **之前**（Messages API 循环，简化版）：
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    此循环需要的逻辑超出了单个 shell 命令所能实现的范围。请使用 [Anthropic SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 运行它。
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    此循环需要的逻辑超出了单个 shell 命令所能实现的范围。请使用 [Anthropic SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 运行它。
+  </CodeGroupItem>
+
   ```python Python
   messages = [{"role": "user", "content": task}]
   while True:
@@ -522,12 +530,12 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
   ```
 </CodeGroup>
 
-### 您仍然可以控制的内容
+### 您可以控制的内容
 
-* **系统提示和模型：** 字段相同，现在位于智能体定义上。
-* **自定义工具：** 仍然使用 JSON Schema 声明。执行方式从内联处理改为响应 `agent.custom_tool_use` 事件。请参阅[会话事件流](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。
-* **网页搜索和网页抓取设置：** 相同的 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`)、`blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`)、`max_content_tokens` (java, php: `maxContentTokens`; csharp, go: `MaxContentTokens`) 和 `user_location` (java, php: `userLocation`; csharp, go: `UserLocation`) 字段，现在只需在智能体工具集的 `configs` (csharp, go: `Configs`) 数组中的 `web_search` 和 `web_fetch` 条目上设置一次，而无需在每个请求中设置。`max_uses` (java, php: `maxUses`; csharp, go: `MaxUses`)、`citations` (csharp, go: `Citations`) 和 `cache_control` (java, php: `cacheControl`; csharp, go: `CacheControl`) 字段不可用。请参阅[与 Messages API 工具的区别](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#differences-from-the-messages-api-tools)。
-* **上下文：** 您仍然可以通过系统提示、[文件资源](https://platform.claude.com/docs/zh-CN/managed-agents/files)或[技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills)注入上下文。
+* **系统提示和模型：** 字段相同，位于智能体定义上。
+* **自定义工具：** 使用 JSON Schema 声明。您的客户端在 `agent.custom_tool_use` 事件到达时运行它们，而不是在请求循环内运行。请参阅[会话事件流](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。
+* **网页搜索和网页抓取设置：** 相同的 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`)、`blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`)、`max_content_tokens` (java, php: `maxContentTokens`; csharp, go: `MaxContentTokens`) 和 `user_location` (java, php: `userLocation`; csharp, go: `UserLocation`) 字段，只需在智能体工具集的 `configs` (csharp, go: `Configs`) 数组中的 `web_search` 和 `web_fetch` 条目上设置一次，而无需在每个请求中设置。`max_uses` (java, php: `maxUses`; csharp, go: `MaxUses`)、`citations` (csharp, go: `Citations`) 和 `cache_control` (java, php: `cacheControl`; csharp, go: `CacheControl`) 字段不可用。请参阅[与 Messages API 工具的区别](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#differences-from-the-messages-api-tools)。
+* **上下文：** 您可以通过系统提示、[文件资源](https://platform.claude.com/docs/zh-CN/managed-agents/files)或[技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills)注入上下文。
 
 ## 从 Claude Agent SDK 迁移
 
@@ -535,16 +543,16 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
 
 ### 发生的变化
 
-| Agent SDK                                                                                  | Managed Agents                                                                                                                                                                                                                                                                                                     |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 每次运行时构造 `ClaudeAgentOptions(...)` (typescript: `options`)                                  | 只需调用一次 `client.beta.agents.create(...)` (csharp: `client.Beta.Agents.Create(...)`; go: `client.Beta.Agents.New(...)`; java: `client.beta().agents().create(...)`; php: `$client->beta->agents->create(...)`)；Agent 会在服务器端持久化并进行版本管理。请参阅[智能体设置](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)。 |
-| `async with ClaudeSDKClient(...)` 或 `query(...)`                                           | 调用 `client.beta.sessions.create(...)` (csharp: `client.Beta.Sessions.Create(...)`; go: `client.Beta.Sessions.New(...)`; java: `client.beta().sessions().create(...)`; php: `$client->beta->sessions->create(...)`)，然后发送和接收[事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。        |
-| 使用 `@tool` (typescript: `tool()`) 定义的函数，由 SDK 自动分派                                         | 在 Agent 上声明为 `{"type": "custom", ...}`；您的客户端处理 `agent.custom_tool_use` 事件并以 `user.custom_tool_result` 回复。请参阅[工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools)。                                                                                                                                     |
-| 内置工具在您的进程中针对您的文件系统运行                                                                       | `{"type": "agent_toolset_20260401"}` 在会话沙箱内针对 `/workspace` 运行相同的工具。                                                                                                                                                                                                                                                |
-| `cwd`、`add_dirs` (typescript: `additionalDirectories`) 指向本地路径                              | 将[文件](https://platform.claude.com/docs/zh-CN/managed-agents/files)作为会话资源上传或挂载。                                                                                                                                                                                                                                     |
-| `system_prompt` (typescript: `systemPrompt`) 和 `CLAUDE.md` 层级结构                            | Agent 上的单个 `system` (csharp, go: `System`; ruby: `system_`) 字符串。每次更改智能体的更新都会在服务器端生成一个新版本；将会话固定到特定版本，即可在无需部署的情况下进行升级或回滚。请参阅[智能体设置](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)。                                                                                                              |
-| `mcp_servers` (typescript: `mcpServers`) 在同一处配置和认证                                         | 在 Agent 上声明服务器；通过 Session 上的 [Vault](https://platform.claude.com/docs/zh-CN/managed-agents/vaults) 提供凭据。                                                                                                                                                                                                           |
-| `permission_mode` (typescript: `permissionMode`)、`can_use_tool` (typescript: `canUseTool`) | 按工具设置的 [`permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)（`always_allow`、`always_ask` 或 `auto`）；对于暂停等待您批准的调用，发送 `user.tool_confirmation` 事件。                                                         |
+| Agent SDK                                                                                  | Managed Agents                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 每次运行时构造 `ClaudeAgentOptions(...)` (typescript: `options`)                                  | 只需调用一次 `client.beta.agents.create(...)` (csharp: `client.Beta.Agents.Create(...)`; go: `client.Beta.Agents.New(...)`; java: `client.beta().agents().create(...)`; php: `$client->beta->agents->create(...)`; cli: `ant beta:agents create`; curl: `POST /v1/agents`)。服务器会持久化智能体并对其进行版本管理。请参阅[定义您的智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)。 |
+| `async with ClaudeSDKClient(...)` 或 `query(...)`                                           | 调用 `client.beta.sessions.create(...)` (csharp: `client.Beta.Sessions.Create(...)`; go: `client.Beta.Sessions.New(...)`; java: `client.beta().sessions().create(...)`; php: `$client->beta->sessions->create(...)`; cli: `ant beta:sessions create`; curl: `POST /v1/sessions`)，然后发送和接收[事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。   |
+| 使用 `@tool` (typescript: `tool()`) 定义的函数，由 SDK 自动分派                                         | 在智能体上声明为 `{"type": "custom", ...}`；您的客户端处理 `agent.custom_tool_use` 事件并以 `user.custom_tool_result` 回复。请参阅[工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools)。                                                                                                                                                                                                |
+| 内置工具在您的进程中针对您的文件系统运行                                                                       | `{"type": "agent_toolset_20260401"}` 在会话沙箱内针对 `/workspace` 运行相同的工具。                                                                                                                                                                                                                                                                                                       |
+| `cwd`、`add_dirs` (typescript: `additionalDirectories`) 指向本地路径                              | 将[文件](https://platform.claude.com/docs/zh-CN/managed-agents/files)作为会话资源上传或挂载。                                                                                                                                                                                                                                                                                            |
+| `system_prompt` (typescript: `systemPrompt`) 和 `CLAUDE.md` 层级结构                            | 智能体上的单个 `system` (csharp, go: `System`; ruby: `system_`) 字符串。每次更改智能体的更新都会在服务器端生成一个新版本；将会话固定到特定版本，即可在无需部署的情况下进行升级或回滚。请参阅[定义您的智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)。                                                                                                                                                                      |
+| `mcp_servers` (typescript: `mcpServers`) 在同一处配置和认证                                         | 在智能体上声明服务器；通过会话上的 [vault](https://platform.claude.com/docs/zh-CN/managed-agents/vaults) 提供凭据。                                                                                                                                                                                                                                                                             |
+| `permission_mode` (typescript: `permissionMode`)、`can_use_tool` (typescript: `canUseTool`) | 按工具设置的 [`permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)（`always_allow`、`always_ask` 或 `auto`）。对于暂停等待您批准的调用，发送 `user.tool_confirmation` 事件。                                                                                                                |
 
 ### 代码对比
 
@@ -609,7 +617,15 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
 
 **之后**（Managed Agents）：
 
-<CodeGroup exclude="shell">
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    此循环需要的逻辑超出了单个 shell 命令所能实现的范围。请使用 [Anthropic SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 运行它。
+  </CodeGroupItem>
+
+  <CodeGroupItem language="CLI">
+    此循环需要的逻辑超出了单个 shell 命令所能实现的范围。请使用 [Anthropic SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 运行它。
+  </CodeGroupItem>
+
   ```python Python
   from anthropic import Anthropic
 
@@ -1157,7 +1173,7 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
               break;
           case $event instanceof ManagedAgentsSessionStatusIdleEvent:
               if ($event->stopReason instanceof ManagedAgentsSessionEndTurn) {
-                  break 2;
+                  break 2; // Leave the foreach loop
               }
               break;
       }
@@ -1232,7 +1248,7 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
   ```
 </CodeGroup>
 
-智能体和环境只需创建一次，即可在多个会话中重复使用。工具函数仍然在您的进程中运行；区别在于您需要读取 `agent.custom_tool_use` 事件并显式发送结果，而不是由 SDK 为您分派。
+您只需创建一次智能体和环境，即可在多个会话中重复使用。工具函数仍然在您的进程中运行。区别在于您需要读取 `agent.custom_tool_use` 事件并显式发送结果，而不是由 Agent SDK 为您分派。
 
 ### 转移到您客户端的功能
 
@@ -1251,8 +1267,8 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
 2. 将您的系统提示和工具选择移植到[智能体定义](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)中。
 3. 替换您的循环：使用 `client.beta.sessions.create()` (go: `client.Beta.Sessions.New()`; csharp: `client.Beta.Sessions.Create()`; java: `client.beta().sessions().create()`; php: `$client->beta->sessions->create()`; cli: `ant beta:sessions create`; curl: `POST /v1/sessions`) [创建会话](https://platform.claude.com/docs/zh-CN/managed-agents/sessions)，并使用 `client.beta.sessions.events.stream()` (ruby: `client.beta.sessions.events.stream_events()`; go: `client.Beta.Sessions.Events.StreamEvents()`; csharp: `client.Beta.Sessions.Events.StreamStreaming()`; java: `client.beta().sessions().events().streamStreaming()`; php: `$client->beta->sessions->events->streamStream()`; cli: `ant beta:sessions:events stream`; curl: `GET /v1/sessions/{session_id}/events/stream`) [流式传输其事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。
 4. 对于智能体读取的任何本地文件，通过 [Files API](https://platform.claude.com/docs/zh-CN/managed-agents/files) 上传，并将其挂载为 `resources` (csharp, go: `Resources`)。
-5. 对于任何自定义工具处理程序，将执行移入您的事件循环中，作为对 `agent.custom_tool_use` 事件的响应。
-6. 在将生产流量指向新流程之前，先用测试会话进行验证。
+5. 对于任何自定义工具处理程序，在您的事件循环中运行它们，作为对 `agent.custom_tool_use` 事件的响应。
+6. 在将生产流量指向迁移后的流程之前，先运行一个测试会话。
 
 ## 在模型版本之间迁移
 
@@ -1352,10 +1368,10 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
   ```
 </CodeGroup>
 
-[Messages API 迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)中记录的大多数模型级行为变化不需要您采取任何行动：
+[迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)中记录的大多数模型级行为变化不需要您采取任何行动：
 
-* **请求参数变化**（`max_tokens` (java, php: `maxTokens`; csharp, go: `MaxTokens`) 默认值、`thinking` (csharp, go: `Thinking`) 配置）由 Claude Managed Agents 运行时处理。这些字段不会在智能体定义上公开。
-* **助手消息预填充**在基于事件的会话模型中不存在，因此在较新模型上移除该功能不会产生任何影响。
-* **工具参数 JSON 转义**在您收到 `agent.custom_tool_use` 事件之前已由运行时解析。您看到的是结构化数据，而不是原始字符串。
+* **请求参数变化**（`max_tokens` (java, php: `maxTokens`; csharp, go: `MaxTokens`) 默认值、`thinking` (csharp, go: `Thinking`) 配置）无需您采取任何行动：Claude Managed Agents 运行时会处理它们。智能体定义不会公开这些字段。
+* **助手消息预填充**在基于事件的会话模型中不存在，因此迁移到拒绝预填充的模型无需您进行任何更改。
+* **工具参数 JSON 转义**无需您采取任何行动：运行时会在您收到 `agent.custom_tool_use` 事件之前解析这些参数。您看到的是结构化数据，而不是原始字符串。
 
-Messages API 指南中的行为描述（模型有哪些不同的表现）仍然适用。迁移步骤（如何更改您的请求代码）则不适用。
+这些指南中的行为描述（模型有哪些不同的表现）仍然适用。迁移步骤（如何更改您的请求代码）则不适用。

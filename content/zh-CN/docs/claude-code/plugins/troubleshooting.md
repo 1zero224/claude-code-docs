@@ -6,7 +6,7 @@
 
 > 修复 Claude Code 中的插件错误。找到您看到的确切消息，按照 /plugin 运行、安装和组织策略的阶段分组。
 
-此页面列出了 Claude Code 插件和市场的错误消息和症状，市场是 Claude Code 安装插件的目录。每个条目都给出了原因、一个修复方法，以及修复后您会看到的内容。
+此页面列出了 Claude Code 插件和市场的错误消息和症状，市场是 Claude Code 安装插件的目录。每个条目都给出了原因和一个修复方法。
 
 如果消息中提到了插件或市场的名称，该条目会显示一个占位符，例如 `<name>`。
 
@@ -90,7 +90,7 @@ claude
 | `claude plugin install <plugin> --project` | `error: unknown option '--project'` | `claude plugin install <plugin>@<marketplace> --scope project` |
 | `/install <plugin>` | `Unknown command: /install` | `/plugin install <plugin>@<marketplace>` |
 | `/plugin add <source>` | `/plugin` 面板在 **Discover** 选项卡上打开 | `/plugin marketplace add <source>` |
-| `marketplace.anthropic.com` 作为源 | `Invalid marketplace source format. Try: owner/repo, https://..., or ./path` | `anthropics/claude-plugins-official` 用于官方市场 |
+| `marketplace.anthropic.com` 作为源 | `Invalid marketplace source format` 或 `That isn't a marketplace source` | `anthropics/claude-plugins-official` 用于官方市场 |
 
 这些拼写看起来不对但有效：
 
@@ -120,7 +120,7 @@ claude
 /plugin marketplace add anthropics/claude-plugins-official
 ```
 
-Claude Code 打印 `Successfully added marketplace: claude-plugins-official`，`/plugin marketplace list` 显示带有其源的市场。
+添加成功后，`/plugin marketplace list` 会显示该市场。
 
 对于此消息中的任何其他市场名称，请参阅 [`Marketplace "<name>" not found`](#marketplace-not-found)。
 
@@ -143,7 +143,7 @@ Claude Code 打印 `Successfully added marketplace: claude-plugins-official`，`
 
 ### `Invalid marketplace source format`
 
-您运行了 `/plugin marketplace add <source>`、`claude plugin marketplace add <source>` 或 `claude plugin install <plugin> --marketplace <source>`，Claude Code 回复 `Invalid marketplace source format. Try: owner/repo, https://..., or ./path`。
+您运行了 `/plugin marketplace add <source>`、`claude plugin marketplace add <source>` 或 `claude plugin install <plugin> --marketplace <source>`。Claude Code 回复 `Invalid marketplace source format` 或 `That isn't a marketplace source`。
 
 Claude Code 接受以下形式之一的源：
 
@@ -160,7 +160,7 @@ Claude Code 接受以下形式之一的源：
 /plugin marketplace add anthropics/claude-plugins-official
 ```
 
-当添加成功时，Claude Code 打印 `Successfully added marketplace: <name>`。
+添加成功后，`/plugin marketplace list` 会显示该市场。
 
 ### `'<source>' is not a valid GitHub owner/repo shorthand`
 
@@ -178,7 +178,7 @@ Claude Code 接受以下形式之一的源：
 /plugin marketplace add https://github.com/anthropics/claude-plugins-official.git
 ```
 
-成功的添加打印 `Successfully added marketplace: <name>`。
+添加成功后，`/plugin marketplace list` 会显示该市场。
 
 ### `Invalid git URL`
 
@@ -194,7 +194,7 @@ Claude Code 在运行 git 之前检查每个 git 地址。它拒绝其协议不�
 
 您将本地路径传递给 `marketplace add`，该路径处没有任何内容。相对路径相对于您的当前目录解析。
 
-检查消息中的已解析路径。然后从相对路径开始的目录运行命令，或将绝对路径传递给市场目录。成功的添加打印 `Successfully added marketplace: <name>`。
+检查消息中的已解析路径。然后从相对路径开始的目录运行命令，或将绝对路径传递给市场目录。
 
 Claude Code 接受包含 `.claude-plugin/marketplace.json` 的目录，或指向 `.json` 文件的路径。指向任何其他文件的路径失败，显示 `File path must point to a .json file (marketplace.json)`。
 
@@ -256,7 +256,7 @@ Cannot add marketplace "constructor": Claude Code reserves this name and cannot 
 * **SSH**：`ssh -T git@<host>` 必须成功而不提示密码，主机必须已在 `known_hosts` 中
 * **HTTPS**：您的凭据助手必须为主机保存令牌。对于 GitHub，运行 `gh auth login` 和 `gh auth setup-git`。对于另一个主机，在您的 git 凭据助手中存储个人访问令牌。要进行测试，请在终端中取消设置 `GIT_ASKPASS` 并运行 `git -c core.askPass= ls-remote <url>`。
 
-一旦针对您所用协议的检查成功且未出现提示，再次运行添加或更新。成功的添加打印 `Successfully added marketplace: <name>`。成功的更新从您的 shell 打印 `Successfully updated marketplace: <name>`，或在会话中打印 `✔ Updated 1 marketplace`。
+一旦针对您所用协议的检查成功且未出现提示，再次运行添加或更新。
 
 要使 Claude Code 为 GitHub `owner/repo` 源跳过 SSH，请设置 `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1`。没有它，当 `github.com` 的 SSH 密钥看起来已配置时，Claude Code 通过 SSH 克隆这些源，当 SSH 克隆失败时回退到 HTTPS。
 
@@ -395,7 +395,7 @@ Claude Code 在您的 `PATH` 上查找 `git`，并拒绝运行仅在当前目录
 
 ### `Plugin '<name>@<marketplace>' is already installed globally`
 
-您为已在用户作用域或通过托管设置安装的插件运行了 `/plugin install`，Claude Code 拒绝了 `Use '/plugin' to manage existing plugins.`。如果您键入了没有 `@<marketplace>` 的插件名称，消息会省略 `globally`。
+您为已在用户作用域或通过托管设置安装的插件运行了 `/plugin install`，Claude Code 拒绝并显示此消息。如果您键入了没有 `@<marketplace>` 的插件名称，消息会省略 `globally`。
 
 插件已在每个项目中可用，因此没有什么可添加的。要更改其 [作用域](https://code.claude.com/docs/zh-CN/plugins/install.md)、启用或禁用它，或配置它，请打开 `/plugin` 并转到 **Installed**。
 
@@ -524,7 +524,7 @@ Claude Code 获取了插件，然后无法读取其 `.claude-plugin/plugin.json`
 /plugin marketplace add anthropics/claude-plugins-official
 ```
 
-Claude Code 打印 `Successfully added marketplace: claude-plugins-official`，**Discover** 列出其插件。[Anthropic 市场](https://code.claude.com/docs/zh-CN/plugins/anthropic-marketplaces.md) 页面列出了您可以添加的其他市场。
+添加成功后，**Discover** 会列出该市场的插件。
 
 ### `Marketplace "<name>" is already added from a different source`
 
@@ -559,7 +559,7 @@ Marketplace "acme-tools" is already added from a different source (github:acme/p
 
 在 v2.1.287 之前，该消息为 `Cannot add marketplace "<name>": its network source differs from the one declared for it in settings (kind, target, or a fetch-shaping field such as headers / ref / path / sparsePaths)`。
 
-### `Failed to install: <plugin> (<reason>)`
+### `Couldn't install: <plugin> (<reason>)` 或 `Failed to install: <plugin> (<reason>)`
 
 您在 `/plugin` 菜单中选择了要安装的插件，它们都没有安装，菜单关闭并显示失败的摘要。
 
@@ -598,9 +598,9 @@ Could not move the new copy of this plugin version into /home/user/.claude/plugi
 声明依赖项的插件在无法满足依赖项时可能无法安装或安装并保持禁用。消息在安装时或加载时到达您：
 
 * **在安装期间**：拒绝作为安装的错误消息返回
-* **当插件加载时**：问题出现在 `claude plugin list` 和 `/plugin` **Errors** 选项卡中，Claude Code 保持受影响的插件禁用，直到您解决它
+* **当插件加载时**：`/plugin` **Errors** 选项卡会显示问题，Claude Code 保持受影响的插件禁用，直到您解决它
 
-表格列出了每条消息及其修复。要作为作者声明依赖项，请参阅 [插件依赖项](https://code.claude.com/docs/zh-CN/plugins/dependencies.md)。
+表格列出了常见消息及其修复。表中引用的加载时消息采用 `claude plugin list` 打印的形式。要作为作者声明依赖项，请参阅 [插件依赖项](https://code.claude.com/docs/zh-CN/plugins/dependencies.md)。
 
 | 消息 | 含义 | 如何解决 |
 | :- | :- | :- |
@@ -675,7 +675,7 @@ Claude Code 在安装期间没有激活插件，要么是因为激活它会 [使
 
 ### `Plugin "<name>" not cached at <path>`
 
-**Errors** 选项卡显示此行，指导为 `Run /plugin to refresh the plugin cache`。这表示 Claude Code 没有找到该插件的可用副本。例如，您清除了缓存，因此其安装记录指向的目录缺失。或者，您打开了一个其设置启用该插件的仓库，但您尚未安装该插件。
+**Errors** 选项卡显示此行，指导为 `Run /plugin to refresh the plugin cache`。这表示 Claude Code 没有找到该插件的可用副本。例如，您清除了缓存，因此其安装记录指向的目录缺失。在 v2.1.323 之前，对于仅由仓库设置启用而您尚未安装的插件，也可能出现此行。
 
 从您的 shell 安装插件。如果您打开的仓库的 `.claude/settings.json` 启用了该插件，请按照 [在项目设置中启用但未安装](https://code.claude.com/docs/zh-CN/plugins/loading.md#enabled-in-project-settings-but-not-installed) 中的说明，在项目中使用 `enabledPlugins` 中该插件的键运行以下命令：
 
@@ -752,7 +752,7 @@ Claude Code 将不可用的记录复制到 `.set-aside` 文件中并将其从列
 
 如果 `claude plugin list` 改为将插件标记为 `required by your org`，则不涉及设置文件：您的组织在 claude.ai 上将该同步插件标记为必需，即使您之前禁用了它，它也会加载。请参阅 [从 claude.ai 同步的插件](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)。
 
-### `Plugin "<name>" is enabled in project settings but isn't installed here`
+### `Plugin "<name>" is on in project settings but isn't installed here`
 
 **Errors** 选项卡显示此行用于您的项目的 `.claude/settings.json` 启用的插件，指导为 `Run claude plugin install <name>@<marketplace> --scope project to install it for this project`。
 
@@ -828,7 +828,7 @@ claude plugin update formatter@my-marketplace --scope project
 
 如果重新运行后该块仍显示 `unknown`，请参阅 [获取更多帮助](https://code.claude.com/docs/zh-CN/troubleshooting.md#get-more-help)。
 
-### `Failed to load hooks from <path>` 和不触发的 hooks
+### `Couldn't load hooks from <path>` 和不触发的 hook
 
 插件的 hooks 不运行，或一个阻止了一个操作。要么 **Errors** 选项卡显示它们的加载失败，hooks 加载且您在成绩单中看到 `<Event> hook error` 通知或阻止错误，要么 hook 加载无错误且永远不触发。
 
@@ -836,19 +836,18 @@ claude plugin update formatter@my-marketplace --scope project
 
 **Errors** 选项卡显示以下消息之一：
 
-* **`Failed to load hooks from <path>: <reason>`**：`hooks/hooks.json` 不是有效的 JSON 或失败 hooks 架构。原因命名解析或验证错误。修复文件。要在发布插件前在 `hooks/hooks.json` 中捕获 JSON 语法问题，请在您的 shell 中运行 `claude plugin validate <plugin-directory>`
+* **`Couldn't load hooks from <path>: <reason>`** 或 **`Failed to load hooks from <path>: <reason>`**：修复 `<reason>` 指明的问题，例如无效的 JSON 或缺少顶层 `hooks` 键。要在发布插件前捕获 `hooks/hooks.json` 中的 JSON 语法问题，请在您的 shell 中运行 `claude plugin validate <plugin-directory>`
 * **`hooks path not found: <path>`**：清单的 `hooks` 字段命名在该路径相对于插件根处不存在的文件。修复路径或添加文件
 * **`hooks path escapes plugin directory: <path>`**：请参阅 [Path escapes plugin directory](https://code.claude.com/docs/zh-CN/errors.md#path-escapes-plugin-directory)
 
 #### 成绩单中的 `hook error` 通知
 
-形式为 `... hook error: Failed with non-blocking status code: <stderr>` 的通知意味着 hook 运行且其命令失败。例如，`Stop hook error: Failed with non-blocking status code: /bin/sh: node: command not found` 意味着 Claude Code 生成的 shell 找不到 `node`。安装它，或确保它在您启动 `claude` 的终端的 `PATH` 上。
+形式为 `... hook error: Failed with non-blocking status code: <stderr>` 的通知意味着 hook 的命令失败。例如，`Stop hook error: Failed with non-blocking status code: /bin/sh: node: command not found` 意味着 Claude Code 生成的 shell 找不到 `node`。安装它，或确保它位于您启动 `claude` 的终端的 `PATH` 上。
 
 如果 stderr 显示插件的路径在空格处被截断，hook 的 shell 形式命令在引号外使用 `${CLAUDE_PLUGIN_ROOT}`，安装路径包含空格。将变量用双引号包装或使用 [exec 形式](https://code.claude.com/docs/zh-CN/hooks.md#exec-form-and-shell-form)。要找到未引用的变量，请在插件的目录上运行 `claude plugin validate` 并查找其 [引用警告](https://code.claude.com/docs/zh-CN/plugins/manifest-reference.md#quoting-and-path-separators)。
 
-如果通知内容为 `Failed to run: Plugin directory does not exist: <path>`，请参阅 [`Plugin directory does not exist`](#plugin-directory-does-not-exist)。
-
-对于任何其他错误，从插件目录自己运行 hook 的命令以查看完整输出，或使用 [调试日志](https://code.claude.com/docs/zh-CN/hooks.md#debug-hooks) 捕获完整 stderr。
+* 如果通知内容为 `Failed to run: Plugin directory does not exist: <path>`，请参阅 [`Plugin directory does not exist`](#plugin-directory-does-not-exist)。
+* 对于任何其他错误，请使用 [调试日志](https://code.claude.com/docs/zh-CN/hooks.md#debug-hooks) 捕获完整 stderr。
 
 #### 插件 hook 阻止工具调用或提示
 
@@ -862,19 +861,19 @@ claude plugin update formatter@my-marketplace --scope project
 
 **1. 检查事件名称**
 
-事件名称区分大小写，因此确认您的完全匹配，例如 `PostToolUse`。
+事件名称区分大小写，因此请确认您的事件名称完全匹配，例如 `PostToolUse`。
 
 **2. 检查匹配器**
 
-确认 hook 的 `matcher` 匹配工具名称。
+对于 `PostToolUse` 等工具事件，确认 hook 的 `matcher` 与工具名称匹配。
 
 **3. 故意触发事件**
 
-对于 `PostToolUse` hook，要求 Claude 编辑文件。
+按照 [调试 hook](https://code.claude.com/docs/zh-CN/hooks.md#debug-hooks) 中的说明启用调试日志。对于 `PostToolUse` hook，要求 Claude 编辑一个文件。
 
 **4. 阅读调试日志**
 
-打开 [调试日志](https://code.claude.com/docs/zh-CN/hooks.md#debug-hooks)，它记录哪些 hooks 匹配。运行的 hook 显示在那里及其退出代码。
+打开 [调试日志](https://code.claude.com/docs/zh-CN/hooks.md#debug-hooks)。运行过的 hook 会连同其退出码显示在那里。
 
 ### `Plugin directory does not exist: <path>`
 
@@ -902,7 +901,7 @@ claude plugin update formatter@my-marketplace --scope project
 
 插件包括服务器作为 [MCPB bundle](https://code.claude.com/docs/zh-CN/plugins/components.md#include-a-packaged-mcpb-server)，声明 `user_config`，且必需的设置没有保存的值或保存的值失败 bundle 自己的验证，所以 Claude Code 跳过启动服务器。插件的其余部分工作。
 
-在 `/plugin` 的 **Installed** 选项卡上选择插件并选择 **Configure** 以提供值。保存后，`/plugin` 显示 `Configuration saved.` 并关闭，Claude Code 重新加载插件如 [管理已安装的插件](https://code.claude.com/docs/zh-CN/plugins/install.md#manage-installed-plugins) 下所述。服务器在该重新加载应用后启动。在 v2.1.285 之前，Claude Code 跳过服务器而不显示此行。
+对于来自市场的插件，在 `/plugin` 的 **Installed** 选项卡上选择该插件并选择 **Configure** 以提供值。保存后，`/plugin` 关闭，Claude Code 按照 [管理已安装的插件](https://code.claude.com/docs/zh-CN/plugins/install.md#manage-installed-plugins) 中的说明重新加载插件。服务器在该重新加载生效后启动。在 v2.1.285 之前，Claude Code 会跳过服务器而不显示此行。
 
 #### 服务器已配置但永远不连接
 
@@ -1064,6 +1063,7 @@ claude plugin install my-plugin@my-marketplace --config api_url=https://example.
 | `Path is a file; skills entries must be directories containing SKILL.md` | `skills` 条目指向 `SKILL.md` 而不是其目录。 | 指向父目录，对于根级 `SKILL.md` 则使用 `.`。 |
 | `No frontmatter block found` 或 `YAML frontmatter failed to parse: <error>` | skill、Agent 或 command 文件缺少 YAML frontmatter 或其无效。 | 在 `---` 分隔符之间添加或修复 frontmatter。在验证插件目录时报告。 |
 | `Plugin name "<name>" is reserved: it passes as one of Anthropic's own` | 插件的 `name` 是[保留名称](https://code.claude.com/docs/zh-CN/plugins/manifest-reference.md#name)之一。 | 根据插件的功能重命名插件。 |
+| `Must be a version range such as ">=2.1.0"; got "<value>". It will be ignored at load time.` | Claude Code 无法将 `engines` 下的 `claude-code` 值读取为 semver 范围。 | 将该值设置为 Claude Code 版本范围，例如 `">=2.1.0"`。请参阅 [`engines` 字段](https://code.claude.com/docs/zh-CN/plugins/manifest-reference#fields)。 |
 | `Unknown field '<key>'` | 清单中有一个 schema 未定义的字段。 | 删除它，或使用消息建议的名称。Claude Code 在加载时会忽略未知字段。有关 `plugin.json` 中的 `privacyPolicyUrl` 及其他目录列表字段，请参阅[目录列表字段](https://code.claude.com/docs/zh-CN/plugins/manifest-reference.md#directory-listing-fields)。 |
 
 每次修复后再次运行命令，直到不再打印任何错误。

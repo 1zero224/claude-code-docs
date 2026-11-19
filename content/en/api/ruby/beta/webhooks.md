@@ -641,6 +641,26 @@ signature is missing or invalid.
 
       - `organization_id: String`
 
+    - `class BetaWebhookExternalKeyFailedEventData`
+
+      - `type: :"external_key.failed"`
+
+      - `id: String`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `organization_id: String`
+
+    - `class BetaWebhookExternalKeyRecoveredEventData`
+
+      - `type: :"external_key.recovered"`
+
+      - `id: String`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `organization_id: String`
+
 ### Example
 
 ```ruby
@@ -648,7 +668,9 @@ require "anthropic"
 
 anthropic = Anthropic::Client.new(api_key: "my-anthropic-api-key")
 
-# `payload` is the raw body of the incoming webhook request and `headers` are its HTTP headers.
+# Replace these with the raw body and the HTTP headers of the incoming webhook request.
+payload = '{"type":"event","id":"whe_0f1e2d3c4b5a69788796a5b4c3d2e1f0","created_at":"2026-03-15T10:00:00Z","data":{"type":"session.status_idled"}}'
+headers = {"webhook-id" => "msg_0123456789", "webhook-timestamp" => "1773568800", "webhook-signature" => "v1,ZmFrZS1zaWduYXR1cmU="}
 event = anthropic.beta.webhooks.unwrap(payload, headers: headers)
 
 puts(event)
@@ -1281,6 +1303,26 @@ you have already verified the signature yourself.
 
       - `organization_id: String`
 
+    - `class BetaWebhookExternalKeyFailedEventData`
+
+      - `type: :"external_key.failed"`
+
+      - `id: String`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `organization_id: String`
+
+    - `class BetaWebhookExternalKeyRecoveredEventData`
+
+      - `type: :"external_key.recovered"`
+
+      - `id: String`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `organization_id: String`
+
 ### Example
 
 ```ruby
@@ -1288,7 +1330,8 @@ require "anthropic"
 
 anthropic = Anthropic::Client.new(api_key: "my-anthropic-api-key")
 
-# `payload` is the raw body of the incoming webhook request.
+# Replace this with the raw body of the incoming webhook request.
+payload = '{"type":"event","id":"whe_0f1e2d3c4b5a69788796a5b4c3d2e1f0","created_at":"2026-03-15T10:00:00Z","data":{"type":"session.status_idled"}}'
 event = anthropic.beta.webhooks.parse_unverified(payload)
 
 puts(event)
@@ -2148,9 +2191,29 @@ puts(event)
 
       - `organization_id: String`
 
+    - `class BetaWebhookExternalKeyFailedEventData`
+
+      - `type: :"external_key.failed"`
+
+      - `id: String`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `organization_id: String`
+
+    - `class BetaWebhookExternalKeyRecoveredEventData`
+
+      - `type: :"external_key.recovered"`
+
+      - `id: String`
+
+        ID (`ekey_...`) of the external key that stopped working or works again.
+
+      - `organization_id: String`
+
 ### Beta Webhook Event Data
 
-- `type BetaWebhookEventData = BetaWebhookSessionCreatedEventData | BetaWebhookSessionPendingEventData | BetaWebhookSessionRunningEventData | 44 more`
+- `type BetaWebhookEventData = BetaWebhookSessionCreatedEventData | BetaWebhookSessionPendingEventData | BetaWebhookSessionRunningEventData | 46 more`
 
   - `class BetaWebhookSessionCreatedEventData`
 
@@ -2745,6 +2808,50 @@ puts(event)
       ID of the user profile that triggered the event.
 
     - `organization_id: String`
+
+  - `class BetaWebhookExternalKeyFailedEventData`
+
+    - `type: :"external_key.failed"`
+
+    - `id: String`
+
+      ID (`ekey_...`) of the external key that stopped working or works again.
+
+    - `organization_id: String`
+
+  - `class BetaWebhookExternalKeyRecoveredEventData`
+
+    - `type: :"external_key.recovered"`
+
+    - `id: String`
+
+      ID (`ekey_...`) of the external key that stopped working or works again.
+
+    - `organization_id: String`
+
+### Beta Webhook External Key Failed Event Data
+
+- `class BetaWebhookExternalKeyFailedEventData`
+
+  - `type: :"external_key.failed"`
+
+  - `id: String`
+
+    ID (`ekey_...`) of the external key that stopped working or works again.
+
+  - `organization_id: String`
+
+### Beta Webhook External Key Recovered Event Data
+
+- `class BetaWebhookExternalKeyRecoveredEventData`
+
+  - `type: :"external_key.recovered"`
+
+  - `id: String`
+
+    ID (`ekey_...`) of the external key that stopped working or works again.
+
+  - `organization_id: String`
 
 ### Beta Webhook Memory Store Archived Event Data
 

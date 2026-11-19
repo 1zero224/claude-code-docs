@@ -37,7 +37,7 @@ description: 了解如何在 10 分钟内使用 Agent Skills 通过 Claude API �
         对于 Linux 环境，请直接下载发布版二进制文件。
 
         ```bash
-        VERSION=2.9.0
+        VERSION=2.11.0
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         case $(uname -m) in
           x86_64) ARCH=amd64 ;;
@@ -106,7 +106,7 @@ description: 了解如何在 10 分钟内使用 Agent Skills 通过 Claude API �
     对于 Linux 环境，请直接下载发布版二进制文件。
 
     ```bash
-    VERSION=2.9.0
+    VERSION=2.11.0
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     case $(uname -m) in
       x86_64) ARCH=amd64 ;;

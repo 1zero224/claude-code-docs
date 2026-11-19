@@ -6,13 +6,15 @@
 
 > 为企业环境配置 Claude Code，支持代理服务器、自定义证书颁发机构 (CA) 和相互传输层安全 (mTLS) 身份验证。
 
-Claude Code 通过环境变量支持各种企业网络和安全配置。这包括通过公司代理服务器路由流量、信任自定义证书颁发机构 (CA)，以及使用相互传输层安全 (mTLS) 证书进行身份验证以增强安全性。
+Claude Code 通过环境变量支持各种企业网络和安全配置。
 
 在启动 Claude Code 之前设置这些环境变量。在 shell 中导出的变量在启动时读取一次，因此运行中的会话不会获取 shell 环境的后续更改。
 
 > [!NOTE]
 >
 > 本页面显示的所有环境变量也可以在 [`settings.json`](https://code.claude.com/docs/zh-CN/settings) 中配置。
+
+当您[登录远程 MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md#authenticate-with-remote-mcp-servers)时，Claude Code 会将您的[代理](#proxy-configuration)、[CA](#custom-ca-certificates) 和[客户端证书](#mtls-authentication)变量应用于其发送的登录请求。对于 [`claude mcp login`](https://code.claude.com/docs/zh-CN/mcp#authenticate-from-the-command-line)，请在 shell、`~/.claude/settings.json` 或[托管设置文件](https://code.claude.com/docs/zh-CN/managed-settings.md#deploy-a-managed-settings-file)中设置这些变量，而不是在项目设置或本地设置中设置。
 
 ## 代理配置
 
@@ -147,6 +149,8 @@ Claude Code 在会话的调试日志中记录每个被忽略的密钥。
 ## 验证你的配置
 
 你通常会从后续请求中的[连接或证书错误](https://code.claude.com/docs/zh-CN/errors.md#network-and-connection-errors)发现代理地址错误或证书路径不正确的问题，因为 Claude Code 在读取这些设置时不会验证大多数设置。它在启动时检查的唯一设置是代理 URL：当它无法解析该值（例如缺少 `http://` 方案）时，Claude Code 会停止启动并显示一个错误，指出需要修复的变量。
+
+使用 Claude Code v2.1.327 或更高版本时，在标准输入和标准输出都不是终端的情况下，某些启动会在 `HTTPS_PROXY` 值缺少 `http://` 时继续进行。由 Claude Desktop、SDK 或 cron 启动 Claude Code 时就属于这种情况。请将代理值写成完整的 URL，例如 `http://proxy.example.com:8080`，即使纯 `host:port` 在您的某些会话中可以正常工作。
 
 要在发送请求之前确认你的配置已加载，请使用调试日志启动 Claude Code：
 

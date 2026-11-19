@@ -168,7 +168,7 @@ Anthropic 测量了一个对错误报告进行分诊的小型智能体（[精简
   # 在上一个请求开始后的 4 分钟内（生成所用时间计入
   # 缓存的生命周期），重新发送该请求，并将 max_tokens 设为
   # 0，同时去掉 stream（max_tokens: 0 的请求无法流式传输）。发送与
-  # 原始请求相同的请求头，包括任何 anthropic-beta 请求头。
+  # 原始请求相同的标头，包括任何 anthropic-beta 标头。
   jq '.max_tokens = 0 | del(.stream)' last_request.json | \
     curl https://api.anthropic.com/v1/messages \
       -H "x-api-key: $ANTHROPIC_API_KEY" \
@@ -192,7 +192,7 @@ Anthropic 测量了一个对错误报告进行分诊的小型智能体（[精简
 
 #### 什么会破坏缓存
 
-将每个请求特有的文本（例如状态行）放在最新用户轮次的末尾、最后一个缓存断点之后。在后续请求中，保持每个较早的轮次与您发送时完全一致，其中仍保留其旧的状态行。在自然的断点处进行会使缓存失效的更改，例如压缩后的第一个请求。在运行[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)的模型上，即使在这样的断点处，编辑系统提示或 `tools` 的请求也可能收到 400 错误。在您的平台支持的情况下，请改为在 `messages` 中发送这些更改（参见[在不编辑前缀的情况下进行更改](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#replace-prefix-edits)）。缓存是按顺序（工具、系统提示、消息）对请求进行的逐字节前缀匹配，因此任何位置的更改都会使其后的所有内容失效。
+将每个请求特有的文本（例如状态行）放在最新用户轮次的末尾、最后一个缓存断点之后。在后续请求中，保持每个较早的轮次与您发送时完全一致，其中仍保留其旧的状态行。在自然的断点处进行会使缓存失效的更改，例如压缩后的第一个请求。在[运行前缀检查的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#enforcement)上，即使在这样的断点处，编辑系统提示或 `tools` 的请求也可能收到 [400 错误](https://platform.claude.com/docs/zh-CN/api/errors#thinking-block-conversation-mismatch)。在您的平台支持的情况下，请改为在 `messages` 中发送这些更改（参见[更改工具或指令而不会导致前缀检查失败](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions)）。缓存是按顺序（工具、系统提示、消息）对请求进行的逐字节前缀匹配，因此任何位置的更改都会使其后的所有内容失效。
 
 当必须在对话中途更改某些内容时，请在模型支持的情况下，以保持缓存的形式发送。Anthropic 在 Claude Fable 5.1、Claude Opus 5.5 和 Claude Sonnet 5.5 上，针对一个约 100,000 个令牌、包含模型首次回复及其思考内容的已缓存对话，以两种方式测试了每项更改。编辑系统提示的成本约为以对话中途系统消息发送相同文本的 25 到 50 倍。在顶层更改努力程度的成本是在消息中更改的 20 到 40 倍<sup>[18](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>：
 
@@ -202,7 +202,7 @@ Anthropic 测量了一个对错误报告进行分诊的小型智能体（[精简
 
 当某项更改使缓存失效时，前缀中受其影响的部分会被重新写入，而不是被读取。写入 5 分钟缓存的成本为输入价格的 1.25 倍，而缓存读取的成本仅为输入价格的一小部分。按标价计算，在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1 和 Claude Mythos 5.1 上，这次写入的成本是一次读取的 50 倍，因为在这些模型上缓存读取的成本为输入价格的 0.025 倍。在 Claude Opus 5.5 和 Claude Sonnet 5.5 上（0.05 倍），这次写入的成本是一次读取的 25 倍；在 Claude Haiku 5.5 上（0.1 倍）为 12.5 倍。图表中的数据来自 Messages API。
 
-编辑系统提示或 `tools` 的请求也可能直接失败。在运行[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)的模型上，进行其中任一编辑并回传较早思考块的请求可能会收到 400 错误<sup>[18](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>。在 Anthropic 的另一项测试中，等待压缩并不能避免该错误：在 Claude Opus 5.5 和 Claude Fable 5.2 上，这样的请求作为在令牌阈值处压缩后的第一个请求时仍然收到了该错误<sup>[18](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>。在 Claude API 上，默认情况下，如果模型是 Claude Fable 5.2、Claude Mythos 5.2 或 Claude Mythos 5.1，未通过检查的请求在每个账户上都会收到该错误。如果模型是 Claude Fable 5.1、Claude Opus 5.5、Claude Sonnet 5.5 或 Claude Haiku 5.5，则该请求在某些账户上会收到该错误，在其他账户上则不会。有关按模型和账户划分的结果，请参阅[未设置 `prefix_mismatch_behavior` 时](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#enforcement)。
+在 Anthropic 于 Claude Opus 5.5 和 Claude Fable 5.2 上进行的另一项测试中，编辑系统提示或 `tools` 并回传较早思考块的请求仍然收到了 400 错误。即使作为在令牌阈值处压缩后的第一个请求，它们也收到了该错误<sup>[18](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>。
 
 **应该怎么做。**
 
@@ -211,7 +211,7 @@ Anthropic 测量了一个对错误报告进行分诊的小型智能体（[精简
 * 请查看哪些模型支持每种形式：[对话中途的系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)，以及处于 beta 阶段的[按消息设置努力程度](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)。
 * 在进行会使缓存失效的更改后，确认缓存读取没有下降；如果下降了，[缓存诊断](https://platform.claude.com/docs/zh-CN/build-with-claude/cache-diagnostics)会显示前缀在何处出现分歧。
 
-Anthropic 在一个早期模型上、针对[精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens)中所述问题分诊智能体的长会话，测量了进行此类更改的时机<sup>[18](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>。进行更改的会话以低努力程度开始，然后切换到默认努力程度并添加一个工具。在会话中途进行这两项更改的成本最高。在触发压缩的请求上进行更改的成本几乎一样高，因为该请求仍携带整个对话，并再次将其写入缓存。在下一个请求（即压缩后的第一个请求）上进行更改的成本最低。准确率在运行间噪声范围内。该模型不运行前缀检查。在运行前缀检查的模型上，请改为在消息中添加工具：参见[使用 `tool_addition` 和 `tool_removal` 添加或删除工具](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#tool-changes)，该功能处于 beta 阶段。下图还显示了没有任何更改的会话。它们并不是同等条件下的基线，因为它们全程以默认努力程度运行，且其中两个会话进行了第二次压缩：
+Anthropic 在一个早期模型上、针对[精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens)中所述问题分诊智能体的长会话，测量了进行此类更改的时机<sup>[18](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>。进行更改的会话以低努力程度开始，然后切换到默认努力程度并添加一个工具。在会话中途进行这两项更改的成本最高。在触发压缩的请求上进行更改的成本几乎一样高，因为该请求仍携带整个对话，并再次将其写入缓存。在下一个请求（即压缩后的第一个请求）上进行更改的成本最低。准确率在运行间噪声范围内。该模型不运行前缀检查。在运行前缀检查的模型上，请改为在消息中添加工具：参见[添加、移除或关闭工具](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#tool-changes)，该功能处于 beta 阶段。下图还显示了没有任何更改的会话。它们并不是同等条件下的基线，因为它们全程以默认努力程度运行，且其中两个会话进行了第二次压缩：
 
 <Frame>
   ![条形图，每个分诊会话的成本：无更改 $0.81 USD，会话中途 $0.95 USD，compaction（压缩）时 $0.92 USD，之后 $0.75 USD](https://platform.claude.com/docs/zh-CN/images/cost-intel/compaction-timing.svg)
@@ -277,7 +277,7 @@ Anthropic 在一个早期模型上测量了这些杠杆<sup>[28](https://platfor
 * 如果您使用上下文编辑，请[分几次大批量清除](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#context-editing-and-prompt-caching)，因为每次清除都会产生一次缓存写入的费用。
 
 <Note>
-  不要在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 或 Claude Haiku 5.5 上使用修剪。在这些模型上，如果您的应用程序重写较早的工具结果，会[使该结果之后的所有思考块失效](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#prefix-check)，并且请求[可能以 400 错误失败](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#enforcement)。该修剪是在一个不具备[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)的早期模型上测量的。请改用[压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction)：在同一测试中，它也降低了长运行的成本。压缩和[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)都在服务器端运行，因此两者都不会使思考块失效。[按返回时的原样回传助手轮次](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#append-assistant-turns-exactly-as-returned)：丢弃其中的思考块会在每个轮次中消耗输出令牌，因为 Claude 会[重新生成推理过程](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#drop-block-cost)。
+  不要在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 或 Claude Haiku 5.5 上使用修剪。在这些模型上，如果您的应用程序重写较早的工具结果，会使历史中该结果之后已有的所有思考块失效（参见[哪些内容必须保持不变，以及原因](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)），并且请求可能会失败（参见[未通过前缀检查时各模型的行为](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#outcomes)）。该修剪是在一个不具备[保留思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking)的早期模型上测量的。请改用[压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction)：在同一测试中，它也降低了长运行的成本。压缩和[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)都在服务器端运行，因此两者都不会使思考块失效。[原样发回助手轮次](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#append-assistant-turns-exactly-as-returned)：丢弃其中的思考块会在每个轮次中消耗输出令牌，因为 Claude 会[重新生成推理过程](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation#drop-block-cost)。
 </Note>
 
 ### 批处理可以等待的工作
@@ -783,7 +783,7 @@ Anthropic 根据[调整努力程度](https://platform.claude.com/docs/zh-CN/abou
 
   $client = new Client();
   $response = $client->messages->create(
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       maxTokens: 1024,
       messages: [['role' => 'user', 'content' => 'Hello, Claude']],
   );
@@ -1011,8 +1011,8 @@ Anthropic 在 tau2-bench retail<sup>[24](https://platform.claude.com/docs/zh-CN/
 
     * **2026 年 10 月测试，对长对话进行一项更改：** 于 2026 年 10 月 20 日在 Claude Fable 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 上测量，使用 Messages API，不带工具，采用自适应思考、各模型的默认努力程度、5 分钟缓存、系统提示上的缓存断点以及[自动缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#automatic-caching)。对话包含约 101,000 个令牌：一个 20,000 令牌的系统提示、13 个填充文本的用户轮次、模型对第一个轮次的自身回复及其思考块，以及对其余轮次的单词回复。在一个请求缓存了该对话后，第二个请求添加了一个简短轮次，每个被测量的请求都发送带有一项更改的这个较长对话。每个模型的两个对话得出了相同的结果。
     * **2026 年 10 月测试，读取和写入的令牌：** 在无更改以及按消息更改努力程度时，请求读取了全部 101,000 个令牌，且没有写入任何令牌。使用对话中途系统消息（25 个令牌），或在最新用户轮次末尾放置 25 令牌的状态行时，请求读取了全部令牌，且只写入了新文本。顶层努力程度更改（在 Claude Fable 5.1 和 Claude Sonnet 5.5 上改为 `low`，在 Claude Opus 5.5 和 Claude Haiku 5.5 上改为 `high`）读取了 20,000 令牌的系统提示，并写入了 81,000 个令牌。将相同的 25 个令牌放在系统提示开头或末尾时，什么也没有读取，并写入了全部 101,000 个令牌。在对话中途系统消息、顶层努力程度更改或在系统提示末尾添加 25 个令牌之后的请求读取了新前缀；开头的新状态行则再次写入了全部内容。2026 年 10 月 21 日的另一项测试在相同的四个模型上使用 5,000 令牌的对话，并在除 Claude Fable 5.1 之外的模型上使用 100,000 令牌的对话，全部采用单词回复，在对话中途首次发送 beta 标头（就像首次按消息更改努力程度时可能发生的那样）：该请求读取了前一个请求所缓存的全部内容，54 次全部如此。不带 beta 标头发送的系统消息也是如此，15 次全部如此。
-    * **2026 年 10 月测试，定价方式：** 图表给出了一个请求的提示部分成本，根据其 `usage` 字段按标价计算。图表中的数值，依次为编辑系统提示、系统消息、顶层努力程度更改和按消息更改努力程度：Claude Fable 5.1 为 $1.26 USD、$0.026 USD、$1.02 USD 和 $0.025 USD；Claude Opus 5.5 为 $0.50 USD、$0.020 USD、$0.41 USD 和 $0.020 USD；Claude Sonnet 5.5 为 $0.25 USD、$0.010 USD、$0.20 USD 和 $0.010 USD。未更改的请求与较早的请求逐字节相同；一个约 25 令牌的新轮次增加的成本不到 $0.001 USD。在 Claude Haiku 5.5 上，其请求超过 100,000 个提示令牌，因此按其[长上下文价格](https://platform.claude.com/docs/zh-CN/about-claude/pricing#long-context-pricing)计价：编辑系统提示为 $0.063 USD，努力程度更改为 $0.052 USD，读取为 $0.005 USD。这些请求在一个 Anthropic 内部组织上运行，其用量的计量方式与客户组织相同。对于该组织，当请求未设置 `prefix_mismatch_behavior` 时，API 会放行未通过检查的思考块，因此这些测试中的系统提示编辑被接受。在 2026 年 8 月 31 日 00:00 UTC 或之后创建的账户上，同样的编辑在这四个模型上都会收到 400 错误，因为每个请求都会回传一个较早的思考块。
-    * **2026 年 11 月测试，压缩后的编辑：** 于 2026 年 11 月 9 日在 Claude Opus 5.5 和 Claude Fable 5.2 上运行，使用 Messages API，采用自适应思考、`high` 努力程度、不使用缓存、定义一个工具、`tool_choice` 设为 `none`、[`prefix_mismatch_behavior`](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#mismatch-behavior) 设为 `"error"`，以及触发值为 50,000 个令牌的[在令牌阈值处进行压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-threshold)。第一个约 55,700 令牌的请求触发了一次压缩，其回复包含一个压缩块，后跟一个思考块。下一个请求将该回复发回，并附带一个新的用户轮次。未作更改时，该请求成功。在 `tools` 中添加一个工具，或改写系统提示后，它收到了 400 错误。在没有压缩的对话中，同样的两项编辑收到了 400 错误，从较早的用户轮次中删除一个文本块也是如此。每个模型每种对话各一个。在 Claude Fable 5.2 上，第一个大型对话的回复不包含思考块。第二个对话取代了第一个，使用了更难的问题、更高的 `max_tokens` 以及自定义的压缩 `instructions`，只有第二个对话计入。这些请求在 Claude API 上运行。
+    * **2026 年 10 月测试，定价方式：** 图表给出了一个请求的提示部分成本，根据其 `usage` 字段按标价计算。图表中的数值，依次为编辑系统提示、系统消息、顶层努力程度更改和按消息更改努力程度：Claude Fable 5.1 为 $1.26 USD、$0.026 USD、$1.02 USD 和 $0.025 USD；Claude Opus 5.5 为 $0.50 USD、$0.020 USD、$0.41 USD 和 $0.020 USD；Claude Sonnet 5.5 为 $0.25 USD、$0.010 USD、$0.20 USD 和 $0.010 USD。未更改的请求与较早的请求逐字节相同；一个约 25 令牌的新轮次增加的成本不到 $0.001 USD。在 Claude Haiku 5.5 上，其请求超过 100,000 个提示令牌，因此按其[长上下文价格](https://platform.claude.com/docs/zh-CN/about-claude/pricing#long-context-pricing)计价：编辑系统提示为 $0.063 USD，努力程度更改为 $0.052 USD，读取为 $0.005 USD。这些请求在一个 Anthropic 内部组织上运行，其用量的计量方式与客户组织相同。这些请求未设置 `prefix_mismatch_behavior`，API 放行了其中未通过前缀检查的思考块，因此接受了这些测试中的系统提示编辑。每个请求都回传了一个较早的思考块。在 Claude API 上，同样的编辑在这四个模型上都可能收到 400 错误。请参阅[思考块的前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks)。
+    * **2026 年 11 月测试，压缩后的编辑：** 于 2026 年 11 月 9 日在 Claude Opus 5.5 和 Claude Fable 5.2 上运行，使用 Messages API，采用自适应思考、`high` 努力程度、不使用缓存、定义一个工具、`tool_choice` 设为 `none`、[`prefix_mismatch_behavior`](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#mismatch-behavior) 设为 `"error"`，以及触发值为 50,000 个令牌的[在令牌阈值处进行压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-threshold)。第一个约 55,700 令牌的请求触发了一次压缩，其回复包含一个压缩块，后跟一个思考块。下一个请求将该回复发回，并附带一个新的用户轮次。未作更改时，该请求成功。在 `tools` 中添加一个工具，或改写系统提示后，它收到了 400 错误。在没有压缩的对话中，同样的两项编辑收到了 400 错误，从较早的用户轮次中删除一个文本块也是如此。每个模型每种对话各一个。在 Claude Fable 5.2 上，第一个大型对话的回复不包含思考块。第二个对话取代了第一个，使用了更难的问题、更高的 `max_tokens` 以及自定义的压缩 `instructions`，只有第二个对话计入。这些请求在 Claude API 上运行。
     * **测量内容：** [精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens)中分诊智能体的长版本，于 2026 年 8 月 24 日在 Claude Sonnet 5 上使用 5 分钟缓存运行，成本根据使用量字段按标价计算，每组五个会话：一个全程采用默认努力程度的无变更组（每会话 $0.81 USD），以及两个从低努力程度开始并进行相同两项破坏缓存的变更（切换到默认努力程度并添加一个工具）的组，变更要么在会话中途的第 12 和第 17 个请求进行（$0.95 USD），要么在第一次压缩后的第一个请求上一起进行（$0.75 USD）。
     * **第四组：** 第四组包含六个会话，于 2026 年 8 月 25 日运行，在触发第一次压缩的请求上进行相同的两项变更（每会话 $0.92 USD）：该请求的摘要过程将 81,000 令牌的上下文写入缓存而不是读取它，因此该过程花费 $0.21 USD，而边界组中相同过程为 $0.04 USD。
     * **压缩：** 会话在提示超过 80,000 令牌的压缩触发阈值后，于第 21 到 25 个请求首次压缩（21 个会话中有 16 个在第 22 个请求），有两个无变更会话在接近结束时进行了第二次压缩。边界组的总成本低于无变更组，反映的是其变更前的低努力程度请求以及那些第二次压缩，而非缓存：两组的重写成本相差不到 $0.01 USD。

@@ -10,7 +10,7 @@ DateJanuary 30, 2026
 Reading time4 min
   -
 ShareCopy link
-With Cowork, you set the goal and Claude delivers finished, professional work. Plugins let you go further: tell Claude how you like work done, which tools and data to pull from, how to handle critical workflows, and what slash commands to expose so your team gets even better and more consistent outcomes.
+With [Cowork](https://claude.com/product/cowork), you set the goal and Claude delivers finished, professional work. Plugins let you go further: tell Claude how you like work done, which tools and data to pull from, how to handle critical workflows, and what slash commands to expose so your team gets even better and more consistent outcomes.
 ## Using Cowork with plugins
 Plugins work for any use case, but they're especially powerful for tailoring Claude to specific job functions like sales, legal, and financial analysis.
 A sales plugin, for example, could connect Claude to your CRM and knowledge base, teach it your sales process, and give you commands for everything from prospect research to call follow ups. You define what goes in the plugin once, and Claude pulls from that context whenever it's relevant.
@@ -23,38 +23,37 @@ To get you started, we're open-sourcing 11 plugins built and used by our own tea
   - **Enterprise search** — Find information across your company's tools and docs
   - **Plugin Create/Customize** — Create and customize new plugins from scratch
   - **Sales** — Research prospects, prep deals, and follow your sales process
-  - **Finance** — Analyze financials, build models, and track key metrics
+  - [**Finance**](https://claude.com/resources/articles/cowork-plugins-finance) — Analyze financials, build models, and track key metrics
   - **Data** — Query, visualize, and interpret datasets
   - **Legal** — Review documents, flag risks, and track compliance
   - **Marketing** — Draft content, plan campaigns, and manage launches
   - **Customer support** — Triage issues, draft responses, and surface solutions
   - **Product management** — Write specs, prioritize roadmaps, and track progress
   - **Biology research** — Search literature, analyze results, and plan experiments
-Easily install these directly from Cowork, browse the full collection on our [website](https://claude.com/plugins-for/cowork), or upload your own plugin (which can be built using Plugin Create). They're also available on [GitHub](https://github.com/anthropics/knowledge-work-plugins) for developers. Every component of plugins (skills, connectors, slash commands, and sub-agents) is file-based, so plugins are easy to build, edit, and share. Try customizing each plugin using Claude to make it just right for you and your team.
+Easily install these directly from Cowork, browse the full collection on our [website](https://claude.com/plugins), or upload your own plugin (which can be built using Plugin Create). They're also available on [GitHub](https://github.com/anthropics/knowledge-work-plugins) for developers. Every component of plugins ([skills](https://claude.com/resources/articles/skills-explained), connectors, slash commands, and sub-agents) is file-based, so plugins are easy to build, edit, and share. Try customizing each plugin using Claude to make it just right for you and your team.
 ## Getting started
 Plugin support in Cowork is available today as a research preview for all paid Claude users. Start with our open-source collection, customize them, or build something entirely new.
-Plugins are currently saved locally to your machine. Better support for org-wide sharing and management (support for private plugin marketplaces, etc.) are coming in the weeks ahead.
+Plugins are currently saved locally to your machine. Better support for [org-wide sharing and management](https://claude.com/resources/articles/cowork-plugins-across-enterprise) (support for private plugin marketplaces, etc.) is coming in the weeks ahead.
 ‍
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
+Claude Code
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)

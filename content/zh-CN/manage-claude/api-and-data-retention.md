@@ -34,7 +34,7 @@ Anthropic 为 Claude API 提供两种数据处理安排：["zero data retention"
 ### ZDR 不涵盖的范围
 
 * **Claude Console：** 在 Claude Console 中的任何使用，包括 playground。
-* **Claude Managed Agents：** Claude Managed Agents 是有状态资源；会话记录会一直保留，直到您将其删除。
+* **Claude Managed Agents：** Claude Managed Agents 是有状态资源；会话记录会一直保留，直到您将其删除。例外情况是自托管的 Claude Managed Agents，在这种情况下由您自行存储会话记录，如[数据保留时长](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept)所述。
 * **Claude 消费者产品：** Claude Free、Pro、Max 和 Ultra 计划，包括这些计划的客户使用 Claude 的网页版、桌面版或移动应用或 Claude Code 的情况。
 * **Claude Teams 和 Claude Enterprise 产品界面：** 这些界面不符合 ZDR 资格。唯一的例外是 Claude Enterprise 上的 Claude Code，它有自己的 ZDR 方案，与本页所述的 ZDR 安排相互独立。该方案仅适用于 Claude Enterprise 上符合条件的账户，并需要 Anthropic 单独启用。请参阅 [Claude Code ZDR 文档](https://code.claude.com/docs/en/zero-data-retention)，该文档仅适用于 Claude Enterprise 组织。
 * **Claude for Excel：** 目前不符合 ZDR 资格。
@@ -63,7 +63,7 @@ Claude API 为处理 “protected health information”（受保护的健康信�
 
 * **Claude 消费者产品：** Claude Free、Pro、Max 和 Ultra 计划。
 * **Claude Console：** 通过 Claude Console 界面的使用（支持从 Console 设置中启用 HIPAA 就绪；通过 Console 处理 PHI 不在涵盖范围内）。
-* **合作伙伴运营的平台：** Amazon Bedrock 和 Google Cloud’s Agent Platform。请参阅这些平台的合规文档。
+* **合作伙伴运营的平台：** Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock。请参阅这些平台的合规文档。
 * **Claude Platform on AWS：** Claude Platform on AWS 不提供 HIPAA 就绪。
 * **第三方集成：** 由连接到您应用的外部工具或服务处理的数据。
 * **Claude Code：** Claude Code 不在 HIPAA 就绪涵盖范围内。
@@ -99,8 +99,8 @@ Claude API 为处理 “protected health information”（受保护的健康信�
 #### 在 Console 中启用（标准 BAA）
 
 <Steps>
-  <Step title="打开您组织的数据保留设置">
-    在 Claude Console 中，前往[数据保留](https://platform.claude.com/settings/privacy)页面（`platform.claude.com/settings/privacy`）。拥有 HIPAA 管理权限的组织管理员会在该页面看到 **HIPAA 合规**卡片。如果您没有看到该卡片，请从页面顶部的下拉菜单中选择**组织**。如果您的组织符合条件，但您仍然看不到启用选项，请让组织管理员完成这些步骤。
+  <Step title="打开您组织的 HIPAA 设置">
+    在 Claude Console 中，前往[数据隐私](https://platform.claude.com/settings/data-privacy)页面（`platform.claude.com/settings/data-privacy`）。拥有 HIPAA 管理权限的组织管理员会在该页面看到 **HIPAA 合规**卡片。如果该地址打开的是其他页面，则该卡片位于该页面上。如果该页面顶部有下拉菜单，而您没有看到该卡片，请从该下拉菜单中选择**组织**。如果您的组织符合条件，但您无法打开该页面或找不到该选项，请让组织管理员完成这些步骤。
   </Step>
 
   <Step title="审阅并签署 BAA">
@@ -170,7 +170,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 ### 平台功能
 
-本节列出与 [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) 和 [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 都相关的功能。其中一些功能仅在二者之一中可用。本表给出了每项功能在 Messages API 中的资格。在 Claude Managed Agents 中，没有任何功能符合 ZDR 或 HIPAA 就绪资格；请参阅 [Managed Agents 功能](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#managed-agents-features)下的 Claude Managed Agents 行。
+本节列出与 [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) 和 [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 都相关的功能。其中一些功能仅在二者之一中可用。本表给出了每项功能在 Messages API 中的资格。在 Claude Managed Agents 中，没有任何功能符合 ZDR 或 HIPAA 就绪资格，但 ZDR 下的自托管 Managed Agents 除外。请参阅 [Managed Agents 功能](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#managed-agents-features)下的 Claude Managed Agents 行。
 
 | 功能                                                                                                     | 端点                                       | 具备 ZDR 资格 | 具备 HIPAA 资格 | 详细信息                                                                                                                                                                                                                                                                                                                                                    |
 | :----------------------------------------------------------------------------------------------------- | :--------------------------------------- | :-------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -216,9 +216,9 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 ### Managed Agents 功能
 
-| 功能                                                                                      | 端点                                               | 具备 ZDR 资格 | 具备 HIPAA 资格 | 详细信息                                                          |
-| :-------------------------------------------------------------------------------------- | :----------------------------------------------- | :-------- | :---------- | :------------------------------------------------------------ |
-| [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) | `/v1/agents`, `/v1/sessions`, `/v1/environments` | 否         | 否           | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 功能                                                                                      | 端点                                               | 具备 ZDR 资格 | 具备 HIPAA 资格 | 详细信息                                                                                                                                                                                                                 |
+| :-------------------------------------------------------------------------------------- | :----------------------------------------------- | :-------- | :---------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) | `/v1/agents`, `/v1/sessions`, `/v1/environments` | 否         | 否           | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 ### 其他功能
 
@@ -268,7 +268,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
   </Accordion>
 
   <Accordion title="如何申请 HIPAA 就绪的 API 访问？">
-    符合条件的组织可以直接在 Claude Console 的[数据保留](https://platform.claude.com/settings/privacy)页面（`platform.claude.com/settings/privacy`）上，通过审阅并签署 Anthropic 的标准 BAA 来启用 HIPAA 就绪；请参阅 [HIPAA 就绪入门](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#getting-started-with-hipaa-readiness)。如果您的组织需要协商的 BAA，或者您的组织无法使用自助启用，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。
+    符合条件的组织可以直接在 Claude Console 中启用 HIPAA 就绪：由组织管理员在[数据隐私](https://platform.claude.com/settings/data-privacy)页面（`platform.claude.com/settings/data-privacy`）上审阅并签署 Anthropic 的标准 BAA。如果您无法打开该页面或找不到该选项，请让组织管理员为您启用 HIPAA 就绪。有关具体步骤，请参阅 [HIPAA 就绪入门](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#getting-started-with-hipaa-readiness)。如果您的组织需要协商的 BAA，或者您的组织无法使用自助启用，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。
   </Accordion>
 
   <Accordion title="这是否适用于 Amazon Bedrock 或 Google Cloud？">

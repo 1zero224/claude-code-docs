@@ -364,7 +364,7 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 具有默认的快速�
   "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
   "type": "message",
   "role": "assistant",
-// ...
+  // ...
   "usage": {
     "input_tokens": 8,
     "output_tokens": 12,
@@ -732,11 +732,11 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 具有默认的快速�
 * 可用性：可用
 * 用法：在智能体的模型对象上设置 `speed`，例如 `{"id": "claude-opus-5-5", "speed": "fast"}`。
 
-| 状态              | 云平台        | 模型                                                                                 |
-| --------------- | ---------- | ---------------------------------------------------------------------------------- |
-| 可用              | Claude API | [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview) |
-| 研究预览            | Claude API | [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview)     |
-| 已弃用<sup>1</sup> | Claude API | [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| 状态              | 云平台                                                                                                                                                                       | 模型                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| 可用              | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview) |
+| 研究预览            | Claude API                                                                                                                                                                | [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview)     |
+| 已弃用<sup>1</sup> | Claude API                                                                                                                                                                | [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
 
 1. 移除日期：2026 年 11 月 30 日。移除后，向 `claude-opus-4-8` 发送的带有 `speed: "fast"` 的请求将返回错误。如需继续使用快速模式，请迁移到 Claude Opus 5.5。请参阅[从 Claude Opus 4.8 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8)。
 

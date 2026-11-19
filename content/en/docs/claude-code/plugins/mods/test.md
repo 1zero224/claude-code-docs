@@ -115,8 +115,6 @@ The kit also exports ready-made mocks for the clock, the store, environment vari
 
 ### Follow the test kit's rules
 
-The test kit has a few rules of its own, and breaking one produces the errors new test authors hit first:
-
 * **Register every stub before the test's first call on `$`.** Calling `on` after that throws an error such as `on("ui.render") after the test first called $`.
 
 * **[`session.start`](https://code.claude.com/docs/en/plugins/mods/reference#session) doesn't run by itself.** Each test starts with your module freshly loaded and none of its hooks called, so module-level variables hold their initial values. If a hook depends on what `session.start` sets up, fire it first:
@@ -132,14 +130,14 @@ The test kit has a few rules of its own, and breaking one produces the errors ne
 
   The second stub answers the `$.command.register` call that a `session.start` hook such as the [tutorial's](https://code.claude.com/docs/en/plugins/mods/create.md#write-a-mod-yourself) makes. Without it, that call rejects with `no implementation for command.register` and the kit skips your hook, so nothing after the call in the hook runs. The test doesn't fail at that point. The skipped hook is listed under `the engine reported:` only if a later check fails.
 
-* **A hook that returns `next(e)` needs a stub to answer.** When your [`ui.render`](https://code.claude.com/docs/en/plugins/mods/reference#interface) hook returns `next(e)`, for example to draw nothing while Claude is idle, [mounting it](#test-a-drawing) fails with `no implementation for ui.render`. Register a stub that returns an element as plain data:
+* **Register a `ui.render` stub to choose what `next(e)` returns.** When your [`ui.render`](https://code.claude.com/docs/en/plugins/mods/reference#interface) hook returns `next(e)`, for example to draw nothing while Claude is idle, the [mount](#test-a-drawing) succeeds with no stub. To make `next(e)` return an element you pick, register a stub that returns it as plain data:
 
   ```typescript theme={null}
   // Stands for what Claude Code would draw at the site
   on('ui.render', () => ({ type: 'Text', props: {}, children: ['drawn by Claude Code'] }))
   ```
 
-  With the stub registered, the mount succeeds, and `ui.find({ type: 'Text' })` returns that element whenever your hook returned `next(e)`.
+  Where the site [can draw that element](https://code.claude.com/docs/en/plugins/mods/interface.md#change-what-claude-code-already-draws), `ui.find({ type: 'Text' })` returns it when your hook returned `next(e)`. On v2.1.323 or later, for the band, pass your mod's name as the second argument to `on`, as in `{ plugin: 'my-mod' }`. Without it, the stub doesn't answer your `next(e)`. Before v2.1.321, the mount fails with `no implementation for ui.render` unless you register the stub.
 
 * **A stub for `turn.step` is an async generator**, and the test reads the stream to its end to get the result:
 
@@ -192,20 +190,11 @@ This table lists the ones mods use most. The first column is the call your mod m
 | `$.session.id`, `$.agent.list` | `() => ({ value: 'abc123' })`, `() => ({ value: [] })` |
 | `session.send` | `() => ({ isDelivered: true })`. `e.to` arrives as a string even when your mod passed `{ sessionId }`. |
 | `session.receive` | `($, e) => ({ text: e.text })`. Fire it with `$.session.receive({ origin: { kind: 'peer-send-message' }, text })`. |
-| `ui.render` | `() => ({ type: 'Text', props: {}, children: ['...'] })` |
+| `ui.render` | `() => ({ type: 'Text', props: {}, children: ['...'] })`. For the band, see the matcher in [Follow the test kit's rules](#follow-the-test-kit’s-rules). |
 
 ### Check a result with `expect`
 
-The kit has these assertions, and the one you pick goes after the value you're checking, as in `expect(answer.text).toBe('ok')`:
-
-* **Equality**: `toBe` for the same value or object, `toEqual` for structure, `toStrictEqual` for structure plus `undefined` fields and the prototype, and `toMatchObject` for the fields you name
-* **Text**: `toMatch`, which takes a regular expression or a substring, `toStartWith`, and `toEndWith`
-* **Numbers**: `toBeGreaterThan`, `toBeGreaterThanOrEqual`, `toBeLessThan`, `toBeLessThanOrEqual`
-* **Contents**: `toContain` for a substring or a member, `toContainEqual` for a member compared by structure, `toHaveLength`, and `toHaveProperty`
-* **Presence and type**: `toBeDefined`, `toBeUndefined`, `toBeNull`, `toBeTruthy`, `toBeFalsy`, `toBeNaN`, `toBeInstanceOf`
-* **Throwing**: `toThrow`, for a function `expect` calls, or for a promise you check with `.rejects`
-
-Put `.not` in front of an assertion to check the opposite, and `.resolves` or `.rejects` to check what a promise settles with.
+`expect` has its own set of assertions, such as `toEqual` and `toHaveLength`, which go after the value you're checking, as in `expect(answer.text).toBe('ok')`. For the full list, search `claude-code/index.d.ts` in [the types for your build](https://code.claude.com/docs/en/plugins/mods/create.md#get-the-types-for-your-build) for `type Matchers`. Put `.not` before the assertion to check the opposite. To check what a promise settles with, put `.resolves` or `.rejects` right after `expect(...)` and `await` the line, as in `await expect(promise).rejects.toThrow()`.
 
 When an `expect` fails inside a stub or hook that you passed to `on` as a plain function rather than an async generator, the test fails. The engine skips that hook, and the failure output names it, such as `in the test's store.set hook`.
 
@@ -325,6 +314,7 @@ The handle that `$.ui.mount` returns has these methods, which address elements b
 | `press({ key: 'more' })` | Presses the `Button` with that key |
 | `input({ key: 'new-note', text: 'buy milk' })` | Types the text into the `Input` with that key and presses Enter. Add `kind: 'change'` to type without submitting. For a field with `rows`, the text can hold `\n`. |
 | `select({ key: 'size', value: 'large' })` | Picks the option with that value in the `Select` with that key |
+| `keepsBeneath()` | In a test with no `ui.render` stub, it resolves to `true` when the drawing includes what `next(e)` returned, and `false` when your hook left it out. In a test that registers one, use `find` to look for what the stub drew. Requires Claude Code v2.1.321 or later. |
 | `find({ key: 'more' })` or `find({ type: 'Text', text: 'Count: 2' })` | Returns the first matching element as `{ type, props, children }`, or `undefined`. `text` can be a string or a regular expression. |
 | `unmount()` | Removes the drawing |
 
@@ -364,7 +354,7 @@ A mod your organization lists in [`prependPlugins`](https://code.claude.com/docs
 * **`tier`**: call it once at the top of the test file, as in `tier('prepend')`, to load your mod as `prepend`, `append`, or `builtin`, its place in the [order mods run in](https://code.claude.com/docs/en/plugins/mods/events.md#the-order-mods-run-in). Without it, your mod loads as `user`.
 * **`plugins`**: pass `test` an options object ahead of the test body. Its `plugins` array holds mods you write inline, each with a `name` and a `register` function. To load one somewhere other than `user`, add `tier` to it.
 
-This test file loads the [policy mod from the admin page](https://code.claude.com/docs/en/plugins/mods/admin.md#enforce-a-policy-with-a-mod-of-your-own) first. It checks that the policy mod refuses a mod that starts a process and allows one that doesn't:
+This test file loads the [policy mod from the admin page](https://code.claude.com/docs/en/plugins/mods/admin.md#enforce-a-policy-with-a-mod-of-your-own) first. It checks that the policy mod stops a mod that starts a process and allows one that doesn't:
 
 ```typescript acme-guard/tests/guard.test.ts theme={null}
 import { expect, test, tier } from 'claude-code/testing'
@@ -402,7 +392,8 @@ test('refuses a mod that starts a process', { plugins: [runner] }, async ($, on)
   } catch (error) {
     message = error.message
   }
-  expect(message).toBe('runner: refused by acme-guard: Acme policy: mods may not call process.run')
+  // "hooks module left out" on v2.1.326 or later, "refused" on earlier versions
+  expect(message).toMatch(/^runner: (hooks module left out|refused) by acme-guard/)
 })
 
 test('admits a mod that starts no process', { plugins: [reader] }, async ($, on) => {
@@ -415,7 +406,7 @@ test('admits a mod that starts no process', { plugins: [reader] }, async ($, on)
 
 In your shell, run `claude plugin test` from the `acme-guard` directory. Both tests pass with the policy mod as the admin page shows it.
 
-The kit loads every mod at the test's first call on `$`. When your mod refuses one, that call throws, and the message names the refused mod, the mod that refused it, and your reason. In the second test nothing is refused, so `reader` answers the tool call before it reaches the stub.
+The kit loads every mod at the test's first call on `$`. When your mod stops one, that call throws, and the message names both mods. In the second test nothing is stopped, so `reader` answers the tool call before it reaches the stub.
 
 ## Next steps
 

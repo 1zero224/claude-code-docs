@@ -4,11 +4,11 @@
 
 # Troubleshoot the Agent SDK
 
-> Fix Agent SDK errors when the Claude Code CLI fails to start, the CLI process exits, or a successful result arrives without structured output.
+> Fix Agent SDK errors: the Claude Code CLI fails to start or exits, your prompt generator throws, a tool message is too large, or structured output is missing.
 
-This page covers Agent SDK errors in CLI startup, CLI process exit, and structured outputs. Entries on this page are keyed to the error you see. Each entry names the cause and what to do.
+This page covers Agent SDK errors in CLI startup, CLI process exit, large tool calls and results, streaming input, and structured outputs. Entries on this page are keyed to the error you see. Each entry names the cause and what to do.
 
-Symptoms tied to a feature, such as a hook not firing or a skill not being used, have a troubleshooting section on that feature's page. The table names the section or page that covers each symptom:
+Symptoms tied to a feature, such as a hook not firing or a skill not being used, have a troubleshooting section on that feature's page. Look up your symptom in this table to find the section or page that covers it:
 
 | Symptom | Go to |
 | :- | :- |
@@ -20,7 +20,9 @@ Symptoms tied to a feature, such as a hook not firing or a skill not being used,
 | Hook not firing, matcher not filtering as expected, hook timeout, tool blocked unexpectedly, modified input not applied, session hooks not available in Python, subagent permission prompts multiplying, recursive hook loops with subagents, `systemMessage` not appearing in output | [Fix common issues](https://code.claude.com/docs/en/agent-sdk/hooks.md#fix-common-issues) on the hooks page |
 | An agent that works on your machine fails in a deployed service or container | [Troubleshoot deployment failures](https://code.claude.com/docs/en/agent-sdk/hosting.md#troubleshoot-deployment-failures) |
 | `Not logged in`, `Invalid API key`, `API Error`, `429`, `There's an issue with the selected model` | [Error reference](https://code.claude.com/docs/en/errors.md#find-your-error) |
-| `CLINotFoundError`, `CLIConnectionError`, `ProcessError`, `Claude Code process exited with code N`, `Claude Code returned an error result`, `structured_output` is `None` | [CLI startup](#cli-startup), [CLI process exit](#cli-process-exit), and [Structured outputs](#structured-outputs) on this page |
+| `CLINotFoundError`, `CLIConnectionError`, `ProcessError`, `Claude Code process exited with code N`, `Claude Code returned an error result`, `CLIJSONDecodeError`, `structured_output` is `None` | [CLI startup](#cli-startup), [CLI process exit](#cli-process-exit), [Large tool calls and results](#large-tool-calls-and-results), and [Structured outputs](#structured-outputs) on this page |
+| `Operation aborted`, `Claude Code process aborted by user`, `Prompt stream failed; closing stdin`, or a Python `query()` loop that stops, with no exception, before all your messages are answered | [Streaming input](#streaming-input) on this page |
+| `Image could not be processed` | [Image could not be processed](#image-could-not-be-processed) on this page |
 
 ## CLI startup
 
@@ -135,6 +137,70 @@ Claude Code returned an error result: <the CLI's own error report>
 ```
 
 The text after the colon is the CLI's report of what went wrong, so start there rather than with the exit itself. Python raises this as a [`ResultError`](https://code.claude.com/docs/en/agent-sdk/python#resulterror), whose `data` attribute carries the full error result. TypeScript rejects the message loop with a plain `Error` carrying the same message shape.
+
+## Large tool calls and results
+
+### CLIJSONDecodeError: JSON message exceeded maximum buffer size
+
+The Python SDK raises this error when one message from Claude Code is longer than the [`max_buffer_size`](https://code.claude.com/docs/en/agent-sdk/python#claudeagentoptions) option, which defaults to 1,048,576 characters. The error calls them bytes:
+
+```text theme={null}
+Failed to decode JSON: JSON message exceeded maximum buffer size of 1048576 bytes...
+```
+
+For example, PDFs, screenshots, and text files can produce messages that reach that limit:
+
+* **PDFs and screenshots**: when Claude reads a whole PDF of about 393 KB or more with the Read tool, the tool result can reach the limit, because it holds the file's base64 twice. A tool result with a screenshot, from Read or an MCP tool, holds the base64 twice too.
+* **Text files**: messages from the Edit and Write tools can reach the limit on a file well under 1 MB, depending on how much of the file changes.
+
+To stop the error, set a larger limit in `ClaudeAgentOptions`:
+
+```python theme={null}
+options = ClaudeAgentOptions(max_buffer_size=64 * 1024 * 1024)
+```
+
+That value is enough for a screenshot, and for a Read of a whole PDF up to Read's 20 MB limit. If the error comes back, for example on an Edit of a very large file, set a higher value.
+
+Any change a tool already made stays in place, and the tool call whose message was too long may have made one. To pick up the work that stopped:
+
+1. If you hold a `ClaudeSDKClient` open, call `disconnect()`. The client receives no more messages after this error, but Claude Code keeps running and can still make changes.
+2. Start a new `query()` or `ClaudeSDKClient` with the larger limit and [`continue_conversation=True`](https://code.claude.com/docs/en/agent-sdk/sessions#continue-resume-and-fork), which picks the most recent session in the working directory. To pick a specific session, set `resume` to `data["session_id"]` from the init [`SystemMessage`](https://code.claude.com/docs/en/agent-sdk/python#systemmessage).
+
+## Streaming input
+
+### Operation aborted
+
+In TypeScript, your `for await` loop over `query()` throws one of these messages as an `AbortError`. Either one means the query was aborted:
+
+```text theme={null}
+Operation aborted
+Claude Code process aborted by user
+```
+
+Check for these causes:
+
+* **Your code aborted the query**: if your code calls `abort()` on the `AbortController` you passed as the [`abortController`](https://code.claude.com/docs/en/agent-sdk/typescript#options) option, the loop throws one of these errors. If you didn't intend the abort, check where your code calls `abort()`.
+* **Your async generator threw**: the error doesn't include your generator's own error message. To see that message, wrap the generator's body in `try`/`catch`, log the caught error, and rethrow it. Then fix the error you logged.
+
+### Prompt stream failed; closing stdin
+
+In Python, when the async generator you passed to the `query()` function raises an exception, your `async for` loop over `query()` ends with no exception. The SDK logs this line at `ERROR` level. If you haven't configured logging, Python prints the line to stderr:
+
+```text theme={null}
+Prompt stream failed; closing stdin: <your exception's message>
+```
+
+To see the exception's traceback, wrap the generator's body in `try`/`except`. Log the exception with its traceback and raise it again. Then fix the exception you logged.
+
+### Image could not be processed
+
+When an image block in your message has no `source` object, no error reaches your code. Claude receives this text note in place of the image:
+
+```text theme={null}
+[Image could not be processed: image block has no source object]
+```
+
+Claude answers without the image. Check that each image block has a `source` object, as in [Send a follow-up with an image](https://code.claude.com/docs/en/agent-sdk/streaming-vs-single-mode.md#send-a-follow-up-with-an-image).
 
 ## Structured outputs
 

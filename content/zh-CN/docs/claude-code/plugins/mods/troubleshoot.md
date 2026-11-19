@@ -15,8 +15,8 @@
 当模块未加载、hook 被跳过或另一个 mod 拒绝您的 mod 时，Claude Code 会写入一行，其中命名您的 mod。您读取该行的位置取决于会话：
 
 * **热重新加载插件目录的会话**：会话记录中的一行暗色文本。这是您使用 `--plugin-dir` 启动的交互式会话，或者是针对 Claude 编写的 mod [启用了热重新加载](https://code.claude.com/docs/zh-CN/plugins/mods/create.md#ask-claude-for-a-mod)的会话。
-* **任何其他交互式会话，例如运行您从市场安装的 mod 的会话**：[调试日志](#read-the-debug-log) 仅。要获取一个，请使用 `claude --debug` 启动会话。
-* **带有 `--plugin-dir` 的 `claude -p` 运行**：stderr，采用默认文本输出格式。另一个 mod 的拒绝仅进入调试日志。
+* **任何其他交互式会话，例如运行您从市场安装的 mod 的会话**：[调试日志](#read-the-debug-log)。要获取一个，请使用 `claude --debug` 启动会话。
+* **带有 `--plugin-dir` 的 `claude -p` 运行**：stderr，采用默认文本输出格式。另一个 mod 的拒绝会进入调试日志。
 
 ## 检查 mod 是否可以加载
 
@@ -68,13 +68,13 @@ mod 添加的任何内容都不会出现，`/plugin` 中的 [`mods active` 行](
 
 ### 来自内置保护的消息
 
-在[内置守卫](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#know-what-happens-by-default)加载的地方，它可以拒绝 mod 或其答案之一。每条消息都会指明您的组织管理员为更改该规则而设置的选项。
+在[内置守卫](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#know-what-happens-by-default)加载的地方，它可以拒绝 mod 或其答案之一。部分消息会指明您的组织管理员为更改该规则而设置的选项。
 
 | 消息包含 | 这意味着什么 | 它出现在哪里 |
 | :- | :- | :- |
 | `mods are limited to your organization's by policy (allowManagedModsOnly)` | 您的组织仅允许 [其自己的 mod](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#install-your-organizations-mods)，因此您的 mod 被拒绝 | 调试日志，以及 [热重新加载插件目录的会话](#find-out-why-a-mod-does-nothing) 中的会话记录 |
-| `tried to lift a deny rule in your settings` | 您的 mod 的 [`tool.check`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#tools) hook 批准了 `deny` 规则拒绝的调用。该调用保持被拒绝。 | 成绩单和调试日志，会话中每个 mod 一次。在 `claude -p` 运行中，仅调试日志。 |
-| `the deny rules in your settings could not be checked for this call, so it is refused` | 保护在检查 mod 批准的调用时失败，因此它拒绝了该调用 | Claude 为被拒绝的调用读取的原因 |
+| `tried to lift a deny rule in your settings` | 您的 mod 的 [`tool.check`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#tools) hook 批准了 `deny` 规则拒绝的调用。该调用保持被拒绝。 | 会话记录和调试日志，会话中每个 mod 一次。在 `claude -p` 运行中，仅调试日志。 |
+| `the rules and hooks in your settings could not be checked for this call, so it is refused` | 守卫在检查 mod 批准的调用时失败，因此它拒绝了该调用 | Claude 为被拒绝的调用读取的原因 |
 
 ### `validate` 通过且不列出 `hooks` 行
 
@@ -84,7 +84,7 @@ mod 添加的任何内容都不会出现，`/plugin` 中的 [`mods active` 行](
 
 ### `hooks module did not load`
 
-该行以 mod 的名称开头，然后是 `hooks module did not load:` 和一个原因，当问题在您的代码中时，它给出文件和行。Claude Code 无法加载模块，例如因为其顶级代码抛出了异常。
+该行以 mod 的名称开头，然后是 `hooks module did not load:` 和一个原因，对于语法错误，该原因会给出文件和行。Claude Code 无法加载模块，例如因为其顶级代码抛出了异常。
 
 修复原因命名的错误。
 
@@ -137,8 +137,6 @@ Claude 在交互式会话中编写了 mod，但没有任何内容加载，而且
 
 ## hook 被跳过或 mod 被卸载
 
-mod 已加载，然后 Claude Code 跳过了其中一个 hooks 或卸载了它。
-
 ### `hook skipped`
 
 该行命名 mod 和事件，然后说 `hook skipped:` 和一个原因，如 `first-mod: tool.call hook skipped: threw Error: boom`。hook 抛出了异常、运行超过了其[时间限制](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#limits)，或返回了错误形状的结果。该行对每个事件和失败类型出现一次，直到 mod 重新加载。
@@ -177,6 +175,15 @@ mod 已加载，然后 Claude Code 跳过了其中一个 hooks 或卸载了它�
 
 Claude 看不到此行，因此在请求 Claude 修复时，请将其粘贴到您的下一条消息中。
 
+### `reload failed`
+
+将该行与以下内容对照，以确定您的 mod 的最后一个可用版本是否仍处于加载状态：
+
+* `reload failed, the previous version stays loaded: <reason>`：您的 mod 继续运行其最后一个可用版本。如果下次 Claude Code 重新加载所有插件时（例如运行 `/reload-plugins` 时）您的更改仍无法加载，则最后一个可用版本会被卸载。
+* `reload failed: <reason>`：在 Claude Code 提示符下运行 `/plugin`，如果 [`mods active` 行](https://code.claude.com/docs/zh-CN/plugins/mods/overview#see-which-mods-a-session-loaded)截断了名称，请加宽终端。如果该行列出了该 mod，则其最后一个可用版本仍处于加载状态。如果没有列出，或者没有这样的行，则没有任何版本处于加载状态。
+
+修复原因所指出的问题并保存您的更改。出现 `reloaded` 行即表示已加载。
+
 ### `$.agent.register refused: the hooks module that made the call is no longer loaded`
 
 该行以您的 mod 名称开头，如 `first-mod: $.agent.register refused: the hooks module that made the call is no longer loaded (it was reloaded or removed)`，且该 Agent 未被注册。您的 mod 在该调用之前被重新加载或卸载。重新加载会加载 hook 模块的新副本，而此调用来自仍在旧副本中运行的代码，例如尚未返回的 hook。
@@ -205,13 +212,13 @@ mod 已加载，其 hooks 运行，它接触的工具调用被拒绝。
 
 ### 关于您的设置中的拒绝规则的消息
 
-`tried to lift a deny rule in your settings` 和 `the deny rules in your settings could not be checked for this call, so it is refused` 都来自内置保护。
+`tried to lift a deny rule in your settings` 和 `the rules and hooks in your settings could not be checked for this call, so it is refused` 都来自内置守卫。
 
 在 [来自内置保护的消息](#messages-from-the-built-in-guard) 中查找它们。
 
 ## 停止轮次后出现提示
 
-### `Stopped: type a message to continue; a mod cannot resume work after Stop`
+### `stopped · type a message to continue`
 
 此提示表示，在您停止轮次之后（例如按下 Esc），某个 mod 试图自行开始工作，而 Claude Code 没有允许它这样做。无需进行任何修复。在您发送下一条消息后，mod 可以再次开始工作，并且[其中部分工作会自行恢复](https://code.claude.com/docs/zh-CN/plugins/mods/api.md#work-your-mod-started-before-the-interruption)。如果您期望从该 mod 获得的结果没有恢复，请再次提出请求，或再次运行该 mod 的命令。
 
@@ -223,14 +230,16 @@ mod 已加载，其窗格、带、toast 或控件的行为不符合您的预期�
 
 ### 显示了另一个 mod 的带，而您的带没有显示
 
-输入框上方只有一个带，所有 mod 共用它。在[您的 mod 之前](https://code.claude.com/docs/zh-CN/plugins/mods/events.md#the-order-mods-run-in)运行的 mod 如果返回的树中不包含 `next(e)` 的结果，就会替换您的带。要同时显示两个带，请修改该 mod 的 hook，或请其作者修改：
+每个在输入框上方绘制的 mod 都有自己的一行，因此当您的行缺失而另一个 mod 的行显示时，请检查以下原因：
 
-* **保留其后的带**：将 `await next(e)` 的结果放入其树中某个 `Box` 的子元素中，如[选择绘制位置](https://code.claude.com/docs/zh-CN/plugins/mods/interface.md#pick-where-to-draw)中“输入框上方的带”选项卡所示
+* **您的树未通过验证**：[写入调试日志](#read-the-debug-log)，在其中搜索 [`ui.render hook skipped`](#a-pane-or-band-is-empty) 或 [`does not validate`](#ui-render-refused)，并修复该行指出的问题。
+* **这些行合起来超出了限制**：[写入调试日志](#read-the-debug-log)并在其中搜索 `past the limits of the band`。这些行[共享一棵树的限制](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#limits)，因此请绘制更小的树，或请其他 mod 的作者这样做。
+* **另一个 mod 隐藏了您的行或在其上绘制**：如果日志中没有上述任何行，请逐个[关闭](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#turn-mods-on-or-off)其他 mod。如果您的行重新出现，请该 mod 的作者进行修改。
+
+在 v2.1.323 之前，所有 mod 共用带中的一个绘图。在[您的 mod 之前](https://code.claude.com/docs/zh-CN/plugins/mods/events.md#the-order-mods-run-in)运行的 mod 如果返回的树中不包含 `next(e)` 的结果，就会替换您的绘图。请更新 Claude Code，或请该 mod 的作者进行以下修改：
+
+* **保留其后 mod 的绘图**：将 `await next(e)` 的结果放入其树中某个 `Box` 的子元素中
 * **保持树有效**：不要为该 `Box` 或其外层的任何 `Box` 设置 `width`、`height`、`minWidth`、`minHeight`、`position`、`top`、`left`、`right`、`bottom`、`display` 或 `overflow` prop
-
-要找到该 mod，请[写入调试日志](#read-the-debug-log)并在其中搜索 `answered ui.render without next()`。诸如 `other-mod (user) answered ui.render without next()` 的行会指明一个返回了树但未调用 `next(e)` 的 mod。该行不会指明[渲染位置](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#render-sites)，因此仅绘制窗格的 mod 也可能出现在其中。调用了 `next(e)` 但丢弃其结果的 mod 不会产生该行，因此也请检查在您的 mod 之前运行的 hook。
-
-当某个 mod 自身的 hook 返回的树未通过验证时，该 mod 的带也会缺失，而其他 mod 的带仍会保留。要了解是哪个 mod 以及原因，请[写入调试日志](#read-the-debug-log)并在其中搜索 [`ui.render hook skipped`](#a-pane-or-band-is-empty)。
 
 ### 窗格或带为空或显示 Claude Code 的常规内容
 
@@ -246,13 +255,15 @@ first-mod: ui.render hook skipped: returned the wrong shape (a tree Pane refuses
 
 ### `ui.render` 行显示 `refused`
 
-`ui.render (<site>) refused:`，或[调试日志](#read-the-debug-log)中的 `ui.render (<site>): the chain settled on a tree that does not validate`，表示该位置的[树](https://code.claude.com/docs/zh-CN/plugins/mods/interface.md#build-a-tree-from-elements)超出了[大小限制](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#limits)。这两行都会先指明[渲染位置](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#render-sites)，然后给出原因，原因中会指明该限制。
+`ui.render (<site>) refused:`，或[调试日志](#read-the-debug-log)中的 `ui.render (<site>): the chain settled on a tree that does not validate`，表示该位置的[树](https://code.claude.com/docs/zh-CN/plugins/mods/interface.md#build-a-tree-from-elements)超出了[大小限制](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#limits)。这两行都会先指明[渲染位置](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#render-sites)，然后给出原因。
 
-请修改在该位置绘制的 mod，使其 [`ui.render`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#interface) hook 返回更小的树，或请其作者修改。如果会话记录行以 `hooks` 开头，则表示有多个已加载的 mod 为该位置设置了 `ui.render` hook，因此请检查每个这些 mod 的树。当多个 mod 在输入框上方的带嵌套成深度超过 32 层的树时，该行显示为：
+请修改在该位置绘制的 mod，使其 [`ui.render`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#interface) hook 返回更小的树，或请其作者修改。如果会话记录行以 `hooks` 开头，则表示有多个已加载的 mod 为该位置设置了 `ui.render` hook，因此请检查每个这些 mod 的树。对于输入框上方合起来超出带的限制的行，该行显示为：
 
 ```text theme={null}
-hooks: ui.render (AbovePrompt) refused: deeper than 32; nothing was drawn
+hooks: ui.render (AbovePrompt) refused: a row past the limits of the band; nothing was drawn
 ```
+
+尽管该行如此结尾，未超出限制的行仍会绘制。
 
 在 v2.1.307 之前，任何位置的 `refused:` 行都会报告任何未通过验证的树，并且对于 `Pane` 和 `AbovePrompt`，该行以 `; the engine drew its own` 结尾。在这些版本中，请修复原因中指出的问题。
 
@@ -307,11 +318,12 @@ hooks: ui.render (AbovePrompt) refused: deeper than 32; nothing was drawn
 
 ### 热键不起作用
 
-您的窗格或带没有键盘焦点、您的按钮位于已折叠的带中，或者绘图位于 VS Code 扩展中，而该扩展中的按钮没有热键。请按对应的情况操作：
+您的窗格或带没有键盘焦点、您的按钮位于已折叠的带中、另一个 mod 使用了相同的按键，或者绘图位于 VS Code 扩展中。
 
 * **没有键盘焦点**：按 Ctrl+X 然后 Tab，或在[全屏渲染](https://code.claude.com/docs/zh-CN/fullscreen.md)中单击窗格或带。要让窗格在打开时获得焦点，请从命令中使用 `focus: true` 打开它。
 * **按钮位于已折叠的带中**：该带显示一个以 `▸ plugin panel hidden` 开头的暗色行。按该行所示的按键（默认为 Ctrl+X 然后 Ctrl+A）即可[展开它](#plugin-panel-hidden)。
-* **在 VS Code 扩展中**：单击按钮，或在按钮获得焦点后按 Enter
+* **带中另一个 mod 的行使用了相同的热键**：在终端中，按下该键不会按下任何一个按钮。要进行检查，请逐个[关闭](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#turn-mods-on-or-off)其他绘制行的 mod，直到该键生效。请修改您的按钮的 `hotkey`，或请该 mod 的作者修改其热键。
+* **在 VS Code 扩展中，按钮没有热键**：单击按钮，或在按钮获得焦点后按 Enter
 
 ### 绘图在终端中有效，在桌面应用或 VS Code 中无效
 
@@ -413,8 +425,6 @@ hooks module first-mod@inline loaded (worker, environment 2, tier user); events:
 ```
 
 要在日志中写入您自己的行，请调用 [`$.ui.log`](https://code.claude.com/docs/zh-CN/plugins/mods/api#show-something-without-starting-a-turn)，带有第二个参数，如 `$.ui.log('message', { to: 'debug' })`。没有第二个参数，`$.ui.log` 会在会话记录中添加一条暗行。
-
-当您编辑使用 `--plugin-dir` 加载的 mod 时，会话记录为每次重新加载显示一行，命名 mod 并列出其 hook。如果保存破坏了模块，该行会显示 `reload failed, the previous version stays loaded:` 及原因，最后一个可用版本会继续运行，直到 Claude Code 下次重新加载插件，例如当您运行 `/reload-plugins` 时。
 
 ## 后续步骤
 

@@ -12,6 +12,18 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
   有关 Claude Code 的更新，请参阅 `claude-code` 仓库中的[完整 CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)。
 </Tip>
 
+### 2026 年 11 月 17 日
+
+* 我们已推出 beta 版 [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections)，需使用 `user-profiles-billing-2026-10-01` beta 标头。您的客户现在可以通过自己的 Claude 组织为您应用中的 Claude 用量付费。客户关联其组织后，请在每个 `/v1/messages` 或 `/v1/chat/completions` 请求上设置 `billing_policy` 以选择由谁付费。客户可以在 Claude Console 中为您的应用设置支出上限，或取消关联您的应用。Linked billing 适用于其组织直接向 Anthropic 支付 API 用量费用的客户。
+
+### 2026 年 11 月 16 日
+
+* 在受支持的平台上，Claude Opus 4.6、Claude Opus 4.5、Claude Sonnet 4.5 和 Claude Haiku 4.5 生成的文本带有 Anthropic 的文本水印。[Claude 如何标记 AI 生成的内容](https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content)列出了这些平台。如果向这些模型之一发出的请求将 `temperature`、`top_p` 或 `top_k` 设置为非默认值，则生成的文本可能不带有水印。请参阅[文本水印](https://platform.claude.com/docs/zh-CN/build-with-claude/text-watermark)。
+
+### 2026 年 11 月 12 日
+
+* 我们推出了[自托管 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted)。您可以在自己的基础设施上运行整个 Managed Agents 服务，而不仅仅是[自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes)，并将智能体（agent）、会话和会话历史存储在其中。服务器会将模型请求发送到您选择的提供商，默认为 Anthropic。如需申请访问权限，请联系您的 Anthropic 客户团队。
+
 ### 2026 年 11 月 9 日
 
 * 我们推出了 **Claude Fable 5.2**（`claude-fable-5-2`），专为高要求的推理和长周期智能体工作而打造。**Claude Mythos 5.2**（`claude-mythos-5-2`）提供相同的能力，但仅面向通过 Anthropic 验证计划（例如 [Cyber Verification Program](https://support.claude.com/en/articles/14604842)）验证的组织。两个模型都具有 [1M 令牌的上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)、128k 最大输出令牌数，以及始终开启的[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)。它们的价格为每 MTok 输入 $8 美元、每 MTok 输出 $40 美元（Claude Fable 5.1 和 Claude Mythos 5.1 为每 MTok 输入 $10 美元、每 MTok 输出 $50 美元）。Claude Fable 5.2 可在 Claude API、[Amazon Bedrock（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)、[Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)、[Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) 和 [Microsoft Foundry 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 上使用。有关 API 变更和迁移指南，请参阅 [Claude Fable 5.2 的新功能](https://platform.claude.com/docs/zh-CN/models/fable-5-2/whats-new-fable-5-2)。有关特定于模型的提示模式，请参阅[为 Claude Fable 5.2 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2)。
@@ -58,7 +70,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2026 年 10 月 22 日
 
-* 我们推出了 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)，这是由 Anthropic 运营、通过您的 Google Cloud 项目访问的 Claude API。Google Cloud IAM 负责控制访问权限，Google Cloud Marketplace 负责处理计费。
+* 我们推出了 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)，这是由 Anthropic 运营、通过您的 Google Cloud 项目访问的 Claude API。Google Cloud IAM 负责控制访问权限。Google Cloud Marketplace 负责处理计费。
 * [快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)现已在 Claude Models on Google Cloud (Anthropic managed) 上可用于 Claude Opus 5.5。
 
 ### 2026 年 10 月 21 日
@@ -323,7 +335,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2026 年 6 月 18 日
 
-* Python、TypeScript、Go、Java、Ruby、PHP 和 C# SDK 现在支持 `code_execution_20260120`。这是[代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)的一个版本，它增加了 REPL 状态持久化，也是使用[程序化工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)所需的最低版本。要采用该版本，请将工具的 `type` 设置为 `code_execution_20260120`，无需 beta 标头。该版本可在 Claude Fable 5、Claude Mythos 5、Claude Opus 4.5 及更新版本，以及 Claude Sonnet 4.5 及更新版本上使用；请参阅代码执行工具的[API 支持](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#availability-feature-support)部分。
+* Python、TypeScript、Go、Java、Ruby、PHP 和 C# SDK 现在支持 `code_execution_20260120`。这是[代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)的一个版本，它增加了 REPL 状态持久化，也是使用[编程式工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)所需的最低版本。要采用该版本，请将工具的 `type` 设置为 `code_execution_20260120`，无需 beta 标头。该版本可在 Claude Fable 5、Claude Mythos 5、Claude Opus 4.5 及更新版本，以及 Claude Sonnet 4.5 及更新版本上使用；请参阅代码执行工具的[API 支持](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#availability-feature-support)部分。
 
 ### 2026 年 6 月 15 日
 
@@ -332,7 +344,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 ### 2026 年 6 月 11 日
 
 * [代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)现在支持 `code_execution_20260521`。该版本会在工具描述中说明每个单元格 90 秒的执行时间限制，以便 Claude 为长时间运行的单元格合理规划时间。无需 beta 标头。
-* [网络搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)和[网页抓取工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool)现在支持 `web_search_20260318` 和 `web_fetch_20260318`。这两个版本新增了 `response_inclusion` 参数，可在智能体工作流中从 API 响应里删除已使用的结果块。无需 beta 标头。
+* [网页搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)和 [Web fetch 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool)现在支持 `web_search_20260318` 和 `web_fetch_20260318`。这两个版本新增了 `response_inclusion` 参数，可在智能体工作流中从 API 响应里删除已使用的结果块。无需 beta 标头。
 
 ### 2026 年 6 月 10 日
 
@@ -341,15 +353,15 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 ### 2026 年 6 月 9 日
 
 * 我们推出了 **Claude Fable 5**（`claude-fable-5`），这是我们向所有客户开放的能力最强的模型，同时为 Project Glasswing 参与者推出了 **Claude Mythos 5**（`claude-mythos-5`）。两个模型均默认支持 [1M 令牌上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)、128k 最大输出令牌，以及始终开启的[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)。有关规格、定价和可用性，请参阅 [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview)。
-* Claude Fable 5 和 Claude Mythos 5 使用随 Claude Opus 4.7 引入的分词器。与 Claude Opus 4.7 之前的模型相比，相同文本产生的令牌约多 30%，确切增幅取决于内容和工作负载形态。您可以使用带有 `model: "claude-fable-5"` 的令牌计数 API 来衡量您的提示在新分词器下的令牌数。请参阅 [Claude Fable 和 Claude Mythos 模型上的令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting#token-counts-on-claude-fable-5)。
-* Claude Fable 5 会对请求运行安全分类器，并在响应生成期间持续运行。当分类器拒绝请求时，Messages API 会返回 `stop_reason: "refusal"`。如果请求在生成任何输出之前就被拒绝，您不会为其付费。您可以选择启用 `fallbacks` 参数，在另一个模型上重新运行被拒绝的请求，并按回退模型的费率计费。该参数在 Claude API 和 Claude Platform on AWS 上处于 beta 阶段，Message Batches API 不支持该参数。请参阅[处理停止原因](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons)。
+* Claude Fable 5 和 Claude Mythos 5 使用随 Claude Opus 4.7 引入的分词器。与 Claude Opus 4.7 之前的模型相比，相同文本产生的令牌约多 30%。确切增幅取决于内容和工作负载形态。您可以使用带有 `model: "claude-fable-5"` 的令牌计数 API 来衡量您的提示在新分词器下的令牌数。请参阅 [Claude Fable 和 Claude Mythos 模型上的令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting#token-counts-on-claude-fable-5)。
+* Claude Fable 5 会对请求运行安全分类器，并在响应生成期间持续运行。当分类器拒绝请求时，Messages API 会返回 `stop_reason: "refusal"`。如果请求在生成任何输出之前就被拒绝，您不会为其付费。您可以选择启用 `fallbacks` 参数（在 Claude API 和 Claude Platform on AWS 上处于 beta 阶段；Message Batches API 不支持该参数），在另一个模型上重新运行被拒绝的请求，并按回退模型的费率计费。请参阅[处理停止原因](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons)。
 * 在 Claude Fable 5 上，拒绝响应中的 [`stop_details.category`](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response) 字段现在包含 `"reasoning_extraction"`。当请求因违反 Anthropic 服务条款中关于逆向工程或复制模型输出的限制而被阻止时，会返回该值。现有的 `"cyber"` 和 `"bio"` 类别保持不变。无需 beta 标头。
 * 在 Claude Fable 5 和 Claude Mythos 5 上，[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)是唯一的思考模式：不支持 `thinking: {"type": "disabled"}`，也不支持手动扩展思考预算和助手预填充（两者都会返回 400 错误）。
-* 在 Claude Fable 5 和 Claude Mythos 5 上，`thinking.display` 默认为 `"omitted"`，与 Claude Opus 4.8、Claude Opus 4.7 和 Claude Mythos Preview 相同。设置 `display: "summarized"` 即可接收可读的思考摘要。原始思维链永远不会返回；在同一模型上进行多轮对话时，请原样传回思考块。请参阅 [Claude Fable 5 和 Claude Mythos 5 上的思考输出](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-output-on-claude-fable-5-and-claude-mythos-5)。
+* 在 Claude Fable 5 和 Claude Mythos 5 上，`thinking.display` 默认为 `"omitted"`，与 Claude Opus 4.8、Claude Opus 4.7 和 Claude Mythos Preview 相同；设置 `display: "summarized"` 即可接收可读的思考摘要。原始思维链永远不会返回；在同一模型上进行多轮对话时，请原样传回思考块。请参阅 [Claude Fable 5 和 Claude Mythos 5 上的思考输出](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-output-on-claude-fable-5-and-claude-mythos-5)。
 * Claude Fable 5 要求 30 天数据保留，不支持零数据保留。请参阅[特定于模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
 * Claude Managed Agents 现在支持[计划部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)，让您无需自行管理调度器即可按 cron 计划运行会话。
 * Claude Managed Agents 保管库现在支持[环境变量凭据](https://platform.claude.com/docs/zh-CN/managed-agents/vaults#add-a-credential)。对于通过环境变量进行身份验证的 CLI、SDK 和其他服务，您可以借此将密钥安全地注入智能体的沙箱。
-* [合规 API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 的[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)（`GET /v1/compliance/activities`）现已在 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上可用。有关授权它的 `ListComplianceActivities` 操作，请参阅 [Claude Platform on AWS 的合规 IAM 操作](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#compliance)。
+* [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 的[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)（`GET /v1/compliance/activities`）现已在 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上可用。有关授权它的 `ListComplianceActivities` 操作，请参阅 [Claude Platform on AWS 的合规 IAM 操作](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#compliance)。
 * `session.thread_*` webhook 事件现在包含 `session_thread_id` 字段，用于标识触发该事件的多智能体线程。
 * 我们发布了一个 beta 版 [Swift 包](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/libraries/apple-foundation-models)，它将 Claude 作为服务器端 `LanguageModel` 添加到 Apple 的 Foundation Models 框架中。在 iOS 27、macOS 27、visionOS 27 和 watchOS 27（beta）上，您可以通过与 Apple 设备端模型相同的 `LanguageModelSession` API 调用 Claude。
 
@@ -374,7 +386,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 * 在 Claude Opus 4.8 上，[effort 参数](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)在所有平台（包括 Claude Code 和 Messages API）上均默认为 `high`。
 * 在 Claude Opus 4.8 上，[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)的最小可缓存提示长度为 1,024 个令牌，低于 Claude Opus 4.7。
 * 启用[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)后，Claude Opus 4.8 仅在某个轮次需要时才会触发推理。与相同 effort 级别下的 Claude Opus 4.7 相比，这减少了浪费的思考令牌。
-* Claude Opus 4.8 支持[高分辨率图像输入](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#high-resolution-image-support-on-claude-opus-4-7)（长边最多 2576 像素），与 Claude Opus 4.7 相同。
+* Claude Opus 4.8 支持[高分辨率图像输入](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#high-resolution-image-support-on-claude-opus-4-7)（长边最多 2,576 像素），与 Claude Opus 4.7 相同。
 * [任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)现在支持 Claude Opus 4.8。
 * [Advisor 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool)现在支持 Claude Opus 4.8。
 * [计算机使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)现在支持 Claude Opus 4.8。
@@ -399,7 +411,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2026 年 5 月 18 日
 
-* [网络搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)现在会返回更丰富的 SEC 文件数据。这让金融研究智能体、财报分析和尽职调查工作流能够更轻松地以带引用的一手来源为依据。
+* [网页搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)现在会返回更丰富的 SEC 文件数据。这让金融研究智能体、财报分析和尽职调查工作流能够更轻松地以带引用的一手来源为依据。
 
 ### 2026 年 5 月 13 日
 
@@ -447,10 +459,10 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2026 年 4 月 16 日
 
-* 我们推出了 [Claude Opus 4.7](https://www.anthropic.com/news/claude-opus-4-7)，这是我们用于复杂推理和智能体编码的最强大模型，定价与 Opus 4.6 相同，为每 MTok $5 / $25 美元。有关能力改进、新功能和更新的分词器，请参阅 [Claude Opus 4.7 的新功能](https://platform.claude.com/docs/zh-CN/about-claude/models/whats-new-claude-4-7)。与 Opus 4.6 相比，Opus 4.7 包含 API 破坏性变更；升级前请参阅[迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)。
+* 我们[推出了 Claude Opus 4.7](https://www.anthropic.com/news/claude-opus-4-7)，这是我们用于复杂推理和智能体编码的最强大模型，定价与 Claude Opus 4.6 相同，为每 MTok $5 / $25 美元。有关其规格，请参阅 [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview)。与 Opus 4.6 相比，Opus 4.7 包含更新的分词器和 API 破坏性变更；升级前请参阅[迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)。
 * [Amazon Bedrock 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) 现已向所有 Amazon Bedrock 客户开放。Claude Opus 4.7 和 Claude Haiku 4.5 可通过 Bedrock 控制台自助使用，经由位于 `/anthropic/v1/messages` 的 Messages API 端点访问，覆盖 27 个 AWS 区域，提供全球端点和区域端点。
 * 我们在 Claude Opus 4.7 上推出了测试版的[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)。您可以为完整的智能体循环（思考、工具调用、工具结果和输出）为 Claude 提供一个建议性的令牌预算，模型会看到一个实时倒计时，并据此确定工作优先级，在预算消耗时从容地完成任务。请在请求中包含 `task-budgets-2026-03-13` beta 标头。
-* Claude Opus 4.7 支持[高分辨率图像输入](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#high-resolution-image-support-on-claude-opus-4-7)，将长边的最大图像分辨率从 1568 像素提高到 2576 像素，从而提升计算机使用、屏幕截图理解和文档分析方面的性能。高分辨率支持是自动启用的，无需 beta 标头；图像使用的图像令牌数量可能比之前的模型多出约 3 倍。
+* Claude Opus 4.7 支持[高分辨率图像输入](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#high-resolution-image-support-on-claude-opus-4-7)，将长边的最大图像分辨率从 1,568 像素提高到 2,576 像素，从而提升计算机使用、屏幕截图理解和文档分析方面的性能。高分辨率支持是自动启用的，无需 beta 标头；图像使用的图像令牌数量最多可能比之前的模型多出约 3 倍。
 * 我们在 Claude Opus 4.7 上新增了 `xhigh` [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 级别。`xhigh` 介于 `high` 和 `max` 之间，专为令牌预算达数百万的长时间运行（超过 30 分钟）的智能体和编码任务而调优。无需 beta 标头。
 
 ### 2026 年 4 月 14 日
@@ -469,7 +481,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 ### 2026 年 4 月 7 日
 
 * 我们宣布 [Claude Mythos Preview](https://anthropic.com/glasswing) 作为 [Project Glasswing](https://anthropic.com/glasswing) 的一部分，以受限研究预览的形式提供，用于防御性网络安全工作。仅限受邀访问。
-* [Messages API](https://platform.claude.com/docs/zh-CN/api/messages) 现已作为研究预览在 Amazon Bedrock 上提供。位于 `/anthropic/v1/messages` 的全新 Claude in Amazon Bedrock 端点使用与第一方 Claude API 相同的请求结构，并运行在 AWS 托管的基础设施上，运营方零访问权限。目前在 `us-east-1` 中可用；请联系您的 Anthropic 客户经理申请访问权限。请在 [Amazon Bedrock 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) 中了解更多信息。
+* [Messages API](https://platform.claude.com/docs/zh-CN/api/messages) 现已作为研究预览在 Amazon Bedrock 上提供。位于 `/anthropic/v1/messages` 的全新 Claude in Amazon Bedrock 端点使用与第一方 Claude API 相同的请求结构，并运行在 AWS 托管的基础设施上，运营方零访问权限。目前在 `us-east-1` 中可用。请联系您的 Anthropic 客户经理申请访问权限。请在 [Amazon Bedrock 中的 Claude（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) 中了解更多信息。
 
 ### 2026 年 3 月 30 日
 
@@ -492,24 +504,24 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2026 年 2 月 19 日
 
-* 我们为 Messages API 推出了**自动缓存**。在请求正文中添加单个 `cache_control` 字段，系统会自动缓存最后一个可缓存块，并随着对话增长向前移动缓存点。无需手动管理断点。可与现有的块级缓存控制配合使用，以实现细粒度优化。在 Claude API 和 Microsoft Foundry（预览版）上可用。请在[自动缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#automatic-caching)中了解更多信息。
+* 我们为 Messages API 推出了**自动缓存**。在请求正文中添加单个 `cache_control` 字段，系统会自动缓存最后一个可缓存块，并随着对话增长向前移动缓存点。无需手动管理断点。可与现有的块级缓存控制配合使用，以实现细粒度优化。在 Claude API 和 Microsoft Foundry 上可用。请在[自动缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#automatic-caching)中了解更多信息。
 * 我们已停用 Claude Sonnet 3.7 模型（`claude-3-7-sonnet-20250219`）和 Claude Haiku 3.5 模型（`claude-3-5-haiku-20241022`）。所有对 Claude Sonnet 3.7 的请求现在都将返回错误。在 Claude API 上对 Claude Haiku 3.5 的请求现在将返回错误；该模型在 Amazon Bedrock 和 Google Cloud 上仍然可用。我们建议分别升级到 [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/overview#latest-models-comparison) 和 [Claude Haiku 4.5](https://platform.claude.com/docs/zh-CN/models/overview#latest-models-comparison)。研究人员可以通过[外部研究人员访问计划](https://support.claude.com/en/articles/9125743-what-is-the-external-researcher-access-program)申请持续访问权限。
 * 我们宣布弃用 Claude Haiku 3 模型（`claude-3-haiku-20240307`），计划于 2026 年 4 月 20 日停用。我们建议迁移到 [Claude Haiku 4.5](https://platform.claude.com/docs/zh-CN/models/overview#latest-models-comparison)。请在[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)中了解更多信息。
 
 ### 2026 年 2 月 17 日
 
-* 我们[推出了 Claude Sonnet 4.6](https://www.anthropic.com/news/claude-sonnet-4-6)，这是我们最新的平衡型模型，为日常任务兼顾速度与智能。Sonnet 4.6 在消耗更少令牌的同时提供了更好的智能体搜索性能。Sonnet 4.6 支持[扩展思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking)和 [1M 令牌上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)（beta）。有关详细信息，请参阅[模型与定价](https://platform.claude.com/docs/zh-CN/models/overview)。
+* 我们[推出了 Claude Sonnet 4.6](https://www.anthropic.com/news/claude-sonnet-4-6)，这是我们最新的平衡型模型，为日常任务兼顾速度与智能。Sonnet 4.6 在消耗更少令牌的同时提供了更好的智能体搜索性能。Sonnet 4.6 支持[扩展思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking)以及 [1M 令牌上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)（目前为 beta 版）。有关详细信息，请参阅[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)。
 * API [代码执行](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)现在**与网络搜索或网页获取一起使用时免费**。沙箱化的代码执行可提升模型能力和令牌效率。有关单独使用的情况，请参阅[定价详情](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#usage-and-pricing)。
-* [网络搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)和[程序化工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)现已可用，无需 beta 标头。网络搜索和网页获取现在支持[动态过滤](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool#dynamic-filtering)，它使用代码执行在结果进入上下文窗口之前对其进行过滤，以获得更好的性能并降低令牌成本。
-* [代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)、[网页获取工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool)、[工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)、["tool use"（工具使用）示例](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#providing-tool-use-examples)和[记忆工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool)不再需要 beta 标头。
+* [网页搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)和[编程式工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)现已可用，无需 beta 标头。网络搜索和网页获取现在支持[动态过滤](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool#dynamic-filtering)，它使用代码执行在结果进入上下文窗口之前对其进行过滤，以获得更好的性能并降低令牌成本。
+* [代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)、[Web fetch 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool)、[工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)、["tool use"（工具使用）示例](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#providing-tool-use-examples)和[记忆工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool)不再需要 beta 标头。
 
 ### 2026 年 2 月 7 日
 
-* 我们为 Opus 4.6 推出了研究预览版的[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)，通过 `speed` 参数显著加快输出令牌的生成速度。快速模式的速度最高可达 2.5 倍，采用溢价定价。感兴趣的客户请加入[候补名单](https://claude.com/fast-mode)。
+* 我们为 Claude Opus 4.6 推出了研究预览版的[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)，通过 `speed` 参数显著加快输出令牌的生成速度。快速模式的速度最高可达 2.5 倍，采用溢价定价。感兴趣的客户请加入[快速模式候补名单](https://claude.com/fast-mode)。
 
 ### 2026 年 2 月 5 日
 
-* 我们[推出了 Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6)，这是我们用于复杂智能体任务和长周期工作的最智能模型。Opus 4.6 推荐使用[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)（`thinking: {type: "adaptive"}`）；手动思考（带 `budget_tokens` 的 `type: "enabled"`）已被弃用。Opus 4.6 不支持预填充助手消息。请在 [Claude 4.6 的新功能](https://platform.claude.com/docs/zh-CN/about-claude/models/whats-new-claude-4-6)中了解更多信息。
+* 我们[推出了 Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6)，这是我们用于复杂智能体任务和长周期工作的最智能模型。对于 Opus 4.6，我们推荐使用[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)（`thinking: {type: "adaptive"}`）；手动思考（带 `budget_tokens` 的 `type: "enabled"`）已被弃用。Opus 4.6 不支持预填充助手消息。请在 [Claude Opus 4.6](https://platform.claude.com/docs/zh-CN/models/opus-4-6/overview) 中了解更多信息。
 * [effort 参数](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)不再需要 beta 标头，并且现在支持 Claude Opus 4.6。在新模型上，effort 取代 `budget_tokens` 来控制思考深度。
 * 我们推出了测试版的[压缩 API](https://platform.claude.com/docs/zh-CN/build-with-claude/compaction-threshold)，提供服务器端上下文摘要功能，实现实际上无限长的对话。在 Opus 4.6 上可用。
 * 我们引入了[数据驻留控制](https://platform.claude.com/docs/zh-CN/manage-claude/data-residency)，允许您通过 `inference_geo` 参数指定模型推理的运行位置。对于 2026 年 2 月 1 日之后发布的模型，仅限美国的推理按 1.1 倍定价提供。
@@ -538,8 +550,8 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2025 年 11 月 24 日
 
-* 我们[发布了 Claude Opus 4.5](https://www.anthropic.com/news/claude-opus-4-5)，这是我们最智能的模型，兼具最强能力与实用性能。非常适合复杂的专业任务、专业软件工程和高级智能体。它在视觉、编码和计算机使用方面实现了跨越式提升，且价格比以往的 Opus 模型更加亲民。请在[模型概述](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
-* 我们推出了 beta 版[程序化工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)，允许 Claude 在代码执行中调用工具，以减少多工具工作流中的延迟和令牌用量。
+* 我们[发布了 Claude Opus 4.5](https://www.anthropic.com/news/claude-opus-4-5)，这是我们最智能的模型，兼具最强能力与实用性能。非常适合复杂的专业任务、专业软件工程和高级智能体。它在视觉、编码和计算机使用方面实现了跨越式提升，且价格比以往的 Opus 模型更加亲民。请在[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
+* 我们推出了 beta 版[编程式工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)，允许 Claude 在代码执行中调用工具，以减少多工具工作流中的延迟和令牌用量。
 * 我们推出了 beta 版[工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)，使 Claude 能够从大型工具目录中按需动态发现和加载工具。
 * 我们为 Claude Opus 4.5 推出了 beta 版 [effort 参数](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)，允许您通过在响应详尽程度与效率之间进行权衡来控制令牌用量。
 * 我们在 Python 和 TypeScript SDK 中新增了[客户端压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#client-side-compaction-sdk)功能，在使用 `tool_runner` 时通过摘要自动管理对话上下文。
@@ -570,20 +582,20 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 * 我们[推出了 Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)（`skills-2025-10-02` beta），这是一种扩展 Claude 能力的新方式。Skills 是由指令、脚本和资源组成的有组织的文件夹，Claude 会动态加载它们以执行专门任务。首次发布包括：
 
-  * **Anthropic 托管的 Skills：** 用于处理 PowerPoint（.pptx）、Excel（.xlsx）、Word（.docx）和 PDF 文件的预构建 Skills
-  * **自定义 Skills：** 通过 Skills API（`/v1/skills` 端点）上传您自己的 Skills，以封装领域专业知识和组织工作流
-  * Skills 需要启用[代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)
-  * 请在 [Agent Skills](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview) 和 [API 参考](https://platform.claude.com/docs/zh-CN/api/skills/create)中了解更多信息
+  * **Anthropic 托管的 Skills：** 用于处理 PowerPoint（.pptx）、Excel（.xlsx）、Word（.docx）和 PDF 文件的预构建 Skills。
+  * **自定义 Skills：** 通过 Skills API（`/v1/skills` 端点）上传您自己的 Skills，以封装领域专业知识和组织工作流。
+  * Skills 需要启用[代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)。
+  * 请在 [Agent Skills](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview) 和[创建技能](https://platform.claude.com/docs/zh-CN/api/skills/create) API 参考中了解更多信息。
 
 ### 2025 年 10 月 15 日
 
-* 我们[发布了 Claude Haiku 4.5](https://www.anthropic.com/news/claude-haiku-4-5)，这是我们速度最快、最智能的 Haiku 模型，性能接近前沿水平。非常适合实时应用、大批量处理以及需要强大推理能力的成本敏感型部署。请在[模型概述](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
+* 我们[发布了 Claude Haiku 4.5](https://www.anthropic.com/news/claude-haiku-4-5)，这是我们速度最快、最智能的 Haiku 模型，性能接近前沿水平。非常适合实时应用、大批量处理以及需要强大推理能力的成本敏感型部署。请在[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
 
 ### 2025 年 9 月 29 日
 
-* 我们推出了 [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5)，这是我们用于复杂智能体和编码的最佳模型，在大多数任务中具有最高的智能水平。请在[模型概述](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
-* 我们为 Amazon Bedrock 和 Vertex AI 引入了[全球端点定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#cloud-platform-pricing)。Claude API（1P）定价不受影响。
-* 我们引入了新的停止原因 `model_context_window_exceeded`，允许您在不计算输入大小的情况下请求尽可能多的令牌。请在[处理停止原因](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons)中了解更多信息。
+* 我们推出了 [Claude Sonnet 4.5](https://www.anthropic.com/news/claude-sonnet-4-5)，这是我们用于复杂智能体和编码的最佳模型，在大多数任务中具有最高的智能水平。请在[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
+* 我们为 Amazon Bedrock 和 Vertex AI 引入了[全球端点定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#cloud-platform-pricing)。Claude API 定价不受影响。
+* 我们引入了新的停止原因 `model_context_window_exceeded`，允许您在不计算输入大小的情况下请求尽可能多的令牌。请在[停止原因与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons)中了解更多信息。
 * 我们推出了测试版的记忆工具，使 Claude 能够跨对话存储和查阅信息。请在[记忆工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool)中了解更多信息。
 * 我们推出了测试版的上下文编辑功能，提供自动管理对话上下文的策略。首个版本支持在接近令牌限制时清除较早的工具结果和调用。请在[上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)中了解更多信息。
 
@@ -595,14 +607,14 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 * 我们已将开发者产品统一到 Claude 品牌之下。您会在我们的平台和文档中看到更新后的名称和 URL，但**我们的开发者接口将保持不变**。以下是一些值得注意的变化：
 
-  * Claude Console（[console.anthropic.com](https://console.anthropic.com)）→ Claude Console（[platform.claude.com](https://platform.claude.com)）。在 2026 年 1 月 12 日之前，控制台可通过这两个 URL 访问。在该日期之后，[console.anthropic.com](https://console.anthropic.com) 将自动重定向到 [platform.claude.com](https://platform.claude.com)。
-  * Anthropic Docs（[docs.anthropic.com](https://docs.anthropic.com)）→ Claude Docs（[docs.claude.com](https://docs.claude.com)）
-  * Anthropic 帮助中心（[support.anthropic.com](https://support.anthropic.com)）→ Claude 帮助中心（[support.claude.com](https://support.claude.com)）
+  * Anthropic Console（[console.anthropic.com](https://console.anthropic.com)）→ Claude Console（[platform.claude.com](https://platform.claude.com)）。在 2026 年 1 月 12 日之前，Claude Console 可通过这两个 URL 访问。在该日期之后，[console.anthropic.com](https://console.anthropic.com) 将自动重定向到 [platform.claude.com](https://platform.claude.com)。
+  * Anthropic Docs（[docs.anthropic.com](https://docs.anthropic.com)）→ Claude Docs（[docs.claude.com](https://docs.claude.com)）。
+  * Anthropic 帮助中心（[support.anthropic.com](https://support.anthropic.com)）→ Claude 帮助中心（[support.claude.com](https://support.claude.com)）。
   * API 端点、标头、环境变量和 SDK 保持不变。您现有的集成无需任何更改即可继续工作。
 
 ### 2025 年 9 月 10 日
 
-* 我们推出了测试版的网页获取工具，允许 Claude 从指定的网页和 PDF 文档中检索完整内容。请在[网页获取工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool)中了解更多信息。
+* 我们推出了测试版的 Web fetch 工具，允许 Claude 从指定的网页和 PDF 文档中检索完整内容。请在 [Web fetch 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool)中了解更多信息。
 * 我们推出了 [Claude Code 分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/claude-code-analytics-api)，使组织能够以编程方式访问 Claude Code 的每日汇总使用指标，包括生产力指标、工具使用统计和成本数据。
 
 ### 2025 年 9 月 8 日
@@ -658,7 +670,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2025 年 8 月 5 日
 
-* 我们推出了 [Claude Opus 4.1](https://www.anthropic.com/news/claude-opus-4-1)，这是 Claude Opus 4 的增量更新，具有增强的能力和性能改进。Opus 4.1 不允许同时指定 `temperature` 和 `top_p` 参数。请只使用其中一个。请在[模型概述](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
+* 我们推出了 [Claude Opus 4.1](https://www.anthropic.com/news/claude-opus-4-1)，这是 Claude Opus 4 的增量更新，具有增强的能力和性能改进。在 Opus 4.1 上，您可以指定 `temperature` 或 `top_p`，但不能同时指定两者。请在[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
 
 ### 2025 年 7 月 28 日
 
@@ -666,7 +678,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2025 年 7 月 24 日
 
-* 我们提高了 Claude API 上 Claude Opus 4 的[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)，为您提供更多容量来使用 Claude 进行构建和扩展。对于适用[使用层级 1-4 速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#rate-limits)的客户，这些更改会立即应用到您的账户，无需任何操作。
+* 我们提高了 Claude API 上 Claude Opus 4 的[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)，为您提供更多容量来使用 Claude 进行构建和扩展。对于适用[使用层级 1–4 速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#rate-limits)的客户，这些更改会立即应用到您的账户：无需任何操作。
 
 ### 2025 年 7 月 21 日
 
@@ -674,7 +686,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2025 年 7 月 17 日
 
-* 我们提高了 Claude API 上 Claude Sonnet 4 的[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)，为您提供更多容量来使用 Claude 进行构建和扩展。对于适用[使用层级 1-4 速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#rate-limits)的客户，这些更改会立即应用到您的账户，无需任何操作。
+* 我们提高了 Claude API 上 Claude Sonnet 4 的[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)，为您提供更多容量来使用 Claude 进行构建和扩展。对于适用[使用层级 1–4 速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#rate-limits)的客户，这些更改会立即应用到您的账户，无需任何操作。
 
 ### 2025 年 7 月 3 日
 
@@ -686,15 +698,15 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2025 年 6 月 23 日
 
-* 在 Console 中，具有 Developer 角色的用户现在可以访问[费用](https://console.anthropic.com/settings/cost)页面。此前，Developer 角色可以访问[用量](https://console.anthropic.com/settings/usage)页面，但不能访问成本页面。
+* 在 Console 中，具有 Developer 角色的用户现在可以访问[费用](https://console.anthropic.com/settings/cost)页面。此前，Developer 角色可以访问[用量](https://console.anthropic.com/settings/usage)页面，但不能访问费用页面。
 
 ### 2025 年 6 月 11 日
 
-* 我们推出了 beta 版[细粒度工具流式传输](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/fine-grained-tool-streaming)，该功能使 Claude 能够在不进行缓冲 / JSON 验证的情况下流式传输工具使用参数。要启用细粒度工具流式传输，请使用 [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers) `fine-grained-tool-streaming-2025-05-14`。
+* 我们推出了 beta 版[细粒度工具流式传输](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/fine-grained-tool-streaming)，该功能使 Claude 能够在不进行缓冲或 JSON 验证的情况下流式传输工具使用参数。要启用细粒度工具流式传输，请使用 [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers) `fine-grained-tool-streaming-2025-05-14`。
 
 ### 2025 年 5 月 22 日
 
-* 我们推出了 [Claude Opus 4 和 Claude Sonnet 4](https://www.anthropic.com/news/claude-4)，这是我们具备扩展思考能力的最新模型。请在[模型概述](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
+* 我们推出了 [Claude Opus 4 和 Claude Sonnet 4](https://www.anthropic.com/news/claude-4)，这是我们具备扩展思考能力的最新模型。请在[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)中了解更多信息。
 * Claude 4 模型中[扩展思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking)的默认行为是返回 Claude 完整思考过程的摘要，完整的思考内容会被加密，并在 `thinking` 块输出的 `signature` 字段中返回。
 * 我们推出了 beta 版[交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#interleaved-thinking)，该功能使 Claude 能够在工具调用之间进行思考。要启用交错思考，请使用 [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers) `interleaved-thinking-2025-05-14`。
 * 我们推出了 beta 版 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files)，使您能够上传文件并在 Messages API 和代码执行工具中引用它们。
@@ -710,11 +722,11 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2025 年 5 月 7 日
 
-* 我们在 API 中推出了网络搜索工具，允许 Claude 从网络获取最新信息。请在[网络搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)中了解更多信息。
+* 我们在 API 中推出了网页搜索工具，允许 Claude 从网络获取最新信息。请在[网页搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)中了解更多信息。
 
 ### 2025 年 5 月 1 日
 
-* 缓存控制现在必须直接在 `tool_result` 和 `document.source` 的父级 `content` 块中指定。为了向后兼容，如果在 `tool_result.content` 或 `document.source.content` 的最后一个块上检测到缓存控制，它将被自动应用到父级块。在 `tool_result.content` 和 `document.source.content` 中的任何其他块上设置缓存控制将导致验证错误。
+* 您现在必须直接在 `tool_result` 和 `document.source` 的父级 `content` 块中指定缓存控制。为了向后兼容，如果 API 在 `tool_result.content` 或 `document.source.content` 的最后一个块上检测到缓存控制，它将自动把该缓存控制改为应用到父级块。在 `tool_result.content` 和 `document.source.content` 中的任何其他块上设置缓存控制将导致验证错误。
 
 ### 2025 年 4 月 9 日
 
@@ -733,19 +745,21 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2025 年 2 月 24 日
 
-* 我们推出了 [Claude Sonnet 3.7](https://www.anthropic.com/news/claude-3-7-sonnet)，这是我们迄今为止最智能的模型。Claude Sonnet 3.7 可以生成近乎即时的响应，也可以逐步展示其扩展思考过程。一个模型，两种思考方式。请在[模型概述](https://platform.claude.com/docs/zh-CN/models/overview)中了解所有 Claude 模型的更多信息。
+* 我们推出了 [Claude Sonnet 3.7](https://www.anthropic.com/news/claude-3-7-sonnet)，这是我们迄今为止最智能的模型。Claude Sonnet 3.7 可以生成近乎即时的响应，也可以逐步展示其扩展思考过程。一个模型，两种思考方式。请在[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)中了解所有 Claude 模型的更多信息。
 
-* 我们为 Claude Haiku 3.5 新增了视觉支持，使该模型能够分析和理解图像。
+* 我们为 Claude Haiku 3.5 新增了视觉支持，使该模型能够分析图像。
 
 * 我们发布了一种令牌高效的工具使用实现，提升了在 Claude 中使用工具时的整体性能。请在[使用 Claude 进行工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)中了解更多信息。
 
 * 为了与 API 中的默认 temperature 保持一致，我们已将 [Console](https://console.anthropic.com/workbench) 中新提示的默认 temperature 从 0 更改为 1。现有已保存的提示保持不变。
 
-* 我们发布了工具的更新版本，将文本编辑工具和 bash 工具与计算机使用 “system prompt”（系统提示）解耦：
+* 我们发布了工具的更新版本，将文本编辑器工具和 bash 工具与计算机使用 “system prompt”（系统提示）解耦：
 
   * `bash_20250124`：功能与之前版本相同，但独立于计算机使用。不需要 beta 标头。
   * `text_editor_20250124`：功能与之前版本相同，但独立于计算机使用。不需要 beta 标头。
-  * `computer_20250124`：更新后的计算机使用工具，新增了命令选项，包括 `hold_key`、`left_mouse_down`、`left_mouse_up`、`scroll`、`triple_click` 和 `wait`。此工具需要 `computer-use-2025-01-24` anthropic-beta 标头。 请在[使用 Claude 进行工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)中了解更多信息。
+  * `computer_20250124`：更新后的计算机使用工具，新增了命令选项，包括 `hold_key`、`left_mouse_down`、`left_mouse_up`、`scroll`、`triple_click` 和 `wait`。此工具需要 `computer-use-2025-01-24` beta 标头。
+
+  请在[使用 Claude 进行工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)中了解更多信息。
 
 ### 2025 年 2 月 10 日
 
@@ -781,10 +795,10 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 * 以下功能现已在 Claude API 中可用，无需"beta header"（beta 标头）：
 
-  * [Models API](https://platform.claude.com/docs/zh-CN/api/models/list)：查询可用模型、验证模型 ID，并将["model aliases"（模型别名）](https://platform.claude.com/docs/zh-CN/models/overview)解析为其规范模型 ID。
+  * [Models API](https://platform.claude.com/docs/zh-CN/api/models/list)：查询可用模型、验证模型 ID，并将["model aliases"（模型别名）](https://platform.claude.com/docs/zh-CN/about-claude/models/model-ids-and-versions)解析为其规范模型 ID。
   * [Message Batches API](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)：以标准 API 费用的 50% 异步处理大批量消息。
   * [Token counting API](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting)（令牌计数 API）：在将消息发送给 Claude 之前计算其"token"（令牌）数量。
-  * [Prompt Caching](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)（提示缓存）：通过缓存和重用提示内容，将成本降低多达 90%，并将"latency"（延迟）降低多达 80%。
+  * [提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)：通过缓存和重用提示内容，将成本降低多达 90%，并将"latency"（延迟）降低多达 80%。
   * [PDF support](https://platform.claude.com/docs/zh-CN/build-with-claude/pdf-support)（PDF 支持）：处理 PDF，以分析文档中的文本和视觉内容。
 
 * 我们还发布了新的官方 SDK：
@@ -830,7 +844,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 
 ### 2024 年 10 月 8 日
 
-* Message Batches API 现已推出 beta 版。在 Claude API 中异步处理大批量查询，成本降低 50%。在["batch processing"（批处理）](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)中阅读更多信息。
+* Message Batches API 现已推出 beta 版。在 Claude API 中异步处理大批量查询，成本降低 50%。在[批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)中阅读更多信息。
 * 我们放宽了 Messages API 中对 `user`/`assistant` 轮次顺序的限制。连续的 `user`/`assistant` 消息将被合并为一条消息，而不会报错，并且我们不再要求第一条输入消息必须是 `user` 消息。
 * 我们已弃用 Build 和 Scale 计划，改为提供标准功能套件（以前称为 Build），以及可通过销售团队获得的附加功能。在我们的 [API 定价信息](https://claude.com/platform/api)中阅读更多信息。
 

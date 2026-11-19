@@ -8,7 +8,7 @@
 
 Agent view 通过 `claude agents` 打开，是所有后台会话的一个屏幕：什么正在运行、什么需要你的输入、什么已完成。调度新会话，一目了然地查看它们的状态而不是滚动浏览记录，只在需要时才介入。每个后台会话都是一个完整的 Claude Code 对话，在没有终端连接的情况下继续运行，所以你可以随时打开它、回复并离开。
 
-![终端中的 Agent view。顶部的一行计算等待输入、正在工作和已完成的会话。四个会话分组在'需要输入'、'正在工作'和'已完成'下。每行显示会话的名称、其最新状态或问题以及时间。底部是用于描述新任务的输入和一行键盘提示。](https://mintcdn.com/claude-code/HDAmBwgbrZVk0pOt/images/agent-view-light.png?fit=max\&auto=format\&n=HDAmBwgbrZVk0pOt\&q=85\&s=d6905012bee31f3e6b3920b09c05dd02)
+![终端中的 Agent view。顶部的一行计算等待输入、正在工作和已完成的会话。四个会话分组在'需要输入'、'正在工作'和'已完成'下。每行显示会话的名称、其最新状态或问题以及时间。底部是用于描述新任务的输入和一行键盘提示。](https://mintcdn.com/claude-code/H7YQo-xfDxC94ETh/images/agent-view-light.png?fit=max\&auto=format\&n=H7YQo-xfDxC94ETh\&q=85\&s=f27b570ff81c2a316bef487645b1331c)
 
 当你有多个独立任务 Claude 可以在不需要你观看每一步的情况下处理时，使用 agent view。调度一个 bug 修复、一个拉取请求审查和一个不稳定测试调查作为三行，在另一个窗口中继续工作，当一行显示它需要你或有结果时检查回来。
 
@@ -144,7 +144,7 @@ Completed
 | 形状 | 含义 |
 | :- | :- |
 | `✻` 或动画 `✽` | 会话进程正在运行，或会话需要您的输入 |
-| `∙` | 进程已退出。您仍然可以窥视该行，当您回复或附加时，Claude 会根据其保存的对话重新启动它 |
+| `∙` | 进程已退出。您仍然可以窥视该行，当您回复或按 `Enter` 时，Claude 会根据其保存的对话重新启动它 |
 | `✢` | 一个 [`/loop`](https://code.claude.com/docs/zh-CN/scheduled-tasks) 会话正在迭代之间休眠。该行显示其运行次数和倒计时 |
 
 行右边缘可能出现的 `#N` 或 `!N` 标签是指向会话的[拉取请求或合并请求](#pull-request-status)的链接，不是状态图标的一部分。
@@ -265,7 +265,7 @@ agent view 打开时，当本地后台会话开始需要您的输入、完成或
 
 如果您在删除提示符中最后的文本或浏览提示历史后立即按 `←`，Claude Code 会要求您确认：第一次按下显示 `Press ← again to open agents`（在已附加的会话中显示 `Press ← again to go back to agents`），第二次按下才会切换。
 
-当 `←` 将前台会话转入后台时，agent view 会在列表上方显示 `Your conversation moved to the background`，并已选中该会话的行。接下来：
+用 `←` 将会话转入后台后：
 
 * 按 `Enter` 重新打开对话。
 * 按 `Esc` 撤销切换并返回对话。如果 `Esc` 显示 `Still starting — try again in a moment`，说明后台会话尚未就绪，请稍后再按一次 `Esc`。
@@ -316,7 +316,7 @@ agent view 对会话进行分组，使需要输入的会话位于顶部，`Ready
 * 在组标题上按 `Enter` 将其折叠，但[过滤器](#filter-sessions)处于活动状态时除外，此时所有组都保持展开
 * 按 `Ctrl+X` 停止会话，并在两秒内再按一次 `Ctrl+X` 将其从列表中删除，或按 `Esc` 关闭确认而不删除。即使停止尝试失败（例如因为[后台服务没有响应](#agent-view-says-the-background-service-did-not-respond)），第二次按下也会删除会话。在这种情况下，确认状态会再保持两秒，删除操作会自行结束会话的进程
 
-在组标题上按 `Ctrl+X` 会在确认后删除该组中的所有会话。除了[删除会话会移除什么](#what-deleting-a-session-removes)中所述的保留情况外，删除会将会话从列表中移除。Claude 为其创建的 worktree 会被移除、保留或留在原处，具体取决于您的删除方式以及 worktree 中的内容。对话会话记录保留在您的本地机器上，可通过 `claude --resume` 访问。
+在组标题上按 `Ctrl+X` 会在确认后删除该组中的所有会话，但 Claude Code [拒绝删除](#delete-a-session-after-claude-code-refuses)的会话除外。有关每个会话的 worktree 会如何处理，请参阅[删除会话会移除什么](#what-deleting-a-session-removes)。对话会话记录保留在您的本地机器上，可通过 `claude --resume` 访问。
 
 屏幕容纳不下的已完成会话会折叠成一行 `… N more`。`Completed` 组会填满活跃组之后剩余的垂直空间。在较矮的终端上，标题会压缩为单行摘要，以便正在工作或需要输入的会话保持可见。
 
@@ -375,7 +375,8 @@ agent view 对会话进行分组，使需要输入的会话位于顶部，`Ready
 | `Ctrl+J` | 在分派输入框中插入换行符 |
 | `Ctrl+X` | 停止会话；在两秒内再按一次即可删除 |
 | `Shift+↑` / `Shift+↓` | 重新排序选定的会话 |
-| `Esc` | 关闭窥视面板、清空输入框或退出。当您通过用 `←` 将会话转入后台而打开 agent view 时，最后一次 `Esc` 会返回该对话而不是退出。启用 [vim 编辑器模式](https://code.claude.com/docs/zh-CN/interactive-mode.md#vim-editor-mode)时，在输入框中按 `Esc` 会从 INSERT 模式切换到 NORMAL 模式并保留您的文本，与主提示输入框相同 |
+| `Esc` | 关闭窥视面板、清空输入框或退出。在 Claude Code v2.1.323 或更高版本中，清空提示词需要按两次。当您通过用 `←` 将会话转入后台而打开 agent view 时，最后一次 `Esc` 会返回该对话而不是退出。启用 [vim 编辑器模式](https://code.claude.com/docs/zh-CN/interactive-mode.md#vim-editor-mode)时，在输入框中按 `Esc` 会从 INSERT 模式切换到 NORMAL 模式并保留您的文本，与主提示输入框相同 |
+| `Ctrl+Y` | 在分派输入框中，恢复您上次清空的文本，或用 `Ctrl+K`、`Ctrl+U` 或 `Ctrl+W` 删除的文本。agent view 退出后，该文本将丢失 |
 | `Ctrl+C` | 清空输入框；按两次退出。当屏幕上有选中的文本时，按下该键会改为清除选区；除非[选中时已自动复制](https://code.claude.com/docs/zh-CN/settings-reference.md#copyonselect)，否则会先复制选区 |
 | `?` | 显示快捷键 |
 
@@ -481,7 +482,7 @@ fork 之后，两个对话彼此独立：副本所做的任何事情都不会自
 
 当您将会话转入后台时，每种进行中的后台工作要么继承到后台会话，要么仅在 Claude 于那里重新启动它时才继续，要么停止：
 
-* **继承**：正在运行的后台 shell 命令、已转入后台的子代理、您使用 [`/loop`](https://code.claude.com/docs/zh-CN/scheduled-tasks) 创建的定时任务，以及 Claude 对 [Artifact 评论的自动回复](https://code.claude.com/docs/zh-CN/artifacts.md#let-claude-reply-to-comments-on-its-own) 会在后台会话中继续运行。子代理会与其启动的所有内容一起移动，因此只有当所有这些工作也都能移动时它才会被继承。
+* **继承**：正在运行的后台 shell 命令、已转入后台的子代理，以及您使用 [`/loop`](https://code.claude.com/docs/zh-CN/scheduled-tasks) 创建的定时任务会在后台会话中继续运行。子代理会与其启动的所有内容一起移动，因此只有当所有这些工作也都能移动时它才会被继承。
 * **仅在 Claude 重新启动时继续**：正在运行的 [动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)。如果您查看后台会话时该工作流尚未继续，请 [让 Claude 重新启动它](#dynamic-workflows-when-you-background)。
 * **停止**：无法移到后台会话的工作，例如正在运行的 [monitor](https://code.claude.com/docs/zh-CN/tools-reference.md#monitor-tool)。当有任何此类工作正在运行时，Claude Code 会显示 `Background this session?` 对话框，以便您在它停止工作前确认。拥有 monitor 的已转入后台的子代理会随 monitor 一起停止。
 
@@ -622,48 +623,37 @@ Claude 在以下情况下跳过 worktree：
 
 #### 删除会话会移除什么
 
-在 [Agent 视图](#organize-the-list) 中按两次 `Ctrl+X`，或使用 [`claude rm`](#manage-sessions-from-the-shell) 删除会话。除下述保留的情况外，会话会从列表中移除。其会话记录仍保留在您的机器上，可通过 `claude --resume` 访问，且该移除在主管进程重新启动后依然有效。
+在 [Agent 视图](#organize-the-list) 中按两次 `Ctrl+X`，或使用 [`claude rm`](#manage-sessions-from-the-shell) 删除会话。会话会从列表中消失，除非 Claude Code [拒绝删除它](#delete-a-session-after-claude-code-refuses)。其会话记录仍保留在您的机器上，可通过 `claude --resume` 访问。
 
 Claude 为会话创建的 worktree 会如何处理：
 
 * Agent 视图会移除它，包括未提交的更改，因此请先提交您想保留的内容。
 * 当它有未提交的更改时，`claude rm` 会保留它以及会话行。
-* Agent 视图和 `claude rm` 都不会移除另一个正在运行的会话正在使用或已锁定的 worktree，再次删除也不会改变这一点。Claude Code 会保留 worktree 和会话，并指明保留的目录及原因；在 Agent 视图中，该会话的行会显示 `not deleted`。请关闭另一个会话，然后再次删除。
-* 当您删除的会话的 worktree 中有 Claude Code 无法确认已保存到其他位置的提交时，Claude Code 会保留 worktree 和会话，消息会指明 worktree 的分支以及有多少未推送的提交。消息还提供两种后续做法：推送这些提交，或再次删除以丢弃它们。
 
-  远程上的提交不会阻止删除。您的 `origin` 远程默认分支的本地副本上的提交也不会阻止删除，前提是该分支检出在您的主检出中（即仓库目录本身，而不是 worktree）。
+Claude Code 拒绝删除会话的原因之一是 [其 worktree 中有未推送的提交](https://code.claude.com/docs/zh-CN/errors.md#worktree-has-commits-that-are-not-pushed-anywhere)。要保留这些提交，请在删除会话前推送它们。
 
-  在该拒绝之后，您可以选择：
+无论您使用 Agent 视图还是 `claude rm`，某些 worktree 都会保留在磁盘上：
 
-  * 要保留这些提交，请推送它们，或将它们合并到该默认分支，然后再次删除会话。
-  * 要丢弃它们，请不推送而直接再次删除会话：在 Agent 视图中该会话的行上按两次 `Ctrl+X`，或运行拒绝消息中打印的 `claude rm <id> --discard-unpushed` 命令。这会移除会话和 worktree 及其分支，丢弃未推送的提交和任何未提交的更改。
+* 如果您自己创建了 worktree 并在其中启动了会话，该 worktree 会保留在磁盘上，由您决定保留还是移除。
+* 如果 Claude 在您的仓库内创建的 worktree 目录已不再有其 `.git` 文件，该目录会保留在磁盘上，由您自行移除。该 worktree 的分支会保留在仓库中，因此您会保留该分支上的提交。
 
-  当您再次删除时，Claude Code 只会丢弃拒绝消息中显示的内容：如果此后 worktree 又有了新的提交，Claude Code 会再次保留它并显示更新后的状态。
+##### 在 Claude Code 拒绝后删除会话
 
-  当另一个已完成会话的记录也指向该 worktree 时，再次删除时它仍会被保留；请推送这些提交，然后再次删除。
-* git 已不再识别的 worktree（例如在执行 `git worktree prune` 之后）不会阻止删除。Claude Code 会删除会话，并将目录留在磁盘上。
-* 当 git 或您的 [`WorktreeRemove` hook](https://code.claude.com/docs/zh-CN/hooks#worktreeremove) 未能移除 worktree 时，Claude Code 会保留 worktree 和会话，消息会指明原因。对于 hook，消息会说明它是如何结束的（例如 `exited 1`），并引用其 stderr 的开头部分。消息还会告诉您接下来执行以下哪项操作：
+当 Claude Code 因会话的 worktree 而拒绝删除该会话时，请按照其显示的消息操作。如果消息指出有未推送的提交，请参阅 [Worktree has commits that are not pushed anywhere](https://code.claude.com/docs/zh-CN/errors.md#worktree-has-commits-that-are-not-pushed-anywhere)。
 
-  * 再次删除会话以强制移除目录：在 Agent 视图中该会话的行上按两次 `Ctrl+X`，或运行 `claude rm` 拒绝消息中打印的 `claude rm <id> --force-remove-worktree <worktree-id>` 命令。worktree 的分支会保留在仓库中。
+##### 解决 `Worktree not removed` 消息
 
-    只有当 Claude Code 能确认以下所有条件时才会提供此选项：
+`Worktree not removed` 消息表示 Claude Code 或您的 [`WorktreeRemove` hook](https://code.claude.com/docs/zh-CN/hooks#worktreeremove) 未能完成移除会话的 worktree。请推送所有提交并复制出您想保留的任何文件，然后按照消息操作。
 
-    * 该目录是仓库在 `.claude/worktrees/` 下的链接 worktree 之一
-    * worktree 及其已检出的子模块都没有对已跟踪文件的未提交更改
-    * 没有其他会话的记录指向它
+##### 解决 `files that weren't checked against a repository` 消息
 
-    当 Claude Code 无法验证子模块检出的状态时（例如该子模块被一个单独的 git 仓库替换），也不会提供此选项。
-  * 解决阻碍因素，例如提交或储藏未提交的更改、将单独的 git 仓库移出 worktree、关闭正在使用该目录的程序或修复 hook，然后再次删除会话。
-  * 自行移除该目录，然后再次删除会话。
+`claude rm` 显示的这条消息表示，某个不在任何 git 仓库内、或由 [`WorktreeCreate` hook](https://code.claude.com/docs/zh-CN/hooks#worktreecreate) 管理的 worktree 目录中仍有文件。请复制出您想保留的任何文件，然后根据您的情况执行相应步骤：
 
-您自己创建并在其中启动会话的 worktree 在任何情况下都会保留。
-
-如果会话的 worktree 目录不属于任何 git 仓库（因为仓库已被删除，或 [`WorktreeCreate` hook](https://code.claude.com/docs/zh-CN/hooks#worktreecreate) 在其他位置创建了该目录），该会话仍然可以删除。当目录中仍有文件时：
-
-* Agent 视图在丢弃这些文件前会要求同样按两次 `Ctrl+X`。对于由 hook 创建的目录，它会改为运行您的 [`WorktreeRemove` hook](https://code.claude.com/docs/zh-CN/hooks#worktreeremove)；如果没有该 hook，它会拒绝删除并保留会话。
-* `claude rm` 会保留会话和 worktree，并指明原因。
-
-两种方式都会保留另一个已完成会话的记录所指向的目录。
+| 您的情况 | 操作方法 |
+| :- | :- |
+| 没有 `WorktreeCreate` hook 管理该目录 | 要丢弃这些文件，请在 Agent 视图中该会话的行上按两次 `Ctrl+X`。或者自行移除该目录，然后再次运行 `claude rm <id>` |
+| 有 `WorktreeCreate` hook 管理该目录，且您有 [`WorktreeRemove` hook](https://code.claude.com/docs/zh-CN/hooks#worktreeremove) | 要尝试使用您的 hook 移除该目录，请在 Agent 视图中该会话的行上按两次 `Ctrl+X`。或者自行移除该目录，然后再次运行 `claude rm <id>` |
+| 有 `WorktreeCreate` hook 管理该目录，且您没有 `WorktreeRemove` hook | 自行移除该目录，然后再次运行 `claude rm <id>` |
 
 ### 设置模型、effort 和快速模式
 
@@ -774,7 +764,7 @@ Agent 视图接受与 `claude` 相同的配置标志，用于加载设置、插�
 | [`--add-dir <path>`](https://code.claude.com/docs/zh-CN/permissions#additional-directories-grant-file-access-not-configuration) | 授予对附加目录的文件访问权限 |
 | [`--plugin-dir <path>`](https://code.claude.com/docs/zh-CN/plugins/create#load-a-directory-or-archive-for-one-session) | 从本地目录加载插件 |
 | [`--mcp-config <file-or-json>`](https://code.claude.com/docs/zh-CN/mcp) | 从配置文件或 JSON 字符串加载 MCP 服务器 |
-| `--strict-mcp-config` | 仅使用来自 `--mcp-config` 的 MCP 服务器，忽略其他 MCP 配置。请参阅 [使用 managed-mcp.json 进行独占控制](https://code.claude.com/docs/zh-CN/managed-mcp.md#exclusive-control-with-managed-mcp-json) 了解该标志在托管 MCP 文件下的作用 |
+| `--strict-mcp-config` | 跳过在 `.mcp.json` 等位置配置的 MCP 服务器，并加载您通过 `--mcp-config` 传递的 MCP 服务器。请参阅 [使用 managed-mcp.json 进行独占控制](https://code.claude.com/docs/zh-CN/managed-mcp.md#exclusive-control-with-managed-mcp-json) 了解该标志在托管 MCP 文件下的作用 |
 
 每个值需重复一次 `--add-dir`、`--plugin-dir` 或 `--mcp-config`。`claude agents` 不支持空格分隔的形式，例如 `--add-dir a b c`。
 
@@ -802,9 +792,9 @@ claude agents --settings ./ci-settings.json --add-dir ../shared-lib
 | `claude stop <id>` | 停止会话。也接受 `claude kill` |
 | `claude respawn <id>` | 重新启动会话，运行中或已停止，例如用于获取更新的 Claude Code 二进制文件。具有已保存对话的会话会恢复该对话 |
 | `claude respawn --all` | 重新启动每个运行中的会话，例如一次性将所有会话移至更新的 Claude Code 二进制文件 |
-| `claude rm <id>` | 从列表中删除会话，以及 Claude 为其创建的 worktree（当安全删除时）；参见 [删除会话会删除什么](#what-deleting-a-session-removes)。会话记录保存在您的本地机器上，并且仍然可以通过 `claude --resume` 访问 |
-| `claude rm <id> --discard-unpushed <commit>@<worktree-id>` | 删除因未推送提交而删除被拒绝的会话，丢弃 worktree 及其分支和提交。传递拒绝打印的确切值；参见 [删除会话会删除什么](#what-deleting-a-session-removes)。需要 v2.1.260 或更高版本 |
-| `claude rm <id> --force-remove-worktree <worktree-id>` | 删除因 git 或 `WorktreeRemove` hook 无法删除其 worktree 而删除被拒绝的会话，无论如何删除 worktree 目录并在仓库中保留其分支。传递拒绝打印的确切值；参见 [删除会话会删除什么](#what-deleting-a-session-removes)。需要 v2.1.268 或更高版本 |
+| `claude rm <id>` | 从列表中删除会话，以及 Claude 为其创建的 worktree（当可以安全删除时）。如果 Claude Code 因其 worktree 而拒绝删除该会话，请参见 [在 Claude Code 拒绝后删除会话](#delete-a-session-after-claude-code-refuses)。对话的会话记录保存在您的本地机器上，并且仍然可以通过 `claude --resume` 访问 |
+| `claude rm <id> --discard-unpushed <commit>@<worktree-id>` | 在 Claude Code 因未推送的提交而拒绝后，再次尝试删除会话并丢弃其 worktree。从提供该命令的 `claude rm` 消息中复制命令；参见 [Worktree has commits that are not pushed anywhere](https://code.claude.com/docs/zh-CN/errors.md#worktree-has-commits-that-are-not-pushed-anywhere)。需要 v2.1.260 或更高版本 |
+| `claude rm <id> --force-remove-worktree <worktree-id>` | 在 Claude Code 因无法删除 worktree 而拒绝后，再次尝试删除会话，并无论如何删除其 worktree 目录。从提供该命令的 `claude rm` 消息中复制命令；参见 [解决 `Worktree not removed` 消息](#resolve-a-worktree-not-removed-message)。需要 v2.1.268 或更高版本 |
 | `claude daemon status` | 打印 [supervisor](#the-supervisor-process) 的状态、版本、socket 目录和 worker 数量 |
 | `claude daemon logs` | 跟踪 supervisor 的日志文件 [`~/.claude/daemon.log`](#where-state-is-stored)，在新行到达时将其打印出来，直到您按下 `Ctrl+C` |
 | `claude daemon stop --any` | 停止 supervisor 进程及其托管的后台会话。传递 `--keep-workers` 以保持后台会话运行，以便[下一个 supervisor](#the-supervisor-process) 重新连接到它们。下一个 `claude agents` 或 `claude --bg` 启动一个新的 supervisor |
@@ -912,11 +902,11 @@ Background sessions still running will stop in about a minute. Run 'claude agent
 
 ### 后台处理显示 `Background this session?` 对话框
 
-当您按 `←` 来后台处理某个会话时，如果出现 `Background this session?` 对话框，说明该会话有正在进行的后台工作，这些工作会被停止、被中断或在无人值守的情况下继续运行：
+当您按 `←` 来后台处理某个会话时，如果出现 `Background this session?` 对话框，说明该会话有正在进行的后台工作，这些工作会被停止或被中断：
 
 * **无法移动的工作**：该会话有无法移动到后台会话的工作，例如正在运行的[监视器](https://code.claude.com/docs/zh-CN/tools-reference.md#monitor-tool)。对话框列出 Claude Code 会停止的后台工作，并另外计算会转移的任务数。
 * **具有运行子代理的工作流**：[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)仍然有子代理在运行。如果您仍然进行后台处理，这些子代理会停止，对话框会说明有多少个。当 Claude [在后台会话中重新启动该工作流](#dynamic-workflows-when-you-background)时，它们会从头开始。
-* **自动 Artifact 回复**：Claude [自动回复 Artifact 上的评论](https://code.claude.com/docs/zh-CN/artifacts.md#let-claude-reply-to-comments-on-its-own)。这些回复在后台会话中继续，对话框会说明这一点。
+* **自动 Artifact 回复**：Claude [自动回复 Artifact 上的评论](https://code.claude.com/docs/zh-CN/artifacts.md#let-claude-reply-to-comments-on-its-own)。如果您仍然进行后台处理，这些回复会停止。
 
 运行 `/tasks` 来查看正在运行的所有内容，然后确认后台处理或选择 `Stay` 来让工作先完成。请参阅[后台处理时转移的内容](#what-carries-over-when-you-background)，了解哪些类型的工作会转移，哪些 Claude Code 会停止。
 
@@ -935,18 +925,20 @@ Claude 会看到此通知并自行回复，因此您无需提示它。如果阅�
 关闭或重新启动您的机器会停止运行的后台会话。等待您输入的会话在您返回时仍会显示在 `Needs input` 下。对于任何其他运行的会话，Agent 视图显示的内容取决于它上次取得进展的时间：
 
 * 在 48 小时内，会话显示为失败。附加或回复它，它会从其保存的对话重新启动。要继续被中断的工作，请向它发送一条回复，要求它继续。
-* 超过 48 小时，例如机器关闭数天后，会话显示为已停止，并显示 `ended while the background service was off`。在该行上按 `Enter`，页脚会显示 `Press enter again to resume this session (it ended while the background service was off), or ctrl+x to delete it.` 在同一行上再次按 `Enter` 来恢复其保存的对话。回复或 `claude attach <id>` 会在没有该页脚提示的情况下恢复它。
+* 超过 48 小时，例如机器关闭数天后，会话显示为已停止，并显示 `ended while the background service was off`。
 
-当[会话记录清理](https://code.claude.com/docs/zh-CN/settings-reference.md#cleanupperioddays)删除了已停止会话的保存对话时，Claude Code 拒绝打开该行：消息说没有可恢复的内容。`claude rm <id>` 删除该行，除了上文[保留的情况](#what-deleting-a-session-removes)中描述的情况，`claude respawn <id>` 再次运行其原始提示词。请参阅[此会话的保存对话不再在磁盘上](https://code.claude.com/docs/zh-CN/errors.md#this-sessions-saved-conversation-is-no-longer-on-disk)。
+  在该行上按 `Enter`，页脚会显示 `Press enter again to resume this session (it ended while the background service was off), or ctrl+x to remove it.` 在同一行上再次按 `Enter` 来恢复其保存的对话。回复或 `claude attach <id>` 会在没有该页脚提示的情况下恢复它。
+
+当[会话记录清理](https://code.claude.com/docs/zh-CN/settings-reference.md#cleanupperioddays)删除了已停止会话的保存对话时，Claude Code 拒绝打开该行：消息说没有可恢复的内容。`claude rm <id>` 会删除该行（除非 [Claude Code 拒绝删除](#what-deleting-a-session-removes)），`claude respawn <id>` 再次运行其原始提示词。请参阅[此会话的保存对话不再在磁盘上](https://code.claude.com/docs/zh-CN/errors.md#this-sessions-saved-conversation-is-no-longer-on-disk)。
 
 仅睡眠不会停止会话。会话在睡眠中被保留，主管在唤醒时重新连接到它们。
 
 ### 打开会话说对话已经打开
 
-两个进程不能写入同一个会话记录。当已停止会话的保存对话已在另一个活跃的 Claude Code 进程中打开时，Claude Code 拒绝启动该会话自己的进程。您看到的内容取决于什么持有对话：
+以下消息表示此机器上的另一个 Claude Code 进程已打开该已停止会话的保存对话，因此 Agent 视图和 `claude attach` 不会打开该会话：
 
-* 您恢复对话的终端，例如使用 `claude --resume` 或 `/resume`：该行显示 `Open in a terminal`，并提示在那里继续，打开该行显示 `Can't open — this session is running in another terminal`。在该终端中继续，或退出它并再次打开该行。
-* 另一个非交互式 Claude Code 进程，例如同一对话的后台会话进程，尚未退出：打开该行显示 `This conversation is already open in another running Claude session`。使用该进程，或等待它退出并再次打开该行。
+* `Can't open — this session is running in another terminal`：另一个进程已打开该对话，例如一次 `claude -p` 运行，或您在其中恢复该对话的终端。请在该终端中继续，或退出该进程或等待其完成，然后再次打开该会话。
+* `This conversation is already open in another running Claude session`：另一个后台会话已打开该对话。请使用该会话，或停止它，然后再次打开此会话。
 
 Claude Code 保存您在被拒绝的尝试中输入的回复（以 `!` 或 `/` 开头的回复除外），并在会话下次启动时发送它。
 
@@ -971,9 +963,11 @@ Claude Code 永远不会重新启动运行[shell 命令](#run-a-shell-command)�
 
 当后台会话的进程在完成启动之前退出，且主机内存不足时，该行的状态命名退出并添加 `possibly low memory — free some up and retry`。
 
-该注释是一个假设，而不是确认的原因。Claude Code 仅在进程无声退出时添加它，没有写入错误，也没有被信号停止，且主机在那一刻报告内存不足。当进程在退出前确实写入了错误时，该行显示该错误。
+> [!NOTE]
+>
+> 该注释是一个假设，而不是确认的原因。Claude Code 仅在进程无声退出时添加它，没有写入错误，也没有被信号停止，且主机在那一刻报告内存不足。当进程在退出前确实写入了错误时，该行显示该错误。
 
-释放机器上的内存，然后附加或回复该行，主管为会话启动新进程。当内存保持不足时，主管也会[停止空闲会话](#the-supervisor-process)来自行释放资源，如果停止其他会话没有释放任何内容，也会停止空闲的固定会话。
+释放主机上的内存，然后在该行上按 `Enter`，如果[页脚提示](#opening-a-session-says-it-has-no-saved-transcript)，请再按一次。[主管](#the-supervisor-process)会为该会话启动新进程。当内存保持不足时，主管也会[停止空闲会话](#the-supervisor-process)来自行释放资源，如果停止其他会话没有释放任何内容，也会停止空闲的固定会话。
 
 ### Agent 视图说后台服务没有响应
 
@@ -1034,9 +1028,9 @@ claude daemon stop --any --keep-workers
 
 ### `.claude/worktrees/` 正在填满
 
-在 Agent 视图中删除会话会删除 Claude 为其创建的 worktree，但[某些删除会保留 worktree 或在磁盘上留下其目录](#what-deleting-a-session-removes)，所以剩余目录可能会累积。Git 不再识别的目录不会出现在 `git worktree list` 中，所以手动删除这些目录。
+在 Agent 视图中删除会话会删除 Claude 为其创建的 worktree，但[某些 worktree 目录会保留在磁盘上](#what-deleting-a-session-removes)。Git 不再识别的目录不会出现在 `git worktree list` 中，所以请手动删除这些目录。
 
-在项目目录中使用 `git worktree list` 列出剩余条目，并使用 `git worktree remove <path>` 删除每一个。请参阅[清理 worktrees](https://code.claude.com/docs/zh-CN/worktrees.md#clean-up-worktrees)。
+在项目目录中使用 `git worktree list` 列出剩余条目，并使用 `git worktree remove <path>` 删除每一个。如果 Git 拒绝删除，请参阅[清理子代理和后台会话的 worktree](https://code.claude.com/docs/zh-CN/worktrees.md#clean-up-subagent-and-background-session-worktrees)。
 
 ## 限制
 
@@ -1044,7 +1038,7 @@ Agent view 处于研究预览阶段，存在以下限制：
 
 * **速率限制适用**：后台会话消耗你的订阅使用量，与交互式会话相同，因此并行运行十个代理的配额消耗速度大约是运行一个代理的十倍。
 * **会话是本地的**：后台会话在你的机器上运行。它们在机器睡眠时保留，但在机器关闭时停止。
-* **Claude 创建的 worktrees 在 agent view 中随会话删除**：在删除在其自己的 worktree 中编辑文件的会话之前，请提交更改。[某些删除会保留 worktree](#what-deleting-a-session-removes)。
+* **Claude 创建的 worktree 在 agent view 中随会话删除**：在删除在其自己的 worktree 中编辑文件的会话之前，请提交更改。[某些 worktree 会保留在磁盘上](#what-deleting-a-session-removes)。
 
 ## 相关资源
 
@@ -1062,6 +1056,7 @@ Agent view 在研究预览期间发展迅速。如果您使用的是较旧的 Cl
 
 | 版本 | 更改 |
 | - | - |
+| v2.1.323 | 在 agent view 的输入框中，[`Ctrl+Y`](#keyboard-shortcuts) 会恢复已清除的文本。 |
 | v2.1.299 | [调度输入框中的 `/effort` 和 `/fast`](#set-the-model-effort-and-fast-mode) 会为您接下来调度的会话设置 effort 级别和快速模式。键入不带值的 `/model`、`/effort` 或 `/fast` 会打开选择器。 |
 | v2.1.299 | Claude Code 仅在任何单独的 `--` 分隔符之前、且不在其他标志的值中时，才[将 `--bg` 和 `--background` 识别为该标志](#from-your-shell)，对于位置有歧义的情况会拒绝而不是猜测。在此版本之前，发送给后台会话的内容为 `--bg` 或 `--background` 的提示词或回复可能会被当作该标志。这可能会反复启动新的后台会话，而不是投递该文本。 |
 | v2.1.296 | 您[在会话移到后台时](#switch-sessions-without-leaving-the-terminal)输入的提示词或 `!` shell 命令会被停止或保持未发送状态，其文本会保留在提示词历史中。在此版本之前，回复或命令会在您看不到的地方继续运行，并且在 `←` 之后立即发送的提示词可能会在您看不到的情况下运行第二次。在 `SessionStart` hook 仍在运行时键入的提示词会丢失：既不会发送，也不会出现在提示词历史中。 |
@@ -1109,7 +1104,7 @@ Agent view 在研究预览期间发展迅速。如果您使用的是较旧的 Cl
 | v2.1.246 | `/fork` 会从本身作为副本启动且此后未记录新提示词的会话中[复制完整对话](#copy-the-session-with-%2Ffork)：您附加到的 `/fork` 副本、在 `←` 或 `/background` 将其移到后台后重新附加的会话，或使用 `claude --resume <id> --fork-session` 启动的会话。在此版本之前，如果您在向此类会话发送新提示词之前运行 `/fork`，Claude Code 会打印正常的确认信息，但以空对话启动副本。使用 `←` 或 `/background` 将此类会话移到后台也会以同样方式丢失对话。 |
 | v2.1.246 | 当您在刚调度的会话的工作进程仍在启动时打开它（例如在其行上按 `Enter`），Claude Code 会等待进程启动后再附加。在此版本之前，如果您在进程仍在启动时按 `Enter`，Claude Code 可能会停止会话并显示 [`Session <id> was stopped while the respawn was in flight`](https://code.claude.com/docs/zh-CN/errors#session-was-stopped-while-the-respawn-was-in-flight)。 |
 | v2.1.246 | 当您将已命名的会话[移到后台](#from-inside-a-session)时，Claude Code 只列出它一次；当您再次将同一对话移到后台时，它会为新行的名称编号，例如 `my-session (2)`，现有行保留其名称。在此版本之前，您按 `←` 的终端可能会在 `claude agents --json` 中显示为同名的第二个会话，如果您再次将同一对话移到后台，Claude Code 会以完全相同的名称添加另一行。 |
-| v2.1.239 | 启用 [vim 编辑器模式](https://code.claude.com/docs/zh-CN/interactive-mode.md#vim-editor-mode)时，在 agent view 的输入框中按 `Esc` 会从 INSERT 切换到 NORMAL 模式并保留您的文本，与主输入框一致；在 NORMAL 模式下输入框中仍有文本时，按 `Esc` 会清除文本，在空输入框上按 `Esc` 会退出，如 [`Esc` 快捷键](#keyboard-shortcuts)所述。在此版本之前，`Esc` 会清除输入框。 |
+| v2.1.239 | 启用 [vim 编辑器模式](https://code.claude.com/docs/zh-CN/interactive-mode.md#vim-editor-mode)时，在 agent view 的输入框中按 `Esc` 会从 INSERT 切换到 NORMAL 模式并保留您的文本，与主输入框一致。在此版本之前，`Esc` 会清除输入框。 |
 | v2.1.233 | 对于链接到 GitLab 合并请求的会话，Claude Code 会以 GitLab 的 `!1234` 引用语法写入该行的标签。您也可以将合并请求的 URL 粘贴到[调度输入框](#filter-sessions)中以选择该会话。在此版本之前，标签显示为 `#1234`，并且粘贴的合并请求 URL 仅在会话的第一个提示词包含该 URL 时才能匹配到会话。 |
 | v2.1.227 | 当另一个活跃的 Claude Code 会话正在某个 worktree 目录内运行时，[删除会话](#what-deleting-a-session-removes)会保留该会话及其 worktree。Agent view 会在行上显示 `not deleted` 并在页脚中显示原因，`claude rm` 会打印 `kept <id>` 及原因，其中会指明另一个会话的进程 ID。在此版本之前，即使另一个会话仍在其中工作，删除会话也会删除 worktree。 |
 | v2.1.225 | 在您尚未信任的目录中运行 `claude agents` 时，会在 agent view 打开之前显示与 `claude` 启动时相同的[工作区信任对话框](https://code.claude.com/docs/zh-CN/permissions.md#project-allow-rules-and-workspace-trust)。接受会保存该工作区的信任；拒绝则退出而不打开 agent view。在此版本之前，`claude agents` 会在不询问的情况下打开，因此您从中调度的会话会在您从未被要求信任的目录中运行。 列表按目录分组时，将鼠标悬停在某行上会突出显示该行，而不会更改[调度目标](#dispatch-to-a-specific-directory)；使用箭头键或点击选择行仍会更改目标。在此版本之前，将鼠标移到另一个项目中的会话上，会在不提示的情况下更改下一个调度会话的启动目录。 |

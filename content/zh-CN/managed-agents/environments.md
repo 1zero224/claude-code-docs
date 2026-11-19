@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -179,7 +179,7 @@ featureMetadata:
 
 ## 在会话中使用环境
 
-在[创建会话](https://platform.claude.com/docs/zh-CN/managed-agents/sessions)时，以字符串形式传入环境 ID。
+在创建会话时，以字符串形式传入环境 ID（请参阅[启动会话](https://platform.claude.com/docs/zh-CN/managed-agents/sessions)）。
 
 <CodeGroup>
   ```bash cURL
@@ -258,7 +258,7 @@ featureMetadata:
 
 ### 软件包
 
-`packages` (csharp, go: `Packages`) 字段会在智能体启动之前将软件包预安装到沙箱中。软件包由各自的包管理器安装，并在共享同一环境的会话之间缓存。当指定了多个包管理器时，它们按字母顺序运行（apt、cargo、gem、go、npm、pip）。您可以选择固定特定版本。未固定版本的软件包会安装最新版本。如果环境使用 `limited` [网络](https://platform.claude.com/docs/zh-CN/managed-agents/environments#networking)，还需将 `networking` (csharp, go: `Networking`) 中的 `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 设置为 `true`；否则请求会被拒绝并返回 400 错误。
+`packages` (csharp, go: `Packages`) 字段会在智能体使用沙箱之前将软件包安装到沙箱中。包管理器按字母顺序运行（apt、cargo、gem、go、npm、pip）。您可以固定特定版本。如果环境使用 `limited` [网络](https://platform.claude.com/docs/zh-CN/managed-agents/environments#networking)，还需将 `networking` (csharp, go: `Networking`) 中的 `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 设置为 `true`；否则，API 会拒绝该请求并返回 400 错误。
 
 <CodeGroup defaultLanguage="CLI">
   ```bash cURL
@@ -609,16 +609,16 @@ featureMetadata:
 </CodeGroup>
 
 <Info>
-  请使用 `limited` 网络并配合显式的 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 列表。遵循最小权限原则，仅授予智能体所需的最低网络访问权限，并定期审核您允许的域名。
+  请使用 `limited` 网络并配合显式的 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 列表。遵循最小权限原则，仅授予智能体所需的最低网络访问权限，并定期审核您允许的主机。
 </Info>
 
 使用 `limited` 网络且未设置其他字段时，不允许任何主机。您附加到会话的文件、记忆存储和 GitHub 仓库仍然可用。当沙箱在端口 80 或 443 上发出的请求因其主机不被允许而遭拒时，响应为 403，并会指明被阻止的主机。
 
 使用 `limited` 网络时：
 
-* `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 指定沙箱可以访问的域名。请指定裸主机名或通配符模式（例如 `*.example.com`）。不要包含 URL 协议、端口或路径。裸主机名仅匹配该确切主机：`example.com` 不匹配 `www.example.com`。`*.example.com` 匹配 `example.com` 的所有子域名，但不匹配 `example.com` 本身。
+* `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 指定沙箱可以访问的主机。请指定裸主机名或通配符模式（例如 `*.example.com`）。不要包含 URL 协议、端口或路径。裸主机名仅匹配该确切主机：`example.com` 不匹配 `www.example.com`。`*.example.com` 匹配 `example.com` 的所有子域名，但不匹配 `example.com` 本身。
 * `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 允许对智能体上配置的 MCP 服务器端点进行出站访问，这些端点不限于 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 数组中列出的主机。默认为 `false`。当其为 `false` 时，如果智能体声明的 MCP 服务器的主机不在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中，会话创建将失败并返回 400 错误。这同样适用于[它可以委派任务的智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)。要解决此问题，请将该主机添加到 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`)，或将 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 设置为 `true`。
-* `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 允许对一组公共包注册表和代码托管站点进行出站访问，这些主机不限于 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 数组中列出的主机。有关列表，请参阅[包管理器主机](https://platform.claude.com/docs/zh-CN/managed-agents/environments#package-manager-hosts)。默认为 `false`。只要环境指定了 `packages` (csharp, go: `Packages`)，就请将其设置为 `true`；否则请求会被拒绝并返回 400 错误，即使注册表主机已列在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中也是如此。
+* `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 允许对一组公共包注册表和代码托管站点进行出站访问，这些主机不限于 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 数组中列出的主机。有关列表，请参阅[包管理器主机](https://platform.claude.com/docs/zh-CN/managed-agents/environments#package-manager-hosts)。默认为 `false`。只要环境指定了 `packages` (csharp, go: `Packages`)，就请将其设置为 `true`。否则，API 会拒绝该请求并返回 400 错误，即使 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 已列出注册表主机也是如此。
 
 #### 包管理器主机
 
@@ -669,7 +669,7 @@ featureMetadata:
 
 ## 环境生命周期
 
-* 环境会一直保留，直到被显式归档或删除。
+* 环境会一直保留，直到您将其归档或删除。
 * 每个会话都会获得自己的沙箱实例，即使多个会话引用同一个环境也是如此。会话之间不共享文件系统状态。
 * 环境不进行版本管理。如果您频繁更新环境，请自行记录变更，以便了解每个会话使用的是哪种配置。
 
@@ -814,7 +814,7 @@ featureMetadata:
 
 ## 预安装的运行时
 
-云沙箱开箱即包含常用的语言运行时、数据库和命令行工具。完整列表请参阅[云沙箱参考](https://platform.claude.com/docs/zh-CN/managed-agents/cloud-sandboxes-reference)。
+云沙箱包含常用的语言运行时、数据库和命令行工具。完整列表请参阅[云沙箱参考](https://platform.claude.com/docs/zh-CN/managed-agents/cloud-sandboxes-reference)。
 
 ## 后续步骤
 
@@ -854,10 +854,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

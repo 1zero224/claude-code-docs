@@ -16,7 +16,7 @@ resource template (identified by URI), servers can provide contextual suggestion
 > `io.modelcontextprotocol/clientInfo`, and
 > `io.modelcontextprotocol/clientCapabilities`). Every request **MUST** include
 > the required `_meta` fields; see
-> [`_meta`](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#meta).
+> [`_meta`](https://modelcontextprotocol.io/specification/2026-07-28/basic/index#_meta).
 
 ## User Interaction Model
 
@@ -212,3 +212,6 @@ Implementations **MUST**:
 * Implement appropriate rate limiting
 * Control access to sensitive suggestions
 * Prevent completion-based information disclosure
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

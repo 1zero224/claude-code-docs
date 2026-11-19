@@ -94,7 +94,7 @@ For the install, configuration, and launch steps, see [Set up and launch the run
 
 1. **Same-host kernel**: Unlike VMs, sandboxed processes share the host kernel. A kernel vulnerability could theoretically enable escape. For some threat models this is acceptable, but if you need kernel-level isolation, use gVisor or a separate VM.
 
-2. **No TLS inspection**: By default, the proxy allowlists domains based on the client-supplied hostname and doesn't terminate or inspect encrypted traffic. Code running inside the sandbox can potentially use [domain fronting](https://en.wikipedia.org/wiki/Domain_fronting) or similar techniques to reach hosts outside the allowlist. If your threat model requires stronger guarantees, use a TLS-terminating proxy that inspects traffic, as [Traffic forwarding](#traffic-forwarding) describes. For more information, see the [sandboxing security limitations](https://code.claude.com/docs/en/sandboxing.md#security-limitations).
+2. **No TLS inspection**: By default, the proxy enforces the allowlist based on the client-supplied hostname and doesn't terminate or inspect encrypted traffic. Code running inside the sandbox can potentially use [domain fronting](https://en.wikipedia.org/wiki/Domain_fronting) or similar techniques to reach hosts outside the allowlist. If your threat model requires stronger guarantees, use a TLS-terminating proxy that inspects traffic, as [Traffic forwarding](#traffic-forwarding) describes. For more information, see the [sandboxing security limitations](https://code.claude.com/docs/en/sandboxing.md#security-limitations).
 
 3. **Credentials for allowed domains**: If the agent has permissive credentials for an allowed domain, ensure it cannot use that domain to trigger other network requests or to exfiltrate data.
 
@@ -117,7 +117,7 @@ docker run \
   --network none \
   --memory 2g \
   --cpus 2 \
-  --pids-limit 100 \
+  --pids-limit 600 \
   --user 1000:1000 \
   -v /path/to/code:/workspace:ro \
   -v /var/run/proxy.sock:/var/run/proxy.sock:ro \
@@ -135,7 +135,7 @@ Here's what each option does:
 | `--tmpfs /tmp:...` | Provides a writable temporary directory that's cleared when the container stops |
 | `--network none` | Cuts the container off from external networks |
 | `--memory 2g` | Limits memory usage to prevent resource exhaustion |
-| `--pids-limit 100` | Limits process count to prevent fork bombs |
+| `--pids-limit 600` | Limits processes and threads to prevent fork bombs |
 | `--user 1000:1000` | Runs as a non-root user |
 | `-v ...:/workspace:ro` | Mounts code read-only so the agent can analyze but not modify it. **Avoid mounting sensitive host directories like `~/.ssh`, `~/.aws`, or `~/.config`** |
 | `-v .../proxy.sock:...` | Mounts a Unix socket connected to a proxy running outside the container (see below) |

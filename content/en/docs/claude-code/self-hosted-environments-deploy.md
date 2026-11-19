@@ -117,7 +117,7 @@ With either flag set, the runner starts a listener of its own and sends proxy tr
 
 * **Listener**: the listener is a forward proxy on `127.0.0.1`. The runner starts the listener before registering with the control plane, and exits at startup if the listener can't start.
 * **Proxy variables**: the runner rewrites whichever of `HTTPS_PROXY` and `HTTP_PROXY` you set so that it points at the listener. That rewritten value reaches the runner itself, its lifecycle hooks, and every session it runs.
-* **Token rotation**: a rotated token takes effect without a restart. For each connection the listener opens to your proxy, the runner runs your command or reads your file again and adds the result as the header.
+* **Token rotation**: when you rotate the token, new connections carry the new one without a runner restart. For each connection the listener opens to your proxy, the runner runs your command or reads your file again and adds the result as the header. A connection that's already open stays usable with the old token until your proxy closes it or the runner exits.
 * **Session environment**: a session reaches your proxy only through the listener. In each session's environment the runner removes `ALL_PROXY`, removes any spelling of `HTTPS_PROXY` or `HTTP_PROXY` that you didn't set, and pins `NO_PROXY` to the runner's own value.
 * **Logs**: the runner never logs the header value.
 
@@ -744,7 +744,7 @@ Each session's child process runs the runner's own binary by default, and the ru
 Choose which version your sessions run and when it changes:
 
 * **Before you pin a version**: check [the Claude Code versions that models require](https://code.claude.com/docs/en/model-config.md#available-models) for every model your sessions use. If a model requires a newer version than the one your sessions run, the server rejects requests for that model with [Claude Code does not support this model](https://code.claude.com/docs/en/errors.md#claude-code-does-not-support-this-model).
-* **To hold a fleet on one version**: build the image with a pinned version, or on a bare host install a specific version and [disable auto-updates](https://code.claude.com/docs/en/setup.md#disable-auto-updates)
+* **To hold a fleet on one version**: build the image with a pinned version, or on a bare host [install a specific version](https://code.claude.com/docs/en/setup.md#install-a-specific-version) and [disable auto-updates](https://code.claude.com/docs/en/setup.md#disable-auto-updates)
 * **To upgrade a fixed fleet**: read the [changelog](https://code.claude.com/docs/en/changelog.md) entries between your version and the one you're installing, then install the newer version or rebuild the image and restart the runners
 * **To upgrade on-demand runners**: read the [changelog](https://code.claude.com/docs/en/changelog.md) entries between your version and the one you're installing, then change the image your [`spawn-runner` hook](https://code.claude.com/docs/en/self-hosted-environments-configuration#the-spawn-runner-hook) starts. Each new runner gets the new version. A runner that's already up, including a standby runner that [`--min-idle`](https://code.claude.com/docs/en/self-hosted-environments-reference#orchestrator-cli-flags) started, keeps its version until it exits. Don't restart it, because its work order is single-use.
 * **If sessions start a different binary**: if you use [`--exec-path`](https://code.claude.com/docs/en/self-hosted-environments-reference#runner-cli-flags) or a [`command` hook](https://code.claude.com/docs/en/self-hosted-environments-configuration#command) to start a Claude Code binary other than the runner's own, sessions run that binary's version. Update that binary when you update the runner.
@@ -840,13 +840,19 @@ If tool traffic must stay inside your network, run the equivalent tools as local
 
 ### Some sessions don't count as idle
 
-A session holding a background task that keeps running doesn't count as idle, so `--release-idle-session-min` won't release that session's slot. A session that's waiting on an approval requested from inside a running tool call also doesn't count as idle. Set `--kill-session-after-min` alongside it as a hard backstop.
+While a session doesn't count as idle, it keeps its slot past the `--release-idle-session-min` limit, so also set `--kill-session-after-min`.
+
+A session counts as idle after its turn ends or while its turn waits on its user, but not in cases such as these:
+
+* Its turn has ended and it isn't waiting on its user, but a background task keeps running
+* Its turn waits on an approval that a non-MCP tool requests while that tool runs
+* Its turn waits on an MCP server's [`elicitation/create` request](https://code.claude.com/docs/en/mcp#respond-to-mcp-elicitation-requests)
 
 `--kill-session-after-min` is a backstop for runaway sessions. On a runner on v2.1.260 or later, a session that reaches the limit isn't terminated outright. The runner gives it a grace window, 15 minutes by default, which you can change with [`SELF_HOSTED_RUNNER_MAX_LIFETIME_GRACE_MS`](https://code.claude.com/docs/en/self-hosted-environments-reference#environment-variable-only-settings):
 
 * If the session is waiting on its user, the runner releases it. If its turn has ended and it holds only background tasks, the runner waits up to 60 seconds for those tasks to finish and then releases it. The session resumes when its user sends their next message.
 * If a turn is still running, the runner waits for the turn to finish, or for the session to next wait on its user, and then releases it.
-* If the session is still on the runner when the grace window ends, the runner terminates it, and any running turn's work is lost. A turn waiting on an approval requested from inside a running tool call is one way a session outlasts the window.
+* If the session is still on the runner when the grace window ends, the runner terminates it, and any running turn's work is lost. For example, a session can stay on the runner until then if its turn waits on an approval that a non-MCP tool requests while that tool runs. A session can also stay there while its turn waits on an MCP server's `elicitation/create` request.
 
 A released session resumes from a fresh clone, so work it hadn't pushed is gone either way; see [Resumed sessions lose unpushed work](#resumed-sessions-lose-unpushed-work). Before v2.1.260, the runner terminated every session at the limit, after waiting at most the grace window for a running turn to finish.
 

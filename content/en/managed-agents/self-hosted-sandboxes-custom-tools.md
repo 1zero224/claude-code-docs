@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: Sessions are stateful resources; transcripts persist until you delete them. Applies to all Managed Agents sub-features, including Self-hosted sandboxes.
+    note: Not eligible for ZDR, except for self-hosted Managed Agents. Sessions are stateful resources; transcripts persist until you delete them.
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -34,7 +34,6 @@ featureMetadata:
   supportedPlatforms:
     Claude API: beta
     Claude Platform on AWS: beta
-    Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
 [Custom tools](https://platform.claude.com/docs/en/managed-agents/tools#custom-tools) are tools your own code runs: the agent emits an `agent.custom_tool_use` event and waits for a matching `user.custom_tool_result`. Your worker can be that code. Because it runs inside your sandbox, the tool reaches the internal services, credentials, and network egress you configured for the sandbox, and nothing more.
@@ -42,7 +41,7 @@ featureMetadata:
 The environment key authorizes posting custom tool results, so your Claude API key stays off the worker host.
 
 <Note>
-  Serving custom tools requires the SDK worker. The `ant` CLI worker has no way to register a custom tool implementation. In the sandbox-per-session pattern, [run the SDK worker inside the sandbox](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-workers#run-the-sdk-worker-inside-the-sandbox).
+  To serve custom tools, you need the SDK worker. The `ant` CLI worker has no way to register a custom tool implementation. In the sandbox-per-session pattern, [run the SDK worker inside the sandbox](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-per-session#run-the-sdk-worker-inside-the-sandbox).
 </Note>
 
 ## Serve a custom tool
@@ -68,9 +67,17 @@ The environment key authorizes posting custom tool results, so your Claude API k
   </Step>
 
   <Step title="Register the implementation with the worker">
-    Pass the tool through the worker’s `tools` (go: `ToolsFunc`) factory (see [`EnvironmentWorker`](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-reference#environment-worker)), alongside the built-in toolset:
+    This step uses [`EnvironmentWorker`](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-reference#environment-worker), which only the Python, TypeScript, and Go SDKs have. Pass the tool alongside the built-in toolset through the worker’s `tools` (go: `ToolsFunc`) factory. The samples use `/workspace` as the working directory, which must exist before the worker starts. [Run an always-on worker](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-workers#run-an-always-on-worker) says how to create the directory and what to use on macOS.
 
     <CodeGroup exclude="shell, csharp, java, php, ruby">
+      <CodeGroupItem language="cURL">
+        A worker is a long-running process, not a single HTTP request. To serve custom tools, use `EnvironmentWorker` in the Python, TypeScript, or Go SDK.
+      </CodeGroupItem>
+
+      <CodeGroupItem language="CLI">
+        The `ant` CLI worker can’t serve custom tools. Use `EnvironmentWorker` in the Python, TypeScript, or Go SDK.
+      </CodeGroupItem>
+
       ```python Python
       import asyncio
       import os
@@ -216,7 +223,7 @@ The environment key authorizes posting custom tool results, so your Claude API k
   </Step>
 </Steps>
 
-The worker answers only the tools registered with it. If a tool is declared on the agent but no worker or client serves it, the session pauses with a `requires_action` stop reason. It stays paused until something posts the result. See [Answer tool calls that pause the session](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session) for the event flow.
+The worker answers only the tools registered with it. If you declare a tool on the agent but no worker or client serves it, the session pauses with a `requires_action` stop reason. It stays paused until something posts the result. See [Answer tool calls that pause the session](https://platform.claude.com/docs/en/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session) for the event flow.
 
 ## Wrap an MCP server as custom tools
 
@@ -243,6 +250,14 @@ The examples connect without authentication. To send credentials, configure the 
     List the MCP server’s tools and declare each one as a `custom` tool. The MCP `name`, `description`, and `inputSchema` map one to one onto the custom tool’s fields. If the server paginates its tool list, declare every page; the worker must list the same pages.
 
     <CodeGroup exclude="shell">
+      <CodeGroupItem language="cURL">
+        Listing an MCP server’s tools and declaring each one needs more logic than a single shell command. Use an MCP SDK and the Anthropic SDK to run it.
+      </CodeGroupItem>
+
+      <CodeGroupItem language="CLI">
+        Listing an MCP server’s tools and declaring each one needs more logic than a single shell command. Use an MCP SDK and the Anthropic SDK to run it.
+      </CodeGroupItem>
+
       ```python Python
       import asyncio
       from typing import Any, cast
@@ -672,9 +687,19 @@ The examples connect without authentication. To send credentials, configure the 
   </Step>
 
   <Step title="Serve the tools from the worker">
-    Connect to the same MCP server at startup, convert its tools with `async_mcp_tool()` (typescript: `mcpTools()`; go: `mcp.NewBetaTools()`), and register them alongside `beta_agent_toolset_20260401()` (typescript: `betaAgentToolset20260401()`; go: `agenttoolset.BetaAgentToolset20260401()`). Keep one MCP session open for the life of the worker.
+    This step uses `EnvironmentWorker`, which only the Python, TypeScript, and Go SDKs have. Connect to the same MCP server at startup. Convert its tools with `async_mcp_tool()` (typescript: `mcpTools()`; go: `mcp.NewBetaTools()`), and register them alongside `beta_agent_toolset_20260401()` (typescript: `betaAgentToolset20260401()`; go: `agenttoolset.BetaAgentToolset20260401()`). Keep one MCP session open for the life of the worker.
+
+    The samples use `/workspace` as the working directory, which must exist before the worker starts. [Run an always-on worker](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-workers#run-an-always-on-worker) says how to create the directory and what to use on macOS.
 
     <CodeGroup exclude="shell, csharp, java, php, ruby">
+      <CodeGroupItem language="cURL">
+        A worker is a long-running process, not a single HTTP request. To serve custom tools, use `EnvironmentWorker` in the Python, TypeScript, or Go SDK.
+      </CodeGroupItem>
+
+      <CodeGroupItem language="CLI">
+        The `ant` CLI worker can’t serve custom tools. Use `EnvironmentWorker` in the Python, TypeScript, or Go SDK.
+      </CodeGroupItem>
+
       ```python Python
       import asyncio
       import os
@@ -745,8 +770,8 @@ The examples connect without authentication. To send credentials, configure the 
       await mcpClient.connect(new StreamableHTTPClientTransport(new URL(MCP_SERVER_URL)));
       const { tools } = await mcpClient.listTools();
 
-      // The MCP SDK's callTool return type still includes a legacy result shape that
-      // mcpTools does not accept; narrow it. Drop this once MCPClientLike widens.
+      // The MCP SDK's callTool return type includes a legacy result shape that
+      // mcpTools does not accept, so narrow it.
       const mcpClientForTools: MCPClientLike = {
         callTool: (params) => mcpClient.callTool(params) as Promise<MCPCallToolResultLike>
       };
@@ -856,7 +881,7 @@ The MCP helpers keep the server’s names and descriptions, and most schemas pas
 
 | Field                     | Rule                                                                                                                                                                                                                                                                                          |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`                    | Unique per agent. Letters, digits, underscores, and hyphens, 1–128 characters. Cannot match a built-in agent tool such as `bash` or `read`, or use the reserved `mcp__` prefix or `ant__` prefix.                                                                                             |
+| `name`                    | Unique within the agent. Letters, digits, underscores, and hyphens, 1–128 characters. Cannot match a built-in agent tool such as `bash` or `read`, or use the reserved `mcp__` or `ant__` prefix.                                                                                             |
 | `description`             | Required and non-empty.                                                                                                                                                                                                                                                                       |
 | `input_schema`            | Accepts the JSON Schema keywords MCP servers commonly emit, such as `additionalProperties` and `title`. Rejects reference keywords such as `$ref` anywhere, and top-level `oneOf`, `anyOf`, and `allOf`. Property names use letters, digits, underscores, dots, and hyphens, 1–64 characters. |
 | The agent’s `tools` array | At most 256 entries. Each wrapped tool is one entry, and the built-in toolset is one more.                                                                                                                                                                                                    |
@@ -870,7 +895,7 @@ Two cases need extra work:
 
 When the MCP server reports a tool error, the worker posts an error tool result the model can react to. MCP content with no tool result equivalent, such as audio blocks and resource links, also surfaces as an error.
 
-Set a timeout on the MCP client for a faster and clearer failure, as the Python worker example does with `read_timeout_seconds`. See [A wrapped MCP tool call hangs](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-operations#a-wrapped-mcp-tool-call-hangs) for what occurs without one.
+Set a timeout on the MCP client for a faster and clearer failure. See [A wrapped MCP tool call hangs](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-operations#a-wrapped-mcp-tool-call-hangs) for what occurs without one.
 
 ### Wrap only servers you operate or trust
 

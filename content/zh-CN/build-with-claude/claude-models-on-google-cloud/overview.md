@@ -25,6 +25,15 @@ description: 比较 Claude Models on Google Cloud (Anthropic managed) 和 Claude
 | **计费**                      | Google Cloud Marketplace                                                                                                                                                            | Google Cloud，作为 Agent Platform 用量计费                                                                                                                                                  |
 | **Rate limits（速率限制）**       | 由 Anthropic 管理                                                                                                                                                                      | 由 Google Cloud 管理                                                                                                                                                                    |
 
+## 功能支持
+
+每种产品的页面都有一个关于功能支持的部分：
+
+* [Claude Models on Google Cloud (Anthropic managed) 的功能支持](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#feature-support)
+* [Claude Models on Google Cloud (Google managed) 的功能支持](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#feature-support)
+
+要查看某项功能，请在[功能概览](https://platform.claude.com/docs/zh-CN/build-with-claude/overview)中找到其页面，并查看 **可用性** 部分。该部分列出了支持此功能的每种产品。
+
 ## 两种产品的共同点
 
 * **凭据：** 两种产品都使用 Google Cloud 凭据，包括 Application Default Credentials。您需要通过各自的 IAM 角色分别授予对每种产品的访问权限。
@@ -39,7 +48,10 @@ description: 比较 Claude Models on Google Cloud (Anthropic managed) 和 Claude
 
 * **模型 ID：** Claude 4.6 及更高版本的模型在两种产品上都使用其 Claude API ID。请参阅[模型 ID 和版本控制](https://platform.claude.com/docs/zh-CN/about-claude/models/model-ids-and-versions)。
 
-* **SDK：** Anthropic 的[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 支持两种产品。
+* **SDK：** 两种产品都使用适用于您所用语言的 Anthropic SDK。[您使用的是哪种产品？](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/overview#which-offering-are-you-using)列出了每种产品使用的客户端。要安装 SDK，请参阅每种产品各自的章节。
+
+  * [Claude Models on Google Cloud (Anthropic managed) 的 SDK](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#install-an-sdk)
+  * [Claude Models on Google Cloud (Google managed) 的 SDK](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#install-an-sdk-for-accessing-vertex-ai)
 
 ## 在两种产品之间迁移
 

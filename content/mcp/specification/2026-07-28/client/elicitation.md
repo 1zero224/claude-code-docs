@@ -417,7 +417,7 @@ sequenceDiagram
     User-->>Client: Provide consent
 
     Client->>UserAgent: Open URL
-    Client->>Server: tools/call(id: 2, Accept Response, requestState))
+    Client->>Server: tools/call(id: 2, Accept Response, requestState)
     Note over Server: Server uses requestState to discover url info. <br/> It may need to block until the request is fulfilled.
 
     Note over User,UserAgent: User interaction
@@ -665,3 +665,6 @@ In other cases, the server may not be accessible via the web and may not be able
 In this case, the server must use a different mechanism to identify that the user who opens the elicitation URL is the same user for whom the elicitation was generated.
 
 In all implementations, the server **MUST** ensure that the mechanism to determine the user's identity is resilient to attacks where an attacker can modify the elicitation URL.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

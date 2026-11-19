@@ -89,7 +89,7 @@ Anthropic 的官方市场 `claude-plugins-official` 当 `enabledPlugins` 将其�
 * **交互式会话**：Claude Code 仅在贡献者接受该文件夹的[工作区信任对话](https://code.claude.com/docs/zh-CN/permissions.md#what-runs-before-you-trust-a-folder)后注册市场。
 * **[非交互式 `-p` 运行](https://code.claude.com/docs/zh-CN/headless)** ：条目仅在贡献者已交互式接受其信任的文件夹中应用，或您在 `~/.claude.json` 中设置其 `hasTrustDialogAccepted` 标志的文件夹中应用。
 
-在仓库中设置 `enabledPlugins` 不会安装插件。市场注册后，请让每位贡献者运行 `claude plugin install <name>@<marketplace> --scope project`。在他们运行之前，`/plugin` 的 **Errors** 选项卡可能会显示 `Plugin "<name>" is enabled in project settings but isn't installed here` 或 [`not cached`](https://code.claude.com/docs/zh-CN/plugins/troubleshooting#plugin-not-cached-at)。当本地 `directory` 或 `file` 市场使用[相对路径 `source`](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference#plugin-sources) 列出该插件时，贡献者无需执行安装。
+在仓库中设置 `enabledPlugins` 不会安装插件。市场注册后，请让每位贡献者运行 `claude plugin install <name>@<marketplace> --scope project`。在他们运行之前，`/plugin` 的 **Errors** 选项卡可能会显示一行以 [`isn't installed here`](https://code.claude.com/docs/zh-CN/plugins/troubleshooting#plugin-is-enabled-in-project-settings-but-isnt-installed-here) 结尾的信息。当本地 `directory` 或 `file` 市场使用[相对路径 `source`](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference#plugin-sources) 列出该插件时，贡献者无需执行安装。
 
 如果您使用带有相对路径的本地 `directory` 或 `file` 源，路径相对于您的存储库的主检出解析。当您从 git worktree 运行 Claude Code 时，路径仍指向主检出，因此所有 worktree 共享相同的市场位置。
 
@@ -148,7 +148,8 @@ CLAUDE_CODE_PLUGIN_CACHE_DIR=/opt/claude-seed claude plugin install code-formatt
 播种市场遵循这些规则：
 
 * **只读**：Claude Code 从不写入播种并为播种市场强制 `autoUpdate` 关闭。
-* **播种条目优先**：在每次启动时，播种中声明的市场覆盖用户的同名条目。用户使用 `claude plugin disable` 选择退出播种插件，而不是通过删除市场。
+* **从声明的源构建**：如果用户设置或托管设置在 `extraKnownMarketplaces` 中声明了某个播种市场的名称，请从该源和 `ref` 构建播种。
+* **选择退出**：当仓库的设置启用了某个播种插件时，用户使用 `claude plugin disable` 选择退出，而不是通过删除市场。
 * **更新和删除失败**：`claude plugin marketplace update <name>` 和在播种市场上不带 `--scope` 的 `remove` 失败，并显示命名播种目录的消息。
 * **策略仍然适用**：[允许列表和阻止列表](#restrict-what-users-can-install)也检查播种市场的记录源。允许您构建播种的源。
 
@@ -167,7 +168,9 @@ CLAUDE_CODE_PLUGIN_CACHE_DIR=/opt/claude-seed claude plugin install code-formatt
 
 两个列表的执行位置取决于您在哪里设置它们：
 
-* **claude.ai 管理控制台**：Claude Code 在[读取服务器托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md#where-and-when-a-policy-applies)的会话中执行两个列表。claude.ai 也在您组织中的任何人从 git 存储库在 claude.ai 上添加新市场，或从 Claude Desktop 应用中 Code 选项卡之外的**自定义**添加新市场时检查它们。这涵盖成员为自己的账户添加的市场和在[**组织设置 > 插件**](https://claude.ai/admin-settings/plugins)下为整个组织添加的市场。claude.ai 拒绝允许列表不允许或阻止列表命名的存储库。它不重新检查在您设置列表之前在任一位置添加的市场，也不检查上传的插件。
+* **claude.ai 管理控制台**：Claude Code 在[读取服务器托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md#where-and-when-a-policy-applies)的会话中执行两个列表。当您组织中的任何人在 claude.ai 上从 git 仓库添加市场，或从 Desktop 应用中 Code 选项卡之外的 **Customize** 添加市场时，claude.ai 也会检查它们。
+
+  这涵盖成员为自己的账户添加的市场，以及在[**Organization settings > Plugins & skills**](https://claude.ai/admin-settings/skills?tab=marketplaces)下为整个组织添加的市场。claude.ai 拒绝允许列表不接纳或阻止列表指名的仓库。它不会重新检查在您设置列表之前在任一位置添加的市场，也不检查上传的插件。
 * **托管设置文件、OS 级策略或其他托管源**：Claude Code 在读取该源的地方执行两个列表。claude.ai 不读取它。
 
 虽然设置了任何允许列表，或阻止列表命名除[`skills-dir`](#blocklist-with-blockedmarketplaces)之外的任何源，Claude Code 找不到的市场的插件不加载。`/plugin` 为其显示策略错误而不是未找到错误。常见情况是市场的陈旧 `enabledPlugins` 条目，没有人注册。

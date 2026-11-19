@@ -4,7 +4,9 @@ url: https://platform.claude.com/docs/zh-CN/release-notes/system-prompts/overvie
 description: 查看 [claude.ai](https://claude.ai)、[Claude iOS 应用](https://anthropic.com/ios)和 [Claude Android 应用](https://anthropic.com/android)上核心系统提示的更新。
 ---
 
-Claude 的网页界面（[claude.ai](https://claude.ai)）和移动应用使用"system prompt"（系统提示）在每次对话开始时向 Claude 提供最新信息，例如当前日期。系统提示还会鼓励某些行为，例如始终以 Markdown 格式提供代码片段。该提示会定期更新，以改进 Claude 的响应。这些系统提示更新不适用于 Claude API。某些模型的页面上有多个带日期的条目。
+Claude 的网页界面（[claude.ai](https://claude.ai)）、桌面应用和移动应用在每次对话开始时使用"system prompt"（系统提示）。它向 Claude 提供最新信息，例如 Anthropic 当前的模型和产品。系统提示还会鼓励某些行为，例如以客观、基于事实的方式讨论话题。Anthropic 会定期更新系统提示，以改进 Claude 的响应。这些更新不适用于 Claude API。
+
+对于当前模型，这些页面发布核心系统提示的一个版本，该版本用于某些关闭了网络搜索的对话。其他对话（包括开启了网络搜索的对话）使用其他版本，这些页面不会发布这些版本。某些模型的页面上有多个带日期的条目。
 
 <CardGroup cols={3}>
   <Card id="claude-fable-5-2" title="Claude Fable 5.2" icon="file" href="https://platform.claude.com/docs/zh-CN/release-notes/system-prompts/claude-fable-5-2" />

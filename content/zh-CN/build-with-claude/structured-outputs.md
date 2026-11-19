@@ -55,7 +55,7 @@ featureMetadata:
 
 结构化输出通过"constrained decoding"（约束解码）保证响应符合 schema：
 
-* **始终有效：**&#x4E0D;再出现 `JSON.parse()` 错误
+* **始终有效：**&#x4E0D;再出现 JSON 解析错误
 * **类型安全：**&#x4FDD;证字段类型和必填字段
 * **可靠：**&#x65E0;需因违反 schema 而重试
 
@@ -203,6 +203,8 @@ featureMetadata:
     ```text Output wrap
     name='John Smith' email='john@example.com' plan_interest='Enterprise' demo_requested=True
     ```
+
+    如果您知道某个字段的键，请使用嵌套的 Pydantic 模型，而不是 `dict`。SDK 会将 `dict` 字段作为 `properties` 为空的对象发送，因此 Claude 只能为其返回 `{}`。如果您事先不知道有哪些键，请参阅[具有任意键的对象](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#objects-with-arbitrary-keys)。
   </Tab>
 
   <Tab title="TypeScript">
@@ -242,7 +244,7 @@ featureMetadata:
 
     上述示例输出：
 
-    ```javascript Output
+    ```text Output wrap
     {
       name: 'John Smith',
       email: 'john@example.com',
@@ -250,6 +252,8 @@ featureMetadata:
       demo_requested: true
     }
     ```
+
+    如果您知道某个字段的键，请使用 `z.object()`，而不是 `z.record()`。SDK 会将 `z.record()` 字段作为 `properties` 为空的对象发送，因此 Claude 只能为其返回 `{}`。如果您事先不知道有哪些键，请参阅[具有任意键的对象](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#objects-with-arbitrary-keys)。
   </Tab>
 
   <Tab title="C#">
@@ -397,8 +401,8 @@ featureMetadata:
 
       要点：
 
-      * **本地验证**无需向远程 AI 模型发送请求即可进行。
-      * **远程验证**也会在 AI 模型收到 JSON schema 时执行。
+      * **本地验证：**&#x53;DK 会在不发送请求的情况下验证 schema。
+      * **远程验证：**&#x41;PI 在收到请求时也会验证 JSON schema。
       * **版本兼容性：**&#x5982;果 SDK 版本过旧，本地验证可能会拒绝远程验证接受的 schema。
       * **禁用本地验证：**&#x5982;果遇到兼容性问题，请传递 `JsonSchemaLocalValidation.NO`：
 
@@ -442,7 +446,7 @@ featureMetadata:
       * 类中没有字段或 getter 方法
       * 所有 `public` 成员都使用了 `@JsonIgnore` 注解
       * 所有非 `public` 成员都缺少 `@JsonProperty` 注解
-      * 某个字段使用 `Map` 类型，这会生成空的 `"properties"` 字段
+      * 某个字段使用 `Map` 类型，这会生成空的 `"properties"` 字段（要避免这种情况，请参阅[具有任意键的对象](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#objects-with-arbitrary-keys)）
     </Accordion>
 
     <Accordion title="组合与继承">
@@ -693,14 +697,14 @@ featureMetadata:
           "John Smith (john@example.com) is interested in our Enterprise plan " \
           "and wants to schedule a demo for next Tuesday at 2pm."
       }],
-      output_config: {format: ContactInfo}
+      output_config: { format: ContactInfo }
     )
 
     contact = message.parsed_output
     puts contact
     ```
 
-    定义一个继承 `Anthropic::BaseModel` 的类，并将其作为 `output_config: {format: Model}` 传递给 `messages.create()`。SDK 会从该类派生 JSON schema，对其进行转换，并将解析结果作为类型化的 Ruby 对象赋值给响应的 `parsed_output` 属性。
+    定义一个继承 `Anthropic::BaseModel` 的类，并将其作为 `output_config: { format: Model }` 传递给 `messages.create()`。SDK 会从该类派生 JSON schema，对其进行转换，并将解析结果作为类型化的 Ruby 对象赋值给响应的 `parsed_output` 属性。
 
     上述示例输出：
 
@@ -729,8 +733,8 @@ featureMetadata:
       message = client.messages.create(
         model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 1024,
-        messages: [{role: "user", content: "give me some famous numbers"}],
-        output_config: {format: Output}
+        messages: [{ role: "user", content: "give me some famous numbers" }],
+        output_config: { format: Output }
       )
 
       message.parsed_output
@@ -930,7 +934,7 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
 
     上述示例输出：
 
-    ```javascript Output
+    ```text Output wrap
     { name: 'John Smith', email: 'john@example.com', planInterest: 'Pro' }
     ```
   </Tab>
@@ -1137,12 +1141,13 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
         ])),
     );
 
-    $textBlock = array_find($message->content, static fn ($block): bool => $block->type === 'text');
+    $textBlock = array_find($message->content, static fn ($block): bool => $block instanceof \Anthropic\Messages\TextBlock)
+        ?? throw new \RuntimeException('Expected a text block in the response.');
     $contact = json_decode($textBlock->text, associative: true);
     var_dump($contact);
     ```
 
-    将 schema 作为关联数组传递给 `OutputConfig::with()`，并使用 `json_decode()` 解码响应。
+    将 schema 作为关联数组传递给 `OutputConfig::with()` 内的 `JSONOutputFormat::with()`，并使用 `json_decode()` 解码响应。
 
     上述示例输出：
 
@@ -1222,7 +1227,7 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
           "messages": [
             {
               "role": "user",
-              "content": "Extract invoice data from: Invoice #12345, Date: 2024-01-15, Total: $500.00"
+              "content": "Extract invoice data from: Invoice #12345, Date: 2024-01-15, Customer: Acme Corp, 2 widgets at $150.00 each, 1 setup fee at $200.00, Total: $500.00"
             }
           ],
           "output_config": {
@@ -1236,7 +1241,16 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
                   "total_amount": {"type": "number"},
                   "line_items": {
                     "type": "array",
-                    "items": {"type": "object", "additionalProperties": false}
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "description": {"type": "string"},
+                        "quantity": {"type": "number"},
+                        "unit_price": {"type": "number"}
+                      },
+                      "required": ["description", "quantity", "unit_price"],
+                      "additionalProperties": false
+                    }
                   },
                   "customer_name": {"type": "string"}
                 },
@@ -1254,7 +1268,14 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       max_tokens: 4096
       messages:
         - role: user
-          content: "Extract invoice data from: Invoice #12345, Date: 2024-01-15, Total: $500.00"
+          content: |
+            Extract invoice data from:
+            Invoice #12345
+            Date: 2024-01-15
+            Customer: Acme Corp
+            2 widgets at $150.00 each
+            1 setup fee at $200.00
+            Total: $500.00
       output_config:
         format:
           type: json_schema
@@ -1266,7 +1287,14 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
               total_amount: {type: number}
               line_items:
                 type: array
-                items: {type: object, additionalProperties: false}
+                items:
+                  type: object
+                  properties:
+                    description: {type: string}
+                    quantity: {type: number}
+                    unit_price: {type: number}
+                  required: [description, quantity, unit_price]
+                  additionalProperties: false
               customer_name: {type: string}
             required: [invoice_number, date, total_amount, line_items, customer_name]
             additionalProperties: false
@@ -1277,16 +1305,29 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       from pydantic import BaseModel
 
 
+      class LineItem(BaseModel):
+          description: str
+          quantity: float
+          unit_price: float
+
+
       class Invoice(BaseModel):
           invoice_number: str
           date: str
           total_amount: float
-          line_items: list[dict]
+          line_items: list[LineItem]
           customer_name: str
 
 
       client = anthropic.Anthropic()
-      invoice_text = "Invoice #12345, Date: 2024-01-15, Total: $500.00"
+      invoice_text = """
+      Invoice #12345
+      Date: 2024-01-15
+      Customer: Acme Corp
+      2 widgets at $150.00 each
+      1 setup fee at $200.00
+      Total: $500.00
+      """
 
       response = client.messages.parse(
           model="claude-opus-5-5",
@@ -1306,15 +1347,29 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
 
       const client = new Anthropic();
 
+      const LineItemSchema = z.object({
+        description: z.string(),
+        quantity: z.number(),
+        unit_price: z.number()
+      });
+
       const InvoiceSchema = z.object({
         invoice_number: z.string(),
         date: z.string(),
         total_amount: z.number(),
-        line_items: z.array(z.record(z.string(), z.any())),
+        line_items: z.array(LineItemSchema),
         customer_name: z.string()
       });
 
-      const invoiceText = "Invoice #12345, Date: 2024-01-15, Total: $500.00";
+      const invoiceText = `
+      Invoice #12345
+      Date: 2024-01-15
+      Customer: Acme Corp
+      2 widgets at $150.00 each
+      1 setup fee at $200.00
+      Total: $500.00
+      `;
+
       const response = await client.messages.parse({
         model: "claude-opus-5-5",
         max_tokens: 4096,
@@ -1327,7 +1382,14 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       ```csharp C#
       AnthropicClient client = new();
 
-      string invoiceText = "Invoice #12345, Date: 2024-01-15, Total: $500.00";
+      string invoiceText = """
+          Invoice #12345
+          Date: 2024-01-15
+          Customer: Acme Corp
+          2 widgets at $150.00 each
+          1 setup fee at $200.00
+          Total: $500.00
+          """;
 
       var parameters = new MessageCreateParams
       {
@@ -1351,6 +1413,13 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
                               items = new
                               {
                                   type = "object",
+                                  properties = new
+                                  {
+                                      description = new { type = "string" },
+                                      quantity = new { type = "number" },
+                                      unit_price = new { type = "number" },
+                                  },
+                                  required = new[] { "description", "quantity", "unit_price" },
                                   additionalProperties = false,
                               },
                           },
@@ -1371,7 +1440,14 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       ```go Go
       client := anthropic.NewClient()
 
-      invoiceText := "Invoice #12345, Date: 2024-01-15, Total: $500.00"
+      invoiceText := `
+      Invoice #12345
+      Date: 2024-01-15
+      Customer: Acme Corp
+      2 widgets at $150.00 each
+      1 setup fee at $200.00
+      Total: $500.00
+      `
 
       schema := map[string]any{
       	"type":                 "object",
@@ -1429,7 +1505,7 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
           public String description;
 
           @JsonProperty("quantity")
-          public int quantity;
+          public double quantity;
 
           @JsonProperty("unit_price")
           public double unitPrice;
@@ -1455,7 +1531,14 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       void main() {
           AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
-          String invoiceText = "Invoice #12345, Date: 2024-01-15, Total: $500.00";
+          String invoiceText = """
+              Invoice #12345
+              Date: 2024-01-15
+              Customer: Acme Corp
+              2 widgets at $150.00 each
+              1 setup fee at $200.00
+              Total: $500.00
+              """;
 
           StructuredMessageCreateParams<Invoice> params = MessageCreateParams.builder()
               .model(Model.CLAUDE_OPUS_5_5)
@@ -1468,15 +1551,28 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
           Invoice invoice = response.content().stream()
               .flatMap(block -> block.text().stream())
               .findFirst().orElseThrow().text();
-          IO.println(invoice.invoiceNumber + ": $" + invoice.totalAmount);
+          IO.println("Invoice " + invoice.invoiceNumber + ": $" + invoice.totalAmount);
+          for (LineItem item : invoice.lineItems) {
+              IO.println(item.quantity + " x " + item.description);
+          }
       }
       ```
 
       ```php PHP
+      use Anthropic\Lib\Attributes\Constrained;
       use Anthropic\Lib\Concerns\StructuredOutputModelTrait;
       use Anthropic\Lib\Contracts\StructuredOutputModel;
 
       $client = new Client();
+
+      class LineItem implements StructuredOutputModel
+      {
+          use StructuredOutputModelTrait;
+
+          public string $description;
+          public float $quantity;
+          public float $unit_price;
+      }
 
       class Invoice implements StructuredOutputModel
       {
@@ -1485,11 +1581,19 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
           public string $invoice_number;
           public string $date;
           public float $total_amount;
+          #[Constrained(itemClass: LineItem::class)]
           public array $line_items;
           public string $customer_name;
       }
 
-      $invoiceText = "Invoice #12345, Date: 2024-01-15, Total: $500.00";
+      $invoiceText = <<<'TEXT'
+      Invoice #12345
+      Date: 2024-01-15
+      Customer: Acme Corp
+      2 widgets at $150.00 each
+      1 setup fee at $200.00
+      Total: $500.00
+      TEXT;
 
       $message = $client->messages->create(
           maxTokens: 4096,
@@ -1503,6 +1607,9 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       $invoice = $message->parsedOutput();
       if ($invoice instanceof Invoice) {
           echo "Invoice {$invoice->invoice_number}: \${$invoice->total_amount}\n";
+          foreach ($invoice->line_items as $item) {
+              echo "{$item->quantity} x {$item->description}\n";
+          }
       }
       ```
 
@@ -1511,7 +1618,8 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
 
       class LineItem < Anthropic::BaseModel
         required :description, String
-        required :amount, Float
+        required :quantity, Float
+        required :unit_price, Float
       end
 
       class Invoice < Anthropic::BaseModel
@@ -1522,19 +1630,27 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
         required :customer_name, String
       end
 
-      invoice_text = "Invoice #12345, Date: 2024-01-15, Total: $500.00"
+      invoice_text = <<~TEXT
+        Invoice #12345
+        Date: 2024-01-15
+        Customer: Acme Corp
+        2 widgets at $150.00 each
+        1 setup fee at $200.00
+        Total: $500.00
+      TEXT
 
       message = client.messages.create(
         model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 4096,
-        output_config: {format: Invoice},
+        output_config: { format: Invoice },
         messages: [
-          {role: "user", content: "Extract invoice data from: #{invoice_text}"}
+          { role: "user", content: "Extract invoice data from: #{invoice_text}" }
         ]
       )
 
       invoice = message.parsed_output
       puts "Invoice #{invoice.invoice_number}: $#{invoice.total_amount}"
+      invoice.line_items.each { |item| puts "#{item.quantity} x #{item.description}" }
       ```
     </CodeGroup>
   </Accordion>
@@ -1657,6 +1773,8 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       ```
 
       ```csharp C#
+      AnthropicClient client = new();
+
       string feedbackText = "Great product, fast shipping!";
 
       var parameters = new MessageCreateParams
@@ -1690,6 +1808,8 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       ```
 
       ```go Go
+      client := anthropic.NewClient()
+
       feedbackText := "Great product, fast shipping!"
 
       schema := map[string]any{
@@ -1814,9 +1934,9 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       message = client.messages.create(
         model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 1024,
-        output_config: {format: Classification},
+        output_config: { format: Classification },
         messages: [
-          {role: "user", content: "Classify this feedback: #{feedback_text}"}
+          { role: "user", content: "Classify this feedback: #{feedback_text}" }
         ]
       )
       puts message.parsed_output
@@ -1839,7 +1959,7 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
           "messages": [
             {
               "role": "user",
-              "content": "Process this request: ..."
+              "content": "Write an API response: request req_2abc3def has an invalid email."
             }
           ],
           "output_config": {
@@ -1849,12 +1969,30 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
                 "type": "object",
                 "properties": {
                   "status": {"type": "string"},
-                  "data": {"type": "object", "additionalProperties": false},
+                  "data": {
+                    "type": "object",
+                    "properties": {"message": {"type": "string"}},
+                    "required": ["message"],
+                    "additionalProperties": false
+                  },
                   "errors": {
                     "type": "array",
-                    "items": {"type": "object", "additionalProperties": false}
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "code": {"type": "string"},
+                        "detail": {"type": "string"}
+                      },
+                      "required": ["code", "detail"],
+                      "additionalProperties": false
+                    }
                   },
-                  "metadata": {"type": "object", "additionalProperties": false}
+                  "metadata": {
+                    "type": "object",
+                    "properties": {"request_id": {"type": "string"}},
+                    "required": ["request_id"],
+                    "additionalProperties": false
+                  }
                 },
                 "required": ["status", "data", "metadata"],
                 "additionalProperties": false
@@ -1878,14 +2016,32 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
                 type: string
               data:
                 type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                  - message
                 additionalProperties: false
               errors:
                 type: array
                 items:
                   type: object
+                  properties:
+                    code:
+                      type: string
+                    detail:
+                      type: string
+                  required:
+                    - code
+                    - detail
                   additionalProperties: false
               metadata:
                 type: object
+                properties:
+                  request_id:
+                    type: string
+                required:
+                  - request_id
                 additionalProperties: false
             required:
               - status
@@ -1894,7 +2050,7 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
             additionalProperties: false
       messages:
         - role: user
-          content: "Process this request: ..."
+          content: "Write an API response: request req_2abc3def has an invalid email."
       YAML
       ```
 
@@ -1904,18 +2060,36 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       client = Anthropic()
 
 
+      class Payload(BaseModel):
+          message: str
+
+
+      class APIError(BaseModel):
+          code: str
+          detail: str
+
+
+      class Metadata(BaseModel):
+          request_id: str
+
+
       class APIResponse(BaseModel):
           status: str
-          data: dict
-          errors: list[dict] | None
-          metadata: dict
+          data: Payload
+          errors: list[APIError] | None = None
+          metadata: Metadata
 
 
       response = client.messages.parse(
           model="claude-opus-5-5",
           max_tokens=1024,
           output_format=APIResponse,
-          messages=[{"role": "user", "content": "Process this request: ..."}],
+          messages=[
+              {
+                  "role": "user",
+                  "content": "Write an API response: request req_2abc3def has an invalid email.",
+              }
+          ],
       )
 
       print(response.parsed_output)
@@ -1929,27 +2103,40 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
 
       const APIResponseSchema = z.object({
         status: z.string(),
-        data: z.record(z.string(), z.any()),
-        errors: z.array(z.record(z.string(), z.any())).optional(),
-        metadata: z.record(z.string(), z.any())
+        data: z.object({ message: z.string() }),
+        errors: z.array(z.object({ code: z.string(), detail: z.string() })).optional(),
+        metadata: z.object({ request_id: z.string() })
       });
 
       const response = await client.messages.parse({
         model: "claude-opus-5-5",
         max_tokens: 1024,
         output_config: { format: zodOutputFormat(APIResponseSchema) },
-        messages: [{ role: "user", content: "Process this request..." }]
+        messages: [
+          {
+            role: "user",
+            content: "Write an API response: request req_2abc3def has an invalid email."
+          }
+        ]
       });
 
       console.log(response.parsed_output);
       ```
 
       ```csharp C#
+      AnthropicClient client = new();
+
       var parameters = new MessageCreateParams
       {
           Model = Model.ClaudeOpus5_5,
           MaxTokens = 1024,
-          Messages = [new UserMessageParam { Content = "Process this request: ..." }],
+          Messages =
+          [
+              new UserMessageParam
+              {
+                  Content = "Write an API response: request req_2abc3def has an invalid email.",
+              },
+          ],
           OutputConfig = new OutputConfig
           {
               Format = new JsonOutputFormat
@@ -1960,13 +2147,35 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
                       ["properties"] = JsonSerializer.SerializeToElement(new
                       {
                           status = new { type = "string" },
-                          data = new { type = "object", additionalProperties = false },
+                          data = new
+                          {
+                              type = "object",
+                              properties = new { message = new { type = "string" } },
+                              required = new[] { "message" },
+                              additionalProperties = false,
+                          },
                           errors = new
                           {
                               type = "array",
-                              items = new { type = "object", additionalProperties = false },
+                              items = new
+                              {
+                                  type = "object",
+                                  properties = new
+                                  {
+                                      code = new { type = "string" },
+                                      detail = new { type = "string" },
+                                  },
+                                  required = new[] { "code", "detail" },
+                                  additionalProperties = false,
+                              },
                           },
-                          metadata = new { type = "object", additionalProperties = false },
+                          metadata = new
+                          {
+                              type = "object",
+                              properties = new { request_id = new { type = "string" } },
+                              required = new[] { "request_id" },
+                              additionalProperties = false,
+                          },
                       }),
                       ["required"] = JsonSerializer.SerializeToElement(new[] { "status", "data", "metadata" }),
                       ["additionalProperties"] = JsonSerializer.SerializeToElement(false),
@@ -1997,17 +2206,30 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       					"data": map[string]any{
       						"type":                 "object",
       						"additionalProperties": false,
+      						"properties": map[string]any{
+      							"message": map[string]any{"type": "string"},
+      						},
+      						"required": []string{"message"},
       					},
       					"errors": map[string]any{
       						"type": "array",
       						"items": map[string]any{
       							"type":                 "object",
       							"additionalProperties": false,
+      							"properties": map[string]any{
+      								"code":   map[string]any{"type": "string"},
+      								"detail": map[string]any{"type": "string"},
+      							},
+      							"required": []string{"code", "detail"},
       						},
       					},
       					"metadata": map[string]any{
       						"type":                 "object",
       						"additionalProperties": false,
+      						"properties": map[string]any{
+      							"request_id": map[string]any{"type": "string"},
+      						},
+      						"required": []string{"request_id"},
       					},
       				},
       				"required": []string{"status", "data", "metadata"},
@@ -2015,7 +2237,9 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       		},
       	},
       	Messages: []anthropic.MessageParam{
-      		anthropic.NewUserMessage(anthropic.NewTextBlock("Process this request: ...")),
+      		anthropic.NewUserMessage(anthropic.NewTextBlock(
+      			"Write an API response: request req_2abc3def has an invalid email.",
+      		)),
       	},
       })
       if err != nil {
@@ -2032,28 +2256,22 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       ```java Java
       import com.fasterxml.jackson.annotation.JsonProperty;
 
-      static class APIData {
+      static class Payload {
           @JsonProperty("message")
           public String message;
-
-          @JsonProperty("resource_id")
-          public String resourceId;
       }
 
       static class APIError {
           @JsonProperty("code")
           public String code;
 
-          @JsonProperty("message")
-          public String message;
+          @JsonProperty("detail")
+          public String detail;
       }
 
-      static class APIMetadata {
+      static class Metadata {
           @JsonProperty("request_id")
           public String requestId;
-
-          @JsonProperty("timestamp")
-          public String timestamp;
       }
 
       static class APIResponse {
@@ -2061,13 +2279,13 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
           public String status;
 
           @JsonProperty("data")
-          public APIData data;
+          public Payload data;
 
           @JsonProperty("errors")
           public List<APIError> errors;
 
           @JsonProperty("metadata")
-          public APIMetadata metadata;
+          public Metadata metadata;
       }
 
       void main() {
@@ -2077,14 +2295,14 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
               .model(Model.CLAUDE_OPUS_5_5)
               .maxTokens(1024L)
               .outputConfig(APIResponse.class)
-              .addUserMessage("Process this request: ...")
+              .addUserMessage("Write an API response: request req_2abc3def has an invalid email.")
               .build();
 
           StructuredMessage<APIResponse> response = client.messages().create(params);
           APIResponse result = response.content().stream()
               .flatMap(block -> block.text().stream())
               .findFirst().orElseThrow().text();
-          IO.println(result.status);
+          IO.println(result.status + ": " + result.data.message);
       }
       ```
 
@@ -2095,11 +2313,27 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
 
       $client = new Client();
 
-      class Payload implements StructuredOutputModel { use StructuredOutputModelTrait; public string $message; }
+      class Payload implements StructuredOutputModel
+      {
+          use StructuredOutputModelTrait;
 
-      class APIError implements StructuredOutputModel { use StructuredOutputModelTrait; public string $code; public string $detail; }
+          public string $message;
+      }
 
-      class Metadata implements StructuredOutputModel { use StructuredOutputModelTrait; public string $request_id; }
+      class APIError implements StructuredOutputModel
+      {
+          use StructuredOutputModelTrait;
+
+          public string $code;
+          public string $detail;
+      }
+
+      class Metadata implements StructuredOutputModel
+      {
+          use StructuredOutputModelTrait;
+
+          public string $request_id;
+      }
 
       class APIResponse implements StructuredOutputModel
       {
@@ -2115,7 +2349,10 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       $message = $client->messages->create(
           maxTokens: 1024,
           messages: [
-              ['role' => 'user', 'content' => 'Process this request: ...']
+              [
+                  'role' => 'user',
+                  'content' => 'Write an API response: request req_2abc3def has an invalid email.',
+              ],
           ],
           model: 'claude-opus-5-5',
           outputConfig: ['format' => APIResponse::class],
@@ -2153,9 +2390,9 @@ Claude 收到的是简化后的 schema，但会验证响应的辅助工具仍会
       message = client.messages.create(
         model: Anthropic::Model::CLAUDE_OPUS_5_5,
         max_tokens: 1024,
-        output_config: {format: APIResponse},
+        output_config: { format: APIResponse },
         messages: [
-          {role: "user", content: "Process this request: ..."}
+          { role: "user", content: "Write an API response: request req_2abc3def has an invalid email." }
         ]
       )
       puts message.parsed_output
@@ -2367,6 +2604,8 @@ JSON 输出和严格工具使用解决的是不同的问题，并且可以协同
   ```
 
   ```csharp C#
+  AnthropicClient client = new();
+
   var parameters = new MessageCreateParams
   {
       Model = Model.ClaudeOpus5_5,
@@ -2563,7 +2802,7 @@ JSON 输出和严格工具使用解决的是不同的问题，并且可以协同
     model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 1024,
     messages: [
-      {role: "user", content: "Help me plan a trip to Paris departing May 15, 2026"}
+      { role: "user", content: "Help me plan a trip to Paris departing May 15, 2026" }
     ],
     # JSON 输出：结构化响应格式
     output_config: {
@@ -2572,8 +2811,8 @@ JSON 输出和严格工具使用解决的是不同的问题，并且可以协同
         schema: {
           type: "object",
           properties: {
-            summary: {type: "string"},
-            next_steps: {type: "array", items: {type: "string"}}
+            summary: { type: "string" },
+            next_steps: { type: "array", items: { type: "string" } }
           },
           required: ["summary", "next_steps"],
           additionalProperties: false
@@ -2588,8 +2827,8 @@ JSON 输出和严格工具使用解决的是不同的问题，并且可以协同
         input_schema: {
           type: "object",
           properties: {
-            destination: {type: "string"},
-            date: {type: "string", format: "date"}
+            destination: { type: "string" },
+            date: { type: "string", format: "date" }
           },
           required: ["destination", "date"],
           additionalProperties: false
@@ -2625,10 +2864,9 @@ JSON 输出和严格工具使用解决的是不同的问题，并且可以协同
 
 <Accordion title="支持的功能">
   * 所有基本类型：object、array、string、integer、number、boolean、null
-  * `enum`（仅限字符串、数字、布尔值或 null，不支持复杂类型）。有关大小写的注意事项，请参阅[无效输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#invalid-outputs)。
-  * `const`
-  * `anyOf` 和 `allOf`（有限制：不支持带有 `$ref` 的 `allOf`）
-  * `$ref`、`$def` 和 `definitions`（不支持外部 `$ref`）
+  * `enum` 和 `const`（仅限字符串、数字、布尔值或 null），但有一项[大小写注意事项](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#invalid-outputs)
+  * `anyOf` 和 `allOf`，"不支持的功能"下所列的用法除外
+  * `$ref`、`$defs` 和 `definitions`
   * 所有受支持类型的 `default` 属性
   * `required` 和 `additionalProperties`（对象必须设置为 `false`）
   * 字符串格式：`date-time`、`time`、`date`、`duration`、`email`、`hostname`、`uri`、`ipv4`、`ipv6`、`uuid`
@@ -2637,12 +2875,17 @@ JSON 输出和严格工具使用解决的是不同的问题，并且可以协同
 
 <Accordion title="不支持的功能">
   * 递归 schema
+  * `oneOf`（请改用 `anyOf`）
+  * `not`
+  * 在同一 schema 对象中将 `anyOf` 与 `type` 或 `properties` 等关键字一起使用（`title` 和 `description` 等注释性关键字没有问题）
+  * 包含相互冲突的 schema 的 `allOf`（例如 `type` 值不同）
+  * 包含两个或更多 schema 且其中一个直接包含 `$ref`、`anyOf` 或 `allOf` 的 `allOf`
   * 枚举中的复杂类型
   * 外部 `$ref`（例如 `'$ref': 'http://...'`）
   * 数值约束（例如 `minimum`、`maximum`、`multipleOf`）
   * 字符串约束（`minLength`、`maxLength`）
   * 除 `minItems` 为 0 或 1 之外的数组约束
-  * 设置为 `false` 以外任何值的 `additionalProperties`
+  * 设置为 `false` 以外任何值的 `additionalProperties`（请参阅[具有任意键的对象](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#objects-with-arbitrary-keys)）
 
   如果您使用了不受支持的功能，将收到包含详细信息的 400 错误。
 </Accordion>
@@ -2668,6 +2911,29 @@ JSON 输出和严格工具使用解决的是不同的问题，并且可以协同
 <Tip>
   SDK 辅助工具可以转换包含 [API 不支持的约束](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#json-schema-limitations)的 schema。请参阅 [SDK 转换的工作原理](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#how-sdk-transformation-works)。
 </Tip>
+
+#### 具有任意键的对象
+
+请列出对象的每个键，可以在 `properties` 中列出，也可以作为您传递给 SDK 的类或 schema 的字段列出。由于 `additionalProperties` 必须为 `false`，Claude 只能返回您列出的键。
+
+API 会接受 `properties` 为空或缺失的对象，但 Claude 只能为其返回 `{}`。map、字典或 record 类型不会列出任何键，因此 Python 和 TypeScript SDK 会将其作为 `properties` 为空的对象发送。Java 和 Ruby SDK 则会引发错误。
+
+如果您事先不知道有哪些键，请改用数组。为每个元素提供 `key` 和 `value`，如以下 schema 所示：
+
+```json
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "key": { "type": "string" },
+      "value": { "type": "string" }
+    },
+    "required": ["key", "value"],
+    "additionalProperties": false
+  }
+}
+```
 
 ### 属性顺序
 
@@ -2787,7 +3053,7 @@ JSON 输出和严格工具使用解决的是不同的问题，并且可以协同
 
 `output_format` 参数已移至 `output_config.format`，并且不再需要 beta 标头。`output_format` 参数已被弃用。如果仍要使用它，请添加 `structured-outputs-2025-11-13` beta 标头。否则，API 会返回 400 错误。
 
-Python SDK（v1.0 及更高版本）不接受在 `client.beta.messages.create()` 或 `count_tokens()` 上使用 `output_format={...}`，并会引发 `TypeError`。请改用 `output_config`。有关更新后的 API 结构，请参阅[使用原始 JSON schema](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#using-a-raw-json-schema)。
+在 Python SDK（v1.0 及更高版本）中，以 `output_format={...}` 形式传递的 schema 字典会引发 `TypeError`。请改用 `output_config`。以 `output_format=Model` 形式传递给 `parse()` 或 `stream()` 的 Pydantic 模型无需任何更改、也无需 beta 标头即可正常工作，因为 SDK 会将其作为 `output_config` 发送。有关更新后的 API 结构，请参阅[使用原始 JSON schema](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#using-a-raw-json-schema)。
 
 ## 功能兼容性
 

@@ -26,7 +26,7 @@ description: 通过 MCP 连接器 API 将 Claude 连接到第三方远程 MCP �
 
 ## 远程 MCP 服务器示例
 
-<MCPServersTable platform="mcpConnector" />
+<MCPServersTable />
 
 <Note>
   **想要了解更多？** [在 GitHub 上查找数百个更多的 MCP 服务器](https://github.com/modelcontextprotocol/servers)。

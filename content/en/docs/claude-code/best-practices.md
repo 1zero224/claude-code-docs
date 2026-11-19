@@ -10,7 +10,7 @@ Claude Code is built in a way that, in most cases, your first plain prompt in a 
 
 For example:
 
-* To let commands run safely without you approving each one, new terminal and VS Code sessions start in [auto mode](https://code.claude.com/docs/en/permission-modes.md#eliminate-prompts-with-auto-mode), where a classifier reviews anything risky before it runs.
+* To let commands run without you approving each one, new terminal and VS Code sessions start in [auto mode](https://code.claude.com/docs/en/permission-modes.md#eliminate-prompts-with-auto-mode).
 * To keep your main conversation focused while independent work happens in parallel, Claude delegates to subagents and checks in only when it has to.
 * To keep a long session going without you managing it, your conversation is compacted automatically before the context window fills.
 
@@ -315,7 +315,7 @@ Here's the formatter rule as a `PostToolUse` hook. It runs after every `Edit` or
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "npx prettier --write --ignore-unknown \"$(jq -r '.tool_input.file_path')\"" }
+          { "type": "command", "command": "f=$(jq -r '.tool_input.file_path') && npx prettier --write --ignore-unknown \"$f\"" }
         ]
       }
     ]
@@ -425,7 +425,7 @@ The opposite problem is the classifier repeatedly stopping something that's rout
 
 > [!WARNING]
 >
-> Keep `"$defaults"` in every list you set, because without it your entries *replace* that list's built-in rules instead of adding to them. For `environment` and `allow` you'd lose the built-in context and exceptions, and a `soft_deny` list without it drops the built-in blocks on force pushes and production deploys.
+> Keep `"$defaults"` in every list you set, because without it your entries [can replace](https://code.claude.com/docs/en/auto-mode-config.md#override-the-block-and-allow-rules) that list's built-in rules instead of adding to them. You can lose the built-in context in `environment`, the exceptions in `allow`, and the blocks on force pushes and production deploys in `soft_deny`.
 >
 > The `autoMode` block also has to live in `~/.claude/settings.json` rather than the project, because the classifier ignores `autoMode` in project settings.
 
@@ -595,7 +595,7 @@ Keep it to small files: it copies rather than links, so `node_modules` in there 
 
 You rarely have to clean any of this up yourself:
 
-* When you exit an unnamed worktree session, Claude Code [removes the worktree](https://code.claude.com/docs/en/worktrees.md#clean-up-worktrees) if there's nothing in it. For a named session, or one with changes, it asks what to do.
+* When you exit an unnamed worktree session, Claude Code [removes a worktree it created with git](https://code.claude.com/docs/en/worktrees.md#clean-up-worktrees) if there's nothing in it. For a named session, or one with changes, it asks what to do.
 * Subagent worktrees disappear when the subagent finishes without changes.
 * Subagent and background-session worktrees that do get left behind are swept once they're older than `cleanupPeriodDays` and hold no work.
 

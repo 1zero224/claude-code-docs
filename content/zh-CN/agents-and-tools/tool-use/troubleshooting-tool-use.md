@@ -4,7 +4,7 @@ url: https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/troublesho
 description: 通过症状到修复的诊断表格，修复最常见的工具使用错误。
 ---
 
-针对最常见的 “tool use”（工具使用）错误的症状到修复对照表。每项修复都交叉引用了负责该功能的页面。
+找到您遇到的症状或错误，然后应用为其列出的修复方法。
 
 ## Claude 调用了错误的工具
 
@@ -37,12 +37,25 @@ description: 通过症状到修复的诊断表格，修复最常见的工具使�
 
 ## 请求时的错误
 
-| 错误                                                                     | 原因                                                                                                                                                                             | 修复方法                                                                                                                                                                                                                                                             |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tool_use ids were found without tool_result blocks immediately after` | 某些 `tool_use` ID 缺少 `tool_result`，或 `tool_result` 不是用户消息中的第一个内容块                                                                                                               | 为助手响应中的每个 `tool_use` 块返回一个 `tool_result`。将 `tool_result` 块放在任何文本之前。请参阅[处理工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/handle-tool-calls)和[并行工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/parallel-tool-use)。 |
-| `was found without a corresponding <name>_tool_result block`           | 上一个助手轮次中有一个没有结果块的 `server_tool_use` 块（最常见的情况是 Claude 将其与客户端工具一起调用），并且您的下一条用户消息结束了该轮次（例如，在 `tool_result` 块之后添加了文本），或者恢复请求不再定义该服务器工具（此时消息以 `but no <name> tool was provided` 结尾） | 发送一条仅包含客户端 `tool_use` ID 对应的 `tool_result` 块的用户消息，并保持相同的 `tools` 数组。请参阅[停止原因与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#tool-use)。                                                                                       |
-| `Unsupported regex feature in pattern field: ...`                      | 严格工具的 `input_schema` 中的某个 `pattern` 使用了严格模式无法编译的正则表达式特性，例如反向引用、环视断言、单词边界或较大的 `{n,m}` 范围                                                                                        | 简化该模式。支持带有基本量词、字符类和分组的锚定模式；请参阅 [JSON Schema 限制](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#json-schema-limitations)。                                                                                                            |
-| `All tools have defer_loading: true`                                   | 没有对模型可见的工具                                                                                                                                                                     | 至少必须有一个工具被立即加载。工具搜索工具本身绝不能设置 `defer_loading: true`。                                                                                                                                                                                                              |
+"错误"列显示每条消息的一部分，`...` 代表可变的文本。
+
+| 错误                                                                     | 原因                                                               | 修复方法                                                                                                                                                                                                                                                             |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tool_use ids were found without tool_result blocks immediately after` | 某些 `tool_use` ID 缺少 `tool_result`，或 `tool_result` 不是用户消息中的第一个内容块 | 为助手响应中的每个 `tool_use` 块返回一个 `tool_result`。将 `tool_result` 块放在任何文本之前。请参阅[处理工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/handle-tool-calls)和[并行工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/parallel-tool-use)。 |
+| `was found without a corresponding ... block`                          | 后续请求阻止了一个等待中的服务器工具运行                                             | 请参阅[服务器工具调用没有结果块](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/troubleshooting-tool-use#a-server-tool-call-has-no-result-block)。                                                                                                             |
+| `Unsupported regex feature in pattern field: ...`                      | 严格工具的 `pattern` 使用了严格模式无法编译的正则表达式特性，例如反向引用、单词边界或较大的 `{n,m}` 范围   | 简化该模式。请参阅 [JSON Schema 限制](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#json-schema-limitations)。                                                                                                                                 |
+| `Invalid regex in pattern field: ...`                                  | 严格工具的 `pattern` 包含先行断言、后行断言或语法错误                                 | 删除所有先行断言或后行断言，并修复所有语法错误。请参阅 [JSON Schema 限制](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#json-schema-limitations)。                                                                                                               |
+| `All tools have defer_loading: true`                                   | 没有对模型可见的工具                                                       | 至少必须有一个工具被立即加载。工具搜索工具本身绝不能设置 `defer_loading: true`。                                                                                                                                                                                                              |
+
+### 服务器工具调用没有结果块
+
+当[服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools)的 `server_tool_use` 或 `mcp_tool_use` 块没有结果块时，该工具仍在等待运行。错误 `was found without a corresponding ... block` 表示后续请求阻止了该等待中的工具运行。错误消息和上一个 `stop_reason` 会说明原因。请采用第一个匹配的情况：
+
+* **消息以 ``but no `<name>` tool was provided`` 或 `is not available after the last message` 结尾：** 此处的 `<name>` 是工具的名称，例如 `web_search`。请求不再定义该工具。请发送与之前相同的 `tools` 数组；对于 MCP 工具，还需发送相同的 `mcp_servers`。
+* **上一个 `stop_reason` 是 `tool_use`：** 您的用户消息在 `tool_result` 块之后还有其他内容。请仅发送 `tool_result` 块，每个客户端 `tool_use` 块对应一个。
+* **上一个 `stop_reason` 是 `pause_turn`：** 您添加了一条用户消息。请将其删除，使请求以作为 `assistant` 消息的已暂停响应结尾。
+
+有关完整步骤，请参阅[当服务器工具仍在等待时](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#when-a-server-tool-is-still-waiting)和 [`pause_turn` 停止原因](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#pause-turn)。
 
 ## 错误：思考块无法修改
 

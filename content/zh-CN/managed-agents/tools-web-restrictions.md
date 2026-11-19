@@ -30,7 +30,7 @@ featureMetadata:
   supportedPlatforms:
     Claude API: stable
     Claude Platform on AWS: beta
-    Claude Models on Google Cloud (Anthropic managed): beta
+    Claude Models on Google Cloud (Anthropic managed): stable
 ---
 
 **API 支持**：用法因产品而异。
@@ -55,7 +55,7 @@ featureMetadata:
 
 ## 在智能体上设置域名列表
 
-以下示例创建一个智能体，将 `web_search` 限制为两个站点，并为 `web_fetch` 屏蔽一个主机。它还设置了 `user_location` (java, php: `userLocation`; csharp, go: `UserLocation`) 和 `max_content_tokens` (java, php: `maxContentTokens`; csharp, go: `MaxContentTokens`)，[设置](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#settings)一节对此进行了说明。响应会回显 `configs` (csharp, go: `Configs`) 数组。
+以下示例创建一个智能体，将 `web_search` 限制为两个站点，并为 `web_fetch` 屏蔽一个主机。它还设置了 `user_location` (java, php: `userLocation`; csharp, go: `UserLocation`) 和 `max_content_tokens` (java, php: `maxContentTokens`; csharp, go: `MaxContentTokens`)。[设置](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#settings)一节对这两者进行了说明。
 
 <CodeGroup defaultLanguage="CLI">
   ```bash cURL
@@ -121,7 +121,7 @@ featureMetadata:
       ```
     </File>
 
-    [`ant apply`](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/apply) 会创建智能体并打印其 ID，而不是 `configs` 数组。
+    [`ant apply`](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/apply) 会创建智能体并打印其 ID。
   </CodeGroupItem>
 
   ```python Python
@@ -326,6 +326,7 @@ featureMetadata:
   ```php PHP
   use Anthropic\Beta\Agents\BetaManagedAgentsAgentToolset20260401;
   use Anthropic\Beta\Agents\BetaManagedAgentsAgentToolset20260401Params;
+  use Anthropic\Beta\Agents\BetaManagedAgentsModel;
   use Anthropic\Beta\Agents\BetaManagedAgentsUserLocation;
   use Anthropic\Beta\Agents\BetaManagedAgentsWebFetchToolConfigParams;
   use Anthropic\Beta\Agents\BetaManagedAgentsWebSearchToolConfigParams;
@@ -335,7 +336,7 @@ featureMetadata:
 
   $agent = $client->beta->agents->create(
       name: 'Research Agent',
-      model: 'claude-opus-5-5',
+      model: BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
       tools: [
           BetaManagedAgentsAgentToolset20260401Params::with(
               configs: [
@@ -367,7 +368,7 @@ featureMetadata:
 
   agent = client.beta.agents.create(
     name: "Research Agent",
-    model: "claude-opus-5-5",
+    model: Anthropic::Beta::BetaManagedAgentsModel::CLAUDE_OPUS_5_5,
     tools: [
       {
         type: :agent_toolset_20260401,
@@ -387,9 +388,10 @@ featureMetadata:
     ]
   )
 
-  case agent.tools.first
-  in Anthropic::Models::Beta::BetaManagedAgentsAgentToolset20260401 => toolset
-    puts JSON.pretty_generate(toolset.configs.map(&:to_h))
+  agent.tools.each do |tool|
+    if tool.is_a?(Anthropic::Beta::BetaManagedAgentsAgentToolset20260401)
+      puts JSON.pretty_generate(tool.configs.map(&:to_h))
+    end
   end
   ```
 </CodeGroup>
@@ -417,7 +419,7 @@ featureMetadata:
 
 ## 域名列表规则
 
-这些规则同样适用于 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) 和 `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`)。违反任一规则的请求都会被拒绝，如[验证错误](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#validation-errors)所述。
+这些规则同样适用于 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) 和 `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`)。API 会拒绝违反其中任一规则的请求，如[验证错误](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#validation-errors)所述。
 
 * **每个条目最多一个列表：** 在一个条目上只能设置 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) 或 `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`) 之一，不能同时设置两者。
 * **列表大小：** 每个列表包含 1 到 64 个域名，每个域名长度为 1 到 255 个字符。
@@ -447,7 +449,7 @@ featureMetadata:
 | 单标签名称                                   | `intranet`             | 完整域名，例如 `example.co.uk` |
 | 非 ASCII 字符，例如国际化域名中的字符                  |                        | `xn--`（Punycode）形式      |
 
-如果域名包含凭据或空白字符，或者其某个标签以连字符开头或结尾，也会被拒绝。`localhost` 以及以 `.localhost`、`.local`、`.internal`、`.localdomain` 或 `.invalid` 结尾的主机同样会被拒绝。
+API 还会拒绝包含凭据或空白字符，或者某个标签以连字符开头或结尾的域名。API 同样会拒绝 `localhost` 以及以 `.localhost`、`.local`、`.internal`、`.localdomain` 或 `.invalid` 结尾的主机。
 
 ### 网页搜索域名上的路径后缀
 
@@ -459,19 +461,19 @@ featureMetadata:
 
 当您[创建智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup#create-an-agent)或[更新智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup#update-an-agent)时，API 会验证这些设置。当您创建或更新提供 `tools` (csharp, go: `Tools`) 的会话时，API 也会验证它们。
 
-格式和限制违规会被拒绝，并返回 400 `invalid_request_error`：
+API 会拒绝格式和限制违规，并返回 400 `invalid_request_error`：
 
-| 违规             | 错误消息                                                                                                                    |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| 一个条目同时设置了两个列表。 | 包含 `Only one of allowed_domains or blocked_domains may be set.`                                                         |
-| 列表为空。          | 包含 `allowed_domains: Empty list of domains is ambiguous. Provide at least one domain or null.`                          |
-| 域名违反格式规则。      | 注明该域名所在的列表及其从零开始的位置。例如，`allowed_domains.0: IP addresses are not supported; provide a plain hostname like "example.com"` |
+| 违规             | 错误消息                                                                                                                   |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 一个条目同时设置了两个列表。 | 包含 `Only one of allowed_domains or blocked_domains may be set.`                                                        |
+| 列表为空。          | 包含 `allowed_domains: Empty list of domains is ambiguous. Provide at least one domain or null.`                         |
+| 域名违反格式规则。      | 注明该域名所在的列表及其从零开始的位置，如 `allowed_domains.0: IP addresses are not supported; provide a plain hostname like "example.com"` |
 
 在相同的请求中，API 还会拒绝三种依赖于搜索和获取提供商的设置：
 
 * `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) 中 Anthropic 爬虫不被允许访问的域名。
-* 搜索提供商不支持的 `user_location.country`。消息以 `user_location.country: not a country the search provider supports` 结尾。
-* 不是有效 IANA 名称的 `user_location.timezone`。
+* 搜索提供商不支持的 `user_location.country` (java, php: `userLocation.country`; csharp, go: `UserLocation.Country`)。消息以 `user_location.country: not a country the search provider supports` 结尾。
+* 不是有效 IANA 时区名称的 `user_location.timezone` (java, php: `userLocation.timezone`; csharp, go: `UserLocation.Timezone`)。
 
 在使用 `limited` [网络](https://platform.claude.com/docs/zh-CN/managed-agents/environments#networking)的云环境中，会话创建和更新还会根据环境的 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 检查 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`)。请参阅[在智能体上设置域名列表](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#set-domain-lists-on-an-agent)中的规则。
 
@@ -558,9 +560,9 @@ featureMetadata:
 * 可用性：可用
 * 用法：在请求中的 `web_search` 或 `web_fetch` 工具上设置 `allowed_domains` 或 `blocked_domains`。
 
-| 状态 | 云平台        |
-| -- | ---------- |
-| 可用 | Claude API |
+| 状态 | 云平台                                                                                                                                                                       |
+| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 可用 | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 

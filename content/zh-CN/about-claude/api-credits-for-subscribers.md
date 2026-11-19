@@ -7,7 +7,7 @@ description: 领取 Claude Max、Ultra 和 Team 计划中包含的每月 Claude 
 Claude Max、Ultra 和 Team 计划包含每月的 Claude API 额度。要领取这些额度，您需要将一个 [Claude Console](https://platform.claude.com/) 组织关联到您的计划。之后，额度会在每个计费周期（年度计划则为每月）发放到该组织中，您可以使用它们来构建和运行您自己的应用程序和智能体。您无需在 Claude Platform 中添加付款方式。
 
 <Note>
-  Claude Platform on AWS、Amazon Bedrock、Google Cloud 和 Microsoft Foundry：这些额度仅适用于 Claude Console 中的 Claude API，不能在其他平台上使用。
+  这些额度仅适用于 Claude API，不适用于任何[云平台](https://platform.claude.com/docs/zh-CN/api/overview#cloud-platform-apis)，即使您将 Claude Console 与该云平台搭配使用也是如此。
 </Note>
 
 ## 概要
@@ -50,7 +50,7 @@ Claude Max、Ultra 和 Team 计划包含每月的 Claude API 额度。要领取�
 | 位置                    | 所需角色                                |
 | --------------------- | ----------------------------------- |
 | **Claude 计划**         | Max 或 Ultra：订阅者<br />Team：主要所有者、所有者 |
-| **Claude Console 组织** | 所有者、管理员或账单                          |
+| **Claude Console 组织** | 管理员或账单                              |
 
 如果您还没有 Claude Console 组织，请先在 [platform.claude.com](https://platform.claude.com/) 上的 Console 中创建一个，或在领取流程中创建。
 
@@ -88,7 +88,7 @@ Claude Max、Ultra 和 Team 计划包含每月的 Claude API 额度。要领取�
 | Claude Console 中的 [Playground](https://platform.claude.com/playground)                  | 是    |
 | Claude Code                                                                             | 否    |
 | Claude 应用中的额外用量                                                                         | 否    |
-| Claude Platform on AWS、Bedrock、Google Cloud、Microsoft Foundry                           | 否    |
+| 任何[云平台](https://platform.claude.com/docs/zh-CN/api/overview#cloud-platform-apis)        | 否    |
 
 ## 额度的使用方式
 

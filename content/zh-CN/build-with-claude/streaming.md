@@ -296,7 +296,7 @@ featureMetadata:
   $accumulator = MessageAccumulator::forMessages();
   foreach ($stream as $event) {
       $accumulator->accumulate($event);
-      // 在此调用 $accumulator->message() 可获取当前消息的快照。
+      // 在此调用 $accumulator->message() 可获取截至目前的消息快照。
   }
 
   echo array_find($accumulator->message()->content, static fn ($block): bool => $block->type === 'text')->text;
@@ -325,8 +325,8 @@ featureMetadata:
 
 每个流使用以下事件流程：
 
-1. `message_start`：包含一个 `content` 为空的 `Message` 对象。在 [`thinking-binding-controls-2026-08-01`](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-thinking-controls) beta 标头下，此 `Message` 对象还携带 `input_transformations` 数组。在流中途发生[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)之后，最终的 `message_delta` 事件会再次携带该数组，其中包含实际提供服务的模型的条目。
-2. 一系列内容块，每个内容块都有一个 `content_block_start`、一个或多个 `content_block_delta` 事件，以及一个 `content_block_stop` 事件。每个内容块都有一个 `index`，对应于它在最终 Message `content` 数组中的索引。有一个例外：在[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)响应期间，`fallback` 内容块会在每个模型边界处以一对 `content_block_start` 和 `content_block_stop` 的形式到达，中间没有增量。
+1. `message_start`：包含一个 `content` 为空的 `Message` 对象。在 [`thinking-binding-controls-2026-08-01`](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#preserved-thinking-controls) beta 标头下，此 `Message` 对象还携带 `input_transformations` 数组。在流中途发生[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)之后，最终的 `message_delta` 事件会再次携带该数组，其中包含实际提供服务的模型的条目。
+2. 一系列内容块，每个内容块都有一个 `content_block_start`、任意数量的 `content_block_delta` 事件，以及一个 `content_block_stop` 事件。每个内容块都有一个 `index`，对应于它在最终 Message `content` 数组中的索引。有些块会完整到达，没有增量：`redacted_thinking` 块、服务器工具结果（例如 `web_search_tool_result`），以及[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)中每个模型边界处的 `fallback` 块。
 3. 一个或多个 `message_delta` 事件，表示对最终 `Message` 对象的顶层更改。
 4. 最终的 `message_stop` 事件。
 
@@ -377,7 +377,7 @@ event: content_block_delta
 data: {"type": "content_block_delta","index": 1,"delta": {"type": "input_json_delta","partial_json": "{\"location\": \"San Fra"}}}
 ```
 
-注意：当前模型仅支持一次从 `input` 中输出一个完整的键值属性。因此，在使用工具时，模型工作期间流式传输事件之间可能会出现延迟。一旦 `input` 的键和值累积完成，它们就会以分块的部分 JSON 形式作为多个 `content_block_delta` 事件发出，以便该格式能够自动支持未来模型中更细的粒度。
+默认情况下，API 会缓冲 `input` 中的每个键和值，直到其完整为止。在使用工具时，模型生成值期间流式传输事件之间可能会出现延迟。一旦 API 获得完整的 `input` 键和值，就会以分块的部分 JSON 形式将它们作为多个 `content_block_delta` 事件发出。
 
 ### 思考增量
 

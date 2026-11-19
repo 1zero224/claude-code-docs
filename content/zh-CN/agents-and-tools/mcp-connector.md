@@ -344,12 +344,12 @@ MCP 连接器使用两个组件：
 
 ### 字段说明
 
-| 属性                    | 类型     | 必填 | 说明                                                                                                                                                                                                                                     |
-| --------------------- | ------ | -- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`                | string | 是  | 目前仅支持 `url`。                                                                                                                                                                                                                           |
-| `url`                 | string | 是  | MCP 服务器的 URL。必须以 `https://` 开头。                                                                                                                                                                                                        |
-| `name`                | string | 是  | 此 MCP 服务器的唯一标识符。必须被 `tools` 数组中恰好一个 MCPToolset 引用。                                                                                                                                                                                     |
-| `authorization_token` | string | 否  | MCP 服务器要求时使用的 OAuth 授权令牌。有关如何获取令牌，请参阅[身份验证](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#authentication)；有关协议详细信息，请参阅 [MCP 规范](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization)。 |
+| 属性                    | 类型     | 必填 | 说明                                                                                                                                 |
+| --------------------- | ------ | -- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                | string | 是  | 目前仅支持 `url`。                                                                                                                       |
+| `url`                 | string | 是  | MCP 服务器的 URL。必须以 `https://` 开头。                                                                                                    |
+| `name`                | string | 是  | 此 MCP 服务器的唯一标识符。必须被 `tools` 数组中恰好一个 MCPToolset 引用。                                                                                 |
+| `authorization_token` | string | 否  | MCP 服务器要求时使用的 OAuth 授权令牌。有关如何获取令牌，请参阅[身份验证](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#authentication)。 |
 
 ## MCP 工具集配置
 
@@ -554,7 +554,9 @@ API 强制执行以下验证规则：
 
 ## 固定 MCP 服务器的工具列表（beta）
 
-MCP 服务器可以随时更改其工具。`mcp-client-2026-09-15` beta 标头会记录每个服务器返回的工具列表并允许您将其固定，这样即使服务器更改了工具，也不会在对话进行到一半时改变 Claude 接收到的内容。它包含 `mcp-client-2025-11-20` 的全部功能，因此请用它代替该标头发送。它可在 Claude API 上使用。
+MCP 服务器可以随时更改其工具。使用 `mcp-client-2026-09-15` beta 标头时，API 会记录每个服务器返回的工具列表，您可以将该列表固定。这样，即使服务器的工具发生更改，也不会在对话进行到一半时改变 Claude 接收到的内容。
+
+此标头包含 `mcp-client-2025-11-20` 的全部功能。在[接受此标头的平台](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#feature-availability)上，请用它代替该标头发送。
 
 当 API 在生成响应的过程中向 MCP 服务器请求其工具时，响应会以该服务器的 `mcp_tool_listing` 块开头，API 请求过的每个服务器各对应一个块：
 
@@ -1304,8 +1306,8 @@ MCP inspector 可以引导您完成获取测试用访问令牌的过程。
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.8.0")
-        implementation("com.anthropic:anthropic-java-mcp:3.8.0")
+        implementation("com.anthropic:anthropic-java:3.10.0")
+        implementation("com.anthropic:anthropic-java-mcp:3.10.0")
         ```
       </Tab>
 
@@ -1314,12 +1316,12 @@ MCP inspector 可以引导您完成获取测试用访问令牌的过程。
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-mcp</artifactId>
-            <version>3.8.0</version>
+            <version>3.10.0</version>
         </dependency>
         ```
       </Tab>
@@ -1505,9 +1507,9 @@ MCP inspector 可以引导您完成获取测试用访问令牌的过程。
 
   ```go Go
   import (
-  // ...
+  	// ...
 
-  // ...
+  	// ...
   	"github.com/anthropics/anthropic-sdk-go/v2/mcp"
   	mcpsdk "github.com/modelcontextprotocol/go-sdk/mcp"
   )
@@ -2160,10 +2162,10 @@ MCP 连接器在所有模型上处于 beta 阶段。
 
 Beta 请求头让您可以在实验性功能和新模型能力成为标准 API 的一部分之前访问它们。
 
-| 请求头                                             | API                                                                                            | 云平台                                                                                                                                                                                                                                                                                                                                                                                 |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mcp-client-2026-09-15`或`mcp-client-2025-11-20` | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) | Claude API                                                                                                                                                                                                                                                                                                                                                                          |
-| `mcp-client-2025-11-20`                         | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 请求头                                             | API                                                                                            | 云平台                                                                                                                                                                                                                  |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mcp-client-2026-09-15`或`mcp-client-2025-11-20` | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                            |
+| `mcp-client-2025-11-20`                         | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 ### 数据处理
 

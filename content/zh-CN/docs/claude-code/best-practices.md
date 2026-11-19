@@ -10,7 +10,7 @@ Claude Code 的设计使得在大多数情况下，您在新会话中的第一�
 
 例如：
 
-* 为了让命令安全运行而无需您逐一批准，新的终端和 VS Code 会话以[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)启动，由分类器在任何有风险的操作运行之前进行审查。
+* 为了让命令运行而无需您逐一批准，新的终端和 VS Code 会话以[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)启动。
 * 为了在独立工作并行进行时保持主对话的专注，Claude 会将工作委派给子代理，并且只在必要时与您确认。
 * 为了让长会话持续进行而无需您管理，对话会在上下文窗口填满之前自动压缩。
 
@@ -315,7 +315,7 @@ use a subagent to review the rate limiter diff against SPEC.md, check every requ
       {
         "matcher": "Edit|Write",
         "hooks": [
-          { "type": "command", "command": "npx prettier --write --ignore-unknown \"$(jq -r '.tool_input.file_path')\"" }
+          { "type": "command", "command": "f=$(jq -r '.tool_input.file_path') && npx prettier --write --ignore-unknown \"$f\"" }
         ]
       }
     ]
@@ -425,7 +425,7 @@ use a subagent to review the rate limiter diff against SPEC.md, check every requ
 
 > [!WARNING]
 >
-> 在您设置的每个列表中都保留 `"$defaults"`，否则您的条目会*替换*该列表的内置规则，而不是添加到其中。对于 `environment` 和 `allow`，您会失去内置的上下文和例外；而缺少它的 `soft_deny` 列表会丢掉对强制推送和生产部署的内置阻止。
+> 在您设置的每个列表中都保留 `"$defaults"`，否则您的条目[可能会替换](https://code.claude.com/docs/zh-CN/auto-mode-config.md#override-the-block-and-allow-rules)该列表的内置规则，而不是添加到其中。您可能会失去 `environment` 中的内置上下文、`allow` 中的例外，以及 `soft_deny` 中对强制推送和生产部署的阻止。
 >
 > `autoMode` 块还必须放在 `~/.claude/settings.json` 中，而不是项目中，因为分类器会忽略项目设置中的 `autoMode`。
 
@@ -595,7 +595,7 @@ config/dev-credentials.json
 
 您很少需要自己清理这些：
 
-* 当您退出一个未命名的 worktree 会话时，如果其中没有任何内容，Claude Code 会[删除该 worktree](https://code.claude.com/docs/zh-CN/worktrees.md#clean-up-worktrees)。对于已命名的会话或有更改的会话，它会询问如何处理。
+* 当您退出一个未命名的 worktree 会话时，如果其中没有任何内容，Claude Code 会[删除它使用 git 创建的 worktree](https://code.claude.com/docs/zh-CN/worktrees.md#clean-up-worktrees)。对于已命名的会话或有更改的会话，它会询问如何处理。
 * 子代理的 worktree 会在子代理无更改地完成时消失。
 * 确实被遗留下来的子代理和后台会话 worktree，一旦超过 `cleanupPeriodDays` 且不包含任何工作，就会被清理掉。
 

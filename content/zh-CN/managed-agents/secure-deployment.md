@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -39,19 +39,19 @@ featureMetadata:
 
 本指南列出了限制 Claude Managed Agents 上的智能体可以访问和执行哪些操作的设置，按重要性从高到低排列。每个部分都链接到完整介绍该设置的页面。
 
-| 部分                                                                                                                                                                | 设置或决策                                          | 推荐                                                                                                                              |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| [选择智能体的运行位置](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#choose-where-the-agent-runs)                                                 | 云端或自托管沙箱                                       | 云端，除非工具必须在您控制的基础设施上运行                                                                                                           |
-| [限制网络](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#limit-the-network)                                                                 | 环境的 `networking.type`                          | `limited`，仅包含智能体需要的主机                                                                                                           |
-| [将凭据保存在保管库中](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-credentials-in-vaults)                                                  | 每个环境变量凭据上的 `injection_location` 和 `networking` | 仅限请求头，并使用 `limited` 网络，仅包含该密钥所对应的主机                                                                                             |
-| [将凭据保存在保管库中](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-credentials-in-vaults)                                                  | 您的应用程序如何向 Claude API 进行身份验证                    | 在可行的情况下，使用仅在一个工作区中启用的工作负载身份联合规则，否则使用限定于一个工作区的 API 密钥                                                                            |
-| [限制网页搜索和网页抓取](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#restrict-web-search-and-web-fetch)                                          | 每个 Web 工具上的 `allowed_domains`                  | 在每个工具上设置允许列表。在 `web_fetch` 上，仅列出智能体需要的站点。在 `web_search` 上，列出您希望从中获取结果的站点                                                        |
-| [审批有风险的操作](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#approve-risky-actions)                                                         | 每个工具上的 `permission_policy`                     | 在 `bash`、`write`、`edit`、`web_fetch` 以及仅读取数据的 MCP 工具上使用 `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，或者仅凭转发的最终用户文本不应使其运行，则改为在该工具上使用 `always_ask` |
-| [为智能体提供最小的工具集](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#give-the-agent-the-smallest-tool-set)                                      | 智能体工具集上的 `default_config.enabled`              | `false`，然后启用智能体需要的工具                                                                                                            |
-| [让不受信任的输入远离强大的工具](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-untrusted-input-away-from-powerful-tools)                          | 智能体在读取不受信任的输入时持有哪些工具和凭据                        | 任何读取不受信任输入的智能体都不应持有设置为 `always_allow` 且会写入文件、运行命令或更改记录的工具                                                                       |
-| [设置限制和停止方式](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#set-limits-and-a-way-to-stop)                                                 | 每个会话和部署上的 `budget`                             | 根据您预期的单次运行成本设定上限                                                                                                                |
-| [可选：让离线审查器阅读每份会话记录](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) | 由您运行的、读取每个会话事件的离线审查作业                          | 可选。按计划审查每个已进入空闲或已终止的会话                                                                                                          |
-| [监控会话并查看保留策略](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#monitor-sessions-and-review-retention)                           | Webhook 和会话删除                                  | 在会话进入空闲、达到预算或终止时发出告警，并检查其进入空闲的原因。将您想保留的事件存储在您自己的日志中，并删除不再需要的会话                                                                  |
+| 部分                                                                                                                                                                | 设置或决策                                                                                                                                       | 推荐                                                                                                                              |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| [选择智能体的运行位置](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#choose-where-the-agent-runs)                                                 | 云端或自托管沙箱                                                                                                                                    | 云端，除非工具必须在您控制的基础设施上运行                                                                                                           |
+| [限制网络](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#limit-the-network)                                                                 | 环境的 `networking.type`                                                                                                                       | `limited`，仅包含智能体需要的主机                                                                                                           |
+| [将凭据保存在保管库中](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-credentials-in-vaults)                                                  | 每个环境变量凭据上的 `injection_location` (java, php: `injectionLocation`; csharp, go: `InjectionLocation`) 和 `networking` (csharp, go: `Networking`) | 仅限请求头，并使用 `limited` 网络，仅包含该密钥所对应的主机                                                                                             |
+| [将凭据保存在保管库中](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-credentials-in-vaults)                                                  | 您的应用程序如何向 Claude API 进行身份验证                                                                                                                 | 在可行的情况下，使用仅在一个工作区中启用的工作负载身份联合规则，否则使用限定于一个工作区的 API 密钥                                                                            |
+| [限制网页搜索和网页抓取](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#restrict-web-search-and-web-fetch)                                          | 每个 Web 工具上的 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`)                                                   | 在每个工具上设置允许列表。在 `web_fetch` 上，仅列出智能体需要的站点。在 `web_search` 上，列出您希望从中获取结果的站点                                                        |
+| [审批有风险的操作](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#approve-risky-actions)                                                         | 每个工具上的 `permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)                                                  | 在 `bash`、`write`、`edit`、`web_fetch` 以及仅读取数据的 MCP 工具上使用 `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，或者仅凭转发的最终用户文本不应使其运行，则改为在该工具上使用 `always_ask` |
+| [为智能体提供最小的工具集](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#give-the-agent-the-smallest-tool-set)                                      | 智能体工具集上的 `default_config.enabled` (java, php: `defaultConfig.enabled`; csharp, go: `DefaultConfig.Enabled`)                                 | `false`，然后启用智能体需要的工具                                                                                                            |
+| [让不受信任的输入远离强大的工具](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-untrusted-input-away-from-powerful-tools)                          | 智能体在读取不受信任的输入时持有哪些工具和凭据                                                                                                                     | 任何读取不受信任输入的智能体都不应持有设置为 `always_allow` 且会写入文件、运行命令或更改记录的工具                                                                       |
+| [设置限制和停止方式](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#set-limits-and-a-way-to-stop)                                                 | 每个会话和部署上的 `budget` (csharp, go: `Budget`)                                                                                                   | 根据您预期的单次运行成本设定上限                                                                                                                |
+| [可选：让离线审查器阅读每份会话记录](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) | 由您运行的、读取每个会话事件的离线审查作业                                                                                                                       | 可选。按计划审查每个已进入空闲或已终止的会话                                                                                                          |
+| [监控会话并查看保留策略](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#monitor-sessions-and-review-retention)                           | Webhook 和会话删除                                                                                                                               | 在会话进入空闲、达到预算或终止时发出告警，并检查其进入空闲的原因。将您想保留的事件存储在您自己的日志中，并删除不再需要的会话                                                                  |
 
 [安全风险与沙箱边界](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-risks)解释了这些设置为何重要以及它们无法防范哪些情况。要审查和监控会话，请参阅[审查和监控智能体会话](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring)。
 
@@ -238,7 +238,7 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 保持 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 关闭（这是默认设置），并在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中列出您运营或信任的每个 MCP 服务器的主机。您列出的每个主机也会向沙箱中的代码开放。在 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 关闭的情况下，如果某个 MCP 服务器的主机未被列出，会话创建时的检查会拒绝该请求。请参阅[在会话创建时提供身份验证](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector#provide-authentication-at-session-creation)。当会话更新更改 `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) 时，也会运行相同的检查。
 
 <Warning>
-  网络访问是按主机授予的，而不是按操作授予的。沙箱可以向允许的主机发送任何请求，包括 `git push` 和发布软件包等上传操作。它还可以使用命令提供的任何凭据，即使是有人隐藏在智能体所读取文本中的凭据。
+  环境是按主机授予网络访问权限的，而不是按操作授予的。沙箱可以向允许的主机发送任何请求，包括 `git push` 和发布软件包等上传操作。它还可以使用命令提供的任何凭据，即使是有人隐藏在智能体所读取文本中的凭据。
 </Warning>
 
 为 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 选择主机时，请遵循以下两条规则：
@@ -326,7 +326,7 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 ## 审批有风险的操作
 
-在 `bash`、`write`、`edit` 和 `web_fetch` 上，以及仅读取数据的 MCP 工具上设置 `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，请改为在该工具上使用 `always_ask`。对于不应仅因您转发的最终用户文本要求就运行的工具，也请使用它。[权限策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)决定工具调用是直接运行、等待您的审批，还是由服务器进行评估。
+在 `bash`、`write`、`edit`、`web_fetch` 以及仅读取数据的 MCP 工具上设置 `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，请改为在该工具上使用 `always_ask`。如果您转发的最终用户文本不应足以让某个工具运行，也请在该工具上使用它。[权限策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)决定服务器是允许工具调用、将其保留以等待您的审批，还是对其进行评估。
 
 | 工具                    | 推荐策略                                                                                      | 原因                                                                                                     |
 | --------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
@@ -340,7 +340,7 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 [为智能体提供最小的工具集](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#give-the-agent-the-smallest-tool-set)中的工具集应用了这些策略。
 
-[`auto` 策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#let-the-server-evaluate-each-call-with-auto)允许服务器运行调用、拒绝调用或暂停以等待审批。在长时间运行中，人工无法审批每个调用，因此改由服务器检查每个调用。请将 `auto` 与受限网络、权限范围窄的密钥、预算以及空闲会话告警搭配使用。`auto` 不是人工检查点，因此如果必须由人工在工具调用运行前进行审查，请在该工具上配置 `always_ask`。
+[`auto` 策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#let-the-server-evaluate-each-call-with-auto)允许服务器允许调用、拒绝调用或将其暂停以等待审批。在长时间运行中，人工无法审批每个调用，因此改由服务器检查每个调用。请将 `auto` 与受限网络、权限范围窄的密钥、预算以及空闲会话告警搭配使用。`auto` 不是人工检查点，因此如果必须由人工在工具调用运行前进行审查，请在该工具上配置 `always_ask`。
 
 `auto` 会将 `user.message` 事件中的文本以及 `user.define_outcome` 事件中的描述视为您的指令，包括您转发的最终用户文本。
 
@@ -822,7 +822,7 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 * **将读取与执行分离。** 在一个多智能体会话中，由一个[主智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#list-the-subagents)将任务分配给负责读取网页的获取者，以及负责更改文件或记录的写入者。
 * **为智能体提供一个范围窄的自定义工具。** 由您的应用程序运行该工具、检查其输入并持有凭据。客服智能体使用的是这种设计，而不是分离设计。请参阅[回答使会话暂停的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session)。
-* **让人工参与其中。** 在强大的工具上使用 `always_ask`，以便由人工审批每个调用。
+* **要求人工审批。** 在强大的工具上使用 `always_ask`，以便由人工审批每个调用。
 
 分离设计使用三个智能体：
 
@@ -832,7 +832,7 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 | 获取者             | 网页和搜索结果           | 仅 `web_fetch` 和 `web_search`，每个都带有 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`)                                  | 简短的结果，格式由您在其系统提示中指定 |
 | 写入者             | 来自主智能体的任务         | 写入文件、运行命令或更改记录的工具，设置为 `auto` 或 `always_ask`。没有 Web 工具                                                                                             | 其结果                 |
 
-获取者的结果是基于不受信任的页面构建的，主智能体可能会将其文本传递给写入者。请在写入者的工具上保持 `auto` 或 `always_ask`。获取者仍然可以将其读取的部分内容发送到其 `web_fetch` 列表中的站点，并通过查询发送给搜索提供商。
+获取者基于不受信任的页面构建其结果，主智能体可能会将其文本传递给写入者。请在写入者的工具上保持 `auto` 或 `always_ask`。获取者仍然可以将其读取的部分内容发送到其 `web_fetch` 列表中的站点，并通过查询发送给搜索提供商。
 
 同一多智能体会话中的智能体[共享沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#how-it-works)、其文件以及保管库凭据，因此这种分离只隔离了它们的工具和对话。要实现更强的隔离，请使用两个具有独立环境和保管库的会话。让您的应用程序在两个会话之间仅传递固定字段，例如订单 ID。
 

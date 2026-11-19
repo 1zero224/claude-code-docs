@@ -117,7 +117,7 @@
 
 * **侦听器**：侦听器是 `127.0.0.1` 上的转发代理。运行器在向控制平面注册之前启动侦听器，如果侦听器无法启动则在启动时退出。
 * **代理变量**：运行器重写您设置的 `HTTPS_PROXY` 和 `HTTP_PROXY` 中的任何一个，使其指向侦听器。该重写的值到达运行器本身、其生命周期钩子和它运行的每个会话。
-* **令牌轮换**：轮换的令牌无需重启即可生效。对于侦听器打开到您的代理的每个连接，运行器再次运行您的命令或读取您的文件并将结果添加为标头。
+* **令牌轮换**：轮换令牌后，新连接会携带新令牌，无需重启运行器。对于侦听器打开到您的代理的每个连接，运行器再次运行您的命令或读取您的文件并将结果添加为标头。已打开的连接仍可使用旧令牌，直到您的代理将其关闭或运行器退出。
 * **会话环境**：会话仅通过侦听器到达您的代理。在每个会话的环境中，运行器删除 `ALL_PROXY`，删除您未设置的 `HTTPS_PROXY` 或 `HTTP_PROXY` 的任何拼写，并将 `NO_PROXY` 固定到运行器自己的值。
 * **日志**：运行器从不记录标头值。
 
@@ -744,7 +744,7 @@ secrets:
 选择您的会话运行哪个版本以及何时更改：
 
 * **在固定版本之前**：针对您的会话使用的每个模型，检查[模型需要的 Claude Code 版本](https://code.claude.com/docs/zh-CN/model-config.md#available-models)。如果某个模型需要比您的会话所运行版本更新的版本，服务器会以 [Claude Code does not support this model](https://code.claude.com/docs/zh-CN/errors.md#claude-code-does-not-support-this-model) 拒绝对该模型的请求。
-* **将队列保持在一个版本上**：使用固定版本构建镜像，或在裸主机上安装特定版本并[禁用自动更新](https://code.claude.com/docs/zh-CN/setup.md#disable-auto-updates)
+* **将队列保持在一个版本上**：使用固定版本构建镜像，或在裸主机上[安装特定版本](https://code.claude.com/docs/zh-CN/setup.md#install-a-specific-version)并[禁用自动更新](https://code.claude.com/docs/zh-CN/setup.md#disable-auto-updates)
 * **升级固定队列**：阅读您当前版本与要安装版本之间的 [changelog](https://code.claude.com/docs/en/changelog.md) 条目，然后安装较新版本或重建镜像，并重启运行器
 * **升级按需运行器**：阅读您当前版本与要安装版本之间的 [changelog](https://code.claude.com/docs/en/changelog.md) 条目，然后更改您的 [`spawn-runner` hook](https://code.claude.com/docs/zh-CN/self-hosted-environments-configuration#the-spawn-runner-hook) 启动的镜像。每个新运行器都会获得新版本。已经在运行的运行器（包括由 [`--min-idle`](https://code.claude.com/docs/zh-CN/self-hosted-environments-reference#orchestrator-cli-flags) 启动的备用运行器）会保持其版本，直到退出。不要重启它，因为它的工作指令是一次性的。
 * **如果会话启动的是其他二进制文件**：如果您使用 [`--exec-path`](https://code.claude.com/docs/zh-CN/self-hosted-environments-reference#runner-cli-flags) 或 [`command` hook](https://code.claude.com/docs/zh-CN/self-hosted-environments-configuration#command) 来启动运行器自身以外的 Claude Code 二进制文件，会话将运行该二进制文件的版本。更新运行器时，请同时更新该二进制文件。
@@ -840,13 +840,19 @@ Anthropic 从其自己的基础设施而不是从您的运行器调用连接器�
 
 ### 某些会话不计为空闲
 
-持有持续运行的后台任务的会话不计为空闲，所以 `--release-idle-session-min` 不会释放该会话的槽。等待从运行中工具调用内请求的批准的会话也不计为空闲。请同时设置 `--kill-session-after-min` 作为硬后挡。
+当会话不计为空闲时，它会在超过 `--release-idle-session-min` 限制后继续占用其槽，因此请同时设置 `--kill-session-after-min`。
+
+会话在其轮次结束后或其轮次等待其用户时计为空闲，但在以下情况中不计为空闲：
+
+* 其轮次已结束且未在等待其用户，但有后台任务仍在运行
+* 其轮次正在等待某个非 MCP 工具在运行时请求的批准
+* 其轮次正在等待 MCP 服务器的 [`elicitation/create` 请求](https://code.claude.com/docs/zh-CN/mcp#respond-to-mcp-elicitation-requests)
 
 `--kill-session-after-min` 是失控会话的后挡。在 v2.1.260 或更高版本的运行器上，达到限制的会话不会立即终止。运行器给它一个宽限窗口，默认 15 分钟，您可以使用 [`SELF_HOSTED_RUNNER_MAX_LIFETIME_GRACE_MS`](https://code.claude.com/docs/zh-CN/self-hosted-environments-reference#environment-variable-only-settings) 更改：
 
 * 如果会话等待其用户，运行器释放它。如果其转向已结束并仅持有后台任务，运行器最多等待 60 秒以完成这些任务，然后释放它。会话在其用户发送下一条消息时恢复。
 * 如果转向仍在运行，运行器等待转向完成，或会话下一次等待其用户，然后释放它。
-* 如果会话在宽限窗口结束时仍在运行器上，运行器终止它，任何运行转向的工作丢失。等待从运行中工具调用内请求的批准的转向是会话超过窗口的一种方式。
+* 如果会话在宽限窗口结束时仍在运行器上，运行器终止它，任何正在运行的轮次的工作都会丢失。例如，如果会话的轮次正在等待某个非 MCP 工具在运行时请求的批准，该会话可能会一直停留在运行器上直到那时。当会话的轮次正在等待 MCP 服务器的 `elicitation/create` 请求时，会话也可能一直停留在那里。
 
 释放的会话从新克隆恢复，所以它未推送的工作无论如何都消失了；请参阅[恢复的会话丢失未推送的工作](#resumed-sessions-lose-unpushed-work)。在 v2.1.260 之前，运行器在限制处终止每个会话，最多等待宽限窗口以完成正在运行的轮次。
 

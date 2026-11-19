@@ -10,8 +10,8 @@ DateFebruary 24, 2026
 Reading time6 min
   -
 ShareCopy link
-Today we’re announcing updates to Cowork, including new plugins, so teams across the enterprise can mold Claude to how they want to work. As part of this, we're continuing to build on [recent updates](https://claude.com/resources/articles/opus-4-6-finance) to expand what Claude can do for financial services.
-Claude now works across Excel and PowerPoint — carrying context between apps to complete multi-step finance tasks end to end. We're also introducing five new finance plugins, new MCP connectors for FactSet and MSCI, and partner-created plugins from LSEG and S&P Global.
+Today we’re announcing updates to [Cowork](https://claude.com/product/cowork), including [new plugins](https://claude.com/resources/articles/cowork-plugins), so teams across the enterprise can mold Claude to how they want to work. As part of this, we're continuing to build on [recent updates](https://claude.com/resources/articles/opus-4-6-finance) to expand what Claude can do for financial services.
+Claude now [works across Excel and PowerPoint](https://claude.com/resources/articles/claude-excel-powerpoint-updates) — carrying context between apps to complete multi-step finance tasks end to end. We're also introducing five new finance plugins, new MCP connectors for FactSet and MSCI, and partner-created plugins from LSEG and S&P Global.
 For finance professionals, this means that an end-to-end workflow — performing research across market data providers through to updating a model and building the deck — can now happen in a single session, without switching tools or losing context along the way.
 ## From data to deliverable
 The work around finance lives in many different places. A deal memo pulls from a model, a model pulls from data, and data feeds back into a presentation. Claude can now move between Excel and PowerPoint without losing context – retrieving data, updating models, and building deliverables as a single continuous task.
@@ -33,7 +33,7 @@ In addition to existing financial MCP [connectors](https://claude.com/connectors
   - The **FactSet** connector brings real-time market data, fundamental analysis, earnings estimates, and research insights into Claude, to enhance users’ financial analysis and investment research workflows with trusted, institutional-quality data.
   - The **MSCI** connector brings MSCI’s trusted index data into Claude, enabling users to access MSCI’s proprietary index data and quickly gain insights into index performance, exposures, constituents and methodologies.
 Several partners are also launching their own plugins, which can be found in the same [financial services plugins repository](https://github.com/anthropics/financial-services-plugins) above.
-  - The** S&P Global** plugin brings Capital IQ Pro into Claude’s context. Skills include company tear sheets, industry transaction summaries, and earnings calls previews.
+  - The** S&P Global** plugin brings Capital IQ Pro into Claude’s context. Skills include company tear sheets, industry transaction summaries, and earnings call previews.
   - The **LSEG** plugin gives financial professionals direct access to LSEG’s market data and analytics from within Claude. Build DCF models with live yield curves, draft morning notes with real-time news, rebalance portfolios with current cross-asset pricing, and analyze deals with actual financing economics. Available for users with active LSEG data entitlements.
 ## Getting started
 All Anthropic-developed plugins – financial analysis, investment banking, equity research, private equity, and wealth management – are available today and can be found in our [public finance plugin repository](https://github.com/anthropics/financial-services-plugins), as are the partner-developed plugins from LSEG and S&P Global. You can install them directly or use them as a starting point to customize for your firm’s specific workflows, terminology and needs.
@@ -44,23 +44,22 @@ To get started with Claude working across Excel and PowerPoint, download the add
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### Your apps can now open in Claude, and Claude can work in them
-Our partners can now embed their apps directly in Claude, so you and Claude can work in the same tool, on the same screen, without switching tabs.
-Claude appsMCP
-](https://claude.com/resources/articles/interactive-connectors-full-tool)[
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 10, 2026
-### More ways to work with Claude: Sheets, Whiteboards, and Interactive Connectors
-Work at the speed of thought
-Claude apps
-](https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors)[
-ArticleNov 10, 2026
-### Introducing Claude Whiteboards, Claude Sheets, and Claude Data
-Now you can brainstorm on whiteboards, build sheets, and share data directly in Claude.
-Claude apps
-](https://claude.com/resources/articles/sheets-whiteboards-data)
+ArticleNov 17, 2026
+### Linked billing on the Claude Platform
+Claude Platform
+](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
+Claude Code
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
+Claude Platform
+](https://claude.com/resources/articles/building-always-on-agents)

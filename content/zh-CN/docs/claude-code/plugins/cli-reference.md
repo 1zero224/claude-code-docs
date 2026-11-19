@@ -82,7 +82,7 @@ claude plugin install <plugin> [options]
 | :- | :- |
 | `-s, --scope <scope>` | 安装作用域：`user`、`project` 或 `local`。默认为 `user` |
 | `--config <key=value>` | 设置插件清单中声明的 [`userConfig`](https://code.claude.com/docs/zh-CN/plugins/manifest-reference) 选项。每个选项重复使用一次该标志。写作 `<server>.<key>` 的键则改为设置[捆绑的 MCP 服务器](https://code.claude.com/docs/zh-CN/plugins/components.md#include-a-packaged-mcpb-server)在其自身 `user_config` 中声明的设置，适用于随插件一起提供的捆绑文件。`<server>.<key>` 形式需要 Claude Code v2.1.285 或更高版本 |
-| `-y, --yes` | 接受显示的安装命令，不弹出 `Run this command now?` 提示。当命令在 Claude Code 会话内运行时（例如从 Bash 工具或 hook 中运行）会被忽略。需要 Claude Code v2.1.229 或更高版本 |
+| `-y, --yes` | 接受显示的安装命令，不弹出 `Run this command now?` 提示。当命令在 Claude Code 会话内运行时（例如从 Bash 工具或 hook 中运行）会被忽略 |
 | `--accept-command <sha256>` | 接受之前某次 [`--json` 运行](#plugin-json-result)在 `shownCommand` 中报告了其 `sha256` 的已显示安装命令，用于替代 `-y`。不能与 `-y` 组合使用。请参阅[接受已显示的安装命令](#accept-a-displayed-install-command)。需要 Claude Code v2.1.271 或更高版本 |
 | `--json` | 在 stdout 的最后一行以一个 JSON 对象打印结果，而不是人类可读的消息，便于在脚本中使用。请参阅 [JSON 结果格式](#plugin-json-result)。需要 Claude Code v2.1.268 或更高版本 |
 | `--marketplace <source>` | 从位于 `<source>` 的市场安装以裸名称给出的 `<plugin>`，如果您尚未添加该市场，则先添加它。请参阅[用一条命令添加市场并安装](https://code.claude.com/docs/zh-CN/plugins/install.md#add-a-marketplace-and-install-in-one-command)。需要 Claude Code v2.1.292 或更高版本 |
@@ -175,13 +175,15 @@ Claude Code 会打印 `Successfully uninstalled plugin: formatter (scope: projec
 
 #### 卸载会删除和保留的内容
 
-当您从插件安装的最后一个作用域卸载该插件时，Claude Code 还会删除该插件存储的[选项和密钥](https://code.claude.com/docs/zh-CN/plugins/manifest-reference.md#user-configuration)以及其数据目录 `~/.claude/plugins/data/<id>/`。有三种例外情况：
+当您从插件安装的最后一个作用域卸载该插件时，Claude Code 还会删除该插件存储的[选项和密钥](https://code.claude.com/docs/zh-CN/plugins/manifest-reference.md#user-configuration)以及其数据目录 `~/.claude/plugins/data/<id>/`。其中部分或全部内容可能会保留，例如在以下情况下：
 
 * 使用 `--keep-data` 时，数据目录会保留
 * 当另一个已安装的插件使用同一文件夹时（例如 ID 与此插件仅在字母大小写上不同的插件），数据目录会保留
 * 当 Claude Code 从该作用域移除插件后无法读回已安装插件列表时，选项、密钥和数据目录都会保留，因为该插件可能仍安装在另一个作用域。卸载仍然成功。消息会列出保留了哪些内容以及如何删除它们，使用 `--json` 时，结果中带有 `savedKept: "install_records_unreadable"`
 
 使用 `--json` 时，`keptData` 会报告目录是否保留，保留时 `/plugin` 会显示 `· data preserved`。对于未使用 `--keep-data` 却被保留的目录，此报告需要 Claude Code v2.1.281 或更高版本。`savedKept` 字段需要 Claude Code v2.1.282 或更高版本。
+
+当 Claude Code 删除选项和密钥时，还会删除 v2.1.326 或更高版本从插件的 [MCP 捆绑包](https://code.claude.com/docs/zh-CN/plugins/components.md#include-a-packaged-mcpb-server)中提取到 `~/.claude/plugins/mcpb/` 的文件。当另一个插件使用相同的捆绑包时，这些文件会保留。您在那里仍能找到的任何已提取文件，会在 `cleanupPeriodDays` 期间内没有任何会话使用后被[自动清理](https://code.claude.com/docs/zh-CN/claude-directory.md#cleaned-up-automatically)。
 
 ### plugin enable
 
@@ -261,7 +263,7 @@ claude plugin update <plugin> [options]
 | 标志 | 描述 |
 | :- | :- |
 | `-s, --scope <scope>` | 要更新的作用域：`user`、`project`、`local` 或 `managed`。省略时自动检测 |
-| `-y, --yes` | 接受[命令来源](https://code.claude.com/docs/zh-CN/plugins/host-marketplace.md)插件已变更的安装命令，不弹出提示。当 stdin 或 stdout 不是 TTY 时必需，除非您传入 `--accept-command`。需要 Claude Code v2.1.229 或更高版本 |
+| `-y, --yes` | 接受[命令来源](https://code.claude.com/docs/zh-CN/plugins/host-marketplace.md)插件已变更的安装命令，不弹出提示。当 stdin 或 stdout 不是 TTY 时必需，除非您传入 `--accept-command` |
 | `--accept-command <sha256>` | 接受之前某次 [`--json` 运行](#plugin-json-result)在 `shownCommand` 中报告了其 `sha256` 的市场声明命令，用于替代 `-y`。不能与 `-y` 组合使用。需要 Claude Code v2.1.271 或更高版本 |
 | `--json` | 在 stdout 的最后一行以一个 JSON 对象打印结果，格式[与 `plugin install --json` 相同](#plugin-json-result)。需要 Claude Code v2.1.268 或更高版本 |
 
@@ -612,7 +614,7 @@ claude plugin validate ./my-plugin --strict
 
 * `.claude-plugin/marketplace.json`（如果存在）
 * 否则为 `.claude-plugin/plugin.json`
-* 否则为组件文件，根据目录名称选择。在没有清单的情况下验证组件文件需要 Claude Code v2.1.233 或更高版本：
+* 否则为组件文件，根据目录名称选择：
   * 名为 `skills`、`agents` 或 `commands` 的目录：其中的文件
   * 名为 `.claude` 的目录：其中的 `skills`、`agents` 和 `commands` 目录
   * 任何其他目录：其 `.claude` 下的这三个目录
@@ -777,7 +779,7 @@ Claude Code 打印 `Configured marketplaces:` 和每个市场一行 `Source:`，
 | `repo` | `owner/repo`。仅限 `github` 源 |
 | `url` | 克隆或获取 URL。仅限 `git` 和 `url` 源 |
 | `path` | 本地路径。仅限 `directory` 和 `file` 源 |
-| `ref` | 固定的分支或标签。`github` 和 `git` 源，仅在固定时 |
+| `ref` | 固定的分支、标签或提交 SHA。`github` 和 `git` 源，仅在固定时 |
 | `installLocation` | Claude Code 缓存市场的位置 |
 
 添加的 [claude.ai 市场](https://code.claude.com/docs/zh-CN/plugins/install.md#add-from-claude-ai)没有本地克隆，因此其条目在 `installLocation` 的位置携带其 claude.ai 标识符 `marketplaceId` 和 `organizationUuid`。它也在记录时携带 `scope` 和 `status`。
@@ -855,7 +857,7 @@ Claude Code 打印 `Successfully updated marketplace: your-marketplace`。当您
 | :- | :- | :- |
 | `/plugin` | | 在 **Discover** 选项卡上打开面板。`/plugin` 后的任何无法识别的第一个单词也这样做 |
 | `/plugin help` | `/plugin --help`、`/plugin -h` | 显示 `/plugin` 子命令的使用列表 |
-| `/plugin list [--enabled\|--disabled]` | `ls` | 内联打印您从市场安装的插件，带有版本、作用域和状态。过滤标志仅显示该状态。启用状态尚未应用的插件标记为 `— run /reload-plugins to apply` |
+| `/plugin list [--enabled\|--disabled]` | `ls` | 内联打印您从市场安装的插件，带有版本、作用域和状态。过滤标志仅显示该状态。启用状态尚未应用的插件标记为 `run /reload-plugins to apply` |
 | `/plugin install` | `i` | 打开 **Discover** 选项卡 |
 | `/plugin install <plugin>` | `i` | 在 **Discover** 选项卡中打开 plugin 的详细信息。使用 `name@marketplace`，在该市场的列表中打开它们 |
 | `/plugin install <source>` | `i` | 当目标是路径、URL 或 `owner/repo` 时报告 [marketplace not found](https://code.claude.com/docs/zh-CN/plugins/troubleshooting.md#marketplace-not-found) 错误并不安装任何内容，即使是您已经添加的源。要从源安装，请参阅 [在一个命令中添加市场和安装](https://code.claude.com/docs/zh-CN/plugins/install.md#add-a-marketplace-and-install-in-one-command) |
@@ -874,7 +876,7 @@ Claude Code 打印 `Successfully updated marketplace: your-marketplace`。当您
 | `/plugin marketplace update [name]` | `market update` | 打开 **Marketplaces** 选项卡。使用名称，在那里刷新该市场 |
 | `/plugin marketplace remove [name]` | `market remove`、`market rm`、`marketplace rm` | 打开 **Marketplaces** 选项卡。使用名称，在那里删除该市场 |
 
-如果您在 `/plugin enable`、`disable`、`uninstall` 或 `configure` 中命名当前项目中未安装的 plugin，Claude Code 打印 `Plugin "<plugin>" is not installed in this project` 而不是操作。
+如果您在 `/plugin enable`、`disable`、`uninstall` 或 `configure` 中指定的插件不在 **Installed** 选项卡上，Claude Code 会打印一条以 `installed in this project` 结尾的消息。
 
 ## /reload-plugins
 

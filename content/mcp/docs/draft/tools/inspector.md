@@ -24,7 +24,7 @@ The MCP Inspector web client after a tool call, with the monitoring sidebar pinn
 
 ## Quickstart
 
-The Inspector requires **Node 22.19.0 or newer** and runs directly through `npx`. No installation is required:
+The Inspector requires **Node.js 22.23.4+, 24.22.1+, or 26.12.1+** and runs directly through `npx`. No installation is required:
 
 > [tab] Web
 >
@@ -152,6 +152,11 @@ Everything else (`--catalog`, `--config`, `--server-url`, `--transport`, `--meth
 >
 > Connect once, then run many commands against a named connection.
 
+> [card] [Load testing](https://modelcontextprotocol.io/docs/draft/tools/inspector/load-testing.md)
+>
+> Concurrent and sustained load from the web client, the CLI, or mcpdo, with
+> CI thresholds and baselines.
+
 > [card] [Security](https://modelcontextprotocol.io/docs/draft/tools/inspector/security.md)
 >
 > The threat model: the web backend's token, Docker, secret storage, stdio
@@ -164,3 +169,6 @@ Everything else (`--catalog`, `--config`, `--server-url`, `--transport`, `--meth
 > [card] [Debugging guide](https://modelcontextprotocol.io/docs/draft/tools/debugging.md)
 >
 > Broader debugging strategies beyond the Inspector.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

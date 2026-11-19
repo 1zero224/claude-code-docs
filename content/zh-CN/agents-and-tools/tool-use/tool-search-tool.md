@@ -32,8 +32,9 @@ featureMetadata:
     Amazon Bedrock: stable
     Amazon Bedrock (bedrock-runtime):
       availability: stable
-      note: 在 Amazon Bedrock 上，无法通过 Converse API 使用。
+      note: 可通过 InvokeModel API 使用，不支持 Converse API。
     Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
     Claude Models on Google Cloud (Google managed): stable
     Microsoft Foundry: stable
 ---
@@ -45,7 +46,7 @@ featureMetadata:
 * **上下文膨胀：** 一个典型的多服务器设置（GitHub、Slack、Sentry、Grafana 和 Splunk）在 Claude 开始任何工作之前，仅定义就可能消耗约 55k 个令牌。工具搜索通常可将其减少 85% 以上，仅加载 Claude 针对特定请求所需的 3–5 个工具。
 * **工具选择准确性：** 一旦可用工具超过 30–50 个，Claude 选择正确工具的能力就会下降。由于工具搜索仅按需加载一组聚焦的相关工具，即使在数千个工具中，选择准确性也能保持在较高水平。
 
-有关支持工具搜索的模型，请参阅[模型兼容性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool#model-compatibility)。
+有关支持工具搜索的模型，请参阅[模型兼容性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool#model-compatibility)。有关支持该功能的平台，请参阅[可用性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool#feature-availability)。
 
 <Tip>
   有关工具搜索所解决的扩展挑战的背景信息，请参阅[高级工具使用](https://www.anthropic.com/engineering/advanced-tool-use)。工具搜索的按需加载也是[有效的上下文工程](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)中所述的更广泛的即时检索原则的一个实例。
@@ -55,14 +56,6 @@ featureMetadata:
 
 <Note>
   请通过[反馈表单](https://forms.gle/MhcGFFwLxuwnWTkYA)分享您对此功能的反馈。
-</Note>
-
-<Warning>
-  在 Amazon Bedrock 上，服务器端工具搜索仅通过 [InvokeModel API](https://docs.aws.amazon.com/bedrock/latest/userguide/bedrock-runtime_example_bedrock-runtime_InvokeModel_AnthropicClaude_section.html) 提供，不通过 Converse API 提供。
-</Warning>
-
-<Note>
-  在 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上，服务器端工具搜索的工作方式与 Claude API 完全相同。Claude Platform on AWS 直接使用 Anthropic Messages API，因此不存在 InvokeModel 或 Converse 的区别。
 </Note>
 
 ## 模型兼容性
@@ -854,6 +847,8 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "too
 * **搜索结果：** 每次搜索默认最多返回 5 个匹配的工具；Claude 可以在其搜索输入中将 `limit` 设置为 1 到 10,000 之间的任意整数
 * **模式和查询长度：** 正则表达式模式最多 200 个字符，BM25 查询最多 500 个字符
 * **模型支持：** 请参阅[模型兼容性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool#model-compatibility)
+* **平台支持：** 请参阅[可用性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool#feature-availability)
+* **[Amazon Bedrock（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)：** 工具搜索通过 InvokeModel API 运行
 
 ### 何时使用工具搜索
 
@@ -914,12 +909,12 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "too
 
 * 可用性：可用
 
-| 状态             | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | 模型                                                             |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| 可用             | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
-| 可用<sup>1</sup> | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)                                                                                                                                                                                                                                                                                                                                                                   | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
+| 状态             | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | 模型                                                             |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| 可用             | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
+| 可用<sup>1</sup> | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
-1. 在 Amazon Bedrock 上，无法通过 Converse API 使用。
+1. 可通过 InvokeModel API 使用，不支持 Converse API。
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 

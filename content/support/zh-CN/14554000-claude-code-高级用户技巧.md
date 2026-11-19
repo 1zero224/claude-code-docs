@@ -10,9 +10,9 @@
 
 - 此处显示的大多数命令都随 Claude Code 一起提供：/color 和 /btw 是**内置命令**，/simplify 和 /loop 是随 CLI 一起提供的**捆绑技能**。请参阅**[命令参考](https://code.claude.com/docs/en/commands)**和**[技能](https://code.claude.com/docs/en/skills)**。你可以通过在 .claude/skills/<name>/ 下添加 SKILL.md 文件来构建自己的技能。
 
-- iMessage 插件在官方 claude-plugins-official 市场中提供。社区插件（例如"ralph-wiggum"插件）未经 Anthropic 审查或认可——在托管环境中安装第三方插件前请咨询你的管理员。
+- iMessage 插件在官方 claude-plugins-official 市场中提供。社区插件（例如 “ralph-wiggum” 插件）未经 Anthropic 审查或认可——在受管环境中安装第三方插件前请咨询你的管理员。
 
-- 某些功能——沙箱、远程控制、计划的云任务、语音——**默认关闭**，可能被你的组织政策禁用。如果此处的命令或标志返回"不可用"，你的管理员可能未为你的工作区启用它。
+- 某些功能——沙箱、远程控制、计划的云任务、语音——**默认关闭**，可能被你的组织政策禁用。如果此处的命令或标志返回 “不可用”，你的管理员可能未为你的工作区启用它。
 
 本指南中的其他所有内容都适用于标准 Claude Code 安装。如有疑问，请运行 `/help` 查看你的会话中实际可用的内容。
 
@@ -30,7 +30,7 @@
 | 钩子            | 生命周期事件和模式                       |
 | 权限和安全         | 预批准、自动模式、沙箱、长时间运行的任务            |
 | 计划和重复任务       | `/loop`、`/schedule`             |
-| 移动和远程控制       | 移动应用、传送、远程控制、Dispatch           |
+| 移动和远程控制       | 移动应用、传送、远程控制、调度                 |
 | 工具集成 (MCP)    | 数据分析、错误修复、插件                    |
 | 自定义你的环境       | 终端、状态行、语音、输出样式                  |
 | SDK 和多仓库工作    | `--bare`、`--add-dir`、分叉、设置脚本    |
@@ -49,11 +49,11 @@
 
 - 对于非 git VCS（Mercurial、Perforce、SVN），在 `settings.json` 中定义 `WorktreeCreate` 和 `WorktreeRemove` 钩子以获得相同的隔离。
 
-要在多个会话中保持方向感，请命名你的工作树，设置 shell 别名（`za`、`zb`、`zc`）在它们之间跳转，对终端选项卡进行颜色编码，并启用终端通知，以便在任何 Claude 需要你的注意时收到通知。许多工程师保留一个专用的"分析"工作树，仅用于读取日志和运行查询。
+为了在多个会话中保持方向感，命名你的工作树，设置 shell 别名（`za`、`zb`、`zc`）在它们之间跳转，对终端选项卡进行颜色编码，并启用终端通知，这样你就能知道何时有任何 Claude 需要你的注意。许多工程师保留一个专用的 “分析” 工作树，仅用于读取日志和运行查询。
 
 ### 具有工作树隔离的子代理
 
-子代理也可以在隔离的工作树中运行，这对大型批量更改特别强大。将 `isolation: worktree` 添加到你的代理的前置内容中：
+子代理也可以在隔离的工作树中运行，这对大型批量更改特别强大。在你的代理的前置内容中添加 `isolation: worktree`：
 
 ```
 # .claude/agents/worktree-worker.md
@@ -64,7 +64,7 @@ isolation: worktree
 ---
 ```
 
-然后自然地提示：*"将所有同步 IO 迁移到异步。批量处理更改并启动 10 个具有工作树隔离的并行代理。每个代理应该端到端测试其更改，然后提交 PR。"*
+然后自然地提示：*“将所有同步 IO 迁移到异步。批量处理更改并启动 10 个具有工作树隔离的并行代理。每个代理应该端到端测试其更改，然后提交 PR。”*
 
 ### /batch 用于大规模迁移
 
@@ -76,29 +76,29 @@ isolation: worktree
 
 ---
 
-## 构建前先规划
+## 构建前的规划
 
-### 在规划模式下启动复杂任务
+### 在计划模式下启动复杂任务
 
-按 **Shift+Tab** 进入规划模式。投入精力完善计划，这样 Claude 可以一次性完成实现。典型流程是：进入规划模式 → 完善计划 → 切换到自动接受编辑 → Claude 执行。
+按 **Shift+Tab** 进入计划模式。投入精力完善计划，这样 Claude 可以一次性完成实现。典型流程是：进入计划模式 → 完善计划 → 切换到自动接受编辑 → Claude 执行。
 
-团队的一些模式：
+团队的一些做法：
 
 - 让一个 Claude 编写计划，然后启动第二个 Claude 作为首席工程师进行审查。
 
-- 一旦出现问题，立即切换回规划模式并重新规划，而不是在过程中进行纠正。
+- 一旦出现问题，立即切换回计划模式重新规划，而不是在过程中进行纠正。
 
-- 规划模式后，Claude **会根据您正在处理的内容自动命名您的会话**——您也可以使用 `claude --name "auth-refactor"` 提前设置名称。
+- 进入计划模式后，Claude **会根据您正在处理的内容自动命名您的会话**——您也可以使用 `claude --name "auth-refactor"` 提前设置名称。
 
 ### 对所有工作使用 Opus 和思考功能
 
-Claude Code 团队的理由：*"这是我用过的最好的编码模型，虽然它比 Sonnet 更大、更慢，但由于您需要引导它的次数更少，它在工具使用方面更好，最终使用它几乎总是比使用较小的模型更快。"*
+Claude Code 团队的理由：*“这是我用过的最好的编码模型，虽然它比 Sonnet 更大更慢，但由于您需要引导的次数更少，它在工具使用方面更好，最终几乎总是比使用较小模型更快。”*
 
 **数学原理：**更少的引导 + 更好的工具使用 = 更快的整体结果，即使使用更大的模型。
 
-### 努力程度
+### 努力级别
 
-运行 /effort 选择您的努力程度。可用的级别有 **low**（更少的令牌，更快）、**medium**、**high**（更多令牌，更高智能）、**xhigh**、**max** 和 **auto**（Claude 按请求选择）。对于复杂的编码和代理工作，切换到 xhigh 以获得比 high 更深入的推理，而不需要 max 的完整令牌成本。对于困难的调试或架构决策，切换到 max，让 Claude 根据需要进行尽可能长的推理。Max 会更快地消耗使用限额，因此请按会话激活它。
+运行 /effort 选择您的努力级别。可用级别有 **low**（更少令牌，更快）、**medium**、**high**（更多令牌，更高智能）、**xhigh**、**max** 和 **auto**（Claude 按请求选择）。对于复杂编码和代理工作，切换到 xhigh 以获得比 high 更深入的推理，而无需 max 的完整令牌成本。对于困难的调试或架构决策，切换到 max，让 Claude 根据需要进行推理。Max 会更快地消耗使用限额，因此请按会话激活它。
 
 ---
 
@@ -106,17 +106,17 @@ Claude Code 团队的理由：*"这是我用过的最好的编码模型，虽然
 
 不要接受第一个解决方案——推动 Claude 做得更好。一些效果很好的提示：
 
-- **"审查这些更改，在我通过您的测试之前不要创建 PR。"**强制 Claude 在发布前验证您的理解。
+- **“严格审查这些更改，在我通过您的测试之前不要创建 PR。”**强制 Claude 在发布前验证您的理解。
 
-- **"向我证明这有效。"**让 Claude 比较 `main` 和您的功能分支之间的行为差异。
+- **“向我证明这有效。”**让 Claude 比较 `main` 和您的功能分支之间的行为差异。
 
-- **"考虑到您现在所知的一切，放弃这个并实现优雅的解决方案。"**在第一次尝试不理想后很有用。
+- **“考虑到您现在所知的一切，放弃这个并实现优雅的解决方案。”**在第一次尝试不理想后很有用。
 
-编写详细的规范以减少歧义，然后再交付工作。您越具体，输出就越好。
+在交接工作前编写详细的规范以减少歧义。您越具体，输出就越好。
 
 ### /btw 用于附加问题
 
-当 Claude 正在积极工作时，使用 `/btw` 提出快速问题而不中断它。这是单轮的，没有工具调用，但具有完整的对话上下文。
+当 Claude 正在积极工作时，使用 `/btw` 快速提问而不中断它。这是单轮的，没有工具调用，但具有完整的对话上下文。
 
 ```
 > /btw what does the retry logic do?
@@ -128,13 +128,13 @@ Claude Code 团队的理由：*"这是我用过的最好的编码模型，虽然
 
 Claude Code 不仅用于编写代码——当您将其配置为解释和教学时，它是一个强大的学习工具。
 
-- **在 `/config` 中启用"解释性"或"学习"输出样式**，让 Claude 解释更改背后的*原因*。
+- **在 `/config` 中启用 “Explanatory” 或 “Learning” 输出风格**，让 Claude 解释更改背后的*原因*。
 
 - **生成可视化 HTML 演示文稿**解释不熟悉的代码。
 
 - **请求 ASCII 图表**说明新协议和代码库。
 
-- **建立间隔重复技能：**解释您的理解，Claude 提出后续问题以填补空白。
+- **构建间隔重复技能：**解释您的理解，Claude 提出后续问题以填补空白。
 
 ---
 
@@ -142,9 +142,9 @@ Claude Code 不仅用于编写代码——当您将其配置为解释和教学�
 
 ### 投资您的 CLAUDE.md
 
-在您的仓库根目录共享一个 `CLAUDE.md` 文件，检入 git，整个团队贡献。关键做法：**每当 Claude 做错事时，将其添加到 CLAUDE.md**，这样它就知道不要重复这个错误。
+在您的仓库根目录共享一个 `CLAUDE.md` 文件，检入 git，整个团队都可以贡献。关键做法：**每当 Claude 做错事时，将其添加到 CLAUDE.md**，这样它就知道不要重复这个错误。
 
-每次更正后，以以下内容结尾：*"更新您的 CLAUDE.md，这样您就不会再犯那个错误。"*Claude 非常擅长为自己编写规则。
+每次更正后，以以下内容结尾：*“更新您的 CLAUDE.md，这样您就不会再犯那个错误。”*Claude 非常擅长为自己编写规则。
 
 ### 代码审查中的 @claude
 
@@ -154,7 +154,7 @@ Claude Code 不仅用于编写代码——当您将其配置为解释和教学�
 nit: use a string literal, not ts enum  @claude add to CLAUDE.md to never use enums, always prefer literal unions
 ```
 
-这是"复合工程"——每次更正都会使未来的每个会话变得更好。
+这是“复合工程”——每次更正都会使未来的每个会话更好。
 
 ### 自动记忆
 
@@ -174,13 +174,13 @@ nit: use a string literal, not ts enum  @claude add to CLAUDE.md to never use en
 
 给 Claude 一种验证其工作的方式将显著提高最终结果的质量。如果 Claude 可以自己关闭反馈循环，它将迭代直到输出正确。
 
-验证在不同领域看起来不同——bash 命令、测试套件、模拟器、浏览器测试——但原则是相同的。投资于特定领域的验证。
+验证因领域而异——bash 命令、测试套件、模拟器、浏览器测试——但原则是相同的。投资于特定领域的验证。
 
 ### Chrome 扩展
 
 对于前端工作，安装 Claude Code Chrome 扩展。把它想象成任何其他工程师：如果您要求某人构建网站但不让他们使用浏览器，它会看起来不错吗？可能不会。有了浏览器，他们会迭代直到看起来不错。
 
-团队每次处理网络代码时都使用 Chrome 扩展。在 **[code.claude.com/docs/en/chrome](https://code.claude.com/docs/en/chrome)** 下载 Chrome 或 Edge 版本。
+团队在处理网络代码时每次都使用 Chrome 扩展。在 **[code.claude.com/docs/en/chrome](https://code.claude.com/docs/en/chrome)** 下载 Chrome 或 Edge 版本。
 
 ### 用于网络服务器的桌面应用
 
@@ -188,7 +188,7 @@ Claude 桌面应用捆绑了在内置浏览器中**自动启动和测试网络�
 
 ### /simplify 用于代码质量
 
-在进行更改后，在任何提示后附加 `/simplify`。它运行并行代理来审查更改的代码以实现重用、质量、效率和 `CLAUDE.md` 合规性——一次完成。
+在任何提示后附加 `/simplify` 进行更改。它运行并行代理来审查已更改的代码，检查代码重用、质量、效率和 `CLAUDE.md` 合规性——一次完成所有工作。
 
 ```
 > hey claude make this code change then run /simplify
@@ -200,15 +200,15 @@ Claude 桌面应用捆绑了在内置浏览器中**自动启动和测试网络�
 
 ### 重复工作流的技能
 
-如果你每天做某件事不止一次，就把它变成一个技能。技能被检入 `.claude/skills/<name>/SKILL.md` 并与团队共享（旧的 `.claude/commands/` 路径仍然有效，但技能是推荐的方法）。一些想法：
+如果你每天做某件事不止一次，就把它变成一项技能。技能被检入 `.claude/skills/<name>/SKILL.md` 并与团队共享（旧的 `.claude/commands/` 路径仍然有效，但技能是推荐的方法）。一些想法：
 
 - 一个 `/techdebt` 命令，在每个会话结束时运行以查找重复的代码。
 
 - 一个命令，将 7 天的 Slack、GDrive、Asana 和 GitHub 同步到一个上下文转储中。
 
-- 分析工程师代理，编写 dbt 模型、审查代码并在开发中测试。
+- 分析工程师代理，编写 dbt 模型、审查代码并在开发环境中测试。
 
-斜杠命令可以包含 **内联 Bash** 来预计算信息（如 `git status`），无需额外的模型调用。
+斜杠命令可以包含 **内联 Bash**，以预计算信息（如 `git status`），无需额外的模型调用。
 
 ### 用于 PR 工作流的子代理
 
@@ -230,7 +230,7 @@ Claude 桌面应用捆绑了在内置浏览器中**自动启动和测试网络�
 
 ### 在运行时利用子代理
 
-- **在任何希望 Claude 投入更多计算资源的请求中附加"使用子代理"**。
+- **将 “use subagents” 附加**到任何你想让 Claude 投入更多计算能力的请求中。
 
 - **将单个任务卸载到子代理**以保持主代理的上下文窗口清洁和专注。
 
@@ -238,7 +238,7 @@ Claude 桌面应用捆绑了在内置浏览器中**自动启动和测试网络�
 
 ### 代码审查代理
 
-当 PR 打开时，Claude 可以调度一个代理团队，每个代理专注于不同的问题 — 逻辑错误、安全问题、性能回归 — 并发布内联注释。Anthropic 团队首先为自己构建了这个；每个工程师的代码输出显著增加，审查是瓶颈。
+当 PR 打开时，Claude 可以调度一个代理团队，每个代理专注于不同的问题 — 逻辑错误、安全问题、性能回归 — 并发布内联注释。Anthropic 团队首先为自己构建了这个；每个工程师的代码输出显著增加，审查成为了瓶颈。
 
 ---
 
@@ -252,7 +252,7 @@ Claude 桌面应用捆绑了在内置浏览器中**自动启动和测试网络�
 | ------------------- | ----------------------------------- |
 | `SessionStart`      | 每次启动 Claude 时动态加载上下文                |
 | `PreToolUse`        | 记录模型运行的每个 bash 命令                   |
-| `PostToolUse`       | 在写入/编辑后自动格式化代码以防止 CI 失败             |
+| `PostToolUse`       | 写入/编辑后自动格式化代码以防止 CI 失败              |
 | `PermissionRequest` | 将权限提示路由到 Slack、WhatsApp 或 Opus 进行审查 |
 | `Stop`              | 对长任务运行确定性检查，或推动 Claude 继续进行         |
 | `PostCompact`       | 在上下文压缩后重新注入关键指令                     |
@@ -274,17 +274,17 @@ Claude 桌面应用捆绑了在内置浏览器中**自动启动和测试网络�
 
 ### 预批准常见命令
 
-运行 `/permissions` 来预允许常见的安全命令并将其检入团队的 `.claude/settings.json`。这是 **跳过权限的推荐替代方案** — 你会收到更少的提示，同时保持可审计的允许列表。**完全支持通配符语法** — 尝试 `"Bash(bun run *)"` 或 `"Edit(/docs/**)"`。
+运行 `/permissions` 以预允许常见的安全命令并将其检入团队的 `.claude/settings.json`。这是 **推荐的替代方案**，而不是完全跳过权限 — 你会收到更少的提示，同时保持可审计的允许列表。**完全支持通配符语法**—试试 `"Bash(bun run *)"` 或 `"Edit(/docs/**)"`。
 
 Claude Code 的权限系统分层提示注入检测、静态分析、沙箱和人工监督。一小组安全命令是开箱即用的预批准；你通过 `/permissions` 添加的所有内容都是对该基线的补充。
 
 ### 自动模式
 
-自动模式让 Claude 代表你做出权限决定。分类器在每个操作运行前评估它 — 安全操作会自动批准，风险操作仍会被标记。你可以在会话期间随时使用 **Shift+Tab** 切换权限模式。
+自动模式让 Claude 代表你做出权限决定。分类器在每个操作运行前进行评估 — 安全操作会自动批准，风险操作仍会被标记。你可以在会话期间随时使用 **Shift+Tab** 切换权限模式。
 
 ### 沙箱
 
-运行 `/sandbox` 以选择加入 Claude Code 的开源沙箱运行时。它在你的机器上运行并支持 **文件和网络隔离**，提高安全性同时减少权限提示。有三种模式可用：
+运行 `/sandbox` 以选择加入 Claude Code 的开源沙箱运行时。它在你的机器上运行，支持 **文件和网络隔离**，提高安全性同时减少权限提示。有三种模式可用：
 
 - 沙箱 BashTool，带自动允许
 
@@ -300,9 +300,9 @@ Claude Code 的权限系统分层提示注入检测、静态分析、沙箱和�
 
 - 使用代理 `Stop` 钩子进行确定性检查（对于可审计的工作流程首选）。
 
-- 使用"ralph-wiggum"社区插件。
+- 使用 “ralph-wiggum” 社区插件。
 
-对于沙箱环境，使用 `--permission-mode=dontAsk` 或 `--dangerously-skip-permissions` 以避免阻止。
+对于沙箱环境，使用 `--permission-mode=dontAsk` 或 `--dangerously-skip-permissions` 来避免阻止。
 
 ---
 
@@ -330,7 +330,7 @@ Claude Code 的权限系统分层提示注入检测、静态分析、沙箱和�
 
 ## 移动和远程控制
 
-### 从您的手机工作
+### 从手机工作
 
 Claude Code 有一个**移动应用**——下载 iOS/Android 的 Claude 应用并点击代码选项卡。还提供了**iMessage 插件**（`/plugin install imessage@claude-plugins-official`）以从任何 Apple 设备发送任务。
 
@@ -342,31 +342,31 @@ Claude Code 有一个**移动应用**——下载 iOS/Android 的 Claude 应用�
 
 - `/remote-control` 让您从手机或网络控制本地会话。
 
-- `claude remote-control` 让您从移动应用生成新的本地会话。*可用性：Pro、Max、Ultra、Team 和 Enterprise 计划在 CLI v2.1.51+ 上。*
+- `claude remote-control` 让您从移动应用生成新的本地会话。*可用性：Pro、Max、Ultra、Team 和 Enterprise 计划（CLI v2.1.51+）。*
 
-您也可以在 `/config` 中启用**"为所有会话启用远程控制"**。
+您也可以在 `/config` 中启用**“为所有会话启用远程控制”**。
 
 ### Claude Cowork Dispatch
 
-Dispatch 是 Claude Desktop 应用的安全远程控制。它可以在您的许可下使用您的 MCP、浏览器和计算机——对于赶上 Slack 和电子邮件、管理文件以及在您不在笔记本电脑时在其上执行操作很有用。
+Dispatch 是 Claude Desktop 应用的安全远程控制。它可以在您的许可下使用您的 MCP、浏览器和计算机——对于赶上 Slack 和电子邮件、管理文件以及在您不在笔记本电脑旁时在笔记本电脑上执行操作很有用。
 
 ---
 
 ## 工具集成 (MCP)
 
-将 Claude 连接到您现有的工具，以便它可以搜索 Slack、运行 BigQuery、获取 Sentry 日志等。通过 claude mcp add 或 settings.json 中的
+将 Claude 连接到您现有的工具，以便它可以搜索 Slack、运行 BigQuery、获取 Sentry 日志等。通过 claude mcp add 或设置中的 “mcpServers” 块添加 MCP 服务器。json——有关配置，请参阅**[code.claude.com/docs/en/mcp](https://code.claude.com/docs/en/mcp)**。
 
 ### 数据和分析
 
-要求 Claude 使用 `bq` CLI 即时拉取和分析指标——在您的代码库中检查 BigQuery 技能。Claude Code 团队的看法："个人而言，我已经 6 个多月没有写过一行 SQL 了。"这适用于任何具有 CLI、MCP 或 API 的数据库。
+要求 Claude 使用 `bq` CLI 即时拉取和分析指标——在您的代码库中保留 BigQuery 技能。Claude Code 团队的看法：“个人而言，我已经 6 个多月没有写过一行 SQL 了。”这适用于任何具有 CLI、MCP 或 API 的数据库。
 
 ### 错误修复
 
-启用 Slack MCP，将错误线程粘贴到 Claude 中，然后说**"修复"**——零上下文切换。或者说**"去修复失败的 CI 测试"**而不进行微观管理。将 Claude 指向**docker logs** 以排查分布式系统故障——它在这方面的能力令人惊讶。
+启用 Slack MCP，将错误线程粘贴到 Claude 中，然后说**“修复”**——零上下文切换。或者说**“去修复失败的 CI 测试”**而不需要微观管理。将 Claude 指向**docker 日志**以排查分布式系统故障——它在这方面的能力令人惊讶。
 
 ### 插件
 
-插件捆绑 LSP（适用于每种主要语言）、MCP、技能、代理和自定义钩子。从官方 Anthropic 插件市场安装，或为您的组织建立内部市场——然后将市场参考检查到 `settings.json` 中，以便为每个开发人员自动添加。运行 `/plugin` 以开始。
+插件捆绑 LSP（适用于每种主要语言）、MCP、技能、代理和自定义钩子。从官方 Anthropic 插件市场安装，或为您的组织建立内部市场——然后将市场参考检查到 `settings.json` 中，以便为每个开发人员自动添加。运行 `/plugin` 开始。
 
 ---
 
@@ -390,7 +390,7 @@ Dispatch 是 Claude Desktop 应用的安全远程控制。它可以在您的许�
 
 - **CLI：**运行 `/voice` 然后按住空格键
 
-- **桌面：**按语音按钮（麦克风图标）
+- **Desktop：**按语音按钮（麦克风图标）
 
 - **iOS：**在系统设置中启用听写
 
@@ -398,15 +398,15 @@ Dispatch 是 Claude Desktop 应用的安全远程控制。它可以在您的许�
 
 ### 云会话
 
-除了终端外，从 claude.ai/code 在云中运行其他会话。使用 `&` 命令将会话发送到云，或使用 `--teleport` 标志在本地和云会话之间切换上下文。
+除了终端外，还可以从 claude.ai/code 在云中运行其他会话。使用 `&` 命令将会话发送到云，或使用 `--teleport` 标志在本地和云会话之间切换上下文。
 
 ### 输出样式
 
 运行 `/config` 并设置输出样式。**解释性**让 Claude 在工作时解释框架和模式（非常适合新代码库）。**学习**让 Claude 指导您完成更改。您也可以创建**自定义**样式来调整 Claude 的语音。
 
-### 微调动词
+### 加载动画动词
 
-正是这些小事情使 Claude Code 感到个性化。要求 Claude 自定义您的微调动词以添加到或替换默认列表。将 `settings.json` 检查到源代码控制中以与您的团队共享动词。
+正是这些小细节让 Claude Code 感到个性化。要求 Claude 自定义您的加载动画动词以添加或替换默认列表。将 `settings.json` 检查到源代码控制中以与您的团队共享动词。
 
 ### 自定义一切
 
@@ -420,7 +420,7 @@ Claude Code 开箱即用效果很好，但当您进行自定义时，**将 `sett
 
 ### --bare 用于更快的 SDK 启动
 
-默认情况下，`claude -p`（以及 TypeScript/Python SDK）会搜索本地`CLAUDE.md`文件、设置和 MCP。对于非交互式使用，通常需要通过`--system-prompt`、`--mcp-config`、`--settings`等显式指定这些。添加`--bare`以获得大约 10 倍的启动速度提升：
+默认情况下，`claude -p`（以及 TypeScript/Python SDK）会搜索本地`CLAUDE.md`文件、设置和 MCP。对于非交互式使用，通常需要通过`--system-prompt`、`--mcp-config`、`--settings`等显式指定这些。添加`--bare`可实现大约 10 倍的启动速度提升：
 
 ```
 claude -p "summarize this codebase" \
@@ -437,11 +437,11 @@ claude -p "summarize this codebase" \
 
 ### 分支会话
 
-要分支现有会话，请从其内部运行`/branch`，或从 CLI 运行`claude --resume <session-id> --fork-session`。
+要从现有会话分支，在其中运行`/branch`，或从 CLI 运行`claude --resume <session-id> --fork-session`。
 
 ### 云环境的设置脚本
 
-在 Claude Code 云会话和 Claude Desktop 中，添加在每个新云会话之前运行的设置脚本—安装依赖项、配置设置、设置环境变量。恢复时跳过该脚本。
+在 Claude Code 云会话和 Claude Desktop 中，添加在每个新云会话前运行的设置脚本—安装依赖项、配置设置、设置环境变量。恢复时跳过该脚本。
 
 ---
 
@@ -452,7 +452,7 @@ claude -p "summarize this codebase" \
 | 并行工作     | `claude --worktree`、`/batch`、`isolation: worktree`       |
 | 规划       | Shift+Tab、`/effort max`、`claude --name`                  |
 | 内存       | `CLAUDE.md`、`/memory`、`/dream`、PR 中的`@claude`            |
-| 验证       | Chrome 扩展程序、`/simplify`、Desktop 应用                       |
+| 验证       | Chrome 扩展、`/simplify`、Desktop 应用                         |
 | 自动化      | `.claude/skills/`、`.claude/agents/`、`--agent`            |
 | 钩子       | `PostToolUse`、`Stop`、`PostCompact`、`PermissionRequest`   |
 | 权限       | `/permissions`、自动模式、`/sandbox`                           |
@@ -465,11 +465,11 @@ claude -p "summarize this codebase" \
 
 ## 附录：相关文章
 
-| **资源**      | **链接**                                                                                         |
-| ----------- | ---------------------------------------------------------------------------------------------- |
-| 钩子参考        | **[code.claude.com/docs/en/hooks](https://code.claude.com/docs/en/hooks)**                     |
-| 子代理和自定义代理   | **[code.claude.com/docs/en/sub-agents](https://code.claude.com/docs/en/sub-agents)**           |
-| 计划任务        | **[code.claude.com/docs/en/scheduled-tasks](https://code.claude.com/docs/en/scheduled-tasks)** |
-| Chrome 扩展程序 | **[code.claude.com/docs/en/chrome](https://code.claude.com/docs/en/chrome)**                   |
+| **资源**    | **链接**                                                                                         |
+| --------- | ---------------------------------------------------------------------------------------------- |
+| 钩子参考      | **[code.claude.com/docs/en/hooks](https://code.claude.com/docs/en/hooks)**                     |
+| 子代理和自定义代理 | **[code.claude.com/docs/en/sub-agents](https://code.claude.com/docs/en/sub-agents)**           |
+| 计划任务      | **[code.claude.com/docs/en/scheduled-tasks](https://code.claude.com/docs/en/scheduled-tasks)** |
+| Chrome 扩展 | **[code.claude.com/docs/en/chrome](https://code.claude.com/docs/en/chrome)**                   |
 
 Claude Code 频繁发布。在内部分发前，请根据**[code.claude.com/docs](https://code.claude.com/docs)**验证版本特定的详细信息。

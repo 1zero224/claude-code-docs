@@ -138,7 +138,13 @@ effort 参数让您可以控制 Claude 在响应请求时花费的令牌数量�
   };
 
   var message = await client.Messages.Create(parameters);
-  Console.WriteLine(message);
+  foreach (var block in message.Content)
+  {
+      if (block.TryPickText(out var textBlock))
+      {
+          Console.WriteLine(textBlock.Text);
+      }
+  }
   ```
 
   ```go Go
@@ -270,25 +276,41 @@ effort 参数影响响应中的**所有令牌**，包括：
 
 **[Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview) & [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview)** — *For demanding reasoning and long-horizon agentic work*
 
-Claude Fable 5.2 支持全部五个 effort 级别。API 默认值为 `high`。自适应思考始终开启，因此 effort 是您控制思考深度、延迟和成本的主要手段。从 `high` 开始。大部分能力提升在 `high` 级别就已具备，高于该级别后的提升并不均匀，且取决于具体任务。对于最困难的长时间运行的编码和智能体工作，在您已测得有提升的情况下，可提升至 `xhigh`。在您的评估表明质量能够保持的情况下，可降低至 `medium` 或 `low`。请将 `max` 保留用于衡量模型的能力上限，以及时间和令牌都无关紧要的少见任务。在 `max` 下，模型会不计令牌成本地优化能力。其运行速度比 `xhigh` 更慢、成本更高，而提升往往很小。请在您自己的评估上进行 effort 扫描，而不是沿用 Claude Fable 5.1 的设置。在 `high` 及以上级别时，请设置较大的 `max_tokens`。它是总输出（思考加响应文本）的硬性上限。Effort 几乎不会改变模型回复的长度，因此请通过提示来改变回复的长度和语气。相同的建议同样适用于 Claude Mythos 5.2。
+Claude Fable 5.2 支持全部五个 effort 级别。API 默认值为 `high`。自适应思考始终开启，因此 effort 是您控制思考深度、延迟和成本的主要手段。
 
-在您的平台支持的情况下，Claude Fable 5.2 和 Claude Mythos 5.2 还支持通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。
+从 `high` 开始。大部分能力提升在 `high` 级别就已具备，高于该级别后的提升并不均匀，且取决于具体任务。对于最困难的长时间运行的编码和智能体工作，在您已测得有提升的情况下，可提升至 `xhigh`。在您的评估表明质量能够保持的情况下，可降低至 `medium` 或 `low`。请将 `max` 保留用于衡量模型的能力上限，以及时间和令牌都无关紧要的少见任务。在 `max` 下，模型会不计令牌成本地优化能力。其运行速度比 `xhigh` 更慢、成本更高，而提升往往很小。
+
+请在您自己的评估上进行 effort 扫描，而不是沿用 Claude Fable 5.1 的设置。在 `high` 及以上级别时，请设置较大的 `max_tokens`。它是总输出（思考加响应文本）的硬性上限。Effort 几乎不会改变模型回复的长度，因此请通过提示来改变回复的长度和语气。
+
+相同的建议同样适用于 Claude Mythos 5.2。
+
+在[支持的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message#feature-availability)上，Claude Fable 5.2 和 Claude Mythos 5.2 还支持通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。
 
 See also: [为 Claude Fable 5.2 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2#calibrate-effort)
 
 **[Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview)** — *For long-running agentic coding and knowledge work*
 
-Claude Opus 5.5 支持全部五个 effort 级别，默认值为 `medium`（Claude Opus 5 及更早的 Opus 模型默认为 `high`，因此省略 `effort` 的请求运行的级别比在 Claude Opus 5 上低一级）。自适应思考始终开启且无法关闭，因此 effort 是控制模型推理量和请求成本的主要手段。请在您自己的评估上进行 effort 扫描，而不是沿用早期模型的设置；并在较高级别时设置较大的 `max_tokens`：它是总输出（思考加响应文本）的硬性上限。设置 `thinking: {"type": "disabled"}` 的请求在任何 effort 级别都会返回 400 错误。Claude Opus 5.5 还支持通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。
+Claude Opus 5.5 支持全部五个 effort 级别，默认值为 `medium`。Claude Opus 5 及更早的 Opus 模型默认为 `high`，因此省略 `effort` 的请求在 Claude Opus 5.5 上运行的级别会低一级。
+
+自适应思考始终开启且无法关闭，因此 effort 是控制模型推理量和请求成本的主要手段。设置 `thinking: {"type": "disabled"}` 的请求在任何 effort 级别都会返回 400 错误。
+
+请在您自己的评估上进行 effort 扫描，而不是沿用早期模型的设置。在 `xhigh` 或 `max` 级别时，请设置较大的 `max_tokens`。它是总输出（思考加响应文本）的硬性上限。
+
+Claude Opus 5.5 还支持通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。
 
 See also: [为 Claude Opus 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5)
 
 **[Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview)** — *The best combination of speed and intelligence*
 
-Claude Sonnet 5.5 支持全部五个 effort 级别，在 Claude API 上默认值为 `high`。其级别经过重新校准，因此某一级别产生的思考量与 Claude Sonnet 5 上同一级别并不相同。请在评估上重新进行 effort 扫描，而不是沿用您在 Claude Sonnet 5 上使用的设置。除非您的工作负载是智能体类或对延迟敏感的，否则请从 `high` 开始。对于智能体编码和多步骤工具使用，定义明确的任务从 `medium` 开始，较难或较长的任务则改用 `high`。对于聊天和其他对延迟敏感的工作，从 `medium` 或 `low` 开始。只有在您的评估显示质量有所提升时，才使用 `xhigh` 或 `max`。设置 `max_tokens` 时，请为思考和回复预留空间。即使不返回思考内容，思考也会计入 `max_tokens`。对于智能体编码，请将 `max_tokens` 设置为模型的最大值 128,000，并对响应进行[流式传输](https://platform.claude.com/docs/zh-CN/build-with-claude/streaming)。
+Claude Sonnet 5.5 支持全部五个 effort 级别，在 Claude API 上默认值为 `high`。其级别的校准方式不同，因此某一级别产生的思考量与 Claude Sonnet 5 上并不相同。请在评估上重新进行 effort 扫描，而不是沿用您在 Claude Sonnet 5 上使用的设置。
 
-要关闭前置思考，请发送 `thinking: {"type": "between_tools"}` 而不是 `"disabled"`。这是 Claude Sonnet 5.5 上最低的思考设置，适用于 `low`、`medium` 和 `high` effort。在 `xhigh` 或 `max` 下，使用该设置的请求会返回 400 错误，因此在这些级别请使用自适应思考：省略 `thinking` 字段或发送 `thinking: {"type": "adaptive"}`。请参阅[在没有前置思考的情况下运行](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5#running-without-up-front-thinking)。
+除非您的工作负载是智能体类或对延迟敏感的，否则请从 `high` 开始。对于智能体编码和多步骤工具使用，定义明确的任务从 `medium` 开始，较难或较长的任务则改用 `high`。对于聊天和其他对延迟敏感的工作，从 `medium` 或 `low` 开始。只有在您的评估显示质量有所提升时，才使用 `xhigh` 或 `max`。
 
-在您的平台支持的情况下，Claude Sonnet 5.5 还支持通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。使用 `between_tools` 时，effort 无法在对话中途更改：与当前生效级别不同的每条消息 `output_config.effort` 会返回 400 错误。要为每个轮次调整 effort，请使用自适应思考。
+设置 `max_tokens` 时，请为思考和回复预留空间。即使不返回思考内容，思考也会计入 `max_tokens`。对于智能体编码，请将 `max_tokens` 设置为模型的最大值 128,000，并对响应进行流式传输（请参阅[流式消息](https://platform.claude.com/docs/zh-CN/build-with-claude/streaming)）。
+
+要让模型不先思考就直接响应，请发送 `thinking: {"type": "between_tools"}`，而不是 `"disabled"`。它适用于 `low`、`medium` 和 `high` effort。在 `xhigh` 或 `max` 下它会返回 400 错误，因此在这些级别请使用自适应思考（默认设置）。请参阅[在没有前置思考的情况下运行](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5#running-without-up-front-thinking)。
+
+在[支持的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message#feature-availability)上，Claude Sonnet 5.5 还支持通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。使用 `between_tools` 时，effort 无法在对话中途更改：级别不同的每条消息 `output_config.effort` 会返回 400 错误。要为每个轮次调整 effort，请使用自适应思考。
 
 See also: [为 Claude Sonnet 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5#calibrate-effort)
 
@@ -298,7 +320,7 @@ Claude Haiku 5.5 支持全部五个 effort 级别，默认值为 `medium`。Effo
 
 要减少思考，请降低 effort 级别。您也可以在 `high` 及以下 effort 时发送 `thinking: {"type": "disabled"}`。在 `xhigh` 或 `max` 下，该设置会返回 400 错误，因此在这些级别请使用自适应思考：省略 `thinking` 字段或发送 `thinking: {"type": "adaptive"}`。
 
-在您的平台支持的情况下，Claude Haiku 5.5 还允许您通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。使用 `thinking: {"type": "disabled"}` 时，effort 无法在对话中途更改：与当前生效级别不同的每条消息 `output_config.effort` 会返回 400 错误。要为每个轮次调整 effort，请使用自适应思考。
+在[支持的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message#feature-availability)上，Claude Haiku 5.5 还允许您通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。使用 `thinking: {"type": "disabled"}` 时，effort 无法在对话中途更改：级别不同的每条消息 `output_config.effort` 会返回 400 错误。要为每个轮次调整 effort，请使用自适应思考。
 
 See also: [为 Claude Haiku 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5#use-effort-to-control-thinking)
 
@@ -330,7 +352,7 @@ API 默认值为 `high`。要使用其他级别，请显式设置 `effort`。您
 
 在 `xhigh` 或 `max` effort 下运行 Claude Opus 5 时，请设置较大的 `max_tokens`，以便模型有空间在子智能体和工具调用之间进行思考和操作。从 64k 令牌开始并在此基础上调整是一个合理的默认做法。
 
-在您的平台支持的情况下，Claude Opus 5 还支持通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。
+在[支持的平台](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message#feature-availability)上，Claude Opus 5 还支持通过每条消息的 `output_config` [在对话中途更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)，这会保留提示缓存。
 
 See also: [为 Claude Opus 5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5)
 
@@ -376,9 +398,9 @@ See also: [为 Claude Sonnet 5 编写提示](https://platform.claude.com/docs/zh
 
 **[Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview)**
 
-Sonnet 4.6 默认使用 `high` effort。使用 Sonnet 4.6 时请显式设置 effort，以避免意外的延迟：
+Claude Sonnet 4.6 默认使用 `high` effort。请显式设置 effort，以避免意外的延迟：
 
-* **Medium effort（推荐默认值）：** 对于大多数应用，在速度、成本和性能之间取得最佳平衡。适用于智能体编码、大量使用工具的工作流程和代码生成。
+* **Medium effort（推荐）：** 对于大多数应用，在速度、成本和性能之间取得最佳平衡。适用于智能体编码、大量使用工具的工作流程和代码生成。
 * **Low effort：** 适用于高吞吐量或对延迟敏感的工作负载。适合优先考虑更快响应的聊天和非编码用例。
 * **High effort：** 适用于质量比速度或成本更重要的复杂推理和任务。
 * **Max effort：** 适用于需要绝对最高能力且对令牌消耗没有限制的任务。
@@ -413,7 +435,7 @@ See also: [提示最佳实践](https://platform.claude.com/docs/zh-CN/build-with
 
 ## 在对话中途更改 effort
 
-您可以通过两种方式以不同的努力程度运行对话的后续轮次：按消息更改努力程度，这样可以保留提示缓存；或在下一个请求中设置新的顶层值，这会重新开始缓存。
+您可以通过两种方式以不同的努力程度运行对话的后续轮次。按消息更改努力程度可以保留提示缓存。在下一个请求中设置新的顶层值可能会使全部或部分提示缓存失效。
 
 ### 按消息设置 effort
 
@@ -421,7 +443,7 @@ See also: [提示最佳实践](https://platform.claude.com/docs/zh-CN/build-with
 
 ### 在下一个请求中设置顶层 effort
 
-顶层 `output_config.effort` 适用于整个请求。要以不同的级别运行对话的后续部分，请在下一个请求中设置新值。由于顶层努力程度会影响渲染后的提示，因此在请求之间更改它不会保留早期轮次的缓存前缀。如果您在长会话中依赖[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)，并且您的模型不支持按消息设置努力程度，请在开始时选择一个努力程度并保持不变。
+顶层 `output_config.effort` 适用于整个请求。要以不同的级别运行对话的后续部分，请在下一个请求中设置新值。由于顶层努力程度会影响渲染后的提示，因此在请求之间更改它可能会使早期轮次的缓存前缀失效。如果您在长会话中依赖[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)，并且您的模型不支持按消息设置努力程度，请在开始时选择一个努力程度并保持不变。
 
 ## 最佳实践
 
@@ -429,7 +451,7 @@ See also: [提示最佳实践](https://platform.claude.com/docs/zh-CN/build-with
 2. **对于对速度敏感或简单的任务使用 low：**&#x5F53;延迟很重要或任务较为简单时，低努力程度可以显著减少响应时间和成本。
 3. **测试您的用例：**&#x52AA;力程度的影响因任务类型而异。在部署之前，请评估其在您特定用例上的表现。
 4. **考虑动态努力程度：**&#x6839;据任务复杂度调整努力程度。简单查询可能适合低努力程度，而智能体编码和复杂推理则受益于高努力程度。在单个对话中改变努力程度之前，请先参阅下一条。
-5. **在缓存的对话中保持顶层努力程度不变：**&#x5728;请求之间更改顶层努力程度值会使[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)失效，因此请在不同工作负载之间改变它，而不是在依赖缓存命中的对话中改变。在支持的模型上，请改用[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 更改，这样可以保留缓存。请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。
+5. **在缓存的对话中保持顶层努力程度不变：**&#x5728;请求之间更改顶层努力程度值可能会使全部或部分[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)失效，因此请在不同工作负载之间改变它，而不是在依赖缓存命中的对话中改变。在支持的模型上，请改用[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 更改，这样可以保留缓存。请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。
 
 ## 后续步骤
 
@@ -467,9 +489,10 @@ Effort在部分模型上可用，并具备零数据保留和HIPAA 就绪资格�
 * 可用性：始终开启
 * 用法：在智能体的模型对象上或会话的模型覆盖中设置 `effort`。未设置值时，Managed Agents 会填入模型的默认值。
 
-| 状态 | 云平台                                                                                                                   | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| -- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview), [Claude Opus 4.6](https://platform.claude.com/docs/zh-CN/models/opus-4-6/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview), [Claude Opus 4.5](https://platform.claude.com/docs/zh-CN/models/opus-4-5/overview) |
+| 状态 | 云平台                                                                                                                                                           | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)                                         | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview), [Claude Opus 4.6](https://platform.claude.com/docs/zh-CN/models/opus-4-6/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview), [Claude Opus 4.5](https://platform.claude.com/docs/zh-CN/models/opus-4-5/overview) |
+| 可用 | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview), [Claude Opus 4.6](https://platform.claude.com/docs/zh-CN/models/opus-4-6/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview), [Claude Opus 4.5](https://platform.claude.com/docs/zh-CN/models/opus-4-5/overview)                        |
 
 ### 数据处理
 

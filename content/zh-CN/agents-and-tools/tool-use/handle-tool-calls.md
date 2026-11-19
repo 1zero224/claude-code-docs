@@ -4,11 +4,7 @@ url: https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/handle-too
 description: 解析 tool_use 块，格式化 tool_result 响应，并使用 is_error 处理错误。
 ---
 
-本页介绍工具调用的生命周期：从 Claude 的响应中读取 `tool_use` 块，在您的回复中格式化 `tool_result` 块，以及发出错误信号。有关自动处理这些操作的 SDK 抽象，请参阅[工具运行器](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-runner)。
-
-<Note>
-  **使用工具运行器更简单：** 本页描述的手动工具处理由[工具运行器](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-runner)自动管理。当您需要对工具执行进行自定义控制时，请使用本页内容。
-</Note>
+当 Claude 的响应包含 `tool_use` 块时，您的代码会运行每个工具并发回 `tool_result` 块，包括任何错误。当您需要对工具执行进行自定义控制时，请自行编写此代码。否则，请使用 SDK 的[工具运行器](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-runner)，它会为您运行工具并发送结果。
 
 Claude 的响应会根据它使用的是[客户端工具还是服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview#how-tool-use-works)而有所不同。
 
@@ -45,17 +41,21 @@ Claude 的响应会根据它使用的是[客户端工具还是服务器工具](h
   ```
 </Accordion>
 
-当您收到客户端工具的工具使用响应时，您应该：
+当您收到客户端工具的工具使用响应时，请按以下步骤操作：
 
-1. 从 `tool_use` 块中提取 `name`、`id` 和 `input`。
+1. 对于每个 `tool_use` 块，运行该块所指定的工具，并传入其 `input`。
+2. 在新请求中，保留之前的消息，并将响应的 `content` 原样作为 `assistant` 消息添加。
+3. 添加一条 `user` 消息，为该 content 中的每个 `tool_use` 块各提供一个 `tool_result` 块，即使工具执行失败也是如此。
+4. 使用与第一个请求相同的 `tools` 发送请求。Claude 会使用工具结果继续其响应。
+5. 如果下一个响应的 `stop_reason` 仍为 `tool_use`，请重复这些步骤。对于其他值，请参阅[停止原因快速参考](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#quick-reference)。
 
-2. 在您的代码库中运行与该工具名称对应的实际工具，并传入工具的 `input`。
+有关这些步骤的完整程序，请参阅[教程：构建一个使用工具的智能体](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/build-a-tool-using-agent)。
 
-3. 通过发送一条 `role` 为 `user` 的新消息来继续对话，其中的 `content` 块包含 `tool_result` 类型和以下信息：
+每个 `tool_result` 块的 `type` 都设置为 `tool_result`，并包含以下字段：
 
-   * `tool_use_id`：此结果所对应的工具使用请求的 `id`。
-   * `content`（可选）：工具的结果，可以是字符串（例如 `"content": "15 degrees"`）、嵌套内容块列表（例如 `"content": [{"type": "text", "text": "15 degrees"}]`）或文档块列表（例如 `"content": [{"type": "document", "source": {"type": "text", "media_type": "text/plain", "data": "15 degrees"}}]`）。这些内容块可以使用 `text`、`image`、`document` 或 [`search_result`](https://platform.claude.com/docs/zh-CN/build-with-claude/search-results) 类型。
-   * `is_error`（可选）：如果工具执行导致错误，则设置为 `true`。
+* `tool_use_id`：此结果所对应的 `tool_use` 块的 `id`。
+* `content`（可选）：工具的结果，可以是字符串或内容块列表。这些内容块可以使用 `text`、`image`、`document` 或 [`search_result`](https://platform.claude.com/docs/zh-CN/build-with-claude/search-results) 类型。
+* `is_error`（可选）：如果工具执行失败或调用无效，则设置为 `true`。
 
 例如，成功的工具结果如下所示：
 
@@ -180,8 +180,6 @@ Claude 的响应会根据它使用的是[客户端工具还是服务器工具](h
   </Accordion>
 </AccordionGroup>
 
-收到工具结果后，Claude 将使用该信息继续生成对原始用户提示的响应。
-
 ## 处理服务器工具的结果
 
 Claude 在内部运行工具，并将结果直接整合到其响应中，无需额外的用户交互。
@@ -200,7 +198,7 @@ Claude 在内部运行工具，并将结果直接整合到其响应中，无需�
 
 ## 使用 is\_error 处理错误
 
-在 Claude 中使用工具时，可能会出现几种不同类型的错误：
+当客户端工具执行失败或调用无效时，请发送一个 `is_error` 设置为 `true` 的 `tool_result` 块。Claude 随后可能会通过新的 `tool_use` 块再次调用该工具，因此请限制您的循环允许的重试次数。
 
 <AccordionGroup>
   <Accordion title="工具执行错误">
@@ -220,17 +218,17 @@ Claude 在内部运行工具，并将结果直接整合到其响应中，无需�
     }
     ```
 
-    然后 Claude 会将此错误整合到其对用户的响应中。例如："抱歉，由于天气服务 API 不可用，我无法获取当前天气。请稍后再试。"
+    然后 Claude 可以再次调用该工具，或告知用户发生了什么。例如，Claude 可能会说："抱歉，由于天气服务 API 不可用，我无法获取当前天气。请稍后再试。"
 
     <Tip>
       编写具有指导性的错误消息。不要使用诸如 `"failed"` 之类的通用错误，而应说明出了什么问题以及 Claude 接下来应尝试什么（例如 `"Rate limit exceeded. Retry after 60 seconds."`）。这能为 Claude 提供恢复或调整所需的上下文，而无需猜测。
     </Tip>
   </Accordion>
 
-  <Accordion title="无效的工具名称">
+  <Accordion title="无效的工具调用">
     如果 Claude 对工具的尝试使用无效（例如，缺少必需参数），通常意味着 Claude 没有足够的信息来正确使用该工具。在开发过程中，最佳做法是在工具定义中使用更详细的 `description` 值重新尝试请求。
 
-    不过，您也可以通过一个指示错误的 `tool_result` 继续推进对话，Claude 将尝试补全缺失的信息后再次使用该工具：
+    不过，您也可以通过一个指示错误的 `tool_result` 继续对话：
 
     ```json JSON
     {
@@ -246,7 +244,7 @@ Claude 在内部运行工具，并将结果直接整合到其响应中，无需�
     }
     ```
 
-    如果工具请求无效或缺少参数，Claude 会在修正后重试 2–3 次，然后再向用户致歉。
+    然后 Claude 可以补全缺失的信息后再次调用该工具。
 
     <Tip>
       要完全消除无效的工具调用，请在工具定义上使用带有 `strict: true` 的[严格工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/strict-tool-use)。这可以保证工具输入始终与您的 schema 完全匹配，从而防止缺少参数和类型不匹配。
@@ -254,15 +252,9 @@ Claude 在内部运行工具，并将结果直接整合到其响应中，无需�
   </Accordion>
 
   <Accordion title="服务器工具错误">
-    当服务器工具遇到错误时（例如，网络搜索出现网络问题），Claude 会透明地处理这些错误，并尝试向用户提供替代响应或解释。与客户端工具不同，您无需为服务器工具处理 `is_error` 结果。
+    与客户端工具不同，您无需为服务器工具发送 `is_error` 结果。当服务器工具遇到错误时（例如网络搜索期间出现网络问题），API 会在该工具的结果块中返回错误。在大多数情况下，Claude 随后会改用其他方法继续，或向用户提供解释。
 
-    具体就网页搜索而言，可能的错误代码包括：
-
-    * `too_many_requests`：超出速率限制
-    * `invalid_input`：无效的搜索查询参数
-    * `max_uses_exceeded`：超出网页搜索工具的最大使用次数
-    * `query_too_long`：查询超出最大长度
-    * `unavailable`：发生内部错误
+    有关网页搜索的错误代码，请参阅[网页搜索工具错误](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool#errors)。
   </Accordion>
 </AccordionGroup>
 

@@ -10,7 +10,7 @@ When Claude Desktop is deployed on third-party inference, Claude can work with y
 
 ## Choose a connector
 
-Both connectors expose the same family of GitHub tools; they differ in where the server runs and how users authenticate. Use this table to pick one, then follow that connector's section below.
+Both connectors expose the same family of GitHub tools; they differ in where the server runs and how users authenticate.
 
 | | Remote connector | Local connector |
 | - | - | - |
@@ -36,7 +36,7 @@ GitHub hosts a copy of github-mcp-server on its own infrastructure. Claude Deskt
 
 The `headersHelper` executable prints the request headers as a flat JSON object to stdout, for example `{"Authorization": "Bearer GITHUB_PAT"}`, and follows the execution model described under [short-lived credentials with a headers helper](https://claude.com/docs/third-party/claude-desktop/extensions.md#short-lived-credentials-with-a-headers-helper). Use it to fetch a per-user fine-grained token from your secrets manager. A static `headers` object also works, but it puts the same token on every device, so every session acts as that one identity; prefer the helper, a narrowly scoped fine-grained token, or the [local connector](#local-connector), which needs no tokens at all.
 
-Check the endpoint URL, the supported authentication methods, and the token scopes your tools need against [GitHub's github-mcp-server documentation](https://github.com/github/github-mcp-server), which is the source of truth for the hosted server. GitHub Enterprise Server instances are not reachable through GitHub's hosted endpoint; use the local connector instead.
+Check the endpoint URL, the supported authentication methods, and the token scopes your tools need against [GitHub's github-mcp-server documentation](https://github.com/github/github-mcp-server), which is the source of truth for the hosted server.
 
 ## Local connector
 
@@ -105,6 +105,6 @@ Three levers narrow the local connector, from coarsest to finest:
 
 * **`readOnly`** removes every write tool from the server. Claude never sees them.
 * **`toolsets`** selects which github-mcp-server tool groups are registered, so you can expose repositories and pull requests without, for example, the Actions tools.
-* **`toolPolicy`** locks the approval state per tool. Without a policy, write tools ask the user before each call. A few irreversible GitHub actions (merging a pull request, pushing commits, or triggering a workflow, for example) stay at ask or stricter no matter what the policy says.
+* **`toolPolicy`** locks the approval state per tool. Without a policy, each call that Claude makes to a write tool needs approval. A few irreversible GitHub actions (merging a pull request, pushing commits, or triggering a workflow, for example) stay at ask or stricter no matter what the policy says.
 
 The default `repo` OAuth scope grants read and write access to repositories the user can reach, so pair a broad scope with `readOnly` or a restrictive `toolPolicy` rather than relying on the scope alone to keep sessions read-only. A narrower `scope` list, or a GitHub App with minimal permissions, limits what the token itself can do.

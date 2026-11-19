@@ -10,7 +10,7 @@ featureMetadata:
   betaHeader: managed-agents-2026-04-01
   zdr:
     eligibility: not-eligible
-    note: 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。
+    note: 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。
   supportedModels:
     - claude-fable-5-2
     - claude-mythos-5-2
@@ -61,7 +61,7 @@ Claude Managed Agents 还支持自定义的用户定义工具。您的应用程�
 
 创建智能体时，使用 `agent_toolset_20260401` 启用完整工具集。使用 `configs` (csharp, go: `Configs`) 数组来禁用特定工具或覆盖其设置。每个条目通过其 `name` (csharp, go: `Name`) 进行标识，其值取自[可用工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools#available-tools)中的"名称"列。条目还接受一个可选的 `type` (csharp, go: `Type`) 字段，其值与名称相同。
 
-每个配置条目还可以设置 `permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)。该策略控制工具调用是无需确认即可运行、需要确认，还是由服务器逐一评估。有关可用的策略类型，请参阅[权限策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)。
+每个配置条目还可以设置 `permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)。该策略控制工具调用是无需确认即可运行、需要确认，还是交由服务器逐一评估每个调用。有关可用的策略类型，请参阅[权限策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)。
 
 以下示例启用工具集并禁用 `web_fetch`：
 
@@ -424,6 +424,7 @@ Claude 不会自行运行自定义工具。它会发出一个结构化请求，�
   ```
 
   ```java Java
+  import com.anthropic.core.JsonValue;
   import com.anthropic.models.beta.agents.*;
   import java.util.Map;
 
@@ -486,7 +487,7 @@ Claude 不会自行运行自定义工具。它会发出一个结构化请求，�
   ```
 </CodeGroup>
 
-自定义工具的名称不能以 `mcp__` 或 `ant__` 开头，也不能与内置智能体工具的名称相同。违反此规则的请求会返回 400 错误。如果某个智能体已有名称以 `ant__` 开头的自定义工具，则只有当更新发送的 `tools` (csharp, go: `Tools`) 中不包含该名称时，才会接受该更新，因此请在下一次更新中重命名或移除该工具。如果此类工具存在于新会话的智能体上（在应用任何[覆盖](https://platform.claude.com/docs/zh-CN/managed-agents/sessions#override-agent-configuration-for-a-session)之后）、存在于 `subagents` (csharp, go: `Subagents`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表中的某个智能体上，或存在于 `workflows` (csharp, go: `Workflows`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表中的某个智能体上，则该新会话会被拒绝并返回 400 错误。已存在的会话不受影响。
+新的自定义工具名称不能以 `mcp__` 或 `ant__` 开头，也不能与内置智能体工具的名称相同。违反此规则的请求会返回 400 错误。不过，现有的自定义工具可能以 `ant__` 开头。拥有此类工具的智能体只有在更新发送的 `tools` (csharp, go: `Tools`) 中不包含该名称时，才会接受该更新，因此请在下一次更新中重命名或移除该工具。如果此类工具存在于新会话的智能体上（在应用任何[覆盖](https://platform.claude.com/docs/zh-CN/managed-agents/sessions#override-agent-configuration-for-a-session)之后）、存在于 `subagents` (csharp, go: `Subagents`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表中的某个智能体上，或存在于 `workflows` (csharp, go: `Workflows`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表中的某个智能体上，则该新会话会被拒绝并返回 400 错误。已存在的会话不受影响。
 
 智能体在会话期间调用其自定义工具。要接收调用并返回结果，请参阅[响应会暂停会话的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#handling-custom-tool-calls)。
 
@@ -553,10 +554,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                         | HIPAA                             |
-| ---- | ------------------------------------------------------------- | --------------------------------- |
-| 状态   | 不具备资格                                                         | 不具备资格                             |
-| 详细信息 | 会话是有状态的资源；对话记录会一直保留，直到您将其删除。适用于所有 Managed Agents 子功能，包括自托管沙箱。 | 适用于所有 Managed Agents 子功能，包括自托管沙箱。 |
+| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：
 

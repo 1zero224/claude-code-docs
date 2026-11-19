@@ -75,8 +75,6 @@ Claude Code 包含 `/deep-research` 作为内置工作流：
 | :- | :- |
 | `/deep-research <question>` | 在多个角度上扇出网络搜索问题，获取并交叉检查它找到的来源，对每个声明投票，并返回一份引用的报告，其中未通过交叉检查的声明已被过滤掉。需要[WebSearch 工具](https://code.claude.com/docs/zh-CN/tools-reference.md#websearch-tool-behavior)可用 |
 
-`/deep-research` 仅在您调用它时运行。
-
 [您自己保存的工作流](#save-the-workflow-for-reuse)以相同方式成为命令，并在 `/` 自动完成中与捆绑的工作流一起出现。
 
 ### 观看运行
@@ -456,7 +454,7 @@ Claude Code 为每个工作流 Agent 选择模型的顺序与[为子代理选择
 * 如果您通常会为日常工作切换到较小的模型，请在大型运行之前检查 `/model`
 * 在描述任务时，让 Claude 为不需要最强模型的阶段使用较小的模型
 
-当您组织的 [`availableModels` 允许列表](https://code.claude.com/docs/zh-CN/model-config#restrict-model-selection)阻止了脚本为某个 Agent 请求的模型时，该 Agent 会改用替代模型运行，遵循与[子代理相同的替代规则](https://code.claude.com/docs/zh-CN/sub-agents.md#choose-a-model)。
+当您组织的 [`availableModels` 允许列表](https://code.claude.com/docs/zh-CN/model-config#restrict-model-selection)阻止了脚本为某个 Agent 请求的模型时，该 Agent 会改用替代模型运行，遵循与[子代理相同的替代规则](https://code.claude.com/docs/zh-CN/sub-agents.md#when-an-allowlist-blocks-a-subagent-model)。
 
 ### 设置规模指导
 

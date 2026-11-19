@@ -4,13 +4,13 @@
 
 ## 了解父组织
 
-我们的单点登录功能使用"父组织"的概念。这是一个存储 SSO 设置的实体，可以在多个 Claude 或 Console 组织中共享。您的计划类型决定了您是否默认拥有父组织：
+我们的单点登录功能使用“父组织”的概念。这是一个存储 SSO 设置的实体，可以在多个 Claude 或 Console 组织之间共享。您的计划类型决定了您是否默认拥有父组织：
 
-| **计划类型**       | **父组织**            |
-| -------------- | ------------------ |
-| 企业计划           | 在设置组织时自动创建         |
-| 团队计划           | 首次启用 SSO 时创建       |
-| Claude Console | 不会自动创建；需要采取行动（见下文） |
+| **计划类型**       | **父组织**           |
+| -------------- | ----------------- |
+| 企业计划           | 组织设置时自动创建         |
+| 团队计划           | 首次启用 SSO 时创建      |
+| Claude Console | 不自动创建；需要采取行动（见下文） |
 
 ### 需要了解的关键事项
 
@@ -28,11 +28,11 @@
 
 您需要根据您的计划检查父组织动态：
 
-- **如果您有团队或企业计划：**您可以直接进行到**[设置单点登录 (SSO)](https://support.claude.com/en/articles/13132885-setting-up-single-sign-on-sso)** 指南。您的父组织已经就位（或在您为团队计划启用 SSO 时创建）。
+- **如果您拥有团队或企业计划：**您可以直接进行**[设置单点登录 (SSO)](https://support.claude.com/en/articles/13132885-setting-up-single-sign-on-sso)** 指南。您的父组织已经就位（或在您为团队计划启用 SSO 时创建）。
 
-- **如果您有 Claude Console 组织和现有的团队或企业计划：**您的 Console 组织可能已链接到您的团队或企业父组织。检查您是否可以访问**[platform.claude.com/settings/identity](https://platform.claude.com/settings/identity)**。如果可以，这表示该组织已链接到父组织且 SSO 已配置。如果不能，您的团队或企业计划的所有者可以启动合并以将您的 Console 组织链接（请参阅下面的**[合并组织](#h_3bad8701c8)**）到他们的父组织和现有 SSO 配置。
+- **如果您拥有 Claude Console 组织和现有的团队或企业计划：**您的 Console 组织可能已链接到您的团队或企业父组织。检查您是否可以访问**[platform.claude.com/settings/identity](https://platform.claude.com/settings/identity)**。如果可以，这表示该组织已链接到父组织且 SSO 已配置。如果不能，您的团队或企业计划的所有者可以启动合并以将您的 Console 组织（请参阅下面的**[合并组织](#h_3bad8701c8)**）链接到其父组织和现有 SSO 配置。
 
-- **如果您有 Claude Console 组织但没有团队或企业计划：****[联系我们的销售团队](https://claude.com/contact-sales)**为您的 Console 账户请求父组织。一旦我们创建了您的父组织，您将在 Claude Console 中看到"身份设置"页面，并可以继续进行 SSO 设置。
+- **如果您拥有没有团队或企业计划的 Claude Console 组织：****[联系我们的销售团队](https://claude.com/contact-sales)**为您的 Console 账户请求父组织。一旦我们为您创建父组织，您将在 Claude Console 中看到“身份设置”页面，并可以继续进行 SSO 设置。
 
 ---
 
@@ -64,13 +64,13 @@
 
 1. 导航到**[组织设置 > 组织和访问](https://claude.ai/admin-settings/organization)**。
 
-2. 在**合并组织**下点击"邀请"。
+2. 在**合并组织**下点击“邀请”。
 
-3. 搜索并选择您想邀请的组织，然后点击"下一步"。
+3. 搜索并选择您想邀请的组织，然后点击“下一步”。
 
-4. 查看成员数并点击"邀请"。
+4. 查看成员数量并点击“邀请”。
 
-5. 合并提议将发送给被邀请组织的管理员/所有者，电子邮件主题为"父组织更新：提议新成员组织"，必须在 14 天内批准。
+5. 合并提议将发送给被邀请组织的管理员/所有者，电子邮件主题为“父组织更新：提议新成员组织”，必须在 14 天内批准。
 
 **注意：**如果启动合并的人也是被邀请组织中的管理员/所有者，则只需要一次批准。
 
@@ -80,9 +80,9 @@
 
 1. **被邀请的组织：**组织所有者或主要所有者需要转到**[claude.ai/settings/join-proposal](https://claude.ai/settings/join-proposal)**以接受。
 
-2. **父组织：**已在父组织下的组织的所有者或管理员从"组织设置 > 组织和访问 > 待处理组织"批准，或从"父组织更新：提议新成员组织"电子邮件中的链接批准。
+2. **父组织：**已在父组织下的组织的所有者或管理员从“组织设置 > 组织和访问 > 待处理组织”或“父组织更新：提议新成员组织”电子邮件中的链接批准。
 
-一旦 Console 组织被合并，它将获得对**[身份和访问页面](https://platform.claude.com/settings/identity)**的访问权限，在组织设置中，以配置 SSO 和预配设置。
+Console 组织合并后，它将获得对**[身份和访问页面](https://platform.claude.com/settings/identity)**的访问权限，在组织设置中，以配置 SSO 和预配设置。
 
 ---
 
@@ -94,7 +94,7 @@
 
 ## 限制新组织创建
 
-一旦您的组织域被验证，所有者将在"组织和访问"页面的**安全**下看到**限制组织创建**切换。打开此选项可防止用户使用任何已验证域创建新的 Claude 或 Console 组织（包括个人账户）。
+一旦您的组织域被验证，所有者将在“组织和访问”页面的**安全**下看到**限制组织创建**切换。打开此选项可防止用户使用任何已验证域创建新的 Claude 或 Console 组织（包括个人账户）。
 
 ---
 
@@ -118,27 +118,27 @@
 
 为您的组织启用 SSO 后，对于拥有与您的已验证公司域关联的个人账户的用户，需要考虑两种不同的情况：
 
-### 拥有现有 Free/Pro/Team/Max/Ultra 账户且被添加到您的 SSO 应用程序的用户
+### 拥有现有免费/专业/团队/Max/Ultra 账户且被添加到您的 SSO 应用的用户
 
-这些用户保持对其现有 Free/Pro/Team/Max/Ultra 账户的访问权限。他们可以通过点击左下角带有其首字母的个人资料图标在团队或企业计划账户和之前的账户之间切换。他们也可以关闭个人账户并移动可以移动的内容。在**[将您的个人 Claude 账户移动到团队或企业组织](https://support.claude.com/en/articles/9267400-move-your-personal-claude-account-to-a-team-or-enterprise-organization)**中了解更多信息。
+这些用户保持对其现有免费/专业/团队/Max/Ultra 账户的访问权限。他们可以通过点击左下角带有其首字母的个人资料图标在团队或企业计划账户和其以前的账户之间切换。他们也可以关闭个人账户并转移可以转移的内容。在**[将您的个人 Claude 账户转移到团队或企业组织](https://support.claude.com/en/articles/9267400-move-your-personal-claude-account-to-a-team-or-enterprise-organization)**中了解更多信息。
 
 在企业计划上，关闭您域上的每个个人账户。在**[声明并迁移您域上的账户](https://support.claude.com/en/articles/14625619-claim-and-migrate-accounts-on-your-domain)**中了解更多信息。
 
-### 拥有现有 Free/Pro/Team/Max/Ultra 账户但未被添加到您的 SSO 应用程序的用户
+### 拥有现有免费/专业/团队/Max/Ultra 账户但未被添加到您的 SSO 应用的用户
 
-- **如果未启用"需要 Claude SSO"：**这些用户仍然可以使用"继续使用电子邮件"选项访问其现有账户。
+- **如果“需要 Claude SSO”未启用：**这些用户仍然可以使用“使用电子邮件继续”选项访问其现有账户。
 
-- **如果启用了"需要 Claude SSO"：**这些用户将无法访问其现有的 Free/Pro/Team/Max/Ultra 账户。请注意，这些账户不会被删除，但将无法访问，因为用户无法通过 SSO 登录。
+- **如果“需要 Claude SSO”已启用：**这些用户将无法访问其现有的免费/专业/团队/Max/Ultra 账户。请注意，这些账户不会被删除，但将无法访问，因为用户无法通过 SSO 登录。
 
 ---
 
-## 如何查看与您的已验证域关联的现有 Claude / Console 账户
+## 如何查看与您的已验证域关联的现有 Claude/Console 账户
 
 要查看或下载有关您的已验证域及其在 Claude 组织中的使用情况的信息：
 
 1. 导航到 Claude 中的**组织和访问**部分（**[claude.ai/admin-settings/organization](https://claude.ai/admin-settings/organization)**）或 Console 中的**身份和访问**部分（**[platform.claude.com/settings/identity](https://platform.claude.com/settings/identity)**）。
 
-2. 在**域**部分中点击"域成员资格"。
+2. 在**域**部分中点击“域成员”。
 
 3. 查看信息或以 CSV 或 JSON 格式下载详细信息。
 
@@ -150,9 +150,9 @@
 
 - 通知所有员工即将迁移到 SSO。
 
-- 提供明确的时间表说明何时进行更改。
+- 提供明确的变更发生时间表。
 
-- 建议不会被添加到 SSO 应用程序的员工保存或**[导出其对话历史记录](https://support.claude.com/en/articles/9450526-how-can-i-export-my-claude-data)**（如果将强制执行 SSO）。
+- 建议不会被添加到 SSO 应用的员工保存或**[导出其对话历史记录](https://support.claude.com/en/articles/9450526-how-can-i-export-my-claude-data)**（如果将强制执行 SSO）。
 
 ### 规划平稳过渡
 
@@ -160,14 +160,14 @@
 
 - 确保您的 IT 团队已准备好支持员工进行过渡。
 
-- 为授权用户授予访问权限制定明确的流程。
+- 制定明确的流程以向授权用户授予访问权限。
 
 - 如果可能，同时实施 SSO 和预配功能。
 
-在启用域验证和 SSO 之前花时间进行测试、沟通和规划将有助于确保成功过渡和为您的组织提供积极的体验。
+在启用域验证和 SSO 之前花时间进行测试、沟通和规划将有助于确保成功过渡和为您的组织提供积极体验。
 
 ---
 
 ## 后续步骤
 
-一旦您审查了这些注意事项并完成了任何必要的先决条件步骤（例如合并组织），请进行到**[设置单点登录 (SSO)](https://support.claude.com/en/articles/13132885-set-up-single-sign-on-sso)**以获取详细的实施说明。
+一旦您审查了这些注意事项并完成了任何必要的先决条件步骤（例如合并组织），请进行**[设置单点登录 (SSO)](https://support.claude.com/en/articles/13132885-set-up-single-sign-on-sso)**以获取详细的实施说明。

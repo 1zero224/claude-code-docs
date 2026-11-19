@@ -10,7 +10,7 @@
 
 MCP extensions are optional additions to the specification that define capabilities beyond the core protocol. Extensions enable functionality that may be modular (e.g., distinct features like authentication), specialized (e.g., industry-specific logic), or experimental (e.g., features being incubated for potential core inclusion).
 
-Extensions are identified using a unique *extension identifier* with the format: `{vendor-prefix}/{extension-name}`, e.g. `io.modelcontextprotocol/oauth-client-credentials`. Identifiers follow the same rules as [`_meta` keys](https://modelcontextprotocol.io/specification/draft/basic/index#meta), with a mandatory prefix. Official extensions use the `io.modelcontextprotocol` vendor prefix.
+Extensions are identified using a unique *extension identifier* with the format: `{vendor-prefix}/{extension-name}`, e.g. `io.modelcontextprotocol/oauth-client-credentials`. Identifiers follow the same rules as [`_meta` keys](https://modelcontextprotocol.io/specification/draft/basic/index#_meta), with a mandatory prefix. Official extensions use the `io.modelcontextprotocol` vendor prefix.
 
 > [!TIP]
 >
@@ -22,17 +22,19 @@ Every extension is at one of three stages, and may later be promoted into the co
 
 | Stage | Protocol changes | Changes approved by | Entry | What implementers can expect |
 | - | - | - | - | - |
-| **Experimental** | Any change, at any time, without notice | Extension Maintainer | Added by an Extension Maintainer | Nothing. The design may change or disappear. |
+| **Experimental** | Any change, at any time, without notice | Extension Maintainer | An Extension Maintainer adds it, or any Maintainer creates an `experimental-ext-` repository | Nothing. The design may change or disappear. |
 | **Beta** | Any change, with breaking changes expected to be rare | Extension Maintainer | Extensions Track SEP | Real usage is welcome. Breaking changes are documented. |
 | **Stable** | Only with a new core protocol revision | Extension Maintainer | Second Extensions Track SEP | Behavior is fixed within a protocol revision. |
 
-An extension starts as Experimental and must pass through Beta. From Beta it either becomes Stable, or a Standards Track SEP promotes it into the core specification. A Stable extension can also be promoted later. Each Beta extension states its intended destination, Stable or Core, which may change while it is in Beta.
+An extension starts as Experimental and must pass through Beta, unless the Core Maintainers waive that requirement by a recorded vote. From Beta it either becomes Stable, or a Standards Track SEP promotes it into the core specification. A Stable extension can also be promoted later. Each Beta extension states its intended destination, Stable or Core, which may change while it is in Beta.
 
 An extension's identifier does not change when its stage changes.
 
 ## Official Extension Repositories
 
 Official extensions live inside the [Model Context Protocol GitHub organization](https://github.com/modelcontextprotocol/) in repositories with the `ext-` prefix. One repository can hold several related extensions at different stages. Inside the repository, the directory that holds an extension's specification shows its stage: `specification/experimental/`, `specification/beta/` or `specification/stable/`. Extensions that were promoted to the core specification or have ended move to `specification/archived/`.
+
+Repositories that predate the lifecycle are still moving to this layout, so the tables below are the reference for each extension's current stage.
 
 ### MCP Authorization Extensions
 
@@ -54,7 +56,7 @@ Official extensions live inside the [Model Context Protocol GitHub organization]
 
 | Extension | Stage | Description |
 | - | - | - |
-| [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview.md) | Stable | Allows MCP Servers to display interactive UI elements (charts, forms, video players) inline within conversations |
+| [MCP Apps](https://modelcontextprotocol.io/extensions/apps/overview.md) | Stable | Allows MCP Servers to display interactive UI elements (charts, forms, video players) inline within conversations. |
 
 To get started building MCP Apps, see the [quickstart guide](https://modelcontextprotocol.io/extensions/apps/build.md#getting-started) or read the full [MCP Apps documentation](https://apps.extensions.modelcontextprotocol.io/api/documents/Quickstart.html).
 
@@ -97,10 +99,20 @@ Experimental extensions provide an incubation pathway for [Working Groups and In
 
 An Experimental extension lives either under `specification/experimental/` in an existing `ext-` repository, or in its own repository with the `experimental-ext-` prefix (e.g., `experimental-ext-interceptors`). Everything in an `experimental-ext-` repository is Experimental.
 
+The following repositories hold Experimental work:
+
+| Repository | Description |
+| - | - |
+| [experimental-ext-interceptors](https://github.com/modelcontextprotocol/experimental-ext-interceptors) | Intercepting, validating, and transforming operations such as tool calls and resource reads. |
+| [experimental-ext-variants](https://github.com/modelcontextprotocol/experimental-ext-variants) | Lets a server expose several variants of itself for a client to choose from. |
+| [experimental-ext-tool-annotations](https://github.com/modelcontextprotocol/experimental-ext-tool-annotations) | Draft tool annotations for action metadata and trust. |
+| [experimental-ext-file-uploads](https://github.com/modelcontextprotocol/experimental-ext-file-uploads) | Moving files between a client and a tool out of band. |
+| [experimental-ext-filesystems](https://github.com/modelcontextprotocol/experimental-ext-filesystems) | Operations on Resources beyond a single read, such as listing, search, and writes. |
+
 ### Ground Rules
 
 * Every experimental extension needs to be associated with a Working Group or Interest Group
-* Published packages need to clearly indicate their experimental status (e.g., in the README and package name)
+* An `experimental-ext-` repository needs to clearly indicate its experimental status (e.g., in the README), and published packages need names that indicate it too
 * Implementers should pin to a tag or commit, because two revisions of an Experimental extension need not be compatible
 * [Core Maintainers](https://modelcontextprotocol.io/community/contributor-ladder.md#core-maintainer) retain oversight of experimental extensions, including the ability to archive or remove them
 
@@ -129,13 +141,15 @@ SDKs can choose to implement extensions, but it's not required for protocol conf
 
 ### Evolution
 
-Changes to an extension are approved by its Extension Maintainers and don't require Core Maintainer review. What may change depends on the stage:
+Changes to an extension are approved by its Extension Maintainers and don't require Core Maintainer review. The one exception is a stage change, which a Core Maintainer approves. What may change depends on the stage:
 
 * **Experimental**: anything, at any time.
-* **Beta**: prefer additive changes, such as new optional fields or capability flags in the settings object. Breaking changes are allowed but should be rare and batched, announced in the Working Group or Interest Group first, and recorded in a changelog. An extension that makes a breaking change should add or increment a `revision` string in its settings object, so that peers can detect a mismatch.
+* **Beta**: prefer additive changes, such as new optional fields or capability flags in the settings object. Breaking changes are allowed but should be rare and batched, announced in the Working Group or Interest Group first, and recorded in a changelog.
 * **Stable**: published as revisions keyed to core protocol revisions, such as `specification/stable/<name>/2026-07-28/`. A published revision is immutable. Changes accumulate in a `draft/` directory and take effect only with a new core protocol revision. The behavior of the extension for a pair of peers is the behavior defined for the protocol revision they negotiate.
 
 Breaking changes keep the extension's identifier. A new identifier (e.g., `io.modelcontextprotocol/my-extension-v2`) is used only when old and new behavior must coexist under one protocol revision.
+
+An Experimental or Beta extension that makes a breaking change should add or increment a `revision` string in its settings object, so that peers can detect a mismatch. An absent `revision` means the initial revision, and a peer that receives a `revision` it does not know should not enable the extension.
 
 A **breaking change** is any modification that would cause existing implementations to fail or behave incorrectly, including:
 
@@ -237,9 +251,7 @@ Clients advertise extension support in the `initialize` request:
   "params": {
     "protocolVersion": "2025-11-25",
     "capabilities": {
-      "roots": {
-        "listChanged": true
-      },
+      "elicitation": {},
       "extensions": {
         "io.modelcontextprotocol/ui": {
           "mimeTypes": ["text/html;profile=mcp-app"]
@@ -283,3 +295,6 @@ Servers advertise extension support in the `initialize` response:
 If one side supports an extension but the other doesn't, the supporting side needs to either fall back to core protocol behavior or reject the request with an appropriate error if the extension is mandatory.
 
 It's a good practice to document expected fallback behavior in your extension. For example, a server offering UI-enhanced tools should still return meaningful text content for clients that don't support the UI extension. On the other hand, a server that requires a specific authentication extension can reject connections from clients that don't support it.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

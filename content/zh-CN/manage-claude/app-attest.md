@@ -24,16 +24,24 @@ App Attest 身份验证仅在您的应用直接调用 Claude API 时可用。通
   App Attest 需要实体设备。模拟器（Simulator）以及不具备 Secure Enclave 的硬件无法执行 App Attest。在模拟器中开发时，请改用 [API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#api-keys)进行身份验证。
 </Note>
 
-要设置 App Attest，您需要拥有 Apple Developer Team ID，并在您的组织中具有管理员、所有者或主要所有者角色。请配置您的 Xcode 项目，并在 [Claude Console](https://platform.claude.com/) 中注册您的应用：
+要设置 App Attest，您需要拥有 Apple Developer Team ID，并在您的 Claude Console 组织中具有管理员角色。请配置您的 Xcode 项目，并在 [Claude Console](https://platform.claude.com/) 中注册您的应用：
 
 1. 在 Xcode 中，在 **Signing & Capabilities** 下为您的应用目标添加 **App Attest** 功能。
-2. 在 Claude Console 中，前往 [App integrations](https://platform.claude.com/settings/workspaces/default/app-integrations) 页面（`platform.claude.com/settings/workspaces/default/app-integrations`）。每个应用集成都属于一个工作区。在侧边栏的工作区选择器中选择您需要的工作区。
-3. 点击 **Create app integration**，然后输入名称、您的 Apple Developer Team ID 以及一个或多个 bundle ID（最多 32 个）。
-4. 从该集成的**概览**选项卡中复制客户端 ID（`clid_...`），并将其传递给您应用的 Claude 配置。
+2. 在 Claude Console 中，前往 [App integrations](https://platform.claude.com/settings/app-integrations) 页面（`platform.claude.com/settings/app-integrations`），然后点击 **Create app integration**。
+3. 输入名称。从**工作区**下拉菜单中，选择要为该应用的用量计费的工作区。每个应用集成都属于一个工作区，之后无法更改。
+4. 输入您的 Apple Developer Team ID 以及一个或多个 bundle ID（最多 32 个），然后点击 **Create app integration**。
+5. 从该集成的**概览**选项卡中复制客户端 ID（`clid_...`）。
+6. 在您的应用中，将客户端 ID 传递给 [`.appAttest(clientID:)`](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/libraries/apple-foundation-models#app-attest-production)。
 
 ## 撤销应用集成
 
-要停止已遭入侵或已停用的应用，请撤销其集成。在 Claude Console 中，前往 [App integrations](https://platform.claude.com/settings/workspaces/default/app-integrations) 页面（`platform.claude.com/settings/workspaces/default/app-integrations`）。每个应用集成都属于一个工作区。在侧边栏的工作区选择器中，选择包含该集成的工作区。选择该集成并点击**撤销**，然后确认。撤销集成会撤销其未过期的令牌，并且其已注册的设备将无法再请求新令牌。撤销是永久性的，因此如需恢复访问，请创建新的应用集成。
+要停止已遭入侵或已停用的应用，请撤销其集成。撤销是永久性的，并且涵盖该集成中的每个 bundle ID。撤销会撤销该集成未过期的令牌，并且设备将无法再请求新令牌。
+
+1. 在 Claude Console 中，前往 [App integrations](https://platform.claude.com/settings/app-integrations) 页面（`platform.claude.com/settings/app-integrations`）。
+2. 找到该集成。该列表涵盖您组织中的每个工作区，**工作区**列显示每个集成所属的工作区。要将列表范围缩小到某一个工作区，请在**工作区**筛选器中选择该工作区。
+3. 在该集成所在行的末尾，打开**更多操作**菜单（三个点）并选择**撤销**，然后确认。
+
+如需恢复访问，请创建新的应用集成，并更新您的应用以使用其客户端 ID。
 
 ## 后续步骤
 

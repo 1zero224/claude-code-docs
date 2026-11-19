@@ -26,7 +26,7 @@ Claude on Google Cloud comes with tools and capabilities for controlling, tracki
 Google Cloud already gives you many native capabilities you can apply to tracking and controlling your Claude spend:
   - **Per-project billing**. Allows you to host a dedicated project for Claude Code as a clean way to track costs.
   - **Billing budgets and alerts**. Allows you to set budget alerts and get notified as actual spend crosses thresholds you define.
-  - **Spend caps (Preview). **Allows you to enforce a service-level Google Cloud spend budget with ability to manually lift the cap.
+  - **Spend caps (Preview). **Allows you to enforce a service-level Google Cloud spend budget with the ability to manually lift the cap.
   - **BigQuery exports. **Lets you analyze Claude spend alongside the rest of your cloud costs.
   - **Quotas. **Claude models on Google Cloud have per-minute limits on requests, input tokens, and output tokens for each model family and endpoint location.
   - **Provisioned throughput.** Pay a fixed fee for reserved capacity instead of pay-as-you-go.
@@ -53,8 +53,8 @@ Claude Code, whether running on developer machines or on cloud workstations, can
 To attribute usage to your own cost centers and departments, set the OTEL_RESOURCE_ATTRIBUTES environment variable (for example, department=engineering,cost_center=eng-123). Claude Code adds these tags to every metric and event, so you can filter and aggregate by them. The metrics land in Google Cloud Monitoring (or other monitoring solutions like Grafana or Splunk) with those custom attributes.
 ![A screenshot of a dashboard](https://assets.claude.com/201a89049ce753ac7e42f8518d1db7908b40a91a.png)A Claude Code usage dashboard in Cloud Monitoring, built from Claude Code's OpenTelemetry metrics. Illustrative recreation with sample data.
 A typical adoption view shows active developers, number of sessions over the last 24 hours, and total tokens consumed. The orange box shows blocked requests when developers hit their gateway-enforced spend caps. That metric pairs well with your existing ticketing system as a workflow that allows developers to request an increase.
-For ready-made Cloud Monitoring dashboard, refer to the [Claude Code Monitoring template (opens in new tab)](https://github.com/GoogleCloudPlatform/monitoring-dashboard-samples/tree/master/dashboards/claude-code), which turns Claude Code’s OpenTelemetry metrics into a single view of adoption, coding activity, and token usage and estimated spend, so you can track usage and costs by user and model as you roll out Claude Code on Google Cloud. You can copy this template directly from within the Cloud Monitoring console.
-To set up custom Claude Code telemetry on Google Cloud, start with the [Claude Code OTel quickstart (opens in new tab)](https://github.com/Google-Cloud-AI/partner-ai-anthropic/tree/main/01-quickstart/otlp-to-telemetry-api). Use it to configure s Claude Code to export OpenTelemetry straight to Google Cloud Observability suite including Cloud Logging and Cloud Monitoring. The quickstart also routes logs into partitioned BigQuery tables, one per event type (API requests, tool decisions, tool results, assistant responses, and completed hook executions), and ships SQL queries for spend per developer/model, tool success and latency, hook wait time, per-turn and per-session analytics.
+For a ready-made Cloud Monitoring dashboard, refer to the [Claude Code Monitoring template (opens in new tab)](https://github.com/GoogleCloudPlatform/monitoring-dashboard-samples/tree/master/dashboards/claude-code), which turns Claude Code’s OpenTelemetry metrics into a single view of adoption, coding activity, and token usage and estimated spend, so you can track usage and costs by user and model as you roll out Claude Code on Google Cloud. You can copy this template directly from within the Cloud Monitoring console.
+To set up custom Claude Code telemetry on Google Cloud, start with the [Claude Code OTel quickstart (opens in new tab)](https://github.com/Google-Cloud-AI/partner-ai-anthropic/tree/main/01-quickstart/otlp-to-telemetry-api). Use it to configure Claude Code to export OpenTelemetry straight to Google Cloud Observability suite including Cloud Logging and Cloud Monitoring. The quickstart also routes logs into partitioned BigQuery tables, one per event type (API requests, tool decisions, tool results, assistant responses, and completed hook executions), and ships SQL queries for spend per developer/model, tool success and latency, hook wait time, per-turn and per-session analytics.
 #### Lever 3: Prove
 The control lever governs and apportions usage and costs; the track lever allows you to visualize that spend. The prove lever is how you map usage to ROI for Claude Code on Google Cloud.
 The metrics that platform engineers care most about measuring in Claude Code are contained within three dimensions: usage, developer satisfaction, and impact.
@@ -65,7 +65,7 @@ The metrics that platform engineers care most about measuring in Claude Code are
 Here's a starting set of impact metrics, grouped into three areas: time, effort, and volume.
 **Time** measures how quickly work ships: PR cycle time from open -> merge, and code review turnaround.
 **Effort **measures how much work each change takes: review iterations per PR, review comments and rework per PR.
-**Volume** measures what the freed-up capacity delivers: PRs per engineer, deployment frequency, and named bodies of work: the specific backlog items your teams shipped with the freed capacity. These add a qualitative view alongside the counts..
+**Volume** measures what the freed-up capacity delivers: PRs per engineer, deployment frequency, and named bodies of work: the specific backlog items your teams shipped with the freed capacity. These add a qualitative view alongside the counts.
 These are directional reference points, not rules, but a good starting point for measuring Claude Code's impact in your organization. The baseline you need already exists: your delivery history in source control and tickets.
 ### **Define your unit of work**
 Most of these metrics count PRs, but a typo fix and a feature release are both one PR. Therefore, count merged PRs of a defined class instead: Claude opens the PR, and a person decides whether it ships. Labels such as hotfix or feature release, the ticket ID, and whether Claude was involved make those PRs easy to find in the systems you already run. Not every unit of work is a PR; a service cutover or an incident closed at its root cause are examples. The same rule applies: count one finished thing, where it lands.
@@ -74,7 +74,7 @@ After putting cost governance and usage tracking in place, the next step is to m
 ![Graphic showing Claude Code native telemetry with three columns: Usage, Cost, Contribution / Productivity.](https://assets.claude.com/5d1a4e740237e04f4524c9ff169e0f70def7c5ab.png)
 Claude Code’s OTel metrics let you track or derive code suggestion accept rate, lines of code modified, commits created, PRs created, cost per unit of output, and PRs per user.
 All of these native metrics offer useful and actionable information. This info becomes even more valuable when paired with logged events like user prompts and tool decisions, captured via Claude Code telemetry on the Google Cloud. Logging user prompts, for example, is a good way to understand everything your user base is trying to build, because not every unit of work is necessarily a PR. Note that user prompts are not logged automatically due to potentially sensitive content; you have to specifically opt in.
-One example would be using Claude Code to troubleshoot an incident if you’re an SRE or generate sample data for a live demo if you’re a sales engineer. Those sessions do not result in a PR, but they do accelerate those teams’ workflows. Keep in mind that Claude Code's PR metric counts the PRs Claude Code *creates*, not what eventually merges. Your source control and ticketing systems remain the record of what shipped, so correlate Claude Code telemetry with GitHub or GitLab and your ticket tracker for the full picture
+One example would be using Claude Code to troubleshoot an incident if you’re an SRE or generate sample data for a live demo if you’re a sales engineer. Those sessions do not result in a PR, but they do accelerate those teams’ workflows. Keep in mind that Claude Code's PR metric counts the PRs Claude Code *creates*, not what eventually merges. Your source control and ticketing systems remain the record of what shipped, so correlate Claude Code telemetry with GitHub or GitLab and your ticket tracker for the full picture.
 Here’s the measurable impact that some Claude on Google Cloud customers have achieved with Claude Code.
   - [Delivery Hero (opens in new tab)](https://claude.com/customers/delivery-hero) had a team overhaul a design system across 100 UI components. Claude Code did in minutes what would normally take a week of an engineer's time.
   - [Shopify  (opens in new tab)](https://claude.com/customers/shopify)engineers build faster with Claude Code, but non-engineers are also building internal tools in minutes instead of days. Claude Code is expanding who can build at Shopify, not just speeding up the people already building.
@@ -94,22 +94,23 @@ Here are resources to get you started:
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)[
-ArticleNov 9, 2026
-### Safely scaling multi-agent teams with Claude Fable 5.2
-How a team of 1,000 agents running an early version of Claude Fable 5.2 reproduced a formal proof of Fermat's Last Theorem with general tools, a shared database, and layered safety controls.
-(opens in new tab)](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)[
-ArticleNov 9, 2026
-### Which Claude model should you build with?
-How to choose between Claude Fable 5.2, Opus 5.5, Sonnet 5.5, and Haiku 5.5 by task, cost, and effort level.
-Claude PlatformClaude Code
-(opens in new tab)](https://claude.dev/blog/which-claude-model-should-you-build-with/)[
-ArticleOct 22, 2026
-### Building agents: When to fold subagents into your main agent loop
-When building agents in Claude Platform, using fewer subagents in favor of progressively disclosed context and tools can improve quality while reducing cost and latency. Here’s when and how to migrate.
+ArticleNov 17, 2026
+### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
+How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
+Claude CodeClaude apps
+(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
+ArticleNov 16, 2026
+### How the Claude Code team thinks about verification
+How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
+Claude Code
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
+ArticleNov 13, 2026
+### Building always-on agents
+Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
 Claude Platform
-](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)
