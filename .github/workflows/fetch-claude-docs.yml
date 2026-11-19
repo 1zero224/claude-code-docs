@@ -4,13 +4,12 @@ on:
   schedule:
     # Every 2 days at 06:00 UTC. Day-of-month 1-31/2 is the closest cron can
     # get to a 48h cadence; month boundaries can stretch the gap to 2 days.
-    # Spelled out rather than */2 (the two are equivalent) so that editing this
-    # block forces GitHub to re-register the timer: schedules silently stopped
-    # firing after 2026-10-14 while the workflow still reported state=active.
+    # NOTE: GitHub has delivered no schedule event to this repository since
+    # 2026-10-14. Probed on 2026-11-19 with a fresh 10-minute workflow: three
+    # slots, zero runs, state=active the whole time, so the timer is not
+    # registered at all and editing this block does not fix it. Until that
+    # changes the archive is refreshed by workflow_dispatch only.
     - cron: "0 6 1-31/2 * *"
-    # TEMP probe: remove once a run with event=schedule appears and proves the
-    # timer is registered again.
-    - cron: "*/20 * * * *"
   workflow_dispatch: # Allow manual trigger
 
 jobs:
