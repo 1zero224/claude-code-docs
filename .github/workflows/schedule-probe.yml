@@ -1,0 +1,18 @@
+name: Schedule Probe
+
+# TEMP: proves whether GitHub delivers schedule events to this repository at
+# all. The fetch workflow's timer has not fired since 2026-10-14 while its
+# state stayed active, so this job isolates delivery from that workflow.
+# Delete once the experiment is done.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report delivery
+        run: echo "schedule delivered at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
