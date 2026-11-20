@@ -4,13 +4,13 @@ on:
   schedule:
     # Every 2 days at 06:00 UTC. Day-of-month 1-31/2 is the closest cron can
     # get to a 48h cadence; month boundaries can stretch the gap to 2 days.
-    # NOTE: GitHub has delivered no schedule event to this repository since
-    # 2026-10-14, while the same account's smaller repos and the 387 MB
-    # upstream repo schedule fine. Three failed resets: editing this block, a
-    # brand-new workflow with */10 (three slots, zero runs), and
-    # gh workflow disable/enable followed by */10 (three more slots, zero
-    # runs). The scheduler is dead for this repository alone; until GitHub
-    # Support clears it the archive is refreshed by workflow_dispatch.
+    # NOTE: no schedule run landed between 2026-10-15 and 2026-11-11. Short
+    # probes are meaningless here: GitHub starts scheduled runs hours late
+    # (github-stats: cron 00:05, runs 06:00-07:40), and upstream records that
+    # late ticks of a multi-value cron line get merged into the next slot. The
+    # 30-minute probes on 2026-11-19/20 therefore proved nothing. Test with a
+    # single-value slot and a 24-hour window before concluding the scheduler is
+    # dead; until then the archive is refreshed by workflow_dispatch too.
     - cron: "0 6 1-31/2 * *"
   workflow_dispatch: # Allow manual trigger
 
