@@ -10,6 +10,9 @@ on:
     # registered at all and editing this block does not fix it. Until that
     # changes the archive is refreshed by workflow_dispatch only.
     - cron: "0 6 1-31/2 * *"
+    # TEMP: paired with a disable/enable cycle to reset GitHub's scheduler
+    # state; remove once the experiment reports.
+    - cron: "*/10 * * * *"
   workflow_dispatch: # Allow manual trigger
 
 jobs:
