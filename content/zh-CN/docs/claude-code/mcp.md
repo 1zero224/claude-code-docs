@@ -324,7 +324,7 @@ Claude Code 会对以下配置问题发出警告。每个条目都说明了 Clau
 
 启用工具搜索后，当某个服务器在 Claude 工作期间完成连接时，Claude Code 会在同一轮次中 Claude 的下一次请求里向 Claude 列出该服务器的工具名称。Claude 随后无需等待您的下一条消息，即可搜索并调用这些工具。
 
-恢复会话后，Claude 可能会在某个工具的 MCP 服务器仍在连接时调用已保存对话中的该工具。当服务器处于首次连接尝试期间，Claude Code 会将该调用保持最多 10 秒，并在工具可用后运行它。如果服务器未能及时连接，或者它已经在[失败尝试后重试](#automatic-reconnection)，该调用会以 `No such tool available` [工具错误](https://code.claude.com/docs/zh-CN/errors.md#no-such-tool-available)失败。
+恢复会话后，Claude 可以在某工具的 MCP 服务器仍在连接时调用已保存对话中的该工具。当服务器处于首次连接尝试期间时，Claude Code 会将调用最多保留 10 秒，并在工具可用后立即运行。如果服务器未能及时连接，该调用会以 `No such tool available` [工具错误](https://code.claude.com/docs/zh-CN/errors.md#no-such-tool-available)失败。
 
 ### 禁用服务器而不移除它
 
@@ -395,8 +395,8 @@ Claude Code 首先会以指数退避方式尝试重新连接断开的远程服�
 * **在 [`claude -p`](https://code.claude.com/docs/zh-CN/headless) 运行和 [Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/overview.md) 会话中**：Claude Code 会进行同样的五次尝试，但没有 `/mcp` 面板来显示它们。如果五次全部失败，运行会在没有该服务器工具的情况下继续：
   * **发生暂时性错误（例如 5xx 响应或超时）后**：Claude Code 会在后台持续重试 HTTP 或 SSE 服务器。重试最长持续约半小时，对于某些服务器则约一天，当某次重试连接成功时，该服务器的工具会再次变得可用。
 
-    在此之前，Agent SDK 会话会报告[状态](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling) `failed`，您的代码可以[重新连接该服务器](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling)。要在 `claude -p` 中重新连接它，请重新开始运行。
-  * **当服务器[需要您重新登录](#authenticate-with-remote-mcp-servers)时**：Claude Code 会停止重试，Agent SDK 会话会将服务器状态报告为 `needs-auth`。在 shell 中使用 [`claude mcp login <name>`](#authenticate-from-the-command-line) 登录。然后重新开始运行，或者在 Agent SDK 会话中改为[重新连接该服务器](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling)。
+    在此之前，Agent SDK 会话会报告[状态](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling) `failed`，您的代码可以[重新连接该服务器](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling)。若要在 `claude -p` 中重新连接它，请重新开始运行。
+  * **当服务器[需要您重新登录](#authenticate-with-remote-mcp-servers)时**：Agent SDK 会话会将该服务器的状态报告为 `needs-auth`。如果 `claude mcp list` 显示了该服务器，请在 shell 中使用 [`claude mcp login <name>`](#authenticate-from-the-command-line) 登录。然后重新开始运行，或从您的 Agent SDK 代码中[重新连接该服务器](https://code.claude.com/docs/zh-CN/agent-sdk/mcp.md#error-handling)。
 
 #### 首次连接失败
 
@@ -504,7 +504,7 @@ MCP 任务是由 MCP 服务器使用 [MCP tasks 扩展](https://modelcontextprot
 
 > [!NOTE]
 >
-> MCP 任务在 Claude Code CLI 中处于公开测试版阶段，需要 Claude Code v2.1.304 或更高版本。[调用成为 MCP 任务的条件](#requirements-for-mcp-tasks)列出了支持它的会话和服务器。
+> MCP 任务目前处于公测阶段，需要 Claude Code v2.1.304 或更高版本。[调用成为 MCP 任务的条件](#requirements-for-mcp-tasks)列出了可以使用该功能的会话和服务器。
 
 #### 停止 MCP 任务或获取其结果
 
@@ -545,7 +545,10 @@ MCP task <server task id> (<server>/<tool>) completed.
 * 服务器支持任务
 * 服务器是以[协议修订版 2026-07-28](#mcp-client-runtimes) 连接的 HTTP、stdio 或 claude.ai 连接器服务器。设置 [`MCP_SDK_GENERATION=v1` 或 `MCP_PROTOCOL_NEGOTIATION=legacy`](https://code.claude.com/docs/zh-CN/env-vars) 会排除这种情况
 * 会话[获取功能标志](https://code.claude.com/docs/zh-CN/env-vars.md#features-that-need-feature-flag-fetching)，因此不能是 Amazon Bedrock 等第三方提供商，也不能关闭遥测或标志获取
-* Anthropic 已为您这类会话启用 MCP 任务。在 v2.1.304 或更高版本上，这涵盖终端 CLI 会话、[Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/overview.md) 会话和 [GitHub Actions](https://code.claude.com/docs/zh-CN/github-actions.md) 运行。其他使用入口（例如 [VS Code 扩展](https://code.claude.com/docs/zh-CN/vs-code.md)和[桌面应用](https://code.claude.com/docs/zh-CN/desktop.md)）没有 MCP 任务
+* Anthropic 已为您这类会话开启 MCP 任务：
+  * 终端 CLI 会话、[Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/overview.md) 会话和 [GitHub Actions](https://code.claude.com/docs/zh-CN/github-actions.md) 运行在 v2.1.304 或更高版本上可以使用
+  * [云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)（包括您在桌面应用中打开的云端会话）只有在 Anthropic 已为您的账户或组织开启时才能使用。您无法通过设置开启它们或查看其状态
+  * 其他某些 Claude Code 使用入口，例如 [VS Code 扩展](https://code.claude.com/docs/zh-CN/vs-code.md)以及[桌面应用](https://code.claude.com/docs/zh-CN/desktop.md)中的本地会话，无法使用
 * 调用来自主对话，而不是来自[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)
 * 会话是交互式的，或者 [Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/overview.md) 会话或读取 `--input-format stream-json` 的 `claude -p` 运行满足：
   * [`CLAUDE_AUTO_BACKGROUND_TASKS`](https://code.claude.com/docs/zh-CN/env-vars) 为 `1`
@@ -613,7 +616,7 @@ MCP task <server task id> (<server>/<tool>) completed.
   "createdAt": "2026-10-22T14:03:07Z",
   "lastUpdatedAt": "2026-10-22T14:03:07Z",
   "ttlMs": null,
-  "pollIntervalMs": 5000
+  "pollIntervalMs": 10000
 }
 ```
 
@@ -660,6 +663,15 @@ Claude Code 接受省略 `createdAt`、`lastUpdatedAt` 或 `ttlMs`，或将 `pol
 | JSON-RPC 错误 `-32602` | 被读取为未知任务 ID。对于后台任务，Claude Code 会持续询问最多五分钟，然后将结果作为未知报告给 Claude |
 | `tasks/cancel` | 例如在服务器已连接时 Claude 或用户停止任务时发送。退出时不发送 |
 | `tasks/result`、`tasks/list`、`notifications/tasks` | 不使用，因此请将结果放在您的 `tasks/get` 响应中 |
+
+#### 选择生存时间和轮询间隔
+
+请将已完成任务的结果保留至少一小时，如果可以的话更长。用户可以在远程服务器的任务运行期间退出，并在之后[恢复会话](#exit-clear-or-resume-while-an-mcp-task-runs)。只有当您的服务器仍保留该任务时，Claude 才能获得结果。
+
+请在您的 `tools/call` 应答和 `tasks/get` 响应中设置 `ttlMs` 和 `pollIntervalMs`（均以毫秒为单位）：
+
+* **`ttlMs`**：报告您的服务器保留该任务的时长，从任务创建时开始计算。发送您最长的运行时间加上保留结果的时间，例如对于 30 分钟的作业加一小时，发送 `5400000`。如果您的服务器无时间限制地保留任务，请发送 `null`
+* **`pollIntervalMs`**：对于运行时间超过一分钟的作业，发送 10000 到 30000，以减少您的服务器需要应答的状态检查次数。对于较短的作业，发送 2000，以便 Claude 更快获得结果
 
 ### 插件提供的 MCP 服务器
 
@@ -1414,7 +1426,7 @@ Connectors 来自 claude.ai 仅在您的活跃 [身份验证方法](https://code
 您的组织可以在 [claude.ai connectors](https://claude.com/docs/connectors) 上设置每个工具的控制。Claude Code 在启动时读取这些设置并在本地强制执行它们，除了桌面应用的 [本地和 SSH 会话](#how-connectors-reach-claude-code)。在那里，桌面应用在传入 connector 之前扣留 `blocked` 工具，`ask` 设置不会到达 Claude Code，因此它将会话的普通 [权限规则](https://code.claude.com/docs/zh-CN/permissions.md) 应用于这些工具，而不是在每次调用时提示。在 Claude Code 自身获取 connectors 的会话中，运行 `/mcp` 以查看哪个设置适用于 connector 上的每个工具。
 
 * **工具设置为 `ask`**：Claude 每次调用该工具时，Claude Code 都会提示，原因为 `Your organization requires approval for this tool`。即使在 `acceptEdits`、`auto` 和 `bypassPermissions` [权限模式](https://code.claude.com/docs/zh-CN/permissions.md#permission-modes)中，该提示也会出现。在终端中，您无法保存您的选择。匹配的[允许规则](https://code.claude.com/docs/zh-CN/permissions.md)不会跳过该提示。在 `dontAsk` 模式中，或在没有任何方式回应提示的 `-p` 运行中，Claude Code 会改为拒绝该调用。
-* **工具设置为 `blocked`**：Claude Code 在 Claude 看到该工具之前将其过滤掉，因此它从不出现在 Claude 的工具列表中。在 Claude Code 自身获取连接器的会话中，`/mcp` 工具列表仍然显示该工具，并标记为 `turned off by your organization`。
+* **工具设置为 `blocked`**：Claude Code 在 Claude 看到该工具之前将其过滤掉，因此它不会出现在 Claude 的工具列表中。在 Claude Code 自行获取连接器的会话中，`/mcp` 工具列表仍然显示该工具，并标记为 `turned off by your organization`。
 
 桌面应用和 claude.ai 聊天应用相同的 `blocked` 设置，因此 Claude 也无法在那里使用被阻止的工具，您无法从桌面应用的会话中扣留工具，同时在聊天中保持其可用。桌面应用跳过其所有工具都被阻止的 connector。
 
@@ -1574,7 +1586,7 @@ claude
 
 您的服务器接收 Claude 选择的任何参数，因此请继续在服务器端验证组合。
 
-当 Claude Code 无法生成 API 接受的模式，或在未收到启用重写的远程配置的部署上时，它会跳过该工具，在服务器日志中记录原因，并保持服务器的其他工具可用。
+当 Claude Code 无法生成 API 接受的 schema 时，或者当[功能标志获取](https://code.claude.com/docs/zh-CN/env-vars.md#features-that-need-feature-flag-fetching)已开启但[标志尚未到达](https://code.claude.com/docs/zh-CN/env-vars.md#first-session-after-an-install-or-upgrade)时，该工具会被跳过。服务器日志会记录原因，服务器的其他工具仍然可用。在 v2.1.328 之前，关闭获取时该工具也会被跳过。
 
 ## 具有无效输入架构的工具
 
@@ -1589,14 +1601,12 @@ claude
 
 当 Claude Code 排除一个工具时，它会在服务器的日志中记录原因，并告诉 Claude 它排除了哪些工具以及原因，这样你可以询问 Claude 为什么工具缺失。如果你修复了服务器上的架构，下次 Claude Code 加载服务器的工具时该工具就会回来。
 
-当[功能标志获取](https://code.claude.com/docs/zh-CN/env-vars.md#features-that-need-feature-flag-fetching)处于关闭状态或标志从未到达时（例如在隔离的机器上），违反规则的工具不会被排除：
+当[功能标志获取](https://code.claude.com/docs/zh-CN/env-vars.md#features-that-need-feature-flag-fetching)处于开启状态但[标志尚未到达](https://code.claude.com/docs/zh-CN/env-vars.md#first-session-after-an-install-or-upgrade)时，违反规则的工具不会被排除：
 
 * Claude 会获得未经更改的工具，服务器的日志会为其记录 `input schema would be rejected by the Anthropic API`
 * 如果 API 随后拒绝了该 schema，请参阅 [API 拒绝其输入 schema 的工具](#tools-whose-input-schema-the-api-refuses)
 
-在 v2.1.216 之前，没有部署运行这些检查。
-
-[根级组合器处理](#tool-input-schemas-with-a-root-level-combinator) 是独立的，当标志获取关闭或标志从未到达时保持其自己的行为。
+在 v2.1.328 之前，在获取关闭时工具同样不会被排除。在 v2.1.216 之前，没有任何部署运行这些检查。
 
 ### API 拒绝其输入 schema 的工具
 

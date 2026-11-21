@@ -50,10 +50,10 @@ featureMetadata:
 * **思考块清除：** 用于管理早期轮次中的思考块，并可选择保留最近的思考以保持上下文连续性
 * **客户端 SDK 压缩：** 一种基于 SDK 的替代方案，用于基于摘要的上下文管理（通常首选服务器端压缩）
 
-| 方式      | 运行位置 | 策略                                                                       | 工作原理                                                                                                                                                                                                                                                                                                                                   |
-| ------- | ---- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **服务端** | API  | 工具结果清除（`clear_tool_uses_20250919`）<br />思考块清除（`clear_thinking_20251015`） | 在提示到达 Claude 之前应用。从对话历史中清除特定内容。每种策略都可以独立配置。                                                                                                                                                                                                                                                                                            |
-| **客户端** | SDK  | 压缩                                                                       | 在使用 [`tool_runner`](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-runner) 时，可在 [TypeScript 和 Ruby SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 中使用。生成摘要并替换完整的对话历史。请参阅[客户端压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#client-side-compaction-sdk)。 |
+| 方式 | 运行位置 | 策略 | 工作原理 |
+| ----- | ----- | ----- | ----- |
+| **服务端** | API | 工具结果清除（`clear_tool_uses_20250919`）<br />思考块清除（`clear_thinking_20251015`） | 在提示到达 Claude 之前应用。从对话历史中清除特定内容。每种策略都可以独立配置。 |
+| **客户端** | SDK | 压缩 | 在使用 [`tool_runner`](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-runner) 时，可在 [TypeScript 和 Ruby SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 中使用。生成摘要并替换完整的对话历史。请参阅[客户端压缩](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#client-side-compaction-sdk)。 |
 
 ## 服务端策略
 
@@ -76,12 +76,12 @@ featureMetadata:
 <Tip>
   **默认行为：** 当请求不包含 `clear_thinking_20251015` 策略时，默认值因模型类别而异。
 
-  | 模型类别           | 保留所有先前的思考               | 仅保留正在进行的轮次的思考               |
-  | -------------- | ----------------------- | --------------------------- |
-  | Opus           | Claude Opus 4.5 及更高版本   | Claude Opus 4.1 及更早版本       |
-  | Sonnet         | Claude Sonnet 4.6 及更高版本 | Claude Sonnet 4.5（已弃用）及更早版本 |
-  | Haiku          | Claude Haiku 5.5 及更高版本  | Claude Haiku 4.5 及更早版本      |
-  | Fable 和 Mythos | 所有模型                    | （无）                         |
+  | 模型类别 | 保留所有先前的思考 | 仅保留正在进行的轮次的思考 |
+  | ----- | ----- | ----- |
+  | Opus | Claude Opus 4.5 及更高版本 | Claude Opus 4.1 及更早版本 |
+  | Sonnet | Claude Sonnet 4.6 及更高版本 | Claude Sonnet 4.5（已弃用）及更早版本 |
+  | Haiku | Claude Haiku 5.5 及更高版本 | Claude Haiku 4.5 及更早版本 |
+  | Fable 和 Mythos | 所有模型 | （无） |
 
   使用此策略可覆盖默认值。如果您的代码跨多个模型类别运行，请包含此策略并显式设置 `keep`，而不要依赖各模型的默认值。
 </Tip>
@@ -949,8 +949,8 @@ featureMetadata:
 
 `clear_thinking_20251015` 策略支持以下配置：
 
-| 配置选项   | 默认值                                  | 描述                                                                                                       |
-| ------ | ------------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| 配置选项 | 默认值 | 描述 |
+| ----- | ----- | ----- |
 | `keep` | `{type: "thinking_turns", value: 1}` | 定义有多少个最近的助手轮次保留其思考块。使用 `{type: "thinking_turns", value: N}`（其中 N 必须 > 0）来保留最后 N 个轮次，或使用 `"all"` 保留所有思考块。 |
 
 包含此策略但未指定 `keep` 的请求在所有模型上都会得到 `{type: "thinking_turns", value: 1}`，包括那些[各模型的默认值](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#thinking-block-clearing)会保留所有思考的模型。不包含此策略的请求则使用各模型的默认值。
@@ -1759,13 +1759,13 @@ N 的计数包括正在进行的助手轮次以及不含思考块的轮次。仅
 
 ## 工具结果清除的配置选项
 
-| 配置选项                | 默认值           | 描述                                                                        |
-| ------------------- | ------------- | ------------------------------------------------------------------------- |
-| `trigger`           | 100,000 个输入令牌 | 定义上下文编辑策略何时激活。一旦提示超过此阈值，就会开始清除。您可以用 `input_tokens` 或 `tool_uses` 指定此值。    |
-| `keep`              | 3 次工具使用       | 定义清除发生后要保留多少个最近的工具使用/结果对。API 会首先移除最旧的工具交互，保留最近的交互。                        |
-| `clear_at_least`    | 无             | 确保每次策略激活时至少清除一定数量的令牌。如果 API 无法清除至少指定的数量，则不会应用该策略。这有助于判断上下文清除是否值得破坏您的提示缓存。 |
-| `exclude_tools`     | 无             | 工具名称列表，这些工具的工具使用和结果永远不应被清除。适用于保留重要上下文。                                    |
-| `clear_tool_inputs` | `false`       | 控制是否将工具调用参数与工具结果一起清除。默认情况下，仅清除工具结果，同时保持 Claude 原始的工具调用可见。                 |
+| 配置选项 | 默认值 | 描述 |
+| ----- | ----- | ----- |
+| `trigger` | 100,000 个输入令牌 | 定义上下文编辑策略何时激活。一旦提示超过此阈值，就会开始清除。您可以用 `input_tokens` 或 `tool_uses` 指定此值。 |
+| `keep` | 3 次工具使用 | 定义清除发生后要保留多少个最近的工具使用/结果对。API 会首先移除最旧的工具交互，保留最近的交互。 |
+| `clear_at_least` | 无 | 确保每次策略激活时至少清除一定数量的令牌。如果 API 无法清除至少指定的数量，则不会应用该策略。这有助于判断上下文清除是否值得破坏您的提示缓存。 |
+| `exclude_tools` | 无 | 工具名称列表，这些工具的工具使用和结果永远不应被清除。适用于保留重要上下文。 |
+| `clear_tool_inputs` | `false` | 控制是否将工具调用参数与工具结果一起清除。默认情况下，仅清除工具结果，同时保持 Claude 原始的工具调用可见。 |
 
 ## 上下文编辑响应
 
@@ -2486,12 +2486,12 @@ Claude 会基于此摘要继续工作，就如同它是原始的对话历史一�
 
 ### 配置选项
 
-| 参数                        | 类型      | 必需 | 默认值                                                                                                          | 描述           |
-| ------------------------- | ------- | -- | ------------------------------------------------------------------------------------------------------------ | ------------ |
-| `enabled`                 | boolean | 是  | -                                                                                                            | 是否启用自动压缩     |
-| `context_token_threshold` | number  | 否  | 100,000                                                                                                      | 触发压缩的令牌数     |
-| `model`                   | string  | 否  | 与主模型相同                                                                                                       | 用于生成摘要的模型    |
-| `summary_prompt`          | string  | 否  | 请参阅[默认摘要提示](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#default-summary-prompt) | 用于生成摘要的自定义提示 |
+| 参数 | 类型 | 必需 | 默认值 | 描述 |
+| ----- | ----- | ----- | ----- | ----- |
+| `enabled` | boolean | 是 | - | 是否启用自动压缩 |
+| `context_token_threshold` | number | 否 | 100,000 | 触发压缩的令牌数 |
+| `model` | string | 否 | 与主模型相同 | 用于生成摘要的模型 |
+| `summary_prompt` | string | 否 | 请参阅[默认摘要提示](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#default-summary-prompt) | 用于生成摘要的自定义提示 |
 
 #### 选择令牌阈值
 
@@ -2983,8 +2983,8 @@ SDK 将总用量计算为 63,000 + 0 + 270,000 + 1,400 = 334,400 个令牌。然
 
 * 可用性：可用
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
@@ -2999,10 +2999,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
-| 详细信息 | 上下文编辑（工具使用清除和思考清除）实时应用。                                                                                                                   | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
+| 详细信息 | 上下文编辑（工具使用清除和思考清除）实时应用。 | — |
 
 适用的端点：
 

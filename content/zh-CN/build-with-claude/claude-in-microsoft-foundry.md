@@ -12,12 +12,12 @@ Claude 在 Foundry 资源中以 Global Standard 和 US Data Zone Standard 部署
 
 Microsoft Foundry 中的 Claude 模型提供两种托管选项。您在配置部署时选择托管选项。
 
-|        | 托管在 Azure 上                                                                                                                                     | 托管在 Anthropic 上                                                                                                                                                                                                                                                                                                        |
-| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 推理运行位置 | 在 Azure 基础设施上运行的由 Anthropic 运营的服务                                                                                                               | 在 Anthropic 基础设施上运行的由 Anthropic 运营的服务                                                                                                                                                                                                                                                                                  |
-| 模型可用性  | [部分 Opus、Sonnet 和 Haiku 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments) | [Microsoft Foundry 上提供的所有 Claude 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)                                                                                                                                                               |
-| 部署类型   | Global Standard、US Data Zone Standard                                                                                                           | Global Standard                                                                                                                                                                                                                                                                                                        |
-| 推荐用于   | 大多数工作负载                                                                                                                                         | 需要[仅托管在 Anthropic 上的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)或[仅在托管于 Anthropic 时可用的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure)的工作负载 |
+|  | 托管在 Azure 上 | 托管在 Anthropic 上 |
+| ----- | ----- | ----- |
+| 推理运行位置 | 在 Azure 基础设施上运行的由 Anthropic 运营的服务 | 在 Anthropic 基础设施上运行的由 Anthropic 运营的服务 |
+| 模型可用性 | [部分 Opus、Sonnet 和 Haiku 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments) | [Microsoft Foundry 上提供的所有 Claude 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments) |
+| 部署类型 | Global Standard、US Data Zone Standard | Global Standard |
+| 推荐用于 | 大多数工作负载 | 需要[仅托管在 Anthropic 上的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)或[仅在托管于 Anthropic 时可用的功能](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#additional-features-not-supported-when-hosted-on-azure)的工作负载 |
 
 对于托管在 Azure 上的部署，Anthropic 在 Azure 基础设施上处理提示和补全内容，并将保留的内容存储在那里。保留的内容包括被 Anthropic 安全系统标记、供 Anthropic 审查的内容。不包含提示或补全内容的运营数据存储在 Anthropic 位于 Azure 之外的系统上。示例包括安全分类器分数、标识符以及使用和计费数据。
 
@@ -76,8 +76,8 @@ Anthropic 的[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-lib
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.10.0")
-        implementation("com.anthropic:anthropic-java-foundry:3.10.0")
+        implementation("com.anthropic:anthropic-java:3.12.0")
+        implementation("com.anthropic:anthropic-java-foundry:3.12.0")
         ```
       </Tab>
 
@@ -86,12 +86,12 @@ Anthropic 的[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-lib
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-foundry</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         ```
       </Tab>
@@ -655,26 +655,26 @@ Microsoft Foundry 中的 Claude 支持大多数 Claude 功能。[功能概述](h
 
 以下 Claude 模型可通过 Foundry 使用：
 
-| Model                                                                                                    | Default deployment name | Hosted on Azure | Hosted on Anthropic |
-| :------------------------------------------------------------------------------------------------------- | :---------------------- | :-------------: | :-----------------: |
-| Claude Fable 5.2                                                                                         | `claude-fable-5-2`      |                 |          ✓          |
-| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842))              | `claude-mythos-5-2`     |                 |          ✓          |
-| Claude Fable 5.1                                                                                         | `claude-fable-5-1`      |                 |          ✓          |
-| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842))              | `claude-mythos-5-1`     |                 |          ✓          |
-| Claude Fable 5                                                                                           | `claude-fable-5`        |                 |          ✓          |
-| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842))                | `claude-mythos-5`       |                 |          ✓          |
-| Claude Opus 5.5                                                                                          | `claude-opus-5-5`       |        ✓        |          ✓          |
-| Claude Opus 5                                                                                            | `claude-opus-5`         |        ✓        |          ✓          |
-| Claude Opus 4.8                                                                                          | `claude-opus-4-8`       |        ✓        |          ✓          |
-| Claude Opus 4.7                                                                                          | `claude-opus-4-7`       |                 |          ✓          |
-| Claude Opus 4.6                                                                                          | `claude-opus-4-6`       |                 |          ✓          |
-| Claude Opus 4.5                                                                                          | `claude-opus-4-5`       |                 |          ✓          |
-| Claude Sonnet 5.5                                                                                        | `claude-sonnet-5-5`     |        ✓        |          ✓          |
-| Claude Sonnet 5                                                                                          | `claude-sonnet-5`       |        ✓        |          ✓          |
-| Claude Sonnet 4.6                                                                                        | `claude-sonnet-4-6`     |                 |          ✓          |
-| Claude Sonnet 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `claude-sonnet-4-5`     |                 |          ✓          |
-| Claude Haiku 5.5                                                                                         | `claude-haiku-5-5`      |        ✓        |          ✓          |
-| Claude Haiku 4.5                                                                                         | `claude-haiku-4-5`      |        ✓        |          ✓          |
+| Model | Default deployment name | Hosted on Azure | Hosted on Anthropic |
+| :---- | :---- | :---: | :---: |
+| Claude Fable 5.2 | `claude-fable-5-2` |  | ✓ |
+| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842)) | `claude-mythos-5-2` |  | ✓ |
+| Claude Fable 5.1 | `claude-fable-5-1` |  | ✓ |
+| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842)) | `claude-mythos-5-1` |  | ✓ |
+| Claude Fable 5 | `claude-fable-5` |  | ✓ |
+| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842)) | `claude-mythos-5` |  | ✓ |
+| Claude Opus 5.5 | `claude-opus-5-5` | ✓ | ✓ |
+| Claude Opus 5 | `claude-opus-5` | ✓ | ✓ |
+| Claude Opus 4.8 | `claude-opus-4-8` | ✓ | ✓ |
+| Claude Opus 4.7 | `claude-opus-4-7` |  | ✓ |
+| Claude Opus 4.6 | `claude-opus-4-6` |  | ✓ |
+| Claude Opus 4.5 | `claude-opus-4-5` |  | ✓ |
+| Claude Sonnet 5.5 | `claude-sonnet-5-5` | ✓ | ✓ |
+| Claude Sonnet 5 | `claude-sonnet-5` | ✓ | ✓ |
+| Claude Sonnet 4.6 | `claude-sonnet-4-6` |  | ✓ |
+| Claude Sonnet 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `claude-sonnet-4-5` |  | ✓ |
+| Claude Haiku 5.5 | `claude-haiku-5-5` | ✓ | ✓ |
+| Claude Haiku 4.5 | `claude-haiku-4-5` | ✓ | ✓ |
 
 默认情况下，部署名称与上表中显示的模型 ID 匹配。但是，您可以在 Foundry 门户中使用不同的名称创建自定义部署，以管理不同的配置、版本或速率限制。在您的 API 请求中使用部署名称（不一定是模型 ID）。
 

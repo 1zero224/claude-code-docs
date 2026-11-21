@@ -39,10 +39,10 @@ featureMetadata:
 
 Anthropic 提供两种使用 Claude 进行构建的方式，每种方式适用于不同的使用场景：
 
-|          | Messages API   | Claude Managed Agents    |
-| -------- | -------------- | ------------------------ |
-| **它是什么** | 直接的模型提示访问      | 预构建、可配置的智能体框架，运行在托管基础设施中 |
-| **最适合**  | 自定义智能体循环和细粒度控制 | 长时间运行的任务和异步工作            |
+|  | Messages API | Claude Managed Agents |
+| ----- | ----- | ----- |
+| **它是什么** | 直接的模型提示访问 | 预构建、可配置的智能体框架，运行在托管基础设施中 |
+| **最适合** | 自定义智能体循环和细粒度控制 | 长时间运行的任务和异步工作 |
 
 本指南介绍使用 Messages API 的常见模式，包括基本请求、多轮对话、预填充技术和视觉功能。有关完整的 API 规范，请参阅 [Messages API 参考](https://platform.claude.com/docs/zh-CN/api/messages/create)。如需了解托管的智能体框架，请参阅 [Claude Managed Agents 概述](https://platform.claude.com/docs/zh-CN/managed-agents/overview)。
 
@@ -1099,10 +1099,10 @@ Messages API在所有模型上可用，并具备零数据保留和HIPAA 就绪�
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
-| 详细信息 | 用于生成 Claude 响应的标准 API 调用。                                                                                                                 | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
+| 详细信息 | 用于生成 Claude 响应的标准 API 调用。 | — |
 
 适用的端点：
 

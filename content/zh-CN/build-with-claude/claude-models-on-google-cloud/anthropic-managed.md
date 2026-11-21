@@ -79,11 +79,11 @@ Google Cloud 负责处理 Claude Models on Google Cloud (Anthropic managed) 的�
 
 Claude Models on Google Cloud (Anthropic managed) 有三个预定义的 IAM 角色。请在项目上授予角色。
 
-| 角色                    | 显示名称          | 允许的操作                                                                                                   |
-| --------------------- | ------------- | ------------------------------------------------------------------------------------------------------- |
-| `roles/claude.viewer` | Claude Viewer | 工作区资源上的所有 `get` 和 `list` 权限<br />此角色为只读。                                                                |
-| `roles/claude.user`   | Claude User   | `roles/claude.viewer` 允许的所有操作，以及创建和更改工作区资源<br />这包括发送消息和计算令牌数，还包括管理批处理、文件、技能和 Claude Managed Agents 资源。 |
-| `roles/claude.admin`  | Claude Admin  | `roles/claude.user` 允许的所有操作，以及在您的 Anthropic 组织上检查的权限<br />组织级路由作用于整个 Anthropic 组织，而不是单个工作区。             |
+| 角色 | 显示名称 | 允许的操作 |
+| ----- | ----- | ----- |
+| `roles/claude.viewer` | Claude Viewer | 工作区资源上的所有 `get` 和 `list` 权限<br />此角色为只读。 |
+| `roles/claude.user` | Claude User | `roles/claude.viewer` 允许的所有操作，以及创建和更改工作区资源<br />这包括发送消息和计算令牌数，还包括管理批处理、文件、技能和 Claude Managed Agents 资源。 |
+| `roles/claude.admin` | Claude Admin | `roles/claude.user` 允许的所有操作，以及在您的 Anthropic 组织上检查的权限<br />组织级路由作用于整个 Anthropic 组织，而不是单个工作区。 |
 
 例如，以下命令允许服务账号调用 Claude Models on Google Cloud (Anthropic managed)：
 
@@ -177,8 +177,8 @@ Claude Models on Google Cloud (Anthropic managed) 的 [SDK 客户端](https://pl
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.10.0")
-        implementation("com.anthropic:anthropic-java-google-cloud:3.10.0")
+        implementation("com.anthropic:anthropic-java:3.12.0")
+        implementation("com.anthropic:anthropic-java-google-cloud:3.12.0")
         ```
       </Tab>
 
@@ -187,12 +187,12 @@ Claude Models on Google Cloud (Anthropic managed) 的 [SDK 客户端](https://pl
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-google-cloud</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         ```
       </Tab>
@@ -408,26 +408,26 @@ https://claude.googleapis.com/v1/projects/{project}/locations/global/claudeOrgan
 
 Claude Models on Google Cloud (Anthropic managed) 使用与 Claude API 相同的模型 ID。可用模型包括以下这些：
 
-| Model                                                                                                    | Model ID                     |
-| :------------------------------------------------------------------------------------------------------- | :--------------------------- |
-| Claude Fable 5.2                                                                                         | `claude-fable-5-2`           |
-| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842))              | `claude-mythos-5-2`          |
-| Claude Fable 5.1                                                                                         | `claude-fable-5-1`           |
-| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842))              | `claude-mythos-5-1`          |
-| Claude Fable 5                                                                                           | `claude-fable-5`             |
-| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842))                | `claude-mythos-5`            |
-| Claude Opus 5.5                                                                                          | `claude-opus-5-5`            |
-| Claude Opus 5                                                                                            | `claude-opus-5`              |
-| Claude Opus 4.8                                                                                          | `claude-opus-4-8`            |
-| Claude Opus 4.7                                                                                          | `claude-opus-4-7`            |
-| Claude Opus 4.6                                                                                          | `claude-opus-4-6`            |
-| Claude Opus 4.5                                                                                          | `claude-opus-4-5-20251101`   |
-| Claude Sonnet 5.5                                                                                        | `claude-sonnet-5-5`          |
-| Claude Sonnet 5                                                                                          | `claude-sonnet-5`            |
-| Claude Sonnet 4.6                                                                                        | `claude-sonnet-4-6`          |
+| Model | Model ID |
+| :---- | :---- |
+| Claude Fable 5.2 | `claude-fable-5-2` |
+| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842)) | `claude-mythos-5-2` |
+| Claude Fable 5.1 | `claude-fable-5-1` |
+| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842)) | `claude-mythos-5-1` |
+| Claude Fable 5 | `claude-fable-5` |
+| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842)) | `claude-mythos-5` |
+| Claude Opus 5.5 | `claude-opus-5-5` |
+| Claude Opus 5 | `claude-opus-5` |
+| Claude Opus 4.8 | `claude-opus-4-8` |
+| Claude Opus 4.7 | `claude-opus-4-7` |
+| Claude Opus 4.6 | `claude-opus-4-6` |
+| Claude Opus 4.5 | `claude-opus-4-5-20251101` |
+| Claude Sonnet 5.5 | `claude-sonnet-5-5` |
+| Claude Sonnet 5 | `claude-sonnet-5` |
+| Claude Sonnet 4.6 | `claude-sonnet-4-6` |
 | Claude Sonnet 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `claude-sonnet-4-5-20250929` |
-| Claude Haiku 5.5                                                                                         | `claude-haiku-5-5`           |
-| Claude Haiku 4.5                                                                                         | `claude-haiku-4-5-20251001`  |
+| Claude Haiku 5.5 | `claude-haiku-5-5` |
+| Claude Haiku 4.5 | `claude-haiku-4-5-20251001` |
 
 Claude Models on Google Cloud (Anthropic managed) 遵循 Claude API 的生命周期时间表。关于具体日期，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。要比较模型，请参阅[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)。
 
@@ -437,12 +437,12 @@ Claude Models on Google Cloud (Anthropic managed) 遵循 Claude API 的生命周
 
 Claude Models on Google Cloud (Anthropic managed) 的客户端接受下表中的设置。创建客户端时传入的值优先于环境变量。要显式设置项目和工作区 ID，请传入 `project` (go: `Project`; java: `.project()`; csharp: `GoogleCloudClientOptions.Project`; cli: `--google-cloud-project`) 和 `workspace_id` (typescript, php: `workspaceId`; go: `WorkspaceID`; java: `.workspaceId()`; csharp: `GoogleCloudClientOptions.WorkspaceId`; cli: `--google-cloud-workspace-id`)。
 
-| 设置     | 环境变量                                                        | 未设置时                                                                                                                                                                                                                                         |
-| ------ | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 项目 ID  | `ANTHROPIC_GOOGLE_CLOUD_PROJECT`，然后是 `GOOGLE_CLOUD_PROJECT` | Application Default Credentials 报告的项目（当凭据类型包含项目时）                                                                                                                                                                                            |
-| 工作区 ID | `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID`                       | 除非您设置了基础 URL，否则客户端会引发错误。[组织级路由](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#iam-roles)和[用户配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles)路由不需要工作区 ID。 |
-| 位置     | `ANTHROPIC_GOOGLE_CLOUD_LOCATION`                           | `global`                                                                                                                                                                                                                                     |
-| 基础 URL | `ANTHROPIC_GOOGLE_CLOUD_BASE_URL`                           | 根据项目、位置和工作区 ID 派生                                                                                                                                                                                                                            |
+| 设置 | 环境变量 | 未设置时 |
+| ----- | ----- | ----- |
+| 项目 ID | `ANTHROPIC_GOOGLE_CLOUD_PROJECT`，然后是 `GOOGLE_CLOUD_PROJECT` | Application Default Credentials 报告的项目（当凭据类型包含项目时） |
+| 工作区 ID | `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID` | 除非您设置了基础 URL，否则客户端会引发错误。[组织级路由](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#iam-roles)和[用户配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles)路由不需要工作区 ID。 |
+| 位置 | `ANTHROPIC_GOOGLE_CLOUD_LOCATION` | `global` |
+| 基础 URL | `ANTHROPIC_GOOGLE_CLOUD_BASE_URL` | 根据项目、位置和工作区 ID 派生 |
 
 请将位置保留为 `global`。位置与推理运行的地点无关，因此如需仅在美国进行推理，请在每个请求上设置 `inference_geo: "us"`，如[数据驻留](https://platform.claude.com/docs/zh-CN/manage-claude/data-residency#inference-geo)中所述。
 

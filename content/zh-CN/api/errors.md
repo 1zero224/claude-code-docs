@@ -44,12 +44,12 @@ API 遵循可预测的 HTTP 错误代码格式：
 
 第一方 Claude API 强制执行以下请求大小限制。有关其他平台，请参阅 [API 概述](https://platform.claude.com/docs/zh-CN/api/overview#request-size-limits)。
 
-| 端点类型                                                                                   | 最大请求大小 |
-| -------------------------------------------------------------------------------------- | ------ |
-| Messages API                                                                           | 128 MB |
-| Token Counting API                                                                     | 128 MB |
+| 端点类型 | 最大请求大小 |
+| ----- | ----- |
+| Messages API | 128 MB |
+| Token Counting API | 128 MB |
 | [Batch API](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing) | 256 MB |
-| [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files)            | 500 MB |
+| [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) | 500 MB |
 
 如果您超过这些限制，您将收到 413 `request_too_large` 错误。在第一方 Claude API 上，Cloudflare 会在请求到达 API 服务器之前返回此错误。
 

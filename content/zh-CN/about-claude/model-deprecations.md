@@ -70,33 +70,33 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 下表列出了当前模型和最近退役的模型及其状态：
 
-| API model name             | Current state | Deprecated         | Tentative retirement date          |
-| :------------------------- | :------------ | :----------------- | :--------------------------------- |
-| claude-fable-5-2           | Active        | N/A                | Not sooner than November 9, 2027   |
-| claude-mythos-5-2          | Active        | N/A                | Not sooner than November 9, 2027   |
-| claude-fable-5-1           | Active        | N/A                | Not sooner than September 1, 2027  |
-| claude-mythos-5-1          | Active        | N/A                | Not sooner than September 1, 2027  |
-| claude-fable-5             | Active        | N/A                | Not sooner than June 9, 2027       |
-| claude-mythos-5            | Active        | N/A                | Not sooner than June 9, 2027       |
-| claude-mythos-preview      | Deprecated    | June 9, 2026       | To be announced                    |
-| claude-opus-5-5            | Active        | N/A                | Not sooner than September 22, 2027 |
-| claude-opus-5              | Active        | N/A                | Not sooner than July 24, 2027      |
-| claude-opus-4-8            | Active        | N/A                | Not sooner than May 28, 2027       |
-| claude-opus-4-7            | Active        | N/A                | Not sooner than April 16, 2027     |
-| claude-opus-4-6            | Active        | N/A                | Not sooner than February 5, 2027   |
-| claude-opus-4-5-20251101   | Active        | N/A                | Not sooner than November 24, 2026  |
-| claude-opus-4-1-20250805   | Retired       | June 5, 2026       | August 5, 2026                     |
-| claude-opus-4-20250514     | Retired       | April 14, 2026     | June 15, 2026                      |
-| claude-sonnet-5-5          | Active        | N/A                | Not sooner than September 28, 2027 |
-| claude-sonnet-5            | Active        | N/A                | Not sooner than June 30, 2027      |
-| claude-sonnet-4-6          | Active        | N/A                | Not sooner than February 17, 2027  |
-| claude-sonnet-4-5-20250929 | Deprecated    | September 30, 2026 | November 30, 2026                  |
-| claude-sonnet-4-20250514   | Retired       | April 14, 2026     | June 15, 2026                      |
-| claude-3-7-sonnet-20250219 | Retired       | October 28, 2025   | February 19, 2026                  |
-| claude-haiku-5-5           | Active        | N/A                | Not sooner than October 7, 2027    |
-| claude-haiku-4-5-20251001  | Active        | N/A                | Not sooner than October 15, 2026   |
-| claude-3-5-haiku-20241022  | Retired       | December 19, 2025  | February 19, 2026                  |
-| claude-3-haiku-20240307    | Retired       | February 19, 2026  | April 20, 2026                     |
+| API model name | Current state | Deprecated | Tentative retirement date |
+| :---- | :---- | :---- | :---- |
+| claude-fable-5-2 | Active | N/A | Not sooner than November 9, 2027 |
+| claude-mythos-5-2 | Active | N/A | Not sooner than November 9, 2027 |
+| claude-fable-5-1 | Active | N/A | Not sooner than September 1, 2027 |
+| claude-mythos-5-1 | Active | N/A | Not sooner than September 1, 2027 |
+| claude-fable-5 | Active | N/A | Not sooner than June 9, 2027 |
+| claude-mythos-5 | Active | N/A | Not sooner than June 9, 2027 |
+| claude-mythos-preview | Deprecated | June 9, 2026 | To be announced |
+| claude-opus-5-5 | Active | N/A | Not sooner than September 22, 2027 |
+| claude-opus-5 | Active | N/A | Not sooner than July 24, 2027 |
+| claude-opus-4-8 | Active | N/A | Not sooner than May 28, 2027 |
+| claude-opus-4-7 | Active | N/A | Not sooner than April 16, 2027 |
+| claude-opus-4-6 | Active | N/A | Not sooner than February 5, 2027 |
+| claude-opus-4-5-20251101 | Active | N/A | Not sooner than November 24, 2026 |
+| claude-opus-4-1-20250805 | Retired | June 5, 2026 | August 5, 2026 |
+| claude-opus-4-20250514 | Retired | April 14, 2026 | June 15, 2026 |
+| claude-sonnet-5-5 | Active | N/A | Not sooner than September 28, 2027 |
+| claude-sonnet-5 | Active | N/A | Not sooner than June 30, 2027 |
+| claude-sonnet-4-6 | Active | N/A | Not sooner than February 17, 2027 |
+| claude-sonnet-4-5-20250929 | Deprecated | September 30, 2026 | November 30, 2026 |
+| claude-sonnet-4-20250514 | Retired | April 14, 2026 | June 15, 2026 |
+| claude-3-7-sonnet-20250219 | Retired | October 28, 2025 | February 19, 2026 |
+| claude-haiku-5-5 | Active | N/A | Not sooner than October 7, 2027 |
+| claude-haiku-4-5-20251001 | Active | N/A | Not sooner than October 15, 2026 |
+| claude-3-5-haiku-20241022 | Retired | December 19, 2025 | February 19, 2026 |
+| claude-3-haiku-20240307 | Retired | February 19, 2026 | April 20, 2026 |
 
 ## 弃用历史
 
@@ -106,8 +106,8 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2026 年 9 月 30 日，Anthropic 通知使用 Claude Sonnet 4.5 的开发者，该模型即将在 Claude API 上退役。
 
-| 退役日期             | 已弃用模型                        | 推荐替代方案              |
-| ---------------- | ---------------------------- | ------------------- |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
 | 2026 年 11 月 30 日 | `claude-sonnet-4-5-20250929` | `claude-sonnet-5-5` |
 
 此次退役包括 `claude-sonnet-4-5`，即同一模型不带日期的 ID。
@@ -122,8 +122,8 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2026 年 6 月 5 日，Anthropic 通知了使用 Claude Opus 4.1 的开发者，该模型即将在 Claude API 上退役。
 
-| 退役日期           | 已弃用模型                      | 推荐替代方案            |
-| -------------- | -------------------------- | ----------------- |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
 | 2026 年 8 月 5 日 | `claude-opus-4-1-20250805` | `claude-opus-4-8` |
 
 ### 2026-04-14：Claude Sonnet 4 和 Claude Opus 4 模型
@@ -134,10 +134,10 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2026 年 4 月 14 日，Anthropic 通知了使用 Claude Sonnet 4 和 Claude Opus 4 模型的开发者，这些模型即将在 Claude API 上退役。
 
-| 退役日期            | 已弃用模型                      | 推荐替代方案              |
-| --------------- | -------------------------- | ------------------- |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
 | 2026 年 6 月 15 日 | `claude-sonnet-4-20250514` | `claude-sonnet-5-5` |
-| 2026 年 6 月 15 日 | `claude-opus-4-20250514`   | `claude-opus-4-8`   |
+| 2026 年 6 月 15 日 | `claude-opus-4-20250514` | `claude-opus-4-8` |
 
 ### 2026-02-19：Claude Haiku 3 模型
 
@@ -147,8 +147,8 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2026 年 2 月 19 日，Anthropic 通知了使用 Claude Haiku 3 的开发者，该模型即将在 Claude API 上退役。
 
-| 退役日期            | 已弃用模型                     | 推荐替代方案                      |
-| --------------- | ------------------------- | --------------------------- |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
 | 2026 年 4 月 20 日 | `claude-3-haiku-20240307` | `claude-haiku-4-5-20251001` |
 
 ### 2025-12-19：Claude Haiku 3.5 模型
@@ -159,8 +159,8 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2025 年 12 月 19 日，Anthropic 通知了使用 Claude Haiku 3.5 的开发者，该模型即将在 Claude API 上退役。
 
-| 退役日期            | 已弃用模型                       | 推荐替代方案                      |
-| --------------- | --------------------------- | --------------------------- |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
 | 2026 年 2 月 19 日 | `claude-3-5-haiku-20241022` | `claude-haiku-4-5-20251001` |
 
 ### 2025-10-28：Claude Sonnet 3.7 模型
@@ -171,8 +171,8 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2025 年 10 月 28 日，Anthropic 通知了使用 Claude Sonnet 3.7 的开发者，该模型即将在 Claude API 上退役。
 
-| 退役日期            | 已弃用模型                        | 推荐替代方案              |
-| --------------- | ---------------------------- | ------------------- |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
 | 2026 年 2 月 19 日 | `claude-3-7-sonnet-20250219` | `claude-sonnet-5-5` |
 
 ### 2025-08-13：Claude Sonnet 3.5 模型
@@ -183,8 +183,8 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2025 年 8 月 13 日，Anthropic 通知了使用 Claude Sonnet 3.5 模型的开发者，这些模型即将退役。
 
-| 退役日期             | 已弃用模型                        | 推荐替代方案              |
-| ---------------- | ---------------------------- | ------------------- |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
 | 2025 年 10 月 28 日 | `claude-3-5-sonnet-20240620` | `claude-sonnet-5-5` |
 | 2025 年 10 月 28 日 | `claude-3-5-sonnet-20241022` | `claude-sonnet-5-5` |
 
@@ -196,8 +196,8 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2025 年 6 月 30 日，Anthropic 通知了使用 Claude Opus 3 的开发者，该模型即将退役。
 
-| 退役日期           | 已弃用模型                    | 推荐替代方案            |
-| -------------- | ------------------------ | ----------------- |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
 | 2026 年 1 月 5 日 | `claude-3-opus-20240229` | `claude-opus-4-8` |
 
 ### 2025-01-21：Claude 2、Claude 2.1 和 Claude Sonnet 3 模型
@@ -208,10 +208,10 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2025 年 1 月 21 日，Anthropic 通知了使用 Claude 2、Claude 2.1 和 Claude Sonnet 3 模型的开发者，这些模型即将退役。
 
-| 退役日期            | 已弃用模型                      | 推荐替代方案              |
-| --------------- | -------------------------- | ------------------- |
-| 2025 年 7 月 21 日 | `claude-2.0`               | `claude-opus-4-8`   |
-| 2025 年 7 月 21 日 | `claude-2.1`               | `claude-opus-4-8`   |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
+| 2025 年 7 月 21 日 | `claude-2.0` | `claude-opus-4-8` |
+| 2025 年 7 月 21 日 | `claude-2.1` | `claude-opus-4-8` |
 | 2025 年 7 月 21 日 | `claude-3-sonnet-20240229` | `claude-sonnet-5-5` |
 
 ### 2024-09-04：Claude 1 和 Instant 模型
@@ -222,12 +222,12 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 2024 年 9 月 4 日，Anthropic 通知了使用 Claude 1 和 Instant 模型的开发者，这些模型即将退役。
 
-| 退役日期            | 已弃用模型                | 推荐替代方案                      |
-| --------------- | -------------------- | --------------------------- |
-| 2024 年 11 月 6 日 | `claude-1.0`         | `claude-haiku-4-5-20251001` |
-| 2024 年 11 月 6 日 | `claude-1.1`         | `claude-haiku-4-5-20251001` |
-| 2024 年 11 月 6 日 | `claude-1.2`         | `claude-haiku-4-5-20251001` |
-| 2024 年 11 月 6 日 | `claude-1.3`         | `claude-haiku-4-5-20251001` |
+| 退役日期 | 已弃用模型 | 推荐替代方案 |
+| ----- | ----- | ----- |
+| 2024 年 11 月 6 日 | `claude-1.0` | `claude-haiku-4-5-20251001` |
+| 2024 年 11 月 6 日 | `claude-1.1` | `claude-haiku-4-5-20251001` |
+| 2024 年 11 月 6 日 | `claude-1.2` | `claude-haiku-4-5-20251001` |
+| 2024 年 11 月 6 日 | `claude-1.3` | `claude-haiku-4-5-20251001` |
 | 2024 年 11 月 6 日 | `claude-instant-1.0` | `claude-haiku-4-5-20251001` |
 | 2024 年 11 月 6 日 | `claude-instant-1.1` | `claude-haiku-4-5-20251001` |
 | 2024 年 11 月 6 日 | `claude-instant-1.2` | `claude-haiku-4-5-20251001` |
@@ -236,8 +236,8 @@ Anthropic 希望在未来某个时候能够再次公开提供过去的模型。�
 
 Anthropic 偶尔会弃用不再适用于当前模型的请求参数。新模型可能会拒绝已弃用的参数，而新的 [API 版本](https://platform.claude.com/docs/zh-CN/api/versioning)可能会针对所有模型移除该参数。
 
-| 参数                            | 状态                                                                                                                | 行为                                                                                                                         | 推荐替代方案                                                                                                                              |
-| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| 参数 | 状态 | 行为 | 推荐替代方案 |
+| ----- | ----- | ----- | ----- |
 | `temperature`、`top_p`、`top_k` | 已在 [API 版本 `2026-10-21`](https://platform.claude.com/docs/zh-CN/api/migration-2026-10-21#sampling-parameters) 中移除 | 返回 400 错误。在较早的 API 版本中，当在 Claude 4.7 及更高版本模型和 [Claude Mythos Preview](https://anthropic.com/glasswing) 上将其设置为非默认值时，会返回该错误。 | 省略这些参数，并使用[提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices)来引导模型行为。 |
 
 有关迁移步骤，请参阅[迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)。

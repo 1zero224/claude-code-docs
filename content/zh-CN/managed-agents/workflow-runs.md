@@ -83,23 +83,23 @@ featureMetadata:
 
 运行事件到达会话的事件流（即主线程的流），列出会话的事件时也会返回它们。运行事件不会[触发 webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks)。来自运行线程的状态事件也到达同一个流。每个事件都在 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 中指明其线程，而运行的线程就是那些 `session.thread_created` 事件带有该运行的 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 的线程。
 
-| 事件                                                      | 何时到达                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 如何处理                                                                                                                                                                                                                                                                                                                                  |
-| ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `workflow_run.created`                                  | 智能体启动了一个运行。包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)（`wrun_…`）、运行的 `name` (csharp, go: `Name`) 和 `description` (csharp, go: `Description`)，以及 `phases` (csharp, go: `Phases`)，即工作流声明的阶段，每个阶段都有一个 `id` (csharp, go: `ID`)、一个 `name` (csharp, go: `Name`) 和一个 `description` (csharp, go: `Description`)。当工作流未提供描述时，`description` (csharp, go: `Description`) 为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)。`phases` (csharp, go: `Phases`) 始终存在，且可以为空。运行和阶段的 `name` (csharp, go: `Name`) 和 `description` (csharp, go: `Description`) 是模型编写的文本，因此可能会重复您请求中的词语。运行的 `name` (csharp, go: `Name`) 也可能是服务器分配的。 | 将该运行记录为打开状态。显示其 `name` (csharp, go: `Name`)，并根据 `phases` (csharp, go: `Phases`) 显示进度。                                                                                                                                                                                                                                                 |
-| `workflow_run.status_running`                           | 当运行开始其工作时（可能在 `created` 之后一段时间），以及每次在预算处暂停后恢复时。中断后的恢复可能不会发送此事件。以空闲状态开始的运行可能会先收到 `workflow_run.status_idle`。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | 将运行显示为运行中。                                                                                                                                                                                                                                                                                                                            |
-| `workflow_run.status_idle`                              | 运行已暂停，例如达到会话预算时。该事件不说明原因。中断后的暂停可能不会发送此事件。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | 要继续，请参阅[成本和预算](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#cost-and-budgets)或[在有打开的运行时中断会话](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#interrupt-a-session-with-runs-open)。                                                                                                          |
-| `workflow_run.phase_started`、`workflow_run.phase_ended` | 工作流进入或离开了某个阶段，或者运行结束时关闭了仍处于打开状态的阶段。结束事件不说明该阶段的工作是否完成。两者都包含 `workflow_run_phase_id` (java: `workflowRunPhaseId`; php: `workflowRunPhaseID`; csharp, go: `WorkflowRunPhaseID`)。结束事件还包含 `phase_started_id` (java: `phaseStartedId`; php: `phaseStartedID`; csharp, go: `PhaseStartedID`)，即它所关闭的开始事件的 `id` (csharp, go: `ID`)。两者都不包含阶段名称：请通过 `workflow_run_phase_id` (java: `workflowRunPhaseId`; php: `workflowRunPhaseID`; csharp, go: `WorkflowRunPhaseID`) 在 `workflow_run.created` 的 `phases` (csharp, go: `Phases`) 中查找。                                                                                                                                                                | 更新进度。阶段一次运行一个，按 `phases` (csharp, go: `Phases`) 的顺序，每个阶段最多运行一次，但 API 不保证这一点。通过 `phase_started_id` (java: `phaseStartedId`; php: `phaseStartedID`; csharp, go: `PhaseStartedID`) 将阶段的结束与其开始对应起来。请处理多个阶段同时打开、某个阶段不在 `phases` (csharp, go: `Phases`) 中，以及某个已列出的阶段从未开始的情况，即使在已完成的运行中也是如此。每个开始的阶段也都会在运行的 `workflow_run.status_ended` 之前结束。 |
-| `workflow_run.status_ended`                             | 运行已结束。始终是该运行的最后一个 `workflow_run.*` 事件。包含 `result` (csharp, go: `Result`)。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | 读取 `result` (csharp, go: `Result`)（见下表）。然后智能体会获得一个轮次来读取运行是如何结束的。在达到预算时，或在主线程等待您的客户端时，该轮次会延后到来。中断后，该轮次可能不会到来：请发送一个 `user.message`，或自行读取 `result` (csharp, go: `Result`)。归档或终止后，该轮次不会到来。                                                                                                                                                |
-| `workflow_run.error`                                    | 服务器报告运行的错误，或它拒绝的启动。以 `error` 结束的运行会在其 `workflow_run.status_ended` 之前收到此事件，带有相同的错误。包含 `error` (csharp, go: `Error`)：一个 `type` (csharp, go: `Type`) 和一个可以安全记录到日志的 `message` (csharp, go: `Message`)。当未创建运行时，`workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)。                                                                                                                                                                                                                                                                                                        | 将其记录到日志，不要将其视为运行的结束。如果 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)，则没有运行启动。否则，请继续跟踪该运行，直到其 `workflow_run.status_ended`。                                                                                   |
+| 事件 | 何时到达 | 如何处理 |
+| ----- | ----- | ----- |
+| `workflow_run.created` | 智能体启动了一个运行。包含 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`)（`wrun_…`）、运行的 `name` (csharp, go: `Name`) 和 `description` (csharp, go: `Description`)，以及 `phases` (csharp, go: `Phases`)，即工作流声明的阶段，每个阶段都有一个 `id` (csharp, go: `ID`)、一个 `name` (csharp, go: `Name`) 和一个 `description` (csharp, go: `Description`)。当工作流未提供描述时，`description` (csharp, go: `Description`) 为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)。`phases` (csharp, go: `Phases`) 始终存在，且可以为空。运行和阶段的 `name` (csharp, go: `Name`) 和 `description` (csharp, go: `Description`) 是模型编写的文本，因此可能会重复您请求中的词语。运行的 `name` (csharp, go: `Name`) 也可能是服务器分配的。 | 将该运行记录为打开状态。显示其 `name` (csharp, go: `Name`)，并根据 `phases` (csharp, go: `Phases`) 显示进度。 |
+| `workflow_run.status_running` | 当运行开始其工作时（可能在 `created` 之后一段时间），以及每次在预算处暂停后恢复时。中断后的恢复可能不会发送此事件。以空闲状态开始的运行可能会先收到 `workflow_run.status_idle`。 | 将运行显示为运行中。 |
+| `workflow_run.status_idle` | 运行已暂停，例如达到会话预算时。该事件不说明原因。中断后的暂停可能不会发送此事件。 | 要继续，请参阅[成本和预算](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#cost-and-budgets)或[在有打开的运行时中断会话](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#interrupt-a-session-with-runs-open)。 |
+| `workflow_run.phase_started`、`workflow_run.phase_ended` | 工作流进入或离开了某个阶段，或者运行结束时关闭了仍处于打开状态的阶段。结束事件不说明该阶段的工作是否完成。两者都包含 `workflow_run_phase_id` (java: `workflowRunPhaseId`; php: `workflowRunPhaseID`; csharp, go: `WorkflowRunPhaseID`)。结束事件还包含 `phase_started_id` (java: `phaseStartedId`; php: `phaseStartedID`; csharp, go: `PhaseStartedID`)，即它所关闭的开始事件的 `id` (csharp, go: `ID`)。两者都不包含阶段名称：请通过 `workflow_run_phase_id` (java: `workflowRunPhaseId`; php: `workflowRunPhaseID`; csharp, go: `WorkflowRunPhaseID`) 在 `workflow_run.created` 的 `phases` (csharp, go: `Phases`) 中查找。 | 更新进度。阶段一次运行一个，按 `phases` (csharp, go: `Phases`) 的顺序，每个阶段最多运行一次，但 API 不保证这一点。通过 `phase_started_id` (java: `phaseStartedId`; php: `phaseStartedID`; csharp, go: `PhaseStartedID`) 将阶段的结束与其开始对应起来。请处理多个阶段同时打开、某个阶段不在 `phases` (csharp, go: `Phases`) 中，以及某个已列出的阶段从未开始的情况，即使在已完成的运行中也是如此。每个开始的阶段也都会在运行的 `workflow_run.status_ended` 之前结束。 |
+| `workflow_run.status_ended` | 运行已结束。始终是该运行的最后一个 `workflow_run.*` 事件。包含 `result` (csharp, go: `Result`)。 | 读取 `result` (csharp, go: `Result`)（见下表）。然后智能体会获得一个轮次来读取运行是如何结束的。在达到预算时，或在主线程等待您的客户端时，该轮次会延后到来。中断后，该轮次可能不会到来：请发送一个 `user.message`，或自行读取 `result` (csharp, go: `Result`)。归档或终止后，该轮次不会到来。 |
+| `workflow_run.error` | 服务器报告运行的错误，或它拒绝的启动。以 `error` 结束的运行会在其 `workflow_run.status_ended` 之前收到此事件，带有相同的错误。包含 `error` (csharp, go: `Error`)：一个 `type` (csharp, go: `Type`) 和一个可以安全记录到日志的 `message` (csharp, go: `Message`)。当未创建运行时，`workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)。 | 将其记录到日志，不要将其视为运行的结束。如果 `workflow_run_id` (java: `workflowRunId`; php: `workflowRunID`; csharp, go: `WorkflowRunID`) 为 `null` (python: `None`; ruby: `nil`; java: `Optional.empty()`; go: `""`)，则没有运行启动。否则，请继续跟踪该运行，直到其 `workflow_run.status_ended`。 |
 
-| `result`                          | 含义                                                                                                                                                                             |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `{"type": "completed"}`           | 工作流已运行完毕。该结果不说明工作是否通过。即使其线程上的工作失败，或某个线程无法创建，运行也可能以 `completed` 结束。要查找失败的工作，请读取每个[运行线程](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#a-runs-threads)的事件。 |
-| `{"type": "stopped"}`             | 智能体停止了运行，或会话被归档。该事件不会说明是哪一种。不要将这些视为仅有的原因。                                                                                                                                      |
-| 带有 `timeout_error` 的 `error`      | 运行达到了其[生命周期限制](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)，智能体可以设置该限制。                                                                         |
-| 带有 `program_error` 的 `error`      | 工作流失败。其代码失败，或违反了工作流的某条规则（限制除外）。或者运行的某个线程失败或无法创建，而工作流让这一情况结束了运行。                                                                                                                |
-| 带有 `thread_limit_error` 的 `error` | 运行超出了其[对工作流启动的智能体数量的限制](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)。                                                                           |
-| 带有 `unknown_error` 的 `error`      | 服务器无法继续运行，或运行超出了服务器对工作流的其他某项限制。                                                                                                                                                |
+| `result` | 含义 |
+| ----- | ----- |
+| `{"type": "completed"}` | 工作流已运行完毕。该结果不说明工作是否通过。即使其线程上的工作失败，或某个线程无法创建，运行也可能以 `completed` 结束。要查找失败的工作，请读取每个[运行线程](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#a-runs-threads)的事件。 |
+| `{"type": "stopped"}` | 智能体停止了运行，或会话被归档。该事件不会说明是哪一种。不要将这些视为仅有的原因。 |
+| 带有 `timeout_error` 的 `error` | 运行达到了其[生命周期限制](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)，智能体可以设置该限制。 |
+| 带有 `program_error` 的 `error` | 工作流失败。其代码失败，或违反了工作流的某条规则（限制除外）。或者运行的某个线程失败或无法创建，而工作流让这一情况结束了运行。 |
+| 带有 `thread_limit_error` 的 `error` | 运行超出了其[对工作流启动的智能体数量的限制](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#limits)。 |
+| 带有 `unknown_error` 的 `error` | 服务器无法继续运行，或运行超出了服务器对工作流的其他某项限制。 |
 
 错误结果形如 `{"type": "error", "error": {"type": "timeout_error", "message": "..."}}`，其中 `message` 可以安全记录。将无法识别的 `result.type` 视为以其他方式结束的运行，将无法识别的 `error.type` 视为错误。当会话所依赖的某项内容失败时（例如模型、MCP 服务器、凭据或计费），失败线程的流会收到 `session.error`。这本身不会结束运行。但如果它导致运行的某个线程失败，而工作流让这一情况结束运行，则运行以 `program_error` 结束。
 
@@ -792,12 +792,12 @@ featureMetadata:
 
 ## 运行处于打开状态时
 
-| 请求                                  | 运行打开期间                                                                                                                                                           | 如何处理                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 归档或删除会话                             | 在运行打开期间，无论会话处于何种状态，都可能返回 400。错误的 `error.details.error_code` 可能为 `"workflow_run_open"`。也可能成功。                                                                     | 让智能体停止其运行，或等待每个运行结束。已暂停的运行只有在其生命周期到期时才会自行结束。然后在会话处于 `idle` 状态时发送请求。成功的归档会以 `{"type": "stopped"}` 结束每个打开的运行。归档后，运行的 `workflow_run.status_ended` 以及仍处于打开状态的阶段的 `workflow_run.phase_ended` 不会到达流上。请列出会话的事件来读取它们。成功删除后，不会有 `workflow_run` 事件报告会话运行的结束。                                                                                                                                                                                                                            |
-| 归档运行的某个线程                           | 在运行打开期间（无论运行中还是空闲），返回 400 并带有 `error.details.error_code: "workflow_run_open"`，除非服务器已经归档了该线程。                                                                     | 无需操作。服务器会归档运行的线程。                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 更新会话的 `agent` (csharp, go: `Agent`) | 在有任何运行处于打开状态时（即使是已暂停的运行）返回 400，带有 `error.details.error_code: "workflow_run_open"`。更新底层智能体仍会被接受，会话会保留自己的副本。同时发送其他字段（例如 `budget` (csharp, go: `Budget`)）的请求会被整体拒绝。 | 等待每个运行都有其 `workflow_run.status_ended`，或让智能体停止其运行。                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 回答来自运行线程的工具调用或工具确认                  | 允许。它会到达主事件流，其 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 指明了线程。                                        | 在事件到达后立即回答，将事件的 `id` (csharp, go: `ID`) 作为 `tool_use_id` (java: `toolUseId`; php: `toolUseID`; csharp, go: `ToolUseID`) 或 `custom_tool_use_id` (java: `customToolUseId`; php: `customToolUseID`; csharp, go: `CustomToolUseID`) 传递。不要等待 `session.status_idle`：在运行的其他线程工作时，会话可能保持 `running`。一旦服务器归档了该线程，针对其某个调用的工具结果将不起作用，并且可能返回 400。当工具结果返回 400 时，请在线程列表中找到该调用的线程。如果其状态为 `terminated`，说明结果来得太晚，请将其丢弃。请在单独的请求中发送每个工具结果，因为当服务器拒绝请求中的某个事件时，会拒绝整个请求。来得太晚的工具确认会返回 200，这并不意味着工具已运行。 |
+| 请求 | 运行打开期间 | 如何处理 |
+| ----- | ----- | ----- |
+| 归档或删除会话 | 在运行打开期间，无论会话处于何种状态，都可能返回 400。错误的 `error.details.error_code` 可能为 `"workflow_run_open"`。也可能成功。 | 让智能体停止其运行，或等待每个运行结束。已暂停的运行只有在其生命周期到期时才会自行结束。然后在会话处于 `idle` 状态时发送请求。成功的归档会以 `{"type": "stopped"}` 结束每个打开的运行。归档后，运行的 `workflow_run.status_ended` 以及仍处于打开状态的阶段的 `workflow_run.phase_ended` 不会到达流上。请列出会话的事件来读取它们。成功删除后，不会有 `workflow_run` 事件报告会话运行的结束。 |
+| 归档运行的某个线程 | 在运行打开期间（无论运行中还是空闲），返回 400 并带有 `error.details.error_code: "workflow_run_open"`，除非服务器已经归档了该线程。 | 无需操作。服务器会归档运行的线程。 |
+| 更新会话的 `agent` (csharp, go: `Agent`) | 在有任何运行处于打开状态时（即使是已暂停的运行）返回 400，带有 `error.details.error_code: "workflow_run_open"`。更新底层智能体仍会被接受，会话会保留自己的副本。同时发送其他字段（例如 `budget` (csharp, go: `Budget`)）的请求会被整体拒绝。 | 等待每个运行都有其 `workflow_run.status_ended`，或让智能体停止其运行。 |
+| 回答来自运行线程的工具调用或工具确认 | 允许。它会到达主事件流，其 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 指明了线程。 | 在事件到达后立即回答，将事件的 `id` (csharp, go: `ID`) 作为 `tool_use_id` (java: `toolUseId`; php: `toolUseID`; csharp, go: `ToolUseID`) 或 `custom_tool_use_id` (java: `customToolUseId`; php: `customToolUseID`; csharp, go: `CustomToolUseID`) 传递。不要等待 `session.status_idle`：在运行的其他线程工作时，会话可能保持 `running`。一旦服务器归档了该线程，针对其某个调用的工具结果将不起作用，并且可能返回 400。当工具结果返回 400 时，请在线程列表中找到该调用的线程。如果其状态为 `terminated`，说明结果来得太晚，请将其丢弃。请在单独的请求中发送每个工具结果，因为当服务器拒绝请求中的某个事件时，会拒绝整个请求。来得太晚的工具确认会返回 200，这并不意味着工具已运行。 |
 
 ### 重新连接后重建运行状态
 
@@ -812,19 +812,19 @@ featureMetadata:
 
 ## 限制
 
-| 限制                   | 值                     | 达到限制时                                                                                                          |
-| -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 单个运行中同时工作的线程数        | 64                    | 在有线程完成之前，运行不会再创建新线程。API 不保证此数值。                                                                                |
-| 工作流在运行整个生命周期内启动的智能体数 | 1,000                 | 当工作流请求更多时，服务器不会再启动智能体，运行以 `thread_limit_error` 结束。服务器可能会在新线程上重新运行失败的智能体，因此一个运行可能拥有超过 1,000 个线程。                |
-| 运行生命周期               | 默认为 24 小时，或智能体设置的生命周期 | 运行以 `timeout_error` 结束。没有事件说明智能体设置了什么生命周期。                                                                     |
-| 一个会话中同时打开的运行数        | 默认为 10                | 服务器拒绝启动另一个运行。智能体的工具调用会收到错误，您会收到一个 `error.type` 为 `max_workflow_runs_error` 的 `workflow_run.error`。空闲的运行也计入此限制。 |
+| 限制 | 值 | 达到限制时 |
+| ----- | ----- | ----- |
+| 单个运行中同时工作的线程数 | 64 | 在有线程完成之前，运行不会再创建新线程。API 不保证此数值。 |
+| 工作流在运行整个生命周期内启动的智能体数 | 1,000 | 当工作流请求更多时，服务器不会再启动智能体，运行以 `thread_limit_error` 结束。服务器可能会在新线程上重新运行失败的智能体，因此一个运行可能拥有超过 1,000 个线程。 |
+| 运行生命周期 | 默认为 24 小时，或智能体设置的生命周期 | 运行以 `timeout_error` 结束。没有事件说明智能体设置了什么生命周期。 |
+| 一个会话中同时打开的运行数 | 默认为 10 | 服务器拒绝启动另一个运行。智能体的工具调用会收到错误，您会收到一个 `error.type` 为 `max_workflow_runs_error` 的 `workflow_run.error`。空闲的运行也计入此限制。 |
 
 服务器会将运行或阶段的 `name` (csharp, go: `Name`) 截短为 64 个字符，将其 `description` (csharp, go: `Description`) 截短为 256 个字符。服务器对工作流还有此处未列出的其他限制和规则。您看到的结果取决于服务器何时发现问题：
 
-| 发生的情况                         | 您看到的内容                                                  |
-| ----------------------------- | ------------------------------------------------------- |
-| 智能体启动运行时，工作流超出了其他某项限制         | 服务器拒绝启动。您会收到一个 `workflow_run.error`，并且没有运行。             |
-| 运行在之后超出了其他某项限制                | 您会收到一个 `workflow_run.error`，然后运行可能以 `unknown_error` 结束。 |
+| 发生的情况 | 您看到的内容 |
+| ----- | ----- |
+| 智能体启动运行时，工作流超出了其他某项限制 | 服务器拒绝启动。您会收到一个 `workflow_run.error`，并且没有运行。 |
+| 运行在之后超出了其他某项限制 | 您会收到一个 `workflow_run.error`，然后运行可能以 `unknown_error` 结束。 |
 | 服务器在启动后发现工作流违反了工作流的某条规则（限制除外） | 您会收到一个 `workflow_run.error`，然后运行可能以 `program_error` 结束。 |
 
 一个会话在其生命周期内可以启动任意数量的运行。
@@ -839,10 +839,10 @@ featureMetadata:
 
 运行的工作计入您的组织已有的速率限制。
 
-| 内容                      | 计入                                                                                                    | 如何处理                                                                                                       |
-| ----------------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 您的客户端检索或列出会话、其线程及其事件的请求 | [Managed Agents 端点](https://platform.claude.com/docs/zh-CN/managed-agents/reference#rate-limits)的读取限制 | 在会话的事件流上跟踪运行，而不是轮询。                                                                                        |
-| 来自运行线程的模型请求             | 您针对每个线程所用模型的 [Messages API 速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)，与您的其他流量一起计算  | 在这些限制中为运行预留空间，或[申请更高的限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#requesting-higher-limits)。 |
+| 内容 | 计入 | 如何处理 |
+| ----- | ----- | ----- |
+| 您的客户端检索或列出会话、其线程及其事件的请求 | [Managed Agents 端点](https://platform.claude.com/docs/zh-CN/managed-agents/reference#rate-limits)的读取限制 | 在会话的事件流上跟踪运行，而不是轮询。 |
+| 来自运行线程的模型请求 | 您针对每个线程所用模型的 [Messages API 速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)，与您的其他流量一起计算 | 在这些限制中为运行预留空间，或[申请更高的限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#requesting-higher-limits)。 |
 
 当线程的某个模型请求受到速率限制，或模型过载时，该线程自己的流可能会收到 `session.error`。该错误的类型为 `model_rate_limited_error` 或 `model_overloaded_error`：
 
@@ -861,8 +861,8 @@ featureMetadata:
 
 * 可用性：可用
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
@@ -877,9 +877,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

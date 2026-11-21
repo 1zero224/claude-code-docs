@@ -34,10 +34,10 @@ API 在组织级别强制执行服务配置的限制，但您也可以为组织�
 
 Start、Build 和 Scale 层级各自设有每月支出上限。该上限即您的组织每个日历月在 API 上可支出的最高金额。您可以在 [Claude Console 中的支出限额](https://platform.claude.com/settings/spend-limits)（`platform.claude.com/settings/spend-limits`）下查看组织的每月支出上限并设置您自己的限制。
 
-| 使用层级  | 每月支出上限       |
-| ----- | ------------ |
-| Start | $500 USD     |
-| Build | $1,000 USD   |
+| 使用层级 | 每月支出上限 |
+| ----- | ----- |
+| Start | $500 USD |
+| Build | $1,000 USD |
 | Scale | $200,000 USD |
 
 Custom（自定义）层级的组织没有每月支出上限；其限制由客户团队协商安排。
@@ -130,48 +130,48 @@ OTPM 速率限制在生成输出令牌时实时评估，仅计算实际生成的
 
 <Tabs>
   <Tab title="Start 层级">
-    | 模型                                            | 每分钟最大请求数（RPM） | 每分钟最大输入令牌数（ITPM） | 每分钟最大输出令牌数（OTPM） |
-    | --------------------------------------------- | ------------- | ---------------- | ---------------- |
-    | Claude Fable 5.2                              | 4,000         | 500,000          | 100,000          |
-    | Claude Fable 5.1 和 Claude Fable 5<sup>1</sup> | 4,000         | 500,000          | 100,000          |
-    | Claude Opus 5.5                               | 4,000         | 2,000,000        | 400,000          |
-    | Claude Opus 5                                 | 1,000         | 2,000,000        | 400,000          |
-    | Claude Opus 4.x<sup>2</sup>                   | 1,000         | 2,000,000        | 400,000          |
-    | Claude Sonnet 5.5                             | 4,000         | 2,000,000        | 400,000          |
-    | Claude Sonnet 5                               | 1,000         | 2,000,000        | 400,000          |
-    | Claude Sonnet 4.x<sup>3</sup>                 | 1,000         | 2,000,000        | 400,000          |
-    | Claude Haiku 5.5                              | 4,000         | 2,000,000        | 400,000          |
-    | Claude Haiku 4.5                              | 1,000         | 2,000,000        | 400,000          |
+    | 模型 | 每分钟最大请求数（RPM） | 每分钟最大输入令牌数（ITPM） | 每分钟最大输出令牌数（OTPM） |
+    | ----- | ----- | ----- | ----- |
+    | Claude Fable 5.2 | 4,000 | 500,000 | 100,000 |
+    | Claude Fable 5.1 和 Claude Fable 5<sup>1</sup> | 4,000 | 500,000 | 100,000 |
+    | Claude Opus 5.5 | 4,000 | 2,000,000 | 400,000 |
+    | Claude Opus 5 | 1,000 | 2,000,000 | 400,000 |
+    | Claude Opus 4.x<sup>2</sup> | 1,000 | 2,000,000 | 400,000 |
+    | Claude Sonnet 5.5 | 4,000 | 2,000,000 | 400,000 |
+    | Claude Sonnet 5 | 1,000 | 2,000,000 | 400,000 |
+    | Claude Sonnet 4.x<sup>3</sup> | 1,000 | 2,000,000 | 400,000 |
+    | Claude Haiku 5.5 | 4,000 | 2,000,000 | 400,000 |
+    | Claude Haiku 4.5 | 1,000 | 2,000,000 | 400,000 |
   </Tab>
 
   <Tab title="Build 层级">
-    | 模型                                            | 每分钟最大请求数（RPM） | 每分钟最大输入令牌数（ITPM） | 每分钟最大输出令牌数（OTPM） |
-    | --------------------------------------------- | ------------- | ---------------- | ---------------- |
-    | Claude Fable 5.2                              | 10,000        | 1,500,000        | 300,000          |
-    | Claude Fable 5.1 和 Claude Fable 5<sup>1</sup> | 10,000        | 1,500,000        | 300,000          |
-    | Claude Opus 5.5                               | 10,000        | 5,000,000        | 1,000,000        |
-    | Claude Opus 5                                 | 5,000         | 5,000,000        | 1,000,000        |
-    | Claude Opus 4.x<sup>2</sup>                   | 5,000         | 5,000,000        | 1,000,000        |
-    | Claude Sonnet 5.5                             | 10,000        | 5,000,000        | 1,000,000        |
-    | Claude Sonnet 5                               | 5,000         | 5,000,000        | 1,000,000        |
-    | Claude Sonnet 4.x<sup>3</sup>                 | 5,000         | 5,000,000        | 1,000,000        |
-    | Claude Haiku 5.5                              | 10,000        | 5,000,000        | 1,000,000        |
-    | Claude Haiku 4.5                              | 5,000         | 5,000,000        | 1,000,000        |
+    | 模型 | 每分钟最大请求数（RPM） | 每分钟最大输入令牌数（ITPM） | 每分钟最大输出令牌数（OTPM） |
+    | ----- | ----- | ----- | ----- |
+    | Claude Fable 5.2 | 10,000 | 1,500,000 | 300,000 |
+    | Claude Fable 5.1 和 Claude Fable 5<sup>1</sup> | 10,000 | 1,500,000 | 300,000 |
+    | Claude Opus 5.5 | 10,000 | 5,000,000 | 1,000,000 |
+    | Claude Opus 5 | 5,000 | 5,000,000 | 1,000,000 |
+    | Claude Opus 4.x<sup>2</sup> | 5,000 | 5,000,000 | 1,000,000 |
+    | Claude Sonnet 5.5 | 10,000 | 5,000,000 | 1,000,000 |
+    | Claude Sonnet 5 | 5,000 | 5,000,000 | 1,000,000 |
+    | Claude Sonnet 4.x<sup>3</sup> | 5,000 | 5,000,000 | 1,000,000 |
+    | Claude Haiku 5.5 | 10,000 | 5,000,000 | 1,000,000 |
+    | Claude Haiku 4.5 | 5,000 | 5,000,000 | 1,000,000 |
   </Tab>
 
   <Tab title="Scale 层级">
-    | 模型                                            | 每分钟最大请求数（RPM） | 每分钟最大输入令牌数（ITPM） | 每分钟最大输出令牌数（OTPM） |
-    | --------------------------------------------- | ------------- | ---------------- | ---------------- |
-    | Claude Fable 5.2                              | 13,000        | 4,000,000        | 800,000          |
-    | Claude Fable 5.1 和 Claude Fable 5<sup>1</sup> | 13,000        | 4,000,000        | 800,000          |
-    | Claude Opus 5.5                               | 13,000        | 10,000,000       | 2,000,000        |
-    | Claude Opus 5                                 | 10,000        | 10,000,000       | 2,000,000        |
-    | Claude Opus 4.x<sup>2</sup>                   | 10,000        | 10,000,000       | 2,000,000        |
-    | Claude Sonnet 5.5                             | 13,000        | 10,000,000       | 2,000,000        |
-    | Claude Sonnet 5                               | 10,000        | 10,000,000       | 2,000,000        |
-    | Claude Sonnet 4.x<sup>3</sup>                 | 10,000        | 10,000,000       | 2,000,000        |
-    | Claude Haiku 5.5                              | 13,000        | 10,000,000       | 2,000,000        |
-    | Claude Haiku 4.5                              | 10,000        | 10,000,000       | 2,000,000        |
+    | 模型 | 每分钟最大请求数（RPM） | 每分钟最大输入令牌数（ITPM） | 每分钟最大输出令牌数（OTPM） |
+    | ----- | ----- | ----- | ----- |
+    | Claude Fable 5.2 | 13,000 | 4,000,000 | 800,000 |
+    | Claude Fable 5.1 和 Claude Fable 5<sup>1</sup> | 13,000 | 4,000,000 | 800,000 |
+    | Claude Opus 5.5 | 13,000 | 10,000,000 | 2,000,000 |
+    | Claude Opus 5 | 10,000 | 10,000,000 | 2,000,000 |
+    | Claude Opus 4.x<sup>2</sup> | 10,000 | 10,000,000 | 2,000,000 |
+    | Claude Sonnet 5.5 | 13,000 | 10,000,000 | 2,000,000 |
+    | Claude Sonnet 5 | 10,000 | 10,000,000 | 2,000,000 |
+    | Claude Sonnet 4.x<sup>3</sup> | 10,000 | 10,000,000 | 2,000,000 |
+    | Claude Haiku 5.5 | 13,000 | 10,000,000 | 2,000,000 |
+    | Claude Haiku 4.5 | 10,000 | 10,000,000 | 2,000,000 |
   </Tab>
 
   <Tab title="自定义层级">
@@ -212,20 +212,20 @@ Message Batches API 有自己的一组速率限制，在所有模型之间共享
 <Tabs>
   <Tab title="Start 层级">
     | 每分钟最大请求数（RPM） | 处理队列中的最大批处理请求数 | 每批最大批处理请求数 |
-    | ------------- | -------------- | ---------- |
-    | 1,000         | 200,000        | 100,000    |
+    | ----- | ----- | ----- |
+    | 1,000 | 200,000 | 100,000 |
   </Tab>
 
   <Tab title="Build 层级">
     | 每分钟最大请求数（RPM） | 处理队列中的最大批处理请求数 | 每批最大批处理请求数 |
-    | ------------- | -------------- | ---------- |
-    | 2,000         | 300,000        | 100,000    |
+    | ----- | ----- | ----- |
+    | 2,000 | 300,000 | 100,000 |
   </Tab>
 
   <Tab title="Scale 层级">
     | 每分钟最大请求数（RPM） | 处理队列中的最大批处理请求数 | 每批最大批处理请求数 |
-    | ------------- | -------------- | ---------- |
-    | 4,000         | 500,000        | 100,000    |
+    | ----- | ----- | ----- |
+    | 4,000 | 500,000 | 100,000 |
   </Tab>
 
   <Tab title="自定义层级">
@@ -237,9 +237,9 @@ Message Batches API 有自己的一组速率限制，在所有模型之间共享
 
 [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 端点按组织进行速率限制。这些限制独立于本页面前面描述的 Messages API 速率限制。
 
-| 操作                               | 限制            |
-| -------------------------------- | ------------- |
-| 创建类端点（例如智能体、会话和环境）               | 每分钟 300 个请求   |
+| 操作 | 限制 |
+| ----- | ----- |
+| 创建类端点（例如智能体、会话和环境） | 每分钟 300 个请求 |
 | 读取类端点（例如 retrieve、list 和 stream） | 每分钟 1,200 个请求 |
 
 ### Files API
@@ -305,26 +305,26 @@ API 响应中包含的标头会向您显示所执行的速率限制、当前使�
 
 返回以下标头：
 
-| 标头                                            | 描述                                                                                                                                                        |
-| --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `retry-after`                                 | 在可以重试请求之前需要等待的秒数。提前重试可能会失败。并非每个 429 都带有此标头；支出上限 429 从不带有此标头（请参阅[达到支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#reaching-your-spend-cap)）。 |
-| `anthropic-ratelimit-requests-limit`          | 任意速率限制周期内允许的最大请求数。                                                                                                                                        |
-| `anthropic-ratelimit-requests-remaining`      | 在被速率限制之前剩余的请求数。                                                                                                                                           |
-| `anthropic-ratelimit-requests-reset`          | 请求速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                            |
-| `anthropic-ratelimit-tokens-limit`            | 任意速率限制周期内允许的最大令牌数。                                                                                                                                        |
-| `anthropic-ratelimit-tokens-remaining`        | 在被速率限制之前剩余的令牌数（四舍五入到最接近的千位）。                                                                                                                              |
-| `anthropic-ratelimit-tokens-reset`            | 令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                            |
-| `anthropic-ratelimit-input-tokens-limit`      | 任意速率限制周期内允许的最大输入令牌数。                                                                                                                                      |
-| `anthropic-ratelimit-input-tokens-remaining`  | 在被速率限制之前剩余的输入令牌数（四舍五入到最接近的千位）。                                                                                                                            |
-| `anthropic-ratelimit-input-tokens-reset`      | 输入令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                          |
-| `anthropic-ratelimit-output-tokens-limit`     | 任意速率限制周期内允许的最大输出令牌数。                                                                                                                                      |
-| `anthropic-ratelimit-output-tokens-remaining` | 在被速率限制之前剩余的输出令牌数（四舍五入到最接近的千位）。                                                                                                                            |
-| `anthropic-ratelimit-output-tokens-reset`     | 输出令牌速率限制完全补充的时间，以 RFC 3339 格式提供。                                                                                                                          |
-| `anthropic-priority-input-tokens-limit`       | 任意速率限制周期内允许的最大 Priority Tier 输入令牌数。（仅限 Priority Tier）                                                                                                     |
-| `anthropic-priority-input-tokens-remaining`   | 在被速率限制之前剩余的 Priority Tier 输入令牌数（四舍五入到最接近的千位）。（仅限 Priority Tier）                                                                                           |
-| `anthropic-priority-input-tokens-reset`       | Priority Tier 输入令牌速率限制完全补充的时间，以 RFC 3339 格式提供。（仅限 Priority Tier）                                                                                          |
-| `anthropic-priority-output-tokens-limit`      | 任意速率限制周期内允许的最大 Priority Tier 输出令牌数。（仅限 Priority Tier）                                                                                                     |
-| `anthropic-priority-output-tokens-remaining`  | 在被速率限制之前剩余的 Priority Tier 输出令牌数（四舍五入到最接近的千位）。（仅限 Priority Tier）                                                                                           |
-| `anthropic-priority-output-tokens-reset`      | Priority Tier 输出令牌速率限制完全补充的时间，以 RFC 3339 格式提供。（仅限 Priority Tier）                                                                                          |
+| 标头 | 描述 |
+| ----- | ----- |
+| `retry-after` | 在可以重试请求之前需要等待的秒数。提前重试可能会失败。并非每个 429 都带有此标头；支出上限 429 从不带有此标头（请参阅[达到支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#reaching-your-spend-cap)）。 |
+| `anthropic-ratelimit-requests-limit` | 任意速率限制周期内允许的最大请求数。 |
+| `anthropic-ratelimit-requests-remaining` | 在被速率限制之前剩余的请求数。 |
+| `anthropic-ratelimit-requests-reset` | 请求速率限制完全补充的时间，以 RFC 3339 格式提供。 |
+| `anthropic-ratelimit-tokens-limit` | 任意速率限制周期内允许的最大令牌数。 |
+| `anthropic-ratelimit-tokens-remaining` | 在被速率限制之前剩余的令牌数（四舍五入到最接近的千位）。 |
+| `anthropic-ratelimit-tokens-reset` | 令牌速率限制完全补充的时间，以 RFC 3339 格式提供。 |
+| `anthropic-ratelimit-input-tokens-limit` | 任意速率限制周期内允许的最大输入令牌数。 |
+| `anthropic-ratelimit-input-tokens-remaining` | 在被速率限制之前剩余的输入令牌数（四舍五入到最接近的千位）。 |
+| `anthropic-ratelimit-input-tokens-reset` | 输入令牌速率限制完全补充的时间，以 RFC 3339 格式提供。 |
+| `anthropic-ratelimit-output-tokens-limit` | 任意速率限制周期内允许的最大输出令牌数。 |
+| `anthropic-ratelimit-output-tokens-remaining` | 在被速率限制之前剩余的输出令牌数（四舍五入到最接近的千位）。 |
+| `anthropic-ratelimit-output-tokens-reset` | 输出令牌速率限制完全补充的时间，以 RFC 3339 格式提供。 |
+| `anthropic-priority-input-tokens-limit` | 任意速率限制周期内允许的最大 Priority Tier 输入令牌数。（仅限 Priority Tier） |
+| `anthropic-priority-input-tokens-remaining` | 在被速率限制之前剩余的 Priority Tier 输入令牌数（四舍五入到最接近的千位）。（仅限 Priority Tier） |
+| `anthropic-priority-input-tokens-reset` | Priority Tier 输入令牌速率限制完全补充的时间，以 RFC 3339 格式提供。（仅限 Priority Tier） |
+| `anthropic-priority-output-tokens-limit` | 任意速率限制周期内允许的最大 Priority Tier 输出令牌数。（仅限 Priority Tier） |
+| `anthropic-priority-output-tokens-remaining` | 在被速率限制之前剩余的 Priority Tier 输出令牌数（四舍五入到最接近的千位）。（仅限 Priority Tier） |
+| `anthropic-priority-output-tokens-reset` | Priority Tier 输出令牌速率限制完全补充的时间，以 RFC 3339 格式提供。（仅限 Priority Tier） |
 
 `anthropic-ratelimit-tokens-*` 标头显示当前生效的最严格限制的值。例如，如果您超出了工作区每分钟令牌限制，这些标头将包含工作区每分钟令牌速率限制的值。如果工作区限制不适用，这些标头将返回剩余的总令牌数，其中总数为输入令牌和输出令牌之和。要查看某个请求计入了哪个工作区，请读取 `anthropic-workspace-id` [响应标头](https://platform.claude.com/docs/zh-CN/api/overview#response-headers)，其中包含您的 API 密钥或访问令牌所解析到的工作区 ID。

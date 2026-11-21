@@ -32,7 +32,7 @@
 
 - **您的提供商决定谁处理您的数据。**在 Amazon Bedrock 和 Google Cloud 上，云提供商在您选择的区域或路由选项中处理对话数据，应用 **[不会将用户数据、提示或完成发送给 Anthropic](https://claude.com/docs/third-party/claude-desktop/overview)**。在 Microsoft Foundry 上，**[Anthropic 作为 Microsoft 的独立处理者运营 Claude 模型](https://claude.com/docs/third-party/claude-desktop/foundry)**。某些模型添加了自己的数据保留和数据共享要求。请参阅 **[比较云提供商](https://support.claude.com/en/articles/18466110)**。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2806511265/bf14805691a94c651943902ed7ad/CleanShot+2026-11-12+at+2_43_29+PM.png?expires=1795099500&amp;signature=5c0e1fd4632dce772740490e1ddba92ac81d2593e94d5ef4fc690be0598af68b&amp;req=dignEMx%2FnINZXPMW1HO4zUslpEFH6389wA0QijyN3qq5vgI9oaAhFVpjmBpc%0Amm7RETkxGQ78zyciJfo%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2806511265/bf14805691a94c651943902ed7ad/CleanShot+2026-11-12+at+2_43_29+PM.png?expires=1795269600&amp;signature=b27b3cb839a0f399cc5ffaa8d4f47bb62176a3e704bb99e415850434da6488d8&amp;req=dignEMx%2FnINZXPMW1HO4zUslpEFF5H8%2BwA0QijyN3qrLI%2FRY9%2FNCOS%2B%2B8ZEo%0ATthhxQnUkr2EhvzXJiI%3D%0A)
 
 在迁移期间，您可以并行运行 Claude Enterprise 和 Claude Desktop on 3P。Claude Desktop on 3P 将其应用数据保存在单独的目录中，**[因此两者可以在一台计算机上共存](https://claude.com/docs/third-party/claude-desktop/data-storage)**。它们共享一些文件夹，例如 `~/Claude/` 和 `~/.claude/`。如果您稍后需要返回，请参阅 **[将 Claude Desktop 从云提供商迁移到 Claude Enterprise](https://claude.com/docs/third-party/claude-desktop/move-to-claude-enterprise)**。
 

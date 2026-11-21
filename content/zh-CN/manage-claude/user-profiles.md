@@ -18,10 +18,10 @@ description: 将 API 请求归属到您的平台所服务的终端客户，使�
 
 配置文件的 `access_type` 字段表明终端客户是使用您的产品，还是从您这里购买 API 访问权限（例如通过您的网关）：
 
-| 终端客户                | `access_type`                             |
-| ------------------- | ----------------------------------------- |
-| 使用您的产品              | `application`（默认值，省略 `access_type` 时即为此值） |
-| 是从您这里购买 API 访问权限的公司 | `passthrough`（非默认值，因此您必须发送它）              |
+| 终端客户 | `access_type` |
+| ----- | ----- |
+| 使用您的产品 | `application`（默认值，省略 `access_type` 时即为此值） |
+| 是从您这里购买 API 访问权限的公司 | `passthrough`（非默认值，因此您必须发送它） |
 
 请勿为以下任一对象创建配置文件：
 
@@ -42,7 +42,7 @@ Anthropic 根据[隐私政策](https://www.anthropic.com/legal/privacy)处理配
 * [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上的组织。调用主体需要具有[用户配置文件 IAM 操作](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#user-profiles)权限。
 * [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 上的组织，您可以在其中创建、检索、列出和更新配置文件。请使用 [Claude Models on Google Cloud (Anthropic managed) 的 SDK 客户端](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#install-an-sdk)的最新版本，或直接调用[组织级基础 URL](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#making-requests)，并使用 Google Cloud 凭据而不是 API 密钥。
 
-Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 没有 `/v1/user_profiles` 端点。如果您的推理在这些平台上运行，请在 Claude API 或 Claude Platform on AWS 上的组织中创建配置文件。在 Amazon Bedrock 上，配置文件仅适用于 [Amazon Bedrock 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)。请参阅[在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上归属请求](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-requests-on-amazon-bedrock-and-google-cloud)。
+`/v1/user_profiles` 端点在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上不可用。如果您的推理在这些平台上运行，请在 Claude API 或 Claude Platform on AWS 上的组织中创建配置文件。在 Amazon Bedrock 上，配置文件是否可用取决于模型。请参阅[在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上归属请求](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-requests-on-amazon-bedrock-and-google-cloud)。
 
 如果您的推理运行在[托管在 Anthropic 上](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#hosting-options)的 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 部署中，请在 Claude API 上的组织中创建配置文件。Anthropic 必须先将您的 Foundry 资源关联到该组织，您的 Foundry 请求才能使用这些配置文件 ID。如需申请关联，请联系您的 Anthropic 客户团队。`/v1/user_profiles` 端点在 Microsoft Foundry 上不可用。
 
@@ -375,18 +375,28 @@ Message Batches 是个例外：创建批处理时只检查 ID 的格式。如果
 
 ### 在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上归属请求
 
-任一访问类型的配置文件 ID 也适用于 Claude Models on Google Cloud (Google managed) 和 [Amazon Bedrock 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)。它不适用于您通过 `InvokeModel` 或 `Converse` 调用的 [Amazon Bedrock (`bedrock-runtime`)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)。您仅使用 Anthropic 组织的凭据来创建和管理配置文件。推理仍使用您现有的 AWS 或 Google Cloud 凭据。
+任一访问类型的配置文件 ID 也适用于 Claude Models on Google Cloud (Google managed)。在 Amazon Bedrock 上，它适用于下表之后列出的模型。您仅使用 Anthropic 组织的凭据来创建和管理配置文件。推理仍使用您现有的 AWS 或 Google Cloud 凭据。
 
-| 平台                                                                                                                                                            | 创建配置文件                                                                                                                                       | 配置文件 ID 的发送位置                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| Claude API                                                                                                                                                    | 是                                                                                                                                            | `anthropic-user-profile-id` 标头 |
-| [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)                                                     | 是                                                                                                                                            | `anthropic-user-profile-id` 标头 |
-| [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)（托管在 Anthropic 上的部署）                                 | 否。请在 Claude API 上创建配置文件，并[请 Anthropic 关联您的 Foundry 资源](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#before-you-begin)。 | `anthropic-user-profile-id` 标头 |
-| [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | 是                                                                                                                                            | `anthropic-user-profile-id` 标头 |
-| [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)       | 否。请在 Claude API 或 Claude Platform on AWS 上创建。                                                                                                | `anthropic-user-profile-id` 标头 |
-| [Amazon Bedrock 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)                                                 | 否。请在 Claude API 或 Claude Platform on AWS 上创建。                                                                                                | 请求体中的 `user_profile_id` 字段     |
+| 平台 | 创建配置文件 | 配置文件 ID 的发送位置 |
+| ----- | ----- | ----- |
+| Claude API | 是 | `anthropic-user-profile-id` 标头 |
+| [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) | 是 | `anthropic-user-profile-id` 标头 |
+| [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)（托管在 Anthropic 上的部署） | 否。请在 Claude API 上创建配置文件，并[请 Anthropic 关联您的 Foundry 资源](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#before-you-begin)。 | `anthropic-user-profile-id` 标头 |
+| [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | 是 | `anthropic-user-profile-id` 标头 |
+| [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) | 否。请在 Claude API 或 Claude Platform on AWS 上创建。 | `anthropic-user-profile-id` 标头 |
+| [Amazon Bedrock 中的 Claude (`bedrock-mantle`)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) 和 [Amazon Bedrock 上的 Claude (`bedrock-runtime`)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)，适用于此表后列出的模型 | 否。请在 Claude API 或 Claude Platform on AWS 上创建。 | 请求体中的 `user_profile_id` 字段 |
 
-在 Claude in Amazon Bedrock 上，请将 ID 放在请求体的顶层：
+配置文件适用于 [Amazon Bedrock 中的 Claude (`bedrock-mantle`)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)，以及 [Amazon Bedrock 上的 Claude (`bedrock-runtime`)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy) 上的 `InvokeModel`，包括使用 `InvokeModelWithResponseStream` 进行的流式传输。以下列表中的模型并非都在这两个端点上提供。请在针对这些模型的请求中发送配置文件 ID：
+
+* Claude 4.7 及更高版本的模型
+* Claude Sonnet 4.6
+* Claude Haiku 4.5
+
+对于任何其他模型的请求，请不要包含该 ID，因为携带该 ID 的请求可能会以 `400` 失败。Amazon Bedrock 批量推理作业中也请不要包含该 ID。不带 ID 时，这些请求仍然可以正常工作，但会在未归属的情况下通过。
+
+`Converse` API 不支持用户配置文件。
+
+在 Amazon Bedrock 上，请将 ID 放在请求体的顶层。以下示例展示了 `bedrock-mantle` 端点的请求体：
 
 ```json
 {
@@ -397,7 +407,17 @@ Message Batches 是个例外：创建批处理时只检查 ID 的格式。如果
 }
 ```
 
-请将每个向 Claude in Amazon Bedrock 发送请求的 AWS 账户，以及每个向 Claude Models on Google Cloud (Google managed) 发送请求的 Google Cloud 项目，关联到创建您配置文件的 Anthropic 组织：
+如果您直接调用 `InvokeModel`，模型 ID 应放在请求的 URL 中（在 AWS SDK 中为 `modelId`），而不是请求体中。请求体还需要包含 `anthropic_version` 字段，例如 `"anthropic_version": "bedrock-2023-05-31"`。
+
+如果您通过 `AnthropicBedrock` (csharp: `AnthropicBedrockClient`; go: `bedrock.WithLoadDefaultConfig()`; java: `BedrockBackend`; php: `Bedrock\Client`; ruby: `Anthropic::BedrockClient`) 调用 `InvokeModel`，[最新版本的 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview#latest-versions) 会为您将[用户配置文件参数](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-each-request)放入请求体中。较早的版本可能不会将该 ID 放入请求体。此时请求会成功，但会在未归属的情况下通过。
+
+向 Claude Sonnet 4.6 和 Claude Haiku 4.5 发出的 `InvokeModel` 请求，在使用最新 SDK 发送的 API 版本时可能会以 `400` 失败。对于这些模型，请继续使用 SDK 的上一个主要版本。要安装该版本，请使用[安装用于访问 Bedrock 的 SDK](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#install-an-sdk-for-accessing-bedrock) 中的命令。
+
+如果您通过较早版本的 SDK 调用 `InvokeModel`，请使用 `extra_body` (typescript: `body`; php: `extraBodyParams`; java: `.putAdditionalBodyProperty()`; go: `option.WithJSONSet()`; csharp: `MessageCreateParams.FromRawUnchecked()`) 自行将 `user_profile_id` 添加到请求体中。添加时必须保持请求体的其余部分不变。SDK 会根据请求体中的 `model` 以及（如果您使用流式传输）`stream: true` 构建 URL。
+
+如果您以[发送请求](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#making-requests)中的示例为基础，请将其模型更改为[接受配置文件 ID 的模型](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-requests-on-amazon-bedrock-and-google-cloud)之一。
+
+请将您的云账户关联到创建您配置文件的 Anthropic 组织。在 Amazon Bedrock 上，请关联每个发送请求的 AWS 账户。在 Claude Models on Google Cloud (Google managed) 上，请关联每个发送请求的 Google Cloud 项目。对于每个账户或项目，请按照以下步骤操作：
 
 1. 该组织的管理员在 `portal.anthropic.com` 的 Verification Portal 中的 **Linked accounts（已关联账户）** 下发起关联。
 2. 能够管理该 AWS 账户或 Google Cloud 项目中 IAM 的人员运行门户提供的命令。
@@ -405,7 +425,7 @@ Message Batches 是个例外：创建批处理时只检查 ID 的格式。如果
 
 适用于某个配置文件的计划，只有在账户完成关联且门户将其显示为 **Linked（已关联）** 之后，才会应用于该账户的请求。这些计划包括：终端客户[将配置文件关联到其组织](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles-verification-portal)后，该终端客户的组织获批的计划；对于 Cyber Verification Program 访问级别，还需要终端客户在门户中为该配置文件启用这些级别。
 
-Claude Models on Google Cloud (Google managed) 和 Claude in Amazon Bedrock 会检查 ID 的格式，但不会查找配置文件。它们会以 `400` 拒绝格式错误的 ID。它们接受任何格式正确的 ID，因此成功的响应并不能确认该 ID 与某个配置文件匹配。不带 ID 的请求会在未归属的情况下通过，如果它触发了执行措施，该措施将作用于您的整个组织。
+Claude Models on Google Cloud (Google managed) 会检查 ID 的格式，但不会查找配置文件。Amazon Bedrock 在[接受配置文件 ID 的模型](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-requests-on-amazon-bedrock-and-google-cloud)上也是如此。这两个平台都会以 `400` 拒绝格式错误的 ID。它们都接受任何格式正确的 ID，因此成功的响应并不能确认该 ID 与某个配置文件匹配。不带 ID 的请求会在未归属的情况下通过，如果它触发了执行措施，该措施将作用于您的整个组织。
 
 ## 检查 Anthropic 是否已限制或封禁某个配置文件
 
@@ -679,7 +699,7 @@ Anthropic 可能会添加新的取值。请将无法识别的 `enforcement_statu
 
 响应会重复该 ID，并带有 `"type": "user_profile_deleted"`。如果删除操作返回服务器错误，请重试。重试时返回 `404` 表示第一次删除已成功。
 
-删除后，配置文件端点会对该 ID 返回 `404`。在最多约 10 分钟内，携带已删除 ID 的推理请求仍可能成功。此后，在每个请求中检查 ID 的平台会以 `400` 拒绝该请求。Claude Models on Google Cloud (Google managed) 和 Claude in Amazon Bedrock 不会查找配置文件，因此它们仍会接受该请求。
+删除后，配置文件端点会对该 ID 返回 `404`。在最多约 10 分钟内，携带已删除 ID 的推理请求仍可能成功。此后，[在每个请求中检查 ID 的平台](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-each-request)会以 `400` 拒绝该请求。Claude Models on Google Cloud (Google managed) 不会查找配置文件，因此它仍会接受该 ID。针对[接受配置文件 ID 的模型](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-requests-on-amazon-bedrock-and-google-cloud)的 Amazon Bedrock 也是如此。
 
 ## 后续步骤
 

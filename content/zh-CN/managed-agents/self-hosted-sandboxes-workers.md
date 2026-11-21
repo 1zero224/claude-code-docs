@@ -54,13 +54,13 @@ featureMetadata:
 
 CLI 和 SDK worker 支持不同的组合：
 
-| 功能                                                                                                  | `ant` CLI  | SDK（Python、TypeScript、Go） |
-| --------------------------------------------------------------------------------------------------- | ---------- | ------------------------- |
-| 常驻轮询                                                                                                | 是          | 是                         |
-| Webhook 触发                                                                                          | 否          | 是                         |
-| [每个会话一个沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-per-session) | 是          | 是                         |
-| [记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory)          | 是，使用默认同步设置 | 是，同步可配置                   |
-| [自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-custom-tools)   | 否          | 是                         |
+| 功能 | `ant` CLI | SDK（Python、TypeScript、Go） |
+| ----- | ----- | ----- |
+| 常驻轮询 | 是 | 是 |
+| Webhook 触发 | 否 | 是 |
+| [每个会话一个沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-per-session) | 是 | 是 |
+| [记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory) | 是，使用默认同步设置 | 是，同步可配置 |
+| [自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-custom-tools) | 否 | 是 |
 
 有关每个 CLI 标志和 SDK 选项，请参阅[自托管 worker 参考](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-reference)。
 
@@ -499,8 +499,8 @@ CLI 和 SDK worker 支持不同的组合：
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
 
 ### 所需的 beta 请求头
@@ -515,9 +515,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

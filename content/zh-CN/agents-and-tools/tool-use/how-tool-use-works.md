@@ -77,11 +77,11 @@ description: 了解工具使用循环、工具在何处运行，以及何时应�
 
 ## 在方法之间进行选择
 
-| 方法               | 何时使用                       | 预期效果                             | 了解更多                                                                                    |
-| ---------------- | -------------------------- | -------------------------------- | --------------------------------------------------------------------------------------- |
-| 用户定义的客户端工具       | 自定义业务逻辑、内部API、专有数据         | 您处理执行和代理循环                       | [定义工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools)   |
+| 方法 | 何时使用 | 预期效果 | 了解更多 |
+| ----- | ----- | ----- | ----- |
+| 用户定义的客户端工具 | 自定义业务逻辑、内部API、专有数据 | 您处理执行和代理循环 | [定义工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools) |
 | Anthropic模式客户端工具 | 标准开发操作（bash、文件编辑、桌面和浏览器控制） | 您处理执行；由于模式是经过训练内置的，Claude可靠地调用工具 | [工具参考](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference) |
-| 服务器执行的工具         | 网络搜索、代码沙箱、网络获取             | Anthropic处理执行；您读取结果而不是产生它们       | [服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools)  |
+| 服务器执行的工具 | 网络搜索、代码沙箱、网络获取 | Anthropic处理执行；您读取结果而不是产生它们 | [服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools) |
 
 ## 后续步骤
 

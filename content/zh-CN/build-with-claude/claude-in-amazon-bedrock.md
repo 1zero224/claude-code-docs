@@ -59,11 +59,11 @@ Amazon Bedrock 中的 Claude 支持三种身份验证路径。请选择最符合
 
 Bearer 令牌有两种类型：
 
-| 方面      | 短期                               | 长期                      |
-| ------- | -------------------------------- | ----------------------- |
+| 方面 | 短期 | 长期 |
+| ----- | ----- | ----- |
 | **有效期** | 最长 12 小时，或直到生成它的 AWS 会话结束，以先到者为准 | 直到其到期日期。如果没有到期日期，则永不过期。 |
-| **权限**  | 生成它的 IAM 身份的权限                   | 它所属的 IAM 用户的权限          |
-| **备注**  | 仅在您生成它的 AWS 区域中有效                | AWS 仅建议用于探索             |
+| **权限** | 生成它的 IAM 身份的权限 | 它所属的 IAM 用户的权限 |
+| **备注** | 仅在您生成它的 AWS 区域中有效 | AWS 仅建议用于探索 |
 
 对于任一类型，令牌所承载权限对应的 IAM 身份都需要 `bedrock-mantle:CallWithBearerToken` 和 `bedrock-mantle:CreateInference` 权限。
 
@@ -86,10 +86,10 @@ Bearer 令牌有两种类型：
 
 管理员可以阻止 IAM 用户使用长期令牌调用 Amazon Bedrock。一个令牌在两个 Amazon Bedrock 端点上都有效，并且每个端点都有自己的 IAM 操作和条件键：
 
-| 端点                | 要拒绝的操作                               | 条件键                              |
-| ----------------- | ------------------------------------ | -------------------------------- |
-| `bedrock-mantle`  | `bedrock-mantle:CallWithBearerToken` | `bedrock-mantle:bearerTokenType` |
-| `bedrock-runtime` | `bedrock:CallWithBearerToken`        | `bedrock:bearerTokenType`        |
+| 端点 | 要拒绝的操作 | 条件键 |
+| ----- | ----- | ----- |
+| `bedrock-mantle` | `bedrock-mantle:CallWithBearerToken` | `bedrock-mantle:bearerTokenType` |
+| `bedrock-runtime` | `bedrock:CallWithBearerToken` | `bedrock:bearerTokenType` |
 
 编写一个策略，为每个端点各包含一条 Deny 语句。在每条语句中，将 `Resource` 设置为 `*`，并使用 `StringEquals` 要求条件键等于 `LONG_TERM`。
 
@@ -133,8 +133,8 @@ Bearer 令牌有两种类型：
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.10.0")
-        implementation("com.anthropic:anthropic-java-bedrock:3.10.0")
+        implementation("com.anthropic:anthropic-java:3.12.0")
+        implementation("com.anthropic:anthropic-java-bedrock:3.12.0")
         ```
       </Tab>
 
@@ -143,12 +143,12 @@ Bearer 令牌有两种类型：
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-bedrock</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         ```
       </Tab>
@@ -376,20 +376,20 @@ Bearer 令牌有两种类型：
 
 Amazon Bedrock 中的 Claude 的模型 ID 带有 `anthropic.` 提供商前缀。有关模型的功能和行为，请参阅[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)。Claude Fable 5.2 和 Claude Mythos 5.2 在 Amazon Bedrock 中的 Claude 中不可用。Amazon Bedrock 仅在 `bedrock-runtime` 端点上提供这两个模型。有关它们的模型 ID，请参阅 [API 模型 ID](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#api-model-ids)。如需了解每个模型由哪个端点提供，请参阅 AWS 文档中的[按模型划分的端点可用性](https://docs.aws.amazon.com/bedrock/latest/userguide/models-endpoint-availability.html)。
 
-| Model                                                                                       | Model ID                      | Access                                                                                                 |
-| :------------------------------------------------------------------------------------------ | :---------------------------- | :----------------------------------------------------------------------------------------------------- |
-| Claude Fable 5.1                                                                            | `anthropic.claude-fable-5-1`  | Open                                                                                                   |
-| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842)) | `anthropic.claude-mythos-5-1` | Active (verification required)                                                                         |
-| Claude Fable 5                                                                              | `anthropic.claude-fable-5`    | Open                                                                                                   |
-| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842))   | `anthropic.claude-mythos-5`   | Active (verification required)                                                                         |
-| Claude Opus 5.5                                                                             | `anthropic.claude-opus-5-5`   | [See Access](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#access) |
-| Claude Opus 5                                                                               | `anthropic.claude-opus-5`     | [See Access](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#access) |
-| Claude Opus 4.8                                                                             | `anthropic.claude-opus-4-8`   | Open                                                                                                   |
-| Claude Opus 4.7                                                                             | `anthropic.claude-opus-4-7`   | Open                                                                                                   |
-| Claude Sonnet 5.5                                                                           | `anthropic.claude-sonnet-5-5` | [See Access](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#access) |
-| Claude Sonnet 5                                                                             | `anthropic.claude-sonnet-5`   | Open                                                                                                   |
-| Claude Haiku 5.5                                                                            | `anthropic.claude-haiku-5-5`  | [See Access](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#access) |
-| Claude Haiku 4.5                                                                            | `anthropic.claude-haiku-4-5`  | Open                                                                                                   |
+| Model | Model ID | Access |
+| :---- | :---- | :---- |
+| Claude Fable 5.1 | `anthropic.claude-fable-5-1` | Open |
+| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842)) | `anthropic.claude-mythos-5-1` | Active (verification required) |
+| Claude Fable 5 | `anthropic.claude-fable-5` | Open |
+| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842)) | `anthropic.claude-mythos-5` | Active (verification required) |
+| Claude Opus 5.5 | `anthropic.claude-opus-5-5` | [See Access](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#access) |
+| Claude Opus 5 | `anthropic.claude-opus-5` | [See Access](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#access) |
+| Claude Opus 4.8 | `anthropic.claude-opus-4-8` | Open |
+| Claude Opus 4.7 | `anthropic.claude-opus-4-7` | Open |
+| Claude Sonnet 5.5 | `anthropic.claude-sonnet-5-5` | [See Access](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#access) |
+| Claude Sonnet 5 | `anthropic.claude-sonnet-5` | Open |
+| Claude Haiku 5.5 | `anthropic.claude-haiku-5-5` | [See Access](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#access) |
+| Claude Haiku 4.5 | `anthropic.claude-haiku-4-5` | Open |
 
 与 Amazon Bedrock 中的 Claude 配合使用时，请使用最新版本的 Claude Code；运行 `claude update` 进行升级。
 
@@ -430,35 +430,35 @@ Amazon Bedrock 中的 Claude 在以下 AWS 区域可用。Amazon Bedrock 提供�
 
 全球端点适用于 Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Opus 4.8、Claude Opus 4.7、Claude Sonnet 5.5、Claude Sonnet 5、Claude Haiku 5.5 和 Claude Haiku 4.5。
 
-| AWS 区域           | 位置             | 端点类型       |
-| ---------------- | -------------- | ---------- |
-| `af-south-1`     | 非洲（开普敦）        | 全球         |
-| `ap-northeast-1` | 亚太地区（东京）       | 全球、JP、仅区域内 |
-| `ap-northeast-2` | 亚太地区（首尔）       | 全球         |
-| `ap-northeast-3` | 亚太地区（大阪）       | 全球、JP      |
-| `ap-south-1`     | 亚太地区（孟买）       | 全球         |
-| `ap-south-2`     | 亚太地区（海得拉巴）     | 全球         |
-| `ap-southeast-1` | 亚太地区（新加坡）      | 全球         |
-| `ap-southeast-2` | 亚太地区（悉尼）       | 全球、AU      |
-| `ap-southeast-3` | 亚太地区（雅加达）      | 全球         |
-| `ap-southeast-4` | 亚太地区（墨尔本）      | 全球、AU、仅区域内 |
-| `ca-central-1`   | 加拿大（中部）        | 全球、US      |
-| `ca-west-1`      | 加拿大西部（卡尔加里）    | 全球         |
-| `eu-central-1`   | 欧洲（法兰克福）       | 全球、EU      |
-| `eu-central-2`   | 欧洲（苏黎世）        | 全球、EU      |
-| `eu-north-1`     | 欧洲（斯德哥尔摩）      | 全球、EU、仅区域内 |
-| `eu-south-1`     | 欧洲（米兰）         | 全球、EU      |
-| `eu-south-2`     | 欧洲（西班牙）        | 全球、EU      |
-| `eu-west-1`      | 欧洲（爱尔兰）        | 全球、EU、仅区域内 |
-| `eu-west-2`      | 欧洲（伦敦）         | 全球、EU      |
-| `eu-west-3`      | 欧洲（巴黎）         | 全球、EU      |
-| `il-central-1`   | 以色列（特拉维夫）      | 全球         |
-| `me-central-1`   | 中东（阿联酋）        | 全球         |
-| `sa-east-1`      | 南美洲（圣保罗）       | 全球         |
-| `us-east-1`      | 美国东部（弗吉尼亚州北部）  | 全球、US、仅区域内 |
-| `us-east-2`      | 美国东部（俄亥俄州）     | 全球、US、仅区域内 |
-| `us-west-1`      | 美国西部（加利福尼亚州北部） | 全球、US      |
-| `us-west-2`      | 美国西部（俄勒冈州）     | 全球、US、仅区域内 |
+| AWS 区域 | 位置 | 端点类型 |
+| ----- | ----- | ----- |
+| `af-south-1` | 非洲（开普敦） | 全球 |
+| `ap-northeast-1` | 亚太地区（东京） | 全球、JP、仅区域内 |
+| `ap-northeast-2` | 亚太地区（首尔） | 全球 |
+| `ap-northeast-3` | 亚太地区（大阪） | 全球、JP |
+| `ap-south-1` | 亚太地区（孟买） | 全球 |
+| `ap-south-2` | 亚太地区（海得拉巴） | 全球 |
+| `ap-southeast-1` | 亚太地区（新加坡） | 全球 |
+| `ap-southeast-2` | 亚太地区（悉尼） | 全球、AU |
+| `ap-southeast-3` | 亚太地区（雅加达） | 全球 |
+| `ap-southeast-4` | 亚太地区（墨尔本） | 全球、AU、仅区域内 |
+| `ca-central-1` | 加拿大（中部） | 全球、US |
+| `ca-west-1` | 加拿大西部（卡尔加里） | 全球 |
+| `eu-central-1` | 欧洲（法兰克福） | 全球、EU |
+| `eu-central-2` | 欧洲（苏黎世） | 全球、EU |
+| `eu-north-1` | 欧洲（斯德哥尔摩） | 全球、EU、仅区域内 |
+| `eu-south-1` | 欧洲（米兰） | 全球、EU |
+| `eu-south-2` | 欧洲（西班牙） | 全球、EU |
+| `eu-west-1` | 欧洲（爱尔兰） | 全球、EU、仅区域内 |
+| `eu-west-2` | 欧洲（伦敦） | 全球、EU |
+| `eu-west-3` | 欧洲（巴黎） | 全球、EU |
+| `il-central-1` | 以色列（特拉维夫） | 全球 |
+| `me-central-1` | 中东（阿联酋） | 全球 |
+| `sa-east-1` | 南美洲（圣保罗） | 全球 |
+| `us-east-1` | 美国东部（弗吉尼亚州北部） | 全球、US、仅区域内 |
+| `us-east-2` | 美国东部（俄亥俄州） | 全球、US、仅区域内 |
+| `us-west-1` | 美国西部（加利福尼亚州北部） | 全球、US |
+| `us-west-2` | 美国西部（俄勒冈州） | 全球、US、仅区域内 |
 
 ## 配额
 

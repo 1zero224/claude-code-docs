@@ -379,12 +379,12 @@ Claude 进行思考，然后发出一个工具调用，并以 `stop_reason: "too
 
 将三个请求并列比较，可以清楚地看出负载大小与预算消耗之间的区别：
 
-| 请求     | 请求负载（您发送的大致输入令牌数）        | 本次请求计入预算的令牌数                             | 之后的预算 `remaining` |
-| ------ | ------------------------ | ---------------------------------------- | ----------------- |
-| 1      | \~20                     | 5,000（思考 + `tool_use`）                   | \~95,000          |
-| 2      | \~7,800（请求 1 的消息 + 工具结果） | 6,800（2,800 工具结果 + 4,000 思考和 `tool_use`） | \~88,200          |
-| 3      | \~13,000（完整历史 + 第二个工具结果） | 7,200（1,200 工具结果 + 6,000 `text`）         | \~81,000          |
-| **总计** | **各请求共发送约 20,820**       | **计入预算 19,000**                          | 不适用               |
+| 请求 | 请求负载（您发送的大致输入令牌数） | 本次请求计入预算的令牌数 | 之后的预算 `remaining` |
+| ----- | ----- | ----- | ----- |
+| 1 | \~20 | 5,000（思考 + `tool_use`） | \~95,000 |
+| 2 | \~7,800（请求 1 的消息 + 工具结果） | 6,800（2,800 工具结果 + 4,000 思考和 `tool_use`） | \~88,200 |
+| 3 | \~13,000（完整历史 + 第二个工具结果） | 7,200（1,200 工具结果 + 6,000 `text`） | \~81,000 |
+| **总计** | **各请求共发送约 20,820** | **计入预算 19,000** | 不适用 |
 
 您的客户端发送了三次原始用户消息和两次第一条助手消息，但每条消息只被计数一次。预算消耗了 100,000 个令牌中的 19,000 个，尽管您的客户端传输的累计负载更大，而请求 2 和请求 3 中经过提示缓存的输入则更大。
 
@@ -667,24 +667,24 @@ Claude 进行思考，然后发出一个工具调用，并以 `stop_reason: "too
 
 ## 功能支持
 
-| 模型                | 支持情况                                   |
-| ----------------- | -------------------------------------- |
-| Claude Fable 5.2  | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| 模型 | 支持情况 |
+| ----- | ----- |
+| Claude Fable 5.2 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
 | Claude Mythos 5.2 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Fable 5.1  | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| Claude Fable 5.1 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
 | Claude Mythos 5.1 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Opus 5.5   | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Opus 5     | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Fable 5    | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Mythos 5   | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| Claude Opus 5.5 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| Claude Opus 5 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| Claude Fable 5 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| Claude Mythos 5 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
 | Claude Sonnet 5.5 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Sonnet 5   | 不支持                                    |
-| Claude Haiku 5.5  | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Opus 4.8   | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Opus 4.7   | Beta（设置 `task-budgets-2026-03-13` 请求头） |
-| Claude Opus 4.6   | 不支持                                    |
-| Claude Sonnet 4.6 | 不支持                                    |
-| Claude Haiku 4.5  | 不支持                                    |
+| Claude Sonnet 5 | 不支持 |
+| Claude Haiku 5.5 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| Claude Opus 4.8 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| Claude Opus 4.7 | Beta（设置 `task-budgets-2026-03-13` 请求头） |
+| Claude Opus 4.6 | 不支持 |
+| Claude Sonnet 4.6 | 不支持 |
+| Claude Haiku 4.5 | 不支持 |
 
 [Claude Code](https://code.claude.com/docs/zh-CN/overview) 或 Cowork 界面不支持任务预算。请在[受支持的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets#feature-support)上直接通过 Messages API 使用任务预算。
 
@@ -719,10 +719,10 @@ Claude 进行思考，然后发出一个工具调用，并以 `stop_reason: "too
 * 可用性：可用
 * 用法：建议性：在 `output_config.task_budget` 中设置。API 不会在达到预算时停止 Claude。
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                                                                                                                       | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview) |
-| Beta | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                                                                                                                                                                                                             | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview)                        |
+| Beta | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 

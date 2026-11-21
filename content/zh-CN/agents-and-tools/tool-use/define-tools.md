@@ -52,11 +52,11 @@ featureMetadata:
 
 “Client tools”（客户端工具）在 API 请求的 `tools` 顶层参数中指定。Anthropic 模式的客户端工具（例如 bash 和文本编辑器工具）通过带日期版本的 `type` 声明；请参阅[工具参考](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference)中链接的各工具页面，了解其接受的字段。计算机使用和浏览器使用工具是[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)：一个没有 `name` 的单一条目，声明一组固定的成员工具。用户定义的工具定义包括：
 
-| 参数               | 描述                                                                                                                                                        |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`           | 工具的名称。必须匹配正则表达式 `^[a-zA-Z0-9_-]{1,128}$`。                                                                                                                 |
-| `description`    | 详细的纯文本描述，说明工具的功能、何时应使用它以及它的行为方式。                                                                                                                          |
-| `input_schema`   | 一个 [JSON Schema](https://json-schema.org/) 对象，用于定义工具的预期参数。                                                                                                |
+| 参数 | 描述 |
+| ----- | ----- |
+| `name` | 工具的名称。必须匹配正则表达式 `^[a-zA-Z0-9_-]{1,128}$`。 |
+| `description` | 详细的纯文本描述，说明工具的功能、何时应使用它以及它的行为方式。 |
+| `input_schema` | 一个 [JSON Schema](https://json-schema.org/) 对象，用于定义工具的预期参数。 |
 | `input_examples` | （可选）示例输入对象数组，向 Claude 展示如何使用该工具。请参阅[提供工具使用示例](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#providing-tool-use-examples)。 |
 
 有关任何单个工具定义上可用的完整可选属性集（包括 `cache_control`、`strict`、`defer_loading` 和 `allowed_callers`），请参阅[工具定义属性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#tool-definition-properties)。客户端工具集条目在条目上接受 `cache_control` 和 `allowed_callers`，并为每个成员设置 `defer_loading`；请参阅[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)。
@@ -589,9 +589,9 @@ Here are the functions available in JSONSchema format:
 
 并非所有模型和设置都支持强制工具使用。在不支持的情况下，`tool_choice: {"type": "any"}` 和 `tool_choice: {"type": "tool", "name": "..."}` 会失败，而 `tool_choice: {"type": "auto"}`（默认值）和 `tool_choice: {"type": "none"}` 仍然有效：
 
-| 模型或设置                                                                                                                                                                                                                                               | 限制                                                                                                                        | 替代方案                                                                                                                                                                                                                                                          |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 手动[扩展思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking)（`thinking: {type: "enabled"}`）                                                                                                                                 | 不支持 `any` 和 `tool`，使用会导致错误                                                                                                | `auto` 或 `none`。[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)本身不会阻止强制工具使用（默认开启思考的模型，例如 Claude Opus 5 和 Claude Haiku 5.5，接受强制工具使用，但强制调用会跳过思考：响应以工具调用开始，且没有 `thinking` 块）；下一行中的模型无论思考设置如何都会拒绝强制工具使用                                |
+| 模型或设置 | 限制 | 替代方案 |
+| ----- | ----- | ----- |
+| 手动[扩展思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking)（`thinking: {type: "enabled"}`） | 不支持 `any` 和 `tool`，使用会导致错误 | `auto` 或 `none`。[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)本身不会阻止强制工具使用（默认开启思考的模型，例如 Claude Opus 5 和 Claude Haiku 5.5，接受强制工具使用，但强制调用会跳过思考：响应以工具调用开始，且没有 `thinking` 块）；下一行中的模型无论思考设置如何都会拒绝强制工具使用 |
 | Claude Fable 5.2、[Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview)、Claude Opus 5.5、Claude Sonnet 5.5、Claude Fable 5.1 和 [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview) | `any` 和 `tool` 会返回 400 错误。请参阅[不支持强制工具使用](https://platform.claude.com/docs/zh-CN/api/errors#forced-tool-use-not-supported) | 使用 `auto` 并结合[严格工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/strict-tool-use)来保证工具输入符合模式，或者在需要固定 JSON 结构的响应时使用[结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)。提示仍会影响 `auto` 选择哪个工具。同样支持 `none` |
 
 在支持该功能的模型上，高亮显示的行是与标准工具使用请求的唯一区别：
@@ -953,8 +953,8 @@ Here are the functions available in JSONSchema format:
 * 可用性：可用
 * 用法：在请求的 `tools` 中定义它们。Claude 的响应包含 `tool_use` 块，您在下一个请求中以 `tool_result` 块发送结果。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -962,6 +962,6 @@ Here are the functions available in JSONSchema format:
 * 可用性：可用
 * 用法：在智能体上以 `type` `"custom"` 声明它们。调用以 `agent.custom_tool_use` 事件送达，您以 `user.custom_tool_result` 事件进行回复。
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                  |
-| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |

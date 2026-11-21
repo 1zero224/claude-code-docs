@@ -191,11 +191,11 @@ anthropic-beta: feature3
 
 某些 beta API 的作用范围限定于特定端点，并且要求在每个请求中都包含特定功能的 beta 标头：
 
-| 端点                                             | Beta 标头                     |
-| ---------------------------------------------- | --------------------------- |
+| 端点 | Beta 标头 |
+| ----- | ----- |
 | `/v1/agents`、`/v1/sessions`、`/v1/environments` | `managed-agents-2026-04-01` |
-| `/v1/tunnels`                                  | `mcp-tunnels-2026-06-22`    |
-| `/v1/memory_stores` 及其子资源                      | `agent-memory-2026-07-22`   |
+| `/v1/tunnels` | `mcp-tunnels-2026-06-22` |
+| `/v1/memory_stores` 及其子资源 | `agent-memory-2026-07-22` |
 
 SDK 的 `client.beta` (csharp, go: `client.Beta`; java: `client.beta()`; php: `$client->beta`) 命名空间会自动添加这些标头。仅在发出原始 HTTP 请求时才需要您自行添加。有关详细信息，请参阅 [Managed Agents 概述](https://platform.claude.com/docs/zh-CN/managed-agents/overview)、[使用智能体记忆](https://platform.claude.com/docs/zh-CN/managed-agents/memory)和 [MCP 隧道参考](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/reference#tunnels-api)。
 

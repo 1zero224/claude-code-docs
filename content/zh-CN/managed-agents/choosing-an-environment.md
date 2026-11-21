@@ -52,16 +52,16 @@ featureMetadata:
 
 下表比较了这两个选项。
 
-|                   | [云环境](https://platform.claude.com/docs/zh-CN/managed-agents/environments)（默认）                                                                                                                             | [自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes) |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| 工具和代码的运行位置        | Anthropic 托管的沙箱                                                                                                                                                                                           | 您的 worker，位于您的基础设施上                                                                  |
-| 哪些内容会到达 Anthropic | [对话历史](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#list-past-events)、[工具结果](https://platform.claude.com/docs/zh-CN/managed-agents/tools#available-tools)、沙箱的文件和状态、技能以及记忆存储 | 对话历史、工具结果、技能以及记忆存储。沙箱的文件和进程保留在您的 worker 上。                                           |
-| 您需要运维的内容          | 无                                                                                                                                                                                                         | worker 主机、其安全加固、其网络限制，以及您的 worker 用于身份验证的环境密钥                                        |
-| 网络访问范围            | 您在环境上设置的网络规则                                                                                                                                                                                              | 您自己的网络策略                                                                             |
-| 文件和 GitHub 仓库挂载   | 由 Anthropic 管理                                                                                                                                                                                            | 由您管理                                                                                 |
-| 记忆存储              | 由 Anthropic 挂载到 `/mnt/memory/`                                                                                                                                                                            | 下载到 `/mnt/memory/` 并由 worker 同步                                                      |
-| 沙箱生命周期            | 由 Anthropic 管理                                                                                                                                                                                            | 由您管理                                                                                 |
-| 何时选择              | 默认选项。您不需要工具在您自己的基础设施上运行。                                                                                                                                                                                  | 工具必须在您控制的基础设施上运行。                                                                    |
+|  | [云环境](https://platform.claude.com/docs/zh-CN/managed-agents/environments)（默认） | [自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes) |
+| ----- | ----- | ----- |
+| 工具和代码的运行位置 | Anthropic 托管的沙箱 | 您的 worker，位于您的基础设施上 |
+| 哪些内容会到达 Anthropic | [对话历史](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#list-past-events)、[工具结果](https://platform.claude.com/docs/zh-CN/managed-agents/tools#available-tools)、沙箱的文件和状态、技能以及记忆存储 | 对话历史、工具结果、技能以及记忆存储。沙箱的文件和进程保留在您的 worker 上。 |
+| 您需要运维的内容 | 无 | worker 主机、其安全加固、其网络限制，以及您的 worker 用于身份验证的环境密钥 |
+| 网络访问范围 | 您在环境上设置的网络规则 | 您自己的网络策略 |
+| 文件和 GitHub 仓库挂载 | 由 Anthropic 管理 | 由您管理 |
+| 记忆存储 | 由 Anthropic 挂载到 `/mnt/memory/` | 下载到 `/mnt/memory/` 并由 worker 同步 |
+| 沙箱生命周期 | 由 Anthropic 管理 | 由您管理 |
+| 何时选择 | 默认选项。您不需要工具在您自己的基础设施上运行。 | 工具必须在您控制的基础设施上运行。 |
 
 ## 何时选择自托管沙箱
 

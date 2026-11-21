@@ -18,7 +18,7 @@ Set [`allowedWorkspaceFolders`](https://claude.com/docs/third-party/claude-deskt
 | `["~/Documents/Claude", "/Volumes/Shared/Projects"]` | Users may attach only folders **inside** one of the listed roots. |
 | `[]` | No folders may be attached. The agent can still create files in its own sandbox scratch space, but cannot read or write the user's filesystem. |
 
-A leading `~` expands to the user's home directory, so a single profile can express per-user roots like `~/Documents/Claude` across the fleet. A path may also reference one of a fixed set of environment-variable tokens, such as `%OneDrive%` or `%USERNAME%`, listed in the [configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md#allowedworkspacefolders). An entry that references any other `%VAR%`, or one that is unset on the device, is ignored.
+A leading `~` expands to the user's home directory, so a single profile can express per-user roots like `~/Documents/Claude` across the fleet. A path may also reference one of a fixed set of environment-variable tokens, such as `%OneDrive%` or `%USERNAME%`, listed in the [configuration reference](https://claude.com/docs/third-party/claude-desktop/configuration.md#allowedworkspacefolders). An entry that references any other `%VAR%`, or one that is unset on the device, adds no folder.
 
 Each entry is either a plain path string or an object with these fields:
 
@@ -38,7 +38,7 @@ The check is enforced against the **resolved** path, so symlinks and `..` traver
 
 > [!NOTE]
 >
-> The allowlist controls what users can **attach**. Within an attached read/write folder, the agent can read and write every file the user's OS account can reach. Data outside the allowed roots can't be attached in Cowork, and Claude's file tools in Code sessions can't open it, except that they can read [plugin files](https://claude.com/docs/third-party/claude-desktop/code.md#plugin-files-under-allowedworkspacefolders).
+> The allowlist controls what users can **attach**. Within an attached read/write folder, the agent can read and write every file the user's OS account can reach. Data outside the allowed roots can't be attached in Cowork. In Code sessions, Claude's file tools can't open it, apart from [plugin files](https://claude.com/docs/third-party/claude-desktop/code.md#plugin-files-under-allowedworkspacefolders) and, in a local session, Claude Code's own plan files.
 >
 > A Code session's shell commands are confined only by the sandbox described under [Code](https://claude.com/docs/third-party/claude-desktop/code.md#applied-as-managed-policy). Where it applies, they can change files only inside the roots and temporary locations but can still read outside them, except the locations that [`blockReadsOutsideWorkingDirectories`](https://claude.com/docs/third-party/claude-desktop/configuration#blockreadsoutsideworkingdirectories) hides if you set it. Where it does not apply (Windows devices, hosts without the sandbox dependencies), the allowlist does not confine them. There, `blockReadsOutsideWorkingDirectories` can only ask the user to approve shell commands that Claude Code recognizes as reading outside the working directories, or whose command lines it can't analyze.
 >

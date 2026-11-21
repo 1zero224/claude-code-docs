@@ -38,7 +38,7 @@ featureMetadata:
 * **Messages API**：流以 `stop_reason` `"refusal"` 结束，`stop_details`（`category` 和 `explanation`）随 `message_delta` 事件送达。
 * **Managed Agents**：被拒绝的轮次会结束，会话进入空闲状态。如果 `stop_details.type` 或 `stop_reason.type` 为 `"refusal"`，则应将该轮次视为被拒绝。
 
-从 Claude 4 模型开始，当流式传输分类器介入以处理潜在的策略违规时，Claude API 的 “streaming”（流式传输）响应会返回 **`stop_reason`: `"refusal"`**。此安全功能有助于在实时流式传输期间保持内容合规。
+在 Claude 4 及更高版本的模型上，当流式传输分类器介入以处理潜在的策略违规时，Claude API 的 “streaming”（流式传输）响应会返回 **`stop_reason`: `"refusal"`**。此安全功能有助于在实时流式传输期间保持内容合规。
 
 <Tip>
   本页介绍拒绝在流式传输响应中的呈现方式。有关每个 `stop_reason` 值及其处理方式，请参阅[停止原因与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons)。要在另一个 Claude 模型上重试被拒绝的请求，请参阅[拒绝与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)。
@@ -85,6 +85,8 @@ featureMetadata:
 <Tip>
   重置上下文并不是唯一的恢复方式。您也可以在另一个 Claude 模型上重试被拒绝的请求，[拒绝与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)页面展示了如何通过服务器端回退、SDK 中间件或手动重试来进行设置。
 </Tip>
+
+`reasoning_extraction` 拒绝是一个例外：请修改提示，而不是在另一个模型上重试，如[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)所述。
 
 ## 实现指南
 
@@ -328,11 +330,11 @@ featureMetadata:
 
 API 目前以三种不同的方式处理拒绝：
 
-| 拒绝类型        | 响应格式                         | 发生时机          |
-| ----------- | ---------------------------- | ------------- |
-| 流式传输分类器拒绝   | **`stop_reason`: `refusal`** | 流式传输期间内容违反策略时 |
-| API 输入和版权验证 | 400 错误代码                     | 输入未通过验证检查时    |
-| 模型生成的拒绝     | 标准文本响应                       | 模型自身拒绝时       |
+| 拒绝类型 | 响应格式 | 发生时机 |
+| ----- | ----- | ----- |
+| 流式传输分类器拒绝 | **`stop_reason`: `refusal`** | 流式传输期间内容违反策略时 |
+| API 输入和版权验证 | 400 错误代码 | 输入未通过验证检查时 |
+| 模型生成的拒绝 | 标准文本响应 | 模型自身拒绝时 |
 
 ## 最佳实践
 
@@ -345,13 +347,13 @@ API 目前以三种不同的方式处理拒绝：
 
 ## 迁移说明
 
-如果您在此功能首次发布时就构建了拒绝处理逻辑，或者正在将其添加到现有集成中，请检查以下事项：
+如果您正在将拒绝处理逻辑添加到现有集成中，请检查以下事项：
 
 * **拒绝是响应，而不是错误。** 拒绝以成功的 HTTP 200 响应形式到达，并带有 `stop_reason`: `"refusal"`，因此仅基于错误率构建的监控无法发现它。请将拒绝作为独立的信号进行跟踪。
 * **拒绝包含结构化详细信息。** 在所有模型上，拒绝还包含一个 `stop_details` 对象，用于标识拒绝背后的政策类别。有关完整的响应结构，请参阅[拒绝是什么样的](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)。
 * **在不同的模型上重试。** 将被拒绝的请求重新发送到同一模型通常会导致再次被拒绝。与其仅重置上下文，不如通过[服务器端回退、SDK 中间件或手动重试](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)在回退模型上重试，并在自行构建重试时兑换[回退抵扣](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit)。Claude Haiku 5.5 没有服务器端回退，其拒绝也不附带回退抵扣，因此请在您的客户端中为其设置重试。
 * **检查批处理结果中的拒绝。** [消息批次](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)中被拒绝的请求会作为成功结果返回，并带有 `stop_reason`: `"refusal"`，而不是作为出错结果返回。
-* **围绕 `stop_reason` 集中处理。** API 将继续围绕 `stop_reason`: `"refusal"` 整合拒绝处理，因此请根据停止原因进行分支判断，而不是依赖特定模型的行为。
+* **围绕 `stop_reason` 集中处理。** 请根据 `stop_reason`: `"refusal"` 进行分支判断，而不是依赖特定模型的行为。
 
 ## 后续步骤
 
@@ -384,8 +386,8 @@ API 目前以三种不同的方式处理拒绝：
 * 可用性：始终开启
 * 用法：流以 `stop_reason` `"refusal"` 结束，`stop_details`（`category` 和 `explanation`）随 `message_delta` 事件送达。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -393,6 +395,6 @@ API 目前以三种不同的方式处理拒绝：
 * 可用性：始终开启
 * 用法：被拒绝的轮次会结束，会话进入空闲状态。如果 `session.status_idle` 事件上的 `stop_details.type` 或 `stop_reason.type` 为 `"refusal"`，则应将该轮次视为被拒绝。在被拒绝的轮次中，`stop_reason.type` 可能为 `"end_turn"`。在其他任何轮次中，`stop_details` 均为 `null`，在被拒绝的轮次中也可能为 `null`。
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |

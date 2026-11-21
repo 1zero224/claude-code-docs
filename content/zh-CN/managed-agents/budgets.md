@@ -442,13 +442,13 @@ featureMetadata:
 
 与预算相关的请求在以下情况下会被拒绝：
 
-| 条件                                                                                                                                                 | 状态  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
+| 条件 | 状态 |
+| ----- | ----- |
 | 在会话达到或超过其预算时发送了启动工作的事件（例如 `user.message`）；错误会列出[接受的结算事件](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#events-accepted-at-the-cap) | 400 |
-| 预算被设置为等于或低于会话已消耗标价成本的值                                                                                                                             | 400 |
-| 向创建时没有预算的会话添加预算，或在移除后重新添加                                                                                                                          | 400 |
-| `amount` (csharp, go: `Amount`) 不是整数美分（例如 `"25.00"`）、为零或负数，或 `currency` (csharp, go: `Currency`) 不是 `USD`                                          | 400 |
-| 已设预算的创建引用了[没有公开标价](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#models-without-a-list-price)的模型                                   | 400 |
+| 预算被设置为等于或低于会话已消耗标价成本的值 | 400 |
+| 向创建时没有预算的会话添加预算，或在移除后重新添加 | 400 |
+| `amount` (csharp, go: `Amount`) 不是整数美分（例如 `"25.00"`）、为零或负数，或 `currency` (csharp, go: `Currency`) 不是 `USD` | 400 |
+| 已设预算的创建引用了[没有公开标价](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#models-without-a-list-price)的模型 | 400 |
 
 <Note>
   会话预算是针对单个会话的、以美元计（以美分书写）的硬性上限，由平台强制执行。它们不同于 Messages API 的[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)，后者是建议性的、以令牌计量的预算，供模型在单个智能体循环内进行自我调节。
@@ -469,8 +469,8 @@ featureMetadata:
 
 * 可用性：可用
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
@@ -485,9 +485,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

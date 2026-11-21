@@ -58,11 +58,11 @@ featureMetadata:
 
 Claude 可处理任何标准 PDF。请确保您的请求大小满足以下要求：
 
-| 要求        | 限制                                                                                                                   |
-| --------- | -------------------------------------------------------------------------------------------------------------------- |
-| 最大请求大小    | 第一方 Claude API 上为 128 MB（因平台而异；请参阅[请求大小限制](https://platform.claude.com/docs/zh-CN/api/overview#request-size-limits)） |
-| 每个请求的最大页数 | 600（当请求的上下文窗口小于 1M 令牌时为 100）                                                                                         |
-| 格式        | 标准 PDF（无密码/加密）                                                                                                       |
+| 要求 | 限制 |
+| ----- | ----- |
+| 最大请求大小 | 第一方 Claude API 上为 128 MB（因平台而异；请参阅[请求大小限制](https://platform.claude.com/docs/zh-CN/api/overview#request-size-limits)） |
+| 每个请求的最大页数 | 600（当请求的上下文窗口小于 1M 令牌时为 100） |
+| 格式 | 标准 PDF（无密码/加密） |
 
 这两项限制均针对整个请求负载，包括与 PDF 一起发送的任何其他内容。对于大型 PDF，请考虑使用 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) 上传并通过 `file_id` 引用，以保持请求负载较小。
 
@@ -2000,12 +2000,12 @@ PDF 支持在所有模型上可用，并具备零数据保留和HIPAA 就绪资�
 
 * 可用性：始终开启
 
-| 状态             | 云平台                                                                                                                                                                                                                                                                                  |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 可用             | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
-| 可用<sup>1</sup> | [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)                                                                                                                                                                            |
-| 可用<sup>2</sup> | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)                                                                                                                                                         |
-| 可用<sup>2</sup> | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)                         |
+| 状态 | 云平台 |
+| ----- | ----- |
+| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
+| 可用<sup>1</sup> | [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 可用<sup>2</sup> | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy) |
+| 可用<sup>2</sup> | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) |
 
 1. `file_id` 源需要托管在 Anthropic 上的部署。
 2. 仅支持 Base64 源。
@@ -2014,18 +2014,18 @@ PDF 支持在所有模型上可用，并具备零数据保留和HIPAA 就绪资�
 
 * 可用性：始终开启
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA                                                          |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格                                                           |
-| 详细信息 | —                                                                                                                                         | HIPAA 资格适用于通过 Messages API 内联发送的 PDF，不适用于通过 Files API 发送的 PDF。 |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
+| 详细信息 | — | HIPAA 资格适用于通过 Messages API 内联发送的 PDF，不适用于通过 Files API 发送的 PDF。 |
 
 适用的端点：
 

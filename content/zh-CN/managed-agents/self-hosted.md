@@ -17,11 +17,11 @@ Managed Agents 有两个可由您托管的部分：
 
 自托管沙箱将第一部分交由您托管。自托管 Managed Agents 扩展了这一点：服务也由您来托管。每个选项的名称说明了您托管的内容：
 
-| 选项                                                                                   | 沙箱        | 服务        | 模型                 |
-| ------------------------------------------------------------------------------------ | --------- | --------- | ------------------ |
-| 云沙箱（默认）                                                                              | Anthropic | Anthropic | Anthropic          |
-| [自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes) | 您         | Anthropic | Anthropic          |
-| 自托管 Managed Agents                                                                   | 您         | 您         | Anthropic，或您选择的提供商 |
+| 选项 | 沙箱 | 服务 | 模型 |
+| ----- | ----- | ----- | ----- |
+| 云沙箱（默认） | Anthropic | Anthropic | Anthropic |
+| [自托管沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes) | 您 | Anthropic | Anthropic |
+| 自托管 Managed Agents | 您 | 您 | Anthropic，或您选择的提供商 |
 
 在这些页面中，托管服务是指由 Anthropic 运行的服务，而您的服务器是指由您运行的服务，它拥有自己的数据库。两者具有相同的 API，因此 SDK 和 `ant` CLI 均可与您的服务器配合使用，其余的 Managed Agents 文档同样适用。[与托管服务之间的差异](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/differences)列出了例外情况。
 
@@ -73,11 +73,11 @@ flowchart LR
 
 ## 三种凭据
 
-| 凭据             | 持有者                      | 用于验证什么                                                                            |
-| -------------- | ------------------------ | --------------------------------------------------------------------------------- |
-| **服务器 API 密钥** | 您的应用程序、`ant` CLI 和管理 CLI | 发往您服务器的请求。安装设置过程会生成此密钥。它的作用相当于 Claude API 密钥在托管服务中的作用。                            |
-| **推理凭据**       | 服务器                      | 服务器向您的推理提供商发起的模型调用。例如，它可以是 Claude API 密钥、您的云提供商凭据，或您的模型网关接受的令牌。应用程序和 worker 不需要它。 |
-| **环境密钥**       | 向服务器轮询的您的 worker         | 一个环境的工作队列以及该环境的会话。                                                                |
+| 凭据 | 持有者 | 用于验证什么 |
+| ----- | ----- | ----- |
+| **服务器 API 密钥** | 您的应用程序、`ant` CLI 和管理 CLI | 发往您服务器的请求。安装设置过程会生成此密钥。它的作用相当于 Claude API 密钥在托管服务中的作用。 |
+| **推理凭据** | 服务器 | 服务器向您的推理提供商发起的模型调用。例如，它可以是 Claude API 密钥、您的云提供商凭据，或您的模型网关接受的令牌。应用程序和 worker 不需要它。 |
+| **环境密钥** | 向服务器轮询的您的 worker | 一个环境的工作队列以及该环境的会话。 |
 
 ## 哪些数据会离开您的网络
 

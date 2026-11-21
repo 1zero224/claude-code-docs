@@ -41,11 +41,11 @@ featureMetadata:
 
 ## 权限策略类型
 
-| 策略             | 行为                                                                                                                                                                                  |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `always_allow` | 工具自动执行，无需确认。                                                                                                                                                                        |
-| `always_ask`   | 会话暂停，并在执行前等待您的批准。有关事件流程，请参阅[响应确认请求](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#respond-to-confirmation-requests)。                                    |
-| `auto`         | 服务器评估每次调用，然后运行该调用、拒绝该调用或暂停以等待您的批准。请参阅[使用 `auto` 让服务器评估每次调用](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#let-the-server-evaluate-each-call-with-auto)。 |
+| 策略 | 行为 |
+| ----- | ----- |
+| `always_allow` | 工具自动执行，无需确认。 |
+| `always_ask` | 会话暂停，并在执行前等待您的批准。有关事件流程，请参阅[响应确认请求](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#respond-to-confirmation-requests)。 |
+| `auto` | 服务器评估每次调用，然后运行该调用、拒绝该调用或暂停以等待您的批准。请参阅[使用 `auto` 让服务器评估每次调用](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#let-the-server-evaluate-each-call-with-auto)。 |
 
 每种工具集类型都有自己的默认值：智能体工具集默认为 `always_allow`，MCP 工具集默认为 `always_ask`。
 
@@ -1019,13 +1019,13 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
 
 `evaluation` 对象采用下表中的某种形式。
 
-| `evaluation`                                                                                | 顶层 `evaluated_permission` | 含义                                   |
-| ------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------ |
-| `{"type": "always_allow"}`                                                                  | `"allow"`                 | 解析后的策略为 `always_allow`，因此调用已运行。      |
-| `{"type": "always_ask"}`                                                                    | `"ask"`                   | 解析后的策略为 `always_ask`，因此调用已暂停以等待您的批准。 |
-| `{"type": "auto", "evaluated_permission": {"type": "allow"}}`                               | `"allow"`                 | 在 `auto` 下，服务器确定该调用是安全的，并已运行该调用。     |
-| `{"type": "auto", "evaluated_permission": {"type": "ask", "reason_code": "indeterminate"}}` | `"ask"`                   | 在 `auto` 下，服务器未能做出判定，因此调用已暂停以等待您的批准。 |
-| `{"type": "auto", "evaluated_permission": {"type": "deny", "reason_code": "high_risk"}}`    | `"deny"`                  | 在 `auto` 下，服务器将该调用评估为高风险并拒绝了它。       |
+| `evaluation` | 顶层 `evaluated_permission` | 含义 |
+| ----- | ----- | ----- |
+| `{"type": "always_allow"}` | `"allow"` | 解析后的策略为 `always_allow`，因此调用已运行。 |
+| `{"type": "always_ask"}` | `"ask"` | 解析后的策略为 `always_ask`，因此调用已暂停以等待您的批准。 |
+| `{"type": "auto", "evaluated_permission": {"type": "allow"}}` | `"allow"` | 在 `auto` 下，服务器确定该调用是安全的，并已运行该调用。 |
+| `{"type": "auto", "evaluated_permission": {"type": "ask", "reason_code": "indeterminate"}}` | `"ask"` | 在 `auto` 下，服务器未能做出判定，因此调用已暂停以等待您的批准。 |
+| `{"type": "auto", "evaluated_permission": {"type": "deny", "reason_code": "high_risk"}}` | `"deny"` | 在 `auto` 下，服务器将该调用评估为高风险并拒绝了它。 |
 
 当 `evaluation.type` 为 `"auto"` 时，其嵌套的 `evaluated_permission.type` 与事件的顶层 `evaluated_permission` 相同，因此您可以从任一字段读取结果。`reason_code` 是供您的客户端进行分支判断并保存在审计记录中的值，而不是用于向最终用户显示的文本。
 
@@ -1339,8 +1339,8 @@ MCP 工具集默认为 `always_ask`。这可以确保添加到 MCP 服务器的�
 
 * 可用性：始终开启
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
@@ -1355,9 +1355,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

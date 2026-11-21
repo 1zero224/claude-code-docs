@@ -59,11 +59,11 @@ featureMetadata:
 
 ## 如果您的代码更改了系统提示、工具或历史
 
-| 如果您的代码……                        | 应当怎么做                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 使用日期、模式或指令文件重新构建系统提示            | 停止更改 `system`。[将您自己的指令作为系统消息追加](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#new-instructions)（即 `messages` 中的一个 `role: "system"` 条目），并[在最新的轮次中说明新的值](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#changing-context)。对于其他人可以编辑的文本，请改为参阅[其他人可以编辑的文本](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#untrusted-text)。 |
-| 添加、移除或改写某个工具，或在 MCP 服务器连接时获得新工具 | 停止更改 `tools`，并[在系统消息中添加或移除工具](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#tool-changes)。                                                                                                                                                                                                                                                                                                                                                 |
-| 裁剪、折叠或总结较早的轮次，并保持最新的轮次不变        | [让 API 编写摘要，或移除保留的轮次中的思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#server-side-trimming)。                                                                                                                                                                                                                                                                                                                                             |
+| 如果您的代码…… | 应当怎么做 |
+| ----- | ----- |
+| 使用日期、模式或指令文件重新构建系统提示 | 停止更改 `system`。[将您自己的指令作为系统消息追加](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#new-instructions)（即 `messages` 中的一个 `role: "system"` 条目），并[在最新的轮次中说明新的值](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#changing-context)。对于其他人可以编辑的文本，请改为参阅[其他人可以编辑的文本](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#untrusted-text)。 |
+| 添加、移除或改写某个工具，或在 MCP 服务器连接时获得新工具 | 停止更改 `tools`，并[在系统消息中添加或移除工具](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#tool-changes)。 |
+| 裁剪、折叠或总结较早的轮次，并保持最新的轮次不变 | [让 API 编写摘要，或移除保留的轮次中的思考](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions#server-side-trimming)。 |
 
 其他原因，例如跳过文本为空的思考块或重建已保存的对话，各有其修复方法：请参阅[更改工具或指令而不会导致前缀检查失败](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/change-tools-or-instructions)。要找出您的原因，请[让智能体检查您的代码](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#hand-to-an-agent)。
 
@@ -71,15 +71,15 @@ featureMetadata:
 
 在 Claude API 和[部分云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#feature-availability)上，在未设置 [`prefix_mismatch_behavior`](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#preserved-thinking-controls) 的情况下，未通过前缀检查的结果取决于模型：
 
-| 具有保留思考的模型         | 结果                                                                                                                          |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Claude Fable 5.2  | 400 错误                                                                                                                      |
-| Claude Mythos 5.2 | 400 错误                                                                                                                      |
-| Claude Mythos 5.1 | 400 错误                                                                                                                      |
-| Claude Fable 5.1  | [可能出现 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#possible-400-error) |
-| Claude Opus 5.5   | [可能出现 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#possible-400-error) |
+| 具有保留思考的模型 | 结果 |
+| ----- | ----- |
+| Claude Fable 5.2 | 400 错误 |
+| Claude Mythos 5.2 | 400 错误 |
+| Claude Mythos 5.1 | 400 错误 |
+| Claude Fable 5.1 | [可能出现 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#possible-400-error) |
+| Claude Opus 5.5 | [可能出现 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#possible-400-error) |
 | Claude Sonnet 5.5 | [可能出现 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#possible-400-error) |
-| Claude Haiku 5.5  | [可能出现 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#possible-400-error) |
+| Claude Haiku 5.5 | [可能出现 400 错误](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#possible-400-error) |
 
 在表中显示"可能出现 400 错误"的地方，存在两种情况：未通过前缀检查的请求可能收到 400 错误，也可能不返回错误。当不返回错误时，未通过前缀检查的块会到达模型。Claude 会像读取其他任何输入一样读取它们，您需要为它们付费，而 Claude 会基于针对已发生更改的内容所做的推理来工作。
 
@@ -121,22 +121,22 @@ featureMetadata:
 
 ### 什么不算作更改
 
-| 以下不算作更改                                                                         | 原因                          |
-| ------------------------------------------------------------------------------- | --------------------------- |
-| `model`、`effort`、`max_tokens`、`tool_choice`、`metadata`、`thinking.display` 及其他参数 | 只比较 `system`、`tools` 和消息    |
-| JSON 格式或键的顺序                                                                    | API 比较的是解析后的 JSON，而不是其文本    |
-| `cache_control` 标记                                                              | 它们说明的是缓存位置，而不是 Claude 读取的内容 |
-| 设置了 `defer_loading: true` 且尚未被任何内容引用的工具                                         | 在被引用之前，它不在 Claude 的上下文中     |
+| 以下不算作更改 | 原因 |
+| ----- | ----- |
+| `model`、`effort`、`max_tokens`、`tool_choice`、`metadata`、`thinking.display` 及其他参数 | 只比较 `system`、`tools` 和消息 |
+| JSON 格式或键的顺序 | API 比较的是解析后的 JSON，而不是其文本 |
+| `cache_control` 标记 | 它们说明的是缓存位置，而不是 Claude 读取的内容 |
+| 设置了 `defer_loading: true` 且尚未被任何内容引用的工具 | 在被引用之前，它不在 Claude 的上下文中 |
 
 ### 设置 `prefix_mismatch_behavior`
 
 [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers#beta-features-on-other-platforms) `thinking-binding-controls-2026-08-01` 会添加设置 `thinking.block_binding.prefix_mismatch_behavior` 以及响应中的 `input_transformations` 数组。
 
-| 值              | 如果某个块未通过前缀检查                                                                                                                                                                |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `"error"`      | API 以 400 错误拒绝该请求，错误中会指出第一个无效的块                                                                                                                                             |
+| 值 | 如果某个块未通过前缀检查 |
+| ----- | ----- |
+| `"error"` | API 以 400 错误拒绝该请求，错误中会指出第一个无效的块 |
 | `"drop_block"` | API 丢弃无效的块，请求成功。您无需为这些块付费，但[丢弃它们可能会花费更多](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation#drop-block-cost) |
-| 未设置，或为 `null`  | [取决于模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#outcomes)                                                                 |
+| 未设置，或为 `null` | [取决于模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#outcomes) |
 
 只要更改仍然存在，未通过前缀检查的块在之后每个发送它们的请求中都保持无效。该设置只作用于携带它的那一个请求。在关闭思考（`"disabled"` 或 `"between_tools"`）的情况下，发送该设置在所有模型上都会导致 400 错误。
 

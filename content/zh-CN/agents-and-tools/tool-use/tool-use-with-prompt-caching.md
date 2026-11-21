@@ -56,15 +56,15 @@ description: 跨轮次缓存工具定义，并了解哪些操作会使您的缓�
 
 缓存遵循前缀层级结构（`tools` → `system` → `messages`），因此某一层级的更改会使该层级及其之后的所有内容失效：
 
-| 更改                             | 失效范围                                                                                                                                                                              |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 修改工具定义                         | 整个缓存（tools、system、messages）                                                                                                                                                       |
-| 开启或关闭网页搜索或引用                   | system 和 messages 缓存                                                                                                                                                              |
-| 更改 `tool_choice`               | messages 缓存                                                                                                                                                                       |
-| 更改 `disable_parallel_tool_use` | messages 缓存                                                                                                                                                                       |
-| 切换图像的有/无                       | messages 缓存                                                                                                                                                                       |
-| 更改思考参数                         | messages 缓存始终失效；在将思考配置渲染在 tools 和 system 之前的模型上，tools 和 system 缓存也会失效（参见[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)） |
-| 更改 `output_config.effort`      | 可能会使 messages 缓存失效，在某些模型上还可能使 tools 和 system 缓存失效（参见[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)）；显式发送默认值等同于省略该参数     |
+| 更改 | 失效范围 |
+| ----- | ----- |
+| 修改工具定义 | 整个缓存（tools、system、messages） |
+| 开启或关闭网页搜索或引用 | system 和 messages 缓存 |
+| 更改 `tool_choice` | messages 缓存 |
+| 更改 `disable_parallel_tool_use` | messages 缓存 |
+| 切换图像的有/无 | messages 缓存 |
+| 更改思考参数 | messages 缓存始终失效；在将思考配置渲染在 tools 和 system 之前的模型上，tools 和 system 缓存也会失效（参见[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)） |
+| 更改 `output_config.effort` | 可能会使 messages 缓存失效，在某些模型上还可能使 tools 和 system 缓存失效（参见[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)）；显式发送默认值等同于省略该参数 |
 
 <Note>
   如果您需要在对话中途更改 `tool_choice`，请考虑将缓存断点放置在变化点之前。
@@ -80,17 +80,17 @@ description: 跨轮次缓存工具定义，并了解哪些操作会使您的缓�
 
 ## 各工具交互表
 
-| 工具                                                                                           | 缓存注意事项                                                                                                                                                                                                     |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [网页搜索](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)     | 启用或禁用会使 system 和 messages 缓存失效                                                                                                                                                                             |
-| [网页抓取](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool)      | 启用或禁用会使 system 和 messages 缓存失效                                                                                                                                                                             |
-| [代码执行](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool) | 容器状态独立于提示缓存                                                                                                                                                                                                |
-| [工具搜索](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)    | 发现的工具以 `tool_reference` 块加载，保留前缀缓存                                                                                                                                                                         |
-| [计算机使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)  | 截图的有无会影响 messages 缓存；`cache_control` 应放在工具集条目上（参见[工具定义上的 cache\_control](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-use-with-prompt-caching#cache-control-on-tool-definitions)） |
-| [浏览器使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool)   | 截图的有无会影响 messages 缓存；`cache_control` 应放在工具集条目上（参见[工具定义上的 cache\_control](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-use-with-prompt-caching#cache-control-on-tool-definitions)） |
-| [文本编辑器](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/text-editor-tool)   | 标准客户端工具，无特殊缓存交互                                                                                                                                                                                            |
-| [Bash](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool)           | 标准客户端工具，无特殊缓存交互                                                                                                                                                                                            |
-| [记忆](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool)           | 标准客户端工具，无特殊缓存交互                                                                                                                                                                                            |
+| 工具 | 缓存注意事项 |
+| ----- | ----- |
+| [网页搜索](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool) | 启用或禁用会使 system 和 messages 缓存失效 |
+| [网页抓取](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool) | 启用或禁用会使 system 和 messages 缓存失效 |
+| [代码执行](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool) | 容器状态独立于提示缓存 |
+| [工具搜索](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool) | 发现的工具以 `tool_reference` 块加载，保留前缀缓存 |
+| [计算机使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool) | 截图的有无会影响 messages 缓存；`cache_control` 应放在工具集条目上（参见[工具定义上的 cache\_control](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-use-with-prompt-caching#cache-control-on-tool-definitions)） |
+| [浏览器使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool) | 截图的有无会影响 messages 缓存；`cache_control` 应放在工具集条目上（参见[工具定义上的 cache\_control](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-use-with-prompt-caching#cache-control-on-tool-definitions)） |
+| [文本编辑器](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/text-editor-tool) | 标准客户端工具，无特殊缓存交互 |
+| [Bash](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool) | 标准客户端工具，无特殊缓存交互 |
+| [记忆](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool) | 标准客户端工具，无特殊缓存交互 |
 
 ## 后续步骤
 

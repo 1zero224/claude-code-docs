@@ -425,14 +425,14 @@ featureMetadata:
 
 支持的包管理器：
 
-| 字段      | 包管理器           | 示例                                          |
-| ------- | -------------- | ------------------------------------------- |
-| `apt`   | 系统软件包（apt-get） | `"graphviz"`                                |
-| `cargo` | Rust（cargo）    | `"hyperfine@1.18.0"`                        |
-| `gem`   | Ruby（gem）      | `"rails:7.1.0"`                             |
-| `go`    | Go 模块          | `"golang.org/x/tools/cmd/goimports@latest"` |
-| `npm`   | Node.js（npm）   | `"express@4.18.0"`                          |
-| `pip`   | Python（pip）    | `"sqlalchemy==2.0.30"`                      |
+| 字段 | 包管理器 | 示例 |
+| ----- | ----- | ----- |
+| `apt` | 系统软件包（apt-get） | `"graphviz"` |
+| `cargo` | Rust（cargo） | `"hyperfine@1.18.0"` |
+| `gem` | Ruby（gem） | `"rails:7.1.0"` |
+| `go` | Go 模块 | `"golang.org/x/tools/cmd/goimports@latest"` |
+| `npm` | Node.js（npm） | `"express@4.18.0"` |
+| `pip` | Python（pip） | `"sqlalchemy==2.0.30"` |
 
 ### 网络
 
@@ -440,10 +440,10 @@ featureMetadata:
 
 使用 `limited` 网络时，`allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 也适用于在 Anthropic 服务器上运行的 `web_search` 和 `web_fetch` 工具。如果 `web_fetch` 调用的 URL 所在主机与 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 不匹配，则会向智能体返回错误结果。`web_search` 会省略来自与 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 不匹配的主机的结果。`allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 和 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 不会为这些工具添加任何主机。当 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 未列出任何主机时，任何 `web_fetch` 或 `web_search` 调用都不会返回页面或搜索结果。您为这些工具添加到 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 的主机也会对沙箱开放。`unrestricted` 网络和自托管环境不会限制这些工具。要进一步限制它们，请在智能体工具集中该工具的条目上设置 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) 或 `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`)。请参阅[限制网页搜索和网页抓取的域名](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions)。
 
-| 模式             | 描述                                                                                                                                                                                                                                                                                                                                                                     |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `limited`      | 将沙箱网络访问限制为 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中的主机。将 `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 和 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 设置为 `true` 可允许额外的访问。除非智能体必须访问您无法预先列出的站点，否则请使用此模式。 |
-| `unrestricted` | 完全的出站网络访问，但通用安全阻止列表中的主机除外。使用前，请阅读[不受限网络的风险](https://platform.claude.com/docs/zh-CN/managed-agents/environments#risks-of-unrestricted-networking)。                                                                                                                                                                                                                      |
+| 模式 | 描述 |
+| ----- | ----- |
+| `limited` | 将沙箱网络访问限制为 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中的主机。将 `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 和 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 设置为 `true` 可允许额外的访问。除非智能体必须访问您无法预先列出的站点，否则请使用此模式。 |
+| `unrestricted` | 完全的出站网络访问，但通用安全阻止列表中的主机除外。使用前，请阅读[不受限网络的风险](https://platform.claude.com/docs/zh-CN/managed-agents/environments#risks-of-unrestricted-networking)。 |
 
 <Note>
   请在 API 请求中显式设置 `networking` (csharp, go: `Networking`)；省略该字段的创建请求会得到 `unrestricted`。Claude Console 中用于创建环境的表单默认选中**受限**，且不允许任何其他访问。
@@ -624,18 +624,18 @@ featureMetadata:
 
 当 `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 为 `true` 时，除了 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中的主机外，沙箱还可以访问以下主机。此列表由 Anthropic 维护，并可能发生变化。
 
-| 生态系统        | 主机                                                                                                                                                                                  |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 代码托管        | `github.com`、`api.github.com`、`codeload.github.com`、`raw.githubusercontent.com`、`objects.githubusercontent.com`、`release-assets.githubusercontent.com`、`gitlab.com`、`bitbucket.org` |
-| Node.js     | `registry.npmjs.org`、`registry.yarnpkg.com`、`nodejs.org`                                                                                                                            |
-| Python      | `pypi.org`、`files.pythonhosted.org`                                                                                                                                                 |
-| Rust        | `crates.io`、`index.crates.io`、`static.crates.io`、`static.rust-lang.org`                                                                                                             |
-| Go          | `proxy.golang.org`、`sum.golang.org`                                                                                                                                                 |
-| Java        | `repo1.maven.org`、`repo.maven.apache.org`、`services.gradle.org`、`plugins.gradle.org`、`plugins-artifacts.gradle.org`                                                                 |
-| Ruby        | `rubygems.org`、`index.rubygems.org`                                                                                                                                                 |
-| PHP         | `packagist.org`、`repo.packagist.org`                                                                                                                                                |
-| Ubuntu（apt） | `archive.ubuntu.com`、`security.ubuntu.com`、`ppa.launchpad.net`                                                                                                                      |
-| 容器          | `registry-1.docker.io`、`auth.docker.io`、`production.cloudflare.docker.com`、`download.docker.com`、`ghcr.io`                                                                          |
+| 生态系统 | 主机 |
+| ----- | ----- |
+| 代码托管 | `github.com`、`api.github.com`、`codeload.github.com`、`raw.githubusercontent.com`、`objects.githubusercontent.com`、`release-assets.githubusercontent.com`、`gitlab.com`、`bitbucket.org` |
+| Node.js | `registry.npmjs.org`、`registry.yarnpkg.com`、`nodejs.org` |
+| Python | `pypi.org`、`files.pythonhosted.org` |
+| Rust | `crates.io`、`index.crates.io`、`static.crates.io`、`static.rust-lang.org` |
+| Go | `proxy.golang.org`、`sum.golang.org` |
+| Java | `repo1.maven.org`、`repo.maven.apache.org`、`services.gradle.org`、`plugins.gradle.org`、`plugins-artifacts.gradle.org` |
+| Ruby | `rubygems.org`、`index.rubygems.org` |
+| PHP | `packagist.org`、`repo.packagist.org` |
+| Ubuntu（apt） | `archive.ubuntu.com`、`security.ubuntu.com`、`ppa.launchpad.net` |
+| 容器 | `registry-1.docker.io`、`auth.docker.io`、`production.cloudflare.docker.com`、`download.docker.com`、`ghcr.io` |
 
 <Warning>
   网络访问是按主机授予的，而不是按操作授予的。沙箱可以向允许的主机发送任何请求，包括 `git push` 和发布包等上传操作，并可使用命令提供的任何凭据。如果智能体处理不受信任的输入（仓库文件、获取的网页内容或第三方工具输出），一次成功的"prompt injection"（提示注入）就可能利用允许的主机将文件复制到沙箱之外。为降低此风险，请将 `bash` 工具的[权限策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)设置为 `always_ask` 或 `auto`。如果环境未指定 `packages` (csharp, go: `Packages`)，您也可以将 `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 保持为 `false`，并在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中仅列出智能体所需的主机。
@@ -838,8 +838,8 @@ featureMetadata:
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                  | 模型                                                             |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 所需的 beta 请求头
@@ -854,9 +854,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

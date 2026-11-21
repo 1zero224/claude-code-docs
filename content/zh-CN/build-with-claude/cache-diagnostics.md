@@ -999,10 +999,10 @@ featureMetadata:
 
 响应 `Message` 上的 `diagnostics` 字段有三种可能的取值：
 
-| 值                              | 含义                                                                                                               |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `null`                         | 请求未包含 `diagnostics` 对象，`previous_message_id` 为 `null`（第一轮，没有可比较的内容），或者在最后一个断点之前没有发生任何分歧。                         |
-| `{"cache_miss_reason": null}`  | 在序列化响应时比较仍在进行中。当响应开始得非常快时可能会出现这种情况。请将其视为无定论，并检查下一轮。                                                              |
+| 值 | 含义 |
+| ----- | ----- |
+| `null` | 请求未包含 `diagnostics` 对象，`previous_message_id` 为 `null`（第一轮，没有可比较的内容），或者在最后一个断点之前没有发生任何分歧。 |
+| `{"cache_miss_reason": null}` | 在序列化响应时比较仍在进行中。当响应开始得非常快时可能会出现这种情况。请将其视为无定论，并检查下一轮。 |
 | `{"cache_miss_reason": {...}}` | 附加了一个 `cache_miss_reason`。对于 `*_changed` 类型，它标识第一个分歧点；`previous_message_not_found` 和 `unavailable` 则是未产生比较结果的情况。 |
 
 当 `cache_miss_reason` 非空时，它看起来像这样：
@@ -1032,14 +1032,14 @@ featureMetadata:
 
 `cache_miss_reason` 是一个基于 `type` 的可辨识联合类型。响应仅报告最早的分歧，因此请先修复它；后面的分歧可能被它掩盖了。
 
-| 类型                           | 含义                                                                                                                                                                                                      | 需要更改的内容                                                                                                                                                               |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `model_changed`              | `model` 与上一个请求不同（例如，路由器、A/B 测试或回退机制选择了不同的模型）。缓存是按模型区分的。                                                                                                                                                 | 在一个已缓存的对话中保持模型不变。                                                                                                                                                     |
-| `system_changed`             | `system` 参数不同。通常是时间戳、请求 ID 或其他每次请求都不同的值被插入到了系统提示中。                                                                                                                                                      | 使系统提示成为字节稳定的常量，并将变化的值放入您即将发送的 `user` 消息中。                                                                                                                             |
-| `tools_changed`              | `tools` 数组不同：在轮次之间添加、删除或重新排序了工具，或者工具的 `input_schema` JSON 被非确定性地序列化。                                                                                                                                    | 每一轮都以固定顺序发送相同的工具列表，并使用确定性序列化的 schema（例如，对键进行排序）。                                                                                                                      |
-| `messages_changed`           | 模型、系统提示和工具全部匹配，但 `messages` 中较早的条目被修改、重新排序或删除，而不是仅追加。通常是对话历史被截断或编辑，或者助手轮次和 `tool_result` 块在重新发送时被以不同方式重新序列化。                                                                                            | 将历史视为仅追加；原样回传助手的 `content` 和工具结果。                                                                                                                                     |
-| `previous_message_not_found` | 对于所提供的 `previous_message_id`，不存在已存储的指纹。这并不能证明您的请求发生了变化。通常是因为上一个请求未包含 `diagnostics` 对象、它来自不同的工作区，或者距离其发送已经过去了太长时间。                                                                                       | 在每一轮中都包含 `diagnostics` 对象，并使连续轮次在时间上保持接近。                                                                                                                             |
-| `unavailable`                | 此请求的诊断信息不可用。这包括以下情况：`model`、`system` 和 `tools` 匹配，但另一个影响提示的请求参数（`tool_choice`、`thinking`、`context_management`、`output_config`、`output_format` 或活动的 `anthropic-beta` 请求头集合）不同；以及分歧超出比较范围的超长对话。您的请求已正常处理。 | 在已缓存对话的整个生命周期内保持影响提示的请求参数不变。如果问题持续存在，请应用提示缓存页面上[常见问题排查](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#troubleshooting-common-issues)下的手动检查。 |
+| 类型 | 含义 | 需要更改的内容 |
+| ----- | ----- | ----- |
+| `model_changed` | `model` 与上一个请求不同（例如，路由器、A/B 测试或回退机制选择了不同的模型）。缓存是按模型区分的。 | 在一个已缓存的对话中保持模型不变。 |
+| `system_changed` | `system` 参数不同。通常是时间戳、请求 ID 或其他每次请求都不同的值被插入到了系统提示中。 | 使系统提示成为字节稳定的常量，并将变化的值放入您即将发送的 `user` 消息中。 |
+| `tools_changed` | `tools` 数组不同：在轮次之间添加、删除或重新排序了工具，或者工具的 `input_schema` JSON 被非确定性地序列化。 | 每一轮都以固定顺序发送相同的工具列表，并使用确定性序列化的 schema（例如，对键进行排序）。 |
+| `messages_changed` | 模型、系统提示和工具全部匹配，但 `messages` 中较早的条目被修改、重新排序或删除，而不是仅追加。通常是对话历史被截断或编辑，或者助手轮次和 `tool_result` 块在重新发送时被以不同方式重新序列化。 | 将历史视为仅追加；原样回传助手的 `content` 和工具结果。 |
+| `previous_message_not_found` | 对于所提供的 `previous_message_id`，不存在已存储的指纹。这并不能证明您的请求发生了变化。通常是因为上一个请求未包含 `diagnostics` 对象、它来自不同的工作区，或者距离其发送已经过去了太长时间。 | 在每一轮中都包含 `diagnostics` 对象，并使连续轮次在时间上保持接近。 |
+| `unavailable` | 此请求的诊断信息不可用。这包括以下情况：`model`、`system` 和 `tools` 匹配，但另一个影响提示的请求参数（`tool_choice`、`thinking`、`context_management`、`output_config`、`output_format` 或活动的 `anthropic-beta` 请求头集合）不同；以及分歧超出比较范围的超长对话。您的请求已正常处理。 | 在已缓存对话的整个生命周期内保持影响提示的请求参数不变。如果问题持续存在，请应用提示缓存页面上[常见问题排查](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#troubleshooting-common-issues)下的手动检查。 |
 
 <Note>
   四种 `*_changed` 类型还携带一个 `cache_missed_input_tokens` 整数：这是对分歧点之后有多少输入令牌的估计，让您了解丢失了多少可缓存的前缀。它是在分词之前根据字节长度推导出来的，因此请将其视为量级指标而非计费数字。它可能与 `usage.input_tokens` 不同（偶尔会超过它）。
@@ -1051,12 +1051,12 @@ featureMetadata:
 
 此矩阵适用于您传入了真实 `previous_message_id` 的轮次。在第一轮（`previous_message_id: null`），`diagnostics` 始终为 `null`，且 `cache_read_input_tokens` 通常为零，因为此时缓存正在被写入而非读取；无需排查。当 `cache_miss_reason` 为 `null`（比较仍在进行中；请检查下一轮）或其 `type` 为 `previous_message_not_found` 或 `unavailable`（未产生比较结果）时，此矩阵也不适用。
 
-| 诊断结果                                 | 缓存读取令牌数 | 解读                                                                                                                                   |
-| ------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `null`                               | 高       | 缓存命中。                                                                                                                                |
-| `null`                               | 低或为零    | 您的请求匹配，但没有可供读取的缓存条目：它已过期，或者提示短于[最小可缓存长度](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-limitations)。 |
-| `cache_miss_reason` 为 `*_changed` 类型 | 低或为零    | 请求发生了变化；请修复 `type` 所指示的原因。                                                                                                           |
-| `cache_miss_reason` 为 `*_changed` 类型 | 高       | 罕见。变化发生在提示的后部，但较早的 `cache_control` 断点仍然命中。值得修复，但影响较小。                                                                                |
+| 诊断结果 | 缓存读取令牌数 | 解读 |
+| ----- | ----- | ----- |
+| `null` | 高 | 缓存命中。 |
+| `null` | 低或为零 | 您的请求匹配，但没有可供读取的缓存条目：它已过期，或者提示短于[最小可缓存长度](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-limitations)。 |
+| `cache_miss_reason` 为 `*_changed` 类型 | 低或为零 | 请求发生了变化；请修复 `type` 所指示的原因。 |
+| `cache_miss_reason` 为 `*_changed` 类型 | 高 | 罕见。变化发生在提示的后部，但较早的 `cache_control` 断点仍然命中。值得修复，但影响较小。 |
 
 ## 限制
 
@@ -1092,8 +1092,8 @@ API 仅为包含 `diagnostics` 对象的请求存储指纹。指纹仅由加密�
 
 * 可用性：可用
 
-| 状态 | 云平台                                                                                                                                                                       |
-| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -1104,10 +1104,10 @@ API 仅为包含 `diagnostics` 对象的请求存储指纹。指纹仅由加密�
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                         | HIPAA |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（有条件；不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)）                 | 不具备资格 |
-| 详细信息 | 您的提示和 Claude 的输出不会被存储。由加密哈希和令牌数估算值组成的指纹会被短暂保留，以便与下一个请求进行比较。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/cache-diagnostics#data-retention) | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（有条件；不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
+| 详细信息 | 您的提示和 Claude 的输出不会被存储。由加密哈希和令牌数估算值组成的指纹会被短暂保留，以便与下一个请求进行比较。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/cache-diagnostics#data-retention) | — |
 
 适用的端点：
 

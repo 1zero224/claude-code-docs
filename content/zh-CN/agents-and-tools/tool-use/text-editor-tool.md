@@ -2260,10 +2260,10 @@ Claude 识别出语法错误，并使用 `str_replace` 命令进行修复：
 
 除基础令牌外，文本编辑器工具还需要以下额外的输入令牌：
 
-| 工具                                                                 | 额外输入令牌  |
-| ------------------------------------------------------------------ | ------- |
+| 工具 | 额外输入令牌 |
+| ----- | ----- |
 | `text_editor_20250728`（Claude 4.7 及更高版本模型以及 Claude Mythos Preview） | 974 个令牌 |
-| `text_editor_20250728`（Claude 4.6 及更早版本模型）                         | 745 个令牌 |
+| `text_editor_20250728`（Claude 4.6 及更早版本模型） | 745 个令牌 |
 
 有关工具定价的更多详细信息，请参阅[工具使用定价](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview#pricing)。
 
@@ -2276,11 +2276,11 @@ Claude 识别出语法错误，并使用 `str_replace` 命令进行修复：
 
 ## 更新日志
 
-| 日期               | 版本                     | 变更                                                                                                                                                                                               |
-| ---------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2025 年 7 月 28 日  | `text_editor_20250728` | 发布更新版文本编辑器工具，修复了一些问题并新增可选的 `max_characters` 参数。除此之外，它与 `text_editor_20250429` 完全相同。                                                                                                              |
-| 2025 年 4 月 29 日  | `text_editor_20250429` | 发布适用于 Claude 4 的文本编辑器工具。此版本移除了 `undo_edit` 命令，但保留了所有其他功能。工具名称已更新，以反映其基于 `str_replace` 的架构。                                                                                                       |
-| 2025 年 3 月 13 日  | `text_editor_20250124` | 推出独立的文本编辑器工具文档。此版本针对 Claude Sonnet 3.7 进行了优化，但功能与之前的版本相同。                                                                                                                                        |
+| 日期 | 版本 | 变更 |
+| ----- | ----- | ----- |
+| 2025 年 7 月 28 日 | `text_editor_20250728` | 发布更新版文本编辑器工具，修复了一些问题并新增可选的 `max_characters` 参数。除此之外，它与 `text_editor_20250429` 完全相同。 |
+| 2025 年 4 月 29 日 | `text_editor_20250429` | 发布适用于 Claude 4 的文本编辑器工具。此版本移除了 `undo_edit` 命令，但保留了所有其他功能。工具名称已更新，以反映其基于 `str_replace` 的架构。 |
+| 2025 年 3 月 13 日 | `text_editor_20250124` | 推出独立的文本编辑器工具文档。此版本针对 Claude Sonnet 3.7 进行了优化，但功能与之前的版本相同。 |
 | 2024 年 10 月 22 日 | `text_editor_20241022` | 随 Claude Sonnet 3.5（已停用；请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）首次发布文本编辑器工具。通过 `view`、`create`、`str_replace`、`insert` 和 `undo_edit` 命令提供查看、创建和编辑文件的功能。 |
 
 ## 后续步骤
@@ -2315,18 +2315,18 @@ Claude 识别出语法错误，并使用 `str_replace` 命令进行修复：
 
 * 可用性：可用
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
-| 详细信息 | 在您的环境中运行的客户端工具。                                                                                                                           | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
+| 详细信息 | 在您的环境中运行的客户端工具。 | — |
 
 适用的端点：
 

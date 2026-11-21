@@ -57,16 +57,16 @@ description: 一个开源的 Agent Skill，为 Claude 提供最新的 API 参考
 
 该技能通过检查项目文件（例如 Python 的 `requirements.txt`、TypeScript 的 `tsconfig.json`、Go 的 `go.mod`）自动检测您项目的语言，并加载相应的文档。
 
-| 语言         | Messages API SDK | 工具运行器   | Managed Agents |
-| ---------- | ---------------- | ------- | -------------- |
-| Python     | 是                | 是（beta） | 是（beta）        |
-| TypeScript | 是                | 是（beta） | 是（beta）        |
-| C#         | 是                | 是（beta） | 是（beta）        |
-| Go         | 是                | 是（beta） | 是（beta）        |
-| Java       | 是                | 是（beta） | 是（beta）        |
-| PHP        | 是                | 是（beta） | 是（beta）        |
-| Ruby       | 是                | 是（beta） | 是（beta）        |
-| cURL       | 是                | 不适用     | 是（beta）        |
+| 语言 | Messages API SDK | 工具运行器 | Managed Agents |
+| ----- | ----- | ----- | ----- |
+| Python | 是 | 是（beta） | 是（beta） |
+| TypeScript | 是 | 是（beta） | 是（beta） |
+| C# | 是 | 是（beta） | 是（beta） |
+| Go | 是 | 是（beta） | 是（beta） |
+| Java | 是 | 是（beta） | 是（beta） |
+| PHP | 是 | 是（beta） | 是（beta） |
+| Ruby | 是 | 是（beta） | 是（beta） |
+| cURL | 是 | 不适用 | 是（beta） |
 
 如果您的项目使用多种语言，Claude 会询问适用哪一种。对于不受支持的语言（Rust、Swift、C++），该技能会提供 cURL/原始 HTTP 示例。
 

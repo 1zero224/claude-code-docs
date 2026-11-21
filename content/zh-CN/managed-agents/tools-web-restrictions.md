@@ -404,12 +404,12 @@ featureMetadata:
 
 除了 `enabled` (csharp, go: `Enabled`) 和 `permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`) 之外，Web 工具条目还接受以下设置：
 
-| 设置                                                                                   | 适用于                      | 描述                                                                                                                                                         |
-| ------------------------------------------------------------------------------------ | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`)        | `web_search`、`web_fetch` | 该工具唯一可以访问的主机。请参阅[域名列表规则](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#domain-list-rules)。                                  |
-| `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`)        | `web_search`、`web_fetch` | 该工具无法访问的主机。请参阅[域名列表规则](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#domain-list-rules)。                                    |
-| `max_content_tokens` (java, php: `maxContentTokens`; csharp, go: `MaxContentTokens`) | `web_fetch`              | 限制上下文中包含的已获取页面内容的数量。必须为正整数。请参阅[内容限制](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool#content-limits)。                      |
-| `user_location` (java, php: `userLocation`; csharp, go: `UserLocation`)              | `web_search`             | 对搜索结果进行本地化。一个对象，其字段与 Messages API 的 [`user_location`](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool#localization) 参数相同。 |
+| 设置 | 适用于 | 描述 |
+| ----- | ----- | ----- |
+| `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) | `web_search`、`web_fetch` | 该工具唯一可以访问的主机。请参阅[域名列表规则](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#domain-list-rules)。 |
+| `blocked_domains` (java, php: `blockedDomains`; csharp, go: `BlockedDomains`) | `web_search`、`web_fetch` | 该工具无法访问的主机。请参阅[域名列表规则](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#domain-list-rules)。 |
+| `max_content_tokens` (java, php: `maxContentTokens`; csharp, go: `MaxContentTokens`) | `web_fetch` | 限制上下文中包含的已获取页面内容的数量。必须为正整数。请参阅[内容限制](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool#content-limits)。 |
+| `user_location` (java, php: `userLocation`; csharp, go: `UserLocation`) | `web_search` | 对搜索结果进行本地化。一个对象，其字段与 Messages API 的 [`user_location`](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool#localization) 参数相同。 |
 
 有关 SDK 如何为这些条目定义类型，请参阅 [SDK 中的配置条目类型](https://platform.claude.com/docs/zh-CN/managed-agents/tools#config-entry-types-in-the-sdks)。
 
@@ -438,16 +438,16 @@ featureMetadata:
 
 每个域名都是一个可注册域名或其子域名，以纯主机名形式书写。它可以包含 ASCII 字母、数字、连字符、下划线和点。末尾的单个 `/` 会被忽略。`web_search` 域名还可以带有路径，如[网页搜索域名上的路径后缀](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#path-suffixes-on-web-search-domains)中所述。
 
-| 不接受                                     | 示例                     | 改用                      |
-| --------------------------------------- | ---------------------- | ----------------------- |
-| 协议方案                                    | `https://example.com`  | `example.com`           |
-| 端口                                      | `example.com:443`      | `example.com`           |
-| 通配符                                     | `*.example.com`        | `example.com`           |
-| `web_fetch` 域名上的路径                      | `example.com/*`        | `example.com`           |
-| 任何形式的 IP 地址，无论是 IPv4、IPv6、带方括号的还是数字简写形式 | `127.1`                | 该站点的域名                  |
-| 裸顶级域名或注册后缀                              | `com`、`co.uk`、`gov.uk` | 完整域名，例如 `example.co.uk` |
-| 单标签名称                                   | `intranet`             | 完整域名，例如 `example.co.uk` |
-| 非 ASCII 字符，例如国际化域名中的字符                  |                        | `xn--`（Punycode）形式      |
+| 不接受 | 示例 | 改用 |
+| ----- | ----- | ----- |
+| 协议方案 | `https://example.com` | `example.com` |
+| 端口 | `example.com:443` | `example.com` |
+| 通配符 | `*.example.com` | `example.com` |
+| `web_fetch` 域名上的路径 | `example.com/*` | `example.com` |
+| 任何形式的 IP 地址，无论是 IPv4、IPv6、带方括号的还是数字简写形式 | `127.1` | 该站点的域名 |
+| 裸顶级域名或注册后缀 | `com`、`co.uk`、`gov.uk` | 完整域名，例如 `example.co.uk` |
+| 单标签名称 | `intranet` | 完整域名，例如 `example.co.uk` |
+| 非 ASCII 字符，例如国际化域名中的字符 |  | `xn--`（Punycode）形式 |
 
 API 还会拒绝包含凭据或空白字符，或者某个标签以连字符开头或结尾的域名。API 同样会拒绝 `localhost` 以及以 `.localhost`、`.local`、`.internal`、`.localdomain` 或 `.invalid` 结尾的主机。
 
@@ -463,11 +463,11 @@ API 还会拒绝包含凭据或空白字符，或者某个标签以连字符开�
 
 API 会拒绝格式和限制违规，并返回 400 `invalid_request_error`：
 
-| 违规             | 错误消息                                                                                                                   |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| 一个条目同时设置了两个列表。 | 包含 `Only one of allowed_domains or blocked_domains may be set.`                                                        |
-| 列表为空。          | 包含 `allowed_domains: Empty list of domains is ambiguous. Provide at least one domain or null.`                         |
-| 域名违反格式规则。      | 注明该域名所在的列表及其从零开始的位置，如 `allowed_domains.0: IP addresses are not supported; provide a plain hostname like "example.com"` |
+| 违规 | 错误消息 |
+| ----- | ----- |
+| 一个条目同时设置了两个列表。 | 包含 `Only one of allowed_domains or blocked_domains may be set.` |
+| 列表为空。 | 包含 `allowed_domains: Empty list of domains is ambiguous. Provide at least one domain or null.` |
+| 域名违反格式规则。 | 注明该域名所在的列表及其从零开始的位置，如 `allowed_domains.0: IP addresses are not supported; provide a plain hostname like "example.com"` |
 
 在相同的请求中，API 还会拒绝三种依赖于搜索和获取提供商的设置：
 
@@ -497,10 +497,10 @@ API 会拒绝格式和限制违规，并返回 400 `invalid_request_error`：
 
 这些设置的组合方式如下：
 
-| 设置                                   | 组合方式                                                       |
-| ------------------------------------ | ---------------------------------------------------------- |
-| `allowed_domains`                    | 只有当每个列表都涵盖某个主机时，该工具才能访问该主机。                                |
-| `blocked_domains`                    | 各列表相加合并。                                                   |
+| 设置 | 组合方式 |
+| ----- | ----- |
+| `allowed_domains` | 只有当每个列表都涵盖某个主机时，该工具才能访问该主机。 |
+| `blocked_domains` | 各列表相加合并。 |
 | `max_content_tokens`、`user_location` | 不组合。如果线程自身的工具配置中设置了该值，则使用该值。否则使用调用它的智能体的值，再否则使用会话智能体的当前配置。 |
 
 因此，列出的智能体可以缩小工具的访问范围，但永远无法扩大它：
@@ -560,8 +560,8 @@ API 会拒绝格式和限制违规，并返回 400 `invalid_request_error`：
 * 可用性：可用
 * 用法：在请求中的 `web_search` 或 `web_fetch` 工具上设置 `allowed_domains` 或 `blocked_domains`。
 
-| 状态 | 云平台                                                                                                                                                                       |
-| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -569,8 +569,8 @@ API 会拒绝格式和限制违规，并返回 400 `invalid_request_error`：
 * 可用性：可用
 * 用法：在智能体工具集的 `web_search` 和 `web_fetch` 条目上设置相同的字段。与 Messages API 不同，每个列表最多包含 64 个 ASCII 域名，且 `web_fetch` 域名不能包含路径。
 
-| 状态   | 云平台     | 模型                                                             |
-| ---- | ------- | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | 所有支持的平台 | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 所需的 beta 请求头
@@ -579,6 +579,6 @@ API 会拒绝格式和限制违规，并返回 400 `invalid_request_error`：
 
 Beta 请求头让您可以在实验性功能和新模型能力成为标准 API 的一部分之前访问它们。
 
-| 请求头                         | API                                                                              |
-| --------------------------- | -------------------------------------------------------------------------------- |
+| 请求头 | API |
+| ----- | ----- |
 | `managed-agents-2026-04-01` | [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) |

@@ -27,8 +27,10 @@
 所有子命令共用以下退出码、插件参数和作用域值：
 
 * **退出码**：成功时为 `0`，失败时为 `1`。`validate` 额外使用退出码 `2` 表示意外错误，`eval` 额外使用[其章节](#plugin-eval)中列出的退出码。
-* **插件参数**：`<plugin>` 参数是插件的 `name` 或 `name@marketplace`。当两个市场提供同名插件时，请使用限定形式。`configure` 只接受限定形式。
+* **插件参数**：`<plugin>` 参数是插件的 `name` 或 `name@marketplace`。当两个市场提供同名插件时，请使用限定形式。`configure` 和 `restore-set-aside` 只接受限定形式。
 * **作用域**：`--scope` 接受 `user`、`project` 或 `local`，用于指定命令写入的设置文件。`update` 还接受 `managed`。
+
+在终端中，成功行会省略 `Successfully`，例如 `Installed plugin:`。当 stdout 或 stderr 不是终端时，会保留 `Successfully`。
 
 ### plugin init
 
@@ -117,6 +119,11 @@ Claude Code 会打印 `Successfully installed plugin: formatter@my-marketplace (
 * `message`：对结果的人类可读描述
 
 其他字段（例如 `pluginId`、`scope` 和 `failureCode`）仅在适用时出现。
+
+有两个字段报告 [`command` 来源](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference#command-plugin-source)的运行情况。两者都需要 Claude Code v2.1.330 或更高版本：
+
+* `commandPrinted`：当安装成功且来源的命令向 stderr 写入了内容时为 `true`
+* `commandFailed`：当来源的命令以错误退出、被信号终止或超时时为 `true`
 
 `plugin uninstall`、`plugin update`、`plugin enable` 和 `plugin disable` 上的 `--json` 选项会打印相同的对象，并带有该子命令自己的字段。
 
@@ -417,6 +424,22 @@ Claude Code 会根据选项声明的类型验证每个值，并打印 `Configura
 
 有关捆绑 MCP 服务器的设置，请参阅 [`plugin install --config`](#plugin-install) 或 `/plugin` 中的 **Configure** 项。
 
+### plugin restore-set-aside
+
+恢复或删除当您的组织将某个插件市场替换为同名市场时 Claude Code 搁置的[选项和密钥](https://code.claude.com/docs/zh-CN/plugins/manifest-reference.md#user-configuration)。需要 Claude Code v2.1.321 或更高版本。
+
+恢复它们后，以该 `name@marketplace` id 安装的任何插件都可以读取它们，包括来自替换市场的插件。否则，可以让它们保持搁置状态，或传入 `--discard` 删除它们。如果该 id 已为某个选项保存了值，恢复时可能会保留该值并丢弃搁置的值。
+
+```bash theme={null}
+claude plugin restore-set-aside <plugin>@<marketplace> [options]
+```
+
+| 标志 | 描述 |
+| :- | :- |
+| `--discard` | 删除搁置的选项和密钥，而不是恢复它们 |
+
+请传入插件完整的 `name@marketplace` id，可从 `claude plugin list` 在不带 `--json` 时打印的备注中复制。如果 `restore-set-aside` 打印 `No options or secrets are set aside for <plugin>.`，请检查您是否传入了完整 id，因为裸 `name` 不会匹配任何内容。
+
 ### plugin prune
 
 移除不再被任何已安装插件需要的自动安装的[依赖](https://code.claude.com/docs/zh-CN/plugins/dependencies.md)。该命令绝不会移除您自己安装的插件。`autoremove` 是 `prune` 的别名。
@@ -631,7 +654,7 @@ Claude Code 不会跟随您指定的目录内的符号链接。其行为取决�
 
 * **插件根目录下的 `SKILL.md`**：当您针对插件目录运行 `claude plugin validate` 时，Claude Code 不会检查插件根目录下的 `SKILL.md`
 * **插件根目录下的 `CLAUDE.md`**：在插件运行中，Claude Code 还会对插件根目录下的 `CLAUDE.md` 发出警告
-* **市场运行中的插件文件**：从市场目录运行时，Claude Code 不会打开市场所列出的、位于其他目录中的插件的 skill、Agent、命令或 hook 文件，也不会打开它们捆绑的 MCP 服务器文件。如需查找这些文件中的错误，请验证每个插件目录
+* **市场运行中的插件文件**：从市场目录运行时，Claude Code 不会打开市场所列出的、位于其他目录中的插件的 skill、Agent 或命令文件，也不会打开它们捆绑的 MCP 服务器文件。如需查找这些文件中的错误，请验证每个插件目录
 
 #### 验证清单文件
 
@@ -661,7 +684,11 @@ Claude Code 会打印它验证的文件、所有错误和警告及其路径，�
 * `manifest`：清单自身的结果，对于没有清单的运行为 `null`
 * `contents`：每个文件的结果，每项指出其 `file`，并带有 `errors`、`warnings` 和 `notes` 数组。没有错误、警告或备注的文件不会有条目，因此没有可报告内容时 `contents` 为空。对于[同时包含 `marketplace.json` 和 `plugin.json` 的目录](#validate-a-directory)，`manifest` 是 `marketplace.json` 的结果，`plugin.json` 的结果放在 `contents` 中
   * `gatingHooks`：每个可以拒绝操作的 [mod](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md) hook（例如 `tool.call` hook）是否有 [`.catch` 处理程序](https://code.claude.com/docs/zh-CN/plugins/mods/events#handle-a-hook-that-fails)。每项给出 `module`、`pattern`、`hook` 和 `hasCatch`。需要 Claude Code v2.1.290 或更高版本
+  * `modules`：每个 hook 模块对应一项，带有 `hooks` 和 `uses` 等字段；当无法确定加载哪些代码时为 `null`。需要 Claude Code v2.1.326 或更高版本
+  * `wasm`：每个 hook 模块编译的 WebAssembly。需要 Claude Code v2.1.326 或更高版本
+* `provides`：按类型列出的插件组件，当本次运行无法列出它们时为 `null`。需要 Claude Code v2.1.326 或更高版本
 * `advice`：本次运行的[建议](#advice-on-the-readme)，每个条目以 `file` 指出 README，并带有 `message` 和可粘贴的 `installLine`。没有建议时为空。需要 Claude Code v2.1.295 或更高版本
+* `hosts`：`named` 主机，以及可能访问其他主机的 `unread` 插件部分。当本次运行无法列出它们时为 `null`。插件可能访问未列出的主机。需要 Claude Code v2.1.328 或更高版本
 
 以 `2` 退出时，命令不会向 stdout 写入任何内容。错误消息输出到 stderr。
 
@@ -706,8 +733,6 @@ Validating marketplace manifest: /path/to/acme-tools/.claude-plugin/marketplace.
 ### plugin marketplace add
 
 从 GitHub 仓库、git URL、托管的 `marketplace.json` 或本地路径添加市场，并在设置文件中声明它。
-
-添加后，Claude Code 会安装您已安装的插件缺失的任何[依赖项](https://code.claude.com/docs/zh-CN/plugins/dependencies.md)。
 
 ```bash theme={null}
 claude plugin marketplace add <source> [options]
@@ -851,12 +876,11 @@ Claude Code 打印 `Successfully updated marketplace: your-marketplace`。当您
 
 `<plugin>` 是 plugin `name` 或 `name@marketplace`。
 
-下表列出每个会话形式。shell 子命令 `init`、`update`、`details`、`prune`、`eval`、`eval init` 和 `test` 没有会话形式。
+下表列出了各命令的会话形式。shell 子命令 `init`、`update`、`details`、`restore-set-aside`、`prune`、`eval`、`eval init` 和 `test` 没有会话形式。
 
 | 命令 | 别名 | 它做什么 |
 | :- | :- | :- |
-| `/plugin` | | 在 **Discover** 选项卡上打开面板。`/plugin` 后的任何无法识别的第一个单词也这样做 |
-| `/plugin help` | `/plugin --help`、`/plugin -h` | 显示 `/plugin` 子命令的使用列表 |
+| `/plugin` | | 在 **Discover** 选项卡上打开面板 |
 | `/plugin list [--enabled\|--disabled]` | `ls` | 内联打印您从市场安装的插件，带有版本、作用域和状态。过滤标志仅显示该状态。启用状态尚未应用的插件标记为 `run /reload-plugins to apply` |
 | `/plugin install` | `i` | 打开 **Discover** 选项卡 |
 | `/plugin install <plugin>` | `i` | 在 **Discover** 选项卡中打开 plugin 的详细信息。使用 `name@marketplace`，在该市场的列表中打开它们 |
@@ -896,9 +920,11 @@ Claude Code 打印 `Successfully updated marketplace: your-marketplace`。当您
 
 Claude Code 重新加载每个活跃的插件并打印一行摘要，`Reloaded: N plugins · N skills · N agents · N hooks · N plugin MCP servers · N plugin LSP servers`，在没有交互式终端的会话中省略插件 MCP 服务器计数。当任何插件失败时，摘要会添加 `N errors during load. Run /plugin for details.`
 
-技能计数涵盖插件提供的每个技能，包括其 `commands/` 条目和其 SKILL.md 技能。代理计数是会话中加载的代理数量，包括不来自插件的代理。
+skill 计数涵盖插件提供的每个 skill，包括其 `commands/` 条目和其 `SKILL.md` skill。Agent 计数是会话中加载的 Agent 数量，包括不来自插件的 Agent。
 
-当重新加载的插件的[依赖项](https://code.claude.com/docs/zh-CN/plugins/dependencies.md)缺失时，Claude Code 会安装它们，再次重新加载，并在摘要中附加 `(+ N dependencies: <names>) resolved`。
+### 重新加载期间安装的依赖
+
+当重新加载的插件缺少 Claude Code 能够解析的[依赖](https://code.claude.com/docs/zh-CN/plugins/dependencies.md)时，Claude Code 会安装该依赖。当重新加载被应用时，摘要会包含 `(+ N dependencies: <names>) resolved`。如果 Claude Code [未应用重新加载](#reloads-that-change-mcp-tools)，或者摘要显示 `installed but not applied`，请运行 `/reload-plugins --force`。
 
 ### 更改 MCP 工具的重新加载
 
@@ -920,10 +946,10 @@ Plugin 作者使用它们在发布前测试 plugin。对于加载-编辑-重新�
 
 | 标志 | 描述 | 示例 |
 | :- | :- | :- |
-| `--plugin-dir <path>` | 从目录或其 `.zip` 存档加载 plugin。plugins 的文件夹加载每个包含 `.claude-plugin/plugin.json` 的子文件夹。每个标志接受一个路径 | `claude --plugin-dir ./my-plugin --plugin-dir ./other.zip` |
+| `--plugin-dir <path>` | 从目录或 `.zip` 存档加载一个插件，或从[插件文件夹](https://code.claude.com/docs/zh-CN/plugins/create.md#load-a-folder-of-plugins)加载多个插件。每个标志接受一个路径 | `claude --plugin-dir ./my-plugin --plugin-dir ./other.zip` |
 | `--plugin-url <url>` | 从 URL 获取 plugin `.zip` 存档。重复标志，或在一个引用值中传递多个 URL 空格分隔 | `claude --plugin-url "https://example.com/a.zip https://example.com/b.zip"` |
 
-任一标志加载的 plugin 是会话内 plugin。[`claude plugin list`](#plugin-list) 将其显示为 `<name>@inline`，作用域为 `session`，但仅当相同的标志在子命令前时，例如 `claude --plugin-dir ./my-plugin plugin list`。该 plugin 在以 `Session-only plugins` 开头的标题下显示为 `<name>@inline`，`--json` 将其 `scope` 报告为 `session`。
+任一标志加载的插件都是仅限会话的插件。仅当相同的标志位于子命令之前时，[`claude plugin list`](#plugin-list) 才会显示它，例如 `claude --plugin-dir ./my-plugin plugin list`。该插件在以 `Session-only plugins` 开头的标题下显示为 `<name>@inline`，`--json` 将其 `scope` 报告为 `session`。
 
 当会话内 plugin 与已安装的 plugin 共享名称时，Claude Code 为该会话加载会话内副本并跳过已安装的副本。如果您使用 `claude plugin disable <name>@inline` 禁用了会话内副本，或托管设置锁定该 plugin 名称，已安装的副本改为加载。有关优先级，请参阅 [Plugin 加载参考](https://code.claude.com/docs/zh-CN/plugins/loading.md)。
 

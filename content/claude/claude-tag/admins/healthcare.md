@@ -64,7 +64,7 @@ On the same [`claude.ai/admin-settings/claude-tag`](https://claude.ai/admin-sett
 
 **5. Block channel names that signal PHI**
 
-Go to [**Claude's access > Channels > Slack**](https://claude.ai/admin-settings/claude-tag/channels/slack), open the **Advanced** tab, and under **Channels** add the naming patterns your workspace uses for clinical or patient channels to **Blocked channel patterns**, for example `*-patient-*`. Claude won't read or respond in a matching channel even if someone invites it. See [Block or auto-join channels by name](https://claude.com/docs/claude-tag/admins/restrict-access.md#block-or-auto-join-channels-by-name).
+Go to [**Claude's access > Channels > Slack**](https://claude.ai/admin-settings/claude-tag/channels/slack), open the **Advanced** tab, and under **Channels** add the naming patterns your workspace uses for clinical or patient channels to **Blocked channel patterns**, for example `*-patient-*`. Claude won't read or respond in a matching channel even if someone invites it, except in [some Enterprise Grid setups](https://claude.com/docs/claude-tag/admins/restrict-access.md#blocked-patterns-on-an-enterprise-grid). See [Block or auto-join channels by name](https://claude.com/docs/claude-tag/admins/restrict-access.md#block-or-auto-join-channels-by-name).
 
 Any member of the workspace can still invite `@Claude` to a channel that isn't approved. Claude stays silent there, and an @-mention gets a notice that Claude is disabled in that channel instead of a reply.
 
@@ -99,7 +99,7 @@ Claude keeps separate notes for each channel. From a public channel it can also 
 
 Anyone in a channel can ask Claude what it remembers there and tell it to correct or delete a note. An Owner can view, edit, and delete the memory notes of the workspace or of a channel. Go to [**Claude's access > Channels**](https://claude.ai/admin-settings/claude-tag?access=channels), open the workspace's page (or a channel's page, when that channel has memory of its own), open its **⋯** menu, and select **View memory files**. The **Memory** tab of the [**Activity** page](https://claude.com/docs/claude-tag/admins/audit.md) opens the same files.
 
-By default, your Slack conversations with Claude aren't used to train Anthropic's models. Anthropic's [model training policy](https://privacy.anthropic.com/en/articles/7996885-how-do-you-use-personal-data-in-model-training) describes when data is used. Claude Tag data is kept until one of the admin actions in [Data lifecycle and deletion](https://claude.com/docs/claude-tag/concepts/data-lifecycle.md) deletes it, and during the beta you can't set a shorter retention period.
+By default, your Slack conversations with Claude aren't used to train Anthropic's models. Anthropic's [model training policy](https://privacy.anthropic.com/en/articles/7996885-how-do-you-use-personal-data-in-model-training) describes when data is used. Claude Tag data is kept until one of the admin actions in [Data lifecycle and deletion](https://claude.com/docs/claude-tag/concepts/data-lifecycle.md) deletes it. If a retention period for sessions has been set for your organization, see [How long data is kept](https://claude.com/docs/claude-tag/concepts/data-lifecycle.md#how-long-data-is-kept).
 
 For the full list of what is stored and what each admin action deletes, see [Data lifecycle and deletion](https://claude.com/docs/claude-tag/concepts/data-lifecycle.md) and [What Claude Tag remembers](https://claude.com/docs/claude-tag/users/memory.md).
 

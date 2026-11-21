@@ -56,10 +56,10 @@ description: 在 Claude Console 中创建隧道、注册 CA 证书、获取隧�
 
     您还需要什么取决于[凭据配置模式](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/concepts#credential-provisioning)：
 
-    | 使用编程访问                                                                                                                                                                                                                                          | 不使用编程访问                                                                                                                                                      |
-    | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+    | 使用编程访问 | 不使用编程访问 |
+    | ----- | ----- |
     | 您所选规则的**联合规则 ID**（`fdrl_...`）。该规则属于组织级别，不存储在隧道上；可在 Claude Console 的[工作负载身份](https://platform.claude.com/settings/workload-identity-federation?tab=rules)页面（`platform.claude.com/settings/workload-identity-federation?tab=rules`）的**规则**选项卡中找到。 | **隧道令牌**，通过详情页面上**令牌**旁边的眼睛图标显示。请将其视为机密。请参阅[获取连接详情](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/console#get-the-connection-details)。 |
-    | **组织 ID**（一个 UUID），显示在 Claude Console 的[组织](https://platform.claude.com/settings/organization)页面（`platform.claude.com/settings/organization`）上。                                                                                                 | 一个由您生成并[在隧道上注册](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/console#add-a-ca-certificate)的 **CA 证书**。                                |
+    | **组织 ID**（一个 UUID），显示在 Claude Console 的[组织](https://platform.claude.com/settings/organization)页面（`platform.claude.com/settings/organization`）上。 | 一个由您生成并[在隧道上注册](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/console#add-a-ca-certificate)的 **CA 证书**。 |
 
     使用编程访问时，您的栈通过 Tunnels API 获取隧道令牌，在本地生成 CA 和服务器证书（私钥永远不会离开您的环境），并且仅向 Anthropic 注册 CA 的公共证书。您仍然负责保护私钥的安全，并在服务器证书过期之前对其进行续期。
   </Step>
@@ -71,9 +71,9 @@ description: 在 Claude Console 中创建隧道、注册 CA 证书、获取隧�
 
 打开隧道。详情页面显示一个包含域名和令牌的**连接**部分，以及一个**证书**部分。
 
-| 字段     | 描述                                                                       |
-| ------ | ------------------------------------------------------------------------ |
-| **域名** | 复制分配的 `abcd1234.tunnel.anthropic.com` 值。您代理的路由是此域名的子域名。                  |
+| 字段 | 描述 |
+| ----- | ----- |
+| **域名** | 复制分配的 `abcd1234.tunnel.anthropic.com` 值。您代理的路由是此域名的子域名。 |
 | **令牌** | 点击眼睛图标（**显示令牌**）获取隧道令牌，然后使用复制图标将其复制到您隧道栈的机密存储中。点击**轮换令牌**可使当前令牌失效并签发新令牌。 |
 
 <Note>

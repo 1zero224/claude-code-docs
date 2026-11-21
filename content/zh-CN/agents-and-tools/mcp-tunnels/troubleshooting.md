@@ -12,15 +12,15 @@ description: 诊断隧道栈中的连接、TLS、IP 验证和 OAuth 路由问题
 
 ## 快速参考
 
-| 症状                                                                                                                                                         | 原因                                                 | 修复方法                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 隧道未出现在智能体的 MCP 服务器选择器中                                                                                                                                     | 选择器仅列出会话所在工作区中至少拥有一个有效证书的隧道。                       | 注册一个 CA 证书，或在创建该隧道的工作区中打开会话。                                                                                                                          |
-| 调用方看到 HTTP 500；[cloudflared](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/concepts#components) 日志显示 `No ingress rules were defined` | cloudflared 没有本地目标。                                | 为 cloudflared 服务添加 `--url http://localhost:8080` 和 `network_mode: "service:mcp-proxy"`。                                                               |
-| 代理日志显示 `no route for host`                                                                                                                                 | `tunnel_domain` 与分配的域名不匹配，或编辑了 `config.yaml` 但未重启。 | 将 `tunnel_domain` 设置为隧道详情页上显示的确切域名，然后重启代理（`docker compose restart mcp-proxy`）。                                                                        |
-| 代理日志显示 `IP validation failed: <ip> is not a private address`                                                                                               | 上游 MCP 服务器解析到 RFC1918 范围之外。                        | 请参阅[上游 IP 验证](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/troubleshooting#upstream-ip-validation)。                            |
-| 代理退出并显示 `cannot unmarshal !!seq into map[string]string`                                                                                                    | `routes` 是一个 YAML 列表。                              | 使用 `routes: { name: http://host:port }`。                                                                                                              |
-| 代理退出并显示 `open /data/tls.key: permission denied`                                                                                                            | 密钥权限为 `0600`；代理容器以非 root 身份运行。                     | `chmod 644 data/tls.key`。                                                                                                                             |
-| `curl https://<proxy>:8080` 失败并显示 `wrong version number`                                                                                                   | 这是预期行为；监听器是明文 WebSocket。TLS 在 WS 流内部进行。            | 请改为通过 [Managed Agent 或 Messages API](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview#use-the-tunneled-mcp-servers) 进行验证。 |
+| 症状 | 原因 | 修复方法 |
+| ----- | ----- | ----- |
+| 隧道未出现在智能体的 MCP 服务器选择器中 | 选择器仅列出会话所在工作区中至少拥有一个有效证书的隧道。 | 注册一个 CA 证书，或在创建该隧道的工作区中打开会话。 |
+| 调用方看到 HTTP 500；[cloudflared](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/concepts#components) 日志显示 `No ingress rules were defined` | cloudflared 没有本地目标。 | 为 cloudflared 服务添加 `--url http://localhost:8080` 和 `network_mode: "service:mcp-proxy"`。 |
+| 代理日志显示 `no route for host` | `tunnel_domain` 与分配的域名不匹配，或编辑了 `config.yaml` 但未重启。 | 将 `tunnel_domain` 设置为隧道详情页上显示的确切域名，然后重启代理（`docker compose restart mcp-proxy`）。 |
+| 代理日志显示 `IP validation failed: <ip> is not a private address` | 上游 MCP 服务器解析到 RFC1918 范围之外。 | 请参阅[上游 IP 验证](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/troubleshooting#upstream-ip-validation)。 |
+| 代理退出并显示 `cannot unmarshal !!seq into map[string]string` | `routes` 是一个 YAML 列表。 | 使用 `routes: { name: http://host:port }`。 |
+| 代理退出并显示 `open /data/tls.key: permission denied` | 密钥权限为 `0600`；代理容器以非 root 身份运行。 | `chmod 644 data/tls.key`。 |
+| `curl https://<proxy>:8080` 失败并显示 `wrong version number` | 这是预期行为；监听器是明文 WebSocket。TLS 在 WS 流内部进行。 | 请改为通过 [Managed Agent 或 Messages API](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview#use-the-tunneled-mcp-servers) 进行验证。 |
 
 以下各节涵盖需要不止一行修复的故障。
 

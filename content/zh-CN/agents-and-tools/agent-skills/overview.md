@@ -134,11 +134,11 @@ Skills 可以捆绑额外的材料：
 
 Claude 仅在被引用时才访问这些文件。文件系统模型意味着每种内容类型都有不同的优势：指令用于灵活指导，代码用于可靠性，资源用于事实查询。
 
-| 级别           | 加载时机       | 令牌成本               | 内容                                               |
-| ------------ | ---------- | ------------------ | ------------------------------------------------ |
-| **级别 1：元数据** | 始终（启动时）    | 每个 Skill 约 100 个令牌 | YAML frontmatter 中的 `name` 和 `description`       |
-| **级别 2：指令**  | Skill 被触发时 | 少于 5k 个令牌          | 包含指令和指导的 `SKILL.md` 主体                           |
-| **级别 3+：资源** | 按需         | 访问前无成本             | 捆绑的文件。参考文件在被读取时加载到上下文中。脚本通过 bash 运行，只有其输出会进入上下文。 |
+| 级别 | 加载时机 | 令牌成本 | 内容 |
+| ----- | ----- | ----- | ----- |
+| **级别 1：元数据** | 始终（启动时） | 每个 Skill 约 100 个令牌 | YAML frontmatter 中的 `name` 和 `description` |
+| **级别 2：指令** | Skill 被触发时 | 少于 5k 个令牌 | 包含指令和指导的 `SKILL.md` 主体 |
+| **级别 3+：资源** | 按需 | 访问前无成本 | 捆绑的文件。参考文件在被读取时加载到上下文中。脚本通过 bash 运行，只有其输出会进入上下文。 |
 
 渐进式披露确保在任何给定时间只有相关内容占用上下文窗口。
 
@@ -375,10 +375,10 @@ Agent Skills在所有模型上可用。
 * 可用性：可用
 * 用法：在 `container.skills` 中列出每个技能的 `type` 和 `skill_id`，并包含代码执行工具，技能将在该工具的容器中运行。
 
-| 状态             | 云平台                                                                                                                                                                                                                                                                                  |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 可用             | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
-| 可用<sup>1</sup> | [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)                                                                                                                                                      |
+| 状态 | 云平台 |
+| ----- | ----- |
+| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
+| 可用<sup>1</sup> | [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 1. 仅限托管在 Anthropic 上的部署；Foundry 不支持技能版本下载端点（`GET /v1/skills/{skill_id}/versions/{version}/content`）。
 
@@ -387,18 +387,18 @@ Agent Skills在所有模型上可用。
 * 可用性：可用
 * 用法：在智能体的 `skills` 数组中附加技能，或从挂载到会话的 GitHub 代码仓库中加载技能。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                             | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 不具备资格                                                                                                             | 不具备资格 |
-| 详细信息 | 技能数据按标准政策保留。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#data-retention) | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
+| 详细信息 | 技能数据按标准政策保留。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#data-retention) | — |
 
 适用的端点：
 

@@ -22,9 +22,9 @@ Spend Limits API（支出限额 API）让您可以为每位 Claude Enterprise �
 
 该 API 在两种资源上公开了八个端点：
 
-| 资源           | 端点                                                                                                                                                                                                                                                                   | 用途                                       |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
-| **支出限额**     | `GET /v1/organizations/spend_limits/effective`<br />`GET /v1/organizations/spend_limits/{spend_limit_id}`<br />`POST /v1/organizations/spend_limits`<br />`DELETE /v1/organizations/spend_limits/{spend_limit_id}`                                                   | 读取每位成员的有效支出限额和本期至今支出；设置或清除按用户的覆盖值。       |
+| 资源 | 端点 | 用途 |
+| ----- | ----- | ----- |
+| **支出限额** | `GET /v1/organizations/spend_limits/effective`<br />`GET /v1/organizations/spend_limits/{spend_limit_id}`<br />`POST /v1/organizations/spend_limits`<br />`DELETE /v1/organizations/spend_limits/{spend_limit_id}` | 读取每位成员的有效支出限额和本期至今支出；设置或清除按用户的覆盖值。 |
 | **支出限额提高请求** | `GET /v1/organizations/spend_limit_increase_requests`<br />`GET /v1/organizations/spend_limit_increase_requests/{id}`<br />`POST /v1/organizations/spend_limit_increase_requests/{id}/approve`<br />`POST /v1/organizations/spend_limit_increase_requests/{id}/deny` | 列出成员提出的提高支出限额请求，并附带做出决定所需的上下文；批准或拒绝每个请求。 |
 
 使用**支出限额**端点来回答"每位成员适用什么支出限额、它来自哪里、以及他们距离限额还有多远？"这类问题，并设置按用户的覆盖值。使用**支出限额提高请求**端点来处理成员提交的请求队列。
@@ -196,11 +196,11 @@ SDK 在 `client.beta.organization.spend_limits` (typescript: `client.beta.organi
 
 当成员在 claude.ai 中点击 **Request more usage**（请求更多用量）时，会创建一个 **spend limit increase request**（支出限额提高请求）。请求不会通过此 API 创建。请求的 `status` 为以下之一：
 
-| 状态         | 含义                                                                                                   |
-| ---------- | ---------------------------------------------------------------------------------------------------- |
-| `pending`  | 等待管理员处理。该请求通常附带实时的 `spend_summary`，以便您在做决定时查看该成员当前生效的支出限额和本期至今的支出；如果无法计算，`spend_summary` 可能为 `null`。 |
-| `approved` | 请求已以批准方式解决：要么管理员明确批准了它，要么另一项管理员操作提高了该成员的支出限额，要么 Anthropic 支持团队代表组织提高了支出限额。`spend_summary` 为 `null`。  |
-| `denied`   | 管理员已拒绝。`spend_summary` 为 `null`。成员可以立即发送新请求；只有 `pending` 状态的请求才会阻止新请求。管理员仍可随时直接提高该成员的支出限额。           |
+| 状态 | 含义 |
+| ----- | ----- |
+| `pending` | 等待管理员处理。该请求通常附带实时的 `spend_summary`，以便您在做决定时查看该成员当前生效的支出限额和本期至今的支出；如果无法计算，`spend_summary` 可能为 `null`。 |
+| `approved` | 请求已以批准方式解决：要么管理员明确批准了它，要么另一项管理员操作提高了该成员的支出限额，要么 Anthropic 支持团队代表组织提高了支出限额。`spend_summary` 为 `null`。 |
+| `denied` | 管理员已拒绝。`spend_summary` 为 `null`。成员可以立即发送新请求；只有 `pending` 状态的请求才会阻止新请求。管理员仍可随时直接提高该成员的支出限额。 |
 
 `approved` 和 `denied` 均为终态。一位成员同一时间最多只有一个 `pending` 请求。
 

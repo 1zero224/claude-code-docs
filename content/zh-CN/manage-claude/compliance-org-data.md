@@ -50,13 +50,13 @@ curl --fail-with-body -sS \
 
 `uuid` 字段是下游查找的规范标识符。下表将其与 Compliance API 中的其他组织标识符进行对应：
 
-| 字段                   | 位置                                                                                                                                                                                                                                                                                                                                          | 与 `uuid` 的关系                                                             |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| `{org_uuid}`         | 本页上各按组织划分的端点的路径参数                                                                                                                                                                                                                                                                                                                           | 相同的值                                                                     |
-| `organization_uuid`  | 活动源、聊天、项目和会话记录                                                                                                                                                                                                                                                                                                                              | 相同的值；可直接在这两个字段上进行关联                                                      |
-| `organization_id`    | 活动源、聊天和项目记录                                                                                                                                                                                                                                                                                                                                 | 同一组织，带 `org_` 前缀。在聊天和项目记录上已弃用；请改用 `organization_uuid`。                   |
-| `organization_ids[]` | [查询活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)、[检索聊天和消息](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-content-data#retrieve-chats-and-messages)以及[远程会话列表](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-remote-sessions)上的筛选器（本地会话列表没有组织筛选器） | 接受 `uuid` 或带 `org_` 前缀的形式                                                |
-| `organization_id`    | [有效组织设置](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-org-data#get-effective-organization-settings)响应                                                                                                                                                                                                                    | 相同的值，裸 UUID；此响应**不**使用 `organization_id` 在活动源、聊天和项目记录上所携带的带 `org_` 前缀的形式 |
+| 字段 | 位置 | 与 `uuid` 的关系 |
+| ----- | ----- | ----- |
+| `{org_uuid}` | 本页上各按组织划分的端点的路径参数 | 相同的值 |
+| `organization_uuid` | 活动源、聊天、项目和会话记录 | 相同的值；可直接在这两个字段上进行关联 |
+| `organization_id` | 活动源、聊天和项目记录 | 同一组织，带 `org_` 前缀。在聊天和项目记录上已弃用；请改用 `organization_uuid`。 |
+| `organization_ids[]` | [查询活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)、[检索聊天和消息](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-content-data#retrieve-chats-and-messages)以及[远程会话列表](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-remote-sessions)上的筛选器（本地会话列表没有组织筛选器） | 接受 `uuid` 或带 `org_` 前缀的形式 |
+| `organization_id` | [有效组织设置](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-org-data#get-effective-organization-settings)响应 | 相同的值，裸 UUID；此响应**不**使用 `organization_id` 在活动源、聊天和项目记录上所携带的带 `org_` 前缀的形式 |
 
 大多数其他 Anthropic API 使用带 `org_` 前缀的形式。
 

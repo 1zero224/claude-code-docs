@@ -12,24 +12,24 @@ Claude Max、Ultra 和 Team 计划包含每月的 Claude API 额度。要领取�
 
 ## 概要
 
-| 主题                       | 详情                                                             |
-| ------------------------ | -------------------------------------------------------------- |
-| **符合条件的计划**              | Max、Ultra 和 Team，包括折扣版 Team 计划                                 |
-| **每月金额**                 | 100 美元（Max）、200 美元（Ultra）、最高 500 美元（Team，合并计算\*）               |
-| **适用范围**                 | Claude API、Claude Managed Agents、Claude Agent SDK 和 playground |
-| **不适用范围**                | Claude Code、Claude 应用中的额外用量                                    |
-| **刷新**                   | 每个计费周期（年度计划则为每月）                                               |
-| **到期**                   | 每个计费周期结束时（年度计划则为每月），不可结转                                       |
-| **Claude Platform 付款方式** | 无需                                                             |
+| 主题 | 详情 |
+| ----- | ----- |
+| **符合条件的计划** | Max、Ultra 和 Team，包括折扣版 Team 计划 |
+| **每月金额** | 100 美元（Max）、200 美元（Ultra）、最高 500 美元（Team，合并计算\*） |
+| **适用范围** | Claude API、Claude Managed Agents、Claude Agent SDK 和 playground |
+| **不适用范围** | Claude Code、Claude 应用中的额外用量 |
+| **刷新** | 每个计费周期（年度计划则为每月） |
+| **到期** | 每个计费周期结束时（年度计划则为每月），不可结转 |
+| **Claude Platform 付款方式** | 无需 |
 
 ## API 额度金额
 
-| 计划                     | 每月额度                                                  |
-| ---------------------- | ----------------------------------------------------- |
-| Max                    | 100 美元                                                |
-| Ultra                  | 200 美元                                                |
-| Team，Standard 席位       | 每个席位 20 美元\*                                          |
-| Team，Premium 席位        | 每个席位 100 美元\*                                         |
+| 计划 | 每月额度 |
+| ----- | ----- |
+| Max | 100 美元 |
+| Ultra | 200 美元 |
+| Team，Standard 席位 | 每个席位 20 美元\* |
+| Team，Premium 席位 | 每个席位 100 美元\* |
 | 折扣版 Team 计划（非营利组织、科学家） | 与 Team 相同：每个 Standard 席位 20 美元，每个 Premium 席位 100 美元\* |
 
 \*在 Team 计划中，所有席位的额度会合并为一个每月余额，上限为 500 美元。每月额度（包括第一个月）均根据该计费月开始时您计划中的席位数计算。例如，一个拥有三个 Standard 席位和两个 Premium 席位的团队每月可获得 260 美元。再增加一个 Premium 席位后，下个月的额度将提高到 360 美元。
@@ -47,10 +47,10 @@ Claude Max、Ultra 和 Team 计划包含每月的 Claude API 额度。要领取�
 
 您需要同时具备以下两个角色：
 
-| 位置                    | 所需角色                                |
-| --------------------- | ----------------------------------- |
-| **Claude 计划**         | Max 或 Ultra：订阅者<br />Team：主要所有者、所有者 |
-| **Claude Console 组织** | 管理员或账单                              |
+| 位置 | 所需角色 |
+| ----- | ----- |
+| **Claude 计划** | Max 或 Ultra：订阅者<br />Team：主要所有者、所有者 |
+| **Claude Console 组织** | 管理员或账单 |
 
 如果您还没有 Claude Console 组织，请先在 [platform.claude.com](https://platform.claude.com/) 上的 Console 中创建一个，或在领取流程中创建。
 
@@ -80,15 +80,15 @@ Claude Max、Ultra 和 Team 计划包含每月的 Claude API 额度。要领取�
 
 这些 API 额度只能在 Claude Platform 上使用。下表列出了适用的产品：
 
-| 产品                                                                                      | 是否适用 |
-| --------------------------------------------------------------------------------------- | ---- |
-| [Claude API](https://platform.claude.com/docs/zh-CN/api/overview)                       | 是    |
-| [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) | 是    |
-| [Claude Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/overview)               | 是    |
-| Claude Console 中的 [Playground](https://platform.claude.com/playground)                  | 是    |
-| Claude Code                                                                             | 否    |
-| Claude 应用中的额外用量                                                                         | 否    |
-| 任何[云平台](https://platform.claude.com/docs/zh-CN/api/overview#cloud-platform-apis)        | 否    |
+| 产品 | 是否适用 |
+| ----- | ----- |
+| [Claude API](https://platform.claude.com/docs/zh-CN/api/overview) | 是 |
+| [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) | 是 |
+| [Claude Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/overview) | 是 |
+| Claude Console 中的 [Playground](https://platform.claude.com/playground) | 是 |
+| Claude Code | 否 |
+| Claude 应用中的额外用量 | 否 |
+| 任何[云平台](https://platform.claude.com/docs/zh-CN/api/overview#cloud-platform-apis) | 否 |
 
 ## 额度的使用方式
 
@@ -127,12 +127,12 @@ Credit balance too low · Add funds: https://platform.claude.com/settings/billin
 
 ## 如果您的计划发生变更
 
-| 变更                     | 结果                                                                                     |
-| ---------------------- | -------------------------------------------------------------------------------------- |
-| 取消、降级到不符合条件的计划或退款      | 您的计划结束后将不再发放新额度。您已有的额度在到期前仍可使用。                                                        |
-| 从 Max 升级到 Ultra        | 您会立即获得按比例计算的 API 额度，之后每个计费周期获得 200 美元。如果您通过 Google Play 订阅，200 美元的额度会稍后发放，最迟在您下次续订时到账。 |
-| 从 Max 或 Ultra 升级到 Team | 与您的 Max 或 Ultra 计划的关联将终止。Team 计划生效满 7 天后，Team 所有者即可领取团队的额度。                            |
-| 添加或移除 Team 席位          | 添加到计划中的席位从下一个计费月的额度开始计算。您移除的席位会保留在计划中直到续订，因此之后的额度可能会降低。额度池的上限仍为 500 美元。                |
+| 变更 | 结果 |
+| ----- | ----- |
+| 取消、降级到不符合条件的计划或退款 | 您的计划结束后将不再发放新额度。您已有的额度在到期前仍可使用。 |
+| 从 Max 升级到 Ultra | 您会立即获得按比例计算的 API 额度，之后每个计费周期获得 200 美元。如果您通过 Google Play 订阅，200 美元的额度会稍后发放，最迟在您下次续订时到账。 |
+| 从 Max 或 Ultra 升级到 Team | 与您的 Max 或 Ultra 计划的关联将终止。Team 计划生效满 7 天后，Team 所有者即可领取团队的额度。 |
+| 添加或移除 Team 席位 | 添加到计划中的席位从下一个计费月的额度开始计算。您移除的席位会保留在计划中直到续订，因此之后的额度可能会降低。额度池的上限仍为 500 美元。 |
 
 ## 高效使用您的额度
 

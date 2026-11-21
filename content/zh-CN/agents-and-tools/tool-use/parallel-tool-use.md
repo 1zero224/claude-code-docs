@@ -1632,14 +1632,14 @@ featureMetadata:
 * 可用性：默认开启
 * 用法：如需关闭，请在 `tool_choice` 中设置 `disable_parallel_tool_use: true`。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 
 * 可用性：始终开启
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |

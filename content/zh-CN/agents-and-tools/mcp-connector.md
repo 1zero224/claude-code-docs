@@ -344,12 +344,12 @@ MCP 连接器使用两个组件：
 
 ### 字段说明
 
-| 属性                    | 类型     | 必填 | 说明                                                                                                                                 |
-| --------------------- | ------ | -- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `type`                | string | 是  | 目前仅支持 `url`。                                                                                                                       |
-| `url`                 | string | 是  | MCP 服务器的 URL。必须以 `https://` 开头。                                                                                                    |
-| `name`                | string | 是  | 此 MCP 服务器的唯一标识符。必须被 `tools` 数组中恰好一个 MCPToolset 引用。                                                                                 |
-| `authorization_token` | string | 否  | MCP 服务器要求时使用的 OAuth 授权令牌。有关如何获取令牌，请参阅[身份验证](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#authentication)。 |
+| 属性 | 类型 | 必填 | 说明 |
+| ----- | ----- | ----- | ----- |
+| `type` | string | 是 | 目前仅支持 `url`。 |
+| `url` | string | 是 | MCP 服务器的 URL。必须以 `https://` 开头。 |
+| `name` | string | 是 | 此 MCP 服务器的唯一标识符。必须被 `tools` 数组中恰好一个 MCPToolset 引用。 |
+| `authorization_token` | string | 否 | MCP 服务器要求时使用的 OAuth 授权令牌。有关如何获取令牌，请参阅[身份验证](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#authentication)。 |
 
 ## MCP 工具集配置
 
@@ -376,13 +376,13 @@ MCPToolset 位于 `tools` 数组中，用于配置启用 MCP 服务器中的哪�
 
 ### 字段说明
 
-| 属性                | 类型     | 必填 | 说明                                                                                          |
-| ----------------- | ------ | -- | ------------------------------------------------------------------------------------------- |
-| `type`            | string | 是  | 必须为 `mcp_toolset`。                                                                          |
-| `mcp_server_name` | string | 是  | 必须与 `mcp_servers` 数组中定义的服务器名称匹配。                                                            |
-| `default_config`  | object | 否  | 应用于此工具集中所有工具的默认配置。`configs` 中的单个工具配置会覆盖这些默认值。                                               |
-| `configs`         | object | 否  | 按工具的配置覆盖。键为工具名称；值为配置对象。                                                                     |
-| `cache_control`   | object | 否  | 此工具集的[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)缓存断点配置。 |
+| 属性 | 类型 | 必填 | 说明 |
+| ----- | ----- | ----- | ----- |
+| `type` | string | 是 | 必须为 `mcp_toolset`。 |
+| `mcp_server_name` | string | 是 | 必须与 `mcp_servers` 数组中定义的服务器名称匹配。 |
+| `default_config` | object | 否 | 应用于此工具集中所有工具的默认配置。`configs` 中的单个工具配置会覆盖这些默认值。 |
+| `configs` | object | 否 | 按工具的配置覆盖。键为工具名称；值为配置对象。 |
+| `cache_control` | object | 否 | 此工具集的[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)缓存断点配置。 |
 
 使用 `mcp-client-2026-09-15` beta 标头时，MCPToolset 还接受 `tools`，即服务器工具列表的固定副本。请参阅[固定 MCP 服务器的工具列表](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#pin-mcp-tool-list)。
 
@@ -390,9 +390,9 @@ MCPToolset 位于 `tools` 数组中，用于配置启用 MCP 服务器中的哪�
 
 每个工具（无论是在 `default_config` 中还是在 `configs` 中配置）都支持以下字段：
 
-| 属性              | 类型      | 默认值     | 说明                                                                                                                        |
-| --------------- | ------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `enabled`       | boolean | `true`  | 此工具是否启用。                                                                                                                  |
+| 属性 | 类型 | 默认值 | 说明 |
+| ----- | ----- | ----- | ----- |
+| `enabled` | boolean | `true` | 此工具是否启用。 |
 | `defer_loading` | boolean | `false` | 如果为 true，则工具描述最初不会发送给模型。与[工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)配合使用。 |
 
 有关 Anthropic 提供的工具的完整目录以及 `defer_loading` 等可选属性，请参阅[工具参考](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference)。要在大型工具集中进行搜索，请参阅[工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)。
@@ -1306,8 +1306,8 @@ MCP inspector 可以引导您完成获取测试用访问令牌的过程。
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.10.0")
-        implementation("com.anthropic:anthropic-java-mcp:3.10.0")
+        implementation("com.anthropic:anthropic-java:3.12.0")
+        implementation("com.anthropic:anthropic-java-mcp:3.12.0")
         ```
       </Tab>
 
@@ -1316,12 +1316,12 @@ MCP inspector 可以引导您完成获取测试用访问令牌的过程。
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-mcp</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         ```
       </Tab>
@@ -1395,12 +1395,12 @@ MCP inspector 可以引导您完成获取测试用访问令牌的过程。
   ```
 </CodeGroup>
 
-| 辅助函数                                                                                                                                                                                                                                                                                                                       | 说明                                                                                                                                                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `async_mcp_tool(tool, mcp_client)` (typescript: `mcpTools(tools, mcpClient)`; csharp: `BetaMcp.ListToolsAsync(mcpClient)`; go: `mcp.NewBetaTools(tools, session)`; java: `BetaMcp.mcpTools(tools, mcpClient)`; php: `BetaMcp::tools($tools, $mcp)`; ruby: `Anthropic::Mcp.tools(tools, mcp_client)`)                       | 将 MCP 工具转换为 Claude API 工具，以便与 `client.beta.messages.tool_runner()` (typescript: `client.beta.messages.toolRunner()`; java: `client.beta().messages().toolRunner()`; php: `$client->beta->messages->toolRunner()`; csharp: `client.Beta.Messages.ToolRunner()`; go: `client.Beta.Messages.NewToolRunner()`) 一起使用 |
-| `mcp_message(message)` (typescript: `mcpMessages(messages)`; csharp: `BetaMcp.Messages(messages)`; go: `mcp.ToMessage(message)`; java: `BetaMcp.mcpMessages(messages)`; php: `BetaMcp::message($message)`; ruby: `Anthropic::Mcp.message(message)`)                                                                        | 将 MCP 提示消息转换为 Claude API 消息格式                                                                                                                                                                                                                                                                                   |
-| `mcp_resource_to_content(resource)` (typescript: `mcpResourceToContent(resource)`; csharp: `BetaMcp.ResourceToContent(resource)`; go: `mcp.ResourceToBlock(resource)`; java: `BetaMcp.mcpResourceContents(resource)`; php: `BetaMcp::resourceToContent($resource)`; ruby: `Anthropic::Mcp.resource_to_contents(resource)`) | 将 MCP 资源转换为 Claude API 内容块                                                                                                                                                                                                                                                                                      |
-| `mcp_resource_to_file(resource)` (typescript: `mcpResourceToFile(resource)`; csharp: `BetaMcp.ResourceToFile(resource)`; go: `mcp.ResourceToFile(resource)`; java: `BetaMcp.mcpResourceFiles(resource)`; php: `BetaMcp::resourceToFile($resource)`; ruby: `Anthropic::Mcp.resource_to_files(resource)`)                    | 将 MCP 资源转换为用于上传的文件对象                                                                                                                                                                                                                                                                                            |
+| 辅助函数 | 说明 |
+| ----- | ----- |
+| `async_mcp_tool(tool, mcp_client)` (typescript: `mcpTools(tools, mcpClient)`; csharp: `BetaMcp.ListToolsAsync(mcpClient)`; go: `mcp.NewBetaTools(tools, session)`; java: `BetaMcp.mcpTools(tools, mcpClient)`; php: `BetaMcp::tools($tools, $mcp)`; ruby: `Anthropic::Mcp.tools(tools, mcp_client)`) | 将 MCP 工具转换为 Claude API 工具，以便与 `client.beta.messages.tool_runner()` (typescript: `client.beta.messages.toolRunner()`; java: `client.beta().messages().toolRunner()`; php: `$client->beta->messages->toolRunner()`; csharp: `client.Beta.Messages.ToolRunner()`; go: `client.Beta.Messages.NewToolRunner()`) 一起使用 |
+| `mcp_message(message)` (typescript: `mcpMessages(messages)`; csharp: `BetaMcp.Messages(messages)`; go: `mcp.ToMessage(message)`; java: `BetaMcp.mcpMessages(messages)`; php: `BetaMcp::message($message)`; ruby: `Anthropic::Mcp.message(message)`) | 将 MCP 提示消息转换为 Claude API 消息格式 |
+| `mcp_resource_to_content(resource)` (typescript: `mcpResourceToContent(resource)`; csharp: `BetaMcp.ResourceToContent(resource)`; go: `mcp.ResourceToBlock(resource)`; java: `BetaMcp.mcpResourceContents(resource)`; php: `BetaMcp::resourceToContent($resource)`; ruby: `Anthropic::Mcp.resource_to_contents(resource)`) | 将 MCP 资源转换为 Claude API 内容块 |
+| `mcp_resource_to_file(resource)` (typescript: `mcpResourceToFile(resource)`; csharp: `BetaMcp.ResourceToFile(resource)`; go: `mcp.ResourceToFile(resource)`; java: `BetaMcp.mcpResourceFiles(resource)`; php: `BetaMcp::resourceToFile($resource)`; ruby: `Anthropic::Mcp.resource_to_files(resource)`) | 将 MCP 资源转换为用于上传的文件对象 |
 
 ### 使用 MCP 工具
 
@@ -2093,10 +2093,10 @@ MCP 连接器不在 ZDR 安排的覆盖范围内。与 MCP 服务器交换的数
 
 ### 常见迁移模式
 
-| 旧模式                                       | 新模式                                                                 |
-| ----------------------------------------- | ------------------------------------------------------------------- |
-| 无 `tool_configuration`（所有工具均启用）           | 不带 `default_config` 或 `configs` 的 MCPToolset                        |
-| `tool_configuration.enabled: false`       | 带有 `default_config.enabled: false` 的 MCPToolset                     |
+| 旧模式 | 新模式 |
+| ----- | ----- |
+| 无 `tool_configuration`（所有工具均启用） | 不带 `default_config` 或 `configs` 的 MCPToolset |
+| `tool_configuration.enabled: false` | 带有 `default_config.enabled: false` 的 MCPToolset |
 | `tool_configuration.allowed_tools: [...]` | 带有 `default_config.enabled: false` 并在 `configs` 中启用特定工具的 MCPToolset |
 
 ## 已弃用版本：mcp-client-2025-04-04
@@ -2126,11 +2126,11 @@ MCP 连接器的先前版本将工具配置直接包含在 MCP 服务器定义�
 
 ### 已弃用字段说明
 
-| 属性                                 | 类型      | 说明                                                  |
-| ---------------------------------- | ------- | --------------------------------------------------- |
-| `tool_configuration`               | object  | **已弃用：** 请改用 `tools` 数组中的 MCPToolset                |
-| `tool_configuration.enabled`       | boolean | **已弃用：** 请使用 MCPToolset 中的 `default_config.enabled` |
-| `tool_configuration.allowed_tools` | array   | **已弃用：** 请使用 MCPToolset 中带有 `configs` 的允许列表模式       |
+| 属性 | 类型 | 说明 |
+| ----- | ----- | ----- |
+| `tool_configuration` | object | **已弃用：** 请改用 `tools` 数组中的 MCPToolset |
+| `tool_configuration.enabled` | boolean | **已弃用：** 请使用 MCPToolset 中的 `default_config.enabled` |
+| `tool_configuration.allowed_tools` | array | **已弃用：** 请使用 MCPToolset 中带有 `configs` 的允许列表模式 |
 
 ## 可用性
 
@@ -2143,8 +2143,8 @@ MCP 连接器在所有模型上处于 beta 阶段。
 * 可用性：可用
 * 用法：在每个请求中传入 `mcp_servers` 以及 `tools` 中对应的 `mcp_toolset`。对于 OAuth 服务器，您需要自行获取和刷新访问令牌，并将其作为 `authorization_token` 传入。
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                                                                                                                             |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -2152,8 +2152,8 @@ MCP 连接器在所有模型上处于 beta 阶段。
 * 可用性：可用
 * 用法：在智能体上声明 MCP 服务器。每个会话通过引用保管库提供凭据，使密钥不出现在智能体定义中。
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
@@ -2162,19 +2162,19 @@ MCP 连接器在所有模型上处于 beta 阶段。
 
 Beta 请求头让您可以在实验性功能和新模型能力成为标准 API 的一部分之前访问它们。
 
-| 请求头                                             | API                                                                                            | 云平台                                                                                                                                                                                                                  |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mcp-client-2026-09-15`或`mcp-client-2025-11-20` | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                            |
-| `mcp-client-2025-11-20`                         | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 请求头 | API | 云平台 |
+| ----- | ----- | ----- |
+| `mcp-client-2026-09-15`或`mcp-client-2025-11-20` | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
+| `mcp-client-2025-11-20` | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                   | HIPAA |
-| ---- | ------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 不具备资格                                                                                                   | 不具备资格 |
-| 详细信息 | 数据按标准政策保留。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#data-retention) | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
+| 详细信息 | 数据按标准政策保留。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#data-retention) | — |
 
 适用的端点：
 

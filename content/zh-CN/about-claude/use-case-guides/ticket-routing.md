@@ -1,16 +1,19 @@
 ---
 title: 工单路由
 url: https://platform.claude.com/docs/zh-CN/about-claude/use-case-guides/ticket-routing
-description: 本指南介绍如何利用 Claude 先进的自然语言理解能力，根据客户意图、紧急程度、优先级、客户配置文件等因素，大规模地对客户支持工单进行分类。
+description: 使用 Claude 按意图、紧急程度和其他标准对客户支持工单进行分类，然后评估并改进路由。
 ---
+
+本指南介绍如何使用 Claude 路由客户支持工单。内容包括为什么 Claude 适合这项任务、如何编写和部署分类提示，以及如何评估和改进该提示。
 
 ## 前提条件
 
-* 一个 Claude API 密钥，并已安装 Anthropic SDK
+* 已安装 Anthropic SDK
+* 拥有 Claude API 的凭据，例如用于服务的[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)，或在您自己的计算机上使用的 [CLI 登录](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/authentication)
 * 能够访问并熟悉您现有的支持工单系统
 * 一组用于测试的历史支持工单样本
 
-## 确定是否使用 Claude 进行工单路由
+## 为什么使用 Claude 进行工单路由
 
 以下是一些关键指标，表明您应该使用 Claude 等 “large language model”（大型语言模型），即 LLM，而不是传统的 “machine learning”（机器学习），即 ML 方法来完成分类任务：
 
@@ -31,8 +34,8 @@ description: 本指南介绍如何利用 Claude 先进的自然语言理解能�
     传统 ML 方法通常依赖词袋模型或简单的模式匹配。当类别由条件而非示例定义时，Claude 擅长应用底层规则。
   </Accordion>
 
-  <Accordion title="您需要为分类决策提供可解释的推理">
-    许多传统的机器学习模型几乎无法让人了解其决策过程。Claude 可以为其分类决策提供人类可读的解释，从而建立对自动化系统的信任，并在需要时便于调整。
+  <Accordion title="您需要为分类决策提供解释">
+    许多传统的机器学习模型几乎无法让人了解其决策过程。Claude 可以为每次分类提供简短的解释，这有助于您的团队信任自动化系统，并在需要时对其进行调整。
   </Accordion>
 
   <Accordion title="您希望更有效地处理边缘情况和模糊工单">
@@ -241,7 +244,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
 
 工单路由是一种分类任务。Claude 会分析支持工单的内容，并根据问题类型、紧急程度、所需专业知识或其他相关因素将其归入预定义的类别。
 
-编写一个工单分类提示。初始提示应包含用户请求的内容，并同时返回推理过程和意图。
+编写一个工单分类提示。该提示包含支持请求的文本，并要求 Claude 提供两项内容：对请求的一句话摘要及其意图。
 
 <Tip>
   试试 [Claude Cookbook 中的 metaprompt（元提示）配方](https://colab.research.google.com/github/anthropics/claude-cookbooks/blob/main/misc/metaprompt.ipynb)，让 Claude 为您编写初稿。
@@ -261,17 +264,17 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   ```python Python
   def classify_support_request(ticket_contents):
       # 定义分类任务的提示
-      classification_prompt = f"""You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with your reasoning.
+      classification_prompt = f"""You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with a one-sentence summary of the request.
 
           Here is the customer support request you need to classify:
 
           <request>{ticket_contents}</request>
 
-          Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for has concerns about.
+          Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for or has concerns about.
 
-          First, write out your reasoning and analysis of how to classify this request inside <reasoning> tags.
+          First, write a one-sentence summary of the request inside <summary> tags.
 
-          Then, output the appropriate classification label for the request inside a <intent> tag. The valid intents are:
+          Then, output the appropriate classification label for the request inside an <intent> tag. The valid intents are:
           <intents>
           <intent>Support, Feedback, Complaint</intent>
           <intent>Order Tracking</intent>
@@ -284,7 +287,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>Hello! I had high-speed fiber internet installed on Saturday and my installer, Kevin, was absolutely fantastic! Where can I send my positive review? Thanks for your help!</request>
 
           Here is an example of how your output should be formatted (for the above example request):
-          <reasoning>The user seeks information in order to leave positive feedback.</reasoning>
+          <summary>The user seeks information in order to leave positive feedback.</summary>
           <intent>Support, Feedback, Complaint</intent>
 
           Here are a few more examples:
@@ -294,7 +297,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>I wanted to write and personally thank you for the compassion you showed towards my family during my father's funeral this past weekend. Your staff was so considerate and helpful throughout this whole process; it really took a load off our shoulders. The visitation brochures were beautiful. We'll never forget the kindness you showed us and we are so appreciative of how smoothly the proceedings went. Thank you, again, Amarantha Hill on behalf of the Hill Family.</request>
 
           Example 2 Output:
-          <reasoning>User leaves a positive review of their experience.</reasoning>
+          <summary>User leaves a positive review of their experience.</summary>
           <intent>Support, Feedback, Complaint</intent>
           </example 2>
           <example 3>
@@ -307,28 +310,28 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>Your website keeps sending ad-popups that block the entire screen. It took me twenty minutes just to finally find the phone number to call and complain. How can I possibly access my account information with all of these popups? Can you access my account for me, since your website is broken? I need to know what the address is on file.</request>
 
           Example 9 Output:
-          <reasoning>The user requests help accessing their web account information.</reasoning>
+          <summary>The user requests help accessing their web account information.</summary>
           <intent>Support, Feedback, Complaint</intent>
           </example 9>
 
-          Remember to always include your classification reasoning before your actual intent output. The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          Remember to always include your one-sentence summary before your intent output. The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """
   ```
 
   ```typescript TypeScript
   function classifySupportRequest(ticketContents: string) {
     // 定义分类任务的提示
-    const classificationPrompt = `You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with your reasoning.
+    const classificationPrompt = `You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with a one-sentence summary of the request.
 
       Here is the customer support request you need to classify:
 
       <request>${ticketContents}</request>
 
-      Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for has concerns about.
+      Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for or has concerns about.
 
-      First, write out your reasoning and analysis of how to classify this request inside <reasoning> tags.
+      First, write a one-sentence summary of the request inside <summary> tags.
 
-      Then, output the appropriate classification label for the request inside a <intent> tag. The valid intents are:
+      Then, output the appropriate classification label for the request inside an <intent> tag. The valid intents are:
       <intents>
       <intent>Support, Feedback, Complaint</intent>
       <intent>Order Tracking</intent>
@@ -341,7 +344,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       <request>Hello! I had high-speed fiber internet installed on Saturday and my installer, Kevin, was absolutely fantastic! Where can I send my positive review? Thanks for your help!</request>
 
       Here is an example of how your output should be formatted (for the above example request):
-      <reasoning>The user seeks information in order to leave positive feedback.</reasoning>
+      <summary>The user seeks information in order to leave positive feedback.</summary>
       <intent>Support, Feedback, Complaint</intent>
 
       Here are a few more examples:
@@ -351,7 +354,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       <request>I wanted to write and personally thank you for the compassion you showed towards my family during my father's funeral this past weekend. Your staff was so considerate and helpful throughout this whole process; it really took a load off our shoulders. The visitation brochures were beautiful. We'll never forget the kindness you showed us and we are so appreciative of how smoothly the proceedings went. Thank you, again, Amarantha Hill on behalf of the Hill Family.</request>
 
       Example 2 Output:
-      <reasoning>User leaves a positive review of their experience.</reasoning>
+      <summary>User leaves a positive review of their experience.</summary>
       <intent>Support, Feedback, Complaint</intent>
       </example 2>
       <example 3>
@@ -364,11 +367,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       <request>Your website keeps sending ad-popups that block the entire screen. It took me twenty minutes just to finally find the phone number to call and complain. How can I possibly access my account information with all of these popups? Can you access my account for me, since your website is broken? I need to know what the address is on file.</request>
 
       Example 9 Output:
-      <reasoning>The user requests help accessing their web account information.</reasoning>
+      <summary>The user requests help accessing their web account information.</summary>
       <intent>Support, Feedback, Complaint</intent>
       </example 9>
 
-      Remember to always include your classification reasoning before your actual intent output. The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+      Remember to always include your one-sentence summary before your intent output. The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
       `;
   }
   ```
@@ -378,17 +381,17 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   {
       // 定义分类任务的提示
       var classificationPrompt = $"""
-          You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with your reasoning.
+          You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with a one-sentence summary of the request.
 
           Here is the customer support request you need to classify:
 
           <request>{ticketContents}</request>
 
-          Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for has concerns about.
+          Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for or has concerns about.
 
-          First, write out your reasoning and analysis of how to classify this request inside <reasoning> tags.
+          First, write a one-sentence summary of the request inside <summary> tags.
 
-          Then, output the appropriate classification label for the request inside a <intent> tag. The valid intents are:
+          Then, output the appropriate classification label for the request inside an <intent> tag. The valid intents are:
           <intents>
           <intent>Support, Feedback, Complaint</intent>
           <intent>Order Tracking</intent>
@@ -401,7 +404,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>Hello! I had high-speed fiber internet installed on Saturday and my installer, Kevin, was absolutely fantastic! Where can I send my positive review? Thanks for your help!</request>
 
           Here is an example of how your output should be formatted (for the above example request):
-          <reasoning>The user seeks information in order to leave positive feedback.</reasoning>
+          <summary>The user seeks information in order to leave positive feedback.</summary>
           <intent>Support, Feedback, Complaint</intent>
 
           Here are a few more examples:
@@ -411,7 +414,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>I wanted to write and personally thank you for the compassion you showed towards my family during my father's funeral this past weekend. Your staff was so considerate and helpful throughout this whole process; it really took a load off our shoulders. The visitation brochures were beautiful. We'll never forget the kindness you showed us and we are so appreciative of how smoothly the proceedings went. Thank you, again, Amarantha Hill on behalf of the Hill Family.</request>
 
           Example 2 Output:
-          <reasoning>User leaves a positive review of their experience.</reasoning>
+          <summary>User leaves a positive review of their experience.</summary>
           <intent>Support, Feedback, Complaint</intent>
           </example 2>
           <example 3>
@@ -424,11 +427,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>Your website keeps sending ad-popups that block the entire screen. It took me twenty minutes just to finally find the phone number to call and complain. How can I possibly access my account information with all of these popups? Can you access my account for me, since your website is broken? I need to know what the address is on file.</request>
 
           Example 9 Output:
-          <reasoning>The user requests help accessing their web account information.</reasoning>
+          <summary>The user requests help accessing their web account information.</summary>
           <intent>Support, Feedback, Complaint</intent>
           </example 9>
 
-          Remember to always include your classification reasoning before your actual intent output. The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          Remember to always include your one-sentence summary before your intent output. The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """;
   }
   ```
@@ -436,17 +439,17 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   ```go Go
   func classifySupportRequest(ticketContents string) {
   	// 定义分类任务的提示
-  	classificationPrompt := `You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with your reasoning.
+  	classificationPrompt := `You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with a one-sentence summary of the request.
 
   		Here is the customer support request you need to classify:
 
   		<request>` + ticketContents + `</request>
 
-  		Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for has concerns about.
+  		Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for or has concerns about.
 
-  		First, write out your reasoning and analysis of how to classify this request inside <reasoning> tags.
+  		First, write a one-sentence summary of the request inside <summary> tags.
 
-  		Then, output the appropriate classification label for the request inside a <intent> tag. The valid intents are:
+  		Then, output the appropriate classification label for the request inside an <intent> tag. The valid intents are:
   		<intents>
   		<intent>Support, Feedback, Complaint</intent>
   		<intent>Order Tracking</intent>
@@ -459,7 +462,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   		<request>Hello! I had high-speed fiber internet installed on Saturday and my installer, Kevin, was absolutely fantastic! Where can I send my positive review? Thanks for your help!</request>
 
   		Here is an example of how your output should be formatted (for the above example request):
-  		<reasoning>The user seeks information in order to leave positive feedback.</reasoning>
+  		<summary>The user seeks information in order to leave positive feedback.</summary>
   		<intent>Support, Feedback, Complaint</intent>
 
   		Here are a few more examples:
@@ -469,7 +472,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   		<request>I wanted to write and personally thank you for the compassion you showed towards my family during my father's funeral this past weekend. Your staff was so considerate and helpful throughout this whole process; it really took a load off our shoulders. The visitation brochures were beautiful. We'll never forget the kindness you showed us and we are so appreciative of how smoothly the proceedings went. Thank you, again, Amarantha Hill on behalf of the Hill Family.</request>
 
   		Example 2 Output:
-  		<reasoning>User leaves a positive review of their experience.</reasoning>
+  		<summary>User leaves a positive review of their experience.</summary>
   		<intent>Support, Feedback, Complaint</intent>
   		</example 2>
   		<example 3>
@@ -482,11 +485,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   		<request>Your website keeps sending ad-popups that block the entire screen. It took me twenty minutes just to finally find the phone number to call and complain. How can I possibly access my account information with all of these popups? Can you access my account for me, since your website is broken? I need to know what the address is on file.</request>
 
   		Example 9 Output:
-  		<reasoning>The user requests help accessing their web account information.</reasoning>
+  		<summary>The user requests help accessing their web account information.</summary>
   		<intent>Support, Feedback, Complaint</intent>
   		</example 9>
 
-  		Remember to always include your classification reasoning before your actual intent output. The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+  		Remember to always include your one-sentence summary before your intent output. The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
   		`
   	// ...
   }
@@ -496,17 +499,17 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   void classifySupportRequest(String ticketContents) {
       // 定义分类任务的提示
       String classificationPrompt = """
-          You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with your reasoning.
+          You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with a one-sentence summary of the request.
 
           Here is the customer support request you need to classify:
 
           <request>%s</request>
 
-          Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for has concerns about.
+          Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for or has concerns about.
 
-          First, write out your reasoning and analysis of how to classify this request inside <reasoning> tags.
+          First, write a one-sentence summary of the request inside <summary> tags.
 
-          Then, output the appropriate classification label for the request inside a <intent> tag. The valid intents are:
+          Then, output the appropriate classification label for the request inside an <intent> tag. The valid intents are:
           <intents>
           <intent>Support, Feedback, Complaint</intent>
           <intent>Order Tracking</intent>
@@ -519,7 +522,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>Hello! I had high-speed fiber internet installed on Saturday and my installer, Kevin, was absolutely fantastic! Where can I send my positive review? Thanks for your help!</request>
 
           Here is an example of how your output should be formatted (for the above example request):
-          <reasoning>The user seeks information in order to leave positive feedback.</reasoning>
+          <summary>The user seeks information in order to leave positive feedback.</summary>
           <intent>Support, Feedback, Complaint</intent>
 
           Here are a few more examples:
@@ -529,7 +532,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>I wanted to write and personally thank you for the compassion you showed towards my family during my father's funeral this past weekend. Your staff was so considerate and helpful throughout this whole process; it really took a load off our shoulders. The visitation brochures were beautiful. We'll never forget the kindness you showed us and we are so appreciative of how smoothly the proceedings went. Thank you, again, Amarantha Hill on behalf of the Hill Family.</request>
 
           Example 2 Output:
-          <reasoning>User leaves a positive review of their experience.</reasoning>
+          <summary>User leaves a positive review of their experience.</summary>
           <intent>Support, Feedback, Complaint</intent>
           </example 2>
           <example 3>
@@ -542,11 +545,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>Your website keeps sending ad-popups that block the entire screen. It took me twenty minutes just to finally find the phone number to call and complain. How can I possibly access my account information with all of these popups? Can you access my account for me, since your website is broken? I need to know what the address is on file.</request>
 
           Example 9 Output:
-          <reasoning>The user requests help accessing their web account information.</reasoning>
+          <summary>The user requests help accessing their web account information.</summary>
           <intent>Support, Feedback, Complaint</intent>
           </example 9>
 
-          Remember to always include your classification reasoning before your actual intent output. The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          Remember to always include your one-sentence summary before your intent output. The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """.formatted(ticketContents);
   }
   ```
@@ -556,17 +559,17 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   {
       // 定义分类任务的提示
       $classificationPrompt = <<<PROMPT
-          You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with your reasoning.
+          You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with a one-sentence summary of the request.
 
           Here is the customer support request you need to classify:
 
           <request>{$ticketContents}</request>
 
-          Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for has concerns about.
+          Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for or has concerns about.
 
-          First, write out your reasoning and analysis of how to classify this request inside <reasoning> tags.
+          First, write a one-sentence summary of the request inside <summary> tags.
 
-          Then, output the appropriate classification label for the request inside a <intent> tag. The valid intents are:
+          Then, output the appropriate classification label for the request inside an <intent> tag. The valid intents are:
           <intents>
           <intent>Support, Feedback, Complaint</intent>
           <intent>Order Tracking</intent>
@@ -579,7 +582,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>Hello! I had high-speed fiber internet installed on Saturday and my installer, Kevin, was absolutely fantastic! Where can I send my positive review? Thanks for your help!</request>
 
           Here is an example of how your output should be formatted (for the above example request):
-          <reasoning>The user seeks information in order to leave positive feedback.</reasoning>
+          <summary>The user seeks information in order to leave positive feedback.</summary>
           <intent>Support, Feedback, Complaint</intent>
 
           Here are a few more examples:
@@ -589,7 +592,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>I wanted to write and personally thank you for the compassion you showed towards my family during my father's funeral this past weekend. Your staff was so considerate and helpful throughout this whole process; it really took a load off our shoulders. The visitation brochures were beautiful. We'll never forget the kindness you showed us and we are so appreciative of how smoothly the proceedings went. Thank you, again, Amarantha Hill on behalf of the Hill Family.</request>
 
           Example 2 Output:
-          <reasoning>User leaves a positive review of their experience.</reasoning>
+          <summary>User leaves a positive review of their experience.</summary>
           <intent>Support, Feedback, Complaint</intent>
           </example 2>
           <example 3>
@@ -602,11 +605,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           <request>Your website keeps sending ad-popups that block the entire screen. It took me twenty minutes just to finally find the phone number to call and complain. How can I possibly access my account information with all of these popups? Can you access my account for me, since your website is broken? I need to know what the address is on file.</request>
 
           Example 9 Output:
-          <reasoning>The user requests help accessing their web account information.</reasoning>
+          <summary>The user requests help accessing their web account information.</summary>
           <intent>Support, Feedback, Complaint</intent>
           </example 9>
 
-          Remember to always include your classification reasoning before your actual intent output. The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          Remember to always include your one-sentence summary before your intent output. The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           PROMPT;
   }
   ```
@@ -615,17 +618,17 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   def classify_support_request(ticket_contents)
     # 定义分类任务的提示
     classification_prompt = <<~PROMPT
-      You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with your reasoning.
+      You will be acting as a customer support ticket classification system. Your task is to analyze customer support requests and output the appropriate classification intent for each request, along with a one-sentence summary of the request.
 
       Here is the customer support request you need to classify:
 
       <request>#{ticket_contents}</request>
 
-      Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for has concerns about.
+      Please carefully analyze the above request to determine the customer's core intent and needs. Consider what the customer is asking for or has concerns about.
 
-      First, write out your reasoning and analysis of how to classify this request inside <reasoning> tags.
+      First, write a one-sentence summary of the request inside <summary> tags.
 
-      Then, output the appropriate classification label for the request inside a <intent> tag. The valid intents are:
+      Then, output the appropriate classification label for the request inside an <intent> tag. The valid intents are:
       <intents>
       <intent>Support, Feedback, Complaint</intent>
       <intent>Order Tracking</intent>
@@ -638,7 +641,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       <request>Hello! I had high-speed fiber internet installed on Saturday and my installer, Kevin, was absolutely fantastic! Where can I send my positive review? Thanks for your help!</request>
 
       Here is an example of how your output should be formatted (for the above example request):
-      <reasoning>The user seeks information in order to leave positive feedback.</reasoning>
+      <summary>The user seeks information in order to leave positive feedback.</summary>
       <intent>Support, Feedback, Complaint</intent>
 
       Here are a few more examples:
@@ -648,7 +651,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       <request>I wanted to write and personally thank you for the compassion you showed towards my family during my father's funeral this past weekend. Your staff was so considerate and helpful throughout this whole process; it really took a load off our shoulders. The visitation brochures were beautiful. We'll never forget the kindness you showed us and we are so appreciative of how smoothly the proceedings went. Thank you, again, Amarantha Hill on behalf of the Hill Family.</request>
 
       Example 2 Output:
-      <reasoning>User leaves a positive review of their experience.</reasoning>
+      <summary>User leaves a positive review of their experience.</summary>
       <intent>Support, Feedback, Complaint</intent>
       </example 2>
       <example 3>
@@ -661,35 +664,33 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       <request>Your website keeps sending ad-popups that block the entire screen. It took me twenty minutes just to finally find the phone number to call and complain. How can I possibly access my account information with all of these popups? Can you access my account for me, since your website is broken? I need to know what the address is on file.</request>
 
       Example 9 Output:
-      <reasoning>The user requests help accessing their web account information.</reasoning>
+      <summary>The user requests help accessing their web account information.</summary>
       <intent>Support, Feedback, Complaint</intent>
       </example 9>
 
-      Remember to always include your classification reasoning before your actual intent output. The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+      Remember to always include your one-sentence summary before your intent output. The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
     PROMPT
   end
   ```
 </CodeGroup>
 
-<Note>
-  此提示是为在此以 `low` effort 运行的 Claude Haiku 5.5 编写的。在 Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5 和 Claude Sonnet 5.5 上，请改为要求模型输出意图以及对请求的一句话摘要。请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。
-</Note>
-
 以下是此提示的关键组成部分：
 
 * 提示模板将 `ticket_contents` (typescript, csharp, go, java: `ticketContents`; php: `$ticketContents`) 插入到 `<request>` 标签中。
 * 提示为 Claude 赋予了一个明确定义的角色，即一个仔细分析工单内容以确定客户核心意图和需求的分类系统。
-* 提示指导 Claude 使用正确的输出格式，在本例中是在 `<reasoning>` 标签内提供其推理和分析，然后在 `<intent>` 标签内给出相应的分类标签。
+* 提示告诉 Claude 如何格式化其输出：在 `<summary>` 标签内给出对请求的一句话摘要，然后在 `<intent>` 标签内给出分类标签。
 * 提示指定了有效的意图类别：`Support, Feedback, Complaint`、`Order Tracking` 和 `Refund/Exchange`。
 * 提示包含了一些示例（即 “few-shot prompting”，少样本提示）来说明输出应如何格式化，从而提高准确性和一致性。
 
-让 Claude 将其响应拆分为单独的 XML 标签部分，可以让您使用正则表达式从输出中分别提取推理和意图。这使您能够在工单路由工作流中创建有针对性的后续步骤，例如仅使用意图来决定将工单路由给哪个人。
+由于响应的每个部分都位于各自的 XML 标签中，您可以使用正则表达式分别提取摘要和意图。然后，您可以单独处理每个部分，例如仅使用意图来决定由谁处理该工单。
+
+该提示要求的是对请求的摘要，而不是 Claude 的推理过程。[某些 Claude 模型](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)可能会拒绝要求其写出推理过程的提示。您仍然可以要求对分类给出简短的解释。要查看 Claude 得出分类的过程摘要，请设置 `thinking: {"type": "adaptive", "display": "summarized"}` 并阅读响应中的 [`thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#summarized-thinking)。对于简单的工单，Claude 可能会跳过思考，因此某些响应中没有 `thinking` 块。
 
 ### 部署您的提示
 
 如果不在测试生产环境中部署提示并[运行评估](https://platform.claude.com/docs/zh-CN/test-and-evaluate/develop-tests)，就很难知道提示的效果如何。
 
-构建部署结构。首先定义用于封装 Claude 调用的函数签名。扩展您之前开始编写的函数，该函数以 `ticket_contents` (typescript, csharp, go, java: `ticketContents`; php: `$ticketContents`) 作为输入，使其现在返回推理和意图作为输出。如果您已有使用传统 ML 的自动化系统，则应改为遵循该系统的签名。
+构建部署结构。首先定义用于封装 Claude 调用的函数签名。扩展您之前开始编写的函数，该函数以 `ticket_contents` (typescript, csharp, go, java: `ticketContents`; php: `$ticketContents`) 作为输入，使其现在返回摘要和意图。如果您已有使用传统 ML 的自动化系统，请改为遵循该系统的签名。
 
 <CodeGroup exclude="shell">
   <CodeGroupItem language="cURL">
@@ -714,9 +715,9 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       # 定义分类任务的提示
       classification_prompt = f"""You will be acting as a customer support ticket classification system.
           […]
-          ... The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """
-      # 将提示发送到 API，对支持请求进行分类。
+      # 将提示发送到 API 以对支持请求进行分类。
       message = client.messages.create(
           model=DEFAULT_MODEL,
           max_tokens=2048,
@@ -724,21 +725,23 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           messages=[{"role": "user", "content": classification_prompt}],
           stream=False,
       )
-      reasoning_and_intent = next(
+      if message.stop_reason == "refusal":
+          raise RuntimeError("Claude declined to classify this ticket.")
+      summary_and_intent = next(
           (block.text for block in message.content if block.type == "text"), ""
       )
 
-      # 使用 Python 的正则表达式库提取 `reasoning`。
-      reasoning_match = re.search(
-          r"<reasoning>(.*?)</reasoning>", reasoning_and_intent, re.DOTALL
+      # 使用 Python 的正则表达式库提取 `summary`。
+      summary_match = re.search(
+          r"<summary>(.*?)</summary>", summary_and_intent, re.DOTALL
       )
-      reasoning = reasoning_match.group(1).strip() if reasoning_match else ""
+      summary = summary_match.group(1).strip() if summary_match else ""
 
       # 同样，也提取 `intent`。
-      intent_match = re.search(r"<intent>(.*?)</intent>", reasoning_and_intent, re.DOTALL)
+      intent_match = re.search(r"<intent>(.*?)</intent>", summary_and_intent, re.DOTALL)
       intent = intent_match.group(1).strip() if intent_match else ""
 
-      return reasoning, intent
+      return summary, intent
   ```
 
   ```typescript TypeScript
@@ -750,11 +753,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
 
   async function classifySupportRequest(
     ticketContents: string
-  ): Promise<{ reasoning: string; intent: string }> {
+  ): Promise<{ summary: string; intent: string }> {
     // 定义分类任务的提示
     const classificationPrompt = `You will be acting as a customer support ticket classification system.
       […]
-      ... The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+      ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
       `;
     // 将提示发送到 API 以对支持请求进行分类。
     const message = await client.messages.create({
@@ -763,18 +766,21 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       output_config: { effort: "low" },
       messages: [{ role: "user", content: classificationPrompt }]
     });
+    if (message.stop_reason === "refusal") {
+      throw new Error("Claude declined to classify this ticket.");
+    }
     const textBlock = message.content.find((block) => block.type === "text");
-    const reasoningAndIntent = textBlock?.text ?? "";
+    const summaryAndIntent = textBlock?.text ?? "";
 
-    // 使用正则表达式提取 `reasoning`。
-    const reasoningMatch = /<reasoning>(.*?)<\/reasoning>/s.exec(reasoningAndIntent);
-    const reasoning = reasoningMatch?.[1].trim() ?? "";
+    // 使用正则表达式提取 `summary`。
+    const summaryMatch = /<summary>(.*?)<\/summary>/s.exec(summaryAndIntent);
+    const summary = summaryMatch?.[1].trim() ?? "";
 
     // 同样，也提取 `intent`。
-    const intentMatch = /<intent>(.*?)<\/intent>/s.exec(reasoningAndIntent);
+    const intentMatch = /<intent>(.*?)<\/intent>/s.exec(summaryAndIntent);
     const intent = intentMatch?.[1].trim() ?? "";
 
-    return { reasoning, intent };
+    return { summary, intent };
   }
   ```
 
@@ -788,13 +794,13 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   // 设置默认模型
   const Model DefaultModel = Model.ClaudeHaiku5_5;
 
-  async Task<(string Reasoning, string Intent)> ClassifySupportRequest(string ticketContents)
+  async Task<(string Summary, string Intent)> ClassifySupportRequest(string ticketContents)
   {
       // 定义分类任务的提示
       var classificationPrompt = """
           You will be acting as a customer support ticket classification system.
           […]
-          ... The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """;
       // 将提示发送到 API 以对支持请求进行分类。
       var message = await client.Messages.Create(new MessageCreateParams
@@ -804,31 +810,36 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           OutputConfig = new OutputConfig { Effort = Effort.Low },
           Messages = [new UserMessageParam { Content = classificationPrompt }],
       });
-      var reasoningAndIntent = "";
+      if (message.StopReason?.Value() == StopReason.Refusal)
+      {
+          throw new InvalidOperationException("Claude declined to classify this ticket.");
+      }
+      var summaryAndIntent = "";
       foreach (var block in message.Content)
       {
           if (block.TryPickText(out var textBlock))
           {
-              reasoningAndIntent = textBlock.Text;
+              summaryAndIntent = textBlock.Text;
               break;
           }
       }
 
-      // 使用正则表达式提取 `reasoning`。
-      var reasoningMatch = Regex.Match(reasoningAndIntent, "<reasoning>(.*?)</reasoning>", RegexOptions.Singleline);
-      var reasoning = reasoningMatch.Success ? reasoningMatch.Groups[1].Value.Trim() : "";
+      // 使用正则表达式提取 `summary`。
+      var summaryMatch = Regex.Match(summaryAndIntent, "<summary>(.*?)</summary>", RegexOptions.Singleline);
+      var summary = summaryMatch.Success ? summaryMatch.Groups[1].Value.Trim() : "";
 
-      // 同样，也提取 `intent`。
-      var intentMatch = Regex.Match(reasoningAndIntent, "<intent>(.*?)</intent>", RegexOptions.Singleline);
+      // 同样地，也提取 `intent`。
+      var intentMatch = Regex.Match(summaryAndIntent, "<intent>(.*?)</intent>", RegexOptions.Singleline);
       var intent = intentMatch.Success ? intentMatch.Groups[1].Value.Trim() : "";
 
-      return (reasoning, intent);
+      return (summary, intent);
   }
   ```
 
   ```go Go
   import (
   	"context"
+  	"errors"
   	"regexp"
   	"strings"
   	// ...
@@ -840,11 +851,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   // 设置默认模型
   const defaultModel = anthropic.ModelClaudeHaiku5_5
 
-  func classifySupportRequest(ctx context.Context, ticketContents string) (reasoning, intent string, err error) {
+  func classifySupportRequest(ctx context.Context, ticketContents string) (summary, intent string, err error) {
   	// 定义分类任务的提示
   	classificationPrompt := `You will be acting as a customer support ticket classification system.
   		[…]
-  		... The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+  		... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
   		`
   	// 将提示发送到 API 以对支持请求进行分类。
   	message, err := client.Messages.New(ctx, anthropic.MessageNewParams{
@@ -858,27 +869,30 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   	if err != nil {
   		return "", "", err
   	}
-  	var reasoningAndIntent string
+  	if message.StopReason == anthropic.StopReasonRefusal {
+  		return "", "", errors.New("Claude declined to classify this ticket")
+  	}
+  	var summaryAndIntent string
   	for _, block := range message.Content {
   		if textBlock, ok := block.AsAny().(anthropic.TextBlock); ok {
-  			reasoningAndIntent = textBlock.Text
+  			summaryAndIntent = textBlock.Text
   			break
   		}
   	}
 
-  	// 使用正则表达式提取 `reasoning`。
-  	reasoningMatch := regexp.MustCompile(`(?s)<reasoning>(.*?)</reasoning>`).FindStringSubmatch(reasoningAndIntent)
-  	if reasoningMatch != nil {
-  		reasoning = strings.TrimSpace(reasoningMatch[1])
+  	// 使用正则表达式提取 `summary`。
+  	summaryMatch := regexp.MustCompile(`(?s)<summary>(.*?)</summary>`).FindStringSubmatch(summaryAndIntent)
+  	if summaryMatch != nil {
+  		summary = strings.TrimSpace(summaryMatch[1])
   	}
 
   	// 同样，也提取 `intent`。
-  	intentMatch := regexp.MustCompile(`(?s)<intent>(.*?)</intent>`).FindStringSubmatch(reasoningAndIntent)
+  	intentMatch := regexp.MustCompile(`(?s)<intent>(.*?)</intent>`).FindStringSubmatch(summaryAndIntent)
   	if intentMatch != nil {
   		intent = strings.TrimSpace(intentMatch[1])
   	}
 
-  	return reasoning, intent, nil
+  	return summary, intent, nil
   }
   ```
 
@@ -892,14 +906,14 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   // 设置默认模型
   static final Model DEFAULT_MODEL = Model.CLAUDE_HAIKU_5_5;
 
-  record Classification(String reasoning, String intent) {}
+  record Classification(String summary, String intent) {}
 
   Classification classifySupportRequest(String ticketContents) {
       // 定义分类任务的提示
       String classificationPrompt = """
           You will be acting as a customer support ticket classification system.
           […]
-          ... The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """;
       // 将提示发送到 API 以对支持请求进行分类。
       Message message = client.messages().create(MessageCreateParams.builder()
@@ -910,23 +924,26 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
               .build())
           .addUserMessage(classificationPrompt)
           .build());
-      String reasoningAndIntent = message.content().stream()
+      if (message.stopReason().filter(StopReason.REFUSAL::equals).isPresent()) {
+          throw new IllegalStateException("Claude declined to classify this ticket.");
+      }
+      String summaryAndIntent = message.content().stream()
           .flatMap(block -> block.text().stream())
           .map(textBlock -> textBlock.text())
           .findFirst()
           .orElse("");
 
-      // 使用正则表达式提取 `reasoning`。
-      Matcher reasoningMatch = Pattern.compile("<reasoning>(.*?)</reasoning>", Pattern.DOTALL)
-          .matcher(reasoningAndIntent);
-      String reasoning = reasoningMatch.find() ? reasoningMatch.group(1).strip() : "";
+      // 使用正则表达式提取 `summary`。
+      Matcher summaryMatch = Pattern.compile("<summary>(.*?)</summary>", Pattern.DOTALL)
+          .matcher(summaryAndIntent);
+      String summary = summaryMatch.find() ? summaryMatch.group(1).strip() : "";
 
       // 同样，也提取 `intent`。
       Matcher intentMatch = Pattern.compile("<intent>(.*?)</intent>", Pattern.DOTALL)
-          .matcher(reasoningAndIntent);
+          .matcher(summaryAndIntent);
       String intent = intentMatch.find() ? intentMatch.group(1).strip() : "";
 
-      return new Classification(reasoning, intent);
+      return new Classification(summary, intent);
   }
   ```
 
@@ -938,7 +955,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   const DEFAULT_MODEL = Model::CLAUDE_HAIKU_5_5;
 
   /**
-   * @return array{string, string} the reasoning and the intent
+   * @return array{string, string} the summary and the intent
    */
   function classifySupportRequest(Client $client, string $ticketContents): array
   {
@@ -946,39 +963,42 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       $classificationPrompt = <<<PROMPT
           You will be acting as a customer support ticket classification system.
           […]
-          ... The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           PROMPT;
-      // 将提示发送到 API，对支持请求进行分类。
+      // 将提示发送到 API 以对支持请求进行分类。
       $message = $client->messages->create(
           model: DEFAULT_MODEL,
           maxTokens: 2048,
           outputConfig: ['effort' => 'low'],
           messages: [['role' => 'user', 'content' => $classificationPrompt]],
       );
-      $reasoningAndIntent = '';
+      if ($message->stopReason === 'refusal') {
+          throw new \RuntimeException('Claude declined to classify this ticket.');
+      }
+      $summaryAndIntent = '';
       foreach ($message->content as $block) {
           if ($block instanceof \Anthropic\Messages\TextBlock) {
-              $reasoningAndIntent = $block->text;
+              $summaryAndIntent = $block->text;
               break;
           }
       }
 
-      // 使用正则表达式提取 `reasoning`。
-      $reasoning = preg_match('/<reasoning>(.*?)<\/reasoning>/s', $reasoningAndIntent, $reasoningMatch)
-          ? trim($reasoningMatch[1])
+      // 使用正则表达式提取 `summary`。
+      $summary = preg_match('/<summary>(.*?)<\/summary>/s', $summaryAndIntent, $summaryMatch)
+          ? trim($summaryMatch[1])
           : '';
 
-      // 同样，也提取 `intent`。
-      $intent = preg_match('/<intent>(.*?)<\/intent>/s', $reasoningAndIntent, $intentMatch)
+      // 同样地，也提取 `intent`。
+      $intent = preg_match('/<intent>(.*?)<\/intent>/s', $summaryAndIntent, $intentMatch)
           ? trim($intentMatch[1])
           : '';
 
-      return [$reasoning, $intent];
+      return [$summary, $intent];
   }
   ```
 
   ```ruby Ruby
-  # 创建 Claude API 客户端实例
+  # 创建 Claude API 客户端的实例
   client = Anthropic::Client.new
 
   # 设置默认模型
@@ -989,36 +1009,38 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
     classification_prompt = <<~PROMPT
       You will be acting as a customer support ticket classification system.
       […]
-      ... The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+      ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
     PROMPT
-    # 将提示发送到 API，对支持请求进行分类。
+    # 将提示发送到 API 以对支持请求进行分类。
     message = client.messages.create(
       model: DEFAULT_MODEL,
       max_tokens: 2048,
       output_config: { effort: "low" },
       messages: [{ role: "user", content: classification_prompt }]
     )
-    reasoning_and_intent = message.content.grep(Anthropic::Models::TextBlock).first&.text || ""
+    raise "Claude declined to classify this ticket." if message.stop_reason == :refusal
+    summary_and_intent = message.content.grep(Anthropic::Models::TextBlock).first&.text || ""
 
-    # 使用正则表达式提取 `reasoning`。
-    reasoning = reasoning_and_intent[%r{<reasoning>(.*?)</reasoning>}m, 1]&.strip || ""
+    # 使用正则表达式提取 `summary`。
+    summary = summary_and_intent[%r{<summary>(.*?)</summary>}m, 1]&.strip || ""
 
     # 同样，也提取 `intent`。
-    intent = reasoning_and_intent[%r{<intent>(.*?)</intent>}m, 1]&.strip || ""
+    intent = summary_and_intent[%r{<intent>(.*?)</intent>}m, 1]&.strip || ""
 
-    [reasoning, intent]
+    [summary, intent]
   end
   ```
 </CodeGroup>
 
 此代码：
 
-* 使用您的 API 密钥创建一个客户端实例。
+* 创建一个客户端实例。
 * 定义一个 `classify_support_request()` (typescript, go, java, php: `classifySupportRequest()`; csharp: `ClassifySupportRequest()`) 函数，该函数接受一个 `ticket_contents` (typescript, csharp, go, java: `ticketContents`; php: `$ticketContents`) 字符串。
 * 使用 `classification_prompt` (typescript, csharp, go, java: `classificationPrompt`; php: `$classificationPrompt`) 将 `ticket_contents` (typescript, csharp, go, java: `ticketContents`; php: `$ticketContents`) 发送给 Claude 进行分类。
-* 返回从响应中提取的模型推理和意图。
+* 如果 Claude [拒绝了该请求](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)，则报错停止，因为被拒绝的响应没有可供解析的完整文本。
+* 返回从响应中提取的摘要和意图。
 
-由于必须先生成完整的推理和意图文本才能进行解析，因此该示例不对响应进行 “streaming”（流式传输）。
+该代码一次性解析整个响应，因此该示例不对响应进行 “streaming”（流式传输）。
 
 ***
 
@@ -1062,7 +1084,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       # 定义分类任务的提示
       classification_prompt = f"""You will be acting as a customer support ticket classification system.
           […]
-          ...The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """
 
       message = client.messages.create(
@@ -1072,25 +1094,27 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
           messages=[{"role": "user", "content": classification_prompt}],
       )
       usage = message.usage  # Get the usage statistics for the API call for how many input and output tokens were used.
-      reasoning_and_intent = next(
+      if message.stop_reason == "refusal":
+          return "", "", False, usage
+      summary_and_intent = next(
           (block.text for block in message.content if block.type == "text"), ""
       )
 
-      # 使用 Python 的正则表达式库提取 `reasoning`。
-      reasoning_match = re.search(
-          r"<reasoning>(.*?)</reasoning>", reasoning_and_intent, re.DOTALL
+      # 使用 Python 的正则表达式库提取 `summary`。
+      summary_match = re.search(
+          r"<summary>(.*?)</summary>", summary_and_intent, re.DOTALL
       )
-      reasoning = reasoning_match.group(1).strip() if reasoning_match else ""
+      summary = summary_match.group(1).strip() if summary_match else ""
 
       # 同样，也提取 `intent`。
-      intent_match = re.search(r"<intent>(.*?)</intent>", reasoning_and_intent, re.DOTALL)
+      intent_match = re.search(r"<intent>(.*?)</intent>", summary_and_intent, re.DOTALL)
       intent = intent_match.group(1).strip() if intent_match else ""
 
       # 检查模型的预测是否正确。
       correct = actual_intent.strip() == intent.strip()
 
-      # 返回 reasoning、intent、correct 和 usage。
-      return reasoning, intent, correct, usage
+      # 返回 summary、intent、correct 和 usage。
+      return summary, intent, correct, usage
   ```
 
   ```typescript TypeScript
@@ -1103,11 +1127,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   async function classifySupportRequest(
     ticketContents: string,
     actualIntent: string
-  ): Promise<{ reasoning: string; intent: string; correct: boolean; usage: Anthropic.Usage }> {
+  ): Promise<{ summary: string; intent: string; correct: boolean; usage: Anthropic.Usage }> {
     // 定义分类任务的提示
     const classificationPrompt = `You will be acting as a customer support ticket classification system.
       […]
-      ...The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+      ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
       `;
 
     const message = await client.messages.create({
@@ -1118,22 +1142,25 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
     });
     // 获取此次 API 调用的用量统计，即使用了多少输入和输出令牌。
     const usage = message.usage;
+    if (message.stop_reason === "refusal") {
+      return { summary: "", intent: "", correct: false, usage };
+    }
     const textBlock = message.content.find((block) => block.type === "text");
-    const reasoningAndIntent = textBlock?.text ?? "";
+    const summaryAndIntent = textBlock?.text ?? "";
 
-    // 使用正则表达式提取 `reasoning`。
-    const reasoningMatch = /<reasoning>(.*?)<\/reasoning>/s.exec(reasoningAndIntent);
-    const reasoning = reasoningMatch?.[1].trim() ?? "";
+    // 使用正则表达式提取 `summary`。
+    const summaryMatch = /<summary>(.*?)<\/summary>/s.exec(summaryAndIntent);
+    const summary = summaryMatch?.[1].trim() ?? "";
 
     // 同样地，也提取 `intent`。
-    const intentMatch = /<intent>(.*?)<\/intent>/s.exec(reasoningAndIntent);
+    const intentMatch = /<intent>(.*?)<\/intent>/s.exec(summaryAndIntent);
     const intent = intentMatch?.[1].trim() ?? "";
 
     // 检查模型的预测是否正确。
     const correct = actualIntent.trim() === intent.trim();
 
-    // 返回 reasoning、intent、correct 和 usage。
-    return { reasoning, intent, correct, usage };
+    // 返回 summary、intent、correct 和 usage。
+    return { summary, intent, correct, usage };
   }
   ```
 
@@ -1147,13 +1174,13 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   // 设置默认模型
   const Model DefaultModel = Model.ClaudeHaiku5_5;
 
-  async Task<(string Reasoning, string Intent, bool Correct, Usage Usage)> ClassifySupportRequest(string ticketContents, string actualIntent)
+  async Task<(string Summary, string Intent, bool Correct, Usage Usage)> ClassifySupportRequest(string ticketContents, string actualIntent)
   {
       // 定义分类任务的提示
       var classificationPrompt = """
           You will be acting as a customer support ticket classification system.
           […]
-          ...The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """;
 
       var message = await client.Messages.Create(new MessageCreateParams
@@ -1165,29 +1192,33 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       });
       // 获取此次 API 调用的用量统计，即使用了多少输入和输出令牌。
       var usage = message.Usage;
-      var reasoningAndIntent = "";
+      if (message.StopReason?.Value() == StopReason.Refusal)
+      {
+          return ("", "", false, usage);
+      }
+      var summaryAndIntent = "";
       foreach (var block in message.Content)
       {
           if (block.TryPickText(out var textBlock))
           {
-              reasoningAndIntent = textBlock.Text;
+              summaryAndIntent = textBlock.Text;
               break;
           }
       }
 
-      // 使用正则表达式提取 `reasoning`。
-      var reasoningMatch = Regex.Match(reasoningAndIntent, "<reasoning>(.*?)</reasoning>", RegexOptions.Singleline);
-      var reasoning = reasoningMatch.Success ? reasoningMatch.Groups[1].Value.Trim() : "";
+      // 使用正则表达式提取 `summary`。
+      var summaryMatch = Regex.Match(summaryAndIntent, "<summary>(.*?)</summary>", RegexOptions.Singleline);
+      var summary = summaryMatch.Success ? summaryMatch.Groups[1].Value.Trim() : "";
 
       // 同样，也提取 `intent`。
-      var intentMatch = Regex.Match(reasoningAndIntent, "<intent>(.*?)</intent>", RegexOptions.Singleline);
+      var intentMatch = Regex.Match(summaryAndIntent, "<intent>(.*?)</intent>", RegexOptions.Singleline);
       var intent = intentMatch.Success ? intentMatch.Groups[1].Value.Trim() : "";
 
       // 检查模型的预测是否正确。
       var correct = actualIntent.Trim() == intent.Trim();
 
-      // 返回 reasoning、intent、correct 和 usage。
-      return (reasoning, intent, correct, usage);
+      // 返回 summary、intent、correct 和 usage。
+      return (summary, intent, correct, usage);
   }
   ```
 
@@ -1205,11 +1236,11 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   // 设置默认模型
   const defaultModel = anthropic.ModelClaudeHaiku5_5
 
-  func classifySupportRequest(ctx context.Context, ticketContents, actualIntent string) (reasoning, intent string, correct bool, usage anthropic.Usage, err error) {
+  func classifySupportRequest(ctx context.Context, ticketContents, actualIntent string) (summary, intent string, correct bool, usage anthropic.Usage, err error) {
   	// 定义分类任务的提示
   	classificationPrompt := `You will be acting as a customer support ticket classification system.
   		[…]
-  		...The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+  		... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
   		`
   	message, err := client.Messages.New(ctx, anthropic.MessageNewParams{
   		Model:        defaultModel,
@@ -1224,22 +1255,25 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   	}
   	// 获取此次 API 调用的用量统计，即使用了多少输入和输出令牌。
   	usage = message.Usage
-  	var reasoningAndIntent string
+  	if message.StopReason == anthropic.StopReasonRefusal {
+  		return "", "", false, usage, nil
+  	}
+  	var summaryAndIntent string
   	for _, block := range message.Content {
   		if textBlock, ok := block.AsAny().(anthropic.TextBlock); ok {
-  			reasoningAndIntent = textBlock.Text
+  			summaryAndIntent = textBlock.Text
   			break
   		}
   	}
 
-  	// 使用正则表达式提取 `reasoning`。
-  	reasoningMatch := regexp.MustCompile(`(?s)<reasoning>(.*?)</reasoning>`).FindStringSubmatch(reasoningAndIntent)
-  	if reasoningMatch != nil {
-  		reasoning = strings.TrimSpace(reasoningMatch[1])
+  	// 使用正则表达式提取 `summary`。
+  	summaryMatch := regexp.MustCompile(`(?s)<summary>(.*?)</summary>`).FindStringSubmatch(summaryAndIntent)
+  	if summaryMatch != nil {
+  		summary = strings.TrimSpace(summaryMatch[1])
   	}
 
-  	// 同样地，也提取 `intent`。
-  	intentMatch := regexp.MustCompile(`(?s)<intent>(.*?)</intent>`).FindStringSubmatch(reasoningAndIntent)
+  	// 同样，也提取 `intent`。
+  	intentMatch := regexp.MustCompile(`(?s)<intent>(.*?)</intent>`).FindStringSubmatch(summaryAndIntent)
   	if intentMatch != nil {
   		intent = strings.TrimSpace(intentMatch[1])
   	}
@@ -1247,8 +1281,8 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   	// 检查模型的预测是否正确。
   	correct = strings.TrimSpace(actualIntent) == strings.TrimSpace(intent)
 
-  	// 返回 reasoning、intent、correct 和 usage。
-  	return reasoning, intent, correct, usage, nil
+  	// 返回摘要、意图、是否正确以及用量。
+  	return summary, intent, correct, usage, nil
   }
   ```
 
@@ -1262,14 +1296,14 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   // 设置默认模型
   static final Model DEFAULT_MODEL = Model.CLAUDE_HAIKU_5_5;
 
-  record Classification(String reasoning, String intent, boolean correct, Usage usage) {}
+  record Classification(String summary, String intent, boolean correct, Usage usage) {}
 
   Classification classifySupportRequest(String ticketContents, String actualIntent) {
       // 定义分类任务的提示
       String classificationPrompt = """
           You will be acting as a customer support ticket classification system.
           […]
-          ...The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           """;
 
       Message message = client.messages().create(MessageCreateParams.builder()
@@ -1280,29 +1314,32 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
               .build())
           .addUserMessage(classificationPrompt)
           .build());
-      // 获取此次 API 调用的用量统计，即使用了多少输入和输出令牌。
+      // 获取本次 API 调用的用量统计，即使用了多少输入和输出令牌。
       Usage usage = message.usage();
-      String reasoningAndIntent = message.content().stream()
+      if (message.stopReason().filter(StopReason.REFUSAL::equals).isPresent()) {
+          return new Classification("", "", false, usage);
+      }
+      String summaryAndIntent = message.content().stream()
           .flatMap(block -> block.text().stream())
           .map(textBlock -> textBlock.text())
           .findFirst()
           .orElse("");
 
-      // 使用正则表达式提取 `reasoning`。
-      Matcher reasoningMatch = Pattern.compile("<reasoning>(.*?)</reasoning>", Pattern.DOTALL)
-          .matcher(reasoningAndIntent);
-      String reasoning = reasoningMatch.find() ? reasoningMatch.group(1).strip() : "";
+      // 使用正则表达式提取 `summary`。
+      Matcher summaryMatch = Pattern.compile("<summary>(.*?)</summary>", Pattern.DOTALL)
+          .matcher(summaryAndIntent);
+      String summary = summaryMatch.find() ? summaryMatch.group(1).strip() : "";
 
-      // 同样地，也提取 `intent`。
+      // 同样，也提取 `intent`。
       Matcher intentMatch = Pattern.compile("<intent>(.*?)</intent>", Pattern.DOTALL)
-          .matcher(reasoningAndIntent);
+          .matcher(summaryAndIntent);
       String intent = intentMatch.find() ? intentMatch.group(1).strip() : "";
 
       // 检查模型的预测是否正确。
       boolean correct = actualIntent.strip().equals(intent.strip());
 
-      // 返回 reasoning、intent、correct 和 usage。
-      return new Classification(reasoning, intent, correct, usage);
+      // 返回 summary、intent、correct 和 usage。
+      return new Classification(summary, intent, correct, usage);
   }
   ```
 
@@ -1314,7 +1351,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
   const DEFAULT_MODEL = Model::CLAUDE_HAIKU_5_5;
 
   /**
-   * @return array{string, string, bool, Usage} the reasoning, the intent, whether the intent is correct, and the usage
+   * @return array{string, string, bool, Usage} the summary, the intent, whether the intent is correct, and the usage
    */
   function classifySupportRequest(Client $client, string $ticketContents, string $actualIntent): array
   {
@@ -1322,7 +1359,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       $classificationPrompt = <<<PROMPT
           You will be acting as a customer support ticket classification system.
           […]
-          ...The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+          ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
           PROMPT;
 
       $message = $client->messages->create(
@@ -1333,29 +1370,32 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       );
       // 获取此次 API 调用的用量统计，即使用了多少输入和输出令牌。
       $usage = $message->usage;
-      $reasoningAndIntent = '';
+      if ($message->stopReason === 'refusal') {
+          return ['', '', false, $usage];
+      }
+      $summaryAndIntent = '';
       foreach ($message->content as $block) {
           if ($block instanceof \Anthropic\Messages\TextBlock) {
-              $reasoningAndIntent = $block->text;
+              $summaryAndIntent = $block->text;
               break;
           }
       }
 
-      // 使用正则表达式提取 `reasoning`。
-      $reasoning = preg_match('/<reasoning>(.*?)<\/reasoning>/s', $reasoningAndIntent, $reasoningMatch)
-          ? trim($reasoningMatch[1])
+      // 使用正则表达式提取 `summary`。
+      $summary = preg_match('/<summary>(.*?)<\/summary>/s', $summaryAndIntent, $summaryMatch)
+          ? trim($summaryMatch[1])
           : '';
 
       // 同样地，也提取 `intent`。
-      $intent = preg_match('/<intent>(.*?)<\/intent>/s', $reasoningAndIntent, $intentMatch)
+      $intent = preg_match('/<intent>(.*?)<\/intent>/s', $summaryAndIntent, $intentMatch)
           ? trim($intentMatch[1])
           : '';
 
       // 检查模型的预测是否正确。
       $correct = trim($actualIntent) === trim($intent);
 
-      // 返回 reasoning、intent、correct 和 usage。
-      return [$reasoning, $intent, $correct, $usage];
+      // 返回 summary、intent、correct 和 usage。
+      return [$summary, $intent, $correct, $usage];
   }
   ```
 
@@ -1371,7 +1411,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
     classification_prompt = <<~PROMPT
       You will be acting as a customer support ticket classification system.
       […]
-      ...The reasoning should be enclosed in <reasoning> tags and the intent in <intent> tags. Return only the reasoning and the intent.
+      ... The summary should be enclosed in <summary> tags and the intent in <intent> tags. Return only the summary and the intent.
     PROMPT
 
     message = client.messages.create(
@@ -1380,21 +1420,22 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
       output_config: { effort: "low" },
       messages: [{ role: "user", content: classification_prompt }]
     )
-    # 获取本次 API 调用的用量统计，即使用了多少输入和输出令牌。
+    # 获取此次 API 调用的用量统计，即使用了多少输入和输出令牌。
     usage = message.usage
-    reasoning_and_intent = message.content.grep(Anthropic::Models::TextBlock).first&.text || ""
+    return ["", "", false, usage] if message.stop_reason == :refusal
+    summary_and_intent = message.content.grep(Anthropic::Models::TextBlock).first&.text || ""
 
-    # 使用正则表达式提取 `reasoning`。
-    reasoning = reasoning_and_intent[%r{<reasoning>(.*?)</reasoning>}m, 1]&.strip || ""
+    # 使用正则表达式提取 `summary`。
+    summary = summary_and_intent[%r{<summary>(.*?)</summary>}m, 1]&.strip || ""
 
-    # 同样，也提取 `intent`。
-    intent = reasoning_and_intent[%r{<intent>(.*?)</intent>}m, 1]&.strip || ""
+    # 同样地，也提取 `intent`。
+    intent = summary_and_intent[%r{<intent>(.*?)</intent>}m, 1]&.strip || ""
 
     # 检查模型的预测是否正确。
     correct = actual_intent.strip == intent.strip
 
-    # 返回 reasoning、intent、correct 和 usage。
-    [reasoning, intent, correct, usage]
+    # 返回 summary、intent、correct 和 usage。
+    [summary, intent, correct, usage]
   end
   ```
 </CodeGroup>
@@ -1403,6 +1444,7 @@ Claude Haiku 5.5（`claude-haiku-5-5`）适合工单路由：它是当前速度�
 
 * `classify_support_request()` (typescript, go, java, php: `classifySupportRequest()`; csharp: `ClassifySupportRequest()`) 函数现在从测试用例中接收 `actual_intent` (typescript, csharp, go, java: `actualIntent`; php: `$actualIntent`)，并将其与 Claude 的意图分类进行比较，以评估两者是否匹配。
 * 该函数提取 API 调用的用量统计信息，以根据所使用的输入和输出令牌计算成本。
+* 被拒绝的请求计为错误分类，因此单次拒绝不会中断评估。该函数仍会返回其用量，因为[某些拒绝会被计费](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#how-refusals-are-billed)。
 
 ### 运行您的评估
 
@@ -1462,7 +1504,7 @@ flowchart LR
 
 ### 使用向量数据库和相似度搜索检索来处理高度多变的工单
 
-尽管提供示例是提升性能最有效的方法，但如果支持请求高度多变，则很难在单个提示中包含足够的示例。
+示例是提升性能最有效的方法，但如果支持请求高度多变，则很难在单个提示中包含足够的示例。
 
 在这种情况下，您可以使用向量数据库从示例数据集中进行相似度搜索，并为给定查询检索最相关的示例。
 
@@ -1476,7 +1518,7 @@ flowchart LR
   <Accordion title="客户提出隐含请求">
     客户经常间接表达需求。例如，"我已经等我的包裹两个多星期了"可能是一个询问订单状态的间接请求。
 
-    * **解决方案：** 向 Claude 提供一些此类请求的真实客户示例，以及其背后的意图。如果您为特别微妙的工单意图附上分类理由，效果会更好，这样 Claude 就能更好地将该逻辑推广到其他工单。
+    * **解决方案：** 向 Claude 提供一些此类请求的真实客户示例，以及其背后的意图。对于特别微妙的意图，还要在提示中说明每个意图的区别所在，这样 Claude 就能将同样的区分应用到其他工单。
   </Accordion>
 
   <Accordion title="Claude 将情绪置于意图之上">

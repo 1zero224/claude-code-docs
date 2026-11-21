@@ -80,12 +80,12 @@ az ad sp create --id "$APP_ID"
     }
     ```
 
-    | 声明    | 值                                                                                                                                                | 在以下情况下匹配此声明                                                                                                                                    |
-    | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-    | `oid` | 托管标识的对象 ID，与 `sub` 相同                                                                                                                            | 您希望授权一个特定的托管标识。这是默认做法。[配置 Anthropic](https://platform.claude.com/docs/zh-CN/manage-claude/wif-providers/azure#configure-anthropic) 中的规则即匹配此声明。 |
-    | `azp` | 调用方标识的客户端 ID                                                                                                                                     | 您希望授权共享同一应用注册的所有工作负载。对于托管标识，`azp` 对该标识是唯一的，因此它等同于 `oid`。                                                                                       |
-    | `aud` | 受众应用注册的客户端 ID（来自[注册令牌受众](https://platform.claude.com/docs/zh-CN/manage-claude/wif-providers/azure#register-the-token-audience)的 `<APP_ID>` GUID） | 始终匹配。规则的 `audience` 字段必须与令牌的 `aud` 值完全相等。                                                                                                      |
-    | `tid` | 您的租户 ID                                                                                                                                          | 您希望实现纵深防御。颁发者 URL 已经固定了租户。                                                                                                                     |
+    | 声明 | 值 | 在以下情况下匹配此声明 |
+    | ----- | ----- | ----- |
+    | `oid` | 托管标识的对象 ID，与 `sub` 相同 | 您希望授权一个特定的托管标识。这是默认做法。[配置 Anthropic](https://platform.claude.com/docs/zh-CN/manage-claude/wif-providers/azure#configure-anthropic) 中的规则即匹配此声明。 |
+    | `azp` | 调用方标识的客户端 ID | 您希望授权共享同一应用注册的所有工作负载。对于托管标识，`azp` 对该标识是唯一的，因此它等同于 `oid`。 |
+    | `aud` | 受众应用注册的客户端 ID（来自[注册令牌受众](https://platform.claude.com/docs/zh-CN/manage-claude/wif-providers/azure#register-the-token-audience)的 `<APP_ID>` GUID） | 始终匹配。规则的 `audience` 字段必须与令牌的 `aud` 值完全相等。 |
+    | `tid` | 您的租户 ID | 您希望实现纵深防御。颁发者 URL 已经固定了租户。 |
 
     如果解码后令牌的 `ver` 声明为 `1.0`，则声明名称和值会有所不同。请在继续之前参阅[如果您的令牌是 v1.0](https://platform.claude.com/docs/zh-CN/manage-claude/wif-providers/azure#if-your-tokens-are-v1-0)。
   </Step>

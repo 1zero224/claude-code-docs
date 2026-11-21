@@ -1439,11 +1439,11 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 令牌计数**可免费使用**，但受基于您的[使用层级](https://platform.claude.com/docs/zh-CN/api/rate-limits#rate-limits)的每分钟请求数速率限制约束。如果您需要更高的限制，请在 Claude Console 的[速率限制](https://platform.claude.com/usage/limits)页面上使用**申请提升等级**。
 
-| 使用层级  | 每分钟请求数（RPM） |
-| ----- | ----------- |
-| Start | 5,000       |
-| Build | 10,000      |
-| Scale | 20,000      |
+| 使用层级 | 每分钟请求数（RPM） |
+| ----- | ----- |
+| Start | 5,000 |
+| Build | 10,000 |
+| Scale | 20,000 |
 
 <Note>
   令牌计数和消息创建具有各自独立的速率限制。使用其中一项不会计入另一项的限制。
@@ -1491,8 +1491,8 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 * 可用性：可用
 
-| 状态 | 模型                                                             |
-| -- | -------------------------------------------------------------- |
+| 状态 | 模型 |
+| ----- | ----- |
 | 可用 | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -1503,10 +1503,10 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
-| 详细信息 | 在发送请求之前计算令牌数。                                                                                                                             | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
+| 详细信息 | 在发送请求之前计算令牌数。 | — |
 
 适用的端点：
 

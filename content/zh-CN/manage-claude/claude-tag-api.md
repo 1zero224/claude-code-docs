@@ -24,12 +24,12 @@ Claude Tag 是一款 claude.ai 产品。此 API 为 Claude Enterprise 组织管�
 
 该 API 在四种资源上提供 14 个端点：
 
-| 资源                                                                 | 端点                                                                                                                                                                                                                                                                                                     |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Slack 频道：**&#x8BBE;置频道、列出工作区的频道或通过 Slack ID 查找频道、读取频道、更改其设置、移除频道 | `POST /v1/organizations/claude_tag/slack_channels`<br />`GET /v1/organizations/claude_tag/slack_channels`<br />`GET /v1/organizations/claude_tag/slack_channels/{id}`<br />`POST /v1/organizations/claude_tag/slack_channels/{id}`<br />`DELETE /v1/organizations/claude_tag/slack_channels/{id}`      |
-| **Slack 工作区：**&#x5217;出您的工作区或通过 Slack ID 查找工作区、读取工作区、更改其设置         | `GET /v1/organizations/claude_tag/slack_workspaces`<br />`GET /v1/organizations/claude_tag/slack_workspaces/{id}`<br />`POST /v1/organizations/claude_tag/slack_workspaces/{id}`                                                                                                                       |
-| **Bundle：**&#x5217;出您组织的访问包、读取某个 Bundle（只读）                        | `GET /v1/organizations/claude_tag/bundles`<br />`GET /v1/organizations/claude_tag/bundles/{bundle_id}`                                                                                                                                                                                                 |
-| **Bundle 目标：**&#x5217;出 Bundle 附加的位置、将其附加到频道或工作区、读取某个附加项、将其分离      | `GET /v1/organizations/claude_tag/bundles/{bundle_id}/targets`<br />`POST /v1/organizations/claude_tag/bundles/{bundle_id}/targets`<br />`GET /v1/organizations/claude_tag/bundles/{bundle_id}/targets/{target_id}`<br />`DELETE /v1/organizations/claude_tag/bundles/{bundle_id}/targets/{target_id}` |
+| 资源 | 端点 |
+| ----- | ----- |
+| **Slack 频道：**&#x8BBE;置频道、列出工作区的频道或通过 Slack ID 查找频道、读取频道、更改其设置、移除频道 | `POST /v1/organizations/claude_tag/slack_channels`<br />`GET /v1/organizations/claude_tag/slack_channels`<br />`GET /v1/organizations/claude_tag/slack_channels/{id}`<br />`POST /v1/organizations/claude_tag/slack_channels/{id}`<br />`DELETE /v1/organizations/claude_tag/slack_channels/{id}` |
+| **Slack 工作区：**&#x5217;出您的工作区或通过 Slack ID 查找工作区、读取工作区、更改其设置 | `GET /v1/organizations/claude_tag/slack_workspaces`<br />`GET /v1/organizations/claude_tag/slack_workspaces/{id}`<br />`POST /v1/organizations/claude_tag/slack_workspaces/{id}` |
+| **Bundle：**&#x5217;出您组织的访问包、读取某个 Bundle（只读） | `GET /v1/organizations/claude_tag/bundles`<br />`GET /v1/organizations/claude_tag/bundles/{bundle_id}` |
+| **Bundle 目标：**&#x5217;出 Bundle 附加的位置、将其附加到频道或工作区、读取某个附加项、将其分离 | `GET /v1/organizations/claude_tag/bundles/{bundle_id}/targets`<br />`POST /v1/organizations/claude_tag/bundles/{bundle_id}/targets`<br />`GET /v1/organizations/claude_tag/bundles/{bundle_id}/targets/{target_id}`<br />`DELETE /v1/organizations/claude_tag/bundles/{bundle_id}/targets/{target_id}` |
 
 此版本涵盖 Slack。连接和断开 Slack 工作区或 Enterprise Grid、您组织的 Slack 默认值、创建和编辑访问包、支出限额，以及[设置](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#settings)中五项以外的所有 Claude Tag 设置，仍在 claude.ai 中进行。
 
@@ -179,9 +179,9 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ## 作用域
 
-| 作用域                | 授予的权限                                                    |
-| ------------------ | -------------------------------------------------------- |
-| `read:claude_tag`  | 本页上的每个 `GET` 端点。                                         |
+| 作用域 | 授予的权限 |
+| ----- | ----- |
+| `read:claude_tag` | 本页上的每个 `GET` 端点。 |
 | `write:claude_tag` | 本页上的每个 `POST` 和 `DELETE` 端点。它不授予读取权限，尽管更改请求的响应中包含已更改的资源。 |
 
 一个密钥可以同时具有两个作用域。先查找频道再更改频道的集成需要两者兼有。没有其他作用域可授予对这些端点的访问权限，在 Claude Console 中创建的密钥在此处无效。
@@ -192,17 +192,17 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ### 本页与 claude.ai 中的名称
 
-| 此 API            | claude.ai 和 Slack                                                                                                                           |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Slack 工作区        | 一个 Slack 工作区。Slack 自身的 API 称其为 team，因此本页中 Slack 自身的工作区 ID 就是那里的 team ID。它与 Claude Platform 工作区无关，后者的 ID 以 `wrkspc_` 开头。                     |
-| Slack 默认值        | **默认 Slack 访问权限**：适用于每个工作区和频道的设置。组织所有者在 claude.ai 中更改它们；此 API 显示频道或工作区在何处继承这些设置。                                                            |
-| 设置层级             | 一个[作用域](https://claude.com/docs/claude-tag/admins/customize)：频道、工作区或 Slack 默认值                                                              |
-| Bundle           | 一个访问包（[Claude Tag 术语表](https://claude.com/docs/claude-tag/concepts/glossary#access-bundle)）                                                 |
-| `enabled`        | **Enable Claude Tag in Slack（在 Slack 中启用 Claude Tag）** 开关                                                                                   |
-| `instructions`   | **自定义指令**                                                                                                                                   |
-| `model`          | **模型**                                                                                                                                      |
-| `environment_id` | **环境**                                                                                                                                      |
-| `guest_policy`   | **How should Claude work in channels with guests（Claude 在有访客的频道中应如何工作）**：`restrict` 对应**限制**，`channel_only` 对应**仅限频道**，`allow` 对应**完全访问权限** |
+| 此 API | claude.ai 和 Slack |
+| ----- | ----- |
+| Slack 工作区 | 一个 Slack 工作区。Slack 自身的 API 称其为 team，因此本页中 Slack 自身的工作区 ID 就是那里的 team ID。它与 Claude Platform 工作区无关，后者的 ID 以 `wrkspc_` 开头。 |
+| Slack 默认值 | **默认 Slack 访问权限**：适用于每个工作区和频道的设置。组织所有者在 claude.ai 中更改它们；此 API 显示频道或工作区在何处继承这些设置。 |
+| 设置层级 | 一个[作用域](https://claude.com/docs/claude-tag/admins/customize)：频道、工作区或 Slack 默认值 |
+| Bundle | 一个访问包（[Claude Tag 术语表](https://claude.com/docs/claude-tag/concepts/glossary#access-bundle)） |
+| `enabled` | **Enable Claude Tag in Slack（在 Slack 中启用 Claude Tag）** 开关 |
+| `instructions` | **自定义指令** |
+| `model` | **模型** |
+| `environment_id` | **环境** |
+| `guest_policy` | **How should Claude work in channels with guests（Claude 在有访客的频道中应如何工作）**：`restrict` 对应**限制**，`channel_only` 对应**仅限频道**，`allow` 对应**完全访问权限** |
 
 ### 已设置的频道和工作区
 
@@ -221,14 +221,14 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 您通过 Slack 显示的 ID 来识别频道。使用[按 Slack ID 查找频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#find-a-channel-by-its-slack-ids)查找一次其 `id`，然后存储并使用该 `id`。
 
-| ID              | 前缀                                                                                                                                          | 出现位置                                           |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| Slack 频道资源      | `slch_`                                                                                                                                     | 频道上的 `id`；请求体和响应中的 `slack_channel_id`          |
-| Slack 工作区资源     | `slws_`                                                                                                                                     | 工作区上的 `id`；请求体和响应中的 `slack_workspace_id`       |
-| Bundle          | `capp_`                                                                                                                                     | Bundle 上的 `id`；路径中的 `{bundle_id}`              |
-| Bundle 目标       | `btgt_`                                                                                                                                     | Bundle 目标上的 `id`；路径中的 `{target_id}`            |
+| ID | 前缀 | 出现位置 |
+| ----- | ----- | ----- |
+| Slack 频道资源 | `slch_` | 频道上的 `id`；请求体和响应中的 `slack_channel_id` |
+| Slack 工作区资源 | `slws_` | 工作区上的 `id`；请求体和响应中的 `slack_workspace_id` |
+| Bundle | `capp_` | Bundle 上的 `id`；路径中的 `{bundle_id}` |
+| Bundle 目标 | `btgt_` | Bundle 目标上的 `id`；路径中的 `{target_id}` |
 | Slack 自身的工作区 ID | `T`，Grid 自身的 ID 则为 `E`（请参阅[已设置的频道和工作区](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#set-up-channels-and-workspaces)） | `slack.workspace_id`；`slack_workspace_id` 查询参数 |
-| Slack 自身的频道 ID  | `C` 或 `G`                                                                                                                                   | `slack.channel_id`；`slack_channel_id` 查询参数     |
+| Slack 自身的频道 ID | `C` 或 `G` | `slack.channel_id`；`slack_channel_id` 查询参数 |
 
 <Warning>
   `slack_channel_id` 和 `slack_workspace_id` 各有两种含义。在**查询参数**中，它们是 Slack 自身的 ID（`C05HJKL6MNP`、`T01ABCD2EFG`）。在**请求体或响应**中，它们是此 API 发放的 `id`（`slch_...`、`slws_...`）。请求体或响应中的 Slack 自身 ID 始终位于 `slack` 下。
@@ -242,13 +242,13 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 每个设置层级都存储相同的五项设置，均为可选：
 
-| 设置               | 类型      | 描述                                                                                                                                                                                                                                                                                                                                                          |
-| ---------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `enabled`        | boolean | Claude 是否开启。                                                                                                                                                                                                                                                                                                                                                |
-| `instructions`   | string  | Claude 在每个会话中读取的常设指导。去除首尾空白后最多 8,192 个字符。空白文本会清除该设置。                                                                                                                                                                                                                                                                                                        |
-| `model`          | string  | 新会话启动时使用的模型：您的组织可在 Claude Tag 中使用的[模型 ID](https://platform.claude.com/docs/zh-CN/models/overview)。最多 128 个字符。                                                                                                                                                                                                                                               |
-| `environment_id` | string  | 会话运行所在的云环境，前缀为 `env_`。它必须处于活动状态并属于您的组织。                                                                                                                                                                                                                                                                                                                     |
-| `guest_policy`   | object  | 当 Slack 访客在频道中时，Claude 在该频道中对所有人的行为：`{"type": "allow"}`（Claude 回答）、`{"type": "restrict"}`（Claude 不回答）或 `{"type": "channel_only"}`（Claude 仅使用附加到频道本身的 Bundle 回答；如果您的组织无法使用 `channel_only`，设置它的请求会返回 `400`）。关于它在通过 Slack Connect 或跨 Enterprise Grid 共享的频道中的含义，请参阅[限制访客频道](https://claude.com/docs/claude-tag/admins/restrict-access#restrict-guest-channels)。 |
+| 设置 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `enabled` | boolean | Claude 是否开启。 |
+| `instructions` | string | Claude 在每个会话中读取的常设指导。去除首尾空白后最多 8,192 个字符。空白文本会清除该设置。 |
+| `model` | string | 新会话启动时使用的模型：您的组织可在 Claude Tag 中使用的[模型 ID](https://platform.claude.com/docs/zh-CN/models/overview)。最多 128 个字符。 |
+| `environment_id` | string | 会话运行所在的云环境，前缀为 `env_`。它必须处于活动状态并属于您的组织。 |
+| `guest_policy` | object | 当 Slack 访客在频道中时，Claude 在该频道中对所有人的行为：`{"type": "allow"}`（Claude 回答）、`{"type": "restrict"}`（Claude 不回答）或 `{"type": "channel_only"}`（Claude 仅使用附加到频道本身的 Bundle 回答；如果您的组织无法使用 `channel_only`，设置它的请求会返回 `400`）。关于它在通过 Slack Connect 或跨 Enterprise Grid 共享的频道中的含义，请参阅[限制访客频道](https://claude.com/docs/claude-tag/admins/restrict-access#restrict-guest-channels)。 |
 
 `model` 和 `environment_id` 仅在写入时检查，之后不再检查：如果模型或环境后来发生变化，响应仍会返回存储的值。
 
@@ -265,13 +265,13 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 每项设置单独解析：
 
-| 设置               | 规则                                                            | 没有层级设置时                 |
-| ---------------- | ------------------------------------------------------------- | ----------------------- |
-| `enabled`        | 由设置它的最近层级决定值，因此频道上的 `true` 会在该频道开启 Claude，即使其工作区存储的是 `false`。 | `true`                  |
-| `instructions`   | 累加。每个设置了它的层级的文本会从最宽泛的层级开始依次拼接，中间以空行分隔。                        | `null`                  |
-| `model`          | 由设置它的最近层级决定值。                                                 | `null`：Claude 使用产品的默认模型 |
-| `environment_id` | 由设置它的最近层级决定值。                                                 | `null`                  |
-| `guest_policy`   | 由设置它的最近层级决定值。                                                 | `restrict`              |
+| 设置 | 规则 | 没有层级设置时 |
+| ----- | ----- | ----- |
+| `enabled` | 由设置它的最近层级决定值，因此频道上的 `true` 会在该频道开启 Claude，即使其工作区存储的是 `false`。 | `true` |
+| `instructions` | 累加。每个设置了它的层级的文本会从最宽泛的层级开始依次拼接，中间以空行分隔。 | `null` |
+| `model` | 由设置它的最近层级决定值。 | `null`：Claude 使用产品的默认模型 |
+| `environment_id` | 由设置它的最近层级决定值。 | `null` |
+| `guest_policy` | 由设置它的最近层级决定值。 | `restrict` |
 
 例如，某组织在其 Slack 默认值上存储了指令，在一个工作区上关闭了 Claude，并在该工作区的一个频道上设置了模型。使用 `include_inherited=true` 读取时，该频道会显示这三个值及各自的来源：
 
@@ -312,14 +312,14 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 来源为以下之一：
 
-| `type`                 | 含义                                                                                                                                                   |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `slack_channel`        | 频道，在 `slack_channel_id` 中指明。                                                                                                                         |
-| `slack_workspace`      | 工作区，在 `slack_workspace_id` 中指明。                                                                                                                      |
-| `slack_parent_channel` | 代码频道的父频道，在 `slack_channel_id` 中指明。代码频道是从另一个频道发起的频道。当父频道是同一工作区中的公共频道时，它位于该频道与工作区之间，且仅提供 `instructions` 和 `environment_id`。                            |
-| `slack_grid_channel`   | 在其 Slack Enterprise Grid 的另一个工作区下设置的同一 Slack 频道，通过 `slack` 下的 Slack 自身 ID 指明。它仅提供 `enabled`：当频道及其工作区都未设置 `enabled` 时，该频道在 Grid 另一个工作区下存储的 `true` 生效。 |
-| `slack_default`        | 您组织的 Slack 默认值，没有 ID。                                                                                                                                |
-| `default`              | 没有层级设置值，因此应用内置默认值。                                                                                                                                   |
+| `type` | 含义 |
+| ----- | ----- |
+| `slack_channel` | 频道，在 `slack_channel_id` 中指明。 |
+| `slack_workspace` | 工作区，在 `slack_workspace_id` 中指明。 |
+| `slack_parent_channel` | 代码频道的父频道，在 `slack_channel_id` 中指明。代码频道是从另一个频道发起的频道。当父频道是同一工作区中的公共频道时，它位于该频道与工作区之间，且仅提供 `instructions` 和 `environment_id`。 |
+| `slack_grid_channel` | 在其 Slack Enterprise Grid 的另一个工作区下设置的同一 Slack 频道，通过 `slack` 下的 Slack 自身 ID 指明。它仅提供 `enabled`：当频道及其工作区都未设置 `enabled` 时，该频道在 Grid 另一个工作区下存储的 `true` 生效。 |
+| `slack_default` | 您组织的 Slack 默认值，没有 ID。 |
+| `default` | 没有层级设置值，因此应用内置默认值。 |
 
 `sources.instructions` 列出每个提供文本的层级，从最宽泛的开始，这也是它们的文本在 `settings.instructions` 中的顺序；若没有层级提供文本则为空。它说明谁的文本在前，而不说明某一层级的文本在何处结束：要获取某一层级自己的文本，请不带 `include_inherited` 读取该频道或工作区；对于 Slack 默认值，请在 claude.ai 中查看。指向频道或工作区的来源始终携带其 ID，且绝不为 `null`：在 `slack_channel_id` 或 `slack_workspace_id` 中为此 API 的 `id`，或者在 `slack_grid_channel` 上，像频道对象一样在 `slack` 下为 Slack 自身的 ID。
 
@@ -384,15 +384,15 @@ Slack 群组私信的 ID 与频道格式相同，因此 Claude 在其中的使�
 
 频道对象描述一个 Slack 频道：
 
-| 字段           | 描述                                                                                                                                                                                                                                                                            |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`       | `slack_channel`。                                                                                                                                                                                                                                                              |
-| `id`         | 前缀为 `slch_`。请参阅 [ID](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#ids)。                                                                                                                                                                                |
-| `slack`      | Slack 自身的 ID：`workspace_id` 为频道所在的工作区，`channel_id` 为频道。                                                                                                                                                                                                                       |
-| `settings`   | 频道本身存储的内容，或者在使用 `include_inherited=true` 时，在其中生效的内容。始终存在，包含全部五项[设置](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#settings)；未设置的为 `null`。请参阅[存储值和继承值](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#stored-and-inherited-values)。 |
-| `sources`    | 每项设置对应 `settings` 中的值所来自的层级。始终存在。                                                                                                                                                                                                                                             |
-| `created_at` | 频道被设置的时间。                                                                                                                                                                                                                                                                     |
-| `updated_at` | Claude Tag 对该频道的记录最后一次变更的时间。每次设置发生变化时它都会更新，无论是在此处、在 claude.ai 中还是在 Slack 中，也可能因此处任何响应都未显示的变化而更新。请将较新的值视为重新读取频道的理由，而不是设置已变化的证据。附加或分离 Bundle 本身不会使其更新。                                                                                                                          |
+| 字段 | 描述 |
+| ----- | ----- |
+| `type` | `slack_channel`。 |
+| `id` | 前缀为 `slch_`。请参阅 [ID](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#ids)。 |
+| `slack` | Slack 自身的 ID：`workspace_id` 为频道所在的工作区，`channel_id` 为频道。 |
+| `settings` | 频道本身存储的内容，或者在使用 `include_inherited=true` 时，在其中生效的内容。始终存在，包含全部五项[设置](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#settings)；未设置的为 `null`。请参阅[存储值和继承值](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#stored-and-inherited-values)。 |
+| `sources` | 每项设置对应 `settings` 中的值所来自的层级。始终存在。 |
+| `created_at` | 频道被设置的时间。 |
+| `updated_at` | Claude Tag 对该频道的记录最后一次变更的时间。每次设置发生变化时它都会更新，无论是在此处、在 claude.ai 中还是在 Slack 中，也可能因此处任何响应都未显示的变化而更新。请将较新的值视为重新读取频道的理由，而不是设置已变化的证据。附加或分离 Bundle 本身不会使其更新。 |
 
 不是有效 `slch_` 标识符的 `id` 会返回 `400`。有效但不指向您组织任何频道的 `id` 会返回 `404`。
 
@@ -1569,13 +1569,13 @@ Slack 群组私信的 ID 与频道格式相同，因此 Claude 在其中的使�
 
 Bundle 即 claude.ai 中所称的[访问包](https://claude.com/docs/claude-tag/admins/add-connections)：一组具名的访问权限，例如连接器、代码仓库和凭据，Claude 可以在频道或工作区中使用它们。组织所有者在 claude.ai 中创建、编辑和删除 Bundle。此 API 用于列出和附加 Bundle。它会返回 Bundle 的名称和描述，但绝不会返回 Bundle 所授予的内容。
 
-| 字段                        | 描述                        |
-| ------------------------- | ------------------------- |
-| `type`                    | `bundle`。                 |
-| `id`                      | 前缀为 `capp_`。              |
-| `display_name`            | Bundle 的名称。               |
-| `description`             | Bundle 的用途。没有描述时为 `null`。 |
-| `created_at`、`updated_at` | Bundle 的创建时间和最后更改时间。      |
+| 字段 | 描述 |
+| ----- | ----- |
+| `type` | `bundle`。 |
+| `id` | 前缀为 `capp_`。 |
+| `display_name` | Bundle 的名称。 |
+| `description` | Bundle 的用途。没有描述时为 `null`。 |
+| `created_at`、`updated_at` | Bundle 的创建时间和最后更改时间。 |
 
 不是有效 `capp_` 标识符的 `bundle_id` 会返回 `400`。有效但不存在或属于其他组织的 `bundle_id` 会返回 `404`，无论请求中包含什么其他内容。Claude Tag 为自身管理的 Bundle 不会被列出，并会返回 `404`。
 
@@ -1786,13 +1786,13 @@ Bundle 即 claude.ai 中所称的[访问包](https://claude.com/docs/claude-tag/
 
 Bundle 目标是一个 Bundle 附加到一个频道或一个工作区的记录。附加到工作区的 Bundle 可以在该工作区及其中的每个频道中使用。附加到频道的 Bundle 只能在该频道中使用。
 
-| 字段                   | 描述                                                  |
-| -------------------- | --------------------------------------------------- |
-| `type`               | `slack_channel` 或 `slack_workspace`。                |
-| `id`                 | 前缀为 `btgt_`。它是路径中的 `{target_id}`，绝不是频道或工作区自身的 `id`。 |
-| `slack_channel_id`   | 在 `slack_channel` 目标上：频道的 `id`，前缀为 `slch_`。         |
-| `slack_workspace_id` | 在 `slack_workspace` 目标上：工作区的 `id`，前缀为 `slws_`。      |
-| `created_at`         | Bundle 的附加时间。                                       |
+| 字段 | 描述 |
+| ----- | ----- |
+| `type` | `slack_channel` 或 `slack_workspace`。 |
+| `id` | 前缀为 `btgt_`。它是路径中的 `{target_id}`，绝不是频道或工作区自身的 `id`。 |
+| `slack_channel_id` | 在 `slack_channel` 目标上：频道的 `id`，前缀为 `slch_`。 |
+| `slack_workspace_id` | 在 `slack_workspace` 目标上：工作区的 `id`，前缀为 `slws_`。 |
+| `created_at` | Bundle 的附加时间。 |
 
 一个 Bundle 最多只能附加到某个频道或工作区一次，并且同一组配对始终具有相同的 `id`，即使在分离后重新附加也是如此。该 `id` 是不透明的：请从附加操作的响应或列表中获取它。Bundle 目标不包含其 Bundle 的 `id`，而其路径同样需要该 `id`，因此请将两者一起保存。
 
@@ -2442,10 +2442,10 @@ claude.ai 在值班（on-call）设置中附加的 Bundle 会被列出且可以�
 
 请求按组织进行限制，分为两个预算，由您组织的所有密钥共享，并与您组织的其他 Admin API 限制相互独立。每个预算允许一次突发，然后以稳定速率补充：
 
-| 预算 | 请求                   | 突发  | 补充     |
-| -- | -------------------- | --- | ------ |
-| 读取 | 每个 `GET`             | 120 | 每秒 2 个 |
-| 更改 | 每个 `POST` 和 `DELETE` | 60  | 每秒 1 个 |
+| 预算 | 请求 | 突发 | 补充 |
+| ----- | ----- | ----- | ----- |
+| 读取 | 每个 `GET` | 120 | 每秒 2 个 |
+| 更改 | 每个 `POST` 和 `DELETE` | 60 | 每秒 1 个 |
 
 超出预算的请求会返回 **429 Too Many Requests**，并带有 `retry-after` 标头：等待相应的秒数，然后再次发送请求。已到达其预算检查阶段的请求，无论结果如何，都会获得该预算的 `anthropic-ratelimit-requests-limit`、`anthropic-ratelimit-requests-remaining` 和 `anthropic-ratelimit-requests-reset` 标头；在此之前就被拒绝的请求（例如因其密钥、作用域或标头，或因 API、更改或新存储未对您的组织启用）则不会获得这些标头。
 
@@ -2459,16 +2459,16 @@ claude.ai 在值班（on-call）设置中附加的 Bundle 会被列出且可以�
 
 错误响应遵循 [Claude API 错误](https://platform.claude.com/docs/zh-CN/api/errors)中记录的标准格式。联系支持时，请提供响应正文中的 `request_id`。
 
-| 状态  | 含义                                                                                                                                                                |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 400 | 输入无效，或该操作不适用于此频道、工作区或 Bundle（请参阅各端点的章节）。                                                                                                                          |
-| 401 | 缺少 `x-api-key` 标头，或密钥无法识别。                                                                                                                                        |
-| 403 | 密钥不是组织级别的作用域密钥、缺少所需的作用域，或您的组织无法进行此更改。                                                                                                                             |
-| 404 | 未找到资源，或资源不属于您的组织。当请求缺少 `anthropic-beta` 值或 API 未对您的组织启用时也会返回，因此这些端点看起来不存在。                                                                                        |
+| 状态 | 含义 |
+| ----- | ----- |
+| 400 | 输入无效，或该操作不适用于此频道、工作区或 Bundle（请参阅各端点的章节）。 |
+| 401 | 缺少 `x-api-key` 标头，或密钥无法识别。 |
+| 403 | 密钥不是组织级别的作用域密钥、缺少所需的作用域，或您的组织无法进行此更改。 |
+| 404 | 未找到资源，或资源不属于您的组织。当请求缺少 `anthropic-beta` 值或 API 未对您的组织启用时也会返回，因此这些端点看起来不存在。 |
 | 409 | 在请求运行期间，其他操作更改或移除了该资源。请求所要求的内容均未执行：没有存储设置，没有附加、分离或移除任何内容。唯一的例外是设置请求，它可能在其 `settings` 遇到冲突之前已经设置了频道（`slack_channel_set_up_settings_conflict`）。请重新读取资源，如仍需要则重新发送请求。 |
-| 429 | 超出速率限制。请参阅[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#rate-limiting)。                                                              |
-| 500 | 内部错误。                                                                                                                                                             |
-| 503 | 临时错误。对于更改操作，它不说明更改是否已存储。每次更改都可以安全重复，因此请原样再次发送请求。如果重新发送的 `DELETE` 随后返回 `404`，则该频道或 Bundle 目标已不存在。                                                                  |
+| 429 | 超出速率限制。请参阅[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#rate-limiting)。 |
+| 500 | 内部错误。 |
+| 503 | 临时错误。对于更改操作，它不说明更改是否已存储。每次更改都可以安全重复，因此请原样再次发送请求。如果重新发送的 `DELETE` 随后返回 `404`，则该频道或 Bundle 目标已不存在。 |
 
 当同一状态有多种需要您以不同方式处理的原因时，错误中还会包含 `error.details.error_code`：
 
@@ -2487,18 +2487,18 @@ claude.ai 在值班（on-call）设置中附加的 Bundle 会被列出且可以�
 }
 ```
 
-| `error_code`                                 | 状态  | 含义及处理方法                                                                                                                                                                                                                     |
-| -------------------------------------------- | --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `organization_level_scoped_api_key_required` | 403 | 凭据不是属于整个组织的作用域 Admin API 密钥。请向您的主所有者申请一个。                                                                                                                                                                                   |
-| `api_key_scope_missing`                      | 403 | 密钥缺少端点所需的 `read:claude_tag` 或 `write:claude_tag`。                                                                                                                                                                           |
-| `claude_tag_writes_not_enabled`              | 403 | 您的组织可以通过此 API 读取，但未启用更改。                                                                                                                                                                                                    |
-| `compliance_configuration_restricted`        | 403 | 您的组织具有使 Claude Tag 不存储任何新内容的合规配置，例如零数据保留。设置频道、更新设置（即使是清除设置）以及附加 Bundle 都会被拒绝。分离 Bundle 和移除频道不会被拒绝，并且此类组织即使在 Claude 在频道中开启时也可以[移除](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#remove-a-channel)该频道。 |
-| `environment_not_found`                      | 404 | `environment_id` 未指向您的组织可在此处使用的任何环境。路径中的 `id` 没有问题。                                                                                                                                                                         |
-| `environment_archived`                       | 400 | `environment_id` 指向已归档的环境。                                                                                                                                                                                                  |
-| `slack_channel_set_up_settings_refused`      | 400 | 请求设置了频道，随后 `settings` 被拒绝。`details.slack_channel_id` 是该频道。请参阅[设置频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#set-up-a-channel)。                                                                  |
-| `slack_channel_set_up_environment_not_found` | 404 | 请求设置了频道，随后未找到 `environment_id`。`details.slack_channel_id` 是该频道。请参阅[设置频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#set-up-a-channel)。                                                             |
-| `slack_channel_set_up_settings_conflict`     | 409 | 请求设置了频道，随后另一更改与 `settings` 重叠。`settings` 中的任何内容都未存储。`details.slack_channel_id` 是该频道。请参阅[设置频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#set-up-a-channel)。                                        |
-| `slack_channel_enabled`                      | 400 | Claude 在该频道中处于开启状态（`enabled` 解析为 `true`），因此无法移除该频道。请先将 `enabled` 设置为 `false`。请参阅[移除频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#remove-a-channel)。                                               |
+| `error_code` | 状态 | 含义及处理方法 |
+| ----- | ----- | ----- |
+| `organization_level_scoped_api_key_required` | 403 | 凭据不是属于整个组织的作用域 Admin API 密钥。请向您的主所有者申请一个。 |
+| `api_key_scope_missing` | 403 | 密钥缺少端点所需的 `read:claude_tag` 或 `write:claude_tag`。 |
+| `claude_tag_writes_not_enabled` | 403 | 您的组织可以通过此 API 读取，但未启用更改。 |
+| `compliance_configuration_restricted` | 403 | 您的组织具有使 Claude Tag 不存储任何新内容的合规配置，例如零数据保留。设置频道、更新设置（即使是清除设置）以及附加 Bundle 都会被拒绝。分离 Bundle 和移除频道不会被拒绝，并且此类组织即使在 Claude 在频道中开启时也可以[移除](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#remove-a-channel)该频道。 |
+| `environment_not_found` | 404 | `environment_id` 未指向您的组织可在此处使用的任何环境。路径中的 `id` 没有问题。 |
+| `environment_archived` | 400 | `environment_id` 指向已归档的环境。 |
+| `slack_channel_set_up_settings_refused` | 400 | 请求设置了频道，随后 `settings` 被拒绝。`details.slack_channel_id` 是该频道。请参阅[设置频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#set-up-a-channel)。 |
+| `slack_channel_set_up_environment_not_found` | 404 | 请求设置了频道，随后未找到 `environment_id`。`details.slack_channel_id` 是该频道。请参阅[设置频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#set-up-a-channel)。 |
+| `slack_channel_set_up_settings_conflict` | 409 | 请求设置了频道，随后另一更改与 `settings` 重叠。`settings` 中的任何内容都未存储。`details.slack_channel_id` 是该频道。请参阅[设置频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#set-up-a-channel)。 |
+| `slack_channel_enabled` | 400 | Claude 在该频道中处于开启状态（`enabled` 解析为 `true`），因此无法移除该频道。请先将 `enabled` 设置为 `false`。请参阅[移除频道](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#remove-a-channel)。 |
 
 可能会添加新的错误代码。对于无法识别的代码，请按其状态进行处理。不带 `error_code` 的 `404` 有两种可能的原因。要么是请求指定的某项内容未找到（路径中的 `id`，或请求体或查询中的 Slack 频道或工作区），要么是因为请求缺少 `anthropic-beta` 值或 API 未对您的组织启用，导致每个端点看起来都不存在。要区分两者，请使用相同的密钥和标头[列出您的工作区](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api#list-workspaces)：该请求不指定任何内容，因此只有在第二种情况下才会返回 `404`。
 
@@ -2506,25 +2506,25 @@ claude.ai 在值班（on-call）设置中附加的 Bundle 会被列出且可以�
 
 通过此 API 进行的每项更改都会记录在您组织的 [Compliance API 活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)中，并归属于该 API 密钥，以携带其 `apikey_` ID 的 `api_actor` 形式记录。这些事件与在 claude.ai 中进行相同更改时活动源所记录的事件相同，因此无论更改是通过哪种方式进行的，一次查询即可找到它。
 
-| 事件                                | 触发时机                            |
-| --------------------------------- | ------------------------------- |
-| `ccr_agent_created`               | 频道被设置。                          |
-| `ccr_agent_updated`               | 频道或工作区上的设置发生变化。                 |
-| `ccr_agent_deleted`               | 频道被移除。其 Bundle 目标随之移除，不会单独触发事件。 |
-| `ccr_agent_proxy_profile_bound`   | Bundle 被附加。                     |
-| `ccr_agent_proxy_profile_unbound` | Bundle 被分离。                     |
+| 事件 | 触发时机 |
+| ----- | ----- |
+| `ccr_agent_created` | 频道被设置。 |
+| `ccr_agent_updated` | 频道或工作区上的设置发生变化。 |
+| `ccr_agent_deleted` | 频道被移除。其 Bundle 目标随之移除，不会单独触发事件。 |
+| `ccr_agent_proxy_profile_bound` | Bundle 被附加。 |
+| `ccr_agent_proxy_profile_unbound` | Bundle 被分离。 |
 
 这些事件通过 Feed 自身的标识符 `agent_id`（前缀为 `cagt_`）指明频道或工作区，而此 API 的任何响应都不包含该标识符，因此您目前还无法将事件与频道或工作区的 `id` 对应起来。两个 Bundle 事件在 `profile_id` 中指明 Bundle，并在 `scope_id` 中以相同的 `agent_id` 指明频道或工作区。
 
 `ccr_agent_updated` 事件会在 `updated_fields` 中列出所更改的内容，使用的是活动源自己的名称：
 
-| 设置               | 在 `updated_fields` 中的名称  |
-| ---------------- | ------------------------ |
-| `enabled`        | `slackbot_version`       |
-| `instructions`   | `system_prompt_addendum` |
-| `model`          | `default_model`          |
+| 设置 | 在 `updated_fields` 中的名称 |
+| ----- | ----- |
+| `enabled` | `slackbot_version` |
+| `instructions` | `system_prompt_addendum` |
+| `model` | `default_model` |
 | `environment_id` | `default_environment_id` |
-| `guest_policy`   | `guest_policy`           |
+| `guest_policy` | `guest_policy` |
 
 `updated_fields` 还可能包含 `is_virtual`，它不对应任何设置。当通过此 API 进行的更改是任何人首次在频道或工作区上存储内容时，它会与已更改设置的名称一起出现在该事件中：即由 Claude 首次使用设置、或由此 API 在不带 `settings` 的情况下设置的频道，或从未使用过 Claude 的工作区，且尚无人在此处或 claude.ai 中对其存储设置或附加 Bundle。代码频道启动时使用的 `model` 不算作已存储。附加 Bundle 仅记录 `ccr_agent_proxy_profile_bound`。
 

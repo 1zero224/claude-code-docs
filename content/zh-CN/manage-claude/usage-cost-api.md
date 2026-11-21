@@ -48,11 +48,11 @@ description: 旧版 Admin API 用量和成本报告端点。对于新的集成�
 
 您可以调用哪些 API，以及每个 API 使用哪种密钥，取决于您的组织使用哪个 Claude 产品：
 
-| API                                                                                                                    | Claude Console（Claude Platform）                                                                                                     | Claude Enterprise（claude.ai） |
-| ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)（推荐）                       | Admin API 密钥（`sk-ant-admin01-...`）或其他 [Admin API 凭证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication) | Analytics API 密钥             |
-| 用量和成本 API（旧版），即本页面介绍的 API                                                                                              | Admin API 密钥或其他 Admin API 凭证                                                                                                        | Analytics API 密钥             |
-| [Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/api/beta/organization/analytics) 的成本和用量端点（旧版） | 不可用                                                                                                                                 | Analytics API 密钥             |
+| API | Claude Console（Claude Platform） | Claude Enterprise（claude.ai） |
+| ----- | ----- | ----- |
+| [用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)（推荐） | Admin API 密钥（`sk-ant-admin01-...`）或其他 [Admin API 凭证](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#authentication) | Analytics API 密钥 |
+| 用量和成本 API（旧版），即本页面介绍的 API | Admin API 密钥或其他 Admin API 凭证 | Analytics API 密钥 |
+| [Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/api/beta/organization/analytics) 的成本和用量端点（旧版） | 不可用 | Analytics API 密钥 |
 
 Claude Enterprise 父组织不会出现在 Claude Console 中，也不携带 Admin API 密钥，因此对它们而言，Analytics API 密钥是访问此数据的唯一途径。请参阅[分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api) 了解如何创建每种密钥类型以及 Claude Enterprise 成本数据适用于哪些计划。
 
@@ -251,11 +251,11 @@ bucket_width=1d" \
 
 ### 时间粒度限制
 
-| 粒度   | 默认限制  | 最大限制     | 用例      |
-| ---- | ----- | -------- | ------- |
-| `1m` | 60 个桶 | 1,440 个桶 | 实时监控    |
-| `1h` | 24 个桶 | 168 个桶   | 每日模式    |
-| `1d` | 7 个桶  | 31 个桶    | 每周/每月报告 |
+| 粒度 | 默认限制 | 最大限制 | 用例 |
+| ----- | ----- | ----- | ----- |
+| `1m` | 60 个桶 | 1,440 个桶 | 实时监控 |
+| `1h` | 24 个桶 | 168 个桶 | 每日模式 |
+| `1d` | 7 个桶 | 31 个桶 | 每周/每月报告 |
 
 ## 成本 API
 

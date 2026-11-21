@@ -10,19 +10,19 @@ description: Anthropic 提供的服务器工具、客户端工具和客户端工
 
 Anthropic 提供两类工具：在 Anthropic 基础设施上运行的 **“server tools”（服务器工具）**，以及由 Anthropic 定义 schema、但由您的应用程序负责执行的 **“client tools”（客户端工具）**。这两类工具都与任何用户定义的工具一起出现在请求的 `tools` 数组中。
 
-| 工具                                                                                              | `type`                                                                                             | 执行方 | [Beta 头](https://platform.claude.com/docs/zh-CN/api/beta-headers) |
-| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | --- | ----------------------------------------------------------------- |
-| [网页搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool)      | `web_search_20260318`<br />`web_search_20260209`<br />`web_search_20250305`                        | 服务器 | 无                                                                 |
-| [Web fetch 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool) | `web_fetch_20260318`<br />`web_fetch_20260309`<br />`web_fetch_20260209`<br />`web_fetch_20250910` | 服务器 | 无                                                                 |
-| [代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool)  | `code_execution_20260521`<br />`code_execution_20260120`<br />`code_execution_20250825`            | 服务器 | 无                                                                 |
-| [顾问工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool)           | `advisor_20260301`                                                                                 | 服务器 | `advisor-tool-2026-03-01`                                         |
-| [工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)     | `tool_search_tool_regex_20251119`<br />`tool_search_tool_bm25_20251119`                            | 服务器 | 无                                                                 |
-| [MCP 连接器](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector)                | `mcp_toolset`                                                                                      | 服务器 | `mcp-client-2025-11-20`                                           |
-| [记忆工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool)            | `memory_20250818`                                                                                  | 客户端 | 无                                                                 |
-| [Bash 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool)           | `bash_20250124`                                                                                    | 客户端 | 无                                                                 |
-| [文本编辑器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/text-editor-tool)    | `text_editor_20250728`<br />`text_editor_20250124`                                                 | 客户端 | 无                                                                 |
-| [计算机使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)   | `computer_toolset_20260801`<br />`computer_20251124`<br />`computer_20250124`                      | 客户端 | 无<br />`computer-use-2025-11-24`<br />`computer-use-2025-01-24`   |
-| [浏览器使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool)    | `browser_toolset_20260801`                                                                         | 客户端 | 无                                                                 |
+| 工具 | `type` | 执行方 | [Beta 头](https://platform.claude.com/docs/zh-CN/api/beta-headers) |
+| ----- | ----- | ----- | ----- |
+| [网页搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-search-tool) | `web_search_20260318`<br />`web_search_20260209`<br />`web_search_20250305` | 服务器 | 无 |
+| [Web fetch 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/web-fetch-tool) | `web_fetch_20260318`<br />`web_fetch_20260309`<br />`web_fetch_20260209`<br />`web_fetch_20250910` | 服务器 | 无 |
+| [代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool) | `code_execution_20260521`<br />`code_execution_20260120`<br />`code_execution_20250825` | 服务器 | 无 |
+| [顾问工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool) | `advisor_20260301` | 服务器 | `advisor-tool-2026-03-01` |
+| [工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool) | `tool_search_tool_regex_20251119`<br />`tool_search_tool_bm25_20251119` | 服务器 | 无 |
+| [MCP 连接器](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector) | `mcp_toolset` | 服务器 | `mcp-client-2025-11-20` |
+| [记忆工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool) | `memory_20250818` | 客户端 | 无 |
+| [Bash 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool) | `bash_20250124` | 客户端 | 无 |
+| [文本编辑器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/text-editor-tool) | `text_editor_20250728`<br />`text_editor_20250124` | 客户端 | 无 |
+| [计算机使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool) | `computer_toolset_20260801`<br />`computer_20251124`<br />`computer_20250124` | 客户端 | 无<br />`computer-use-2025-11-24`<br />`computer-use-2025-01-24` |
+| [浏览器使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool) | `browser_toolset_20260801` | 客户端 | 无 |
 
 有关模型兼容性，请参阅各工具的页面。支持的模型因工具和工具版本而异。要在代码中检查某个模型是否接受网页搜索或代码执行，请参阅[使用 Models API](https://platform.claude.com/docs/zh-CN/models/overview#using-the-models-api)。
 
@@ -86,23 +86,23 @@ Anthropic 提供两类工具：在 Anthropic 基础设施上运行的 **“serve
 
 `tools` 数组中的每个工具（包括用户定义的工具）都接受可选属性，用于控制工具的加载方式、谁可以调用它以及如何验证其输入。您可以组合使用这些属性，但有两个例外：设置了 `defer_loading: true` 的工具不能同时携带 `cache_control`，设置了 `strict: true` 的用户定义工具不能在 `allowed_callers` 中列出代码执行调用方。
 
-| 属性                      | 用途                                             | 适用范围                                                                                                                                                                                                                                                                                           | 详细指南                                                                                                                            |
-| ----------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `cache_control`         | 在此工具定义处设置提示缓存断点                                | 所有工具（对于 `computer_toolset_20260801` 和 `browser_toolset_20260801`，请在工具集条目本身上设置，而不是在成员 `configs` 中设置）                                                                                                                                                                                            | [提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)                                                 |
-| `strict`                | 保证对工具名称和输入进行 schema 验证                         | 除 `mcp_toolset`、`computer_toolset_20260801` 和 `browser_toolset_20260801` 之外的所有工具                                                                                                                                                                                                               | [严格工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/strict-tool-use)                                      |
-| `defer_loading`         | 将工具从初始系统提示中排除；当工具搜索为其返回 `tool_reference` 时按需加载 | 所有工具（对于 `mcp_toolset`，请参阅 [MCP 工具集配置](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#mcp-toolset-configuration)）。在计算机使用和浏览器使用工具集上，请在 `configs` 中为每个成员单独设置；请参阅[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)。 | [工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)                                     |
-| `allowed_callers`       | 限制哪些调用方可以调用该工具                                 | 除 `mcp_toolset` 之外的所有工具（在 `computer_toolset_20260801` 和 `browser_toolset_20260801` 上仅接受 `["direct"]`；请参阅[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)）                                                                             | [程序化工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling#the-allowed-callers-field) |
-| `input_examples`        | 提供示例输入对象，向 Claude 展示如何调用该工具                    | 用户定义的工具和 Anthropic schema 客户端工具，`computer_toolset_20260801` 和 `browser_toolset_20260801` 除外。不适用于服务器工具。                                                                                                                                                                                         | [定义工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#providing-tool-use-examples)               |
-| `eager_input_streaming` | 为此工具启用细粒度输入流式传输（`true`）或保持标准缓冲流式传输（`false`）    | 仅限用户定义的工具                                                                                                                                                                                                                                                                                      | [细粒度工具流式传输](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/fine-grained-tool-streaming)                       |
+| 属性 | 用途 | 适用范围 | 详细指南 |
+| ----- | ----- | ----- | ----- |
+| `cache_control` | 在此工具定义处设置提示缓存断点 | 所有工具（对于 `computer_toolset_20260801` 和 `browser_toolset_20260801`，请在工具集条目本身上设置，而不是在成员 `configs` 中设置） | [提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching) |
+| `strict` | 保证对工具名称和输入进行 schema 验证 | 除 `mcp_toolset`、`computer_toolset_20260801` 和 `browser_toolset_20260801` 之外的所有工具 | [严格工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/strict-tool-use) |
+| `defer_loading` | 将工具从初始系统提示中排除；当工具搜索为其返回 `tool_reference` 时按需加载 | 所有工具（对于 `mcp_toolset`，请参阅 [MCP 工具集配置](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-connector#mcp-toolset-configuration)）。在计算机使用和浏览器使用工具集上，请在 `configs` 中为每个成员单独设置；请参阅[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)。 | [工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool) |
+| `allowed_callers` | 限制哪些调用方可以调用该工具 | 除 `mcp_toolset` 之外的所有工具（在 `computer_toolset_20260801` 和 `browser_toolset_20260801` 上仅接受 `["direct"]`；请参阅[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)） | [程序化工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling#the-allowed-callers-field) |
+| `input_examples` | 提供示例输入对象，向 Claude 展示如何调用该工具 | 用户定义的工具和 Anthropic schema 客户端工具，`computer_toolset_20260801` 和 `browser_toolset_20260801` 除外。不适用于服务器工具。 | [定义工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#providing-tool-use-examples) |
+| `eager_input_streaming` | 为此工具启用细粒度输入流式传输（`true`）或保持标准缓冲流式传输（`false`） | 仅限用户定义的工具 | [细粒度工具流式传输](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/fine-grained-tool-streaming) |
 
 ### `allowed_callers` 值
 
 `allowed_callers` 是一个数组，接受以下值的任意组合：
 
-| 值                           | 含义                                                       |
-| --------------------------- | -------------------------------------------------------- |
-| `"direct"`                  | 模型可以在 `tool_use` 块中直接调用此工具。如果省略 `allowed_callers`，这是默认值。 |
-| `"code_execution_20260120"` | 在 `code_execution_20260120` 或更高版本沙箱内运行的代码可以调用此工具。        |
+| 值 | 含义 |
+| ----- | ----- |
+| `"direct"` | 模型可以在 `tool_use` 块中直接调用此工具。如果省略 `allowed_callers`，这是默认值。 |
+| `"code_execution_20260120"` | 在 `code_execution_20260120` 或更高版本沙箱内运行的代码可以调用此工具。 |
 
 `"code_execution_20260120"` 和 `"code_execution_20260521"` 在 `allowed_callers` 中均被接受且可互换：使用任一代码执行工具版本的请求都能满足列出任一调用方的工具。无论请求声明的是哪个版本，响应块始终将调用方标记为 `code_execution_20260120`。
 

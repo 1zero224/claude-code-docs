@@ -42,13 +42,13 @@ Claude API 包括以下 API：
 
 有关每种身份验证方法及其使用时机的详细信息，请参阅[身份验证](https://platform.claude.com/docs/zh-CN/manage-claude/authentication)。对 Claude API 的请求包含以下标头：
 
-| 标头                       | 值                                                                                                                                                                                                                          | 是否必需                                                                                              |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `Authorization`          | `Bearer <token>`，其中 `<token>` 是您的 API 密钥，或通过[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)从 `POST /v1/oauth/token` 获取的短期访问令牌                                                | 是，除非已设置 `x-api-key`                                                                               |
-| `x-api-key`              | 您在 Console 中获取的 API 密钥。`Authorization` 的旧版备用方式，仍受支持                                                                                                                                                                        | 否                                                                                                 |
+| 标头 | 值 | 是否必需 |
+| ----- | ----- | ----- |
+| `Authorization` | `Bearer <token>`，其中 `<token>` 是您的 API 密钥，或通过[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)从 `POST /v1/oauth/token` 获取的短期访问令牌 | 是，除非已设置 `x-api-key` |
+| `x-api-key` | 您在 Console 中获取的 API 密钥。`Authorization` 的旧版备用方式，仍受支持 | 否 |
 | `anthropic-workspace-id` | 请求所运行的[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)的 ID（例如 `wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ`）。请参阅[选择工作区](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#select-a-workspace)。 | 使用未限定于某个工作区的 API 密钥时必需。对于其他 API 密钥为可选。为单个工作区创建的密钥在省略该标头时会在该工作区中运行。不适用于工作负载身份联合令牌，这类令牌在令牌交换时选择工作区。 |
-| `anthropic-version`      | API 版本（例如 `2026-10-21`）                                                                                                                                                                                                    | 是                                                                                                 |
-| `content-type`           | `application/json`                                                                                                                                                                                                         | 是                                                                                                 |
+| `anthropic-version` | API 版本（例如 `2026-10-21`） | 是 |
+| `content-type` | `application/json` | 是 |
 
 如果您使用[客户端 SDK](https://platform.claude.com/docs/zh-CN/api/overview#client-sdks)，SDK 会自动发送身份验证、版本和 content-type 标头；当您的密钥需要时，您需要自己传递 `anthropic-workspace-id`。有关 API 版本控制的详细信息，请参阅 [API 版本](https://platform.claude.com/docs/zh-CN/api/versioning)。
 
@@ -90,13 +90,13 @@ Claude 可通过第一方 Claude API 和云平台使用。请根据您的基础�
 * **功能可用性因平台而异：** Anthropic 运营的平台包括 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)、[Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 和 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)；合作伙伴运营的平台包括 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock。有关功能可用性和时间安排，请参阅每个平台的页面。
 * **最适合：** 现有云承诺、特定合规要求、合并云计费
 
-| 平台                                                | 提供商                           | 文档                                                                                                                                                                                                                                                                       |
-| ------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Claude Models on Google Cloud (Google managed)    | Google Cloud                  | [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)                                                                                                                  |
-| Amazon Bedrock                                    | AWS                           | [Amazon Bedrock 中的 Claude（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)和 [Amazon Bedrock 上的 Claude（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy) |
-| Claude Platform on AWS                            | AWS（Anthropic 运营）             | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)                                                                                                                                                                |
-| Claude Models on Google Cloud (Anthropic managed) | Google Cloud（Anthropic 运营）    | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                                                                                            |
-| Microsoft Foundry                                 | Microsoft Azure（Anthropic 运营） | [Microsoft Foundry 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)                                                                                                                                                      |
+| 平台 | 提供商 | 文档 |
+| ----- | ----- | ----- |
+| Claude Models on Google Cloud (Google managed) | Google Cloud | [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) |
+| Amazon Bedrock | AWS | [Amazon Bedrock 中的 Claude（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)和 [Amazon Bedrock 上的 Claude（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy) |
+| Claude Platform on AWS | AWS（Anthropic 运营） | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
+| Claude Models on Google Cloud (Anthropic managed) | Google Cloud（Anthropic 运营） | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
+| Microsoft Foundry | Microsoft Azure（Anthropic 运营） | [Microsoft Foundry 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 <Note>
   Claude Managed Agents 可通过第一方 Claude API、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 和 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 使用。有关跨平台的功能可用性，请参阅[功能概述](https://platform.claude.com/docs/zh-CN/build-with-claude/overview)。
@@ -108,12 +108,12 @@ Claude 可通过第一方 Claude API 和云平台使用。请根据您的基础�
 
 第一方 Claude API 强制执行以下请求大小限制：
 
-| 端点                                                                                                       | 最大请求大小 |
-| -------------------------------------------------------------------------------------------------------- | ------ |
-| Messages、令牌计数                                                                                            | 128 MB |
+| 端点 | 最大请求大小 |
+| ----- | ----- |
+| Messages、令牌计数 | 128 MB |
 | Message Batches API（请参阅[批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)） | 256 MB |
-| [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files)                              | 500 MB |
-| 会话、智能体、环境                                                                                                | 32 MB  |
+| [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) | 500 MB |
+| 会话、智能体、环境 | 32 MB |
 
 如果超过这些限制，您将收到 413 `request_too_large` 错误。
 
@@ -125,11 +125,11 @@ Claude 可通过第一方 Claude API 和云平台使用。请根据您的基础�
 
 Claude API 在其响应中包含以下标头：
 
-| 标头                          | 描述                                                                                                                                                                                                                                                                                                                                                   |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request-id`                | 请求的全局唯一标识符，例如 `req_018EeWyXxfu5pfWkrYcMdjWG`。当您就特定请求联系支持时请包含它。请参阅[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id)。                                                                                                                                                                                                              |
-| `anthropic-organization-id` | 请求中使用的 API 密钥或访问令牌所属组织的 ID。                                                                                                                                                                                                                                                                                                                          |
-| `anthropic-workspace-id`    | API 密钥或访问令牌解析到的[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)的 `wrkspc_` 前缀 ID，例如 `wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ`，包括当它是您组织的默认工作区时。当凭据未解析到工作区时（例如在 Admin API 请求上）或请求在身份验证完成前失败时，该标头不存在。请参阅[识别 API 响应背后的工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#identify-the-workspace-behind-an-api-response)。 |
+| 标头 | 描述 |
+| ----- | ----- |
+| `request-id` | 请求的全局唯一标识符，例如 `req_018EeWyXxfu5pfWkrYcMdjWG`。当您就特定请求联系支持时请包含它。请参阅[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id)。 |
+| `anthropic-organization-id` | 请求中使用的 API 密钥或访问令牌所属组织的 ID。 |
+| `anthropic-workspace-id` | API 密钥或访问令牌解析到的[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)的 `wrkspc_` 前缀 ID，例如 `wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ`，包括当它是您组织的默认工作区时。当凭据未解析到工作区时（例如在 Admin API 请求上）或请求在身份验证完成前失败时，该标头不存在。请参阅[识别 API 响应背后的工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#identify-the-workspace-behind-an-api-response)。 |
 
 有关速率限制标头，请参阅速率限制中的[响应标头](https://platform.claude.com/docs/zh-CN/api/rate-limits#response-headers)。有关使用每个 SDK 按名称读取响应标头的示例，请参阅[识别 API 响应背后的工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#identify-the-workspace-behind-an-api-response)。
 
@@ -141,12 +141,12 @@ Claude API 在其响应中包含以下标头：
 
 列表端点以页面形式返回结果。大多数较新的列表端点使用本节中描述的 `page` 和 `next_page` 游标方案。有些使用不同的方案；请参阅本节末尾的说明。使用 `limit` 查询参数控制页面大小，使用 `page` 查询参数获取相邻页面。每个响应都包含一个 `data` 数组以及用于在页面之间导航的游标字段。
 
-| 名称          | 位置   | 描述                                                                      |
-| ----------- | ---- | ----------------------------------------------------------------------- |
-| `limit`     | 查询参数 | 每页返回的最大项目数。                                                             |
-| `page`      | 查询参数 | 来自先前响应的不透明游标。在此处传递 `next_page` 或 `prev_page` 值以获取相邻页面。                  |
-| `order`     | 查询参数 | 在支持排序的列表端点上，结果的排序方向（`asc` 或 `desc`）。`page` 游标仅对创建它时所用的 `order` 有效。      |
-| `next_page` | 响应字段 | 下一页的游标，如果没有更多结果则为 `null`。                                               |
+| 名称 | 位置 | 描述 |
+| ----- | ----- | ----- |
+| `limit` | 查询参数 | 每页返回的最大项目数。 |
+| `page` | 查询参数 | 来自先前响应的不透明游标。在此处传递 `next_page` 或 `prev_page` 值以获取相邻页面。 |
+| `order` | 查询参数 | 在支持排序的列表端点上，结果的排序方向（`asc` 或 `desc`）。`page` 游标仅对创建它时所用的 `order` 有效。 |
+| `next_page` | 响应字段 | 下一页的游标，如果没有更多结果则为 `null`。 |
 | `prev_page` | 响应字段 | 在支持向后分页的端点上（当前为 `GET /v1/sessions`）上一页的游标，如果您在第一页则为 `null`。其他列表端点省略此字段。 |
 
 要返回上一页，请将 `prev_page` 作为 `page` 参数传递。当您在第一页时，`prev_page` 为 `null`。并非所有列表端点都支持 `prev_page`。只有 `GET /v1/sessions` 返回 `prev_page`；在不支持向后分页的列表端点上，该字段在响应中不存在，而不是 `null`。有关请求演练，请参阅[列出会话](https://platform.claude.com/docs/zh-CN/managed-agents/session-operations#listing-sessions)。

@@ -161,8 +161,8 @@ skills 的保存位置决定了哪些会话会加载它。将其保存在主目�
 | :- | :- | :- |
 | Enterprise | `.claude/skills/<skill-name>/SKILL.md` 在 [托管设置目录](https://code.claude.com/docs/zh-CN/managed-settings.md#delivery-mechanisms) | 您的组织部署它的所有机器上的所有用户 |
 | Personal | `~/.claude/skills/<skill-name>/SKILL.md` | 此机器上的所有项目，但不包括 [Cowork 或云会话](#skills-in-cowork-and-cloud-sessions) |
-| Project | `.claude/skills/<skill-name>/SKILL.md` | 此仓库中的会话，但不包括 [项目中的云端线程](https://code.claude.com/docs/zh-CN/claude-projects.md#what-threads-pick-up-from-your-repositories)。提交它以便您的团队也能获得它 |
-| Nested | `<subdir>/.claude/skills/<skill-name>/SKILL.md` | 在 `<subdir>` 中或其下方启动的会话，但不包括项目中的云端线程。在这些线程之外，在其上方启动的会话会在 Claude 处理该处的文件时加载该 skill。请参阅 [monorepos 和子目录](#discovery-from-parent-and-nested-directories) |
+| Project | `.claude/skills/<skill-name>/SKILL.md` | 此仓库中的会话。对于项目的云端线程，请查看 [哪些线程会加载它](https://code.claude.com/docs/zh-CN/claude-projects.md#what-threads-pick-up-from-your-repositories)。提交它以便您的团队也能获得它 |
+| Nested | `<subdir>/.claude/skills/<skill-name>/SKILL.md` | 在 `<subdir>` 中或其下方启动的会话。在其上方启动的会话会在 Claude 处理该处的文件时加载该 skill。请参阅 [monorepos 和子目录](#discovery-from-parent-and-nested-directories)。对于项目的云端线程，请查看 [哪些线程会加载它](https://code.claude.com/docs/zh-CN/claude-projects.md#what-threads-pick-up-from-your-repositories) |
 | Additional directory | `.claude/skills/<skill-name>/SKILL.md` 在使用 `--add-dir` 传递的目录中 | 该会话。请参阅 [项目外的目录](#skills-from-additional-directories) |
 | Plugin | `<plugin>/skills/<skill-name>/SKILL.md` | 在 [插件](https://code.claude.com/docs/zh-CN/plugins/overview.md) 启用的任何位置，作为 `/plugin-name:skill-name` |
 | claude.ai account | 为您的 claude.ai 账户启用的 skills | Cowork 会话、云会话和使用该账户登录的终端会话。请参阅 [从 claude.ai 同步的 Skills](#how-synced-skills-behave) |
@@ -228,8 +228,8 @@ Claude Code 在启动时使用 `--add-dir` 传递的目录中监视 `.claude/ski
 
 如果 skill 仅存在于您机器上的 `~/.claude/skills/` 中，当 [云端定时任务](https://code.claude.com/docs/zh-CN/routines.md) 调用它时，Claude Code 会报告找不到该 skill。这是因为每次运行都作为新的云端会话启动。要在这些会话中使用个人 skill：
 
-* 对于 Cowork 会话、云端会话以及 [项目](https://code.claude.com/docs/zh-CN/claude-projects.md#what-threads-pick-up-from-your-repositories) 中的云端线程，为您的 claude.ai 账户启用该 skill。在项目的云端线程中，提交到仓库 `.claude/skills/` 的 skill 不可用。[自托管环境中的某些会话](https://code.claude.com/docs/zh-CN/self-hosted-environments-configuration.md#how-each-session’s-config-is-assembled) 不会加载您账户的 skill。
-* 对于项目线程以外的云端会话，您可以改为将 skill 提交到仓库的 `.claude/skills/`。在仓库的 `.claude/settings.json` 中声明的插件和仅在您的用户设置中启用的插件 [不会在云端会话中加载](https://code.claude.com/docs/zh-CN/cloud-environments.md#what-carries-over-from-your-setup)。
+* 对于 Cowork 会话、云端会话以及 [项目](https://code.claude.com/docs/zh-CN/claude-projects.md#what-threads-pick-up-from-your-repositories) 中的云端线程，为您的 claude.ai 账户启用该 skill。[自托管环境中的某些会话](https://code.claude.com/docs/zh-CN/self-hosted-environments-configuration.md#how-each-session’s-config-is-assembled) 不会加载您账户的 skill。
+* 对于云端会话，您可以改为将 skill 提交到仓库的 `.claude/skills/`。对于项目，请查看 [哪些线程会加载它](https://code.claude.com/docs/zh-CN/claude-projects.md#what-threads-pick-up-from-your-repositories)。在仓库的 `.claude/settings.json` 中声明的插件和仅在您的用户设置中启用的插件 [不会在云端会话中加载](https://code.claude.com/docs/zh-CN/cloud-environments.md#what-carries-over-from-your-setup)。
 
 [Desktop 计划任务](https://code.claude.com/docs/zh-CN/desktop-scheduled-tasks.md) 在您的机器上本地运行，因此它们确实加载 `~/.claude/skills/`。
 
@@ -321,7 +321,7 @@ Claude Code 对同步 skill 的正文的处理取决于会话运行的位置：
 
 Claude Code 监视 skill 目录的文件更改，除了在 [bare mode](https://code.claude.com/docs/zh-CN/headless.md#start-faster-with-bare-mode) 中。当您在 `~/.claude/skills/`、项目 `.claude/skills/` 或 `--add-dir` 目录内的 `.claude/skills/` 中添加、编辑或删除 skill 时，Claude Code 在当前会话中获取更改，无需重新启动。
 
-如果您创建了会话启动时不存在的顶级 skills 目录，请运行 [`/reload-skills`](https://code.claude.com/docs/zh-CN/commands#all-commands) 以获取您放在那里的 skills。Claude Code 还没有监视该目录，因此在稍后每次更改后再次运行 `/reload-skills`。
+如果新 skill 没有出现，请运行 [`/reload-skills`](https://code.claude.com/docs/zh-CN/commands#all-commands)。
 
 > [!NOTE]
 >
@@ -415,7 +415,7 @@ Your skill instructions here...
 | `agent` | 否 | 设置 `context: fork` 时使用的子代理类型。 |
 | `background` | 否 | 仅在使用 `context: fork` 时适用。设置为 `false` 可在调用该 skill 的轮次中等待分叉子代理的结果，而不是[在后台运行它](#run-skills-in-a-subagent)。默认值：`true`。 |
 | `hooks` | 否 | Claude Code 在调用该 skill 时注册并在会话剩余时间内持续运行的 hook。有关配置格式、`once` 选项以及 [skill hook 的限制](https://code.claude.com/docs/zh-CN/hooks.md#limits-on-skill-hooks)，请参阅 [skill 和 Agent 中的 hook](https://code.claude.com/docs/zh-CN/hooks.md#hooks-in-skills-and-agents)。 |
-| `paths` | 否 | 限制此 skill 何时激活的 Glob 模式。接受以逗号分隔的字符串或 YAML 列表。设置后，仅当处理与这些模式匹配的文件时，Claude 才会自动加载该 skill。模式相对于 Claude 的当前工作目录，该目录之外的文件不会匹配。使用与[特定路径规则](https://code.claude.com/docs/zh-CN/memory.md#path-specific-rules)相同的 glob 格式。 |
+| `paths` | 否 | 用于指定激活此 skill 的文件的 Glob 模式。接受以逗号分隔的字符串或 YAML 列表。模式相对于 Claude 的当前工作目录。在主对话中，通过 `cd` 进入同一 Git worktree 中[主工作目录](https://code.claude.com/docs/zh-CN/permissions.md#working-directories)的某个子目录后，模式仍相对于该主工作目录。模式仅匹配其所相对的目录内的文件。使用与[特定路径规则](https://code.claude.com/docs/zh-CN/memory.md#path-specific-rules)相同的 glob 格式。 |
 | `shell` | 否 | 此 skill 中 `` !`command` `` 和 ` ```! ` 块使用的 shell。接受 `bash`（默认）或 `powershell`。当 [PowerShell 工具](https://code.claude.com/docs/zh-CN/tools-reference.md#powershell-tool)启用时，设置 `powershell` 会通过 PowerShell 运行内联 shell 命令：在没有 Git Bash 的 Windows 上默认启用，对于 claude.ai 和 Console 账户在有 Git Bash 时默认启用，而在 Amazon Bedrock、Google Cloud 的 Agent Platform 和 Microsoft Foundry 会话中以及在 macOS、Linux 和 WSL 上需要设置 `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`。将其设置为 `0` 可关闭该工具。 |
 | `metadata` | 否 | 用于存放您自己的键值数据的自由格式 YAML 映射，例如权益或目录字段，由您自己的工具从 `SKILL.md` 中读取。Claude Code 不会处理其内容，并会丢弃非映射类型的值。请勿将 `paths` 等 frontmatter 字段名用作键。 |
 | `license` | 否 | 适用于该 skill 的许可证。属于 [Agent Skills](https://agentskills.io) 规范的一部分；请参阅[在 Claude Code 之外使用 skill frontmatter](#using-skill-frontmatter-outside-claude-code)。Claude Code 接受该字段，但不会对其进行处理。 |
@@ -1206,7 +1206,7 @@ if __name__ == '__main__':
 3. 尝试重新表述你的请求以更接近描述
 4. 如果 skill 是用户可调用的，使用 `/skill-name` 直接调用它
 5. 如果 `/skill-name` 也无法被识别，请检查 Claude Code 是否[拒绝了该 skill 的名称](#characters-a-skill-name-cant-hold)
-6. 如果 skill 设置了 `paths`，请检查 Claude 读取、编辑或写入的文件是否位于 Claude 当前的工作目录内。对于该目录之外的文件，例如同级 git worktree 中的文件（即使是您使用 `/add-dir` 添加的 worktree），skill 不会激活。要让 skill 对这些文件激活，请在该 worktree 中启动 Claude Code，或[使用 `/cd` 将会话移至该处](https://code.claude.com/docs/zh-CN/permissions#move-the-session-to-another-directory)。
+6. 如果 skill 设置了 `paths`，请检查 Claude 读取、编辑或写入的文件是否位于[这些模式所相对的目录](#frontmatter-reference)内。对于该目录之外的文件，例如同级 git worktree 中的文件（即使是您使用 `/add-dir` 添加的 worktree），skill 不会激活。要让 skill 对这些文件激活，请在该 worktree 中启动 Claude Code，或[使用 `/cd` 将会话移至该处](https://code.claude.com/docs/zh-CN/permissions#move-the-session-to-another-directory)。
 
 如果 frontmatter YAML 格式不正确，Claude Code 会加载 skill 主体但元数据为空，所以 `/skill-name` 仍然有效，但 Claude 无法匹配你的 `description`。使用 `--debug` 运行以查看解析错误。
 
@@ -1225,7 +1225,7 @@ if __name__ == '__main__':
 
 如果 Claude 在其第一个响应中遵循 skill，但之后停止遵循它，请从与你的情况相匹配的以下任何一种情况开始：
 
-* **Claude 跳过了必须每次都成立的规则**：将规则移到 [hook](https://code.claude.com/docs/zh-CN/hooks-guide.md) 中。Claude Code 在其事件发生时每次都运行 hook，例如在每次文件编辑之前，无论 Claude 是否遵循 skill。要将规则与 skill 保持在一起，在 skill 的 [`hooks` frontmatter](https://code.claude.com/docs/zh-CN/hooks#hooks-in-skills-and-agents) 中定义 hook。该 hook 从 skill 被调用时开始应用，直到会话结束。
+* **Claude 跳过了必须每次都成立的规则**：将规则移到[设置文件](https://code.claude.com/docs/zh-CN/hooks.md#hook-locations)或插件的 `hooks/hooks.json` 中的 [hook](https://code.claude.com/docs/zh-CN/hooks-guide.md) 里。Claude Code 会在该 hook 的事件发生时运行它，例如在文件编辑之前，无论 Claude 是否在遵循 skill。
 * **Claude 跳过了应该有判断力地应用的指导**：措辞指导使其适用于整个任务，例如"在每次编辑后运行测试"而不是"运行测试"。Claude Code 在 skill 被调用时将 skill 的内容添加到对话中，并且 [不会在后续轮次重新读取文件](#skill-content-lifecycle)。
 * **对话被压缩了**：再次调用 skill 以恢复其完整内容。在 [压缩](https://code.claude.com/docs/zh-CN/how-claude-code-works.md#when-context-fills-up) 之后，Claude Code [只能保留被调用的 skill 的开始部分](#skill-content-lifecycle)，所以将最重要的说明放在 `SKILL.md` 的顶部。
 

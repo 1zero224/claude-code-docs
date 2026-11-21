@@ -1824,8 +1824,8 @@ Go、Ruby、C# 和 PHP SDK 不读取 `ANTHROPIC_LOG`。除 Python 外，没有 S
 
 * 可用性：可用
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -1833,6 +1833,6 @@ Go、Ruby、C# 和 PHP SDK 不读取 `ANTHROPIC_LOG`。除 Python 外，没有 S
 * 可用性：可用
 * 用法：Python、TypeScript 和 Go SDK 提供会话工具运行器，可为会话的自定义工具调用运行您的工具。智能体循环由会话本身运行。
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |

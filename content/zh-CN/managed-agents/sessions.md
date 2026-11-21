@@ -439,12 +439,12 @@ featureMetadata:
 
 在以下情况下，创建请求会被拒绝：
 
-| 条件                                                                                                                   | 状态  |
-| -------------------------------------------------------------------------------------------------------------------- | --- |
-| 多于一个 `user.define_outcome` 事件                                                                                        | 400 |
-| `user.define_outcome` 事件缺少 `rubric`                                                                                  | 400 |
+| 条件 | 状态 |
+| ----- | ----- |
+| 多于一个 `user.define_outcome` 事件 | 400 |
+| `user.define_outcome` 事件缺少 `rubric` | 400 |
 | 整个列表中来源于文件的 [`document` 内容块](https://platform.claude.com/docs/zh-CN/build-with-claude/files#document-blocks)超过 100 个 | 400 |
-| 请求体超过 32 MB                                                                                                          | 413 |
+| 请求体超过 32 MB | 413 |
 
 `initial_events` (java, php: `initialEvents`; csharp, go: `InitialEvents`) 中的 `user.define_outcome` 事件的接受条件与向现有会话发送该事件时相同；请参阅[定义结果](https://platform.claude.com/docs/zh-CN/managed-agents/define-outcomes)。
 

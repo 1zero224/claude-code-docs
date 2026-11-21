@@ -6,9 +6,9 @@ Claude Cowork 可在桌面、网络、移动设备和 Chrome 侧边栏中的 Cla
 
 Claude Cowork 可在付费计划上使用（Pro、Max、Ultra、Team 和 Enterprise）：
 
-- **Claude Desktop for macOS、Windows 和 Linux（测试版）：**所有付费计划。在 **claude.com/download** 下载或更新。
+- **Claude Desktop（macOS、Windows 和 Linux 版本，测试版）：**所有付费计划。在 **claude.com/download** 下载或更新。
 
-- **网络和 Claude Mobile：**Pro、Max、Ultra 和 Team 计划（Team 上处于测试版），以及 Enterprise 计划（当所有者启用时）。
+- **网络和 Claude Mobile：**Pro、Max、Ultra 和 Team 计划（Team 上为测试版），以及所有者启用的 Enterprise 计划。
 
 - **Chrome 侧边栏中的 Claude：**所有付费计划。在 Enterprise 计划上，所有者需要在云中启用 Claude in Chrome 和 Cowork。请参阅 **[Claude in Chrome 管理员控制](https://support.claude.com/en/articles/13065128-claude-in-chrome-admin-controls#h_bdb63199e1)**。
 
@@ -18,11 +18,11 @@ Claude Cowork 可在付费计划上使用（Pro、Max、Ultra、Team 和 Enterpr
 
 ## 启动 Cowork 会话
 
-在桌面、网络和移动设备上，聊天和 Cowork 共享一个主页，因此您可以从同一位置启动两者。找到消息框，在左下角选择 “Cowork”，然后描述您的任务。要返回常规对话，选择 “聊天”。
+在桌面、网络和移动设备上，聊天和 Cowork 共享一个主页，因此您可以从同一位置启动两者。找到消息框，在左下角选择 “Cowork”，然后描述您的任务。要返回常规对话，请选择 “聊天”。
 
 如果您拥有新的 Claude 体验，则没有 “Cowork” 选项可选择。在任何对话中描述您的任务，Claude 会处理其余部分。
 
-Chrome 侧边栏的工作方式不同。打开侧边栏会直接启动 Cowork 会话，无需在聊天和 Cowork 之间切换的选择器。
+Chrome 侧边栏的工作方式不同。打开侧边栏会直接启动 Cowork 会话，无需选择器在聊天和 Cowork 之间切换。
 
 - **网络：**转到 **[claude.ai](https://claude.ai)** 并找到 “主页” 标签。
 
@@ -48,15 +48,15 @@ Chrome 侧边栏的工作方式不同。打开侧边栏会直接启动 Cowork �
 
 - 在 Pro、Max 和 Ultra 计划上，新会话在每个平台的云中运行。您在 10 月 6 日之前在计算机上启动的任务保留在那里，以便您可以完成它们。
 
-在 Pro、Max 和 Ultra 计划上，没有设置可选择任务运行的位置。
+在 Pro、Max 和 Ultra 计划上，没有设置可选择任务在何处运行。
 
-有关云和本地会话如何隔离以及每个会话可以访问的内容的详细信息，请参阅 **[Claude Cowork 架构概述](https://support.claude.com/en/articles/14479288)**。有关安全指导，请参阅 **[安全使用 Claude Cowork](https://support.claude.com/en/articles/13364135)**。
+有关云和本地会话如何隔离以及每个会话可以访问的内容的详细信息，请参阅 **[Claude Cowork 架构概览](https://support.claude.com/en/articles/14479288)**。有关安全指导，请参阅 **[安全使用 Claude Cowork](https://support.claude.com/en/articles/13364135)**。
 
 ---
 
 ## Pro、Max 和 Ultra 计划在 10 月 6 日的变化
 
-2026 年 10 月 6 日，Pro、Max 和 Ultra 计划上的新 Cowork 任务在云中运行。**[设置 > 常规](https://claude.ai/settings/general)**中的**仅在您的计算机上**选项已被移除。如果您仍设置为仅在计算机上运行 Cowork，下次打开桌面应用时您将被移至云，您会看到一条通知。无需设置任何内容，您无法切换回去。
+2026 年 10 月 6 日，Pro、Max 和 Ultra 计划上的新 Cowork 任务在云中运行。**[设置 > 常规](https://claude.ai/settings/general)**中的**仅在您的计算机上**选项已被删除。如果您仍设置为仅在计算机上运行 Cowork，下次打开桌面应用时您将被移至云，您会看到一条通知。无需设置任何内容，您无法切换回去。
 
 您已在计算机上启动的任务保留在那里，您可以继续处理它们直到完成。每个任务都显示一个横幅，说明它仅在此计算机上运行。
 
@@ -66,7 +66,7 @@ Chrome 侧边栏的工作方式不同。打开侧边栏会直接启动 Cowork �
 
 ### 如果您希望任务在计算机上运行
 
-对于仅在您的计算机上运行的新任务，请在桌面应用中使用 Claude Code。它在您的计算机上运行，并将您的文件夹和历史记录保留在那里。**[获取 Claude Code 桌面](https://claude.com/download)**。要随身携带 Cowork 任务：
+对于仅在您的计算机上运行的新任务，请在桌面应用中使用 Claude Code。它在您的计算机上运行，并将您的文件夹和历史记录保留在那里。**[获取 Claude Code 桌面版](https://claude.com/download)**。要随身携带 Cowork 任务：
 
 1. 打开任务并选择 “下载任务数据”。
 
@@ -91,7 +91,7 @@ Chrome 侧边栏的工作方式不同。打开侧边栏会直接启动 Cowork �
 | 连接器                       | ✅      | ✅      | ✅        |
 | 技能和插件                     | ✅      | ✅      | ✅        |
 | 预览 Claude 创建的文件           | ✅      | ✅      | ✅        |
-| 定时任务                      | ✅      | ✅      | ✅        |
+| 计划任务                      | ✅      | ✅      | ✅        |
 | 项目                        | ✅      | ✅      | ✅        |
 | 实时工件（2026 年 8 月 19 日之前创建） | ✅      |        |          |
 | 工件（2026 年 8 月 19 日或之后创建）  | ✅      | ✅      |          |
@@ -101,27 +101,27 @@ Chrome 侧边栏的工作方式不同。打开侧边栏会直接启动 Cowork �
 
 关于该表的几点说明：
 
-- *本地文件访问、本地连接器、浏览器使用和计算机使用在网页和移动设备上通过 Claude Desktop 应用运行。云会话只能在桌面应用打开且会话在桌面上启动或为定时任务时，读取和写入您在计算机上连接的文件夹中的文件。如果应用关闭，会话会继续运行，但无法访问您的本地文件。
+- *本地文件访问、本地连接器、浏览器使用和计算机使用可通过 Claude Desktop 应用在网页和移动设备上使用。云会话只有在桌面应用在该计算机上打开且会话在桌面上启动或是计划任务时，才能读取和写入您在计算机上连接的文件夹中的文件。如果应用关闭，会话会继续运行，但无法访问您的本地文件。
 
-- 项目在所有平台上都可用。您可以从项目启动聊天或协作会话，Claude 会使用项目的知识作为上下文。与本地文件夹关联的项目仅在桌面上支持协作会话，协作不会更改项目内容，因此请自行将要保留的任何内容添加到项目中。有关更多信息，请参阅 **[使用 Claude Cowork 中的项目组织您的任务](https://support.claude.com/en/articles/14116274)**和 **[在 Claude Cowork 中使用实时工件](https://support.claude.com/en/articles/14729249)**。
+- 项目在所有平台上都可用。您可以从项目启动聊天或协作会话，Claude 会使用项目的知识作为上下文。与本地文件夹关联的项目仅在桌面上支持协作会话，协作不会更改项目内容，因此请自行将要保留的任何内容添加到项目中。有关更多信息，请参阅 **[在 Claude Cowork 中使用项目组织您的任务](https://support.claude.com/en/articles/14116274)**和 **[在 Claude Cowork 中使用实时工件](https://support.claude.com/en/articles/14729249)**。
 
-- 2026 年 8 月 19 日或之后创建的工件在桌面应用和网页上可用。在该日期之前创建的实时工件仅在桌面应用上可用。有关更多信息，请参阅 **[在 Claude Cowork 中使用工件](https://support.claude.com/en/articles/14729249)**。
+- 2026 年 8 月 19 日或之后创建的工件可在桌面应用和网页上使用。在该日期之前创建的实时工件仅在桌面应用上可用。有关更多信息，请参阅 **[在 Claude Cowork 中使用工件](https://support.claude.com/en/articles/14729249)**。
 
-- 包含本地 MCP 服务器的本地连接器和插件仅通过桌面应用运行。
+- 包含本地 MCP 服务器的本地连接器和插件仅通过桌面应用工作。
 
-- 定时任务在云中运行，因此不再需要您的计算机保持唤醒状态。有关更多信息，请参阅 **[在 Claude Cowork 中安排定期任务](https://support.claude.com/en/articles/13854387)**。
+- 计划任务在云中运行，因此不再需要您的计算机保持唤醒状态。有关更多信息，请参阅 **[在 Claude Cowork 中安排定期任务](https://support.claude.com/en/articles/13854387)**。
 
-- 计算机使用适用于 Pro、Max 和 Ultra 计划。有关更多信息，请参阅 **[让 Claude 在 Cowork 中使用您的计算机](https://support.claude.com/en/articles/14128542)**。
+- 计算机使用适用于 Pro、Max 和 Ultra 计划。在 Team 和 Enterprise 计划上，计算机使用处于测试阶段，正在逐步向组织推出。它在使用 “Cowork” 选项启动的任务中不起作用。在所有者启用后，它可在新的 Claude 体验中工作。有关更多信息，请参阅 **[让 Claude 在 Cowork 中使用您的计算机](https://support.claude.com/en/articles/14128542)**。
 
 ## 需要桌面应用的功能
 
-某些功能需要访问您计算机上的内容，因此即使您的会话在云中运行，也需要在您的计算机上打开 Claude Desktop 应用：
+某些功能会访问您计算机上的内容，因此需要在您的计算机上打开 Claude Desktop 应用，即使您的会话在云中运行：
 
-- **本地文件访问。**Claude 读取和写入您在计算机上连接的文件夹中的文件。云中的会话仅在桌面应用打开、仅针对您连接的文件夹以及您已设置的权限下才能访问这些文件。
+- **本地文件访问。**Claude 读取和写入您在计算机上连接的文件夹中的文件。云中的会话仅在桌面应用打开时、仅对您连接的文件夹以及您已设置的权限范围内访问这些文件。
 
 - **本地连接器。**这包括使用这些连接器的插件。
 
-- **浏览器使用。**在桌面上，Claude 默认使用 Claude Desktop 应用中内置的浏览器，或通过 Claude in Chrome 使用您自己的 Chrome 浏览器（如果这是您首选的浏览器）。当桌面应用在线时，内置浏览器也可在网页或移动设备上的 Cowork 中使用。在桌面上启动的会话可以从网页或移动设备进行控制，同时桌面应用保持打开。在 Chrome 侧边栏中，Claude 可以读取您所在的标签页，无需桌面应用。Claude 作为任务的一部分驱动浏览器仍需要桌面应用打开。在 **[在 Claude Cowork 中使用内置浏览器](https://support.claude.com/en/articles/16607400)**中了解更多信息。
+- **浏览器使用。**在桌面上，Claude 默认使用 Claude Desktop 应用中内置的浏览器，或通过 Claude in Chrome 使用您自己的 Chrome 浏览器（如果这是您首选的浏览器）。当桌面应用在线时，内置浏览器也可在网页或移动设备上的 Cowork 中使用。在桌面上启动的会话可以从网页或移动设备进行控制，同时桌面应用保持打开。在 Chrome 侧边栏中，Claude 可以在不需要桌面应用的情况下读取您所在的标签页。Claude 作为任务的一部分驱动浏览器仍需要桌面应用打开。在 **[在 Claude Cowork 中使用内置浏览器](https://support.claude.com/en/articles/16607400)**中了解更多信息。
 
 - **计算机使用。**Claude 可以直接点击、输入和导航您的屏幕。
 
@@ -131,7 +131,7 @@ Chrome 侧边栏的工作方式不同。打开侧边栏会直接启动 Cowork �
 
 1. 在任何设备上开始任务。
 
-2. 从另一设备打开相同会话以查看进度、回答 Claude 的问题或重新指导工作。
+2. 从另一个设备打开相同的会话，以检查进度、回答 Claude 的问题或重新指导工作。
 
 3. 在任何地方获取完成的输出。
 

@@ -403,14 +403,14 @@ featureMetadata:
 
 这些事件在 `/v1/sessions/{session_id}/events/stream` 的主线程上呈现多智能体活动。消息方向类事件是相对于显示它们的流所属的线程来命名的：`agent.thread_message_received` 表示有消息从另一个线程到达了此线程，`agent.thread_message_sent` 表示此线程发送了一条消息。例如，主线程的智能体委派的任务会以 `agent.thread_message_received` 事件的形式到达子线程自己的流。
 
-| 类型                                 | 描述                                                                                                                                                                                                                                                                   |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `session.thread_created`           | 创建了一个线程。包含 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 和 `agent_name` (java, php: `agentName`; csharp, go: `AgentName`)。                                                                                    |
-| `session.thread_status_running`    | 某个线程开始活动。                                                                                                                                                                                                                                                            |
-| `session.thread_status_idle`       | 与该线程关联的智能体正在等待输入。包含一个 `stop_reason` (java, php: `stopReason`; csharp, go: `StopReason`)，指示智能体停止的原因。                                                                                                                                                                  |
-| `session.thread_status_terminated` | 某个线程已终止且不再接受任何输入，例如因为它已被归档或遇到了不可恢复的错误。顾问线程在其咨询结束时也会终止。                                                                                                                                                                                                               |
-| `agent.thread_message_received`    | 在主线程上，子智能体向主线程的智能体发送了报告或问题。包含 `from_session_thread_id` (java: `fromSessionThreadId`; php: `fromSessionThreadID`; csharp, go: `FromSessionThreadID`)、`from_agent_name` (java, php: `fromAgentName`; csharp, go: `FromAgentName`) 和 `content` (csharp, go: `Content`)。 |
-| `agent.thread_message_sent`        | 在主线程上，主线程的智能体向子智能体发送了任务或后续消息。包含 `to_session_thread_id` (java: `toSessionThreadId`; php: `toSessionThreadID`; csharp, go: `ToSessionThreadID`)、`to_agent_name` (java, php: `toAgentName`; csharp, go: `ToAgentName`) 和 `content` (csharp, go: `Content`)。             |
+| 类型 | 描述 |
+| ----- | ----- |
+| `session.thread_created` | 创建了一个线程。包含 `session_thread_id` (java: `sessionThreadId`; php: `sessionThreadID`; csharp, go: `SessionThreadID`) 和 `agent_name` (java, php: `agentName`; csharp, go: `AgentName`)。 |
+| `session.thread_status_running` | 某个线程开始活动。 |
+| `session.thread_status_idle` | 与该线程关联的智能体正在等待输入。包含一个 `stop_reason` (java, php: `stopReason`; csharp, go: `StopReason`)，指示智能体停止的原因。 |
+| `session.thread_status_terminated` | 某个线程已终止且不再接受任何输入，例如因为它已被归档或遇到了不可恢复的错误。顾问线程在其咨询结束时也会终止。 |
+| `agent.thread_message_received` | 在主线程上，子智能体向主线程的智能体发送了报告或问题。包含 `from_session_thread_id` (java: `fromSessionThreadId`; php: `fromSessionThreadID`; csharp, go: `FromSessionThreadID`)、`from_agent_name` (java, php: `fromAgentName`; csharp, go: `FromAgentName`) 和 `content` (csharp, go: `Content`)。 |
+| `agent.thread_message_sent` | 在主线程上，主线程的智能体向子智能体发送了任务或后续消息。包含 `to_session_thread_id` (java: `toSessionThreadId`; php: `toSessionThreadID`; csharp, go: `ToSessionThreadID`)、`to_agent_name` (java, php: `toAgentName`; csharp, go: `ToAgentName`) 和 `content` (csharp, go: `Content`)。 |
 
 顾问咨询会以保留名称 `anthropic.advisor` 发出这些相同的线程事件。该名称在线程生命周期事件中显示为 `agent_name` (java, php: `agentName`; csharp, go: `AgentName`)，在建议传递中显示为 `from_agent_name` (java, php: `fromAgentName`; csharp, go: `FromAgentName`)。有关事件顺序，请参阅[为会话配置顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)。
 
@@ -815,8 +815,8 @@ featureMetadata:
 
 * 可用性：始终开启
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
@@ -831,9 +831,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

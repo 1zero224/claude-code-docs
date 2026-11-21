@@ -245,11 +245,11 @@ MCP 配置分为两个步骤：
 
 `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) 数组中的每个条目定义一个连接。
 
-| 字段                               | 描述                                                                                                                                                                                                                                                                   |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type` (csharp, go: `Type`)      | 必填。必须为 `"url"`。                                                                                                                                                                                                                                                      |
-| `name` (csharp, go: `Name`)      | 必填。该服务器在智能体内的唯一名称（1–255 个字符）。用作 `tools` (csharp, go: `Tools`) 数组中的 `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`)，并显示在[会话事件流](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)中的 MCP 工具事件上。 |
-| `url` (csharp: `Url`; go: `URL`) | 必填。远程 MCP 服务器的端点（最多 2,048 个字符）。有关传输要求，请参阅[支持的 MCP 服务器类型](https://platform.claude.com/docs/zh-CN/managed-agents/reference#supported-mcp-server-types)。                                                                                                                |
+| 字段 | 描述 |
+| ----- | ----- |
+| `type` (csharp, go: `Type`) | 必填。必须为 `"url"`。 |
+| `name` (csharp, go: `Name`) | 必填。该服务器在智能体内的唯一名称（1–255 个字符）。用作 `tools` (csharp, go: `Tools`) 数组中的 `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`)，并显示在[会话事件流](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)中的 MCP 工具事件上。 |
+| `url` (csharp: `Url`; go: `URL`) | 必填。远程 MCP 服务器的端点（最多 2,048 个字符）。有关传输要求，请参阅[支持的 MCP 服务器类型](https://platform.claude.com/docs/zh-CN/managed-agents/reference#supported-mcp-server-types)。 |
 
 约束：
 
@@ -389,9 +389,9 @@ MCP 配置分为两个步骤：
 
 会话创建不会验证 MCP 连接性或凭据。但它会根据环境的网络设置检查每个已声明服务器的主机。使用 `limited` 网络时，如果某个主机不被允许，会话创建将失败并返回 400 错误，如[在会话创建时提供身份验证](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector#provide-authentication-at-session-creation)中所述。如果 MCP 服务器无法访问或拒绝所提供的凭据，会话仍会启动，并且您仍可与其交互。会话会发出一个 [`session.error`](https://platform.claude.com/docs/zh-CN/managed-agents/reference#event-types) 事件，其中包含受影响服务器的 `mcp_server_name` (java, php: `mcpServerName`; csharp: `McpServerName`; go: `MCPServerName`) 以及一个 `retry_status` (java, php: `retryStatus`; csharp, go: `RetryStatus`)：
 
-| 错误类型                              | 含义                                                                    |
-| --------------------------------- | --------------------------------------------------------------------- |
-| `mcp_connection_failed_error`     | 无法访问 MCP 服务器（网络错误、超时或非身份验证类的 HTTP 失败）。                                |
+| 错误类型 | 含义 |
+| ----- | ----- |
+| `mcp_connection_failed_error` | 无法访问 MCP 服务器（网络错误、超时或非身份验证类的 HTTP 失败）。 |
 | `mcp_authentication_failed_error` | 与 MCP 服务器的身份验证失败：服务器拒绝了来自所附保管库的凭据，或服务器要求身份验证但未配置匹配的凭据，或 OAuth 令牌刷新失败。 |
 
 您可以决定是否因此错误阻止进一步交互、触发凭据轮换，或让会话在没有受影响服务器工具的情况下继续运行。连接会在下一次从 `session.status_idle` 到 `session.status_running` 的状态转换时重试。

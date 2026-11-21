@@ -44,16 +44,16 @@ Claude Managed Agents 还支持自定义的用户定义工具。您的应用程�
 
 智能体工具集包含以下工具。当您在智能体配置中包含该工具集时，所有工具默认启用。
 
-| 工具    | 名称           | 描述                    |
-| ----- | ------------ | --------------------- |
-| Bash  | `bash`       | 在 shell 会话中运行 bash 命令 |
-| Read  | `read`       | 从沙箱文件系统读取文件           |
-| Write | `write`      | 向沙箱文件系统写入文件           |
-| Edit  | `edit`       | 在文件中执行字符串替换           |
-| Glob  | `glob`       | 使用 glob 模式执行快速文件模式匹配  |
-| Grep  | `grep`       | 使用正则表达式模式搜索文本         |
-| 网页抓取  | `web_fetch`  | 从 URL 抓取内容            |
-| 网页搜索  | `web_search` | 在网络上搜索信息              |
+| 工具 | 名称 | 描述 |
+| ----- | ----- | ----- |
+| Bash | `bash` | 在 shell 会话中运行 bash 命令 |
+| Read | `read` | 从沙箱文件系统读取文件 |
+| Write | `write` | 向沙箱文件系统写入文件 |
+| Edit | `edit` | 在文件中执行字符串替换 |
+| Glob | `glob` | 使用 glob 模式执行快速文件模式匹配 |
+| Grep | `grep` | 使用正则表达式模式搜索文本 |
+| 网页抓取 | `web_fetch` | 从 URL 抓取内容 |
+| 网页搜索 | `web_search` | 在网络上搜索信息 |
 
 当工具输出超过 100,000 个字符（约 25,000 个令牌）时，它会自动写入[沙箱](https://platform.claude.com/docs/zh-CN/managed-agents/environments)中的文件。模型会收到一个包含文件路径的截断预览，并可以从该路径读取完整内容。
 
@@ -538,8 +538,8 @@ Claude 不会自行运行自定义工具。它会发出一个结构化请求，�
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
 
 ### 所需的 beta 请求头
@@ -554,9 +554,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

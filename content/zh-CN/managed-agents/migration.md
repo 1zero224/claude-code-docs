@@ -45,12 +45,12 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
 
 ### 您不再需要管理的内容
 
-| 之前                                                   | 之后                                                    |
-| ---------------------------------------------------- | ----------------------------------------------------- |
-| 您维护对话历史数组，并在每一轮将其传回。                                 | 会话在服务器端存储历史。您发送事件并接收事件。                               |
+| 之前 | 之后 |
+| ----- | ----- |
+| 您维护对话历史数组，并在每一轮将其传回。 | 会话在服务器端存储历史。您发送事件并接收事件。 |
 | 您遍历 `tool_use` 内容块，运行每个工具，然后带着 `tool_result` 消息回到循环。 | 内置工具在沙箱内自动运行。您只需通过 `agent.custom_tool_use` 事件处理自定义工具。 |
-| 您自行配置沙箱来运行智能体生成的代码。                                  | 会话沙箱负责处理代码执行、文件操作和 bash。                              |
-| 您决定循环何时结束。                                           | 当智能体没有更多事情要做时，会话会发出 `session.status_idle`。            |
+| 您自行配置沙箱来运行智能体生成的代码。 | 会话沙箱负责处理代码执行、文件操作和 bash。 |
+| 您决定循环何时结束。 | 当智能体没有更多事情要做时，会话会发出 `session.status_idle`。 |
 
 ### 代码对比
 
@@ -543,16 +543,16 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
 
 ### 发生的变化
 
-| Agent SDK                                                                                  | Managed Agents                                                                                                                                                                                                                                                                                                                                                            |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 每次运行时构造 `ClaudeAgentOptions(...)` (typescript: `options`)                                  | 只需调用一次 `client.beta.agents.create(...)` (csharp: `client.Beta.Agents.Create(...)`; go: `client.Beta.Agents.New(...)`; java: `client.beta().agents().create(...)`; php: `$client->beta->agents->create(...)`; cli: `ant beta:agents create`; curl: `POST /v1/agents`)。服务器会持久化智能体并对其进行版本管理。请参阅[定义您的智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)。 |
-| `async with ClaudeSDKClient(...)` 或 `query(...)`                                           | 调用 `client.beta.sessions.create(...)` (csharp: `client.Beta.Sessions.Create(...)`; go: `client.Beta.Sessions.New(...)`; java: `client.beta().sessions().create(...)`; php: `$client->beta->sessions->create(...)`; cli: `ant beta:sessions create`; curl: `POST /v1/sessions`)，然后发送和接收[事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。   |
-| 使用 `@tool` (typescript: `tool()`) 定义的函数，由 SDK 自动分派                                         | 在智能体上声明为 `{"type": "custom", ...}`；您的客户端处理 `agent.custom_tool_use` 事件并以 `user.custom_tool_result` 回复。请参阅[工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools)。                                                                                                                                                                                                |
-| 内置工具在您的进程中针对您的文件系统运行                                                                       | `{"type": "agent_toolset_20260401"}` 在会话沙箱内针对 `/workspace` 运行相同的工具。                                                                                                                                                                                                                                                                                                       |
-| `cwd`、`add_dirs` (typescript: `additionalDirectories`) 指向本地路径                              | 将[文件](https://platform.claude.com/docs/zh-CN/managed-agents/files)作为会话资源上传或挂载。                                                                                                                                                                                                                                                                                            |
-| `system_prompt` (typescript: `systemPrompt`) 和 `CLAUDE.md` 层级结构                            | 智能体上的单个 `system` (csharp, go: `System`; ruby: `system_`) 字符串。每次更改智能体的更新都会在服务器端生成一个新版本；将会话固定到特定版本，即可在无需部署的情况下进行升级或回滚。请参阅[定义您的智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)。                                                                                                                                                                      |
-| `mcp_servers` (typescript: `mcpServers`) 在同一处配置和认证                                         | 在智能体上声明服务器；通过会话上的 [vault](https://platform.claude.com/docs/zh-CN/managed-agents/vaults) 提供凭据。                                                                                                                                                                                                                                                                             |
-| `permission_mode` (typescript: `permissionMode`)、`can_use_tool` (typescript: `canUseTool`) | 按工具设置的 [`permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)（`always_allow`、`always_ask` 或 `auto`）。对于暂停等待您批准的调用，发送 `user.tool_confirmation` 事件。                                                                                                                |
+| Agent SDK | Managed Agents |
+| ----- | ----- |
+| 每次运行时构造 `ClaudeAgentOptions(...)` (typescript: `options`) | 只需调用一次 `client.beta.agents.create(...)` (csharp: `client.Beta.Agents.Create(...)`; go: `client.Beta.Agents.New(...)`; java: `client.beta().agents().create(...)`; php: `$client->beta->agents->create(...)`; cli: `ant beta:agents create`; curl: `POST /v1/agents`)。服务器会持久化智能体并对其进行版本管理。请参阅[定义您的智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)。 |
+| `async with ClaudeSDKClient(...)` 或 `query(...)` | 调用 `client.beta.sessions.create(...)` (csharp: `client.Beta.Sessions.Create(...)`; go: `client.Beta.Sessions.New(...)`; java: `client.beta().sessions().create(...)`; php: `$client->beta->sessions->create(...)`; cli: `ant beta:sessions create`; curl: `POST /v1/sessions`)，然后发送和接收[事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)。 |
+| 使用 `@tool` (typescript: `tool()`) 定义的函数，由 SDK 自动分派 | 在智能体上声明为 `{"type": "custom", ...}`；您的客户端处理 `agent.custom_tool_use` 事件并以 `user.custom_tool_result` 回复。请参阅[工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools)。 |
+| 内置工具在您的进程中针对您的文件系统运行 | `{"type": "agent_toolset_20260401"}` 在会话沙箱内针对 `/workspace` 运行相同的工具。 |
+| `cwd`、`add_dirs` (typescript: `additionalDirectories`) 指向本地路径 | 将[文件](https://platform.claude.com/docs/zh-CN/managed-agents/files)作为会话资源上传或挂载。 |
+| `system_prompt` (typescript: `systemPrompt`) 和 `CLAUDE.md` 层级结构 | 智能体上的单个 `system` (csharp, go: `System`; ruby: `system_`) 字符串。每次更改智能体的更新都会在服务器端生成一个新版本；将会话固定到特定版本，即可在无需部署的情况下进行升级或回滚。请参阅[定义您的智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup)。 |
+| `mcp_servers` (typescript: `mcpServers`) 在同一处配置和认证 | 在智能体上声明服务器；通过会话上的 [vault](https://platform.claude.com/docs/zh-CN/managed-agents/vaults) 提供凭据。 |
+| `permission_mode` (typescript: `permissionMode`)、`can_use_tool` (typescript: `canUseTool`) | 按工具设置的 [`permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)（`always_allow`、`always_ask` 或 `auto`）。对于暂停等待您批准的调用，发送 `user.tool_confirmation` 事件。 |
 
 ### 代码对比
 
@@ -1254,12 +1254,12 @@ Claude Managed Agents 用托管基础设施取代您手写的智能体循环。�
 
 由 Anthropic 运行智能体循环的代价是，SDK 原本自动处理的一些事项变成了您客户端的职责。
 
-| SDK 功能                               | Managed Agents 的处理方式                                                                                                                                                                                                                                                                        |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 计划模式                                 | 先运行一个仅用于规划的会话，然后运行第二个会话来执行该计划。                                                                                                                                                                                                                                                              |
-| 输出样式、斜杠命令                            | 在发送 `user.message` 之前或接收 `agent.message` 之后，在您的客户端中应用。                                                                                                                                                                                                                                      |
-| `PreToolUse` / `PostToolUse` 钩子      | 您的客户端在响应之前已经能看到每个 `agent.custom_tool_use` 事件；将逻辑放在那里即可。对于内置工具，使用 `permission_policy: always_ask` 来审查每次调用。[`auto`](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#let-the-server-evaluate-each-call-with-auto) 则让服务器来评估每次调用，但如果服务器评估某次调用是安全的，该调用会直接运行，而不会到达您的客户端。 |
-| `max_turns` (typescript: `maxTurns`) | 在客户端计算轮次。                                                                                                                                                                                                                                                                                   |
+| SDK 功能 | Managed Agents 的处理方式 |
+| ----- | ----- |
+| 计划模式 | 先运行一个仅用于规划的会话，然后运行第二个会话来执行该计划。 |
+| 输出样式、斜杠命令 | 在发送 `user.message` 之前或接收 `agent.message` 之后，在您的客户端中应用。 |
+| `PreToolUse` / `PostToolUse` 钩子 | 您的客户端在响应之前已经能看到每个 `agent.custom_tool_use` 事件；将逻辑放在那里即可。对于内置工具，使用 `permission_policy: always_ask` 来审查每次调用。[`auto`](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#let-the-server-evaluate-each-call-with-auto) 则让服务器来评估每次调用，但如果服务器评估某次调用是安全的，该调用会直接运行，而不会到达您的客户端。 |
+| `max_turns` (typescript: `maxTurns`) | 在客户端计算轮次。 |
 
 ## 迁移清单
 

@@ -49,11 +49,11 @@ featureMetadata:
 
 使用子智能体时，由智能体本身决定接下来发生什么。[子智能体的线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)在您归档之前一直可用，因此智能体可以向其发送后续消息。使用动态工作流时，Claude 编写一个程序来编排智能体，无需 Claude 直接参与。上下文和结果以编程方式从一个智能体传递到另一个智能体，从而让主会话线程腾出来与用户沟通，并查看一个或多个正在运行的工作流以报告进度。智能体无法向运行的线程发送后续消息，并且服务器最迟会在每个运行结束时将其线程归档。
 
-| 方式                                                                                                                    | 发生什么                                                                                                                                         | 适用场景                                                          | 注意事项                                                                                                                                                 |
-| --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [委派给子智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#delegate-to-subagents)       | 智能体将任务委派给其子智能体。每个子智能体在自己的[会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)中工作，您可以列出并流式传输这些线程。                    | 智能体需要在子智能体报告后对其进行跟进，或者它需要您列出的专家智能体，这些智能体拥有自己的系统提示和工具。         | 委派只有一层深度，并且一个会话同时最多可以有 25 个子线程，包括空闲线程。顾问线程和工作流运行的线程不计入其中。                                                                                            |
-| [动态工作流](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#dynamic-workflows)             | 智能体编写一个工作流：一个分阶段运行多个智能体并合并其结果的程序。服务器在后台将其作为一个工作流运行来执行，您可以跟踪该运行。工作流自行定义智能体，或从您提供的列表中选择智能体。                                                    | 大多数需要多个智能体的工作：包含许多部分的工作、并行工作，或需要更快完成的长任务。示例包括审计、迁移、深度研究和交叉核对。 | 运行中的每个智能体都会消耗令牌，因此请设置[会话预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)来限制会话的支出（包括运行）。在智能体的系统提示中告诉它何时使用运行。您可以按阶段跟踪运行，并可以读取它的每个线程。 |
-| [为会话提供顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor) | 会话的[主线程](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#how-it-works)在轮次中途咨询顾问模型以获取指导，例如规划方法或审查工作，并继续自己完成工作。 | 应由一个智能体完成工作，并在关键时刻（例如规划或最终审查）借助顾问模型的判断。                       | 只有主线程可以咨询顾问，并且咨询按顾问模型的费率计费。                                                                                                                          |
+| 方式 | 发生什么 | 适用场景 | 注意事项 |
+| ----- | ----- | ----- | ----- |
+| [委派给子智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#delegate-to-subagents) | 智能体将任务委派给其子智能体。每个子智能体在自己的[会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)中工作，您可以列出并流式传输这些线程。 | 智能体需要在子智能体报告后对其进行跟进，或者它需要您列出的专家智能体，这些智能体拥有自己的系统提示和工具。 | 委派只有一层深度，并且一个会话同时最多可以有 25 个子线程，包括空闲线程。顾问线程和工作流运行的线程不计入其中。 |
+| [动态工作流](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#dynamic-workflows) | 智能体编写一个工作流：一个分阶段运行多个智能体并合并其结果的程序。服务器在后台将其作为一个工作流运行来执行，您可以跟踪该运行。工作流自行定义智能体，或从您提供的列表中选择智能体。 | 大多数需要多个智能体的工作：包含许多部分的工作、并行工作，或需要更快完成的长任务。示例包括审计、迁移、深度研究和交叉核对。 | 运行中的每个智能体都会消耗令牌，因此请设置[会话预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)来限制会话的支出（包括运行）。在智能体的系统提示中告诉它何时使用运行。您可以按阶段跟踪运行，并可以读取它的每个线程。 |
+| [为会话提供顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor) | 会话的[主线程](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#how-it-works)在轮次中途咨询顾问模型以获取指导，例如规划方法或审查工作，并继续自己完成工作。 | 应由一个智能体完成工作，并在关键时刻（例如规划或最终审查）借助顾问模型的判断。 | 只有主线程可以咨询顾问，并且咨询按顾问模型的费率计费。 |
 
 您可以在智能体定义的 `multiagent` 块中设置这些内容，该块有一个 `type`。使用 `multiagent_20261001` 类型时，智能体可以同时使用这三种方式，并且您可以分别开启或关闭每一种。默认情况下，`subagents` 和 `workflows` 均已启用。`subagents` 和 `workflows` 都启用了 `inline_agents`，这是用于[智能体或工作流自行定义的智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#predefined-and-inline-agents)的设置：
 
@@ -74,10 +74,10 @@ featureMetadata:
 
 两种智能体在 `subagents` 和 `workflows` 下都可以使用：
 
-| 智能体类型 | 在 `subagents` 下                                        | 在 `workflows` 下                                                  |
-| ----- | ------------------------------------------------------ | ---------------------------------------------------------------- |
-| 预定义   | 智能体可以委派给您在 `subagents.predefined_agents` 中列出的智能体。      | 工作流可以使用您在 `workflows.predefined_agents` 中列出的智能体。                 |
-| 内联    | 智能体在委派时可以定义内联智能体。`subagents.inline_agents` 用于开启或关闭此功能。 | 工作流可以定义内联智能体，并为每个智能体编写系统提示。`workflows.inline_agents` 用于开启或关闭此功能。 |
+| 智能体类型 | 在 `subagents` 下 | 在 `workflows` 下 |
+| ----- | ----- | ----- |
+| 预定义 | 智能体可以委派给您在 `subagents.predefined_agents` 中列出的智能体。 | 工作流可以使用您在 `workflows.predefined_agents` 中列出的智能体。 |
+| 内联 | 智能体在委派时可以定义内联智能体。`subagents.inline_agents` 用于开启或关闭此功能。 | 工作流可以定义内联智能体，并为每个智能体编写系统提示。`workflows.inline_agents` 用于开启或关闭此功能。 |
 
 `subagents.predefined_agents` 和 `workflows.predefined_agents` 是两个独立的列表。一个列表中的智能体不会被添加到另一个列表中。两个列表默认都为空。任一列表中的条目采用以下形式之一：
 
@@ -1101,11 +1101,11 @@ MCP 服务器的作用域是智能体：每个智能体定义都声明自己的�
 
 每项设置都可以单独启用或禁用：
 
-| 设置          | 开启的功能                         | 智能体列于                                 | 默认值 |
-| ----------- | ----------------------------- | ------------------------------------- | --- |
-| `workflows` | 动态工作流                         | `workflows.predefined_agents`，最多 20 个 | 启用  |
-| `subagents` | 委派给子智能体：您列出的智能体，以及智能体自行定义的智能体 | `subagents.predefined_agents`，最多 20 个 | 启用  |
-| `advisor`   | 顾问模型                          | 无。设置 `model`。                         | 禁用  |
+| 设置 | 开启的功能 | 智能体列于 | 默认值 |
+| ----- | ----- | ----- | ----- |
+| `workflows` | 动态工作流 | `workflows.predefined_agents`，最多 20 个 | 启用 |
+| `subagents` | 委派给子智能体：您列出的智能体，以及智能体自行定义的智能体 | `subagents.predefined_agents`，最多 20 个 | 启用 |
+| `advisor` | 顾问模型 | 无。设置 `model`。 | 禁用 |
 
 关于每个列表中应包含的内容，以及如何仅允许您列出的智能体，请参阅[预定义智能体和内联智能体](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#predefined-and-inline-agents)。
 
@@ -1387,8 +1387,8 @@ You review contracts. When you're asked to review more than a few contracts, sta
 
 * 可用性：可用
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
@@ -1403,9 +1403,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

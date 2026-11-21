@@ -10,10 +10,10 @@ description: Claude 是由 Anthropic 构建的高性能、值得信赖且智能�
 
 Anthropic 提供两种使用 Claude 进行构建的方式，每种方式适用于不同的使用场景：
 
-|          | Messages API   | Claude Managed Agents    |
-| -------- | -------------- | ------------------------ |
-| **它是什么** | 直接的模型提示访问      | 预构建、可配置的智能体框架，运行在托管基础设施中 |
-| **最适合**  | 自定义智能体循环和细粒度控制 | 长时间运行的任务和异步工作            |
+|  | Messages API | Claude Managed Agents |
+| ----- | ----- | ----- |
+| **它是什么** | 直接的模型提示访问 | 预构建、可配置的智能体框架，运行在托管基础设施中 |
+| **最适合** | 自定义智能体循环和细粒度控制 | 长时间运行的任务和异步工作 |
 
 要详细了解每一项，请参阅[使用 Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) 和 [Claude Managed Agents 概述](https://platform.claude.com/docs/zh-CN/managed-agents/overview)。
 

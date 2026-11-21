@@ -26,8 +26,8 @@ Remote Control 将 [claude.ai/code](https://claude.ai/code) 或 Claude 应用（
 在使用 Remote Control 之前，请确认您的环境满足以下条件：
 
 * **订阅**：在 Pro、Max、Ultra、Team 和 Enterprise 套餐中可用。不支持 API 密钥。在 Team 和 Enterprise 上，Owner 必须首先在 [Claude Code 管理员设置](https://claude.ai/admin-settings/claude-code)中启用 Remote Control 切换。
-* **自定义角色**：如果您的 Enterprise 组织使用[自定义角色](https://support.claude.com/en/articles/13930452)管理您的访问权限，您的角色必须同时授予您云端会话权限和 **Claude Code remote control** 权限。如果缺少其中任何一项，启动 Remote Control 时会显示 [`Remote Control is disabled by your organization's policy`](#remote-control-is-disabled-by-your-organizations-policy)。请让 Owner 在 [**Organization settings > Roles**](https://claude.ai/admin-settings/roles) 中检查您的角色并添加缺少的权限。
-* **身份验证**：运行 `claude` 并使用 `/login` 通过 claude.ai 登录（如果您还没有登录）。如果没有符合条件的登录，`claude remote-control` 会以错误退出，而 `claude --remote-control` 仍会启动交互式会话，并在启动后不久显示 Remote Control 失败通知。
+* **自定义角色**：如果您的 Enterprise 组织使用[自定义角色](https://support.claude.com/en/articles/13930452)管理您的访问权限，您的角色必须同时授予您云端会话权限和 **Claude Code remote control** 权限。如果缺少其中任何一项，`/remote-control` 会显示 [`Remote Control is disabled by your organization's policy`](#remote-control-is-disabled-by-your-organizations-policy)。请让 Owner 在 [**Organization settings > Roles**](https://claude.ai/admin-settings/roles) 中检查您的角色并添加缺少的权限。
+* **身份验证**：运行 `claude` 并使用 `/login` 通过 claude.ai 登录（如果您还没有登录）。如果没有符合条件的登录，`claude remote-control` 会以错误退出，而 `claude --remote-control` 会启动一个关闭了 Remote Control 的交互式会话。
 * **API 端点**：在以下任何配置中都不可用：
   * 您使用 Amazon Bedrock、Google Cloud 的 Agent Platform 或 Microsoft Foundry。
   * 您将 [`ANTHROPIC_BASE_URL`](https://code.claude.com/docs/zh-CN/env-vars) 指向 `api.anthropic.com` 以外的主机，例如 [LLM gateway](https://code.claude.com/docs/zh-CN/llm-gateway) 或代理。取消设置该变量以使用 Remote Control。
@@ -202,8 +202,8 @@ Remote Control 会话处于活动状态后，您可以通过以下几种方式�
 
 除非开启了自动连接，否则只有在您显式运行 `claude remote-control`、`claude --remote-control` 或 `/remote-control` 时，Remote Control 才会激活。要为每个交互式会话开启自动连接，请在 Claude Code 中运行 `/config` 并设置 **Enable Remote Control for all sessions**。该开关有三个值：
 
-* **`true`**：交互式会话启动时自动连接。
-* **`false`**：关闭自动连接，但[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)中的 `true` 优先级更高，因为 Claude Code 会将此选择保存到您的用户设置中。项目或本地设置（`.claude/settings.json`、`.claude/settings.local.json`）中的 `false` 即使在托管设置为 `true` 时也会关闭自动连接。
+* **`on`**：交互式会话启动时自动连接。
+* **`off`**：关闭自动连接，但[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)中的 `true` 优先级更高，因为 Claude Code 会将此选择保存到您的用户设置中。项目或本地设置（`.claude/settings.json`、`.claude/settings.local.json`）中的 `false` 即使在托管设置为 `true` 时也会关闭自动连接。
 * **`default`**：清除您的选择，如果您的组织设置了管理员默认值，则遵循该默认值，否则遵循 Claude Code 的当前默认值。如果您设置了 `DISABLE_TELEMETRY` 或 `DO_NOT_TRACK`，请参阅[设置了 `DISABLE_TELEMETRY` 或 `DO_NOT_TRACK` 时的自动连接](#auto-connect-with-disable-telemetry-or-do-not-track)。
 
 VS Code 扩展和 Desktop 应用也有自动连接开关：
@@ -223,8 +223,8 @@ VS Code 扩展和 Desktop 应用也有自动连接开关：
 
 在仅设置了 `DISABLE_TELEMETRY` 或 `DO_NOT_TRACK` 的情况下开启自动连接之前，请确认您的 Claude Code 版本满足[这些变量的要求](#requirements)。然后检查您的组织是否要求 [Trusted Devices](#trusted-devices)：
 
-* **不要求**：在 `/config` 中将 **Enable Remote Control for all sessions** 设为 `true`。
-* **要求**：设置了 `DISABLE_TELEMETRY` 或 `DO_NOT_TRACK` 时无法使用 Remote Control。请取消设置这两个变量中您设置的那个。如果您的会话仍未自动连接，请在 `/config` 中将 **Enable Remote Control for all sessions** 设为 `true`。
+* **不要求**：在 `/config` 中开启 **Enable Remote Control for all sessions**。
+* **要求**：设置了 `DISABLE_TELEMETRY` 或 `DO_NOT_TRACK` 时无法使用 Remote Control。请取消设置这两个变量中您设置的那个。如果您的会话仍未自动连接，请在 `/config` 中开启 **Enable Remote Control for all sessions**。
 
 ### 停止服务器后恢复会话
 
@@ -318,7 +318,7 @@ Remote Control 连接时，会话记录（包括您的消息、Claude 的响应�
 
 当您在进行本地工作中途，想要从另一台设备继续工作时，使用远程控制。当您想要在没有任何本地设置的情况下启动任务、处理您没有克隆的仓库，或并行运行多个任务时，使用云会话。[项目](https://code.claude.com/docs/zh-CN/claude-projects.md)结合了两者：其线程在云中运行，当您在那里请求时，它使用远程控制来[在您的计算机上运行线程](https://code.claude.com/docs/zh-CN/claude-projects.md#run-a-thread-on-your-own-computer)。
 
-Claude Code 提供了多种方式在您不在终端时进行工作。它们在触发工作的方式、Claude 运行的位置以及所需的设置量方面有所不同。
+Claude Code 提供了多种方式在您不在终端时进行工作。它们在触发工作的方式、Claude 运行的位置以及所需的设置量方面有所不同。[Dispatch](https://code.claude.com/docs/zh-CN/desktop.md#sessions-from-dispatch) 不向新用户开放。
 
 | | 触发方式 | Claude 运行位置 | 设置 | 最适合 |
 | :- | :- | :- | :- | :- |
@@ -428,7 +428,7 @@ claude mcp login "claude.ai Slack" --no-browser
 
 您未使用 claude.ai 账户登录，或者其他凭据优先于您的登录。该消息采用以下形式之一：
 
-* 已登出，来自 `/remote-control` 或 `--remote-control`：`Remote Control requires a claude.ai subscription.` 或 `/remote-control requires a claude.ai subscription.`
+* 已登出，来自 `/remote-control`：`Remote Control requires a claude.ai subscription.` 或 `/remote-control requires a claude.ai subscription.`
 * 已登出，来自 `claude remote-control`：`You must be logged in to use Remote Control. Remote Control is only available with claude.ai subscriptions.`
 * 已登入，但正在使用 API 密钥或令牌：`Remote Control requires claude.ai subscription auth.` 后跟正在使用的凭据，例如 `ANTHROPIC_API_KEY is set, so this session is using API-key auth`。`apiKeyHelper` 设置和 `ANTHROPIC_AUTH_TOKEN` 的命名方式相同。
 
@@ -471,7 +471,7 @@ Claude Code 无法访问功能标志服务来检查是否为您的账户启用�
 
 策略阻止了 Remote Control。按顺序检查这些原因：
 
-* **错误提到 `disableRemoteControl`**：您的 IT 管理员已通过[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)在此设备上禁用了 Remote Control，独立于组织范围的切换和您的登录方式。
+* **错误提到 `disableRemoteControl`**：从您的设置文件中删除该键。如果它位于[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)中，请询问您的管理员。更改您的登录方式或组织切换开关都无济于事。
 * **您的 claude.ai 套餐是 Pro、Max 或 Ultra**：Claude Code 仍然以来自较早登录的 Team 或 Enterprise 组织身份登录，因此它检查该组织的 Remote Control 策略。运行 `/status` 以查看您的登录使用的套餐和组织。运行 `claude auth logout` 然后 `claude auth login` 以在您当前的套餐下重新登录。
 * **消息未说联系您的组织管理员**：您的组织应用了 [HIPAA 配置](https://code.claude.com/docs/zh-CN/hipaa-setup.md)，该配置会关闭 Remote Control。要确认这一点，请运行 `/status` 并在 `Organization configuration` 行中查找 `HIPAA`。所有者会在[管理设置](https://claude.ai/admin-settings/claude-code)中看到 **Remote Control** 切换呈灰显状态，且无法将其打开。如果您对该配置有疑问，请询问所有者，所有者可以联系您组织的 Anthropic 客户团队。在 v2.1.267 之前，此情况显示"Remote Control isn't available for your organization due to its compliance policy"。
 * **Remote Control 对组织中的其他人有效，但对您无效**：如果您的 Enterprise 组织使用[自定义角色](https://support.claude.com/en/articles/13930452)管理您的访问权限，则原因可能在于您的角色。Remote Control 同时需要云端会话权限和 **Claude Code remote control** 权限。请让所有者检查您的角色是否同时包含这两项权限，并在 [**Organization settings > Roles**](https://claude.ai/admin-settings/roles) 中添加缺少的权限。
@@ -497,10 +497,10 @@ Claude Code 无法获取您的组织策略，并且此计算机上没有保存�
 
 消息采用以下形式之一：
 
-* 来自 `/remote-control`、`claude remote-control` 或 `claude --remote-control`：`Couldn't verify your organization's policy for remote control. Check your network connection and try again.`
+* 来自 `/remote-control` 或 `claude remote-control`：`Couldn't verify your organization's policy for remote control.` 后跟下一步操作说明
 * 来自[自动连接](#enable-remote-control-for-all-sessions)当会话启动时：`couldn't verify your organization's policy — check your network connection and try again`，在通知中以 `Remote Control failed` 为前缀，在对话中以 `Remote Control disconnected` 为前缀。会话随后保持 Remote Control 关闭。
 
-恢复您的网络连接，然后运行 `/remote-control` 或再次运行该命令。每次尝试都会再次检查策略，因此您无需重新启动 Claude Code。如果消息继续出现，请运行 `claude doctor` 并阅读其 `Organization policy` 行，该行说明策略未加载的原因。
+首先恢复您的网络连接。如果消息要求重新启动 Claude Code，请重新启动，然后运行 `/remote-control` 或再次运行该命令。如果消息继续出现，请运行 `claude doctor` 并阅读其 `Organization policy` 行，该行说明策略未加载的原因。
 
 在 v2.1.281 之前，此状态显示 `Remote Control is disabled by your organization's policy`。
 
@@ -530,13 +530,21 @@ claude --remote-control --debug-file claude-debug.log
 
 运行 [`claude remote-control`](#start-a-remote-control-session) 的终端中出现此警告，表示服务器启动时所用的程序文件已丢失，新会话会运行替换它的较新版本。要让服务器也切换到该版本，请停止服务器并再次运行 `claude remote-control`。如果 Claude Code 安装在网络存储上，请立即重新启动服务器，并按照[在网络存储上安装](https://code.claude.com/docs/zh-CN/setup.md#install-on-network-storage)操作。否则，新会话无需重新启动即可启动。
 
-当程序文件丢失且 Claude Code 找不到可运行的较新版本时，新会话会失败。终端会显示诸如 `Session failed: spawn error:` 后跟一条 `ENOENT` 消息之类的错误。请停止服务器，如果 `claude` 无法在您的 shell 中运行，请再次[安装 Claude Code](https://code.claude.com/docs/zh-CN/setup.md#install-claude-code)，然后再次运行 `claude remote-control`。在 v2.1.318 之前，即使已安装较新版本，新会话也会以这种方式失败。
+当程序文件丢失且 Claude Code 找不到可运行的较新版本时，新会话会失败。终端会显示诸如 `Session failed: program not found:`，或带有 `ENOENT` 的 `Session failed: spawn error:` 之类的错误。请停止服务器，如果 `claude` 无法在您的 shell 中运行，请再次[安装 Claude Code](https://code.claude.com/docs/zh-CN/setup.md#install-claude-code)，然后再次运行 `claude remote-control`。在 v2.1.318 之前，即使已安装较新版本，新会话也会以这种方式失败。
 
 ### "Couldn't reconnect to your Remote Control session"
 
 当您使用 `claude --resume` 或 `claude --continue` 恢复对话时，Claude Code 会重新连接到该对话中记录的 Remote Control 会话。此消息意味着重新连接因可能是临时的原因（例如网络中断或服务器错误）而失败，因此 Claude Code 无法确认远程会话是否仍然存在。
 
+完整消息如下所示：
+
+```text theme={null}
+Couldn't reconnect to your Remote Control session. Retry, or start a fresh session without --resume.
+```
+
 运行 `/remote-control` 以重试连接，或使用 `claude --remote-control` 启动新会话以创建新的 Remote Control 会话。您的本地会话在此期间继续运行而不使用 Remote Control。
+
+如果服务器报告之前的会话已不存在，您不会看到此消息。Claude Code 会启动一个新会话来取代它，或显示 [`Previous session is unavailable — run /remote-control to start a new one`](#previous-session-is-unavailable)。
 
 ### "Previous session is unavailable — run /remote-control to start a new one"
 

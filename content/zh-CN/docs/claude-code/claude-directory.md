@@ -323,6 +323,7 @@ Claude Code 删除下面路径中的文件，一旦它们的年龄超过 [`clean
 | `usage-data/` | `report.html` 和由 [`/insights`](https://code.claude.com/docs/zh-CN/costs#analyze-your-usage-patterns) 写入的时间戳报告副本，加上用于构建它们的缓存的每个会话分析数据 |
 | `skills/.trash/`、`plugins/.trash/` | [Skills](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave) 和 [plugins](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)，从 claude.ai 同步中删除，例如在您在 claude.ai 上关闭其中一个或停止同步后。文件保留在此处，以便您可以恢复它们，直到扫描删除它们 |
 | `plugins/installed_plugins.set-aside.<date>.<hash>.json`、`plugins/installed_plugins.unreadable.<date>.<hash>.kept` | Claude Code 在重写 [`installed_plugins.json`](https://code.claude.com/docs/zh-CN/plugins/loading#find-plugins-on-disk) 之前制作的日期副本：它删除的安装记录，以及它无法读取的文件的内容。 |
+| `plugins/data/.set-aside/` | 来自某个市场的插件的数据目录，该市场已被您的组织替换为同名市场。其年龄从 Claude Code 移动它们的那天开始计算，项目设置中较短的 `cleanupPeriodDays` 不适用。要保留其中某个目录，请在扫描删除它之前将其移动到其他位置。 |
 | `plugins/mcpb/` | Claude Code 从插件声明的 [MCP 捆绑包](https://code.claude.com/docs/zh-CN/plugins/components.md#include-a-packaged-mcpb-server)中提取的文件。捆绑包的年龄从最后一个使用它的会话开始计算。 |
 | `todos/`、`statsig/`、`logs/` | 来自旧版本的旧版目录。不再写入。扫描删除其内容，然后删除空目录。 |
 
@@ -341,7 +342,7 @@ Claude Code 删除下面路径中的文件，一旦它们的年龄超过 [`clean
 Claude Code 在这些情况下跳过基于年龄的扫描：
 
 * **Bare mode**：当您使用 [`--bare`](https://code.claude.com/docs/zh-CN/headless#start-faster-with-bare-mode) 运行 `claude -p` 时，Claude Code 不会在该会话中运行扫描。
-* **暂停扫描**：如果 Claude Code 无法安全地确定保留期，它会暂停扫描；[`retention_sweep` 事件](https://code.claude.com/docs/zh-CN/monitoring-usage#retention-sweep-event)列出每个暂停它的配置。当原因是无法读取或解析的设置文件，或者在设置了 `cleanupPeriodDays` 或 `desktopSessionCleanupPeriodDays` 的情况下存在设置错误时，`/status` 会显示警告，直到您修复该原因。
+* **暂停扫描**：如果 Claude Code 无法安全地确定保留期，它会暂停扫描；[`retention_sweep` 事件](https://code.claude.com/docs/zh-CN/monitoring-usage#retention-sweep-event)会报告原因。当原因是无法读取或解析的设置文件，或者在设置了 `cleanupPeriodDays` 或 `desktopSessionCleanupPeriodDays` 的情况下存在设置错误时，`/status` 会显示警告，直到您修复该原因。
 
 当[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)提供 `cleanupPeriodDays` 时，即使较低优先级的设置文件存在错误，Claude Code 也会以托管值运行扫描。
 

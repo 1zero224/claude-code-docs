@@ -62,26 +62,26 @@ featureMetadata:
 
 以下模型均支持两种工具搜索变体：
 
-| 模型                                                                                                                                    | 工具版本                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| Claude Fable 5.2 (claude-fable-5-2)                                                                                                   | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Mythos 5.2 (claude-mythos-5-2)                                                                                                 | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Fable 5.1 (claude-fable-5-1)                                                                                                   | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Mythos 5.1 (claude-mythos-5-1)                                                                                                 | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Fable 5 (claude-fable-5)                                                                                                       | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Mythos 5 (claude-mythos-5)                                                                                                     | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Opus 5.5 (claude-opus-5-5)                                                                                                     | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Opus 5 (claude-opus-5)                                                                                                         | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Sonnet 5.5 (claude-sonnet-5-5)                                                                                                 | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Sonnet 5 (claude-sonnet-5)                                                                                                     | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Haiku 5.5 (claude-haiku-5-5)                                                                                                   | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Opus 4.8 (claude-opus-4-8)                                                                                                     | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Opus 4.7 (claude-opus-4-7)                                                                                                     | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Opus 4.6 (claude-opus-4-6)                                                                                                     | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Sonnet 4.6 (claude-sonnet-4-6)                                                                                                 | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Opus 4.5 (claude-opus-4-5-20251101)                                                                                            | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| 模型 | 工具版本 |
+| ----- | ----- |
+| Claude Fable 5.2 (claude-fable-5-2) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Mythos 5.2 (claude-mythos-5-2) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Fable 5.1 (claude-fable-5-1) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Mythos 5.1 (claude-mythos-5-1) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Fable 5 (claude-fable-5) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Mythos 5 (claude-mythos-5) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Opus 5.5 (claude-opus-5-5) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Opus 5 (claude-opus-5) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Sonnet 5.5 (claude-sonnet-5-5) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Sonnet 5 (claude-sonnet-5) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Haiku 5.5 (claude-haiku-5-5) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Opus 4.8 (claude-opus-4-8) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Opus 4.7 (claude-opus-4-7) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Opus 4.6 (claude-opus-4-6) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Sonnet 4.6 (claude-sonnet-4-6) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Opus 4.5 (claude-opus-4-5-20251101) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
 | Claude Sonnet 4.5 (claude-sonnet-4-5-20250929)（已弃用；请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)） | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Haiku 4.5 (claude-haiku-4-5-20251001)                                                                                          | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Haiku 4.5 (claude-haiku-4-5-20251001) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
 
 Claude Opus 4.1 及更早的模型不支持工具搜索工具。
 
@@ -909,10 +909,10 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "too
 
 * 可用性：可用
 
-| 状态             | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | 模型                                                             |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| 可用             | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
-| 可用<sup>1</sup> | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
+| 可用 | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
+| 可用<sup>1</sup> | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 1. 可通过 InvokeModel API 使用，不支持 Converse API。
 
@@ -924,10 +924,10 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "too
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
-| 详细信息 | 由 Anthropic 运行的服务器端工具；每次调用时在内存中搜索请求中的工具定义，响应后不存储任何内容。                                                                                     | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
+| 详细信息 | 由 Anthropic 运行的服务器端工具；每次调用时在内存中搜索请求中的工具定义，响应后不存储任何内容。 | — |
 
 适用的端点：
 

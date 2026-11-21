@@ -192,7 +192,7 @@ Anthropic 运营着一些计划，组织可以在 Verification Portal（验证�
 
 终端客户可以在门户的 **Linked accounts** 下看到已关联的配置文件。
 
-如果您的推理运行在 Claude Models on Google Cloud (Google managed) 或 Amazon Bedrock 中的 Claude 上，您也必须关联您自己的账户。只有在您将 AWS 账户或 Google Cloud 项目关联到创建您配置文件的 Anthropic 组织之后，计划才会适用于来自该账户或项目的请求。请参阅[在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上归属请求](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-requests-on-amazon-bedrock-and-google-cloud)。
+如果您的推理运行在 Claude Models on Google Cloud (Google managed) 或 Amazon Bedrock 上，您也必须关联您自己的账户。只有在您将 AWS 账户或 Google Cloud 项目关联到创建您配置文件的 Anthropic 组织之后，计划才会适用于来自该账户或项目的请求。在 Amazon Bedrock 上，只有部分模型接受配置文件 ID。请参阅[在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上归属请求](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-requests-on-amazon-bedrock-and-google-cloud)。
 
 ## 后续步骤
 

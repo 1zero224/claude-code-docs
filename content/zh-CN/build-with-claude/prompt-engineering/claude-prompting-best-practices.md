@@ -18,17 +18,17 @@ description: 面向 Claude 最新模型的提示工程技术综合指南，涵�
 
 以下每个模型都有各自的提示页面。请先阅读与您所用模型对应的页面，然后再阅读后续的技术内容。
 
-| 模型                                   | 指南                                                                                                                                  | 差异之处                                                                                                                             |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| Claude Fable 5.2 和 Claude Mythos 5.2 | [为 Claude Fable 5.2 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2)   | 与早期模型的差异：effort 校准、完成长任务、审批、代码所有权、面向用户的进度更新、子智能体委派、逐渐累积的谨慎、为早期模型设计的提示和 harness、最终报告以及安全防护拒绝。                                     |
-| Claude Fable 5.1 和 Claude Mythos 5.1 | [为 Claude Fable 5.1 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1)   | 与 Claude Fable 5 的差异：effort 级别、完成长任务、面向用户的进度更新、原样回传思考块、智能体循环中的工具调用批处理、低 effort 下的搜索触发、格式以及写作密度。                                  |
-| Claude Fable 5 和 Claude Mythos 5     | [为 Claude Fable 5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5)       | 与 Claude Opus 4.8 的差异：effort 级别、指令遵循、长时间运行中的进度声明、记忆系统，以及 `reasoning_extraction` 拒绝类别。                                            |
-| Claude Sonnet 5.5                    | [为 Claude Sonnet 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5) | 与 Claude Sonnet 5 的差异：effort 校准、主动性与范围、在没有前置思考的情况下运行、推理任务中的 JSON 输出、面向用户的进度更新、聊天中的工具使用、轮次中途的用户消息、编码任务中的验证、工具调用处理、复杂视觉输入以及安全防护拒绝。 |
-| Claude Sonnet 5                      | [为 Claude Sonnet 5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5)     | 与 Claude Sonnet 4.6 的差异：响应长度、effort 与思考深度校准、工具使用触发、字面化的指令遵循，以及设计和前端默认行为。                                                         |
-| Claude Opus 5.5                      | [为 Claude Opus 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5)     | 与 Claude Opus 5 的差异：effort 校准、为禁用思考而编写的提示、面向用户的进度更新、安全防护拒绝，以及用于复杂视觉输入的工具。                                                        |
-| Claude Opus 5                        | [为 Claude Opus 5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5)         | 与之前 Opus 模型的差异：响应长度与冗长程度、面向用户的进度更新、书面交付物长度、任务范围与过度验证、子智能体控制以及自我纠正。                                                               |
-| Claude Opus 4.8                      | [为 Claude Opus 4.8 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-4-8)     | 响应长度、effort 与思考深度校准、工具使用触发、字面化的指令遵循、子智能体控制，以及设计和前端默认行为。                                                                          |
-| Claude Haiku 5.5                     | [为 Claude Haiku 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5)   | 与 Claude Haiku 4.5 的差异：effort 级别、搜索、使用您自己的工具时的 JSON 输出、长智能体提示中的过早停止、编码任务中的验证、轮次中途的用户消息、聊天机器人中的系统提示遵循以及安全防护拒绝。                    |
+| 模型 | 指南 | 差异之处 |
+| ----- | ----- | ----- |
+| Claude Fable 5.2 和 Claude Mythos 5.2 | [为 Claude Fable 5.2 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-2) | 与早期模型的差异：effort 校准、完成长任务、审批、代码所有权、面向用户的进度更新、子智能体委派、逐渐累积的谨慎、为早期模型设计的提示和 harness、最终报告以及安全防护拒绝。 |
+| Claude Fable 5.1 和 Claude Mythos 5.1 | [为 Claude Fable 5.1 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1) | 与 Claude Fable 5 的差异：effort 级别、完成长任务、面向用户的进度更新、原样回传思考块、智能体循环中的工具调用批处理、低 effort 下的搜索触发、格式以及写作密度。 |
+| Claude Fable 5 和 Claude Mythos 5 | [为 Claude Fable 5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5) | 与 Claude Opus 4.8 的差异：effort 级别、指令遵循、长时间运行中的进度声明、记忆系统，以及 `reasoning_extraction` 拒绝类别。 |
+| Claude Sonnet 5.5 | [为 Claude Sonnet 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5-5) | 与 Claude Sonnet 5 的差异：effort 校准、主动性与范围、在没有前置思考的情况下运行、推理任务中的 JSON 输出、面向用户的进度更新、聊天中的工具使用、轮次中途的用户消息、编码任务中的验证、工具调用处理、复杂视觉输入以及安全防护拒绝。 |
+| Claude Sonnet 5 | [为 Claude Sonnet 5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-sonnet-5) | 与 Claude Sonnet 4.6 的差异：响应长度、effort 与思考深度校准、工具使用触发、字面化的指令遵循，以及设计和前端默认行为。 |
+| Claude Opus 5.5 | [为 Claude Opus 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5-5) | 与 Claude Opus 5 的差异：effort 校准、为禁用思考而编写的提示、面向用户的进度更新、安全防护拒绝，以及用于复杂视觉输入的工具。 |
+| Claude Opus 5 | [为 Claude Opus 5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5) | 与之前 Opus 模型的差异：响应长度与冗长程度、面向用户的进度更新、书面交付物长度、任务范围与过度验证、子智能体控制以及自我纠正。 |
+| Claude Opus 4.8 | [为 Claude Opus 4.8 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-4-8) | 响应长度、effort 与思考深度校准、工具使用触发、字面化的指令遵循、子智能体控制，以及设计和前端默认行为。 |
+| Claude Haiku 5.5 | [为 Claude Haiku 5.5 编写提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5) | 与 Claude Haiku 4.5 的差异：effort 级别、搜索、使用您自己的工具时的 JSON 输出、长智能体提示中的过早停止、编码任务中的验证、轮次中途的用户消息、聊天机器人中的系统提示遵循以及安全防护拒绝。 |
 
 ## 通用原则
 
@@ -780,7 +780,7 @@ doubt, respond directly.
 
 * **优先使用通用指令而非规定性步骤。** 像"深入思考"这样的提示通常比手写的分步计划产生更好的推理。Claude 的推理常常超出人类所能规定的范围。
 * **多样本示例可与思考配合使用。** 提示中的示例会影响 Claude 在其自身思考块中处理类似问题的方式。请将每个示例呈现为一个问题、要应用的方法以及预期答案。
-* **将手动 “chain-of-thought”（思维链），即 CoT 提示作为后备手段。** 当思考关闭时，您仍然可以通过让 Claude 在回答之前先思考问题，并将最终答案放在 `<answer>` 标签中以便提取，来鼓励逐步推理。在 Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5 和 Claude Sonnet 5.5 上，请改为依赖思考功能，如果成本或延迟很重要，可使用较低的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 级别：要求模型写出其推理过程（例如放在 `<thinking>` 标签中）的提示可能会被拒绝。请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。
+* **将手动 “chain-of-thought”（思维链），即 CoT 提示作为后备手段。** 当思考关闭时，您仍然可以通过让 Claude 在回答之前先思考问题，来鼓励逐步推理。请让它将最终答案放在 `<answer>` 标签中，以便您提取。某些模型可能会拒绝要求其写出推理过程（例如放在 `<thinking>` 标签中）的提示。在这些模型上，请改为依赖思考功能。如果成本或延迟很重要，请使用较低的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 级别。有关这类模型的示例，请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。
 * **让 Claude 进行自我检查。** 附加类似"在完成之前，请对照 \[测试标准] 验证您的答案。"的内容。这可以可靠地发现错误，尤其是在编码和数学方面。Claude Opus 5 是个例外：它无需明确指令就能很好地验证自己的工作，而从为早期模型调优的提示中沿用的验证指令可能会导致过度验证，增加令牌消耗和延迟。在 Claude Opus 5 上，请删除这些指令，而不是改写它们。请参阅[任务范围与过度验证](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5#task-scope-and-over-verification)。
 
 <Note>
@@ -1157,7 +1157,7 @@ Claude shares what the label states for the child's age or weight: the dose, plu
 
 6. **调整防偷懒提示：** 如果您的提示之前鼓励模型更加彻底或更积极地使用工具，请减少此类指导。Claude 4.6 模型更加主动，可能会对之前模型所需的指令过度响应。
 
-7. **原样传回思考块并保持历史记录仅追加：** 按照 API 返回的原样追加每个助手轮次，包括思考块。在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 上，在请求之间编辑较早的消息、重建 `system` 或 `tools`，或就地总结较早的轮次，都会[使之后的每个思考块失效](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-in-conversation)。请将这些更改移至对话中途的系统消息和服务器端上下文管理。请参阅[保持对话历史记录仅追加](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#keep-the-conversation-history-append-only)。
+7. **原样传回思考块并保持历史记录仅追加：** 按照 API 返回的原样追加每个助手轮次，包括思考块。在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 上，在请求之间编辑较早的消息、重建 `system` 或 `tools`，或就地总结较早的轮次，都会[使历史记录中已有的每个后续思考块失效](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-in-conversation)。请将这些更改移至对话中途的系统消息和服务器端上下文管理。请参阅[保持对话历史记录仅追加](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#keep-the-conversation-history-append-only)。
 
 有关详细的迁移步骤，请参阅[迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)。
 

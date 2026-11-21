@@ -20,16 +20,16 @@ Compliance API 根据会话的运行位置将其分为两个端点系列：用�
 
 下表将每个产品及其运行位置映射到返回其会话的端点系列，以及在响应中标识这些会话的 `product_surface` 值。
 
-| 产品及其运行位置                                                                                                       | 端点系列                                          | `product_surface`                                                                               |
-| -------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Claude Desktop 中的 Cowork，在用户机器上运行                                                                              | 本地会话端点（`/v1/compliance/apps/sessions/local`）  | `cowork`                                                                                        |
-| 终端、Claude Desktop 或 IDE 扩展中的 Claude Code，在用户机器上运行                                                              | 本地会话端点                                        | `claude_code`                                                                                   |
-| Claude Science 桌面应用，在用户机器上运行                                                                                   | 本地会话端点                                        | `claude_science`                                                                                |
-| Claude for Microsoft 365（适用于 Excel、PowerPoint、Word 和 Outlook 的 Claude 加载项），在 Microsoft 365 桌面或 Web 应用中运行       | 本地会话端点                                        | `office_agents/excel`、`office_agents/powerpoint`、`office_agents/word` 或 `office_agents/outlook` |
-| 适用于 Google Docs、Google Sheets 和 Google Slides 的 Claude 加载项，在这些 Google 应用中运行                                    | 本地会话端点                                        | `office_agents/google_docs`、`office_agents/google_sheets` 或 `office_agents/google_slides`       |
-| Claude in Chrome（浏览器扩展的内置聊天），在用户机器上运行                                                                          | 本地会话端点                                        | `claude_in_chrome`                                                                              |
-| 在 Anthropic 托管环境中于云端运行的 Cowork 会话，包括在 claude.ai 网页版或移动端启动的会话以及 Cowork 计划任务的云端运行                                | 远程会话端点（`/v1/compliance/apps/sessions/remote`） | `cowork_remote`                                                                                 |
-| 在 Slack 中启动的 [Claude Tag](https://claude.com/docs/claude-tag/overview) 会话，在 Anthropic 托管环境中于云端运行，或在自托管的运行器池上运行 | 远程会话端点                                        | `claude_tag`                                                                                    |
+| 产品及其运行位置 | 端点系列 | `product_surface` |
+| ----- | ----- | ----- |
+| Claude Desktop 中的 Cowork，在用户机器上运行 | 本地会话端点（`/v1/compliance/apps/sessions/local`） | `cowork` |
+| 终端、Claude Desktop 或 IDE 扩展中的 Claude Code，在用户机器上运行 | 本地会话端点 | `claude_code` |
+| Claude Science 桌面应用，在用户机器上运行 | 本地会话端点 | `claude_science` |
+| Claude for Microsoft 365（适用于 Excel、PowerPoint、Word 和 Outlook 的 Claude 加载项），在 Microsoft 365 桌面或 Web 应用中运行 | 本地会话端点 | `office_agents/excel`、`office_agents/powerpoint`、`office_agents/word` 或 `office_agents/outlook` |
+| 适用于 Google Docs、Google Sheets 和 Google Slides 的 Claude 加载项，在这些 Google 应用中运行 | 本地会话端点 | `office_agents/google_docs`、`office_agents/google_sheets` 或 `office_agents/google_slides` |
+| Claude in Chrome（浏览器扩展的内置聊天），在用户机器上运行 | 本地会话端点 | `claude_in_chrome` |
+| 在 Anthropic 托管环境中于云端运行的 Cowork 会话，包括在 claude.ai 网页版或移动端启动的会话以及 Cowork 计划任务的云端运行 | 远程会话端点（`/v1/compliance/apps/sessions/remote`） | `cowork_remote` |
+| 在 Slack 中启动的 [Claude Tag](https://claude.com/docs/claude-tag/overview) 会话，在 Anthropic 托管环境中于云端运行，或在自托管的运行器池上运行 | 远程会话端点 | `claude_tag` |
 
 单独的 `office_agents` 并不能说明会话来自哪个应用，它可能来自 Claude for Microsoft 365 或 Google 加载项。请参阅[用户机器上的会话](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)下的 `product_surface` 说明。
 
@@ -42,20 +42,20 @@ Compliance API 根据会话的运行位置将其分为两个端点系列：用�
 
 Anthropic 建议使用 Compliance API 检索会话内容。下表将[本地会话](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)和[远程会话](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-remote-sessions)与适用于 Cowork 和 Claude Code 的基于 OpenTelemetry 的替代方案（[Cowork 的 OpenTelemetry 日志记录](https://support.claude.com/en/articles/14477985-monitor-claude-cowork-activity-with-opentelemetry)和 [Claude Code 监控](https://code.claude.com/docs/zh-CN/monitoring-usage)）进行了比较。
 
-|                      | 本地会话（在用户机器上）                                                                                                                                                     | 远程会话（在云端）                                                                                                                                                        | OpenTelemetry 日志记录                              |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| 交付方式                 | 拉取：通过 HTTPS 查询和导出                                                                                                                                                | 拉取：通过 HTTPS 查询和导出                                                                                                                                                | 推送：以流式传输方式发送到您的 OTLP 收集器                        |
-| 设置                   | 使用您现有的 Compliance Access Key 即可                                                                                                                                  | 使用您现有的 Compliance Access Key 即可                                                                                                                                  | 管理员配置 OTLP 端点和内容捕获设置                            |
-| 基础设施                 | 由 Anthropic 托管                                                                                                                                                   | 由 Anthropic 托管                                                                                                                                                   | 由您运行收集器和存储                                      |
-| ID 前缀                | `clls_`                                                                                                                                                          | `cse_`                                                                                                                                                           | 不适用                                             |
-| `product_surface` 值  | `cowork`、`claude_code`、`claude_science`、`claude_in_chrome`，以及以 `office_agents` 开头的值                                                                              | `cowork_remote`、`claude_tag`                                                                                                                                     | 不适用                                             |
-| 保留期                  | 默认 6 年，或在设置了有限的自定义对话保留期时采用您组织的该保留期；在启用了 HIPAA 就绪的组织中为 30 天；由 Anthropic 保存                                                                                        | 无默认期限；请参阅[保留与删除](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retention-and-deletion)；由 Anthropic 保存                                 | 您的基础设施，您的策略                                     |
-| 用户提示和助手响应            | 是                                                                                                                                                                | 是                                                                                                                                                                | 是，取决于内容捕获设置                                     |
-| 工具输入                 | 默认每个输入截断为 10,000 字节；可按请求提高至约 1 MiB                                                                                                                               | 默认每个输入截断为 10,000 字节；可按请求提高至约 1 MiB                                                                                                                               | 截断的摘要                                           |
-| 工具结果内容               | 默认每个文本条目截断为 10,000 字节；可按请求提高至约 1 MiB                                                                                                                             | 默认每个文本条目截断为 10,000 字节；可按请求提高至约 1 MiB                                                                                                                             | 大小和成功状态等元数据；Claude Code 还可以通过一个可选的、有大小上限的设置捕获内容 |
-| 文件内容                 | 是，通过对话记录中的工具调用（仅文本；其他内容显示为占位符）                                                                                                                                   | 是，通过对话记录中的工具调用（仅文本；其他内容被省略）                                                                                                                                      | 文件路径；Claude Code 还可以通过一个可选的、有大小上限的设置捕获内容        |
-| 主机和设备元数据（终端类型、工作区路径） | 否                                                                                                                                                                | 否                                                                                                                                                                | 是                                               |
-| 令牌使用量和成本             | 否；可通过 [Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api) 获取 | 否；可通过 [Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api) 获取 | 是                                               |
+|  | 本地会话（在用户机器上） | 远程会话（在云端） | OpenTelemetry 日志记录 |
+| ----- | ----- | ----- | ----- |
+| 交付方式 | 拉取：通过 HTTPS 查询和导出 | 拉取：通过 HTTPS 查询和导出 | 推送：以流式传输方式发送到您的 OTLP 收集器 |
+| 设置 | 使用您现有的 Compliance Access Key 即可 | 使用您现有的 Compliance Access Key 即可 | 管理员配置 OTLP 端点和内容捕获设置 |
+| 基础设施 | 由 Anthropic 托管 | 由 Anthropic 托管 | 由您运行收集器和存储 |
+| ID 前缀 | `clls_` | `cse_` | 不适用 |
+| `product_surface` 值 | `cowork`、`claude_code`、`claude_science`、`claude_in_chrome`，以及以 `office_agents` 开头的值 | `cowork_remote`、`claude_tag` | 不适用 |
+| 保留期 | 默认 6 年，或在设置了有限的自定义对话保留期时采用您组织的该保留期；在启用了 HIPAA 就绪的组织中为 30 天；由 Anthropic 保存 | 无默认期限；请参阅[保留与删除](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retention-and-deletion)；由 Anthropic 保存 | 您的基础设施，您的策略 |
+| 用户提示和助手响应 | 是 | 是 | 是，取决于内容捕获设置 |
+| 工具输入 | 默认每个输入截断为 10,000 字节；可按请求提高至约 1 MiB | 默认每个输入截断为 10,000 字节；可按请求提高至约 1 MiB | 截断的摘要 |
+| 工具结果内容 | 默认每个文本条目截断为 10,000 字节；可按请求提高至约 1 MiB | 默认每个文本条目截断为 10,000 字节；可按请求提高至约 1 MiB | 大小和成功状态等元数据；Claude Code 还可以通过一个可选的、有大小上限的设置捕获内容 |
+| 文件内容 | 是，通过对话记录中的工具调用（仅文本；其他内容显示为占位符） | 是，通过对话记录中的工具调用（仅文本；其他内容被省略） | 文件路径；Claude Code 还可以通过一个可选的、有大小上限的设置捕获内容 |
+| 主机和设备元数据（终端类型、工作区路径） | 否 | 否 | 是 |
+| 令牌使用量和成本 | 否；可通过 [Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api) 获取 | 否；可通过 [Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api) 获取 | 是 |
 
 ## 用户机器上的会话（本地会话）
 

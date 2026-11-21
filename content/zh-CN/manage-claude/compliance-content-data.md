@@ -181,16 +181,16 @@ Claude 在聊天中创建的 artifact 也可能是代码 artifact（ID 前缀为
 
 请选择与您的 ID 前缀以及所需数据相匹配的端点。同一个文件内容端点可用于聊天文件、项目文件，以及 ID 以 `claude_file_` 开头的 `generated_files` 条目。文件端点和生成文件端点会以 400 错误拒绝对方的 ID；请参阅[无效的文件 ID](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#invalid-file-id)。
 
-| 您拥有                            | 您想要               | 使用此端点                                                                                                        |
-| ------------------------------ | ----------------- | ------------------------------------------------------------------------------------------------------------ |
-| `claude_file_*` ID             | 文件的内容             | [下载文件内容](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/files/download)                    |
-| `claude_file_*` ID             | 仅文件的元数据           | [获取文件元数据](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/files/retrieve)                   |
-| `claude_gen_file_*` ID         | 工具生成文件的二进制内容      | [下载 Claude 生成的文件](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/generated_files/download) |
-| `claude_gen_file_*` ID         | 仅工具生成文件的元数据       | [获取生成文件的元数据](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/generated_files/retrieve)      |
-| `claude_artifact_version_*` ID | 一个 artifact 版本的文本 | [下载 artifact 内容](https://platform.claude.com/docs/zh-CN/api/compliance/apps/artifacts/download)              |
-| `claude_artifact_version_*` ID | 仅 artifact 版本的元数据 | [获取 artifact 元数据](https://platform.claude.com/docs/zh-CN/api/compliance/apps/artifacts/retrieve)             |
-| `claude_proj_doc_*` ID         | 项目文档的纯文本内容        | [获取项目文档内容](https://platform.claude.com/docs/zh-CN/api/compliance/apps/projects/documents/retrieve)           |
-| `claude_proj_doc_*` ID         | 仅项目文档的元数据         | [获取项目文档元数据](https://platform.claude.com/docs/zh-CN/api/compliance/apps/projects/documents/metadata)          |
+| 您拥有 | 您想要 | 使用此端点 |
+| ----- | ----- | ----- |
+| `claude_file_*` ID | 文件的内容 | [下载文件内容](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/files/download) |
+| `claude_file_*` ID | 仅文件的元数据 | [获取文件元数据](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/files/retrieve) |
+| `claude_gen_file_*` ID | 工具生成文件的二进制内容 | [下载 Claude 生成的文件](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/generated_files/download) |
+| `claude_gen_file_*` ID | 仅工具生成文件的元数据 | [获取生成文件的元数据](https://platform.claude.com/docs/zh-CN/api/compliance/apps/chats/generated_files/retrieve) |
+| `claude_artifact_version_*` ID | 一个 artifact 版本的文本 | [下载 artifact 内容](https://platform.claude.com/docs/zh-CN/api/compliance/apps/artifacts/download) |
+| `claude_artifact_version_*` ID | 仅 artifact 版本的元数据 | [获取 artifact 元数据](https://platform.claude.com/docs/zh-CN/api/compliance/apps/artifacts/retrieve) |
+| `claude_proj_doc_*` ID | 项目文档的纯文本内容 | [获取项目文档内容](https://platform.claude.com/docs/zh-CN/api/compliance/apps/projects/documents/retrieve) |
+| `claude_proj_doc_*` ID | 仅项目文档的元数据 | [获取项目文档元数据](https://platform.claude.com/docs/zh-CN/api/compliance/apps/projects/documents/metadata) |
 
 文件内容端点以分块二进制响应的形式流式传输 claude.ai 为该文件存储的内容。该内容并不总是与用户上传的文件完全相同。图像可能以处理后的副本而非上传的原始字节提供。某些附加到聊天的文档（例如 Word 文件、PowerPoint 文件和部分 PDF）以 claude.ai 从中提取的文本形式存储。对于这些文档，端点会以原始文件名返回提取的文本，而原始文档无法通过 Compliance API 获取。`size_bytes` 和 `md5` 字段描述的是存储的内容而非上传的文件。文件名和 `mime_type` 仍可能标示上传文档的格式。请根据返回的字节而非其名称或声明的类型来识别文件格式。
 

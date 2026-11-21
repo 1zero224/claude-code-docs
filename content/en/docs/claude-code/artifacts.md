@@ -180,17 +180,13 @@ To ask for the comments yourself, give Claude the URL:
 Read the comments on https://claude.ai/code/artifact/5fbea6f3-... and make the changes the commenters ask for.
 ```
 
-If Claude tells you it can't read comments, confirm your version, your session, and your feature-flag setting:
-
-* You're running Claude Code v2.1.221 or later.
-* You're not in your first session since you installed Claude Code or upgraded from a version before v2.1.221. In that [first session after an install or upgrade](https://code.claude.com/docs/en/env-vars.md#first-session-after-an-install-or-upgrade), Claude might not be able to read comments yet; start a new session and ask again.
-* You haven't turned feature-flag fetching off.
+Before v2.1.326, Claude needs [feature-flag fetching](https://code.claude.com/docs/en/env-vars.md#features-that-need-feature-flag-fetching) on to read or watch comments.
 
 ### Let Claude reply to comments on its own
 
 After your session publishes an artifact, Claude Code watches that artifact for comments. When someone who can edit the artifact sends a comment to Claude, it reaches your session right away, and Claude can read the thread and reply without you asking.
 
-You need Claude Code v2.1.228 or later. If you turned [feature-flag fetching](https://code.claude.com/docs/en/env-vars.md#features-that-need-feature-flag-fetching) off, Claude Code doesn't watch for comments.
+You need Claude Code v2.1.228 or later.
 
 Your [permission mode](https://code.claude.com/docs/en/permission-modes.md) decides what Claude does when a sent comment arrives:
 
@@ -208,7 +204,7 @@ You can stop Claude from replying on its own in any of these ways:
 * **Stop the task in `/tasks`**: Claude stops replying on that artifact until you ask it to resume replies there. Publishing the artifact again doesn't start replies again, and the stop still applies when you resume the session later.
 * **Press `Ctrl+X Ctrl+K` twice within 3 seconds**: the chord that [stops every running background subagent](https://code.claude.com/docs/en/interactive-mode.md#general-controls) also stops Claude from replying on every artifact for the rest of the session. Asking Claude to resume replies doesn't undo this stop.
 
-A watch that Claude Code started on its own can end after the artifact goes several hours without activity. To start the watch again, publish the artifact again or ask Claude to watch it.
+A watch that Claude Code started on its own can end after the artifact goes several hours without activity. You see `Stopped watching Artifact: <name> (idle)`. To start the watch again, publish the artifact again or ask Claude to watch it. If you see `(made room for a newer watch)` in place of `(idle)`, your session reached its limit of 25 watches. Publish again to restart that watch.
 
 If the service that delivers comments becomes unavailable or stops answering, Claude Code keeps trying to reconnect for a while, then stops watching each artifact your session was watching.
 
@@ -222,13 +218,13 @@ To create a connector-backed page, name the connector and the data you want in y
 Build a dashboard artifact of our open pull requests that pulls the live list through my GitHub connector when the page loads.
 ```
 
-Claude declares which connectors the page may call as part of publishing, and the page can't call connectors outside that declaration. Only connectors from your claude.ai account qualify: Claude names them in the declaration, and when someone views the page, each call [runs through the viewing account's own connection](#how-connector-calls-work-for-viewers) to that connector. Local MCP servers you configure in Claude Code, such as servers from `.mcp.json`, can supply data while Claude builds the page, but the published page can't call them.
+Use a connector from your claude.ai account. Local MCP servers you configure in Claude Code, such as servers from `.mcp.json`, can supply data while Claude builds the page, but the published page can't call them.
 
 The page fetches data when it loads and can refresh on an interval or when a viewer uses a refresh control on the page. Responses are cached in the viewer's browser, so a reopened page renders from the cached responses immediately, then updates with fresh results.
 
 ### How connector calls work for viewers
 
-When a published page calls a connector, the call uses the account of the person viewing the page, not the account of the person who published it:
+By default, when a published page calls a connector, the call uses the account of the person viewing the page, not the account of the person who published it:
 
 * **Each viewer uses their own connectors**: calls go through the viewing account's connected tools, so two people opening the same dashboard can see different data depending on what their accounts can access. The page never sees anyone's credentials; claude.ai makes the calls on the page's behalf.
 * **Viewers approve access first**: claude.ai asks each viewer for permission before the page's first connector call. A viewer who declines, or who hasn't connected a connector the page uses, still sees the page without its live sections.
@@ -238,11 +234,15 @@ When you plan to share a connector-backed page, ask Claude to include a fallback
 
 You can [share a connector-backed page](#share-an-artifact) within your organization or publicly, as your plan and organization settings allow. Connector calls don't run for a viewer who opens the public link without signing in to claude.ai, or from outside your organization. That viewer sees the page without its live sections.
 
+> [!WARNING]
+>
+> If you turn on [live sharing](https://support.claude.com/en/articles/17454700-get-started-with-claude-data#h_9b12806a2a) for a dashboard, the calls you share run through your account. Check what data the dashboard shows before you share it.
+
 ### The page shows no live data for a viewer
 
 When a connector-backed page renders but its live sections stay empty for a viewer in your organization, work through these causes:
 
-* **The viewer hasn't connected the connector**: connectors are per-account, so each viewer needs their own connection to every connector the page calls. They can add one at [claude.ai/customize/connectors](https://claude.ai/customize/connectors), then reload the page.
+* **The viewer hasn't connected the connector**: they can add it at [claude.ai/customize/connectors](https://claude.ai/customize/connectors), then reload the page.
 * **The viewer declined the permission ask**: a denial lasts for the rest of that page load. Reloading the page brings the permission ask back.
 * **Connector calls are turned off for the organization**: an Owner controls the [**Enable artifact connectors** toggle](#control-connector-calls-from-artifacts) in admin settings.
 * **The page calls tool names the connector doesn't expose**: the affected sections stay empty for everyone, including you. This can happen when a page names the individual tools behind a gateway-style connector that exposes only a few tools of its own. Ask Claude to fix the tool names the page calls and publish it again.
@@ -261,7 +261,7 @@ To offer a file, ask for the control and the file format in your prompt:
 Add a button that downloads this table as a CSV file.
 ```
 
-Claude declares the downloads capability as part of publishing, the same way it [declares connectors](#pull-live-data-with-mcp-connectors).
+Claude declares the downloads capability as part of publishing.
 
 ## What you can build
 
@@ -423,7 +423,7 @@ To enable or disable artifacts for the whole organization, go to [**Organization
 
 Public sharing is off by default on Team and Enterprise plans. To let members publish artifacts to public links that anyone can view without signing in, go to [**Organization settings > Artifacts**](https://claude.ai/admin-settings/artifacts) and turn on **External sharing** under the **Artifacts** toggle. Turning it back off blocks access through existing public links without changing each artifact's audience; access resumes if you re-enable it.
 
-### Set a retention policy
+### Set a retention policy on Enterprise plans
 
 To set how long artifacts are kept before automatic deletion, go to [**Organization settings > Data and privacy**](https://claude.ai/admin-settings/data-privacy-controls). You can set separate retention periods for artifacts that are still private to their author and artifacts that have been shared.
 

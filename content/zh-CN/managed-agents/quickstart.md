@@ -47,12 +47,12 @@ featureMetadata:
 
 ## 核心概念
 
-| 概念                  | 描述                                           |
-| ------------------- | -------------------------------------------- |
-| **Agent（智能体）**      | 模型、系统提示、工具、MCP 服务器和技能                        |
+| 概念 | 描述 |
+| ----- | ----- |
+| **Agent（智能体）** | 模型、系统提示、工具、MCP 服务器和技能 |
 | **Environment（环境）** | 会话运行位置的配置：Anthropic 托管的云沙箱，或在您自己的基础设施上自托管的沙箱 |
-| **Session（会话）**     | 在环境中运行的智能体实例，执行特定任务并生成输出                     |
-| **Events（事件）**      | 您的应用程序与智能体之间交换的消息（用户轮次、工具结果、状态更新）            |
+| **Session（会话）** | 在环境中运行的智能体实例，执行特定任务并生成输出 |
+| **Events（事件）** | 您的应用程序与智能体之间交换的消息（用户轮次、工具结果、状态更新） |
 
 ## 开始之前
 
@@ -83,7 +83,7 @@ featureMetadata:
         对于 Linux 环境，请直接下载发布版二进制文件。
 
         ```bash
-        VERSION=2.11.0
+        VERSION=2.12.1
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         case $(uname -m) in
           x86_64) ARCH=amd64 ;;
@@ -152,7 +152,7 @@ featureMetadata:
     对于 Linux 环境，请直接下载发布版二进制文件。
 
     ```bash
-    VERSION=2.11.0
+    VERSION=2.12.1
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     case $(uname -m) in
       x86_64) ARCH=amd64 ;;
@@ -199,7 +199,7 @@ featureMetadata:
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.10.0")
+        implementation("com.anthropic:anthropic-java:3.12.0")
         ```
       </Tab>
 
@@ -208,7 +208,7 @@ featureMetadata:
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         ```
       </Tab>

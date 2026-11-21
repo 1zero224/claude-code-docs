@@ -12,24 +12,24 @@ Claude Haiku 5.5 专为高吞吐量、对延迟敏感的工作而构建，例如
 
 每一行列出一项变更、该变更属于新增、变更还是破坏性变更，以及您的代码需要执行的操作。
 
-| 变更                                                                                                                                   | 类型    | 所需操作                                                                                                                                           |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [自适应思考和 effort](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#adaptive-thinking-and-effort)            | 新增    | 可选：设置 `effort`，在响应质量与速度和成本之间进行权衡。                                                                                                              |
-| [更大的上下文窗口和输出](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#larger-context-window-and-output)          | 新增    | 无。现有的 `max_tokens` 值仍然有效，但思考令牌会计入其中。长提示按更高的价格计费；请参阅[长上下文定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#long-context-pricing)。 |
-| [浏览器使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool)                                         | 新增    | 无。                                                                                                                                             |
-| [安全分类器可能拒绝请求](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)                       | 新增    | 在您的客户端中处理 `stop_reason: "refusal"`。服务器端回退不可用。                                                                                                  |
-| [手动扩展思考会返回错误](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#configure-thinking)                            | 破坏性变更 | 将 `budget_tokens` 替换为自适应思考。                                                                                                                    |
-| [采样参数可能返回错误](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#remove-sampling-parameters)                     | 破坏性变更 | 省略 `temperature`、`top_p` 和 `top_k`。                                                                                                            |
-| [助手消息预填充会返回错误](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#replace-assistant-prefill)                    | 破坏性变更 | 以用户轮次结束 `messages`。                                                                                                                            |
-| [`computer_20250124` 会返回错误](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#computer-use-toolset)            | 破坏性变更 | 将其替换为 `computer_toolset_20260801`。在 Amazon Bedrock 上，`computer_20251124` 也可使用。                                                                 |
-| [更改较早的轮次会使思考块失效](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#keep-earlier-turns-unchanged)               | 破坏性变更 | 如果您将思考块发送回去，请保持对话只追加不修改。                                                                                                                       |
-| [响应可能以思考块开头](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#responses-can-begin-with-thinking-blocks)   | 已更改   | 按 `type` 而非位置选择内容块。                                                                                                                            |
-| [默认省略思考文本](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#configure-thinking)                               | 已更改   | 要接收摘要形式的思考内容，请将 `thinking.display` 设置为 `"summarized"`。                                                                                         |
-| [相同文本计为更多令牌](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#same-text-counts-as-more-tokens)            | 已更改   | 重新计算提示令牌数，并重新审视 `max_tokens` 和成本估算。                                                                                                            |
-| [跨账户重放思考块](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#replaying-thinking-blocks-across-accounts)    | 已更改   | 如果您通过不同的账户重放已存储的对话，请通过生成该对话的账户重放每个对话。                                                                                                          |
-| [较早的思考块保留在上下文中](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#earlier-thinking-blocks-stay-in-context) | 已更改   | 在多轮对话中预计会有更多输入令牌。要移除较旧的块，请使用[思考块清除](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#thinking-block-clearing)。         |
-| [更短的提示可以被缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-limitations)                              | 已更改   | 无。最小可缓存提示长度为 512 个令牌，低于 Claude Haiku 4.5 上的 4,096 个令牌，因此长度介于两者之间且设置了 `cache_control` 的提示会在 Claude Haiku 5.5 上被缓存。                              |
-| [不再注入上下文感知标签](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows#context-awareness)                            | 已更改   | 要为模型提供智能体循环的明确预算，请使用[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)（beta）。                                       |
+| 变更 | 类型 | 所需操作 |
+| ----- | ----- | ----- |
+| [自适应思考和 effort](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#adaptive-thinking-and-effort) | 新增 | 可选：设置 `effort`，在响应质量与速度和成本之间进行权衡。 |
+| [更大的上下文窗口和输出](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#larger-context-window-and-output) | 新增 | 无。现有的 `max_tokens` 值仍然有效，但思考令牌会计入其中。长提示按更高的价格计费；请参阅[长上下文定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#long-context-pricing)。 |
+| [浏览器使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool) | 新增 | 无。 |
+| [安全分类器可能拒绝请求](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response) | 新增 | 在您的客户端中处理 `stop_reason: "refusal"`。服务器端回退不可用。移除要求模型写出其推理过程的提示指令。 |
+| [手动扩展思考会返回错误](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#configure-thinking) | 破坏性变更 | 将 `budget_tokens` 替换为自适应思考。 |
+| [采样参数可能返回错误](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#remove-sampling-parameters) | 破坏性变更 | 省略 `temperature`、`top_p` 和 `top_k`。 |
+| [助手消息预填充会返回错误](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#replace-assistant-prefill) | 破坏性变更 | 以用户轮次结束 `messages`。 |
+| [`computer_20250124` 会返回错误](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#computer-use-toolset) | 破坏性变更 | 将其替换为 `computer_toolset_20260801`。在 Amazon Bedrock 上，`computer_20251124` 也可使用。 |
+| [更改较早的轮次会使思考块失效](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#keep-earlier-turns-unchanged) | 破坏性变更 | 如果您将思考块发送回去，请保持对话只追加不修改。 |
+| [响应可能以思考块开头](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#responses-can-begin-with-thinking-blocks) | 已更改 | 按 `type` 而非位置选择内容块。 |
+| [默认省略思考文本](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#configure-thinking) | 已更改 | 要接收摘要形式的思考内容，请将 `thinking.display` 设置为 `"summarized"`。 |
+| [相同文本计为更多令牌](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#same-text-counts-as-more-tokens) | 已更改 | 重新计算提示令牌数，并重新审视 `max_tokens` 和成本估算。 |
+| [跨账户重放思考块](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#replaying-thinking-blocks-across-accounts) | 已更改 | 如果您通过不同的账户重放已存储的对话，请通过生成该对话的账户重放每个对话。 |
+| [较早的思考块保留在上下文中](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5#earlier-thinking-blocks-stay-in-context) | 已更改 | 在多轮对话中预计会有更多输入令牌。要移除较旧的块，请使用[思考块清除](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing#thinking-block-clearing)。 |
+| [更短的提示可以被缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#cache-limitations) | 已更改 | 无。最小可缓存提示长度为 512 个令牌，低于 Claude Haiku 4.5 上的 4,096 个令牌，因此长度介于两者之间且设置了 `cache_control` 的提示会在 Claude Haiku 5.5 上被缓存。 |
+| [不再注入上下文感知标签](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows#context-awareness) | 已更改 | 要为模型提供智能体循环的明确预算，请使用[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)（beta）。 |
 
 ## 新功能
 

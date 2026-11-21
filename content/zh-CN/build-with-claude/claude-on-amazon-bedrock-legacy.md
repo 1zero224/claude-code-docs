@@ -162,17 +162,17 @@ Invocation of model ID anthropic.claude-sonnet-4-5-20250929-v1:0 with on-demand 
 
 要调用这些模型，请传入推理配置文件（inference profile）而非基础模型 ID。推理配置文件 ID 是在基础模型 ID 前加上下表中标记为"是"的列所对应的前缀，例如 us.anthropic.claude-sonnet-4-5-20250929-v1:0。您也可以传入完整的推理配置文件 ARN，格式为 `arn:aws:bedrock:{region}:{account-id}:inference-profile/{inference-profile-id}`。有关 AWS 官方提供的可用推理配置文件列表，请参阅[推理配置文件支持的区域和模型](https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-support.html)。要了解前缀如何影响路由和定价，请参阅[全局端点与区域端点](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#global-vs-regional-endpoints)部分。
 
-| Model                                                                                                    | Base Bedrock model ID                       | `global` | `us` | `eu` | `jp` | `apac` |
-| :------------------------------------------------------------------------------------------------------- | :------------------------------------------ | :------- | :--- | :--- | :--- | :----- |
-| Claude Fable 5.2                                                                                         | `anthropic.claude-fable-5-2`                | Yes      | Yes  | No   | No   | No     |
-| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842))              | `anthropic.claude-mythos-5-2`               | Yes      | Yes  | No   | No   | No     |
-| Claude Opus 4.6                                                                                          | `anthropic.claude-opus-4-6-v1`              | Yes      | Yes  | Yes  | Yes  | Yes    |
-| Claude Opus 4.5                                                                                          | `anthropic.claude-opus-4-5-20251101-v1:0`   | Yes      | Yes  | Yes  | No   | No     |
-| Claude Opus 4.1 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations))   | `anthropic.claude-opus-4-1-20250805-v1:0`   | No       | Yes  | No   | No   | No     |
-| Claude Sonnet 4.6                                                                                        | `anthropic.claude-sonnet-4-6`               | Yes      | Yes  | Yes  | Yes  | No     |
-| Claude Sonnet 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `anthropic.claude-sonnet-4-5-20250929-v1:0` | Yes      | Yes  | Yes  | Yes  | No     |
-| Claude Sonnet 4 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations))   | `anthropic.claude-sonnet-4-20250514-v1:0`   | Yes      | Yes  | Yes  | No   | Yes    |
-| Claude Haiku 4.5                                                                                         | `anthropic.claude-haiku-4-5-20251001-v1:0`  | Yes      | Yes  | Yes  | No   | No     |
+| Model | Base Bedrock model ID | `global` | `us` | `eu` | `jp` | `apac` |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| Claude Fable 5.2 | `anthropic.claude-fable-5-2` | Yes | Yes | No | No | No |
+| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842)) | `anthropic.claude-mythos-5-2` | Yes | Yes | No | No | No |
+| Claude Opus 4.6 | `anthropic.claude-opus-4-6-v1` | Yes | Yes | Yes | Yes | Yes |
+| Claude Opus 4.5 | `anthropic.claude-opus-4-5-20251101-v1:0` | Yes | Yes | Yes | No | No |
+| Claude Opus 4.1 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `anthropic.claude-opus-4-1-20250805-v1:0` | No | Yes | No | No | No |
+| Claude Sonnet 4.6 | `anthropic.claude-sonnet-4-6` | Yes | Yes | Yes | Yes | No |
+| Claude Sonnet 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `anthropic.claude-sonnet-4-5-20250929-v1:0` | Yes | Yes | Yes | Yes | No |
+| Claude Sonnet 4 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `anthropic.claude-sonnet-4-20250514-v1:0` | Yes | Yes | Yes | No | Yes |
+| Claude Haiku 4.5 | `anthropic.claude-haiku-4-5-20251001-v1:0` | Yes | Yes | Yes | No | No |
 
 ### 列出可用模型
 
@@ -753,6 +753,7 @@ Anthropic 建议您至少以 30 天滚动周期记录您的活动，以便了解
 * [工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)，包括 [Bash 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool)、[计算机使用工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool)、[记忆工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool)和[文本编辑器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/text-editor-tool)
 * [引用](https://platform.claude.com/docs/zh-CN/build-with-claude/citations)
 * [结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)
+* [用于终端客户归属的用户配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles)，在[部分模型](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#attribute-requests-on-amazon-bedrock-and-google-cloud)上通过 `InvokeModel` 使用，需将配置文件 ID 放在请求体中
 
 ### 不支持的功能
 

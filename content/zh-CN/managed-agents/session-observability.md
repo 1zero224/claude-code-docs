@@ -48,13 +48,13 @@ featureMetadata:
 * **转录文本：** 按模型请求分组的对话内容，包括思考过程、工具调用及其输入和结果，以及流式传输中的消息文本。您可以筛选事件，并将其复制或下载为 JSON。
 * **检查器：** 一个可调整大小的侧边面板，通过五个选项卡展示会话的详细信息。
 
-| 检查器选项卡  | 显示内容                                                                                                                                                                                                                                                                                                                                                              |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **会话**  | 会话的详细信息和元数据、其随时间累计的成本，以及在设置了会话[预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)时相对于该预算的支出。                                                                                                                                                                                                                                                      |
-| **事件**  | 当前线程上的每个原始事件，按服务器发送的顺序排列。选择一个事件可查看其 JSON。在页面打开期间流式传输的消息还有一个**差异**视图，用于显示其[事件增量](https://platform.claude.com/docs/zh-CN/managed-agents/event-deltas)。                                                                                                                                                                                                              |
-| **工具**  | 会话中智能体所配置的工具，以及调用次数、失败次数和中位持续时间。选择一个工具可查看其调用，并跳转到对话记录中的某次调用。                                                                                                                                                                                                                                                                                                      |
-| **资源**  | 挂载在其容器路径上的[文件](https://platform.claude.com/docs/zh-CN/managed-agents/files)、[代码仓库](https://platform.claude.com/docs/zh-CN/managed-agents/github)和[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory)，包括每个存储中的记忆以及本会话对它们所做的更改。还会列出智能体写入 `/mnt/session/outputs` 的文件，以及附加到会话智能体的[技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills)。 |
-| **讨论串** | 每个线程及其状态、上下文大小和成本。选择一个线程可查看其详细信息，例如智能体、模型、上下文用量和成本。                                                                                                                                                                                                                                                                                                               |
+| 检查器选项卡 | 显示内容 |
+| ----- | ----- |
+| **会话** | 会话的详细信息和元数据、其随时间累计的成本，以及在设置了会话[预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)时相对于该预算的支出。 |
+| **事件** | 当前线程上的每个原始事件，按服务器发送的顺序排列。选择一个事件可查看其 JSON。在页面打开期间流式传输的消息还有一个**差异**视图，用于显示其[事件增量](https://platform.claude.com/docs/zh-CN/managed-agents/event-deltas)。 |
+| **工具** | 会话中智能体所配置的工具，以及调用次数、失败次数和中位持续时间。选择一个工具可查看其调用，并跳转到对话记录中的某次调用。 |
+| **资源** | 挂载在其容器路径上的[文件](https://platform.claude.com/docs/zh-CN/managed-agents/files)、[代码仓库](https://platform.claude.com/docs/zh-CN/managed-agents/github)和[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory)，包括每个存储中的记忆以及本会话对它们所做的更改。还会列出智能体写入 `/mnt/session/outputs` 的文件，以及附加到会话智能体的[技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills)。 |
+| **讨论串** | 每个线程及其状态、上下文大小和成本。选择一个线程可查看其详细信息，例如智能体、模型、上下文用量和成本。 |
 
 在会话 URL 后追加 `?event={event_id}` 可在特定事件处打开该会话。
 
@@ -89,15 +89,15 @@ featureMetadata:
 }
 ```
 
-| 字段                        | 描述                                                                                      |
-| ------------------------- | --------------------------------------------------------------------------------------- |
-| `input_tokens`            | 会话中所有模型调用的未缓存输入令牌数。                                                                     |
-| `output_tokens`           | 会话中所有模型调用的输出令牌总数。                                                                       |
-| `cache_read_input_tokens` | 从提示缓存中读取的令牌数。                                                                           |
-| `cache_creation`          | 缓存创建令牌数，按缓存生命周期细分（`ephemeral_5m_input_tokens` 和 `ephemeral_1h_input_tokens`）。           |
-| `list_cost`               | 按公开标价计算的会话累计消耗，以字符串形式表示的整数美分数，并附带货币代码。                                                  |
-| `active_seconds`          | 会话中至少有一个线程在运行的累计时间。并发线程的重叠活动只计算一次。会话的运行时成本按此时长计价。                                       |
-| `server_tool_use`         | 服务器执行的工具请求计数，用于计价。网络搜索请求按每次请求计入标价成本。网页获取请求不收取按次费用，也不计量，因此 `web_fetch_requests` 显示为 `0`。 |
+| 字段 | 描述 |
+| ----- | ----- |
+| `input_tokens` | 会话中所有模型调用的未缓存输入令牌数。 |
+| `output_tokens` | 会话中所有模型调用的输出令牌总数。 |
+| `cache_read_input_tokens` | 从提示缓存中读取的令牌数。 |
+| `cache_creation` | 缓存创建令牌数，按缓存生命周期细分（`ephemeral_5m_input_tokens` 和 `ephemeral_1h_input_tokens`）。 |
+| `list_cost` | 按公开标价计算的会话累计消耗，以字符串形式表示的整数美分数，并附带货币代码。 |
+| `active_seconds` | 会话中至少有一个线程在运行的累计时间。并发线程的重叠活动只计算一次。会话的运行时成本按此时长计价。 |
+| `server_tool_use` | 服务器执行的工具请求计数，用于计价。网络搜索请求按每次请求计入标价成本。网页获取请求不收取按次费用，也不计量，因此 `web_fetch_requests` 显示为 `0`。 |
 
 缓存条目默认使用 5 分钟的 “TTL”（生存时间），因此在该时间窗口内连续进行的轮次可以受益于缓存读取，从而降低每令牌成本。
 
@@ -162,8 +162,8 @@ Anthropic 会在每个运行会话的工作区中创建一个此类服务账户�
 
 * 可用性：始终开启
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
 
 ### 所需的 beta 请求头
@@ -178,9 +178,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

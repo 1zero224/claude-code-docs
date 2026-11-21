@@ -15,10 +15,10 @@ Claude Fable 5.2 专为高要求的推理和长周期智能体工作而打造。
 
 ## 模型
 
-| 模型                | Claude API ID     | 描述                      | 可用性                                                                                                                       |
-| ----------------- | ----------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Claude Fable 5.2  | claude-fable-5-2  | 适用于高要求的推理和长周期智能体工作      | Claude API 上的所有客户（其他平台请参阅[可用性](https://platform.claude.com/docs/zh-CN/models/fable-5-2/whats-new-fable-5-2#availability)） |
-| Claude Mythos 5.2 | claude-mythos-5-2 | 与 Claude Fable 5.2 能力相同 | 通过 Anthropic 验证计划（例如 [Cyber Verification Program](https://support.claude.com/en/articles/14604842)）验证的组织                  |
+| 模型 | Claude API ID | 描述 | 可用性 |
+| ----- | ----- | ----- | ----- |
+| Claude Fable 5.2 | claude-fable-5-2 | 适用于高要求的推理和长周期智能体工作 | Claude API 上的所有客户（其他平台请参阅[可用性](https://platform.claude.com/docs/zh-CN/models/fable-5-2/whats-new-fable-5-2#availability)） |
+| Claude Mythos 5.2 | claude-mythos-5-2 | 与 Claude Fable 5.2 能力相同 | 通过 Anthropic 验证计划（例如 [Cyber Verification Program](https://support.claude.com/en/articles/14604842)）验证的组织 |
 
 Claude Fable 5.2 和 Claude Mythos 5.2 共享以下规格：
 
@@ -122,8 +122,8 @@ Claude Fable 5.2 运行安全分类器，[拒绝和回退](https://platform.clau
 
 Claude Fable 5.2 和 Claude Mythos 5.2 的价格相同（以美元计）：
 
-| 基础输入      | 5 分钟缓存写入   | 1 小时缓存写入   | 缓存读取         | 输出         |
-| --------- | ---------- | ---------- | ------------ | ---------- |
+| 基础输入 | 5 分钟缓存写入 | 1 小时缓存写入 | 缓存读取 | 输出 |
+| ----- | ----- | ----- | ----- | ----- |
 | $8 / MTok | $10 / MTok | $16 / MTok | $0.20 / MTok | $40 / MTok |
 
 输入和输出的成本低于 Claude Fable 5.1 和 Claude Mythos 5.1。Claude Fable 5.1 和 Claude Mythos 5.1 的价格为每百万输入令牌 10 美元、每百万输出令牌 50 美元。缓存读取（命中和刷新）的成本为基础输入价格的 0.025 倍，与这些模型的倍数相同。[批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)为每百万输入令牌 4 美元、每百万输出令牌 20 美元。Claude Fable 5.2 和 Claude Mythos 5.2 的[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)为每百万输入令牌 16 美元、每百万输出令牌 80 美元。请参阅[快速模式定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#fast-mode-pricing)。有关数据驻留和工具定价，请参阅[定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing)。

@@ -225,7 +225,7 @@ When the session is waiting on you, how you answer from the peek panel depends o
 
 * A question with predefined choices: the panel lists the choices by number. With the reply input empty, press a choice's number to fill it in, then `Enter` to send it, or type your own answer instead
 * A question without predefined choices: type your answer. When the empty input shows a suggested reply, press `Tab` to fill it in and edit it before sending
-* A permission prompt or another dialog, such as a [sandbox](https://code.claude.com/docs/en/sandboxing.md) prompt or an MCP server's [request for input](https://code.claude.com/docs/en/mcp.md#respond-to-mcp-elicitation-requests): replying doesn't answer it. Your message waits in the queue. To answer the dialog, attach with `→`
+* A permission prompt or another dialog, such as a [sandbox](https://code.claude.com/docs/en/sandboxing.md) prompt or an MCP server's [request for input](https://code.claude.com/docs/en/mcp.md#respond-to-mcp-elicitation-requests): replying doesn't answer it. To answer the dialog, attach with `→` while the reply input is empty
 
 When a [`PermissionRequest`](https://code.claude.com/docs/en/hooks#permissionrequest) or [`PreToolUse`](https://code.claude.com/docs/en/hooks#pretooluse) hook returns output Claude Code can't validate for the call the session is asking about, the row shows the hook event and `hook output invalid:` with the validation error before the pending request's text. For a hook that fails another way, the row says the hook failed. The session still waits on the same request.
 
@@ -263,7 +263,7 @@ Detaching never stops a background session: `←`, `Ctrl+Z`, `/exit`, and double
 
 In a session running in the foreground, one you started in the terminal rather than attached to from agent view, pressing `←` on an empty prompt backgrounds it and opens agent view with that row selected, so you can switch sessions without leaving the terminal. The same single press detaches an attached session.
 
-If you press `←` right after you delete the last of the prompt's text or move through prompt history, Claude Code asks you to confirm: the first press shows `Press ← again to open agents`, or `Press ← again to go back to agents` in an attached session, and the second press switches.
+If you press `←` right after you delete the last of the prompt's text or move through prompt history, Claude Code asks you to confirm. Press `←` again to switch.
 
 After you background a session with `←`:
 
@@ -738,8 +738,6 @@ claude agents --permission-mode plan --model opus --effort high
 `claude agents` also accepts `--dangerously-skip-permissions` as shorthand for `--permission-mode bypassPermissions`, and `--allow-dangerously-skip-permissions` to make `bypassPermissions` available in each dispatched session's `Shift+Tab` cycle without starting in that mode. Both match the [top-level CLI flags](https://code.claude.com/docs/en/cli-reference.md).
 
 Pass `--restricted` to start every session you dispatch from the view in [restricted mode](https://code.claude.com/docs/en/cli-reference.md#cli-flags), as if each were launched with the top-level `--restricted` flag. Requires Claude Code v2.1.248 or later.
-
-The active defaults appear in the footer below the dispatch input.
 
 A background session started in `bypassPermissions` mode needs your [acceptance of the bypass disclaimer](https://code.claude.com/docs/en/permission-modes.md#skip-all-checks-with-bypasspermissions-mode) on record, since that mode lets a session you aren't watching act without approval. Passing `--dangerously-skip-permissions` or `--permission-mode bypassPermissions` to `claude agents` shows the same disclaimer when you haven't accepted it before, and accepting applies `bypassPermissions` to the sessions you launch from the view. Passing `--allow-dangerously-skip-permissions` shows the same disclaimer too, and accepting makes `bypassPermissions` available in the `Shift+Tab` cycle of those sessions without starting them in it.
 

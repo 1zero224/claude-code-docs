@@ -45,11 +45,11 @@ The workspace's customer-managed encryption key could not be reached. Try again 
 
 ## 验证失败：AWS KMS
 
-| 原因                  | 修复方法                                                                                                                                        |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| 组织 ID 错误            | `org_uuid` 条件必须列出[您的 Anthropic 组织 ID](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-aws-kms#prerequisites)，即不带 `org_` 前缀的 UUID。 |
-| 策略中缺少某个工作区          | `compartment_uuid` 条件必须[列出该密钥所附加到的每个工作区的分区 ID](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-aws-kms-workspaces)。               |
-| 通过 IAM 而非密钥策略授予访问权限 | Anthropic 的角色需要在[密钥策略本身](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-aws-kms#key-policy)中获得访问权限。                              |
+| 原因 | 修复方法 |
+| ----- | ----- |
+| 组织 ID 错误 | `org_uuid` 条件必须列出[您的 Anthropic 组织 ID](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-aws-kms#prerequisites)，即不带 `org_` 前缀的 UUID。 |
+| 策略中缺少某个工作区 | `compartment_uuid` 条件必须[列出该密钥所附加到的每个工作区的分区 ID](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-aws-kms-workspaces)。 |
+| 通过 IAM 而非密钥策略授予访问权限 | Anthropic 的角色需要在[密钥策略本身](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-aws-kms#key-policy)中获得访问权限。 |
 
 要打印密钥策略，请运行：
 
@@ -83,11 +83,11 @@ aws kms get-key-policy \
 
 ## 验证失败：Google Cloud KMS
 
-| 原因           | 修复方法                                                                                                                                     |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 组织标记错误       | 密钥需要带有[组织标记](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-google-cloud-kms#organization-label)，其中包含小写形式的您的 Anthropic 组织 ID。 |
-| 网域限制共享       | 此组织策略会阻止向 Anthropic 的服务账号授权。[添加例外](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-google-cloud-kms#prerequisites)。            |
-| 已禁用或已销毁的密钥版本 | 密钥的主版本必须处于启用状态。                                                                                                                          |
+| 原因 | 修复方法 |
+| ----- | ----- |
+| 组织标记错误 | 密钥需要带有[组织标记](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-google-cloud-kms#organization-label)，其中包含小写形式的您的 Anthropic 组织 ID。 |
+| 网域限制共享 | 此组织策略会阻止向 Anthropic 的服务账号授权。[添加例外](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-google-cloud-kms#prerequisites)。 |
+| 已禁用或已销毁的密钥版本 | 密钥的主版本必须处于启用状态。 |
 
 要检查授权，请运行：
 
@@ -100,24 +100,24 @@ gcloud kms keys get-iam-policy <your-key-name> \
 
 ## 验证失败：Azure Key Vault
 
-| 原因                    | 修复方法                                                                                                                                     |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 组织标签错误                | 密钥的当前版本需要带有[组织标签](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-azure-key-vault#organization-tag)。                           |
-| 角色分配尚未生效              | 新的角色分配可能需要几分钟才能生效。请稍候，然后重试。                                                                                                              |
+| 原因 | 修复方法 |
+| ----- | ----- |
+| 组织标签错误 | 密钥的当前版本需要带有[组织标签](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-azure-key-vault#organization-tag)。 |
+| 角色分配尚未生效 | 新的角色分配可能需要几分钟才能生效。请稍候，然后重试。 |
 | 保管库的网络规则阻止了 Anthropic | 根据 [Anthropic 所需的保管库设置](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-azure-key-vault#check-your-vault-configuration)检查这些规则。 |
 
 ## 在 Claude Platform on AWS 上附加失败
 
 Claude Platform on AWS 没有**验证**步骤，因此密钥的问题会在您附加它时显现。
 
-| 原因                            | 修复方法                                                                                                                                                                                                                                                                                             |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 密钥策略不匹配                       | 使用 [`get-key-policy` 命令](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-troubleshooting#aws-kms)打印密钥策略，并将其与[设置页面上的策略](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#prepare-the-key-policy)进行比较。                                                   |
-| 密钥策略遗漏了该工作区                   | 如果您的密钥策略列出了工作区，请[将此工作区添加到每个列表中](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#add-a-workspace)。如果没有列出，请检查 [`aws:SourceArn` 条件](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#source-arn-condition)是否与此工作区的 ARN 匹配。不要移除该条件。 |
-| 密钥策略具有 `aws:SourceAccount` 条件 | 请将其从两个服务主体语句中移除，并保留 `aws:SourceArn`。Anthropic 对您的密钥的调用仅发送源 ARN。                                                                                                                                                                                                                                  |
-| 在创建工作区时选择了密钥                  | 列出工作区的密钥策略无法列出尚不存在的工作区。请在不选择密钥的情况下创建工作区，然后[将其添加到密钥策略中](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#add-a-workspace)。                                                                                                                                        |
-| 密钥状态或位置                       | 密钥必须处于启用状态、为单区域密钥，并且与工作区位于同一 AWS 账户和区域中。                                                                                                                                                                                                                                                         |
-| 缺少权限                          | 您登录所用的主体需要对该密钥拥有 `kms:DescribeKey`、`kms:Encrypt` 和 `kms:Decrypt` 权限。                                                                                                                                                                                                                             |
+| 原因 | 修复方法 |
+| ----- | ----- |
+| 密钥策略不匹配 | 使用 [`get-key-policy` 命令](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-troubleshooting#aws-kms)打印密钥策略，并将其与[设置页面上的策略](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#prepare-the-key-policy)进行比较。 |
+| 密钥策略遗漏了该工作区 | 如果您的密钥策略列出了工作区，请[将此工作区添加到每个列表中](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#add-a-workspace)。如果没有列出，请检查 [`aws:SourceArn` 条件](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#source-arn-condition)是否与此工作区的 ARN 匹配。不要移除该条件。 |
+| 密钥策略具有 `aws:SourceAccount` 条件 | 请将其从两个服务主体语句中移除，并保留 `aws:SourceArn`。Anthropic 对您的密钥的调用仅发送源 ARN。 |
+| 在创建工作区时选择了密钥 | 列出工作区的密钥策略无法列出尚不存在的工作区。请在不选择密钥的情况下创建工作区，然后[将其添加到密钥策略中](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#add-a-workspace)。 |
+| 密钥状态或位置 | 密钥必须处于启用状态、为单区域密钥，并且与工作区位于同一 AWS 账户和区域中。 |
+| 缺少权限 | 您登录所用的主体需要对该密钥拥有 `kms:DescribeKey`、`kms:Encrypt` 和 `kms:Decrypt` 权限。 |
 
 如果附加仍然失败，请在密钥所在账户的 CloudTrail 中查找被拒绝的 `kms:` 事件。该事件会显示调用主体，对于加密调用，还会显示加密上下文。修复该原因，然后再次点击**保存**。
 

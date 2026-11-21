@@ -46,12 +46,12 @@ az keyvault show --name <your-vault-name> \
   --query "{rbac:properties.enableRbacAuthorization, purge:properties.enablePurgeProtection, pub:properties.publicNetworkAccess, net:properties.networkAcls.defaultAction, ipRules:properties.networkAcls.ipRules, uri:properties.vaultUri, tenantId:properties.tenantId}"
 ```
 
-| 字段      | 必须为                                                                                                                                       |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `rbac`  | `true`                                                                                                                                    |
-| `purge` | `true`。如果为 `false` 或 `null`，请先启用清除保护。启用后无法再次关闭。                                                                                           |
-| `pub`   | `"Enabled"`。不支持专用终结点。                                                                                                                     |
-| `net`   | `"Allow"`，或 `"Deny"` 且 `ipRules` 中包含 [Anthropic 的出站 IP 地址](https://platform.claude.com/docs/zh-CN/api/ip-addresses#outbound-ip-addresses) |
+| 字段 | 必须为 |
+| ----- | ----- |
+| `rbac` | `true` |
+| `purge` | `true`。如果为 `false` 或 `null`，请先启用清除保护。启用后无法再次关闭。 |
+| `pub` | `"Enabled"`。不支持专用终结点。 |
+| `net` | `"Allow"`，或 `"Deny"` 且 `ipRules` 中包含 [Anthropic 的出站 IP 地址](https://platform.claude.com/docs/zh-CN/api/ip-addresses#outbound-ip-addresses) |
 
 复制 `uri`（保管库 URI）和 `tenantId`。
 

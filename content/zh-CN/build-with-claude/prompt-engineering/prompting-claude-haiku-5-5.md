@@ -6,7 +6,7 @@ description: Claude Haiku 5.5 特有的提示模式：effort、搜索、结合�
 
 本指南介绍 Claude Haiku 5.5 特有的提示模式。有关该模型的 API 变更，请参阅 [Claude Haiku 5.5 的新功能](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/whats-new-haiku-5-5)。有关适用于所有当前 Claude 模型的技巧，请参阅[提示最佳实践](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices)。
 
-现有的 Claude Haiku 4.5 提示无需更改即可表现良好。请从与您观察到的情况相符的部分开始：
+现有的 Claude Haiku 4.5 提示无需更改即可表现良好，除非它们要求模型在回复中写出其推理过程（请参阅[安全防护拒绝](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5#safeguard-refusals)）。请从与您观察到的情况相符的部分开始：
 
 * 不确定应使用哪个 effort 级别，或者您的 Claude Haiku 4.5 请求设置了思考预算：[使用 effort 控制思考](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5#use-effort-to-control-thinking)
 * 模型搜索网络、文档集或知识库，或者跳过了本可以找到更新事实的搜索：[准确的搜索结果](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5#accurate-search-results)
@@ -130,8 +130,13 @@ Claude Haiku 5.5 运行的安全分类器可能会拒绝请求。被拒绝的请
 * `cyber`：该请求可能导致网络危害，例如恶意软件或漏洞利用开发。允许在源代码中查找漏洞。不允许高风险的军民两用网络安全工作。良性的网络安全工作也可能触发此类别。如果 `cyber` 分类器阻止了您组织的合法安全工作，您可以申请加入 [Cyber Verification Program](https://support.claude.com/en/articles/14604842)。
 * `frontier_llm`：该请求可能有助于开发与之竞争的 AI 模型。
 * `bio`：该请求可能导致生物危害，例如危险的实验室方法。日常健康和教育类问题不受影响。如果 `bio` 分类器阻止了您组织的生命科学工作，您可以申请加入[生命科学验证计划](https://www.anthropic.com/news/life-sciences-verification-program)。
-* `general_harms`：该请求属于上述三类之外的使用政策领域。良性工作也可能触发此类别。
+* `reasoning_extraction`：该请求要求模型在回复文本中复现其内部推理过程。
+* `general_harms`：该请求属于其他使用政策领域。良性工作也可能触发此类别。
 
-Claude Haiku 4.5 不会返回这些拒绝。
+为 Claude Haiku 4.5 编写的代码可能无法处理这些拒绝。
+
+无论是否使用流式传输，拒绝都可能在任何输出之前到达，也可能在部分输出之后到达。有关每种情况返回的内容以及是否计费，请参阅[拒绝的样子](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)和[拒绝如何计费](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#how-refusals-are-billed)。
 
 Claude Haiku 5.5 没有[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)。如果请求被拒绝，请在您的客户端中处理 `stop_reason: "refusal"`。再次向 Claude Haiku 5.5 发送相同的请求通常会再次返回拒绝。
+
+要求 Claude Haiku 5.5 在回复中写出其思考或推理过程的提示、技能和工具描述，可能会以 `reasoning_extraction` 类别被拒绝。请修改提示，而不是重试请求：删除这些指令，并参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)了解应改为提出什么要求。Claude Haiku 5.5 默认返回空的 `thinking` 块，因此如需阅读其推理过程的摘要，请设置 `thinking: {"type": "adaptive", "display": "summarized"}`。

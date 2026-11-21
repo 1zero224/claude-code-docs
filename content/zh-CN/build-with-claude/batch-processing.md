@@ -92,12 +92,12 @@ Message Batches API 是一种强大且经济高效的方式，用于异步处理
 
 少数 Messages API 参数在批处理请求中**不**受支持。包含其中任何一个都会返回验证错误：
 
-| 参数                                                                                                                         | 原因                                                                                                                                                             |
-| -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `stream: true`                                                                                                             | 批次结果以单个文件形式返回，而不是流。                                                                                                                                            |
-| `speed`（[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)）                                        | 快速模式针对同步延迟进行调优，不适用于异步批处理。                                                                                                                                      |
+| 参数 | 原因 |
+| ----- | ----- |
+| `stream: true` | 批次结果以单个文件形式返回，而不是流。 |
+| `speed`（[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)） | 快速模式针对同步延迟进行调优，不适用于异步批处理。 |
 | `fallbacks`（[服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)） | 服务器端回退不适用于批次。要重试被拒绝的请求，请参阅 [Message Batches 中的拒绝](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusals-in-message-batches)。 |
-| `max_tokens: 0`                                                                                                            | 请参阅[批处理限制](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing#batch-limitations)。                                                       |
+| `max_tokens: 0` | 请参阅[批处理限制](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing#batch-limitations)。 |
 
 <Tip>
   由于批次处理可能需要超过 5 分钟，在处理具有共享上下文的批次时，请考虑将 [1 小时缓存时长](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#1-hour-cache-duration)与"prompt caching"（提示缓存）结合使用，以获得更好的缓存命中率。
@@ -107,30 +107,30 @@ Message Batches API 是一种强大且经济高效的方式，用于异步处理
 
 Batches API 可显著节省成本。所有用量均按标准 API 价格的 50% 收费。
 
-| Model                                                                                                                                                                     | Batch input  | Batch output  |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------- | :------------ |
-| Claude Fable 5.2                                                                                                                                                          | $4 / MTok    | $20 / MTok    |
-| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842))                                                                               | $4 / MTok    | $20 / MTok    |
-| Claude Fable 5.1                                                                                                                                                          | $5 / MTok    | $25 / MTok    |
-| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842))                                                                               | $5 / MTok    | $25 / MTok    |
-| Claude Fable 5                                                                                                                                                            | $5 / MTok    | $25 / MTok    |
-| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842))                                                                                 | $5 / MTok    | $25 / MTok    |
-| Claude Opus 5.5                                                                                                                                                           | $2 / MTok    | $10 / MTok    |
-| Claude Opus 5                                                                                                                                                             | $2.50 / MTok | $12.50 / MTok |
-| Claude Opus 4.8                                                                                                                                                           | $2.50 / MTok | $12.50 / MTok |
-| Claude Opus 4.7                                                                                                                                                           | $2.50 / MTok | $12.50 / MTok |
-| Claude Opus 4.6                                                                                                                                                           | $2.50 / MTok | $12.50 / MTok |
-| Claude Opus 4.5                                                                                                                                                           | $2.50 / MTok | $12.50 / MTok |
+| Model | Batch input | Batch output |
+| :---- | :---- | :---- |
+| Claude Fable 5.2 | $4 / MTok | $20 / MTok |
+| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842)) | $4 / MTok | $20 / MTok |
+| Claude Fable 5.1 | $5 / MTok | $25 / MTok |
+| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842)) | $5 / MTok | $25 / MTok |
+| Claude Fable 5 | $5 / MTok | $25 / MTok |
+| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842)) | $5 / MTok | $25 / MTok |
+| Claude Opus 5.5 | $2 / MTok | $10 / MTok |
+| Claude Opus 5 | $2.50 / MTok | $12.50 / MTok |
+| Claude Opus 4.8 | $2.50 / MTok | $12.50 / MTok |
+| Claude Opus 4.7 | $2.50 / MTok | $12.50 / MTok |
+| Claude Opus 4.6 | $2.50 / MTok | $12.50 / MTok |
+| Claude Opus 4.5 | $2.50 / MTok | $12.50 / MTok |
 | Claude Opus 4.1 ([retired, except on Claude Models on Google Cloud (Google managed) and Bedrock](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $7.50 / MTok | $37.50 / MTok |
-| Claude Opus 4 ([retired, except on Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations))               | $7.50 / MTok | $37.50 / MTok |
-| Claude Sonnet 5.5                                                                                                                                                         | $1 / MTok    | $5 / MTok     |
-| Claude Sonnet 5                                                                                                                                                           | $1 / MTok    | $5 / MTok     |
-| Claude Sonnet 4.6                                                                                                                                                         | $1.50 / MTok | $7.50 / MTok  |
-| Claude Sonnet 4.5                                                                                                                                                         | $1.50 / MTok | $7.50 / MTok  |
-| Claude Sonnet 4 ([retired, except on Claude Models on Google Cloud (Google managed) and Bedrock](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $1.50 / MTok | $7.50 / MTok  |
-| Claude Haiku 5.5 (for prompts up to 100,000 tokens)                                                                                                                       | $0.05 / MTok | $0.25 / MTok  |
-| Claude Haiku 5.5 (for prompts over 100,000 tokens)                                                                                                                        | $0.25 / MTok | $1.25 / MTok  |
-| Claude Haiku 4.5                                                                                                                                                          | $0.50 / MTok | $2.50 / MTok  |
+| Claude Opus 4 ([retired, except on Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $7.50 / MTok | $37.50 / MTok |
+| Claude Sonnet 5.5 | $1 / MTok | $5 / MTok |
+| Claude Sonnet 5 | $1 / MTok | $5 / MTok |
+| Claude Sonnet 4.6 | $1.50 / MTok | $7.50 / MTok |
+| Claude Sonnet 4.5 | $1.50 / MTok | $7.50 / MTok |
+| Claude Sonnet 4 ([retired, except on Claude Models on Google Cloud (Google managed) and Bedrock](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $1.50 / MTok | $7.50 / MTok |
+| Claude Haiku 5.5 (for prompts up to 100,000 tokens) | $0.05 / MTok | $0.25 / MTok |
+| Claude Haiku 5.5 (for prompts over 100,000 tokens) | $0.25 / MTok | $1.25 / MTok |
+| Claude Haiku 4.5 | $0.50 / MTok | $2.50 / MTok |
 
 * **MTok:** Million tokens. $5 / MTok is $5 for every million tokens.
 * **Limited access:** Available only to organizations verified through Anthropic’s verification programs, such as the [Cyber Verification Program](https://support.claude.com/en/articles/14604842). To request access, apply to the program that covers your use case.
@@ -730,12 +730,12 @@ Batches API 可显著节省成本。所有用量均按标准 API 价格的 50% �
 
 批次处理结束后，批次中的每个 Messages 请求都会有一个结果。共有四种结果类型：
 
-| 结果类型        | 描述                                           |
-| ----------- | -------------------------------------------- |
-| `succeeded` | 请求成功。包含消息结果。                                 |
-| `errored`   | 请求遇到错误，未创建消息。可能的错误包括无效请求和内部服务器错误。这些请求不会向您收费。 |
-| `canceled`  | 用户在此请求发送到模型之前取消了批次。这些请求不会向您收费。               |
-| `expired`   | 批次在此请求发送到模型之前达到了 24 小时过期时限。这些请求不会向您收费。       |
+| 结果类型 | 描述 |
+| ----- | ----- |
+| `succeeded` | 请求成功。包含消息结果。 |
+| `errored` | 请求遇到错误，未创建消息。可能的错误包括无效请求和内部服务器错误。这些请求不会向您收费。 |
+| `canceled` | 用户在此请求发送到模型之前取消了批次。这些请求不会向您收费。 |
+| `expired` | 批次在此请求发送到模型之前达到了 24 小时过期时限。这些请求不会向您收费。 |
 
 批次的 `request_counts` 对象统计仍在处理中的请求以及每种结果类型的请求数量。
 
@@ -1895,8 +1895,8 @@ Message Batches API 支持提示缓存，可能帮助您降低批处理请求的
 
 * 可用性：可用
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                  |
-| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -1907,10 +1907,10 @@ Message Batches API 支持提示缓存，可能帮助您降低批处理请求的
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                            | HIPAA |
-| ---- | ---------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 不具备资格                                                                                                            | 不具备资格 |
-| 详细信息 | 保留 29 天；需要异步存储。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing#data-retention) | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
+| 详细信息 | 保留 29 天；需要异步存储。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing#data-retention) | — |
 
 适用的端点：
 

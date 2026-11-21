@@ -71,14 +71,14 @@ featureMetadata:
 
 在 `https://api.anthropic.com/v1/compliance/transparency_log/` 下提供六个只读端点：
 
-| 端点                                                                                                                               | 返回内容                 |
-| -------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| [`GET /checkpoint`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#read-the-latest-checkpoint)     | 最新的签名检查点             |
-| [`GET /keys`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#read-the-verifier-keys)               | 验证者密钥集               |
-| [`GET /inclusion`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#fetch-an-inclusion-proof)        | 单个事件的包含证明            |
-| [`GET /consistency`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#fetch-a-consistency-proof)     | 从您持有的检查点到最新检查点的一致性证明 |
-| [`GET /tile/{level}/{index}`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#read-a-hash-tile)     | Merkle 哈希瓦片          |
-| [`GET /tile/entries/{index}`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#read-an-entry-bundle) | 叶子字节的条目包             |
+| 端点 | 返回内容 |
+| ----- | ----- |
+| [`GET /checkpoint`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#read-the-latest-checkpoint) | 最新的签名检查点 |
+| [`GET /keys`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#read-the-verifier-keys) | 验证者密钥集 |
+| [`GET /inclusion`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#fetch-an-inclusion-proof) | 单个事件的包含证明 |
+| [`GET /consistency`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#fetch-a-consistency-proof) | 从您持有的检查点到最新检查点的一致性证明 |
+| [`GET /tile/{level}/{index}`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#read-a-hash-tile) | Merkle 哈希瓦片 |
+| [`GET /tile/entries/{index}`](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#read-an-entry-bundle) | 叶子字节的条目包 |
 
 检查点、瓦片和条目包完全遵循 C2SP tlog-tiles 传输格式。两个证明端点只是为了方便：每个证明也都可以从瓦片计算得出，因此您永远不必信任证明端点的输出。您需要针对签名检查点验证它返回的哈希。
 
@@ -100,14 +100,14 @@ featureMetadata:
 
 所有端点（包括返回文本和二进制内容的端点）的错误都使用标准的 Compliance API JSON 错误封装。有关封装格式和共享错误类型，请参阅[处理 Compliance API 错误](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors)。
 
-| 状态    | 在此接口上的含义                                                                                                                        |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `400` | `organization_id` 格式错误或在使用父组织密钥时被省略、未启用 Compliance API、查询参数未知，或某个端点特定的验证失败                                                      |
-| `401` | API 密钥缺失或无效                                                                                                                     |
-| `403` | 密钥缺少所需的权限范围                                                                                                                     |
-| `404` | 没有此密钥可读取的日志，或端点特定的"未覆盖"和"超出树范围"情况                                                                                               |
+| 状态 | 在此接口上的含义 |
+| ----- | ----- |
+| `400` | `organization_id` 格式错误或在使用父组织密钥时被省略、未启用 Compliance API、查询参数未知，或某个端点特定的验证失败 |
+| `401` | API 密钥缺失或无效 |
+| `403` | 密钥缺少所需的权限范围 |
+| `404` | 没有此密钥可读取的日志，或端点特定的"未覆盖"和"超出树范围"情况 |
 | `429` | 已被限速。这些端点共享 Compliance API 按父组织计算的[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api)。请遵守 `retry-after` |
-| `503` | 日志暂时不可用。请使用退避策略重试                                                                                                               |
+| `503` | 日志暂时不可用。请使用退避策略重试 |
 
 ### 缓存
 
@@ -166,16 +166,16 @@ curl --fail-with-body -sS \
 }
 ```
 
-| 字段                        | 类型     | 描述                                                                                                                                                                                            |
-| ------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`                    | string | 始终为 `transparency_log_keys`                                                                                                                                                                   |
-| `origin`                  | string | 此日志每个检查点所带的 origin 行。仅供参考：请将检查点与您自行推导的 origin 进行比较，而不是与此字段比较                                                                                                                                  |
-| `log_keys`                | array  | 首先是签署新检查点的密钥，然后是日志提供的其他所有密钥，按从新到旧排列。永不为空                                                                                                                                                      |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `type` | string | 始终为 `transparency_log_keys` |
+| `origin` | string | 此日志每个检查点所带的 origin 行。仅供参考：请将检查点与您自行推导的 origin 进行比较，而不是与此字段比较 |
+| `log_keys` | array | 首先是签署新检查点的密钥，然后是日志提供的其他所有密钥，按从新到旧排列。永不为空 |
 | `log_keys[].verifier_key` | string | 以 C2SP note-verifier 字符串形式表示的密钥，`<origin>+<key_hash>+<base64 key>`，支持 ECDSA 注释密钥的 tlog-tiles 工具（例如 Go 的 `github.com/transparency-dev/formats` 模块）可接受此格式。base64 部分解码后为算法字节 `0x02`，后跟 DER 编码的公钥 |
-| `log_keys[].key_hash`     | string | 八位小写十六进制数字。用于将此密钥与检查点签名行匹配的 4 字节选择器。它是 `fingerprint` 的前 4 个字节，并不是身份标识                                                                                                                         |
-| `log_keys[].fingerprint`  | string | 64 位小写十六进制数字：DER `SubjectPublicKeyInfo` 的 SHA-256                                                                                                                                             |
-| `log_keys[].algorithm`    | string | 密钥类型，目前为 `ecdsa_p256_sha256`。可能会添加新值。跳过您不支持其算法的密钥                                                                                                                                             |
-| `log_keys[].public_key`   | string | 以 base64 DER `SubjectPublicKeyInfo` 表示的公钥                                                                                                                                                     |
+| `log_keys[].key_hash` | string | 八位小写十六进制数字。用于将此密钥与检查点签名行匹配的 4 字节选择器。它是 `fingerprint` 的前 4 个字节，并不是身份标识 |
+| `log_keys[].fingerprint` | string | 64 位小写十六进制数字：DER `SubjectPublicKeyInfo` 的 SHA-256 |
+| `log_keys[].algorithm` | string | 密钥类型，目前为 `ecdsa_p256_sha256`。可能会添加新值。跳过您不支持其算法的密钥 |
+| `log_keys[].public_key` | string | 以 base64 DER `SubjectPublicKeyInfo` 表示的公钥 |
 
 `key_hash` 只覆盖密钥字节：它是对 DER `SubjectPublicKeyInfo` 计算的 SHA-256 的前 4 个字节，这正是 ECDSA note-verifier 编码所使用的规则。它不是基础签名注释格式为 Ed25519 密钥定义的、依赖名称的密钥 ID，因此不会随 origin 改变。由[已发布的密钥指纹](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#published-key-fingerprints)中列出的密钥产生的有效签名，证明该检查点来自 Anthropic 的透明度日志服务。签名检查点内的 origin 行才是将其绑定到您组织的依据。这就是您需要将该行与您自行推导的 origin 进行比较的原因。
 
@@ -189,8 +189,8 @@ curl --fail-with-body -sS \
 
 Anthropic 在此处（API 之外）发布每个签署检查点的密钥的指纹。这使您可以对照一个提供路径无法篡改的来源，检查您在本地持有的密钥。您持有的密钥可能来自之前的 `GET /keys` 响应，也可能来自固定（pin）该密钥的工具。
 
-| 密钥哈希       | SHA-256 指纹                                                         | 算法                  | 开始签名日期     | 状态     |
-| ---------- | ------------------------------------------------------------------ | ------------------- | ---------- | ------ |
+| 密钥哈希 | SHA-256 指纹 | 算法 | 开始签名日期 | 状态 |
+| ----- | ----- | ----- | ----- | ----- |
 | `1dff5fe4` | `1dff5fe420d49743fe444a04fc17f818eea856699dec2ebbc24df15602c74a58` | `ecdsa_p256_sha256` | 2026-08-17 | 当前签名密钥 |
 
 计划内的轮换会在新密钥签署其第一个检查点前至少 30 天在本页公布。在此通知期内，新密钥会连同其切换日期一起列在 `log_keys` 和此表中。已退役的密钥会连同其服务日期继续列出。未出现在此表中的密钥都不是合法密钥，无论 `GET /keys` 返回什么。将无法在任何已列出密钥下通过验证的检查点视为验证失败，并将其报告给您的 Anthropic 客户代表或 [Anthropic 支持](https://support.claude.com)。
@@ -201,10 +201,10 @@ Anthropic 在此处（API 之外）发布每个签署检查点的密钥的指纹
 
 `GET /v1/compliance/transparency_log/inclusion?leaf_index={index}`
 
-| 参数                | 类型         | 描述                                                                                                                    |
-| ----------------- | ---------- | --------------------------------------------------------------------------------------------------------------------- |
-| `leaf_index`      | integer，必需 | 事件在日志中的位置：活动源在该事件上提供的 `transparency_log_leaf_index`。必须大于或等于零                                                          |
-| `organization_id` | string，可选  | 请参阅[身份验证与范围](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#authentication-and-scoping) |
+| 参数 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `leaf_index` | integer，必需 | 事件在日志中的位置：活动源在该事件上提供的 `transparency_log_leaf_index`。必须大于或等于零 |
+| `organization_id` | string，可选 | 请参阅[身份验证与范围](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#authentication-and-scoping) |
 
 ```bash
 curl --fail-with-body -sS -G \
@@ -227,12 +227,12 @@ curl --fail-with-body -sS -G \
 }
 ```
 
-| 字段           | 类型               | 描述                                     |
-| ------------ | ---------------- | -------------------------------------- |
-| `type`       | string           | 始终为 `transparency_log_inclusion_proof` |
-| `leaf_index` | integer          | 事件在日志中的位置，回显自请求                        |
-| `hashes`     | array of strings | 审计路径的 base64 兄弟哈希，按从叶子到根的顺序排列          |
-| `checkpoint` | string           | 最新的签名检查点，即证明所针对验证的检查点。它带有树大小           |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `type` | string | 始终为 `transparency_log_inclusion_proof` |
+| `leaf_index` | integer | 事件在日志中的位置，回显自请求 |
+| `hashes` | array of strings | 审计路径的 base64 兄弟哈希，按从叶子到根的顺序排列 |
+| `checkpoint` | string | 最新的签名检查点，即证明所针对验证的检查点。它带有树大小 |
 
 不支持按活动 ID 查找。您始终持有索引，因为它随事件一起到达，并且您需要针对从活动源获取的事件字节来检查证明。
 
@@ -247,10 +247,10 @@ curl --fail-with-body -sS -G \
 
 `GET /v1/compliance/transparency_log/consistency?from={size}`
 
-| 参数                | 类型         | 描述                                                                                                                    |
-| ----------------- | ---------- | --------------------------------------------------------------------------------------------------------------------- |
-| `from`            | integer，必需 | 您持有的较早检查点的树大小。必须至少为 1，且不超过最新检查点的树大小                                                                                   |
-| `organization_id` | string，可选  | 请参阅[身份验证与范围](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#authentication-and-scoping) |
+| 参数 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `from` | integer，必需 | 您持有的较早检查点的树大小。必须至少为 1，且不超过最新检查点的树大小 |
+| `organization_id` | string，可选 | 请参阅[身份验证与范围](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#authentication-and-scoping) |
 
 ```bash
 curl --fail-with-body -sS -G \
@@ -272,11 +272,11 @@ curl --fail-with-body -sS -G \
 }
 ```
 
-| 字段           | 类型               | 描述                                       |
-| ------------ | ---------------- | ---------------------------------------- |
-| `type`       | string           | 始终为 `transparency_log_consistency_proof` |
-| `hashes`     | array of strings | base64 证明哈希，按 RFC 9162 顺序排列              |
-| `checkpoint` | string           | 最新的签名检查点，即证明所延伸到的检查点。它带有树大小              |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `type` | string | 始终为 `transparency_log_consistency_proof` |
+| `hashes` | array of strings | base64 证明哈希，按 RFC 9162 顺序排列 |
+| `checkpoint` | string | 最新的签名检查点，即证明所延伸到的检查点。它带有树大小 |
 
 * 证明始终延伸到最新发布的检查点。此 API 从不提供历史检查点：您需要自行保存提供给您的检查点。
 * `from` 等于最新检查点的树大小时，返回空证明。
@@ -404,10 +404,10 @@ curl --fail-with-body -sS -G \
 
 每个 `axt-verify` 版本只会重建其发布时已定义的[叶子版本](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#how-an-event-becomes-a-leaf)。一旦能够重建某个新版本的发布版已经发布，就应假定您的日志随时可能开始写入该新版本。请在该发布版发布后尽快安装。
 
-| 叶子版本   | 能够重建它的 `axt-verify` 发布版 |
-| ------ | ----------------------- |
-| `0x01` | 所有发布版                   |
-| `0x02` | `v0.2.0` 及更高版本          |
+| 叶子版本 | 能够重建它的 `axt-verify` 发布版 |
+| ----- | ----- |
+| `0x01` | 所有发布版 |
+| `0x02` | `v0.2.0` 及更高版本 |
 
 `axt-verify version` 会打印您正在运行的发布版。新安装会获得最新的发布版。如果表格最后一行不包含您的发布版，请升级到该行中的某个发布版。如果该行中的发布版尚未发布，请在其发布后尽快升级：
 

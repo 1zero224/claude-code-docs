@@ -4,7 +4,7 @@ url: https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention
 description: 为什么带有密钥的工作区会保留数据，这对 ZDR 意味着什么，以及 Anthropic 可以在您的密钥之外保存哪些内容。
 ---
 
-在 Claude Platform 上，客户管理的加密密钥（CMEK）和[零数据保留（ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)不能共用一个工作区。在 Claude Enterprise 上，组织可以同时使用 CMEK 和 ZDR，但之后[无法启用 artifacts](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed)。
+在 Claude Platform 上，客户管理的加密密钥（CMEK）和[零数据保留（ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)不能共用一个工作区。在 Claude Enterprise 上，组织可以同时使用 CMEK 和 Claude Code ZDR，但之后[无法启用 Claude Docs 或 Claude Sheets](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed)。
 
 ## 密钥需要一个保留数据的工作区
 

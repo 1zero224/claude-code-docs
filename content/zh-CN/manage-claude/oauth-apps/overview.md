@@ -10,11 +10,9 @@ description: 让您的客户从其自己的 Claude 组织支付在您产品中�
 
 Claude Platform OAuth 让您的用户可以将其在您应用内产生的用量计费到他们的 Claude 组织。
 
-## 您可以构建什么
+## 让客户为自己的 Claude 用量付费
 
-### 让客户为自己的 Claude 用量付费
-
-当您的产品调用 Claude 时，用量可以计费到您客户自己的 Claude 组织。您的用户点击 **Link your Claude organization** 按钮，登录 Claude，并批准您的应用。对于 Linked billing，用户必须在其 Claude 组织中具有管理员或账单角色。
+当您的产品调用 Claude 时，您可以将用量计费到每个客户自己的 Claude 组织。这就是 Linked billing。您的用户点击 **Link your Claude organization** 按钮，登录 Claude，并批准您的应用。他们必须在其 Claude 组织中具有管理员或账单角色。
 
 之后：
 
@@ -38,7 +36,7 @@ Linked billing 遵循一个简短的往返流程。用户离开您的产品，�
 批准页面会显示您应用的名称以及您的应用所请求的内容，让用户清楚自己正在批准什么。
 
 <Note>
-  如果您以前使用过 OAuth：Claude Platform OAuth 使用带 PKCE 的 OAuth 2.0 授权码流程，由 Anthropic 作为授权服务器。
+  Claude Platform OAuth 使用带 PKCE 的 OAuth 2.0 授权码流程。Anthropic 是授权服务器。
 </Note>
 
 ## 一次性 OAuth 应用设置
@@ -48,14 +46,14 @@ Linked billing 从 Claude Console 中的以下一次性设置步骤开始。[Lin
 这些步骤需要您在 Claude 组织中具有管理员角色。
 
 1. **创建应用。** 在 Claude Console 中创建一个 OAuth 应用并复制其客户端 ID。该应用包含用户在批准页面上看到的名称，以及他们返回到的您产品中的地址。
-2. **设置客户端身份验证。** 您的后端不使用客户端密钥，而是使用来自您自己的身份提供商（例如 AWS、Google Cloud、Microsoft Entra ID 或 Kubernetes）的短期令牌来证明请求来自您的应用。您可以在应用的 **Client authentication** 选项卡上选择身份提供商以及要接受其哪些令牌。
-3. **设置您后端的身份。** 使用[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)创建一个服务账户和第二条联合规则，并将该服务账户选为应用的操作员服务账户。
+2. **设置客户端身份验证。** 您的后端不使用客户端密钥，而是使用短期令牌来证明请求来自您的应用。该令牌来自您自己的身份提供商，例如 AWS、Google Cloud 或 Kubernetes。在应用的 **Client authentication** 选项卡上，您可以选择身份提供商以及要接受其哪些令牌。
+3. **设置您后端的身份。** 使用[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)创建一个服务账户和第二条联合规则。将该服务账户选为应用的[操作员服务账户](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/oauth-reference#terms)，您的后端使用该账户向客户计费。
 
 ## 后续步骤
 
 Linked billing 指南会引导您完成设置，以及您的第一个已关联客户。
 
-<CardGroup cols={3}>
+<CardGroup cols={2}>
   <Card title="Linked billing" icon="coins" href="https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections">
     让您的客户从其自己的 Claude 组织支付在您产品中产生的 Claude 用量费用
   </Card>

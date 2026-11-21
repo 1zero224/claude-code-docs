@@ -631,15 +631,15 @@ featureMetadata:
     <Accordion title="类型推断">
       SDK 将原生 PHP 8 属性类型映射到 JSON Schema：
 
-      | PHP 类型                        | JSON Schema        |
-      | ----------------------------- | ------------------ |
-      | `string`                      | `"string"`         |
-      | `int`                         | `"integer"`        |
-      | `float`                       | `"number"`         |
-      | `bool`                        | `"boolean"`        |
-      | `array`                       | `"array"`（请参阅下方说明） |
-      | `?type`（可为空）                  | 可选字段               |
-      | 实现 `StructuredOutputModel` 的类 | 嵌套对象               |
+      | PHP 类型 | JSON Schema |
+      | ----- | ----- |
+      | `string` | `"string"` |
+      | `int` | `"integer"` |
+      | `float` | `"number"` |
+      | `bool` | `"boolean"` |
+      | `array` | `"array"`（请参阅下方说明） |
+      | `?type`（可为空） | 可选字段 |
+      | 实现 `StructuredOutputModel` 的类 | 嵌套对象 |
 
       对于 `array` 属性，仅当元素类型是嵌套的 `StructuredOutputModel`（通过 `#[Constrained(itemClass: MyModel::class)]` 或 `/** @var MyModel[] */` 文档块声明）时，SDK 才会添加 `items` schema。标量数组（`string[]`、`int[]`）会生成无约束的 `{"type":"array"}`。
 
@@ -3019,11 +3019,11 @@ API 会接受 `properties` 为空或缺失的对象，但 Claude 只能为其返
 
 以下限制适用于所有带有 `output_config.format` 或 `strict: true` 的请求：
 
-| 限制         | 值  | 描述                                                                                              |
-| ---------- | -- | ----------------------------------------------------------------------------------------------- |
-| 每个请求的严格工具数 | 20 | 带有 `strict: true` 的工具的最大数量。非严格工具不计入此限制。                                                         |
-| 可选参数       | 24 | 所有严格工具 schema 和 JSON 输出 schema 中可选参数的总数。每个未列在 `required` 中的参数都计入此限制。                            |
-| 具有联合类型的参数  | 16 | 所有严格 schema 中使用 `anyOf` 或类型数组（例如 `"type": ["string", "null"]`）的参数总数。这类参数的开销尤其大，因为它们会产生指数级的编译成本。 |
+| 限制 | 值 | 描述 |
+| ----- | ----- | ----- |
+| 每个请求的严格工具数 | 20 | 带有 `strict: true` 的工具的最大数量。非严格工具不计入此限制。 |
+| 可选参数 | 24 | 所有严格工具 schema 和 JSON 输出 schema 中可选参数的总数。每个未列在 `required` 中的参数都计入此限制。 |
+| 具有联合类型的参数 | 16 | 所有严格 schema 中使用 `anyOf` 或类型数组（例如 `"type": ["string", "null"]`）的参数总数。这类参数的开销尤其大，因为它们会产生指数级的编译成本。 |
 
 <Note>
   这些限制适用于单个请求中所有严格 schema 的合计总数。例如，如果您有 4 个严格工具，每个有 6 个可选参数，即使没有任何单个工具看起来很复杂，您也会达到 24 个参数的限制。
@@ -3083,8 +3083,8 @@ API 会接受 `properties` 为空或缺失的对象，但 Claude 只能为其返
 
 * 可用性：可用
 
-| 状态 | 云平台     | 模型                                                             |
-| -- | ------- | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | 可用 | 所有支持的平台 | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -3095,9 +3095,9 @@ API 会接受 `properties` 为空或缺失的对象，但 Claude 只能为其返
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                                                 | HIPAA                                                                                                                                             |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 状态   | 具备资格（有条件；不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)）                                                         | 具备资格                                                                                                                                              |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（有条件；不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
 | 详细信息 | 您的提示和 Claude 的输出不会被存储。仅缓存 JSON schema，自上次使用起最长保留 24 小时。这也涵盖严格工具使用（工具上的 `strict: true`），它使用相同的语法管道。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#data-retention) | JSON schema 定义中不得包含 PHI；请参阅 PHI 处理指南。 [了解更多](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#phi-handling-guidelines) |
 
 适用的端点：

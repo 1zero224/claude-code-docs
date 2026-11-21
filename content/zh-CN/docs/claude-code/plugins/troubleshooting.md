@@ -41,7 +41,7 @@
 * **网络上的 Claude Code 或桌面云会话**：云会话没有插件浏览器。有关云会话加载的内容，请参阅 [安装插件](https://code.claude.com/docs/zh-CN/plugins/install.md#install-a-plugin) 下的 **Cloud session** 选项卡
 * **您有权访问的终端**：运行 `claude` 并在那里键入 `/plugin`，或在您的 shell 中运行 `claude plugin install <plugin>@<marketplace>` 而不启动会话
 
-当终端安装成功时，`/plugin` 会打印一个以 `✓ Installed <plugin>.` 开头的安装摘要，`claude plugin install` 会打印 `Successfully installed plugin: <plugin>@<marketplace>`。
+当终端安装成功时，`/plugin` 会打印一个以 `✓ Installed <plugin>.` 开头的安装摘要，`claude plugin install` 会打印 `Installed plugin: <plugin>@<marketplace>`。
 
 ### `zsh: no such file or directory: /plugin`
 
@@ -371,7 +371,7 @@ Claude Code 在您的 `PATH` 上查找 `git`，并拒绝运行仅在当前目录
 /plugin marketplace update <marketplace>
 ```
 
-`claude plugin marketplace update` 打印 `Successfully updated marketplace: <name>`，`/plugin marketplace update` 显示 `✔ Updated 1 marketplace`。如果重试的安装打印相同的消息，请按照 [`not found in marketplace` 无提示](#the-message-has-no-hint) 描述检查名称。[Claude Code 何时在安装前刷新市场](https://code.claude.com/docs/zh-CN/plugins/loading.md#when-claude-code-refreshes-a-marketplace-before-an-install) 列出了刷新不运行的其他情况。
+在终端中，`claude plugin marketplace update` 打印 `Updated marketplace: <name>`，而 `/plugin marketplace update` 显示 `✔ Updated 1 marketplace`。如果重试的安装打印相同的消息，请按照 [`not found in marketplace` 无提示](#the-message-has-no-hint) 描述检查名称。[Claude Code 何时在安装前刷新市场](https://code.claude.com/docs/zh-CN/plugins/loading.md#when-claude-code-refreshes-a-marketplace-before-an-install) 列出了刷新不运行的其他情况。
 
 #### `not found in marketplace` 无提示
 
@@ -389,7 +389,7 @@ Claude Code 在您的 `PATH` 上查找 `git`，并拒绝运行仅在当前目录
 /plugin install <name>@<marketplace>
 ```
 
-当安装成功时，您在会话中看到 `✓ Installed <plugin>.`，或从 `claude plugin install` 看到 `Successfully installed plugin: <plugin>@<marketplace>`。
+当安装成功时，您会在会话中看到 `✓ Installed <plugin>.`。
 
 如果您不知道哪个市场列出了插件，请运行 `/plugin marketplace list` 查看您拥有的市场，并在 `/plugin` 中浏览 **Discover** 查找插件名称。
 
@@ -422,7 +422,13 @@ Claude Code 在您的 `PATH` 上查找 `git`，并拒绝运行仅在当前目录
 
 ### `Plugin archive integrity check failed`
 
-您安装了作为 zip 存档分发的插件，Claude Code 拒绝了它，显示此行和 `The archive was not installed.`。插件的市场条目使用带有 `sha256` 引脚的 [`archive` 源](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference)，下载文件的摘要与引脚不匹配。
+您安装了作为 zip 存档分发的插件，Claude Code 拒绝了它，显示此行和 `The archive was not installed.`
+
+插件的市场条目使用带有固定 `sha256` 值的 [`archive` 源](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference#archive-plugin-source)，而下载文件的摘要与该固定值不匹配。Claude Code 拒绝安装，因此插件缓存中没有任何变化。不匹配有三种可能的原因：
+
+* URL 处的文件在作者计算固定值之后发生了变化
+* 作者在市场条目中输入了错误的摘要
+* URL 提供的文件与作者固定的文件不同
 
 完整消息如下所示：
 
@@ -450,9 +456,9 @@ Plugin archive integrity check failed for https://artifacts.example.com/claude-p
 
 ### `Marketplace "<name>" is registered from an untrusted source`
 
-您之前添加的市场停止加载，其插件也停止加载。此行出现在 `/plugin` **Errors** 选项卡中或下一次刷新时。
+您之前添加的市场停止加载，其插件也停止加载。在您的 shell 中运行 `claude plugin marketplace update <name>` 会打印此行。
 
-市场以 [为官方 Anthropic 市场保留](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference.md) 的名称注册，但其注册源不是 `anthropics` GitHub 仓库。每次市场加载或刷新时都会重新检查保留名称，因此市场和从它安装的插件停止加载。
+市场以 [为官方 Anthropic 市场保留](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference.md#reserved-names) 的名称注册，但其注册源不是 `anthropics` GitHub 仓库。每次市场加载或刷新时都会重新检查保留名称，因此市场和从它安装的插件停止加载。
 
 完整消息命名保留名称和修复：
 
@@ -460,10 +466,14 @@ Plugin archive integrity check failed for https://artifacts.example.com/claude-p
 Marketplace "claude-community" is registered from an untrusted source: The name 'claude-community' is reserved for official Anthropic marketplaces. Only repositories from 'github.com/anthropics/' can use this name. To fix it, remove the marketplace and re-add it from the official source.
 ```
 
+对于 GitHub 或 Git 以外的源（例如本地目录），关于保留名称的句子以 `can only be used with GitHub sources from the 'anthropics' organization` 结尾。
+
 修复因用户和发布者而异：
 
 * **您使用市场**：在您的 shell 中，运行 `claude plugin marketplace remove <name>`，然后从官方 `github.com/anthropics` 仓库再次添加市场
 * **您发布在其名称成为保留之前使用该名称的第三方市场**：重命名它并要求用户从您的源重新添加它
+
+`claude plugin marketplace add` 会运行相同的检查，并拒绝保留名称，显示 `Failed to add marketplace:`，后跟相同的保留名称句子。
 
 在 v2.1.205 之前，Claude Code 仅在您添加市场时检查名称，因此在其名称成为保留之前注册的条目继续加载。
 
@@ -494,6 +504,18 @@ Marketplace team-tools is added but ignored. Its location is on a network drive,
 
 在 v2.1.286 之前，无论原因是什么，`claude plugin list` 都将此类市场报告为 `Marketplace <name> not found`，而 `/plugin` **Errors** 选项卡将其报告为 `Marketplace "<name>" is registered but was refused (see the debug log)`。原因仅出现在调试日志中。在 v2.1.286 中，原因和修复句子使用了不同的措辞，例如 `Its recorded location is network-shaped or unclassifiable (never probed)`。
 
+### `Marketplace "<name>", which managed settings declare, stands from another source and cannot be taken back while its declared source is unreachable`
+
+Claude Code 尚未用您的组织声明的市场替换您的市场，因为它无法访问声明的源。
+
+要让 Claude Code 替换您的市场，请恢复您对声明的源的访问，然后启动新的交互式会话。如果您不知道声明的源是什么，请询问您的管理员。
+
+### `The list of installed plugins (installed_plugins.json) could not be read, so marketplace "<name>", which managed settings declare, cannot be taken back from another source`
+
+在 Claude Code 用您的组织声明的市场替换您的市场之前，它会读取 [`installed_plugins.json`](https://code.claude.com/docs/zh-CN/plugins/loading#find-plugins-on-disk)，而该读取失败了。
+
+在您的 shell 中运行 `claude plugin list`。如果它报告[此版本的 Claude Code 无法读取的记录](#installed-plugins-json-holds-a-record-this-version-cannot-read)，请按照该条目的步骤操作。否则，请使 `~/.claude/plugins/installed_plugins.json` 重新变为可读，例如修复其 JSON 或从您自己的备份中恢复它。完成任一修复后，启动新的交互式会话，以便 Claude Code 可以替换您的市场。
+
 ### `Plugin <name> has a corrupt manifest file` 或 `has an invalid manifest file`
 
 Claude Code 获取了插件，然后无法读取其 `.claude-plugin/plugin.json`。在 shell 中，此行中的 `<name>` 可以是临时目录名称；`Failed to install plugin "<name>@<marketplace>"` 前缀携带插件的真实名称。措辞说明哪个检查失败：
@@ -514,7 +536,7 @@ Claude Code 获取了插件，然后无法读取其 `.claude-plugin/plugin.json`
 
 `Marketplace directory not found at path: <path>` 意味着市场自己的目录缺失。对于您从本地路径添加的市场，该目录已移动或被删除。恢复它，或删除市场并从其新位置再次添加它。
 
-### `No plugins available` 或 `No marketplaces configured`
+### `No plugins yet` 或 `No marketplaces configured`
 
 您打开了 `/plugin`，**Discover** 选项卡为空，或 `claude plugin marketplace list` 打印 `No marketplaces configured`。
 
@@ -595,7 +617,7 @@ Could not move the new copy of this plugin version into /home/user/.claude/plugi
 
 ### 依赖项错误
 
-声明依赖项的插件在无法满足依赖项时可能无法安装或安装并保持禁用。消息在安装时或加载时到达您：
+声明依赖项的插件在无法满足依赖项时可能无法安装或安装并保持禁用。大多数消息会在安装时或加载时出现：
 
 * **在安装期间**：拒绝作为安装的错误消息返回
 * **当插件加载时**：`/plugin` **Errors** 选项卡会显示问题，Claude Code 保持受影响的插件禁用，直到您解决它
@@ -604,7 +626,7 @@ Could not move the new copy of this plugin version into /home/user/.claude/plugi
 
 | 消息 | 含义 | 如何解决 |
 | :- | :- | :- |
-| `Dependency "<dep>" is not installed` | 声明的依赖项未安装。 | 使用 `claude plugin install <dep>@<marketplace>` 在您的 shell 中安装它，或卸载插件。如果依赖项的市场尚未注册，请添加它并在您的会话中运行 `/reload-plugins`，它安装它可以解决的缺失依赖项。 |
+| `Dependency "<dep>" is not installed` | 声明的依赖项未安装。 | 使用 `claude plugin install <dep>@<marketplace>` 在您的 shell 中安装它，或卸载插件。如果依赖项的市场尚未注册，请添加它并在您的会话中运行 `/reload-plugins`，如果该依赖项可以解析，此命令会安装它。 |
 | `"<name>@synced" is loaded from your claude.ai account but meets a marketplace dependency only for other claude.ai plugins`，位于 `is not installed` 消息中 | 该依赖项指定了一个市场，而同名插件是从您的 claude.ai 账户加载的。声明该依赖项的插件不是从 claude.ai 加载的，因此该 claude.ai 插件无法满足它。 | 在您的 shell 中运行 `claude plugin install <dep>@<marketplace>`，从其市场安装该依赖项。之后将加载市场副本，而不是 claude.ai 副本。 |
 | `Dependency "<dep>" is disabled` | 依赖项已安装但关闭。 | 启用依赖项，或卸载需要它的插件。 |
 | `Requires "<dep>" <range>, installed <version>` | 已安装的依赖项的版本在插件的声明范围之外。 | 将依赖项更新到范围内的版本，或卸载插件。 |
@@ -612,6 +634,8 @@ Could not move the new copy of this plugin version into /home/user/.claude/plugi
 | `... has version requirements too complex to intersect` 或 `has an invalid version requirement` | 范围不是有效的 semver，或组合范围无法相交。 | 修复无效范围或简化长 `\|\|` 链。 |
 | `... has no git tag satisfying <range>` | 依赖项的仓库在范围内没有 `<name>--v*` 标签。 | 检查上游是否使用该约定标记发布，或放宽范围。 |
 | `Dependency "<dep>" (required by <plugin>) is in marketplace "<marketplace>", which is not in the allowlist` | 依赖项在不同的市场中，默认情况下跨市场解析已关闭。 | 自己在相同的作用域安装依赖项，在您的 shell 中使用 `claude plugin install <dep>@<marketplace>` 加上您安装插件的 `--scope`，然后重试。 |
+| `... still unresolved: <names>` | 列出的依赖项未得到满足。 | 在您的 shell 中运行 `claude plugin list`，并将每个错误与此表中的对应行进行匹配。 |
+| `Dependencies are not installed while non-essential traffic is turned off.`，位于 `still unresolved` 列表之后 | 已设置 [`CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC`](https://code.claude.com/docs/zh-CN/env-vars#variables)，因此插件更新未安装任何依赖项。 | 在您的 shell 中，使用 `claude plugin install <dep>@<marketplace>` 安装列出的每个依赖项。 |
 
 要以编程方式查看这些，请在您的 shell 中运行 `claude plugin list --json`。有问题的插件携带带有消息的 `errors` 字段和带有每个 `type` 的 `errorDetails` 字段：前三行是 `dependency-unsatisfied`，第四行是 `dependency-version-unsatisfied`。
 
@@ -877,7 +901,7 @@ claude plugin update formatter@my-marketplace --scope project
 
 ### `Plugin directory does not exist: <path>`
 
-即使消息提示重新安装，也请先在 Claude Code 输入框中运行 `/reload-plugins`。当您的会话加载插件 hook 所用的目录已从磁盘上消失时，插件的 hook 会失败并显示 `Failed to run: Plugin directory does not exist: <path> (<plugin> — run /plugin to reinstall)`，且该 hook 不会运行。[`Plugin directory not found at path: <path>`](#plugin-directory-not-found-at-path) 是另一条消息，与市场条目有关。
+即使消息提示重新安装，也请先在 Claude Code 输入框中运行 `/reload-plugins`。当您的会话加载插件 hook 所用的目录已从磁盘上消失时，插件的 hook 会失败并显示 `Failed to run: Plugin directory does not exist`，且该 hook 不会运行。[`Plugin directory not found at path: <path>`](#plugin-directory-not-found-at-path) 是另一条消息，与市场条目有关。
 
 重新加载会从插件的当前目录加载其 hook。对于每个 hook 事件和命令，该失败在每个会话中只显示一次，因此 hook 不再报错并不能确认问题已修复。请改为阅读重新加载的输出：
 
@@ -1061,6 +1085,7 @@ claude plugin install my-plugin@my-marketplace --config api_url=https://example.
 | `Path not found: <path>. The runtime loader will report this as a load failure.` | 清单中的组件路径不存在。 | 修复路径或创建目录。 |
 | `Path contains ".." which could be a path traversal attempt: <path>` | 组件路径超出了插件目录。 | 使用插件根目录内的路径。 |
 | `Path is a file; skills entries must be directories containing SKILL.md` | `skills` 条目指向 `SKILL.md` 而不是其目录。 | 指向父目录，对于根级 `SKILL.md` 则使用 `.`。 |
+| `differ only by letter case or Unicode form` 或 `Windows can open this path as another file` | 根据操作系统的不同，该路径可能会打开不同的文件。 | 按照消息所述更改名称或路径。 |
 | `No frontmatter block found` 或 `YAML frontmatter failed to parse: <error>` | skill、Agent 或 command 文件缺少 YAML frontmatter 或其无效。 | 在 `---` 分隔符之间添加或修复 frontmatter。在验证插件目录时报告。 |
 | `Plugin name "<name>" is reserved: it passes as one of Anthropic's own` | 插件的 `name` 是[保留名称](https://code.claude.com/docs/zh-CN/plugins/manifest-reference.md#name)之一。 | 根据插件的功能重命名插件。 |
 | `Must be a version range such as ">=2.1.0"; got "<value>". It will be ignored at load time.` | Claude Code 无法将 `engines` 下的 `claude-code` 值读取为 semver 范围。 | 将该值设置为 Claude Code 版本范围，例如 `">=2.1.0"`。请参阅 [`engines` 字段](https://code.claude.com/docs/zh-CN/plugins/manifest-reference#fields)。 |

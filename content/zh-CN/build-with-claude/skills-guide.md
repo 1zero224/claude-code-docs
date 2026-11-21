@@ -43,13 +43,13 @@ Skills 通过 [code execution tool（代码执行工具）](https://platform.cla
 
 您可以使用来自两种来源的 Skills：
 
-| 方面           | Anthropic Skills               | 自定义 Skills                                                                      |
-| ------------ | ------------------------------ | ------------------------------------------------------------------------------- |
-| **Type 值**   | `anthropic`                    | `custom`                                                                        |
-| **Skill ID** | 短名称：`pptx`、`xlsx`、`docx`、`pdf` | 自动生成：`skill_01AbCdEfGhIjKlMnOpQrStUv`                                           |
-| **版本格式**     | 基于日期：`20251013` 或 `latest`     | 版本 ID：`skver_01AbCdEfGhIjKlMnOpQrStUv` 或 `latest`                               |
-| **管理方式**     | 由 Anthropic 预构建并维护             | 通过 [Skills API](https://platform.claude.com/docs/zh-CN/api/skills/create) 上传和管理 |
-| **可用性**      | 对所有用户可用                        | 仅限您的工作区私有                                                                       |
+| 方面 | Anthropic Skills | 自定义 Skills |
+| ----- | ----- | ----- |
+| **Type 值** | `anthropic` | `custom` |
+| **Skill ID** | 短名称：`pptx`、`xlsx`、`docx`、`pdf` | 自动生成：`skill_01AbCdEfGhIjKlMnOpQrStUv` |
+| **版本格式** | 基于日期：`20251013` 或 `latest` | 版本 ID：`skver_01AbCdEfGhIjKlMnOpQrStUv` 或 `latest` |
+| **管理方式** | 由 Anthropic 预构建并维护 | 通过 [Skills API](https://platform.claude.com/docs/zh-CN/api/skills/create) 上传和管理 |
+| **可用性** | 对所有用户可用 | 仅限您的工作区私有 |
 
 两种来源的 Skills 都会由[列出技能端点](https://platform.claude.com/docs/zh-CN/api/skills/list)返回（使用 `source` 参数进行筛选）。集成方式和执行环境完全相同。唯一的区别在于 Skills 的来源以及管理方式。
 
@@ -1950,9 +1950,9 @@ Skills 可能会执行需要多个轮次的操作。请处理 `pause_turn` 停�
 
 <Warning id="workspace-scoped-access">
   **自定义 Skills 可供您的整个工作区访问，其作用范围并不限于某个最终用户、对话或会话。** 任何有权访问某个工作区的 API 密钥都可以读取、使用和删除上传到该工作区的每个自定义 Skill。每个服务账户，以及组织角色允许 API 访问的每个用户，除了可以使用您将其添加到的任何工作区之外，还可以使用默认工作区（Default Workspace）。因此，请将必须保持隔离的 Skills 放在其专属的工作区中，并仅使用[限定于该工作区的密钥](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#api-keys-and-resource-scoping)来访问它们。
-
-  如果您要在 Skills API 之上构建多租户平台，请为每个租户创建单独的[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)。工作区是自定义 Skills 的隔离边界，因此为每个租户创建一个工作区，可以使该租户的 Skills 与其他所有租户实现硬隔离。默认情况下，每个组织最多可以拥有 100 个工作区（请参阅[工作区的工作原理](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#how-workspaces-work)）；如果您需要更多工作区来进行租户隔离，请联系您的客户团队。
 </Warning>
+
+如果您要在 Skills API 之上构建多租户平台，请为每个租户创建单独的[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)。工作区是自定义 Skills 的隔离边界，因此为每个租户创建一个工作区，可以使该租户的 Skills 与其他所有租户实现硬隔离。默认情况下，每个组织最多可以拥有 1,000 个工作区（请参阅[工作区的工作原理](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#how-workspaces-work)）。如果您需要更多工作区来进行租户隔离，请联系您的客户团队。
 
 ### 创建 Skill
 
@@ -4503,19 +4503,19 @@ Skills 在代码执行容器中运行，具有以下限制：
 
 Skills API 已结束 beta 阶段，不再需要 beta 标头。从 `skills-2025-10-02` 迁移是可选的：发送该标头的请求会继续正常工作，并继续返回 beta 响应结构，因此现有集成在您更改之前会一直正常工作。移除该标头会将这些请求切换为本页所记录的结构：
 
-|                | 使用 `skills-2025-10-02`                              | 不使用该标头                                                                                                                   |
-| -------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Skill 标签       | `display_title`（最多 64 个字符，每个工作区内唯一）                 | `display_name`（最多 255 个字符，不唯一）；省略时从 `SKILL.md` 的 `name` 派生                                                               |
-| 最新版本指针         | `latest_version`，一个纪元微秒字符串，例如 `"1759178010641129"`  | `latest_version_id`，一个版本 ID，例如 `"skver_01AbCdEfGhIjKlMnOpQrStUv"`；`GET /v1/skills/{skill_id}/versions/latest` 可在一次调用中解析它 |
-| URL 中的版本标识符    | 纪元微秒字符串                                             | 版本 ID（`skver_...`）。在 beta 下以 `skill_version_` 前缀捕获的 ID 可作为输入被接受。                                                         |
-| 版本对象           | 包含 `directory`（始终等于 Skill 的 `name`）                 | 无 `directory` 字段                                                                                                         |
-| `source`       | 字符串，`"custom"` 或 `"anthropic"`                      | 对象，例如 `{"type": "custom"}`；示例目录的值为 `"anthropic_example"`                                                                 |
-| 列表响应           | `{ data, has_more, next_page }`                     | `{ data, next_page }`；`limit` 从 1 到 1,000（默认 20）                                                                         |
-| 版本列表顺序         | 最旧的在前                                               | 最新的在前，默认 `limit` 为 20。一种结构的分页游标在另一种结构上无效。                                                                                |
-| 删除 Skill       | 当存在任何版本时返回 400 错误                                   | 删除 Skill 及其所有版本                                                                                                          |
-| 删除 Skill 的唯一版本 | 允许，留下一个没有版本的 Skill                                  | 返回 400 错误；请先上传替代版本，或删除该 Skill                                                                                            |
-| 上传布局           | 文件必须位于名称与 Skill `name` 匹配的顶层目录内                     | `SKILL.md` 可以位于上传的根目录；无论哪种方式，存储路径都相同                                                                                     |
-| 响应类型           | `CreateSkillResponse`、`GetSkillResponse`，以及每个操作一个类型 | `Skill`、`SkillVersion`、`DeletedSkill`、`DeletedSkillVersion`                                                              |
+|  | 使用 `skills-2025-10-02` | 不使用该标头 |
+| ----- | ----- | ----- |
+| Skill 标签 | `display_title`（最多 64 个字符，每个工作区内唯一） | `display_name`（最多 255 个字符，不唯一）；省略时从 `SKILL.md` 的 `name` 派生 |
+| 最新版本指针 | `latest_version`，一个纪元微秒字符串，例如 `"1759178010641129"` | `latest_version_id`，一个版本 ID，例如 `"skver_01AbCdEfGhIjKlMnOpQrStUv"`；`GET /v1/skills/{skill_id}/versions/latest` 可在一次调用中解析它 |
+| URL 中的版本标识符 | 纪元微秒字符串 | 版本 ID（`skver_...`）。在 beta 下以 `skill_version_` 前缀捕获的 ID 可作为输入被接受。 |
+| 版本对象 | 包含 `directory`（始终等于 Skill 的 `name`） | 无 `directory` 字段 |
+| `source` | 字符串，`"custom"` 或 `"anthropic"` | 对象，例如 `{"type": "custom"}`；示例目录的值为 `"anthropic_example"` |
+| 列表响应 | `{ data, has_more, next_page }` | `{ data, next_page }`；`limit` 从 1 到 1,000（默认 20） |
+| 版本列表顺序 | 最旧的在前 | 最新的在前，默认 `limit` 为 20。一种结构的分页游标在另一种结构上无效。 |
+| 删除 Skill | 当存在任何版本时返回 400 错误 | 删除 Skill 及其所有版本 |
+| 删除 Skill 的唯一版本 | 允许，留下一个没有版本的 Skill | 返回 400 错误；请先上传替代版本，或删除该 Skill |
+| 上传布局 | 文件必须位于名称与 Skill `name` 匹配的顶层目录内 | `SKILL.md` 可以位于上传的根目录；无论哪种方式，存储路径都相同 |
+| 响应类型 | `CreateSkillResponse`、`GetSkillResponse`，以及每个操作一个类型 | `Skill`、`SkillVersion`、`DeletedSkill`、`DeletedSkillVersion` |
 
 迁移步骤：
 

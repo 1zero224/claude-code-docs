@@ -19,15 +19,15 @@ description: 使用 Admin API 管理您 Claude Enterprise 组织中的人员：�
 
 Admin API 是位于 `https://api.anthropic.com/v1/organizations/` 下的一组统一的端点。Claude Console 和 Claude Enterprise 组织使用不同的 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys)进行身份验证，并且各自可以访问不同的端点子集：
 
-| 端点                                                                                                                                                                                                                                                                                                                           | Claude Console（Claude Platform）                                                                    | Claude Enterprise（claude.ai）                                                                                                                                                                                                                         |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [成员](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#members)和[邀请](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#invites)                                                                                                                                                        | 可用；请参阅 [Admin API 指南](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api)              | 可用（本页）                                                                                                                                                                                                                                               |
-| [群组](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#groups)                                                                                                                                                                                                                                            | 不可用                                                                                                | 可用（本页）                                                                                                                                                                                                                                               |
-| [自定义角色](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#custom-roles)                                                                                                                                                                                                                                   | 不可用                                                                                                | 可用，只读（本页）                                                                                                                                                                                                                                            |
-| [插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api)和 [Claude Tag](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api)                                                                                                                                                                    | 不可用                                                                                                | 以 beta 形式提供                                                                                                                                                                                                                                          |
-| [支出限额](https://platform.claude.com/docs/zh-CN/manage-claude/spend-limits-api)                                                                                                                                                                                                                                                | 不可用                                                                                                | 可用                                                                                                                                                                                                                                                   |
-| 用量和成本报告                                                                                                                                                                                                                                                                                                                      | 可用；请参阅[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api) | 通过[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)以及 [Claude Enterprise 分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api) 提供 |
-| [工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)、[API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#api-keys)、[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/rate-limits-api)以及 [Admin API 指南](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api)中的其他端点 | 可用                                                                                                 | 不可用                                                                                                                                                                                                                                                  |
+| 端点 | Claude Console（Claude Platform） | Claude Enterprise（claude.ai） |
+| ----- | ----- | ----- |
+| [成员](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#members)和[邀请](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#invites) | 可用；请参阅 [Admin API 指南](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) | 可用（本页） |
+| [群组](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#groups) | 不可用 | 可用（本页） |
+| [自定义角色](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#custom-roles) | 不可用 | 可用，只读（本页） |
+| [插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api)和 [Claude Tag](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api) | 不可用 | 以 beta 形式提供 |
+| [支出限额](https://platform.claude.com/docs/zh-CN/manage-claude/spend-limits-api) | 不可用 | 可用 |
+| 用量和成本报告 | 可用；请参阅[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api) | 通过[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)以及 [Claude Enterprise 分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api) 提供 |
+| [工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)、[API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#api-keys)、[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/rate-limits-api)以及 [Admin API 指南](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api)中的其他端点 | 可用 | 不可用 |
 
 成员和邀请对两种组织类型使用相同的端点；本页记录它们在 Claude Enterprise 中的行为，包括 Claude Enterprise 的[组织角色](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#organization-roles)。群组和自定义角色端点仅适用于 Claude Enterprise。
 
@@ -41,13 +41,13 @@ Admin API 是位于 `https://api.anthropic.com/v1/organizations/` 下的一组�
 
 本页涵盖五种资源：
 
-| 资源        | 端点                                                                                                                                                                                                                                                           | 用途                                         |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ |
-| **成员**    | `GET /v1/organizations/users`<br />`GET /v1/organizations/users/{user_id}`<br />`POST /v1/organizations/users/{user_id}`<br />`DELETE /v1/organizations/users/{user_id}`<br />`POST /v1/organizations/users/{user_id}/sign_out`（beta）                        | 列出组织的成员或按电子邮件查找成员；更改成员的角色；移除成员；将成员从所有位置登出。 |
-| **邀请**    | `POST /v1/organizations/invites`<br />`GET /v1/organizations/invites`<br />`GET /v1/organizations/invites/{invite_id}`<br />`DELETE /v1/organizations/invites/{invite_id}`                                                                                   | 邀请某人加入组织、跟踪邀请状态，并在邀请被接受前撤回。                |
-| **群组**    | `GET /v1/organizations/rbac_groups`<br />`GET /v1/organizations/rbac_groups/{rbac_group_id}`<br />`POST /v1/organizations/rbac_groups`<br />`POST /v1/organizations/rbac_groups/{rbac_group_id}`<br />`DELETE /v1/organizations/rbac_groups/{rbac_group_id}` | 读取企业的群组以及附加到每个群组的自定义角色；创建、重命名和删除群组。        |
-| **群组成员**  | `GET /v1/organizations/rbac_groups/{rbac_group_id}/members`<br />`POST /v1/organizations/rbac_groups/{rbac_group_id}/members`<br />`DELETE /v1/organizations/rbac_groups/{rbac_group_id}/members/{user_id}`                                                  | 读取群组的成员；添加和移除成员。                           |
-| **自定义角色** | `GET /v1/organizations/rbac_roles`<br />`GET /v1/organizations/rbac_roles/{rbac_role_id}`<br />`GET /v1/organizations/rbac_roles/{rbac_role_id}/permissions`                                                                                                 | 读取组织的自定义角色以及每个角色授予的权限。                     |
+| 资源 | 端点 | 用途 |
+| ----- | ----- | ----- |
+| **成员** | `GET /v1/organizations/users`<br />`GET /v1/organizations/users/{user_id}`<br />`POST /v1/organizations/users/{user_id}`<br />`DELETE /v1/organizations/users/{user_id}`<br />`POST /v1/organizations/users/{user_id}/sign_out`（beta） | 列出组织的成员或按电子邮件查找成员；更改成员的角色；移除成员；将成员从所有位置登出。 |
+| **邀请** | `POST /v1/organizations/invites`<br />`GET /v1/organizations/invites`<br />`GET /v1/organizations/invites/{invite_id}`<br />`DELETE /v1/organizations/invites/{invite_id}` | 邀请某人加入组织、跟踪邀请状态，并在邀请被接受前撤回。 |
+| **群组** | `GET /v1/organizations/rbac_groups`<br />`GET /v1/organizations/rbac_groups/{rbac_group_id}`<br />`POST /v1/organizations/rbac_groups`<br />`POST /v1/organizations/rbac_groups/{rbac_group_id}`<br />`DELETE /v1/organizations/rbac_groups/{rbac_group_id}` | 读取企业的群组以及附加到每个群组的自定义角色；创建、重命名和删除群组。 |
+| **群组成员** | `GET /v1/organizations/rbac_groups/{rbac_group_id}/members`<br />`POST /v1/organizations/rbac_groups/{rbac_group_id}/members`<br />`DELETE /v1/organizations/rbac_groups/{rbac_group_id}/members/{user_id}` | 读取群组的成员；添加和移除成员。 |
+| **自定义角色** | `GET /v1/organizations/rbac_roles`<br />`GET /v1/organizations/rbac_roles/{rbac_role_id}`<br />`GET /v1/organizations/rbac_roles/{rbac_role_id}/permissions` | 读取组织的自定义角色以及每个角色授予的权限。 |
 
 自定义角色及其群组附加关系在 [claude.ai 组织设置](https://claude.ai/admin-settings)中管理；API 可以读取它们，但无法更改它们。
 
@@ -176,13 +176,13 @@ Admin API 是位于 `https://api.anthropic.com/v1/organizations/` 下的一组�
 
 每个成员恰好拥有一个组织角色。读取操作会将成员的角色返回为以下五个值之一：
 
-| 角色                 | 含义                        |
-| ------------------ | ------------------------- |
-| `user`             | 标准成员。                     |
-| `managed`          | 其权限通过附加到其所在群组的自定义角色授予的成员。 |
-| `owner`            | 组织所有者。                    |
-| `membership_admin` | 可以管理组织成员的成员。              |
-| `primary_owner`    | 组织的主所有者。有且仅有一个。           |
+| 角色 | 含义 |
+| ----- | ----- |
+| `user` | 标准成员。 |
+| `managed` | 其权限通过附加到其所在群组的自定义角色授予的成员。 |
+| `owner` | 组织所有者。 |
+| `membership_admin` | 可以管理组织成员的成员。 |
+| `primary_owner` | 组织的主所有者。有且仅有一个。 |
 
 API 只能在创建邀请和更新角色时分配 `user` 和 `managed` 角色。分配 `managed` 时，除 `write:members` 外还需要 `write:rbac_groups` 作用域，因为受管成员的权限来自附加到其所在群组的自定义角色。管理角色（`owner`、`membership_admin` 和 `primary_owner`）在 claude.ai 组织设置中分配，持有这些角色的成员无法通过此 API 修改或移除。
 
@@ -758,17 +758,17 @@ Admin API 端点共享每个组织**每分钟 100 个请求**的限制；邀请�
 
 #### 响应
 
-| 状态                                      | 含义                                                                                                                                                |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 200                                     | 登出已完成。可以安全地重试：没有剩余可结束内容的请求也会返回 200，第二次请求会结束该用户自第一次请求以来获得的任何会话、受信任设备或 OAuth 令牌。                                                                    |
-| 400 `cannot_sign_out_primary_owner`     | 该成员是主要所有者，无法被登出。请参阅[无法登出的对象](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#who-you-cant-sign-out)。                         |
-| 400 `organization_not_enrolled_in_beta` | 此端点对您的组织不可用。                                                                                                                                      |
-| 400                                     | 请求缺少 `anthropic-beta` 值（消息中会指明该值），或者路径中的 `id` 不以 `user_` 开头。                                                                                      |
-| 401                                     | 密钥缺失、无效或已删除，或者该密钥是为父组织创建的，未绑定到某个组织。                                                                                                               |
-| 403                                     | 密钥缺少 `write:members` 作用域。                                                                                                                         |
-| 404                                     | 您的组织中不存在具有该 ID 的成员。                                                                                                                               |
-| 429                                     | 该组织超出了 Admin API 端点共享的[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#rate-limits)。`retry-after` 标头会指明何时重试。登出没有单独的限制。 |
-| 503                                     | 请求所需的某项服务暂时不可用。请求已结束的内容会保持结束状态。请再次发送请求以结束其余内容。                                                                                                    |
+| 状态 | 含义 |
+| ----- | ----- |
+| 200 | 登出已完成。可以安全地重试：没有剩余可结束内容的请求也会返回 200，第二次请求会结束该用户自第一次请求以来获得的任何会话、受信任设备或 OAuth 令牌。 |
+| 400 `cannot_sign_out_primary_owner` | 该成员是主要所有者，无法被登出。请参阅[无法登出的对象](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#who-you-cant-sign-out)。 |
+| 400 `organization_not_enrolled_in_beta` | 此端点对您的组织不可用。 |
+| 400 | 请求缺少 `anthropic-beta` 值（消息中会指明该值），或者路径中的 `id` 不以 `user_` 开头。 |
+| 401 | 密钥缺失、无效或已删除，或者该密钥是为父组织创建的，未绑定到某个组织。 |
+| 403 | 密钥缺少 `write:members` 作用域。 |
+| 404 | 您的组织中不存在具有该 ID 的成员。 |
+| 429 | 该组织超出了 Admin API 端点共享的[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#rate-limits)。`retry-after` 标头会指明何时重试。登出没有单独的限制。 |
+| 503 | 请求所需的某项服务暂时不可用。请求已结束的内容会保持结束状态。请再次发送请求以结束其余内容。 |
 
 错误响应遵循 [Claude API 错误](https://platform.claude.com/docs/zh-CN/api/errors)中记录的标准格式，错误代码位于 `error.details.error_code` 中：
 

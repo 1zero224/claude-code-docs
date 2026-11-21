@@ -63,11 +63,11 @@
 >
 > [Choose an install scope](#choose-an-install-scope) 说明每个选项写入哪个设置文件，以及当同一插件在多个位置设置时哪个适用。
 >
-> 选择范围后，Claude Code 安装插件及其声明的任何依赖项，然后打印安装摘要。
+> 选择作用域后，Claude Code 会安装插件，然后打印安装摘要。
 >
-> **4. 读取安装摘要**
+> **4. 阅读安装摘要**
 >
-> 摘要的最后一句告诉您插件在此会话中是否可用：
+> 摘要的最后一句告诉您插件在此会话中是否已可用：
 >
 > * **已激活**：`Plugin is now active.` 无需重新加载。
 > * **已激活，但服务器需要设置**：`Plugin is now active.` 后跟一条以 `Its bundled MCP server needs` 开头的说明。在您设置其选项之前，插件的[捆绑 MCP 服务器](https://code.claude.com/docs/zh-CN/plugins/components.md#include-a-packaged-mcpb-server)无法启动。在 `/plugin` 的 **Installed** 选项卡上选择该插件，然后选择 **Configure**。
@@ -177,7 +177,7 @@
 claude plugin install formatter@your-org --scope project
 ```
 
-命令完成时打印 `Successfully installed plugin: formatter@your-org (scope: project)`。
+在终端中，命令完成时打印 `Installed plugin: formatter@your-org (scope: project)`。
 
 某些插件通过运行其市场命名的命令来安装，称为 [`command` source](https://code.claude.com/docs/zh-CN/plugins/marketplace-reference#command-plugin-source)。Claude Code 向您显示该命令并要求您在运行前接受它。脚本没有人来回答该提示，因此在那里传递 `--yes` 以接受它。
 
@@ -232,7 +232,7 @@ claude plugin install deploy-helper --marketplace your-org/plugins
 
 shell 命令添加市场时没有确认步骤。您已从该来源添加的市场会被重用。新市场会经过与 `claude plugin marketplace add` 相同的 [organization policy checks](https://code.claude.com/docs/zh-CN/plugins/org.md#restrict-what-users-can-install) 后添加，并且即使您传递 `--scope project`，也会在您的用户设置中声明。
 
-如果您尚未添加该市场，该命令会打印 `Successfully added marketplace: <name> (declared in user settings)`，然后[安装插件](#install-from-your-shell)。
+如果您尚未添加该市场，您的终端会显示 `Added marketplace: <name> (declared in user settings)`，然后该命令会[安装插件](#install-from-your-shell)。
 
 ### Add a private marketplace
 
@@ -301,8 +301,8 @@ Claude Code 在以 `claudeai-` 开头的本地名称下注册市场，该名称�
 
 当您为此存储库的 `.claude/settings.json` 启用的插件选择 **Uninstall** 时，无论是从 **Installed** 选项卡还是使用 `/plugin uninstall`，Claude Code 都会询问是为您禁用它还是为所有人卸载它：
 
-* **Disable for me**：按 **y**。Claude Code 在您的 `.claude/settings.local.json` 中为插件写入 `false` 并为项目保留它已安装。
-* **Uninstall for everyone**：按 **u**。Claude Code 从共享的 `.claude/settings.json` 中删除插件。
+* **Disable for me**：Claude Code 在您的 `.claude/settings.local.json` 中为插件写入 `false`，并为项目保留其已安装状态。
+* **Uninstall for everyone**：Claude Code 从共享的 `.claude/settings.json` 中删除插件。
 
 ### See what an installed plugin adds to your sessions
 
@@ -342,7 +342,7 @@ claude plugin uninstall formatter@your-org --scope project
 
 当插件来自的市场打开了自动更新时，插件会自动更新。会话启动后，Claude Code 刷新这些市场并更新您从中安装的插件的磁盘副本。
 
-运行的会话保持它已加载的版本。更新后，您会看到 `Plugin updated: <name> · Run /reload-plugins to apply`，下一个会话自动加载新版本。
+当您看到 `Plugin updated: <name> · Run /reload-plugins to apply` 时，请在该会话中运行 [`/reload-plugins`](https://code.claude.com/docs/zh-CN/plugins/cli-reference#reload-plugins)。无论您是否重新加载，新版本都会在您下次启动时加载。
 
 这些是每种市场类型的自动更新默认值：
 

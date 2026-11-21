@@ -86,15 +86,15 @@ Claude Opus 5.5 无法读取 Claude Fable 5.1 的思考块，因此 API 会在�
 
 短横线表示您切换到的模型无法读取这些块。经过多次切换后，请为历史记录中的每个模型各查看一行。
 
-| 切换前的模型                               | 切换到 Claude Fable 5.2 或 Claude Mythos 5.2 | 切换到 Claude Fable 5.1 或 Claude Mythos 5.1 | 切换到 Claude Opus 5.5 | 切换到 Claude Sonnet 5.5 | 切换到 Claude Haiku 5.5 |
-| ------------------------------------ | ---------------------------------------- | ---------------------------------------- | ------------------- | --------------------- | -------------------- |
-| Claude Haiku 5.5                     | ✅                                        | —                                        | ✅                   | ✅                     | ✅                    |
-| Claude Sonnet 5.5                    | ✅                                        | —                                        | ✅                   | ✅                     | —                    |
-| Claude Opus 5                        | ✅                                        | ✅                                        | ✅                   | —                     | —                    |
-| Claude Opus 5.5                      | ✅                                        | ✅                                        | ✅                   | —                     | —                    |
-| Claude Fable 5 或 Claude Mythos 5     | ✅                                        | ✅                                        | —                   | —                     | —                    |
-| Claude Fable 5.1 或 Claude Mythos 5.1 | ✅                                        | ✅                                        | —                   | —                     | —                    |
-| Claude Fable 5.2 或 Claude Mythos 5.2 | ✅                                        | —                                        | —                   | —                     | —                    |
+| 切换前的模型 | 切换到 Claude Fable 5.2 或 Claude Mythos 5.2 | 切换到 Claude Fable 5.1 或 Claude Mythos 5.1 | 切换到 Claude Opus 5.5 | 切换到 Claude Sonnet 5.5 | 切换到 Claude Haiku 5.5 |
+| ----- | ----- | ----- | ----- | ----- | ----- |
+| Claude Haiku 5.5 | ✅ | — | ✅ | ✅ | ✅ |
+| Claude Sonnet 5.5 | ✅ | — | ✅ | ✅ | — |
+| Claude Opus 5 | ✅ | ✅ | ✅ | — | — |
+| Claude Opus 5.5 | ✅ | ✅ | ✅ | — | — |
+| Claude Fable 5 或 Claude Mythos 5 | ✅ | ✅ | — | — | — |
+| Claude Fable 5.1 或 Claude Mythos 5.1 | ✅ | ✅ | — | — | — |
+| Claude Fable 5.2 或 Claude Mythos 5.2 | ✅ | — | — | — | — |
 
 如果某个模型没有对应的行或列，请参阅[较早的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#earlier-models)。
 
@@ -102,11 +102,11 @@ Claude Opus 5.5 无法读取 Claude Fable 5.1 的思考块，因此 API 会在�
 
 每个 Claude 模型都能读取来自 Claude Opus 4.8、Claude Sonnet 5、Claude Haiku 4.5 以及更早的 Claude Opus、Claude Sonnet 和 Claude Haiku 模型的思考块。
 
-| 您切换到的模型                                                                                            | 仅读取来自以下模型的块                                      |
-| -------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
-| Claude Opus 4.8、Claude Sonnet 5、Claude Haiku 4.5 以及更早的 Claude Opus、Claude Sonnet 和 Claude Haiku 模型 | 彼此                                               |
-| Claude Opus 5                                                                                      | 其自身，以及第一行中的模型                                    |
-| Claude Fable 5 和 Claude Mythos 5                                                                   | 彼此、Claude Mythos Preview、Claude Opus 5，以及第一行中的模型 |
+| 您切换到的模型 | 仅读取来自以下模型的块 |
+| ----- | ----- |
+| Claude Opus 4.8、Claude Sonnet 5、Claude Haiku 4.5 以及更早的 Claude Opus、Claude Sonnet 和 Claude Haiku 模型 | 彼此 |
+| Claude Opus 5 | 其自身，以及第一行中的模型 |
+| Claude Fable 5 和 Claude Mythos 5 | 彼此、Claude Mythos Preview、Claude Opus 5，以及第一行中的模型 |
 
 ### 新模型上的思考设置
 
@@ -126,11 +126,11 @@ Claude Opus 5.5 无法读取 Claude Fable 5.1 的思考块，因此 API 会在�
 
 ### 各平台上什么算作您的账户
 
-| 您调用 Claude 的位置                                                                                          | 您的账户               |
-| ------------------------------------------------------------------------------------------------------- | ------------------ |
-| Claude API、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed) 或 Microsoft Foundry | 您的组织               |
-| Amazon Bedrock                                                                                          | 您的 AWS 账户          |
-| Claude Models on Google Cloud (Google managed)                                                          | 您的 Google Cloud 项目 |
+| 您调用 Claude 的位置 | 您的账户 |
+| ----- | ----- |
+| Claude API、Claude Platform on AWS、Claude Models on Google Cloud (Anthropic managed) 或 Microsoft Foundry | 您的组织 |
+| Amazon Bedrock | 您的 AWS 账户 |
+| Claude Models on Google Cloud (Google managed) | 您的 Google Cloud 项目 |
 
 如果某个思考块由另一个账户生成，而该账户的信誉已不再良好，API 也可能会省略该思考块。这适用于发往 Claude Fable 和 Claude Mythos 模型、Claude Opus 5、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 的请求。请求仍会成功，模型会在没有该块推理的情况下作答。
 
@@ -146,18 +146,18 @@ Claude Opus 5.5 无法读取 Claude Fable 5.1 的思考块，因此 API 会在�
 
 * 可用性：始终开启
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| -- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview) |
-| 可用 | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview)                                                                                                                                                                                                                                                                       |
-| 可用 | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)                                                                                                                                                                                                                                                                                                                                                                                                                             | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview)                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 可用 | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) | [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview) |
+| 可用 | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 
 * 可用性：始终开启
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                  | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview) |
 
 ## 后续步骤

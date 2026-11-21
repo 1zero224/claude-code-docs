@@ -56,9 +56,9 @@ Files API 提供了一种"创建一次、多次使用"的文件处理方式：
 
 <Warning id="workspace-scoped-access" title="上传的文件可供您的整个工作区访问">
   文件的作用范围不限定于某个最终用户、对话或会话。任何有权访问某个工作区的 API 密钥都可以访问上传到该工作区的任何文件。每个服务账户，以及组织角色允许 API 访问的每个用户，除了可以使用您将其添加到的任何工作区之外，还可以使用默认工作区（Default Workspace），因此请将必须保持隔离的文件放在其专属的工作区中，并且仅使用[作用范围限定于该工作区的密钥](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#api-keys-and-resource-scoping)来访问它们。切勿接受来自最终用户或其他不受信任来源的 `file_id` 值：用户提供的文件 ID 会让您应用程序的某个用户读取另一个用户上传的内容。请将文件 ID 视为服务器端引用，并在您的应用程序中维护用户与其文件之间的映射关系。
-
-  如果您要基于 Files API 构建多租户应用程序，请为每个租户创建一个单独的[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)。工作区是文件的隔离边界，因此为每个租户设置一个工作区，可以让该租户的数据与其他所有租户实现硬隔离。每个组织最多可以拥有 100 个工作区；如果您需要更多，请联系您的客户团队。
 </Warning>
+
+如果您要基于 Files API 构建多租户应用程序，请为每个租户创建一个单独的[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)。工作区是文件的隔离边界，因此为每个租户设置一个工作区，可以让该租户的数据与其他所有租户实现硬隔离。默认情况下，每个组织最多可以拥有 1,000 个工作区。如果您需要更多，请联系您的客户团队。
 
 ## 如何使用 Files API
 
@@ -408,12 +408,12 @@ API 参考描述了文件对象的每个字段。
 
 Files API 支持不同的文件类型，它们对应不同的内容块类型：
 
-| 文件类型                                                                                                                                             | MIME 类型                                              | 内容块类型              | 用例        |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------- | ------------------ | --------- |
-| PDF                                                                                                                                              | `application/pdf`                                    | `document`         | 文本分析、文档处理 |
-| 纯文本                                                                                                                                              | `text/plain`                                         | `document`         | 文本分析、处理   |
-| 图像                                                                                                                                               | `image/jpeg`, `image/png`, `image/gif`, `image/webp` | `image`            | 图像分析、视觉任务 |
-| 数据集及其他（请参阅[上传并分析您自己的文件](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#upload-and-analyze-your-own-files)） | 各不相同                                                 | `container_upload` | 数据分析、可视化  |
+| 文件类型 | MIME 类型 | 内容块类型 | 用例 |
+| ----- | ----- | ----- | ----- |
+| PDF | `application/pdf` | `document` | 文本分析、文档处理 |
+| 纯文本 | `text/plain` | `document` | 文本分析、处理 |
+| 图像 | `image/jpeg`, `image/png`, `image/gif`, `image/webp` | `image` | 图像分析、视觉任务 |
+| 数据集及其他（请参阅[上传并分析您自己的文件](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#upload-and-analyze-your-own-files)） | 各不相同 | `container_upload` | 数据分析、可视化 |
 
 #### 文档块
 
@@ -1034,12 +1034,12 @@ Files API 支持不同的文件类型，它们对应不同的内容块类型：
 
 Files API 已结束 beta 阶段，不再需要 beta 标头。从 `files-api-2025-04-14` 迁移是可选的：发送该标头的请求会继续正常工作并继续返回 beta 响应结构，因此现有集成在您更改之前会一直正常工作。移除该标头会将这些请求切换为本页所记录的结构：
 
-|                        | 使用 `files-api-2025-04-14`               | 不使用该标头                                                       |
-| ---------------------- | --------------------------------------- | ------------------------------------------------------------ |
-| 列表响应                   | `{ data, has_more, first_id, last_id }` | `{ data, next_page }`；将 `next_page` 作为 `page` 查询参数传回         |
-| 列表游标                   | `before_id`、`after_id`                  | `page`，或最多 100 个 `ids[]`（`before_id` 和 `after_id` 返回 400 错误） |
-| 文件对象上的 `expires_at`    | 不返回                                     | 始终存在；当文件没有过期时间时为 `null`                                      |
-| 上传文件部分的 `Content-Type` | 必需                                      | 可选；省略时会自动检测类型                                                |
+|  | 使用 `files-api-2025-04-14` | 不使用该标头 |
+| ----- | ----- | ----- |
+| 列表响应 | `{ data, has_more, first_id, last_id }` | `{ data, next_page }`；将 `next_page` 作为 `page` 查询参数传回 |
+| 列表游标 | `before_id`、`after_id` | `page`，或最多 100 个 `ids[]`（`before_id` 和 `after_id` 返回 400 错误） |
+| 文件对象上的 `expires_at` | 不返回 | 始终存在；当文件没有过期时间时为 `null` |
+| 上传文件部分的 `Content-Type` | 必需 | 可选；省略时会自动检测类型 |
 
 迁移步骤：
 
@@ -1058,15 +1058,15 @@ SDK 在两个命名空间中提供 Files API。本页使用稳定命名空间，
 
 该表还给出了每个 SDK 的命名空间名称，以及 beta 命名空间在何处接收 `anthropic-beta` 值：
 
-| SDK        | 稳定命名空间           | Beta 命名空间                                      | Beta 命名空间变更的版本 | `anthropic-beta` 值的传递位置 |
-| ---------- | ---------------- | ---------------------------------------------- | -------------- | ----------------------- |
-| Python     | `client.files`   | `client.beta.files`                            | 1.2.0          | `betas`                 |
-| TypeScript | `client.files`   | `client.beta.files`                            | 0.122.0        | `betas`                 |
-| C#         | `client.Files`   | `client.Beta.Files`                            | 12.44.0        | `Betas`                 |
-| Go         | `client.Files`   | `client.Beta.Files`                            | 1.68.0         | `Betas`                 |
-| Java       | `client.files()` | `client.beta().files()`                        | 2.59.0         | `.addBeta()`            |
-| PHP        | `$client->files` | `$client->beta->files`（类位于 `Anthropic\Beta` 中） | 0.45.0         | `betas`                 |
-| Ruby       | `client.files`   | `client.beta.files`                            | 1.67.0         | `betas`                 |
+| SDK | 稳定命名空间 | Beta 命名空间 | Beta 命名空间变更的版本 | `anthropic-beta` 值的传递位置 |
+| ----- | ----- | ----- | ----- | ----- |
+| Python | `client.files` | `client.beta.files` | 1.2.0 | `betas` |
+| TypeScript | `client.files` | `client.beta.files` | 0.122.0 | `betas` |
+| C# | `client.Files` | `client.Beta.Files` | 12.44.0 | `Betas` |
+| Go | `client.Files` | `client.Beta.Files` | 1.68.0 | `Betas` |
+| Java | `client.files()` | `client.beta().files()` | 2.59.0 | `.addBeta()` |
+| PHP | `$client->files` | `$client->beta->files`（类位于 `Anthropic\Beta` 中） | 0.45.0 | `betas` |
+| Ruby | `client.files` | `client.beta.files` | 1.67.0 | `betas` |
 
 对于处于 beta 阶段的 Files 功能，请使用 beta 命名空间，并按表中所示传递该功能的 `anthropic-beta` 值。例如，在 Managed Agents beta 请求头下，`scope_id` 会将文件列表限制为某一个会话的文件。要使用 `scope_id`，请参阅[列出和下载会话文件](https://platform.claude.com/docs/zh-CN/managed-agents/files#listing-and-downloading-session-files)。
 
@@ -1140,8 +1140,8 @@ Files API在所有模型上可用。
 * 可用性：可用
 * 用法：在 `document`、`image` 或 `container_upload` 块中通过 `file_id` 引用已上传的文件。
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| -- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -1149,18 +1149,18 @@ Files API在所有模型上可用。
 * 可用性：可用
 * 用法：将已上传的文件作为会话资源挂载到会话的沙箱中（只读，位于 `/mnt/session/uploads` 下），或在 `user.message` 事件的 `image` 或 `document` 块中引用 `file_id`。智能体写入 `/mnt/session/outputs/` 的文件可以通过 Files API 下载。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                             | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 不具备资格                                                                                                             | 不具备资格 |
-| 详细信息 | 文件会一直保留，直到被显式删除或达到其配置的过期时间。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/files#data-retention) | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
+| 详细信息 | 文件会一直保留，直到被显式删除或达到其配置的过期时间。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/files#data-retention) | — |
 
 适用的端点：
 

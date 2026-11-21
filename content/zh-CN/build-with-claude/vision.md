@@ -1310,23 +1310,23 @@ Claude 以图块（patch）而非像素为单位处理图像。每个图块是�
 
 每个模型都有一个最大原生图像分辨率，以长边限制和视觉令牌限制来表示。超过任一限制的图像会在处理前被缩小；有关确切规则，请参阅 [Claude 如何调整图像大小和填充图像](https://platform.claude.com/docs/zh-CN/build-with-claude/vision-coordinates#how-claude-resizes-and-pads-images)。例外情况是您返回给[计算机使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#handle-coordinate-scaling-for-higher-resolutions)和[浏览器使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#targets-and-coordinates)工具集的屏幕截图和缩放图像：对于超出模型限制的 `tool_result` 图像，API 会以验证错误拒绝，而不是将其缩小，因此请在返回这些图像之前在您的应用程序中调整其大小。若要让任何其他超大图像以错误形式被拒绝而不是被缩小，请设置图像块的 [`transformations` 字段](https://platform.claude.com/docs/zh-CN/build-with-claude/vision-coordinates#oversized-image-error)。
 
-| 分辨率层级 | 模型                  | 最大长边     | 最大视觉令牌数 |
-| ----- | ------------------- | -------- | ------- |
-| 高分辨率  | Claude 4.7 及更高版本的模型 | 2,576 px | 4,784   |
-| 标准    | 所有其他模型              | 1,568 px | 1,568   |
+| 分辨率层级 | 模型 | 最大长边 | 最大视觉令牌数 |
+| ----- | ----- | ----- | ----- |
+| 高分辨率 | Claude 4.7 及更高版本的模型 | 2,576 px | 4,784 |
+| 标准 | 所有其他模型 | 1,568 px | 1,568 |
 
 在所列模型上，高分辨率支持是自动启用的，无需 beta 标头或客户端选择加入。
 
 下表显示了每个层级上几种图像尺寸的缩小后分辨率和视觉令牌费用：
 
-| 图像尺寸                    | 标准层级：缩小至    | 标准层级：令牌数 | 高分辨率层级：缩小至   | 高分辨率层级：令牌数 |
-| ----------------------- | ----------- | -------- | ------------ | ---------- |
-| 200x200 px（0.04 百万像素）   | 不调整大小       | 64       | 不调整大小        | 64         |
-| 1000x1000 px（1 百万像素）    | 不调整大小       | 1,296    | 不调整大小        | 1,296      |
-| 1092x1092 px（1.19 百万像素） | 不调整大小       | 1,521    | 不调整大小        | 1,521      |
-| 1920x1080 px（2.07 百万像素） | 1456x819 px | 1,560    | 不调整大小        | 2,691      |
-| 2000x1500 px（3 百万像素）    | 1269x952 px | 1,564    | 不调整大小        | 3,888      |
-| 3840x2160 px（8.29 百万像素） | 1456x819 px | 1,560    | 2576x1449 px | 4,784      |
+| 图像尺寸 | 标准层级：缩小至 | 标准层级：令牌数 | 高分辨率层级：缩小至 | 高分辨率层级：令牌数 |
+| ----- | ----- | ----- | ----- | ----- |
+| 200x200 px（0.04 百万像素） | 不调整大小 | 64 | 不调整大小 | 64 |
+| 1000x1000 px（1 百万像素） | 不调整大小 | 1,296 | 不调整大小 | 1,296 |
+| 1092x1092 px（1.19 百万像素） | 不调整大小 | 1,521 | 不调整大小 | 1,521 |
+| 1920x1080 px（2.07 百万像素） | 1456x819 px | 1,560 | 不调整大小 | 2,691 |
+| 2000x1500 px（3 百万像素） | 1269x952 px | 1,564 | 不调整大小 | 3,888 |
+| 3840x2160 px（8.29 百万像素） | 1456x819 px | 1,560 | 2576x1449 px | 4,784 |
 
 当图像被缩小时，Claude 会在保持其宽高比的同时，将其缩放到符合该层级限制的最大尺寸。这限制了令牌费用的上限。有关精确规则和参考实现，请参阅 [Claude 如何调整图像大小和填充图像](https://platform.claude.com/docs/zh-CN/build-with-claude/vision-coordinates#how-claude-resizes-and-pads-images)。
 
@@ -1437,10 +1437,10 @@ Claude 以图块（patch）而非像素为单位处理图像。每个图块是�
 
 * 可用性：始终开启
 
-| 状态             | 云平台                                                                                                                                                                                                                                                                                                                                                                                             |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 可用             | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
-| 可用<sup>1</sup> | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)      |
+| 状态 | 云平台 |
+| ----- | ----- |
+| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 可用<sup>1</sup> | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) |
 
 1. 仅支持 base64 图像源；每张图像上限 5 MB（base64 编码后），且请求总大小上限更低。
 
@@ -1448,6 +1448,6 @@ Claude 以图块（patch）而非像素为单位处理图像。每个图块是�
 
 * 可用性：始终开启
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |

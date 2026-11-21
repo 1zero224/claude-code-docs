@@ -15,7 +15,7 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
 <Tabs>
   <Tab title="Gradle">
     ```kotlin
-    implementation("com.anthropic:anthropic-java:3.10.0")
+    implementation("com.anthropic:anthropic-java:3.12.0")
     ```
   </Tab>
 
@@ -24,7 +24,7 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java</artifactId>
-        <version>3.10.0</version>
+        <version>3.12.0</version>
     </dependency>
     ```
   </Tab>
@@ -37,8 +37,8 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
 <Tabs>
   <Tab title="Gradle">
     ```kotlin
-    implementation("com.anthropic:anthropic-java:3.10.0")
-    implementation("com.anthropic:anthropic-java-mcp:3.10.0")
+    implementation("com.anthropic:anthropic-java:3.12.0")
+    implementation("com.anthropic:anthropic-java-mcp:3.12.0")
     ```
   </Tab>
 
@@ -47,12 +47,12 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java</artifactId>
-        <version>3.10.0</version>
+        <version>3.12.0</version>
     </dependency>
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java-mcp</artifactId>
-        <version>3.10.0</version>
+        <version>3.12.0</version>
     </dependency>
     ```
   </Tab>
@@ -133,11 +133,11 @@ AnthropicClient client = AnthropicOkHttpClient.builder()
 
 ### 配置选项
 
-| Setter 方法   | 系统属性                  | 环境变量                   | 是否必需  | 默认值                           |
-| ----------- | --------------------- | ---------------------- | ----- | ----------------------------- |
-| `apiKey`    | `anthropic.apiKey`    | `ANTHROPIC_API_KEY`    | false | -                             |
-| `authToken` | `anthropic.authToken` | `ANTHROPIC_AUTH_TOKEN` | false | -                             |
-| `baseUrl`   | `anthropic.baseUrl`   | `ANTHROPIC_BASE_URL`   | true  | `"https://api.anthropic.com"` |
+| Setter 方法 | 系统属性 | 环境变量 | 是否必需 | 默认值 |
+| ----- | ----- | ----- | ----- | ----- |
+| `apiKey` | `anthropic.apiKey` | `ANTHROPIC_API_KEY` | false | - |
+| `authToken` | `anthropic.authToken` | `ANTHROPIC_AUTH_TOKEN` | false | - |
+| `baseUrl` | `anthropic.baseUrl` | `ANTHROPIC_BASE_URL` | true | `"https://api.anthropic.com"` |
 
 系统属性优先于环境变量。
 
@@ -606,16 +606,16 @@ SDK 会抛出自定义的非受检异常类型：
 
 ### 状态码映射
 
-| 状态码 | 异常                              |
-| --- | ------------------------------- |
-| 400 | `BadRequestException`           |
-| 401 | `UnauthorizedException`         |
-| 403 | `PermissionDeniedException`     |
-| 404 | `NotFoundException`             |
-| 422 | `UnprocessableEntityException`  |
-| 429 | `RateLimitException`            |
-| 5xx | `InternalServerException`       |
-| 其他  | `UnexpectedStatusCodeException` |
+| 状态码 | 异常 |
+| ----- | ----- |
+| 400 | `BadRequestException` |
+| 401 | `UnauthorizedException` |
+| 403 | `PermissionDeniedException` |
+| 404 | `NotFoundException` |
+| 422 | `UnprocessableEntityException` |
+| 429 | `RateLimitException` |
+| 5xx | `InternalServerException` |
+| 其他 | `UnexpectedStatusCodeException` |
 
 在初始 HTTP 响应成功后，如果在 SSE 流式传输期间遇到错误，则会抛出 `SseException`。
 

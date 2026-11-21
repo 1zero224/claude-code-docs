@@ -28,11 +28,11 @@ Claude for Google Workspace 目前以测试版形式提供给 Pro、Max、Ultra�
 
 2. 打开 Google Docs、Sheets 或 Slides 文件，然后转到“扩展程序”> Claude > “打开 Claude”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2707281468/abc0497defca04936c9a4b97d147/8b17d05f-3fb1-4e49-8d1f-65364ac3f496?expires=1795099500&amp;signature=52135305ac62757c97650396e0cf71b117578ded6177e81dfac1adfc39bb69dc&amp;req=dicnEct2nIVZUfMW1HO4zRwmJTlsXe1KaAKM49NdBLPK5BEEfB0WxIWBIBIt%0AXVhb%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2707281468/abc0497defca04936c9a4b97d147/8b17d05f-3fb1-4e49-8d1f-65364ac3f496?expires=1795269600&amp;signature=b755774a4927601113b136eec49adf1842b7770d277b88911c95744443de8fd9&amp;req=dicnEct2nIVZUfMW1HO4zRwmJTluUu1JaAKM49NdBLMfElpNQus8hQ6P7%2FXj%0A4hsQ%0A)
 
 3. 第一次时，Google 会要求您允许两个权限。查看它们并点击“允许”：
 
-  ![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2707282342/f583a396098ff16e3cbd156d4a2a/112c6459-79c6-4fbb-9bc0-748fda6f592f?expires=1795099500&amp;signature=702332e0e790bd3b343a7c994febb71a4bdb8c7ce027e1df6a33368076ee8077&amp;req=dicnEct2n4JbW%2FMW1HO4zeKY3pkGiQf1eBfHlrCfDWd94HZwglnqn1XpKnu2%0Al9Ya%0A)
+  ![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2707282342/f583a396098ff16e3cbd156d4a2a/112c6459-79c6-4fbb-9bc0-748fda6f592f?expires=1795269600&amp;signature=ccaf0a93523dae37be20d7055cb19f13eedf2bf571698d21aad36f18f449f372&amp;req=dicnEct2n4JbW%2FMW1HO4zeKY3pkEhgf2eBfHlrCfDWfBkxSQrG8wDpm%2BwpRq%0A%2BiFE%0A)
 
 4. 在侧边栏中使用您的 Claude 账户登录，并可选择启用您的连接器。
 

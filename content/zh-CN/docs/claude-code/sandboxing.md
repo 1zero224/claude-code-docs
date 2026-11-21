@@ -234,6 +234,8 @@ Claude Code 提供两种沙箱模式。在这两种模式下，沙箱都会强�
 * **针对该参数的询问规则**：为 `Bash(dangerouslyDisableSandbox:true)` 添加[询问规则](https://code.claude.com/docs/zh-CN/permissions.md#match-by-input-parameter)，即可在 Bash 重试时收到提示。在自动模式和 `bypassPermissions` 模式下您也会收到提示，并且该规则优先于匹配的允许规则
 * **[`permissions.blockReadsOutsideWorkingDirectories`](https://code.claude.com/docs/zh-CN/settings-reference#permissions-blockreadsoutsideworkingdirectories)**：[任何模式都不会自动批准的操作](https://code.claude.com/docs/zh-CN/permission-modes.md#actions-no-mode-auto-approves)介绍了在启用该设置时会提示的重试
 
+如果您使用 Code Mode，自动模式下的重试方式有所不同。请参阅[使用沙箱限制 shell 命令](https://code.claude.com/docs/zh-CN/code-mode.md#limit-shell-commands-with-the-sandbox)。
+
 当命令因 [`Sandbox is required` 消息](#commands-refused-with-sandbox-is-required)而被拒绝时，Claude Code 会忽略 `dangerouslyDisableSandbox` 参数，并同样拒绝该重试。
 
 #### 使用严格沙箱模式关闭重试
@@ -433,7 +435,7 @@ Claude Code 会合并会话所加载的每个[设置作用域](https://code.clau
 当您[排除某个设置来源](#configure-sandboxing)时：
 
 * **项目或本地设置**：Claude Code 不会应用其中的任何 `credentials` 条目。需要 Claude Code v2.1.246 或更高版本。
-* **用户设置**：Claude Code 仍会应用 `~/.claude/settings.json` 中的 `deny` 条目，并将其[文件 `mask` 条目](#mask-credential-files)作为限制保留（这些限制不再授权代理替换真实值），但会丢弃其[环境变量 `mask` 条目](#mask-environment-variables)。
+* **用户设置**：Claude Code 仍会应用 `~/.claude/settings.json` 中的 `deny` 条目，并将其[文件 `mask` 条目](#mask-credential-files)作为限制保留（这些限制不再授权代理替换为真实值），但会丢弃其[环境变量 `mask` 条目](#mask-environment-variables)。
 
 没有内置的凭据拒绝列表，因此只有您列出的文件和变量会受到限制。
 
@@ -445,8 +447,8 @@ Claude Code 会合并会话所加载的每个[设置作用域](https://code.clau
 
 掩码需要满足以下条件：
 
-* **TLS 终止**：代理在请求内容中替换真实值，因此它必须能够看到请求内容。请设置 [`network.tlsTerminate`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-network-tlsterminate)，使代理自行终止 TLS。如果不设置，掩码会失败，但不会暴露任何内容：命令仍然只能看到哨兵值，但哨兵值会原样到达服务器，导致身份验证失败。要检查此错误配置，请在终端中运行 `claude doctor`，并查看是否有 `TLS termination is unavailable` 警告。
-* **允许的目标**：每个 `mask` 条目可以列出 `injectHosts`，即允许真实值到达的主机。代理只在[域名允许列表](#network-isolation)所允许的连接上注入凭据，因此每个 `injectHosts` 主机还必须能够通过 `network.allowedDomains` 访问。对于没有 `injectHosts` 的 `mask` 条目，代理会在发往 `network.allowedDomains` 中每个主机的请求中替换真实值。
+* **TLS 终止**：代理在请求内容中替换为真实值，因此它必须能够看到请求内容。请设置 [`network.tlsTerminate`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-network-tlsterminate)，使代理自行终止 TLS。如果不设置，掩码会失败，但不会暴露任何内容：命令仍然只能看到哨兵值，但哨兵值会原样到达服务器，导致身份验证失败。要检查此错误配置，请在终端中运行 `claude doctor`，并查看是否有 `TLS termination is unavailable` 警告。
+* **允许的目标**：每个 `mask` 条目可以列出 `injectHosts`，即允许真实值到达的主机。代理只在[域名允许列表](#network-isolation)所允许的连接上注入凭据，因此每个 `injectHosts` 主机还必须能够通过 `network.allowedDomains` 访问。对于大多数没有 `injectHosts` 的 `mask` 条目，代理会在发往 `network.allowedDomains` 中每个主机的请求中替换为真实值。
 * **受信任的设置作用域**：掩码会授权代理将您的真实凭据发送到某处，因此 Claude Code 只接受来自用户设置、托管设置和 `--settings` 标志的 `mask` 条目、`network.tlsTerminate`、[`credentials.allowPlaintextInject`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-credentials-allowplaintextinject)、`awsPairs` 和 `sigv4`。它会忽略仓库的 `.claude/settings.json` 或 `.claude/settings.local.json` 中的这些设置。当您的管理员通过服务器托管设置下发 `mask` 条目、`network.tlsTerminate` 或 `credentials.allowPlaintextInject` 时，它们属于[需要批准的设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md#security-approval-dialogs)。
 
 #### 掩码环境变量
@@ -484,7 +486,7 @@ Claude Code 会合并会话所加载的每个[设置作用域](https://code.clau
 
 #### 重新签名 AWS 请求
 
-AWS 请求携带基于请求内容的 SigV4 签名，因此请同时对 `AWS_ACCESS_KEY_ID` 和 `AWS_SECRET_ACCESS_KEY` 进行掩码。代理通过访问密钥的[哨兵值](#mask-credentials)识别 SigV4 请求，并使用真实值对请求重新签名，这需要 Claude Code v2.1.221 或更高版本。如果仅对私有密钥进行掩码，请求会使用代理无法识别的占位符签名，因此它们会在 AWS 处失败。
+AWS 请求携带基于请求内容的 SigV4 签名，因此请同时对 `AWS_ACCESS_KEY_ID` 和 `AWS_SECRET_ACCESS_KEY` 进行掩码。代理通过访问密钥的[哨兵值](#mask-credentials)识别 SigV4 请求。使用真实值对请求重新签名需要 Claude Code v2.1.221 或更高版本。如果仅对私有密钥进行掩码，请求会使用代理无法识别的占位符签名，因此它们会在 AWS 处失败。
 
 当您对常规的 `AWS_ACCESS_KEY_ID`、`AWS_SECRET_ACCESS_KEY` 和 `AWS_SESSION_TOKEN` 变量的整个值进行掩码时，Claude Code 会自动将它们关联为一个凭据。如果您的 AWS 凭据存储在其他名称的变量中，请使用 [`credentials.awsPairs`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-credentials-awspairs) 对它们进行分组，这需要 Claude Code v2.1.224 或更高版本。
 
@@ -561,7 +563,7 @@ AWS 请求携带基于请求内容的 SigV4 签名，因此请同时对 `AWS_ACC
 >
 > 如果您在 Linux 或 WSL2 上将 [`allowNestedUserNamespaces`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-allownestedusernamespaces) 设为 `true`，请不要依赖受保护的路径：来自沙箱化命令的代码最终可能会在沙箱之外运行。
 
-要查看其中大部分路径在您的计算机上解析后的结果，请运行 `/sandbox` 并打开 **Config** 标签页，其中会在 **Denied within allowed** 下列出这些路径，并与您自己的 `denyWrite` 条目混合显示。
+要查看其中大部分路径在您的计算机上解析后的结果，请运行 `/sandbox` 并打开 **Config** 标签页，其中列出了这些路径，并与您自己的 `denyWrite` 条目混合显示。
 
 如果 `git merge` 或 `git checkout` 在这些路径之一上因 `unable to unlink old` 而失败，请参阅[git 命令因 `unable to unlink old` 而失败](#a-git-command-fails-with-unable-to-unlink-old)。
 
@@ -569,7 +571,7 @@ AWS 请求携带基于请求内容的 SigV4 签名，因此请同时对 `AWS_ACC
 
 沙箱化命令结束后，工作目录中较新的顶层 `HEAD`、`objects` 或 `refs` 条目会被删除，除非它是包含内容的文件夹。"较新"是指沙箱上次构建其配置时该条目并不存在：即会话开始时，或在 [`/cd`](https://code.claude.com/docs/zh-CN/commands) 等更改之后。
 
-如果沙箱上次构建其配置时存在 `HEAD` 文件或符号链接，那么较新的包含内容的 `objects` 或 `refs` 文件夹也会连同其内容一起被删除。要保留某个文件夹，请参阅[命令执行后名为 `objects` 或 `refs` 的文件夹消失](#a-folder-named-objects-or-refs-disappears-after-a-command)。
+如果沙箱上次构建其配置时存在 `HEAD` 文件或符号链接，那么较新的 `objects` 或 `refs` 文件夹会改为被重命名为 `<name>.claude-sandbox-quarantine-<hex>`，其内容保持完好。要保留某个文件夹或恢复已重命名的文件夹，请参阅[命令执行后名为 `objects` 或 `refs` 的文件夹消失](#a-folder-named-objects-or-refs-disappears-after-a-command)。
 
 #### 经过符号链接的被拒绝路径
 
@@ -651,6 +653,13 @@ Claude Code 在您的计算机上、沙箱之外运行沙箱代理，并通过 `
 
 要查找有歧义的条目，请在终端中运行 `claude doctor` 并查看 `Sandbox network domain entries have unreliable spellings` 警告。将每个有歧义的条目改写为方括号形式。
 
+#### 代理变量中的用户名和密码
+
+如果命令的 `HTTPS_PROXY` 或其他代理 URL 中包含用户名和密码，请检查用户名和主机：
+
+* **主机为 `127.0.0.1` 或 `localhost`，且用户名为 `srt` 或以 `srt.` 开头**：将其视为内置沙箱代理自身的登录信息，它不是您的凭据之一
+* **任何其他用户名或主机**：将其视为您自己的凭据之一
+
 ### 操作系统级强制执行
 
 沙箱化的 Bash 工具使用操作系统安全原语：
@@ -669,7 +678,7 @@ Claude Code 在您的计算机上、沙箱之外运行沙箱代理，并通过 `
 
 权限规则和沙箱隔离控制不同的事项：
 
-* **权限规则**控制 Claude Code 可以使用哪些工具，并在任何工具运行之前进行评估。它们适用于每个工具：Bash、Read、Edit、WebFetch、MCP 和其他工具，除了拒绝或询问规则无法阻止 [`EndConversation`](https://code.claude.com/docs/zh-CN/tools-reference#endconversation-tool-behavior)，而任何其他工具仍然存在。
+* **权限规则**控制 Claude Code 可以使用哪些工具，并在工具运行之前进行评估。它们适用于 Bash、Read、Edit、WebFetch、MCP 和其他工具。只要仍有任何其他工具可用，拒绝或询问规则就无法阻止 [`EndConversation`](https://code.claude.com/docs/zh-CN/tools-reference#endconversation-tool-behavior)。
 * **沙箱隔离**提供操作系统级别的强制执行，限制 shell 命令在文件系统和网络级别可以访问的内容。它适用于 Bash、PowerShell 和 [Monitor](https://code.claude.com/docs/zh-CN/tools-reference.md#monitor-tool) 工具的命令及其子进程。
 
 这两个层级在强制执行方式上也有所不同。Claude Code 在命令运行之前根据命令字符串和在自动模式下单独分类器对命令是否安全的判断来评估权限决策。操作系统在运行的进程上强制执行沙箱边界，因此无论模型选择运行什么，即使允许的命令执行的操作超出其名称所示，它也会保持有效。
@@ -726,7 +735,7 @@ Claude Code 在您的计算机上、沙箱之外运行沙箱代理，并通过 `
 
 除 `enabled` 之外的两个设置项控制沙箱无法运行命令时会发生什么：
 
-* **`failIfUnavailable`**：当平台不支持沙箱或启动时的依赖检查失败时，Claude Code 会拒绝启动，而不是回退到非沙箱化执行
+* **`failIfUnavailable`**：当平台不支持沙箱或启动时的依赖检查失败时，Claude Code 会拒绝启动，而不是回退到非沙箱化执行。在 Anthropic 托管的环境中，会话仍可以启动
 * **`allowUnsandboxedCommands: false`**：Claude Code 忽略 `dangerouslyDisableSandbox` 逃生舱，因此当命令在沙箱下失败时，Claude 无法在沙箱外重试该命令
 
 请考虑同时添加以下内容：
@@ -908,9 +917,16 @@ Claude Code 会忽略在其他任何位置设置的端口。在 v2.1.285 之前�
 
 ### 名为 `objects` 或 `refs` 的文件夹在命令执行后消失
 
-会话期间出现的顶层 `objects` 或 `refs` 文件夹可能会[在沙箱化命令结束后被删除](#when-the-sandbox-deletes-head-objects-or-refs)。无论它是由命令、Claude 还是您创建的，都是如此。要保留某个文件夹，请在其中放入一些内容。如果会话期间顶层曾存在 `HEAD` 文件或符号链接，请将其移走，然后重新启动在该位置打开的每个 Claude Code 会话。
+会话期间出现的顶层 `objects` 或 `refs` 文件夹可能会[在沙箱化命令结束后被重命名或删除](#when-the-sandbox-deletes-head-objects-or-refs)。无论它是由命令、Claude 还是您创建的，都是如此。
 
-在 v2.1.307 之前，即使文件夹中有内容且不存在 `HEAD`，该文件夹也会被删除。如果您使用的是更早的版本，请[更新 Claude Code](https://code.claude.com/docs/zh-CN/setup.md#update-claude-code)。
+请关闭在您工作目录中运行的 Claude Code 会话，因为正在运行的会话可能会再次重命名或删除该文件夹。然后在该目录中查找名为 `<name>.claude-sandbox-quarantine-<hex>` 的条目，例如 `objects.claude-sandbox-quarantine-1a2b3c4d5e6f`，并在启动新会话之前恢复该文件夹：
+
+* **找到该条目**：该文件夹已被重命名，其内容完好无损。将所有顶层 `HEAD` 文件或符号链接移出您的工作目录。然后将该条目重命名回 `objects` 或 `refs`。
+* **未找到此类条目**：该文件夹已被删除，因此请重新创建它。
+
+为防止新文件夹被重命名，请在工作目录中启动新会话之前，将所有顶层 `HEAD` 文件或符号链接移出该目录。如果没有 `HEAD`，请在文件夹中放入一些内容以保留它。
+
+在 v2.1.315 之前，文件夹可能会连同其内容一起被删除。如果您使用的是更早的版本，请[更新 Claude Code](https://code.claude.com/docs/zh-CN/setup.md#update-claude-code)。
 
 ### Bubblewrap 在容器内启动失败
 
@@ -942,10 +958,10 @@ Claude Code 会忽略在其他任何位置设置的端口。在 v2.1.285 之前�
 
 在 Linux 和 WSL2 上，沙箱化命令运行期间，沙箱通过在尚不存在的文件位置创建 0 字节只读占位符来保持对该文件的写入拒绝。沙箱随后会移除占位符。
 
-在以下情况下，占位符会残留下来：
+在以下情况下，占位符可能会残留下来：
 
 * 会话在清理运行之前被终止，例如通过 SIGKILL
-* 会话在沙箱化命令仍在运行时退出，例如后台命令
+* 会话在沙箱化命令仍在运行时退出
 
 后续会话每次启动时都会再次将这些占位符以只读方式绑定，因此在占位符所在的位置，设置写入（如保存权限选择）会失败。
 
@@ -953,12 +969,12 @@ Claude Code 会忽略在其他任何位置设置的端口。在 v2.1.285 之前�
 
 ### 启用沙箱时通过 SSH 使用 `git` 失败
 
-在 macOS 上，即使主机已被允许，针对 SSH 远程仓库的 `git fetch`、`git pull` 和 `git push` 在沙箱内也会失败。在 Linux 和 WSL2 上，只要主机被允许，它们就能正常工作。Claude Code 通过[沙箱代理](#network-isolation)隧道传输 git 的 SSH 连接，而 macOS 上的隧道无法向该代理进行身份验证。
+在 macOS 上，即使主机已被允许，针对 SSH 远程仓库的 `git fetch`、`git pull` 和 `git push` 在沙箱内也可能失败。
 
-在 Linux 和 WSL2 上，如果连接仍然失败，请检查以下几点：
+在 Linux 和 WSL2 上，只要主机被允许，它们就能正常工作。如果连接仍然失败，请检查以下几点：
 
 * **主机在端口 22 上被允许**：不带端口的 `allowedDomains` 条目（例如 `"git.example.com"`）即可涵盖
-* **您的企业代理允许端口 22**：如果您的网络需要上游代理，隧道也会经过该代理
+* **您的企业代理允许端口 22**：如果您的网络需要上游代理，连接也会经过该代理
 * **密钥可以作为文件读取**：沙箱可能会阻止 `ssh-agent` 套接字，而针对 `~/.ssh` 的 `denyRead` 或 `credentials` 条目会隐藏您的密钥文件
 
 在 macOS 上，将远程仓库切换为 HTTPS，这需要 HTTPS 凭据，例如个人访问令牌：

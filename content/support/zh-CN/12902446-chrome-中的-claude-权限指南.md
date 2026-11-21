@@ -30,7 +30,7 @@ Claude in Chrome 使用多层权限系统，让您可以控制 Claude 可以访�
 
 Claude 根据您的提示创建一个计划，您可以在 Claude 开始前批准该计划。该计划指定您允许 Claude 访问的网站以及它将遵循的方法：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1795099500&amp;signature=d787c14eb3427abb34b3c0fd771634afe49bf35ced7184868d3577888f7c85d0&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZMdN9YuygN0ADj5oqFBdYf2z7EF3vIv%2FBaQe%0AdsBzypUKXOGV5unZ8CU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1795269600&amp;signature=03f2474399a7ab9ba2c5377eaef961b220d549eb6c42cba1ed7dfb1840c03e84&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZMdP%2BouxgN0ADj5oqFBh0YqRfvG7H3Y78NBd%0ACuyj%2F0jaLGb878z6vQ4%3D%0A)
 
 请注意，Claude 只会使用计划中列出的网站，因此您需要手动批准任何额外的访问请求。
 
@@ -66,7 +66,7 @@ Claude 仍会在执行敏感操作（如下载文件或在页面上输入敏感�
 
 某些网站上 Claude 需要为每项操作获得批准。如果您导航到其中一个网站，扩展侧边栏、Claude Cowork 或 Claude Code 中会出现 **需要新权限** 提示，Claude 会在访问页面或执行任何操作前请求许可。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1795099500&amp;signature=b0bc81c047b0e2108d02e09da96afd3f2392acd33a50a20f1848f9326a5eb45d&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nq2NwgSXp7A4lHPBihAXPbSL8zXjyOfXWupx6%0AtqX9o%2BcwlQldZYpNZN8%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1795269600&amp;signature=234dbde6d70f906c50a4515e34b6f4eb10f73edeb4548cf6375799737965857b&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nq2NyjiXq7A4lHPBihAWPSl4MlnaQRdRhOZuK%0ADqO27xE6TJ3ziHCtyr8%3D%0A)
 
 ### 权限选项
 

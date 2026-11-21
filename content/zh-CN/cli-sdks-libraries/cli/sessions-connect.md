@@ -24,13 +24,13 @@ ant beta:sessions connect sesn_011CZkZAtmR3yMPDzynEDxu7
 
 终端视图会实时显示对话：消息和工具调用，以及每次调用的耗时和结果。状态栏会显示会话是正在运行、空闲，还是正在等待您的批准。在 [multiagent](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)（多智能体）会话中，该视图跟踪会话的主线程，其中包括会话所运行的智能体与其委派的智能体之间交换的消息。
 
-| 按键                | 操作                                                         |
-| ----------------- | ---------------------------------------------------------- |
-| Enter             | 将您的输入作为 `user.message` 事件发送。Alt+Enter 或 Ctrl+J 可换行。        |
-| Esc               | 在智能体运行时中断它（`user.interrupt`）。                              |
-| Ctrl+O            | 显示或隐藏详细信息：工具输入和结果、令牌用量以及状态事件。`--verbose`（`-v`）会在启动时显示详细信息。 |
-| Page Up、Page Down | 滚动浏览对话记录。向上滚动会暂停跟踪；按 End 可恢复跟踪。                            |
-| Ctrl+C            | 断开连接。在空输入行上按 Ctrl+D 也会断开连接。                                |
+| 按键 | 操作 |
+| ----- | ----- |
+| Enter | 将您的输入作为 `user.message` 事件发送。Alt+Enter 或 Ctrl+J 可换行。 |
+| Esc | 在智能体运行时中断它（`user.interrupt`）。 |
+| Ctrl+O | 显示或隐藏详细信息：工具输入和结果、令牌用量以及状态事件。`--verbose`（`-v`）会在启动时显示详细信息。 |
+| Page Up、Page Down | 滚动浏览对话记录。向上滚动会暂停跟踪；按 End 可恢复跟踪。 |
+| Ctrl+C | 断开连接。在空输入行上按 Ctrl+D 也会断开连接。 |
 
 当工具调用正在等待您的批准时，输入行会变为 **Allow tool call?**。这种情况发生在 `always_ask` 策略下，或在 `auto` 策略下服务器无法做出判定时。选择 **Yes**、**No** 或 **No, and tell the agent why**。CLI 会将您的选择作为 [`user.tool_confirmation`](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies#respond-to-confirmation-requests) 事件发送，您输入的任何原因都会作为其 `deny_message`。
 

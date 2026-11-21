@@ -716,10 +716,10 @@ vault 是与某个最终用户关联的 `credentials` 集合。为其指定一�
 
     `injection_location` (java, php: `injectionLocation`; csharp, go: `InjectionLocation`) 在创建和更新时的行为不同：
 
-    | 操作   | `injection_location` 行为                                                           |
-    | ---- | --------------------------------------------------------------------------------- |
+    | 操作 | `injection_location` 行为 |
+    | ----- | ----- |
     | 创建凭证 | 如果您提供了该对象，其中省略的任何字段默认为 `false`：`{"header": true}` 会创建一个仅限请求头的凭证。完全省略该对象则两个位置都会启用。 |
-    | 更新凭证 | 字段逐个合并：`{"body": false}` 会禁用请求体替换，并保持 `header` 不变。                                |
+    | 更新凭证 | 字段逐个合并：`{"body": false}` 会禁用请求体替换，并保持 `header` 不变。 |
 
     凭证必须至少启用一个位置，因此会导致两个位置都被禁用的创建或更新操作将返回 400 错误。为 `injection_location` (java, php: `injectionLocation`; csharp, go: `InjectionLocation`) 对象或其任一字段显式传入 `null` 也会返回 400 错误（"omit the field instead"，即请改为省略该字段）。响应始终返回两个字段及其解析后的值。
 
@@ -991,13 +991,13 @@ vault 是与某个最终用户关联的 `credentials` 集合。为其指定一�
 
 如需在凭证被归档、删除或刷新失败时收到通知，您可以订阅与这些生命周期变更相关的 vault 和凭证 [webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks)。
 
-| 事件                                | 触发条件                                                     |
-| --------------------------------- | -------------------------------------------------------- |
-| `vault.archived`                  | Vault 已归档。同时会为每个底层凭证发出一个 `vault_credential.archived` 事件。 |
-| `vault.deleted`                   | Vault 已删除。同时会为每个底层凭证发出一个 `vault_credential.deleted` 事件。  |
-| `vault_credential.archived`       | 凭证已归档，可能是直接归档，也可能是 vault 归档的结果。                          |
-| `vault_credential.deleted`        | 凭证已删除，可能是直接删除，也可能是 vault 删除的结果。                          |
-| `vault_credential.refresh_failed` | `mcp_oauth` 凭证无法刷新（刷新令牌无效，或 OAuth 服务器返回不可恢复的错误）。         |
+| 事件 | 触发条件 |
+| ----- | ----- |
+| `vault.archived` | Vault 已归档。同时会为每个底层凭证发出一个 `vault_credential.archived` 事件。 |
+| `vault.deleted` | Vault 已删除。同时会为每个底层凭证发出一个 `vault_credential.deleted` 事件。 |
+| `vault_credential.archived` | 凭证已归档，可能是直接归档，也可能是 vault 归档的结果。 |
+| `vault_credential.deleted` | 凭证已删除，可能是直接删除，也可能是 vault 删除的结果。 |
+| `vault_credential.refresh_failed` | `mcp_oauth` 凭证无法刷新（刷新令牌无效，或 OAuth 服务器返回不可恢复的错误）。 |
 
 <Note>
   这是一份非完整的 webhook 列表；完整列表请参阅[订阅 webhook](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks)。
@@ -1131,8 +1131,8 @@ vault 是与某个最终用户关联的 `credentials` 集合。为其指定一�
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                  | 模型                                                             |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 所需的 beta 请求头
@@ -1147,9 +1147,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

@@ -801,22 +801,22 @@ description: 按模型、工作区、API 密钥、操作者等维度查询您的
 
 本节适用于调用旧版[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)（`/v1/organizations/usage_report/messages` 和 `/v1/organizations/cost_report`）的组织。您的凭据和 `anthropic-version` 标头保持不变。`starting_at` 和 `ending_at` 名称、数组参数上的 `[]` 后缀、分页字段名称以及令牌和成本字段名称也同样保持不变。用量端点的时间桶宽度（`1m`、`1h`、`1d`）同样保持不变。下表列出了变化内容：
 
-| 用量和成本 API                                                                                       | 用量和成本分析 API                                                                                                                                                                                                                                                      |
-| ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 无 beta 标头                                                                                       | 每个请求都需要 `anthropic-beta: analytics-usage-cost-2026-08-24`                                                                                                                                                                                                        |
-| 数据通常在 5 分钟内出现                                                                                   | 数据通常在 4 小时内刷新，最长可能需要 24 小时（请参阅[数据新鲜度](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#data-freshness)）                                                                                                                             |
-| `data` 是时间桶列表，最早的在前，包括空时间桶，每个时间桶都有一个 `results` 列表，其条目将维度和指标并列存放                                 | `data` 是按 `order_by` 排序的行列表，每行都有自己的 `starting_at` 和 `ending_at`，维度位于 `group` 中，指标位于 `usage` 或 `cost` 中。没有用量或成本的组合不会有对应的行。                                                                                                                                        |
-| `bucket_width`，默认为 `1d`                                                                         | `time_bucket_width`，无默认值。传递 `time_bucket_width=1d` 以保留每日行；省略它则获取整个范围的总计。成本端点还接受所有筛选器以及 `1m` 和 `1h` 时间桶。                                                                                                                                                          |
-| `limit` 计算每页的时间桶数                                                                               | `limit` 计算每页的行数（1 到 1,000，默认为 20），因此页数取决于有多少组合有数据                                                                                                                                                                                                                |
-| 任意日期范围，按时间桶向前分页                                                                                 | `starting_at` 不早于 2026 年 1 月 1 日且在过去 365 天内，每个请求最多 31 天，使用 `time_bucket_width` 时必须提供 `ending_at`，使用 `1m` 时间桶时最多 24 小时（请参阅[日期范围和时间桶](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#date-ranges-and-time-buckets)）。请将更长的范围拆分为多个请求。 |
-| `account_ids[]`、`service_account_ids[]`、`group_by[]=account_id`、`group_by[]=service_account_id` | 使用带有相同标记 ID 的 `actor_ids[]`，以及 `group_by[]=actor` 或 `actor_type`；读取 `actor.user_id` 或 `actor.service_account_id`。请参阅[操作者](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#actors)。                                                 |
-| `context_window[]`                                                                              | `context_windows[]`                                                                                                                                                                                                                                              |
-| 成本报告上的 `group_by[]=description`，带有 `description` 字符串                                            | 没有 `description`。请改为按结构化维度分组：`model`、`cost_type`、`token_type`、`context_window`、`service_tier`、`inference_geo` 和 `speed` 中的任意维度，它们都可以放在一个请求中。                                                                                                                     |
-| 未知的 API 密钥或工作区 ID 会返回错误                                                                         | 不匹配任何内容，包括拼写错误的 `models[]` 名称。每个列表最多接受 100 个值。                                                                                                                                                                                                                   |
-| 默认工作区的 `workspace_id: null`                                                                     | 默认工作区的真实 `workspace_id`（请参阅[默认工作区如何表示？](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#how-is-the-default-workspace-represented)）                                                                                                 |
-| 没有地理位置或层级的用量为 `inference_geo: "not_available"` 和 `service_tier: "standard"`                     | 两者均为 `null`。`inference_geos[]=not_available` 仍会匹配没有推理地理位置的行。                                                                                                                                                                                                     |
-| 成本的 `service_tier` 为 `standard` 或 `batch`；`amount` 形如 `"123.45"`                                | 实际层级；`amount` 保留六位小数，形如 `"123.450000"`，另加 `list_amount`。                                                                                                                                                                                                         |
-| 代码执行不在用量报告中；没有请求计数                                                                              | 代码执行以 `model: null` 的用量行出现；两个端点都新增 `requests`，用量行新增 `total_tokens`                                                                                                                                                                                               |
+| 用量和成本 API | 用量和成本分析 API |
+| ----- | ----- |
+| 无 beta 标头 | 每个请求都需要 `anthropic-beta: analytics-usage-cost-2026-08-24` |
+| 数据通常在 5 分钟内出现 | 数据通常在 4 小时内刷新，最长可能需要 24 小时（请参阅[数据新鲜度](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#data-freshness)） |
+| `data` 是时间桶列表，最早的在前，包括空时间桶，每个时间桶都有一个 `results` 列表，其条目将维度和指标并列存放 | `data` 是按 `order_by` 排序的行列表，每行都有自己的 `starting_at` 和 `ending_at`，维度位于 `group` 中，指标位于 `usage` 或 `cost` 中。没有用量或成本的组合不会有对应的行。 |
+| `bucket_width`，默认为 `1d` | `time_bucket_width`，无默认值。传递 `time_bucket_width=1d` 以保留每日行；省略它则获取整个范围的总计。成本端点还接受所有筛选器以及 `1m` 和 `1h` 时间桶。 |
+| `limit` 计算每页的时间桶数 | `limit` 计算每页的行数（1 到 1,000，默认为 20），因此页数取决于有多少组合有数据 |
+| 任意日期范围，按时间桶向前分页 | `starting_at` 不早于 2026 年 1 月 1 日且在过去 365 天内，每个请求最多 31 天，使用 `time_bucket_width` 时必须提供 `ending_at`，使用 `1m` 时间桶时最多 24 小时（请参阅[日期范围和时间桶](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#date-ranges-and-time-buckets)）。请将更长的范围拆分为多个请求。 |
+| `account_ids[]`、`service_account_ids[]`、`group_by[]=account_id`、`group_by[]=service_account_id` | 使用带有相同标记 ID 的 `actor_ids[]`，以及 `group_by[]=actor` 或 `actor_type`；读取 `actor.user_id` 或 `actor.service_account_id`。请参阅[操作者](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#actors)。 |
+| `context_window[]` | `context_windows[]` |
+| 成本报告上的 `group_by[]=description`，带有 `description` 字符串 | 没有 `description`。请改为按结构化维度分组：`model`、`cost_type`、`token_type`、`context_window`、`service_tier`、`inference_geo` 和 `speed` 中的任意维度，它们都可以放在一个请求中。 |
+| 未知的 API 密钥或工作区 ID 会返回错误 | 不匹配任何内容，包括拼写错误的 `models[]` 名称。每个列表最多接受 100 个值。 |
+| 默认工作区的 `workspace_id: null` | 默认工作区的真实 `workspace_id`（请参阅[默认工作区如何表示？](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api#how-is-the-default-workspace-represented)） |
+| 没有地理位置或层级的用量为 `inference_geo: "not_available"` 和 `service_tier: "standard"` | 两者均为 `null`。`inference_geos[]=not_available` 仍会匹配没有推理地理位置的行。 |
+| 成本的 `service_tier` 为 `standard` 或 `batch`；`amount` 形如 `"123.45"` | 实际层级；`amount` 保留六位小数，形如 `"123.450000"`，另加 `list_amount`。 |
+| 代码执行不在用量报告中；没有请求计数 | 代码执行以 `model: null` 的用量行出现；两个端点都新增 `requests`，用量行新增 `total_tokens` |
 
 对于 Claude Enterprise 组织，有两点不同：
 
@@ -1255,16 +1255,16 @@ bucket_width=1d" \
 
 您的密钥、最早日期、365 天回溯期和 31 天跨度、筛选器和维度的名称及值（`user_ids[]` 和 Claude Tag 产品值除外）、用户 `actor` 字段、指标和金额字段、`data_refreshed_at`、游标规则以及[组织级速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api#working-with-the-api)均保持不变。唯一新增的标头是 `analytics-usage-cost-2026-08-24` beta 标头。变化如下：
 
-| Claude Enterprise 报告                                                                                         | 用量和成本分析 API                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Claude Enterprise 报告 | 用量和成本分析 API |
+| ----- | ----- |
 | `usage_report` 和 `cost_report` 返回时间桶，最早的在前，包括空时间桶，每个时间桶最多包含其前 100 个分组；`bucket_width` 默认为 `1d`，`limit` 计算时间桶数 | 涵盖每个有数据的组合的行，按 `order_by` 排序，每行都有自己的 `starting_at` 和 `ending_at`，维度位于 `group` 中，指标位于 `usage` 或 `cost` 中。`time_bucket_width` 是可选的，`limit` 计算行数。 |
-| 时间桶参数为 `bucket_width`                                                                                        | 参数为 `time_bucket_width`，取值相同                                                                                                                   |
-| 在 `usage_report` 和 `cost_report` 上，使用 `bucket_width` 时 `ending_at` 是可选的，`1m` 时间桶最多可跨越 31 天                   | 使用 `time_bucket_width` 时必须提供 `ending_at`；每个请求中 `1m` 时间桶最多跨越 24 小时                                                                              |
-| `user_usage_report` 和 `user_cost_report` 每个用户返回一行                                                            | `group_by[]=actor&actor_types[]=user_actor`。如果不使用该筛选器，您还会获得非用户身份的行，以及一个用于未归因用量的 `actor: null` 行。                                               |
-| Claude Tag 用量的 `product: "claude-tag"`                                                                       | `product: "claude_tag"`；`products[]` 接受任一拼写                                                                                                    |
-| 无法识别的 `models[]` 名称会返回 400 错误                                                                                | 不匹配任何内容                                                                                                                                        |
-| `user_ids[]`                                                                                                 | 使用带有相同标记 `user_...` ID 的 `actor_ids[]`                                                                                                         |
-| 每用户报告上的 `exclude_deleted_users`                                                                              | 需要 `group_by[]=actor`；否则请求会返回 400 错误。它仅删除 `actor` 为 `deleted: true` 用户的行；其他身份的行和 `actor: null` 的行会保留。                                          |
+| 时间桶参数为 `bucket_width` | 参数为 `time_bucket_width`，取值相同 |
+| 在 `usage_report` 和 `cost_report` 上，使用 `bucket_width` 时 `ending_at` 是可选的，`1m` 时间桶最多可跨越 31 天 | 使用 `time_bucket_width` 时必须提供 `ending_at`；每个请求中 `1m` 时间桶最多跨越 24 小时 |
+| `user_usage_report` 和 `user_cost_report` 每个用户返回一行 | `group_by[]=actor&actor_types[]=user_actor`。如果不使用该筛选器，您还会获得非用户身份的行，以及一个用于未归因用量的 `actor: null` 行。 |
+| Claude Tag 用量的 `product: "claude-tag"` | `product: "claude_tag"`；`products[]` 接受任一拼写 |
+| 无法识别的 `models[]` 名称会返回 400 错误 | 不匹配任何内容 |
+| `user_ids[]` | 使用带有相同标记 `user_...` ID 的 `actor_ids[]` |
+| 每用户报告上的 `exclude_deleted_users` | 需要 `group_by[]=actor`；否则请求会返回 400 错误。它仅删除 `actor` 为 `deleted: true` 用户的行；其他身份的行和 `actor: null` 的行会保留。 |
 
 一个月的每用户成本，迁移前：
 

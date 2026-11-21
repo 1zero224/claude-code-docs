@@ -39,10 +39,10 @@ featureMetadata:
 
 Anthropic 提供两种使用 Claude 进行构建的方式，每种方式适用于不同的使用场景：
 
-|          | Messages API   | Claude Managed Agents    |
-| -------- | -------------- | ------------------------ |
-| **它是什么** | 直接的模型提示访问      | 预构建、可配置的智能体框架，运行在托管基础设施中 |
-| **最适合**  | 自定义智能体循环和细粒度控制 | 长时间运行的任务和异步工作            |
+|  | Messages API | Claude Managed Agents |
+| ----- | ----- | ----- |
+| **它是什么** | 直接的模型提示访问 | 预构建、可配置的智能体框架，运行在托管基础设施中 |
+| **最适合** | 自定义智能体循环和细粒度控制 | 长时间运行的任务和异步工作 |
 
 Claude Managed Agents 提供了将 Claude 作为自主智能体运行所需的 harness（框架）和基础设施。您无需自行构建智能体循环、工具执行和运行时，即可获得一个完全托管的环境，Claude 可以在其中安全地读取文件、运行命令、浏览网页和运行代码。该框架支持内置的 prompt caching（提示缓存）、compaction（压缩）以及其他性能优化，以实现高质量、高效率的智能体输出。如果您希望通过直接访问模型来构建自己的智能体循环，请参阅[使用 Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages)。
 
@@ -68,12 +68,12 @@ Claude Managed Agents 提供了将 Claude 作为自主智能体运行所需的 h
 
 Claude Managed Agents 围绕四个概念构建：
 
-| 概念                  | 描述                                           |
-| ------------------- | -------------------------------------------- |
-| **Agent（智能体）**      | 模型、系统提示、工具、MCP 服务器和技能                        |
+| 概念 | 描述 |
+| ----- | ----- |
+| **Agent（智能体）** | 模型、系统提示、工具、MCP 服务器和技能 |
 | **Environment（环境）** | 会话运行位置的配置：Anthropic 托管的云沙箱，或在您自己的基础设施上自托管的沙箱 |
-| **Session（会话）**     | 在环境中运行的智能体实例，执行特定任务并生成输出                     |
-| **Events（事件）**      | 您的应用程序与智能体之间交换的消息（用户轮次、工具结果、状态更新）            |
+| **Session（会话）** | 在环境中运行的智能体实例，执行特定任务并生成输出 |
+| **Events（事件）** | 您的应用程序与智能体之间交换的消息（用户轮次、工具结果、状态更新） |
 
 ## 工作原理
 
@@ -146,8 +146,8 @@ Managed Agents在所有模型上处于 beta 阶段。
 
 ### API 支持
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                  | 模型                                                             |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 所需的 beta 请求头
@@ -162,9 +162,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

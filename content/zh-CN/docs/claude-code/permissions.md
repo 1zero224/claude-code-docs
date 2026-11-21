@@ -15,10 +15,10 @@ Claude Code 使用分层权限系统来平衡功能和安全性。该表显示�
 | 工具类型 | 示例 | 需要批准 | "是，不再询问"行为 |
 | :- | :- | :- | :- |
 | 只读 | 文件读取、Grep | 否，在[工作目录和其他目录](#working-directories)内 | 不适用 |
-| Bash 命令 | Shell 执行 | 是，除了内置的[只读命令](#read-only-commands)集合 | 每个项目目录和命令永久有效 |
-| 文件修改 | Edit/Write 文件 | 是 | 直到会话结束 |
-| Web 获取 | WebFetch | 是，除了内置的[预批准文档域](https://code.claude.com/docs/zh-CN/tools-reference.md#webfetch-tool-behavior)集合 | 每个项目目录和域永久有效 |
-| Web 搜索 | WebSearch | 是 | 每个项目目录永久有效 |
+| Bash 命令 | Shell 执行 | 是，除了内置的[只读命令](#read-only-commands)集合 | 每个仓库和命令永久有效 |
+| 文件修改 | Edit/Write 文件 | 是，但 Claude Code 自身的计划文件和[自动记忆](https://code.claude.com/docs/zh-CN/memory.md#auto-memory)文件等除外 | 直到会话结束 |
+| Web 获取 | WebFetch | 是，除了内置的[预批准文档域](https://code.claude.com/docs/zh-CN/tools-reference.md#webfetch-tool-behavior)集合 | 每个仓库和域永久有效 |
+| Web 搜索 | WebSearch | 是 | 每个仓库永久有效 |
 
 权限提示会显示 Claude 即将执行的操作，然后列出您的选项。以下示例是手动模式会话中 Bash 命令的提示：
 
@@ -26,7 +26,7 @@ Claude Code 使用分层权限系统来平衡功能和安全性。该表显示�
 
 第三个选项 **是，并切换到自动模式**，[并非在每个提示中都会出现](https://code.claude.com/docs/zh-CN/permission-modes.md#switch-permission-modes)。
 
-当您选择"是，不再询问"且批准永久保存时（例如对于 Bash 命令或 WebFetch 域），Claude Code 会将规则保存到 git 项目根目录的 `.claude/settings.local.json`，通过[工作树](https://code.claude.com/docs/zh-CN/worktrees.md)解析到主检出。该规则适用于该项目中的未来会话，包括在子目录和工作树中启动的会话。文件修改批准不会保存到文件中：如表所示，它仅持续到会话结束。在某些情况下，例如在 git 项目外或在 Windows 上，Claude Code 不使用项目根目录；[Claude Code 查找每个文件的位置](https://code.claude.com/docs/zh-CN/settings.md#where-claude-code-looks-for-each-file)列出了这些情况以及它保存规则的位置。
+当您选择"是，不再询问"且批准永久保存时（例如对于 Bash 命令或 WebFetch 域），Claude Code 会将规则保存到 git 仓库根目录的 `.claude/settings.local.json`，通过[工作树](https://code.claude.com/docs/zh-CN/worktrees.md)解析到主检出。该规则适用于该仓库中任何位置的未来会话，包括在子目录和工作树中启动的会话。文件修改批准不会保存到文件中：如表所示，它仅持续到会话结束。在某些情况下，例如在 git 仓库外或在 Windows 上，Claude Code 不使用仓库根目录；[Claude Code 查找每个文件的位置](https://code.claude.com/docs/zh-CN/settings.md#where-claude-code-looks-for-each-file)列出了这些情况以及它保存规则的位置。
 
 有时权限提示仅提供一次性批准，没有"不再询问"选项，也没有允许操作在会话的其余部分进行的选项。Claude Code 仅在提示可以向您显示它们允许的所有内容时才提供这些选项，因此您从提示保存的规则仅涵盖其选项命名的内容。当提示仅提供一次性批准时，批准该操作一次，或在 [`/permissions`](#manage-permissions) 中自己添加规则。要停止针对以 `watch` 等 exec 包装器开头的命令的提示，或针对带有 `-delete` 等操作的 `find` 命令的提示，请参阅 [Exec 包装器和 `find` 操作](#exec-wrappers-and-find-actions)。
 
@@ -63,7 +63,7 @@ Deny 规则的行为取决于它们是命名工具还是在工具内范围化模
 
 > [!NOTE]
 >
-> 权限规则由 Claude Code 强制执行，而不是由模型强制执行。您的提示或 `CLAUDE.md` 中的说明会影响 Claude 尝试执行的操作，但它们不会改变 Claude Code 允许的操作。要授予或撤销访问权限，请使用 `/permissions`、此处描述的规则、[权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md) 或 [PreToolUse hook](#extend-permissions-with-hooks)。
+> 权限规则由 Claude Code 强制执行，而不是由模型强制执行。您的提示词或 `CLAUDE.md` 中的说明会影响 Claude 尝试执行的操作，但它们不会改变这些规则。要授予或撤销访问权限，请使用 `/permissions`、此处描述的规则、[权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md) 或 [PreToolUse hook](#extend-permissions-with-hooks)。
 
 当 [auto mode](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode) 对您的会话可用时，此对话框还包括 [auto mode 分类器规则](https://code.claude.com/docs/zh-CN/auto-mode-config.md#edit-rules-from-permissions)。选择 **Auto mode** 选项卡以查看它们。
 
@@ -73,7 +73,7 @@ Claude Code 支持多种权限模式来控制工具调用的批准方式。请�
 
 | 模式 | 描述 |
 | :- | :- |
-| `default` | 在首次使用每个工具时提示权限。在 CLI、VS Code 和 JetBrains 扩展以及桌面应用中标记为 Manual，Claude Code 接受 `manual` 作为别名 |
+| `default` | 在大多数编辑、shell 命令和网络请求之前进行提示。在 CLI、VS Code 和 JetBrains 扩展以及桌面应用中标记为 Manual，Claude Code 接受 `manual` 作为别名 |
 | `acceptEdits` | 自动接受工作目录或 `additionalDirectories` 中路径的文件编辑和常见文件系统命令，例如 `mkdir`、`touch`、`mv` 和 `cp` |
 | `plan` | Claude 读取文件并运行只读 shell 命令来探索，但不编辑您的源文件；在[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)可用的情况下，分类器批准的命令也会运行。在 CLI 和 VS Code 扩展中标记为 Plan |
 | `auto` | 无需常规提示即可运行；在 shell 命令和网络请求等操作运行之前，后台[分类器](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)会检查它们是否与您的请求一致 |
@@ -138,10 +138,19 @@ Claude Code 支持多种权限模式来控制工具调用的批准方式。请�
 * 模型省略的参数永远不会被匹配，因此 `Agent(model:*)` 不匹配留下 `model` 未设置的调用
 * 该值与 Claude 发送的文字输入进行比较，在任何规范化之前。`Agent(model:opus)` 匹配别名 `opus` 但不匹配完整模型 ID
 * 一个 `Skill(skill:<name>)` 拒绝规则改为[在其任何名称下匹配技能](https://code.claude.com/docs/zh-CN/skills.md#restrict-claude%E2%80%99s-skill-access)，例如其别名或显示名称
-* 使用 [`--verbose`](https://code.claude.com/docs/zh-CN/cli-reference) 运行以查看每个工具调用中的确切参数名称和值
 * 冒号周围的空格被忽略
 
 您不能以这种方式匹配工具的主要内容字段：Bash 和 PowerShell 的 `command`、Read、Edit 和 Write 的 `file_path`、Grep 和 Glob 的 `path`、NotebookEdit 的 `notebook_path` 和 WebFetch 的 `url`。像 `Bash(command:rm *)` 这样的规则可以通过复合命令绕过，因此 Claude Code 会忽略它并在启动时发出警告。改用 `Bash(rm *)`、`Read(./path)` 或 `WebFetch(domain:host)`。
+
+#### 检查 Claude 发送的参数
+
+要查看 Claude 发送给工具的参数名称和值，请在 shell 中使用 [`stream-json` 输出](https://code.claude.com/docs/zh-CN/headless#stream-responses)运行 `claude -p`，并提供一个需要调用该工具的提示词。此示例请求一个使用 Opus 的子代理，Claude 会通过 Agent 工具启动它：
+
+```bash theme={null}
+claude -p "Use a subagent on Opus to list the test files" --output-format stream-json --verbose
+```
+
+在输出中，找到 `name` 为您要检查的工具（本例中为 `Agent`）的 `tool_use` 块。其 `input` 包含参数名称和值。
 
 ### 通配符模式
 
@@ -352,7 +361,9 @@ Claude Code 在 v2.1.290 及更高版本中检查粘贴的图片路径和目录�
 
 > [!WARNING]
 >
-> Read 和 Edit deny 规则适用于 Claude 的内置文件工具、Claude Code 在 Bash 中识别的文件命令（如 `cat`、`head`、`tail`、`sed` 和 `tee`）以及 Bash [重定向](#redirections)的目标（如 `> file` 和 `< file`）。它们不适用于读取文件而不命名它们的命令，如从保存文件的目录运行的 `grep -r pattern .`，或间接读取或写入文件的任意子进程，如打开文件本身的 Python 或 Node 脚本。对于阻止所有进程访问路径的 OS 级别强制执行，请[启用沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)。
+> Read 和 Edit deny 规则适用于 Claude 的内置文件工具。在 Claude Code [能够分析](#read-only-commands)的 Bash 命令中，它们也适用于[重定向](#redirections)目标以及它识别的文件命令，如 `cat`、`head`、`tail`、`sed` 和 `tee`。
+>
+> 它们不适用于读取文件而不命名它们的命令，如从保存文件的目录运行的 `grep -r pattern .`。它们也不适用于间接读取或写入文件的任意子进程，如自行打开文件的 Python 或 Node 脚本。要对沙箱中的 shell 命令进行 OS 级别的强制执行，请[启用沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)并[关闭非沙箱重试](https://code.claude.com/docs/zh-CN/sandboxing.md#turn-off-the-retry-with-strict-sandbox-mode)。
 
 #### `Write(path)`、`Glob(path)` 和 `Grep(path)` 规则不匹配
 
@@ -631,7 +642,7 @@ Claude Code 自己获取的连接器工具显示为 `mcp__claude_ai_<server>__<t
 
 ## 使用 hooks 扩展权限
 
-[Claude Code hooks](https://code.claude.com/docs/zh-CN/hooks-guide.md) 让您可以注册自定义 shell 命令，在运行时评估权限。当 Claude Code 进行工具调用时，PreToolUse hooks 在权限提示之前运行，适用于除了 [`EndConversation`](https://code.claude.com/docs/zh-CN/tools-reference#endconversation-tool-behavior) 之外的每个工具。hook 输出可以拒绝工具调用、强制提示或跳过提示以让调用继续。
+[Claude Code hooks](https://code.claude.com/docs/zh-CN/hooks-guide.md) 让您可以注册自定义 shell 命令，在运行时评估权限。PreToolUse hook 在权限提示之前运行。hook 输出可以拒绝工具调用、强制提示或跳过提示以让调用继续。[`EndConversation`](https://code.claude.com/docs/zh-CN/tools-reference#endconversation-tool-behavior) 调用会跳过 PreToolUse hook。
 
 ### 规则、hook 和 mod 之间的优先级
 
@@ -645,7 +656,7 @@ PreToolUse hook 决定不会绕过权限规则。Claude Code 评估 deny 和 ask
 * `PreToolUse` hook 阻止的调用仍会被阻止，无论该 hook 来自哪个设置文件。
 * 您的 [`--permission-prompt-tool`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 或 Agent SDK [`canUseTool` 回调](https://code.claude.com/docs/zh-CN/agent-sdk/user-input#handle-tool-approval-requests)会被询问的调用，仍会交由该工具或回调处理。
 
-您的环境可能既没有托管设置，也没有 `managed-mcp.json` 文件，会话的凭据也不是团队或企业 `/login`。在这种环境下，mod 可以批准 `PreToolUse` hook 阻止的调用，以及部分 deny 规则拒绝的调用。改用 API 密钥或长期有效的 [`CLAUDE_CODE_OAUTH_TOKEN`](https://code.claude.com/docs/zh-CN/authentication#generate-a-long-lived-token) 运行的会话并未使用该登录，即使该登录已被存储。
+您的环境可能既没有托管设置，也没有 `managed-mcp.json` 文件，会话的凭据也不是团队或企业 `/login`。在这种环境下，mod 可以批准 `PreToolUse` hook 阻止的调用，以及 deny 规则拒绝的部分调用。改用 API 密钥或长期有效的 [`CLAUDE_CODE_OAUTH_TOKEN`](https://code.claude.com/docs/zh-CN/authentication#generate-a-long-lived-token) 运行的会话并未使用该登录，即使该登录已被存储。
 
 在这种环境下，mod 批准的调用可以跳过来自 ask 规则、`PreToolUse` hook 或 `permissions.blockReadsOutsideWorkingDirectories` 的提示。它还可以跳过您的 `--permission-prompt-tool` 或 `canUseTool` 回调。在这种环境下，自动模式、计划模式和 `dontAsk` 模式各自还会带来其特有的结果：
 
@@ -654,6 +665,8 @@ PreToolUse hook 决定不会绕过权限规则。Claude Code 评估 deny 和 ask
 * **[`dontAsk` 模式](https://code.claude.com/docs/zh-CN/permission-modes#allow-only-pre-approved-tools-with-dontask-mode)**：mod 可以批准仅会被该模式拒绝的调用。
 
 请参见[决定是否信任模块](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#decide-whether-to-trust-a-mod)，或如果您部署托管设置，请参见[为您的组织管理模块](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#know-what-happens-by-default)。
+
+不要依赖权限规则来阻止[mod 自身发起的工具调用](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#mods-api-methods)。
 
 对于[需要用户交互的工具](https://code.claude.com/docs/zh-CN/permission-modes.md#actions-no-mode-auto-approves)，例如 `AskUserQuestion` 或标记为 `requiresUserInteraction` 的 MCP 工具，mod 的 `tool.check` 批准不会跳过提示。需要 Claude Code v2.1.292 或更高版本。标记为 [`requiresUserInteraction`](https://code.claude.com/docs/zh-CN/mcp#require-approval-for-a-specific-tool) 的 MCP 工具在 hook 返回 `"allow"` 时也仍然会提示，从[网络路径](#network-paths)进行的读取，以及在该设置到达 Claude Code 的会话中[您的组织设置为 `ask`](https://code.claude.com/docs/zh-CN/mcp#organization-controls-on-connector-tools) 的连接器工具也是如此。
 
@@ -677,13 +690,17 @@ PreToolUse hook 决定不会绕过权限规则。Claude Code 评估 deny 和 ask
 
 您无法添加大多数[网络路径](https://code.claude.com/docs/zh-CN/errors.md#working-directory-is-a-network-path)（例如 UNC 共享 `\\server\share`）作为工作目录，因为查找它们可能会联系它们命名的主机。在 Windows 上，将共享映射到驱动器号，然后在启动时使用 `--add-dir` 传递该驱动器。
 
+> [!NOTE]
+>
+> 如果您在交互式终端会话中使用 `claude --add-dir` 或 `/add-dir` 添加您的[工作区信任](#project-allow-rules-and-workspace-trust)未涵盖的文件夹，Claude Code 会先要求您信任该文件夹。需要 Claude Code v2.1.326 或更高版本。
+
 在 macOS 上的后台会话中，会话主机会单独从您的终端请求访问受保护的文件夹（如 `~/Desktop`、`~/Documents` 和 `~/Downloads`），当 Claude 需要在那里读取或写入文件时；如果读取失败并显示 `Operation not permitted`，请参阅[如何向后台会话授予文件夹访问权限](https://code.claude.com/docs/zh-CN/agent-view.md#background-sessions-can%E2%80%99t-read-desktop-documents-or-downloads-on-macos)。
 
 ### 阻止文件工具在工作目录之外读取和写入
 
 要使 Claude 的文件工具在每种权限模式（包括 `bypassPermissions`）下都拒绝工作目录之外的路径，请将以下一个或两个键设置为 `true`：
 
-* **[`permissions.blockReadsOutsideWorkingDirectories`](https://code.claude.com/docs/zh-CN/settings-reference#permissions-blockreadsoutsideworkingdirectories)**：文件工具拒绝在那里读取，Claude Code 自身需要的文件除外。在自动模式下，Claude Code 会在 Claude 首次[读取工作目录外的文件](https://code.claude.com/docs/zh-CN/permission-modes.md#first-read-outside-the-working-directories)时提供启用它的选项。
+* **[`permissions.blockReadsOutsideWorkingDirectories`](https://code.claude.com/docs/zh-CN/settings-reference#permissions-blockreadsoutsideworkingdirectories)**：文件工具会拒绝读取这些位置，但 Claude Code 自身需要的文件除外。在自动模式下，当 Claude 首次[读取工作目录之外的内容](https://code.claude.com/docs/zh-CN/permission-modes.md#first-read-outside-the-working-directories)时，Claude Code 可能会提议启用此设置。
 * **[`permissions.blockWritesOutsideWorkingDirectories`](https://code.claude.com/docs/zh-CN/settings-reference#permissions-blockwritesoutsideworkingdirectories)**：`Write`、`Edit` 和 `NotebookEdit` 工具拒绝在那里写入，Claude Code 自身的某些文件（例如计划文件）除外。该键不限制 shell 命令、MCP 工具或 hook 运行的程序，因此请使用[沙箱隔离](https://code.claude.com/docs/zh-CN/sandboxing.md)来限制 shell 命令的写入位置。需要 Claude Code v2.1.314 或更高版本。
 
 要在任一键为 `true` 时仍保持某个外部目录可访问，请[将其添加为工作目录](https://code.claude.com/docs/zh-CN/settings-reference.md#let-one-directory-through-the-read-or-write-block)。
@@ -720,7 +737,7 @@ Agent SDK 在 TypeScript 中的 [`additionalDirectories`](https://code.claude.co
 | `.claude/skills/` 中的 [Skills](https://code.claude.com/docs/zh-CN/skills.md) | 是，带有实时重新加载 |
 | `.claude/commands/` 中的[命令文件](https://code.claude.com/docs/zh-CN/skills.md#where-skills-live) | 是，不带实时重新加载。当添加的目录和您的项目都定义了同名命令时，Claude Code 运行您的项目的命令 |
 | `.claude/agents/` 中的 [Subagents](https://code.claude.com/docs/zh-CN/sub-agents.md) | 是，不带实时重新加载 |
-| `.claude/settings.json` 和 `.claude/settings.local.json` 中的[设置](https://code.claude.com/docs/zh-CN/settings.md) | 仅 `enabledPlugins` 和 [`extraKnownMarketplaces`](https://code.claude.com/docs/zh-CN/settings-reference#extraknownmarketplaces) 键 |
+| `.claude/settings.json` 和 `.claude/settings.local.json` 中的[设置](https://code.claude.com/docs/zh-CN/settings.md) | 仅 `enabledPlugins` 和 [`extraKnownMarketplaces`](https://code.claude.com/docs/zh-CN/settings-reference#extraknownmarketplaces) 键。有关 Claude Code 何时跳过它们，请参阅[在 `--add-dir` 目录中启用但未加载](https://code.claude.com/docs/zh-CN/plugins/loading#enabled-in-an-add-dir-directory-but-not-loaded) |
 | [CLAUDE.md](https://code.claude.com/docs/zh-CN/memory.md) 文件、`.claude/rules/` 和 `CLAUDE.local.md` | 仅当设置 `CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1` 时。`CLAUDE.local.md` 另外需要 `local` 设置源，默认启用 |
 
 要在会话中期从[主工作目录](#working-directories)的子目录加载 skill、命令和子代理，请使用该子目录的路径运行 `/add-dir`。Claude Code 在会话的剩余时间内加载它们，而不添加工作目录。这需要 Claude Code v2.1.257 或更高版本。
@@ -741,12 +758,12 @@ Claude Code 从当前工作目录及其父目录、您在 `~/.claude/` 的用户
 
 权限和[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)是互补的安全层：
 
-* **权限**控制 Claude Code 可以使用哪些工具以及它可以访问哪些文件或域。它们适用于 Bash、Read、Edit、WebFetch、MCP 和其他所有工具，除了 deny 或 ask 规则无法阻止 [`EndConversation`](https://code.claude.com/docs/zh-CN/tools-reference#endconversation-tool-behavior)，而任何其他工具仍然存在。
+* **权限**控制 Claude Code 可以使用哪些工具以及它可以访问哪些文件或域。它们适用于 Bash、Read、Edit、WebFetch、MCP 和其他工具。只要还有任何其他工具存在，deny 或 ask 规则就无法阻止 [`EndConversation`](https://code.claude.com/docs/zh-CN/tools-reference#endconversation-tool-behavior)。
 * **沙箱隔离**提供 OS 级别的强制执行，限制 shell 命令的文件系统和网络访问。它适用于 Bash、PowerShell 和 [Monitor](https://code.claude.com/docs/zh-CN/tools-reference.md#monitor-tool) 工具命令及其子进程。
 
 使用两者进行深度防御，因为即使提示注入绕过 Claude 的决策制定，沙箱限制仍然适用。来自沙箱设置和权限规则的路径和域被[合并到最终沙箱配置](https://code.claude.com/docs/zh-CN/sandboxing.md#permission-rules)中。
 
-当您启用沙箱隔离并将 [`sandbox.autoAllowBashIfSandboxed`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-autoallowbashifsandboxed) 设置为 `true` 时，沙箱化的 Bash 命令无需提示即可运行。即使存在裸 `Bash` ask 规则或[等效的 `Bash(*)` 形式](#match-all-uses-of-a-tool)，也是如此：沙箱边界替代了该整体工具提示。
+当您启用沙箱隔离并将 [`sandbox.autoAllowBashIfSandboxed`](https://code.claude.com/docs/zh-CN/settings-reference#sandbox-autoallowbashifsandboxed) 设置为 `true` 时，在沙箱中运行的 Bash 命令将直接执行，不会弹出确认提示。即使存在单独的 `Bash` ask 规则或[等效的 `Bash(*)` 形式](#match-all-uses-of-a-tool)，这一点同样适用：沙箱边界会取代针对整个工具的确认提示。
 
 在[计划模式](https://code.claude.com/docs/zh-CN/permission-modes.md#analyze-before-you-edit-with-plan-mode)中，Claude Code 跳过此替代。没有 ask 规则时，[内置只读命令](#read-only-commands)仍然无需提示即可运行，任何其他 shell 命令在您仍在计划时通过常规权限流程；请参见[计划模式](https://code.claude.com/docs/zh-CN/permission-modes.md#analyze-before-you-edit-with-plan-mode)了解 Claude Code 如何在那里控制命令。使用裸 `Bash` ask 规则时，每个 Bash 命令都会提示，包括沙箱化的只读命令，与沙箱隔离之外相同。
 

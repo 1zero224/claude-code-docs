@@ -140,20 +140,20 @@ description: 将 Claude API 集成从 API 版本 2023-06-01 升级到 2026-10-21
 
 Admin API：
 
-| 端点                                                                                                                                                                                                                                                                                       | 旧名称            | 新名称                                                                                                                              |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| [RBAC 组](https://platform.claude.com/docs/zh-CN/api/beta/organization/rbac_groups/list)：创建、列出、检索和更新                                                                                                                                                                                      | `roles`        | `role_ids`                                                                                                                       |
-| [RBAC 组成员](https://platform.claude.com/docs/zh-CN/api/beta/organization/rbac_groups/members/list)：列出和添加，以及[移除成员](https://platform.claude.com/docs/zh-CN/api/beta/organization/rbac_groups/members/remove)的响应                                                                             | `group_id`     | `rbac_group_id`                                                                                                                  |
-| [RBAC 角色](https://platform.claude.com/docs/zh-CN/api/beta/organization/rbac_roles/list)：列出和检索                                                                                                                                                                                            | `name`         | `display_name`                                                                                                                   |
-| [组织](https://platform.claude.com/docs/zh-CN/api/organization/rate_limits/list)和[工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/rate_limits/list)速率限制：列出，以及[设置工作区速率限制](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/rate_limits/update)的响应 | `group_type`   | `group.type`                                                                                                                     |
-| [API 密钥](https://platform.claude.com/docs/zh-CN/api/organization/api_keys/list)：列出、检索和更新                                                                                                                                                                                                 | `workspace_id` | `scope`（值不同；请参阅 [API 密钥上的 `workspace_id`](https://platform.claude.com/docs/zh-CN/api/migration-2026-10-21#api-key-workspace-id)） |
+| 端点 | 旧名称 | 新名称 |
+| ----- | ----- | ----- |
+| [RBAC 组](https://platform.claude.com/docs/zh-CN/api/beta/organization/rbac_groups/list)：创建、列出、检索和更新 | `roles` | `role_ids` |
+| [RBAC 组成员](https://platform.claude.com/docs/zh-CN/api/beta/organization/rbac_groups/members/list)：列出和添加，以及[移除成员](https://platform.claude.com/docs/zh-CN/api/beta/organization/rbac_groups/members/remove)的响应 | `group_id` | `rbac_group_id` |
+| [RBAC 角色](https://platform.claude.com/docs/zh-CN/api/beta/organization/rbac_roles/list)：列出和检索 | `name` | `display_name` |
+| [组织](https://platform.claude.com/docs/zh-CN/api/organization/rate_limits/list)和[工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/rate_limits/list)速率限制：列出，以及[设置工作区速率限制](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/rate_limits/update)的响应 | `group_type` | `group.type` |
+| [API 密钥](https://platform.claude.com/docs/zh-CN/api/organization/api_keys/list)：列出、检索和更新 | `workspace_id` | `scope`（值不同；请参阅 [API 密钥上的 `workspace_id`](https://platform.claude.com/docs/zh-CN/api/migration-2026-10-21#api-key-workspace-id)） |
 
 Claude Enterprise Analytics API：
 
-| 端点                                                                                                                                                                                                            | 旧名称           | 新名称                   |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | --------------------- |
+| 端点 | 旧名称 | 新名称 |
+| ----- | ----- | ----- |
 | 按用户的[使用量](https://platform.claude.com/docs/zh-CN/api/beta/organization/analytics/user_usage_report/list)和[成本](https://platform.claude.com/docs/zh-CN/api/beta/organization/analytics/user_cost_report/list)报告 | `actor.email` | `actor.email_address` |
-| [活动摘要](https://platform.claude.com/docs/zh-CN/api/beta/organization/analytics/summaries/list)                                                                                                                 | `summaries`   | `data`                |
+| [活动摘要](https://platform.claude.com/docs/zh-CN/api/beta/organization/analytics/summaries/list) | `summaries` | `data` |
 
 速率限制列表端点上的 `group_type` 查询参数以及 API 密钥列表端点上的 `workspace_id` 筛选器保持不变。
 
@@ -351,11 +351,11 @@ Claude Enterprise Analytics API：
 
     在 `MessageCreateParams`、`StructuredMessageCreateParams`、`MessageCountTokensParams` 和 `BatchCreateParams.Request.Params` 的构建器上，接受内容块列表的方法有了新名称：
 
-    | v2                                 | v2 beta                                       | v3                                        |
-    | ---------------------------------- | --------------------------------------------- | ----------------------------------------- |
-    | `addUserMessageOfBlockParams`      | `addUserMessageOfBetaContentBlockParams`      | `addUserMessageOfContentBlockParams`      |
+    | v2 | v2 beta | v3 |
+    | ----- | ----- | ----- |
+    | `addUserMessageOfBlockParams` | `addUserMessageOfBetaContentBlockParams` | `addUserMessageOfContentBlockParams` |
     | `addAssistantMessageOfBlockParams` | `addAssistantMessageOfBetaContentBlockParams` | `addAssistantMessageOfContentBlockParams` |
-    | `addSystemMessageOfBlockParams`    | `addSystemMessageOfBetaContentBlockParams`    | `addSystemMessageOfBlocks`                |
+    | `addSystemMessageOfBlockParams` | `addSystemMessageOfBetaContentBlockParams` | `addSystemMessageOfBlocks` |
 
     在内容类上，`ofBlockParams`、`blockParams()`、`isBlockParams()`、`asBlockParams()` 以及访问者的 `visitBlockParams` 中的 `BlockParams`（在 beta 中为 `BetaContentBlockParams`）变为 `ContentBlockParams`。
 
@@ -426,11 +426,11 @@ Claude Enterprise Analytics API：
 
     `Role` 枚举模块保留。以下常量已迁移。以 `Beta` 开头的名称位于 `Anthropic::Beta` 下，其他名称位于 `Anthropic` 下：
 
-    | 已移除                         | 改用                                                                    |
-    | --------------------------- | --------------------------------------------------------------------- |
-    | `MessageParam::Content`     | `MessageContentParam`，对于系统消息则使用 `SystemMessageParam::Content`         |
+    | 已移除 | 改用 |
+    | ----- | ----- |
+    | `MessageParam::Content` | `MessageContentParam`，对于系统消息则使用 `SystemMessageParam::Content` |
     | `BetaMessageParam::Content` | `BetaMessageContentParam`，对于系统消息则使用 `BetaSystemMessageParam::Content` |
-    | `BetaMessageParam::ClearAt` | `BetaSystemMessageParam::ClearAt`                                     |
+    | `BetaMessageParam::ClearAt` | `BetaSystemMessageParam::ClearAt` |
 
     如果您使用 Sorbet 进行类型检查，`MessageParam::OrHash` 已被移除，且作为类型的 `Anthropic::MessageParam` 不再接受实例。请对这三个类使用 `Anthropic::MessageParam::Variants`，每个类都有自己的 `OrHash`。在 RBS 中，类型为 `Anthropic::MessageParam` 的值没有 `role` 或 `content`。请使用 `Anthropic::Models::message_param` 别名，它以前是消息的哈希形式，现在是这三个类的联合。beta 对应的名称是 `BetaMessageParam::Variants` 和 `Anthropic::Models::Beta::beta_message_param`。
   </Tab>
@@ -450,10 +450,10 @@ Claude Enterprise Analytics API：
 
     可选属性（例如 `BetaManagedAgentsGlobToolConfigParams.Type`）保留其枚举。其中两个枚举有了新名称：
 
-    | v12                                         | v13                                       |
-    | ------------------------------------------- | ----------------------------------------- |
-    | `BetaManagedAgentsBashToolConfigParamsType` | `Anthropic.Models.Beta.Agents.Type`       |
-    | `BetaPackagesType`                          | `Anthropic.Models.Beta.Environments.Type` |
+    | v12 | v13 |
+    | ----- | ----- |
+    | `BetaManagedAgentsBashToolConfigParamsType` | `Anthropic.Models.Beta.Agents.Type` |
+    | `BetaPackagesType` | `Anthropic.Models.Beta.Environments.Type` |
 
     构建对象时，请删除该属性：
 
@@ -1207,10 +1207,10 @@ API 密钥和身份验证令牌现在共用一个请求头，因此一个 SDK �
   <Tab title="CLI">
     **`--api-key` 和 `--auth-token` 已被移除。** `ant` 不再接受以标志值形式提供的 API 密钥或身份验证令牌，因为命令行上的值会出现在 shell 历史记录和进程列表中。自 v1.27.0 起，这两个标志都会打印弃用警告。仍传入其中之一的命令会以 `flag provided but not defined` 终止。
 
-    | 已移除                    | 改用                                                       |
-    | ---------------------- | -------------------------------------------------------- |
-    | `--api-key <key>`      | `ANTHROPIC_API_KEY`、`--api-key-stdin` 或 `ant auth login` |
-    | `--auth-token <token>` | `ANTHROPIC_AUTH_TOKEN` 或 `--auth-token-stdin`            |
+    | 已移除 | 改用 |
+    | ----- | ----- |
+    | `--api-key <key>` | `ANTHROPIC_API_KEY`、`--api-key-stdin` 或 `ant auth login` |
+    | `--auth-token <token>` | `ANTHROPIC_AUTH_TOKEN` 或 `--auth-token-stdin` |
 
     ```bash
     # 之前

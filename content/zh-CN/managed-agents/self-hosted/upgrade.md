@@ -10,11 +10,11 @@ description: 升级 Kubernetes 或 Docker Compose 上的自托管 Claude Managed
 
 本页面介绍如何在 Kubernetes 或 Docker Compose 上升级部署，以及如何回滚。在 Kubernetes 上，停机时间取决于升级跨越的幅度：
 
-| 升级                                        | 是否需要先备份数据库         | Kubernetes 上的停机时间                  |
-| ----------------------------------------- | ------------------ | ---------------------------------- |
-| 补丁：仅第三位数字变化                               | 否。数据库 schema 保持不变。 | 无                                  |
-| 次要：第二位数字加一，例如从 `1.2.0` 到 `1.3.0`          | 是。schema 会发生变化。    | 无，除非 `CHANGELOG.md` 的某个部分说明必须停止服务器 |
-| 跳过一个次要发布版本，例如从 `1.1.0` 到 `1.3.0`，或第一位数字变化 | 是。schema 会发生变化。    | 从您停止旧服务器的那一刻起，直到新服务器就绪为止           |
+| 升级 | 是否需要先备份数据库 | Kubernetes 上的停机时间 |
+| ----- | ----- | ----- |
+| 补丁：仅第三位数字变化 | 否。数据库 schema 保持不变。 | 无 |
+| 次要：第二位数字加一，例如从 `1.2.0` 到 `1.3.0` | 是。schema 会发生变化。 | 无，除非 `CHANGELOG.md` 的某个部分说明必须停止服务器 |
+| 跳过一个次要发布版本，例如从 `1.1.0` 到 `1.3.0`，或第一位数字变化 | 是。schema 会发生变化。 | 从您停止旧服务器的那一刻起，直到新服务器就绪为止 |
 
 对于各种升级，Docker Compose 栈在重启期间都处于停机状态。
 
@@ -23,6 +23,10 @@ description: 升级 Kubernetes 或 Docker Compose 上的自托管 Claude Managed
 阅读解压后归档顶层目录中 `CHANGELOG.md` 里新发布版本的部分。该部分开头列出了特定于该发布版本的升级步骤。如果您跳过了某些发布版本，请按从旧到新的顺序，遵循比您当前版本更新的每一个部分。
 
 然后查看[需要检查的设置和路径](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade#settings-and-paths-to-check)。
+
+<Warning>
+  在 Kubernetes 上，升级可能会删除某些会话的文件，且不会有任何错误报告。升级之前，请参阅[Kubernetes：已删除会话的卷](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade#deleted-sessions-volumes)。
+</Warning>
 
 次要或主要升级包括一次数据库备份。转储文件以明文形式保存所有对话，因此本页面上的命令会使用 [age 加密工具](https://age-encryption.org)对其进行加密。只需创建一次密钥对，并将私钥 `cma-backup.agekey` 与备份分开存放：
 
@@ -166,11 +170,19 @@ echo "$server"
 * **Kubernetes：** 如果迁移 Job 失败，`helm upgrade` 会在 Job 重试期间等待几分钟，然后失败。在此等待期间，请在第二个终端中运行 `kubectl -n cma-server logs job/$server-migrate`，并按照[在 Kubernetes 上升级](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade#upgrade-on-kubernetes)中的方式设置 `$server`。Job 停止重试时，Kubernetes 会删除该日志。如果您错过了，请再次运行 `helm upgrade`，这会重新启动该 Job。
 * **Docker Compose：** `docker compose up --build -d` 的输出可能不会显示原因。请运行 `docker compose logs` 查找原因。
 
-| 日志显示的内容                                                                                            | 含义                                        | 处理方法                                                                                                                                                                                                |
-| -------------------------------------------------------------------------------------------------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 日志显示的内容 | 含义 | 处理方法 |
+| ----- | ----- | ----- |
 | 一行包含 `refusing to migrate: servers of another release are still running against this database` 的内容 | 某些升级需要先停止所有服务器，而旧发布版本的某台服务器仍在运行。迁移未做任何更改。 | 按照[在 Kubernetes 上升级](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade#upgrade-on-kubernetes)中的方式停止所有服务器，然后再次运行 `helm upgrade`。如果某台服务器未正常关闭，请先等待 20 秒：在此之前，迁移仍会将该服务器视为正在运行。 |
-| 重新部署旧发布版本时，一行包含 `cannot downgrade` 的内容                                                             | 旧发布版本无法在已更改的 schema 上运行。                  | 按照[回滚](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade#roll-back)中的方式恢复备份。                                                                                                |
-| 迁移产生的其他错误                                                                                          | 您无需回滚。在 Kubernetes 上，迁移成功之前，服务器保持原样。      | 修复原因后，再次运行 `helm upgrade` 或 `docker compose up --build -d`。                                                                                                                                         |
+| 重新部署旧发布版本时，一行包含 `cannot downgrade` 的内容 | 旧发布版本无法在已更改的 schema 上运行。 | 按照[回滚](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade#roll-back)中的方式恢复备份。 |
+| 迁移产生的其他错误 | 您无需回滚。在 Kubernetes 上，迁移成功之前，服务器保持原样。 | 修复原因后，再次运行 `helm upgrade` 或 `docker compose up --build -d`。 |
+
+在 Docker Compose 上，在新发布版本的目录中运行 `docker compose up` 可能会停止并报出 `required variable CMA_PG_USER is missing a value`。这说明新发布版本的 `.env` 缺少保存您的栈数据所用的名称：其 Compose 项目、其卷，以及其数据库角色和名称。新栈尚未启动，旧栈可能已停止，您的数据未受影响。不要手动向 `.env` 添加 `CMA_PG_USER` 行。仅添加该行时，栈会以该发布版本自己的名称启动，且不含任何数据。您的数据随后仍留在旧卷中。请改为在旧发布版本的 Compose 目录中运行 `docker compose up -d`。然后在该目录中、在含有 `$releases` 变量的终端中运行以下这一行。将 `<archive>` 替换为"解压新归档"步骤中的归档名称：
+
+```bash
+sh "$releases/<archive>/compose/keep-names.sh" && cp .env "$releases/<archive>/compose/"
+```
+
+重新进行您对新发布版本的 `.env` 所做的任何更改。然后继续执行"停止旧栈并启动新栈"步骤。
 
 迁移可能成功，但新服务器未能就绪。要查找原因，请阅读服务器的日志：
 
@@ -349,27 +361,33 @@ echo "$ANTHROPIC_API_KEY" | ./cma-server-admin list-keys \
 
 当 Claude API 是您的推理提供商时，升级后每次模型调用都会携带其会话的 ID，以及该会话的智能体和环境的 ID。请参阅[服务器向其推理提供商发送的内容](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#what-the-server-sends-to-its-inference-provider)。
 
+### Kubernetes：已删除会话的卷
+
+升级可能会删除您已删除的每个会话的 `/workspace` 卷，以及不在服务器数据库中的每个会话（例如因恢复而丢失的会话）的该卷。您可能会丢失这些会话的文件，且不会有任何错误报告。一旦新发布版本的第一台服务器开始响应，删除就可能开始。对于服务器 chart，这发生在其 `helm upgrade` 期间。
+
+请在旧服务器仍在运行时、在停止其中任何一台之前找出这些会话：运行[释放会话的卷](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/kubernetes#free-a-sessions-volume)第 1 步中的命令。如果您运行了多个环境，请在每个沙箱 release 的命名空间中运行该命令。对于您需要其文件的会话，不要执行该部分的其他步骤。要保留这些文件，请使用您自己的 Kubernetes 工具将其复制出来。任何 API 调用、管理命令或您服务器上的控制台页面都无法访问这些卷。
+
 ### Kubernetes：您的对象名称
 
 `cma-server-values.yaml` 必须在其 `earlierNames` 设置中说明您的安装使用哪些名称。要查找服务器 Deployment 的名称，请运行 `kubectl -n cma-server get deployment -l anthropic.com/role=server`。
 
 | Deployment 的名称 | `cma-server-values.yaml` 中的行 |
-| -------------- | ---------------------------- |
-| `cma-onprem`   | `earlierNames: true`         |
-| `cma-server`   | `earlierNames: false`        |
+| ----- | ----- |
+| `cma-onprem` | `earlierNames: true` |
+| `cma-server` | `earlierNames: false` |
 
 如果该文件中没有这一行，请在升级之前添加，并在以后的每次升级中保留它。如果没有这一行，服务器 chart 的 `helm upgrade` 命令会停止并报出一个提及 `earlierNames` 的错误，且不做任何更改。
 
 设置 `earlierNames: true` 时，chart 的对象会保留其 `cma-onprem` 名称，服务器仍能找到您以这些名称创建的 Secret。这些页面使用中间一列中的名称。设置 `earlierNames: true` 时，请改用最后一列中的名称：
 
-| 对象                        | 这些页面上的名称                        | 设置 `earlierNames: true` 时的名称    |
-| ------------------------- | ------------------------------- | ------------------------------- |
-| 服务器的 Deployment 和 Service | `cma-server`                    | `cma-onprem`                    |
-| 迁移 Job                    | `cma-server-migrate`            | `cma-onprem-migrate`            |
-| 每个环境的 Job                 | `cma-server-environment-<name>` | `cma-onprem-environment-<name>` |
-| 包含数据库密码的 Secret           | `cma-server-db`                 | `cma-onprem-db`                 |
-| 包含推理提供商凭据的 Secret         | `cma-server-upstream`           | `cma-onprem-upstream`           |
-| 包含服务器 API 密钥和加密密钥的 Secret | `cma-server-keys`               | `cma-onprem-server`             |
+| 对象 | 这些页面上的名称 | 设置 `earlierNames: true` 时的名称 |
+| ----- | ----- | ----- |
+| 服务器的 Deployment 和 Service | `cma-server` | `cma-onprem` |
+| 迁移 Job | `cma-server-migrate` | `cma-onprem-migrate` |
+| 每个环境的 Job | `cma-server-environment-<name>` | `cma-onprem-environment-<name>` |
+| 包含数据库密码的 Secret | `cma-server-db` | `cma-onprem-db` |
+| 包含推理提供商凭据的 Secret | `cma-server-upstream` | `cma-onprem-upstream` |
+| 包含服务器 API 密钥和加密密钥的 Secret | `cma-server-keys` | `cma-onprem-server` |
 
 无论 `earlierNames` 如何设置，命名空间都名为 `cma-server`，服务器的镜像都名为 `cma-server-image`。
 

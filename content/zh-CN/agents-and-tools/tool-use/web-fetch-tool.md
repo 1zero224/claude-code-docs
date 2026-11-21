@@ -1073,10 +1073,10 @@ Web fetch 工具在所有模型上可用，并具备零数据保留资格。
 * 可用性：可用
 * 用法：在请求的 `tools` 中添加 `web_fetch` 工具。`max_uses`、域名列表、`citations` 和 `max_content_tokens` 等设置放在该工具上。
 
-| 状态             | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 可用             | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
-| 可用<sup>1</sup> | [Microsoft Foundry (hosted on Azure)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)                                                                                                                                                                                                                                                                                           |
+| 状态 | 云平台 |
+| ----- | ----- |
+| 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
+| 可用<sup>1</sup> | [Microsoft Foundry (hosted on Azure)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 1. 托管在 Azure 上的部署仅支持 `web_fetch_20250910`：不支持动态过滤、响应包含或缓存绕过。
 
@@ -1085,18 +1085,18 @@ Web fetch 工具在所有模型上可用，并具备零数据保留资格。
 * 可用性：可用
 * 用法：属于智能体工具集，添加工具集后默认开启。域名列表（不含路径）和 `max_content_tokens` 放在工具集的 `web_fetch` 条目上；`max_uses`、`citations` 和 `cache_control` 不可用。
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                  |
-| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
-| 详细信息 | 获取的网页内容在 API 响应中返回。Web fetch 的动态过滤不具备 ZDR 或 HIPAA 资格。网站发布者可能会根据其自身政策保留请求数据（例如获取的 URL 和请求元数据）。                                             | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
+| 详细信息 | 获取的网页内容在 API 响应中返回。Web fetch 的动态过滤不具备 ZDR 或 HIPAA 资格。网站发布者可能会根据其自身政策保留请求数据（例如获取的 URL 和请求元数据）。 | — |
 
 适用的端点：
 

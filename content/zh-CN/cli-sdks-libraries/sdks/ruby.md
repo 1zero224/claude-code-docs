@@ -136,19 +136,19 @@ end
 
 错误代码如下：
 
-| 原因          | 错误类型                       |
-| ----------- | -------------------------- |
-| HTTP 400    | `BadRequestError`          |
-| HTTP 401    | `AuthenticationError`      |
-| HTTP 403    | `PermissionDeniedError`    |
-| HTTP 404    | `NotFoundError`            |
-| HTTP 409    | `ConflictError`            |
-| HTTP 422    | `UnprocessableEntityError` |
-| HTTP 429    | `RateLimitError`           |
-| HTTP >= 500 | `InternalServerError`      |
-| 其他 HTTP 错误  | `APIStatusError`           |
-| 超时          | `APITimeoutError`          |
-| 网络错误        | `APIConnectionError`       |
+| 原因 | 错误类型 |
+| ----- | ----- |
+| HTTP 400 | `BadRequestError` |
+| HTTP 401 | `AuthenticationError` |
+| HTTP 403 | `PermissionDeniedError` |
+| HTTP 404 | `NotFoundError` |
+| HTTP 409 | `ConflictError` |
+| HTTP 422 | `UnprocessableEntityError` |
+| HTTP 429 | `RateLimitError` |
+| HTTP >= 500 | `InternalServerError` |
+| 其他 HTTP 错误 | `APIStatusError` |
+| 超时 | `APITimeoutError` |
+| 网络错误 | `APIConnectionError` |
 
 ## 重试
 

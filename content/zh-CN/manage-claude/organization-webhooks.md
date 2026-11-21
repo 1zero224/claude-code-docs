@@ -29,16 +29,16 @@ featureMetadata:
 
 使用 Admin API 密钥，您可以发出[管理端点](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#manage-endpoints)中的所有请求。使用 `org:admin` 令牌，您可以发出相同的请求。如果该令牌绑定到您组织的[默认工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#how-workspaces-work)以外的工作区，您将无法发出其中任何请求。使用个人或服务账户密钥时，您可以发出的请求取决于该账户的[组织角色](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api#organization-roles-and-permissions)：
 
-* 列出或查看 webhook 端点：`claude_code_user`、`developer` 或 `admin`
-* 创建、更改或删除 webhook 端点，或替换签名密钥：`admin`
+* 列出或获取 webhook 端点：`developer` 或 `admin`
+* 创建、更新或删除 webhook 端点，或替换签名密钥：`admin`
 
 ## 事件类型
 
 组织 webhook 端点接受两种事件类型。两者都与用户配置文件上的[执法措施](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles#check-whether-anthropic-has-restricted-or-banned-a-profile)有关。
 
-| 事件                                         | 触发条件                                           |
-| ------------------------------------------ | ---------------------------------------------- |
-| `user_profile.enforcement_action_opened`   | Anthropic 对某个用户配置文件开启一项执行措施。                   |
+| 事件 | 触发条件 |
+| ----- | ----- |
+| `user_profile.enforcement_action_opened` | Anthropic 对某个用户配置文件开启一项执行措施。 |
 | `user_profile.enforcement_action_resolved` | 一项执行措施结束。Anthropic 解决了它，或者其 `expires_at` 时间已过。 |
 
 删除配置文件会结束其所有当前生效的执行措施，但不会发送 `user_profile.enforcement_action_resolved` 事件。
@@ -75,18 +75,18 @@ Anthropic 仅在配置文件显示出变化之后才发送事件，因此您检�
 
 组织 webhook 端点具有以下字段：
 
-| 字段                | 类型               | 描述                                                                                                                 |
-| ----------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `id`              | string           | 端点的 ID，以 `wep_` 开头。由 Anthropic 设置。                                                                                 |
-| `url`             | string           | Anthropic 发送事件的目标地址。必须是 443 端口上的 HTTPS，并使用公共域名，而不是 IP 地址。您组织中的两个已启用的组织 webhook 端点不能共用同一个 URL。                      |
-| `enabled_events`  | array of strings | 此端点接收的[事件类型](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#event-types)。创建请求必须至少列出一种。 |
-| `name`            | string           | 供您自己使用的可选标签。                                                                                                       |
-| `description`     | string           | 供您自己使用的可选描述。                                                                                                       |
-| `state`           | string           | `enabled` 或 `disabled`。                                                                                            |
-| `disabled_reason` | string           | Anthropic 禁用该端点的原因。否则为空。                                                                                           |
-| `created_at`      | string           | 端点的创建时间。由 Anthropic 设置。                                                                                            |
-| `updated_at`      | string           | 端点的最后更改时间。由 Anthropic 设置。                                                                                          |
-| `signing_secret`  | string           | 一个以 `whsec_` 为前缀的密钥，随端点一起创建。只有创建端点或替换密钥的响应才会包含它，因此请妥善保存。                                                           |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `id` | string | 端点的 ID，以 `wep_` 开头。由 Anthropic 设置。 |
+| `url` | string | Anthropic 发送事件的目标地址。必须是 443 端口上的 HTTPS，并使用公共域名，而不是 IP 地址。您组织中的两个已启用的组织 webhook 端点不能共用同一个 URL。 |
+| `enabled_events` | array of strings | 此端点接收的[事件类型](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#event-types)。创建请求必须至少列出一种。 |
+| `name` | string | 供您自己使用的可选标签。 |
+| `description` | string | 供您自己使用的可选描述。 |
+| `state` | string | `enabled` 或 `disabled`。 |
+| `disabled_reason` | string | Anthropic 禁用该端点的原因。否则为空。 |
+| `created_at` | string | 端点的创建时间。由 Anthropic 设置。 |
+| `updated_at` | string | 端点的最后更改时间。由 Anthropic 设置。 |
+| `signing_secret` | string | 一个以 `whsec_` 为前缀的密钥，随端点一起创建。只有创建端点或替换密钥的响应才会包含它，因此请妥善保存。 |
 
 ```json
 {
@@ -129,14 +129,14 @@ Anthropic 仅在配置文件显示出变化之后才发送事件，因此您检�
 
 通过 Admin API，您可以发出以下请求：
 
-| 任务                                                          | 请求                                                                                                                                                                                   |
-| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 列出您组织的端点                                                    | [`GET /v1/organizations/webhooks`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/list)                                                                       |
-| 创建端点                                                        | [`POST /v1/organizations/webhooks`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/create)                                                                    |
-| 获取单个端点                                                      | [`GET /v1/organizations/webhooks/{webhook_endpoint_id}`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/retrieve)                                             |
-| 更新端点的 `url`、`name`、`description`、`enabled_events` 或 `state` | [`POST /v1/organizations/webhooks/{webhook_endpoint_id}`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/update)                                              |
-| 删除端点                                                        | [`DELETE /v1/organizations/webhooks/{webhook_endpoint_id}`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/delete)                                            |
-| 替换签名密钥                                                      | [`POST /v1/organizations/webhooks/{webhook_endpoint_id}/regenerate_signing_secret`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/regenerate_signing_secret) |
+| 任务 | 请求 |
+| ----- | ----- |
+| 列出您组织的端点 | [`GET /v1/organizations/webhooks`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/list) |
+| 创建端点 | [`POST /v1/organizations/webhooks`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/create) |
+| 获取单个端点 | [`GET /v1/organizations/webhooks/{webhook_endpoint_id}`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/retrieve) |
+| 更新端点的 `url`、`name`、`description`、`enabled_events` 或 `state` | [`POST /v1/organizations/webhooks/{webhook_endpoint_id}`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/update) |
+| 删除端点 | [`DELETE /v1/organizations/webhooks/{webhook_endpoint_id}`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/delete) |
+| 替换签名密钥 | [`POST /v1/organizations/webhooks/{webhook_endpoint_id}/regenerate_signing_secret`](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/regenerate_signing_secret) |
 
 在更新中，`enabled_events` 会替换端点的整个事件类型列表。空列表不会清空该列表：端点会保留其原有的事件类型。要停止投递，请发送 `"state": "disabled"` 或删除该端点。
 

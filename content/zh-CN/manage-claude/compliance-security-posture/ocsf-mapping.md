@@ -18,62 +18,62 @@ description: 在存储 Compliance API 中的每个 Security posture 活动之前
 
 请在每个事件上映射以下字段。
 
-| 活动字段                | OCSF 属性                        | 说明                                                                                                                                                                                                  |
-| ------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                | `metadata.uid`                 | 原样复制。                                                                                                                                                                                               |
-| `type`              | `metadata.event_code`          | 原样复制。                                                                                                                                                                                               |
-| `created_at`        | `time`                         | 将 RFC 3339 字符串转换为自 Unix 纪元以来的毫秒数，并截断为整数。                                                                                                                                                            |
-| `created_at`        | `metadata.original_time`       | 原样复制该字符串。                                                                                                                                                                                           |
-| 无                   | `metadata.logged_time`         | 您存储该活动的时间（即 [检测 Security posture 中的变更](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/detect-changes#before-you-write-a-rule) 中的 `stored_at`），以自 Unix 纪元以来的毫秒数表示。 |
-| `organization_uuid` | `metadata.tenant_uid`          | 原样复制。                                                                                                                                                                                               |
-| `organization_id`   | `unmapped.organization_id`     | 原样复制。                                                                                                                                                                                               |
-| 无                   | `metadata.version`             | 常量：`1.6.0`。                                                                                                                                                                                         |
-| 无                   | `metadata.product.vendor_name` | 常量：`Anthropic`。                                                                                                                                                                                     |
-| 无                   | `metadata.product.name`        | 常量：`Compliance API`。                                                                                                                                                                                |
-| 无                   | `type_uid`                     | `class_uid * 100 + activity_id`。                                                                                                                                                                    |
-| 无                   | `severity_id`                  | 在每个事件上设置为 `1`（Informational），并在触发告警的[检测规则](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/detect-changes)中设置该告警的优先级。                                              |
+| 活动字段 | OCSF 属性 | 说明 |
+| ----- | ----- | ----- |
+| `id` | `metadata.uid` | 原样复制。 |
+| `type` | `metadata.event_code` | 原样复制。 |
+| `created_at` | `time` | 将 RFC 3339 字符串转换为自 Unix 纪元以来的毫秒数，并截断为整数。 |
+| `created_at` | `metadata.original_time` | 原样复制该字符串。 |
+| 无 | `metadata.logged_time` | 您存储该活动的时间（即 [检测 Security posture 中的变更](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/detect-changes#before-you-write-a-rule) 中的 `stored_at`），以自 Unix 纪元以来的毫秒数表示。 |
+| `organization_uuid` | `metadata.tenant_uid` | 原样复制。 |
+| `organization_id` | `unmapped.organization_id` | 原样复制。 |
+| 无 | `metadata.version` | 常量：`1.6.0`。 |
+| 无 | `metadata.product.vendor_name` | 常量：`Anthropic`。 |
+| 无 | `metadata.product.name` | 常量：`Compliance API`。 |
+| 无 | `type_uid` | `class_uid * 100 + activity_id`。 |
+| 无 | `severity_id` | 在每个事件上设置为 `1`（Informational），并在触发告警的[检测规则](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/detect-changes)中设置该告警的优先级。 |
 
 将每个没有对应 OCSF 属性的字段以其在活动源中的名称放入 `unmapped` 对象，包括您的处理程序无法识别的字段。如果某个字段不存在或为 `null`，则省略对应的 OCSF 属性。
 
 映射 `actor` 对象：
 
-| 活动字段                  | OCSF 属性                   | 说明                                         |
-| --------------------- | ------------------------- | ------------------------------------------ |
-| 无                     | `metadata.profiles`       | 添加 `host`，即承载 `actor` 的 OCSF 配置文件（一组可选属性）。 |
-| `actor.type`          | `unmapped.actor.type`     | 原样复制。                                      |
-| `actor.user_id`       | `actor.user.uid`          | 仅限 `user_actor`。                           |
-| `actor.email_address` | `actor.user.email_addr`   | 仅限 `user_actor`。                           |
-| `actor.ip_address`    | `src_endpoint.ip`         | 仅限 `user_actor`。                           |
-| `actor.user_agent`    | `http_request.user_agent` | 仅限 `user_actor`。                           |
-| `actor.service`       | `actor.app_name`          | 仅限 `system_actor`。                         |
+| 活动字段 | OCSF 属性 | 说明 |
+| ----- | ----- | ----- |
+| 无 | `metadata.profiles` | 添加 `host`，即承载 `actor` 的 OCSF 配置文件（一组可选属性）。 |
+| `actor.type` | `unmapped.actor.type` | 原样复制。 |
+| `actor.user_id` | `actor.user.uid` | 仅限 `user_actor`。 |
+| `actor.email_address` | `actor.user.email_addr` | 仅限 `user_actor`。 |
+| `actor.ip_address` | `src_endpoint.ip` | 仅限 `user_actor`。 |
+| `actor.user_agent` | `http_request.user_agent` | 仅限 `user_actor`。 |
+| `actor.service` | `actor.app_name` | 仅限 `system_actor`。 |
 
 ## 声明活动：Entity Management
 
 将 [`org_security_control_attestation_updated`](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#attestation-activity) 活动映射到 OCSF Entity Management 类（3004）。Entity Management 事件报告对某个受管实体执行的操作，此处该实体是组织针对某个安全控制项的声明。
 
-| 活动字段              | OCSF 属性                    | 说明                                        |
-| ----------------- | -------------------------- | ----------------------------------------- |
-| 无                 | `class_uid`                | 常量：`3004`（Entity Management）。             |
-| 无                 | `category_uid`             | 常量：`3`（Identity & Access Management）。     |
-| `action`          | `activity_id`              | 取自下方的 `action` 值表。                        |
-| `action`          | `unmapped.action`          | 原样复制，因为有两个 `action` 值共用同一个 `activity_id`。 |
-| 无                 | `entity.type_id`           | 常量：`99`（Other）。                           |
-| 无                 | `entity.type`              | 常量：`Security control attestation`。        |
-| `control`         | `entity.uid`               | 原样复制。                                     |
-| `status`          | `entity.data.status`       | 原样复制：声明的值。                                |
-| `review_date`     | `entity.data.review_date`  | 原样复制：声明的结束日期。                             |
-| `previous_status` | `unmapped.previous_status` | 原样复制：变更之前声明的值。                            |
+| 活动字段 | OCSF 属性 | 说明 |
+| ----- | ----- | ----- |
+| 无 | `class_uid` | 常量：`3004`（Entity Management）。 |
+| 无 | `category_uid` | 常量：`3`（Identity & Access Management）。 |
+| `action` | `activity_id` | 取自下方的 `action` 值表。 |
+| `action` | `unmapped.action` | 原样复制，因为有两个 `action` 值共用同一个 `activity_id`。 |
+| 无 | `entity.type_id` | 常量：`99`（Other）。 |
+| 无 | `entity.type` | 常量：`Security control attestation`。 |
+| `control` | `entity.uid` | 原样复制。 |
+| `status` | `entity.data.status` | 原样复制：声明的值。 |
+| `review_date` | `entity.data.review_date` | 原样复制：声明的结束日期。 |
+| `previous_status` | `unmapped.previous_status` | 原样复制：变更之前声明的值。 |
 
 不要将 `status` 映射到 `status_id` 或任何通过/未通过的值：声明是某个人对控制项所作的陈述，而不是检查的结果。
 
-| `action`   | `activity_id`    | `type_uid` |
-| ---------- | ---------------- | ---------- |
-| `attested` | `1`（Create）      | `300401`   |
-| `changed`  | `3`（Update）      | `300403`   |
-| `renewed`  | `3`（Update）      | `300403`   |
-| `cleared`  | `4`（Delete）      | `300404`   |
-| `lapsed`   | `11`（Deactivate） | `300411`   |
-| 任何其他值      | `99`（Other）      | `300499`   |
+| `action` | `activity_id` | `type_uid` |
+| ----- | ----- | ----- |
+| `attested` | `1`（Create） | `300401` |
+| `changed` | `3`（Update） | `300403` |
+| `renewed` | `3`（Update） | `300403` |
+| `cleared` | `4`（Delete） | `300404` |
+| `lapsed` | `11`（Deactivate） | `300411` |
+| 任何其他值 | `99`（Other） | `300499` |
 
 对于 `99`（Other），请将 `activity_name` 设置为该 `action` 值。
 

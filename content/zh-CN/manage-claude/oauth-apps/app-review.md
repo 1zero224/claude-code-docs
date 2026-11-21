@@ -16,13 +16,13 @@ description: 新的 Linked billing 应用如何结束测试阶段并向您的客
 
 在应用上线之前，Console 会为其显示以下状态之一：
 
-| 状态               | 含义                                  |
-| ---------------- | ----------------------------------- |
-| **Testing**      | 您尚未发布该应用。                           |
-| **In review**    | Anthropic 正在审核该应用，或审核您在应用上线期间所做的更改。 |
-| **Not approved** | Anthropic 已审核该应用或更改，但未予批准。          |
+| 状态 | 含义 |
+| ----- | ----- |
+| **Testing** | 您尚未发布该应用。 |
+| **In review** | Anthropic 正在审核该应用，或审核您在应用上线期间所做的更改。 |
+| **Not approved** | Anthropic 已审核该应用或更改，但未予批准。 |
 
-在更改后重新进入审核的应用，在 Anthropic 批准该更改之前不会再次上线。每个 Linked billing 应用都有自己的状态和自己的测试用户。请参阅 Linked billing 指南中[步骤 1：创建应用](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#step-1-create-the-app)里的说明。
+在更改后重新进入审核的应用，在 Anthropic 批准该更改之前不会再次上线。每个应用都有自己的状态和自己的测试用户。请参阅 Linked billing 指南中[步骤 1：创建应用](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#step-1-create-the-app)里的说明。
 
 ## 开始之前
 

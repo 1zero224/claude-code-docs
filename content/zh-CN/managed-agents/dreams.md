@@ -290,13 +290,13 @@ featureMetadata:
 
 ### 生命周期
 
-| `status` (csharp, go: `Status`) | 含义                                                  |
-| ------------------------------- | --------------------------------------------------- |
-| `pending`                       | 梦境已成功创建并进入队列。                                       |
-| `running`                       | 管道正在处理中。`usage` (csharp, go: `Usage`) 会随着工作进展而更新。   |
-| `completed`                     | 已成功完成。`outputs` (csharp, go: `Outputs`) 的值即为新的记忆存储。 |
-| `failed`                        | 梦境运行因错误而结束。输出记忆存储保持原样，包含失败前已写入的所有内容。                |
-| `canceled`                      | 梦境运行已取消。输出记忆存储保持原样。                                 |
+| `status` (csharp, go: `Status`) | 含义 |
+| ----- | ----- |
+| `pending` | 梦境已成功创建并进入队列。 |
+| `running` | 管道正在处理中。`usage` (csharp, go: `Usage`) 会随着工作进展而更新。 |
+| `completed` | 已成功完成。`outputs` (csharp, go: `Outputs`) 的值即为新的记忆存储。 |
+| `failed` | 梦境运行因错误而结束。输出记忆存储保持原样，包含失败前已写入的所有内容。 |
+| `canceled` | 梦境运行已取消。输出记忆存储保持原样。 |
 
 ### 观察管道运行
 
@@ -634,14 +634,14 @@ featureMetadata:
 
 以下是可能出现的梦境错误的非详尽列表。
 
-| `error.type`                      | 发生时机                        |
-| --------------------------------- | --------------------------- |
-| `timeout`                         | 管道超出了其运行时间预算。               |
-| `internal_error`                  | 未分类的管道故障。                   |
+| `error.type` | 发生时机 |
+| ----- | ----- |
+| `timeout` | 管道超出了其运行时间预算。 |
+| `internal_error` | 未分类的管道故障。 |
 | `memory_store_org_limit_exceeded` | 在管道配置工作存储时，您的组织达到了记忆存储数量上限。 |
-| `input_memory_store_too_large`    | 输入记忆存储超出了管道的大小限制。           |
-| `input_memory_store_unavailable`  | 输入记忆存储在梦境创建后被归档或删除。         |
-| `input_session_unavailable`       | 某个输入会话在梦境创建后被删除。            |
+| `input_memory_store_too_large` | 输入记忆存储超出了管道的大小限制。 |
+| `input_memory_store_unavailable` | 输入记忆存储在梦境创建后被归档或删除。 |
+| `input_session_unavailable` | 某个输入会话在梦境创建后被删除。 |
 
 ## 计费
 
@@ -661,8 +661,8 @@ featureMetadata:
 
 * 可用性：可用
 
-| 状态   | 云平台        | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| ---- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | 研究预览 | Claude API | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview) |
 
 ### 所需的 beta 请求头
@@ -680,9 +680,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

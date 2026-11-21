@@ -214,12 +214,12 @@ Claude Sonnet 5.5 的价格与 Claude Sonnet 5 相同，但提示缓存读取除
 
 在 Claude Sonnet 5.5 上，不含 `thinking` 字段的请求会以 [adaptive thinking（自适应思考）](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)运行，`thinking: {"type": "adaptive"}` 也是如此。在 Claude Sonnet 4.6 及更早的模型以及 Claude Haiku 4.5 上，此类请求不进行思考。若要继续在不进行前置思考的情况下运行，请参阅[关闭前置思考](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/migration-guide#turn-off-up-front-thinking)。
 
-| 模型                                   | 不含 `thinking` 字段时的思考 | 接受的 `thinking.type` 值                      | 默认 `display`   |
-| ------------------------------------ | -------------------- | ------------------------------------------ | -------------- |
-| Claude Sonnet 5.5                    | 开启                   | `"adaptive"`、`"between_tools"`             | `"omitted"`    |
-| Claude Sonnet 5                      | 开启                   | `"adaptive"`、`"disabled"`                  | `"omitted"`    |
-| Claude Sonnet 4.6                    | 关闭                   | `"adaptive"`、`"disabled"`、`"enabled"`（已弃用） | `"summarized"` |
-| Claude Sonnet 4.5 和 Claude Haiku 4.5 | 关闭                   | `"disabled"`、`"enabled"`                   | `"summarized"` |
+| 模型 | 不含 `thinking` 字段时的思考 | 接受的 `thinking.type` 值 | 默认 `display` |
+| ----- | ----- | ----- | ----- |
+| Claude Sonnet 5.5 | 开启 | `"adaptive"`、`"between_tools"` | `"omitted"` |
+| Claude Sonnet 5 | 开启 | `"adaptive"`、`"disabled"` | `"omitted"` |
+| Claude Sonnet 4.6 | 关闭 | `"adaptive"`、`"disabled"`、`"enabled"`（已弃用） | `"summarized"` |
+| Claude Sonnet 4.5 和 Claude Haiku 4.5 | 关闭 | `"disabled"`、`"enabled"` | `"summarized"` |
 
 ### 处理响应中的思考
 

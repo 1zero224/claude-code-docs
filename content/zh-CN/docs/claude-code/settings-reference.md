@@ -86,7 +86,7 @@
 | [`disabledMcpjsonServers`](#disabledmcpjsonservers) | 拒绝项目 [`.mcp.json`](https://code.claude.com/docs/zh-CN/mcp#project-scope) 中的特定服务器 | MCP | 任意文件 |
 | [`disableMobileSimulatorTools`](#disablemobilesimulatortools) | 在[桌面版](https://code.claude.com/docs/zh-CN/desktop.md) iOS Simulator 窗格中屏蔽 Claude 的工具 | 工具 | 托管 |
 | [`disableRemoteControl`](#disableremotecontrol) | 在所有可启动 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 的地方将其关闭 | 远程、桌面与通知 | 任意文件 |
-| [`disableRemotePreviewScripts`](#disableremotepreviewscripts) | 在 SSH 和 WSL 会话中关闭[桌面](https://code.claude.com/docs/zh-CN/desktop.md#preview-html-files-in-ssh-and-wsl-sessions)应用 HTML 预览中的脚本 | 远程、桌面与通知 | 托管 |
+| [`disableRemotePreviewScripts`](#disableremotepreviewscripts) | 在[桌面](https://code.claude.com/docs/zh-CN/desktop.md#preview-html-files-in-ssh-and-wsl-sessions)应用的 SSH 和 WSL 会话中，关闭 Browser 窗格 HTML 预览中的脚本 | 远程、桌面与通知 | 托管 |
 | [`disableSideloadFlags`](#disablesideloadflags) | 拒绝用于旁加载[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md)、[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)和 [MCP 服务器](https://code.claude.com/docs/zh-CN/mcp.md)的 CLI 标志 | 企业与托管设置 | 托管 |
 | [`disableSkillShellExecution`](#disableskillshellexecution) | 阻止 [skill](https://code.claude.com/docs/zh-CN/skills.md) 和自定义命令运行内联 shell | 插件与 skill | 任意文件 |
 | [`disableWorkflows`](#disableworkflows) | 为所有人关闭[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)；如仅针对您自己，请使用 `enableWorkflows` | hook 与自动化 | 任意文件 |
@@ -98,6 +98,7 @@
 | [`enabledMcpjsonServers`](#enabledmcpjsonservers) | 批准项目 [`.mcp.json`](https://code.claude.com/docs/zh-CN/mcp#project-server-approvals-and-workspace-trust) 中的特定服务器 | MCP | 任意文件 |
 | [`enabledPlugins`](#enabledplugins) | 按作用域开启或关闭单个[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md) | 插件与 skill | 任意文件 |
 | [`enableWorkflows`](#enableworkflows) | 相对于您套餐的默认值开启或关闭[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md) | hook 与自动化 | 任意文件 |
+| [`enforceAnthropicSignIn`](#enforceanthropicsignin) | 在 Anthropic 的 API 上要求使用 claude.ai 登录，或要求通过 Enterprise Admin Console 登录 | 身份验证与提供商 | 托管 |
 | [`enforceAvailableModels`](#enforceavailablemodels) | 使 [`/model` 的 Default 选项](https://code.claude.com/docs/zh-CN/model-config#enforce-the-allowlist-for-the-default-model)保持在您的 `availableModels` 允许列表范围内 | 模型与回复 | 任意文件 |
 | [`env`](#env) | 为每个会话及其子进程设置[环境变量](https://code.claude.com/docs/zh-CN/env-vars.md#in-settings-files) | 记忆与上下文 | 任意文件 |
 | [`externalEditorContext`](#externaleditorcontext) | 在您按 [Ctrl+G](https://code.claude.com/docs/zh-CN/interactive-mode.md#general-controls) 进行编辑时，以注释形式显示 Claude 的上一条回复 | 全局配置设置 | 全局配置 |
@@ -1146,7 +1147,7 @@ Claude Code 自身的部分文件仍可写入，例如计划文件、[草稿区]
 
 * **作用域**：[`Any file`](#scopes)。`auto` 和 `bypassPermissions` 在项目或本地设置中不生效，因此请改为在 `~/.claude/settings.json` 中设置它们。在 v2.1.257 之前，`bypassPermissions` 在任何文件中都会生效。对于 VS Code 扩展启动的对话，Claude Code 仅读取用户、托管和 `--settings` 中的值。
 * **类型**：字符串，取值之一：
-  * `"default"`：Claude Code 无需询问仅执行读取操作
+  * `"default"`：Claude Code 无需询问即可执行工作目录内的文件读取以及[其他一些操作](https://code.claude.com/docs/zh-CN/permission-modes.md#available-modes)
   * `"acceptEdits"`：Claude Code 还会无需询问即执行文件编辑和常见的文件系统命令，例如 `mkdir` 和 `mv`
   * `"plan"`：Claude Code 会进行读取和规划，但在您批准计划之前阻止编辑
   * `"auto"`：Claude Code 运行时不会出现常规提示；在 shell 命令和网络请求等操作运行之前，后台分类器会检查这些操作是否与您的请求一致
@@ -1888,7 +1889,7 @@ Claude Code 在项目设置中将 `.` 条目解析为项目根目录，在用户
 | `decode` | 字符串 `"jwt"` | 使用内置模式（或在设置了 `extract` 时使用它）查找文件中的 JSON Web Token（JWT），验证每个候选项，并将其替换为结构有效的伪造令牌，使沙箱内解码该令牌的代码继续正常工作。当没有候选项通过验证时，由 `onExtractNoMatch` 决定结果。需要 v2.1.224 或更高版本 |
 | `maskClaims` | 字符串数组，至少包含一个声明名称；需要 `decode` | 仅掩码每个已验证 JWT 中指定的顶层负载声明，并围绕修改后的负载重建令牌，使其他声明保持可读。当没有指定的声明匹配时，由 `onExtractNoMatch` 决定结果。需要 v2.1.224 或更高版本 |
 | `maskDuplicates` | 布尔值，默认为 `false` | 同时替换文件中其他位置出现的每个被掩码值的逐字副本，例如粘贴到注释中的密钥。Claude Code 按原始子字符串匹配，因此请仅将其用于较长的高熵密钥。仅在设置了 `extract` 或 `decode` 时才会参考此字段。需要 v2.1.221 或更高版本 |
-| `injectHosts` | 字符串数组，每项都是 [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) 也允许的主机 | 收窄沙箱代理替换真实值的主机范围。未设置时，代理会在发往 `sandbox.network.allowedDomains` 中每个主机的请求中进行替换。需要 v2.1.221 或更高版本 |
+| `injectHosts` | 字符串数组，每项都是 [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) 也允许的主机 | 收窄沙箱代理替换为真实值的主机范围。未设置时，代理会在发往 `sandbox.network.allowedDomains` 中每个主机的请求中进行替换。需要 v2.1.221 或更高版本 |
 
 以下配置仅掩码 `gh` 主机文件中的 `oauth_token` 值，替换该值在文件中的所有其他副本，在模式未匹配任何内容时使文件不可读，并仅在发往 `api.github.com` 的请求中替换为真实令牌：
 
@@ -1948,7 +1949,7 @@ Claude Code 在项目设置中将 `.` 条目解析为项目根目录，在用户
 | `onExtractNoMatch` | `"warn"`、`"deny"` 或 `"error"`；默认为 `"warn"`。在带有 `decode` 的条目上，仅接受 `"warn"` | 当 `extract` 未匹配任何内容时的处理方式。`warn` 使变量不经掩码直接传递，`deny` 在沙箱内取消设置该变量，`error` 会停止沙箱设置，直到您修复配置。需要 v2.1.224 或更高版本 |
 | `decode` | 字符串 `"jwt"` | 验证整个值是否为 JWT，并将其替换为结构有效的伪造令牌，使沙箱内解码该令牌的代码继续正常工作；代理会在出站时替换为完整的真实令牌。未通过验证的值会不经掩码直接传递并附带警告。需要 v2.1.224 或更高版本 |
 | `maskClaims` | 字符串数组，至少包含一个声明名称；需要 `decode` | 仅掩码已解码 JWT 中指定的顶层负载声明，并围绕修改后的负载重建令牌，使其他声明保持可读。当没有指定的声明匹配时，变量会不经掩码直接传递并附带警告。需要 v2.1.224 或更高版本 |
-| `injectHosts` | 字符串数组，每项都是 [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) 也允许的主机 | 收窄沙箱代理替换为真实值的主机范围。未设置时，代理会在发往 `sandbox.network.allowedDomains` 中每个主机的请求中进行替换。IPv6 目标请写为不带方括号的压缩地址，例如 `"::1"`，而不是带方括号的形式；请参阅[`injectHosts` 中的 IPv6 目标](https://code.claude.com/docs/zh-CN/sandboxing#ipv6-destinations-in-injecthosts) |
+| `injectHosts` | 字符串数组，每个字符串都是 [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) 也允许的主机 | 列出沙箱代理替换为真实值的主机。对于大多数没有 `injectHosts` 的变量，代理会在发往 `sandbox.network.allowedDomains` 中每个主机的请求中替换为真实值。IPv6 目标请写为不带方括号的压缩地址，例如 `"::1"`，而不是带方括号的形式；请参阅[`injectHosts` 中的 IPv6 目标](https://code.claude.com/docs/zh-CN/sandboxing#ipv6-destinations-in-injecthosts) |
 
 以下配置仅掩码 `DATABASE_URL` 中的密码，在模式未匹配任何内容时取消设置该变量，并掩码 `SERVICE_JWT` 中的 JWT，同时使除 `api_key` 之外的所有声明保持可读：
 
@@ -2023,7 +2024,7 @@ Claude Code 在项目设置中将 `.` 条目解析为项目根目录，在用户
 
 每个指定的变量都必须是 [`sandbox.credentials.envVars`](#sandbox-credentials-envvars) 中完整值的 `mask` 条目，不带 `extract` 或 `decode`，并且在所有配对中只能占据一个位置。以下规则同样适用：
 
-* 代理会对访问密钥 ID 条目的 `injectHosts` 中列出的主机上的请求进行重新签名
+* 代理可以对访问密钥 ID 条目的 `injectHosts` 中列出的主机上的请求重新签名
 * 设置了 `sessionTokenVar` 时，代理会在重新签名的请求中以 `x-amz-security-token` 发送真实令牌
 * 在配对中指定任何常规变量都会替换自动配对
 
@@ -3568,11 +3569,11 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 
 ### `attribution.sessionUrl`
 
-选择 Claude Code 在从[云端](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)或 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 会话中进行提交或创建 Pull Request 时，是否附加 claude.ai 会话链接。Claude Code 会在提交中以 `Claude-Session` trailer 的形式添加该链接，在 Pull Request 描述中以链接形式添加。将其设为 `false` 可省略该链接。
+选择 Claude Code 是否告知 Claude 在来自[云端](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)或 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 会话的提交和 Pull Request 中添加 claude.ai 会话链接。该设置涵盖提交中的 `Claude-Session` trailer 以及 Pull Request 描述中的 URL。将其设为 `false` 可省略该链接。
 
 * **作用域**：[`Any file`](#scopes)
 * **类型**：布尔值
-  * `true`：Claude Code 在从云端或 Remote Control 会话中进行提交或创建 Pull Request 时附加 claude.ai 会话链接
+  * `true`：Claude Code 告知 Claude 添加该链接
   * `false`：Claude Code 省略该链接
 * **默认值**：`true`
 
@@ -3924,7 +3925,7 @@ Claude Code 仅将模板应用于其自身呈现的链接；Claude 在消息中�
 }
 ```
 
-空数组会阻止所有频道插件。
+空数组会阻止所有频道插件，除非用户使用 [`--dangerously-load-development-channels`](https://code.claude.com/docs/zh-CN/channels#restrict-which-channel-plugins-can-run) 加载该插件。
 
 此键在频道通过该账户的 [`channelsEnabled`](#channelsenabled) 门控后才生效：在 Team 和 Enterprise 计划上，以及在具有托管设置的 Console 账户上，这意味着需要 `channelsEnabled: true`。请参阅[限制可以运行哪些频道插件](https://code.claude.com/docs/zh-CN/channels.md#restrict-which-channel-plugins-can-run)。
 
@@ -4484,9 +4485,9 @@ Claude Code 会忽略项目和本地条目，因为它会将这些值代入插�
 
 您的组织交付的服务器同样不受允许列表限制，但拒绝列表仍然对它们适用。此豁免涵盖每个 [`managedMcpServers`](#managedmcpservers) 条目，以及值中[除 `env` 外未使用 `${VAR}` 展开](https://code.claude.com/docs/zh-CN/managed-mcp#how-allowlists-and-denylists-apply-to-the-managed-set)的任何 [`managed-mcp.json`](https://code.claude.com/docs/zh-CN/managed-mcp#exclusive-control-with-managed-mcp-json) 条目。完整的检查顺序请参阅[如何评估服务器](https://code.claude.com/docs/zh-CN/managed-mcp.md#how-a-server-is-evaluated)。在 v2.1.259 之前，来自 `managed-mcp.json` 的服务器也必须匹配。
 
-* **作用域**：[`Any file`](#scopes)。除非设置了 [`allowManagedMcpServersOnly`](#allowmanagedmcpserversonly)，否则所有文件中的条目会合并为一个允许列表。将其部署在托管设置中即可强制执行。
+* **作用域**：[`Any file`](#scopes)。对于用户添加的服务器，除非设置了 [`allowManagedMcpServersOnly`](#allowmanagedmcpserversonly)，否则所有文件中的条目会合并为一个允许列表。如需防止用户添加条目，请在托管设置中同时部署这两个键。
 * **类型**：对象数组，每个对象恰好包含一个键。使用 `serverName`（仅限字母、数字、连字符和下划线的字符串）；`serverCommand`（由命令及其参数组成的数组，需完全匹配）；或 `serverUrl`（带 `*` 通配符的 URL 模式）
-* **默认值**：未设置，因此允许所有服务器；空数组会阻止用户添加的所有服务器
+* **默认值**：未设置，因此允许所有服务器；合并后的空列表会阻止用户添加的所有服务器
 
 此示例仅允许由所列 `npx` 命令启动的 stdio 服务器：
 
@@ -4583,8 +4584,8 @@ Claude Code 会忽略项目和本地条目，因为它会将这些值代入插�
 * **作用域**：[`Any file`](#scopes)。在您尚未接受信任对话框的文件夹中，Claude Code 会采用用户设置、托管设置和 `--settings` 中的此键，而忽略共享项目文件中的此键，这同时适用于会话以及 `claude mcp list` 和 `claude mcp get`；[项目服务器批准与工作区信任](https://code.claude.com/docs/zh-CN/mcp.md#project-server-approvals-and-workspace-trust)说明了未被跟踪的 `.claude/settings.local.json` 何时也会被计入。
 * **类型**：Boolean
   * `true`：Claude Code 无需询问即批准项目 `.mcp.json` 文件中定义的所有 MCP 服务器
-  * `false`：Claude Code 会请求您批准每个服务器。在受信任的文件夹中，优先级较高文件中的 `false` 会覆盖优先级较低文件中的 `true`；在您尚未信任的文件夹中，任何被采用的文件中有 `true` 即可生效
-* **默认值**：未设置，因此 Claude Code 会请求您批准每个服务器
+  * `false`：交互式终端会话会请求您批准每个[待处理](https://code.claude.com/docs/zh-CN/mcp.md#server-status)的服务器。有关某些无需询问即连接该服务器的会话以及如何将其排除在外，请参阅[项目作用域](https://code.claude.com/docs/zh-CN/mcp.md#project-scope)。在受信任的文件夹中，优先级较高文件中的 `false` 会覆盖优先级较低文件中的 `true`；在您尚未信任的文件夹中，任何被采用的文件中有 `true` 即可生效
+* **默认值**：未设置，因此交互式终端会话会以同样的方式请求批准
 
 ```json settings.json theme={null}
 {
@@ -4879,7 +4880,7 @@ Claude Code 首先读取托管设置，然后读取 `--settings` 标志，再读
 * **类型**：Boolean
   * `true`：Claude 在认为值得发送时可以向您的手机发送推送通知
   * `false`：Claude 不发送这些通知
-* **默认值**：`false`
+* **默认值**：未设置，因此 Claude Code 使用保存在您账户中的值；如果未保存任何值，则使用 `false`
 
 ```json settings.json theme={null}
 {
@@ -4976,7 +4977,7 @@ Claude Desktop 会向 Code 会话提供从您的桌面配置派生的策略，�
 
 ### `disableRemoteControl`
 
-关闭 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md)：Claude Code 随后会拒绝 `claude remote-control`、`--remote-control` 标志、自动启动以及会话内开关，并报告其已被您组织的策略禁用。将其放在[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)中，可实现按设备的 MDM 强制执行。
+关闭 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md)：Claude Code 随后会拒绝 `claude remote-control`、`--remote-control` 标志、自动启动以及会话内开关。将其放在[托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md)中，可实现按设备的 MDM 强制执行。
 
 * **作用域**：[`Any file`](#scopes)
 * **类型**：Boolean
@@ -4992,14 +4993,14 @@ Claude Desktop 会向 Code 会话提供从您的桌面配置派生的策略，�
 
 ### `disableRemotePreviewScripts`
 
-当用户在桌面应用中从 SSH 或 WSL 会话[预览 HTML 文件](https://code.claude.com/docs/zh-CN/desktop.md#preview-html-files-in-ssh-and-wsl-sessions)时，阻止脚本运行。Browser 窗格中的外部浏览不受影响。
+当用户从 SSH 或 WSL 会话在桌面应用的 Browser 窗格中[预览 HTML 文件](https://code.claude.com/docs/zh-CN/desktop.md#preview-html-files-in-ssh-and-wsl-sessions)时，阻止脚本运行。该窗格中的外部浏览不受影响。
 
 桌面应用读取此设置项；终端 CLI 会忽略它。需要 Claude Desktop v5.1231.0 或更高版本。更早的版本会忽略此设置项：要在这些版本中阻止脚本运行，还需设置 [`disableBrowserExternalNavigation`](#disablebrowserexternalnavigation)，它也会关闭外部浏览。
 
 * **作用域**：[`Managed`](#scopes)。桌面应用不会从远程机器或 WSL 发行版读取此设置项。
-* **类型**：Boolean；只有 JSON Boolean `true` 才会生效
-  * `true`：SSH 和 WSL 会话中的 HTML 预览不运行脚本
-  * `false`：此设置项不会关闭脚本
+* **类型**：Boolean；仅 JSON Boolean `true` 生效
+  * `true`：在 SSH 和 WSL 会话中，Browser 窗格中的 HTML 预览不运行脚本
+  * `false`：该键不会关闭脚本
 * **默认值**：未设置，因此此设置项不起作用
 
 如果运行桌面应用的计算机未收到任何其他 Claude Code 托管设置，还需在您创建的托管设置中将 [`parentSettingsBehavior`](#parentsettingsbehavior) 设置为 `"merge"`。在 Windows 上，如果您创建托管设置文件，用户还会失去 WSL 会话，直到您[允许这些会话](https://code.claude.com/docs/zh-CN/admin-setup.md#wsl-sessions-in-claude-code-desktop)。[为您的组织关闭 SSH 和 WSL 预览中的脚本](https://code.claude.com/docs/zh-CN/desktop.md#turn-off-scripts-in-ssh-and-wsl-previews-for-your-organization)对这两点进行了说明，并介绍了在何处设置此设置项。
@@ -5038,7 +5039,7 @@ Claude Desktop 会向 Code 会话提供从您的桌面配置派生的策略，�
 
 * **作用域**：[`Any file`](#scopes)。Claude Code 也会读取旧版本遗留在 `~/.claude.json` 中的值。
 * **类型**：Boolean
-* **默认值**：`false`
+* **默认值**：未设置，因此 Claude Code 使用保存在您账户中的值
 
 ```json settings.json theme={null}
 {
@@ -5286,6 +5287,23 @@ Claude Code 会缓存该值，并在以下情况下重新运行命令：
 
 与 [`awsAuthRefresh`](#awsauthrefresh) 不同，只要设置了此命令，Claude Code 就会始终运行它，而不会先检查环境凭据。请参阅[高级凭据配置](https://code.claude.com/docs/zh-CN/amazon-bedrock.md#advanced-credential-configuration)。
 
+### `enforceAnthropicSignIn`
+
+要求在 Anthropic 的 API 上使用 claude.ai 登录，或使用 [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code) 登录。仅当 [`forceLoginOrgUUID`](#forceloginorguuid) 指定了您的组织且您未设置 [`policyHelper`](#policyhelper) 时，Enterprise Admin Console 登录才算数。需要 Claude Code v2.1.329 或更高版本。
+
+该设置项还会阻止在云提供商或网关上运行的 Claude Desktop 会话，因此请先阅读[使用托管设置要求登录](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code#require-the-sign-in-with-managed-settings)。
+
+* **作用域**：[`Managed`](#scopes)。请在托管设置文件中设置此项，这样即使在服务器托管设置之下它也会生效。如果机器还有 MDM 策略，请在该策略中设置。Claude Code 会忽略服务器托管设置、HKCU 和策略辅助程序输出中的此项。
+* **类型**：布尔值
+* **默认值**：未设置
+
+```json managed-settings.json theme={null}
+{
+  "forceLoginOrgUUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "enforceAnthropicSignIn": true
+}
+```
+
 ### `forceLoginMethod`
 
 限制用户可以使用哪种账户登录：`"claudeai"` 表示 claude.ai 登录，`"console"` 表示 Claude Console 登录。设置为 `"gateway"` 则将用户引导至 [cloud gateway](https://code.claude.com/docs/zh-CN/claude-apps-gateway)，而不是第一方登录。管理员在托管设置中设置此项，并与 [`forceLoginOrgUUID`](#forceloginorguuid) 搭配使用，使开发者的 claude.ai 登录限定在一个组织内。
@@ -5305,7 +5323,7 @@ Claude Code 会缓存该值，并在以下情况下重新运行命令：
 }
 ```
 
-每个第一方登录路径都会应用此限制，包括 [VS Code 扩展](https://code.claude.com/docs/zh-CN/vs-code.md)、Agent SDK、`claude setup-token` 和 `/install-github-app`，但终端的交互式登录界面（通过 `/login` 或首次运行引导进入）除外，该界面会预先选择登录方式但不强制执行。在 v2.1.212 之前，只有终端登录会应用此限制。有关各登录路径、环境凭据和第三方提供商的处理方式，请参阅[将登录限制在您的组织内](https://code.claude.com/docs/zh-CN/authentication.md#restrict-login-to-your-organization)。
+所有第一方登录路径都会应用此限制，包括 [VS Code 扩展](https://code.claude.com/docs/zh-CN/vs-code.md)、Agent SDK、`claude setup-token` 和 `/install-github-app`，但终端的交互式登录界面除外（通过 `/login` 或首次运行引导进入），该界面可以预先选择登录方式，但不会强制执行。在 v2.1.212 之前，只有终端登录会应用此限制。有关各登录路径、环境凭据和第三方提供商的处理方式，请参阅[将登录限制为您的组织](https://code.claude.com/docs/zh-CN/authentication.md#restrict-login-to-your-organization)。
 
 当机器上的托管来源设置了 `"gateway"` 时，Claude Code 不会使用遗留的登录、API 密钥或 `apiKeyHelper` 凭据。有关每种情况产生的消息，请参阅 [Administrator policy requires a Cloud gateway sign-in](https://code.claude.com/docs/zh-CN/errors.md#administrator-policy-requires-a-cloud-gateway-sign-in)。如果您通过 `CLAUDE_CODE_USE_BEDROCK` 或类似的环境变量选择了云提供商，则该会话不需要网关登录。在 v2.1.261 之前，Claude Code 会在这些机器上使用遗留的登录。
 
@@ -5329,7 +5347,9 @@ Claude Code 会缓存该值，并在以下情况下重新运行命令：
 
 ### `forceLoginOrgUUID`
 
-在托管来源中，要求 claude.ai 账户登录必须属于某一个 Anthropic 组织（以单个 UUID 给出），或属于多个组织中的任意一个（以数组给出）。在任何设置文件中，Claude Code 还会使用单个 UUID 在 claude.ai 或 Claude Console 登录期间预先选择该组织；对于数组则不预先选择任何组织。如果您在任何设置文件中设置了此项，Claude Code 还会在该文件适用的会话中停止提供[无密钥 Console 登录](https://code.claude.com/docs/zh-CN/authentication.md#sign-in-without-an-api-key)，并改为创建 API 密钥。
+在托管来源中，要求 claude.ai 账户登录必须属于某一个 Anthropic 组织（以单个 UUID 给出），或属于多个组织中的任意一个（以数组给出）。在任何设置文件中，Claude Code 还会使用单个 UUID 在 claude.ai 或 Claude Console 登录期间预先选择该组织；对于数组则不预先选择任何组织。
+
+如果您在任何设置文件中设置了此项，Claude Code 会在该文件适用的会话中停止提供[无密钥 Console 登录](https://code.claude.com/docs/zh-CN/authentication.md#sign-in-without-an-api-key)。
 
 * **作用域**：[`Any file`](#scopes)。在非托管来源的设置文件中，Claude Code 不会检查登录所属的组织，单个 UUID 会在登录期间预先选择该组织。
 * **类型**：字符串（一个 UUID），或字符串数组（多个 UUID）
@@ -5498,7 +5518,7 @@ Claude Code 会缓存该值，并在以下情况下重新运行命令：
 
 ### `disableBrowserExternalNavigation`
 
-在桌面应用的 [Browser 窗格](https://code.claude.com/docs/zh-CN/desktop.md#browse-external-sites)中同时为人员和 Claude 关闭外部浏览。Localhost 开发服务器预览仍可正常使用。SSH 和 WSL 会话中的 HTML 预览仍会打开，但它们[不会运行脚本](https://code.claude.com/docs/zh-CN/desktop.md#turn-off-scripts-in-ssh-and-wsl-previews-for-your-organization)。桌面应用会读取此键；终端 CLI 会忽略它。
+在桌面应用的 [Browser 窗格](https://code.claude.com/docs/zh-CN/desktop.md#browse-external-sites)中同时为人员和 Claude 关闭外部浏览。Localhost 开发服务器预览仍可正常使用。Browser 窗格在 SSH 和 WSL 会话中的 HTML 预览仍会打开，但它们[不会运行脚本](https://code.claude.com/docs/zh-CN/desktop.md#turn-off-scripts-in-ssh-and-wsl-previews-for-your-organization)。桌面应用会读取此键；终端 CLI 会忽略它。
 
 * **作用域**：[`Managed`](#scopes)
 * **类型**：布尔值；仅 JSON 布尔值 `true` 生效
@@ -5722,18 +5742,19 @@ Claude Code 会缓存该值，并在以下情况下重新运行命令：
 * **[`modelOverrides`](#modeloverrides)**：与 `availableModels` 配对。Claude Code 从设置了 `modelOverrides` 的最高来源采用它，除非某个更高的来源设置了 `availableModels` 但未设置 `modelOverrides`。在这种情况下，它会忽略所有来源中的 `modelOverrides`。
 * **[`forceLoginGatewayUrl`](#forcelogingatewayurl)、[`gatewayInternalNetworks`](#gatewayinternalnetworks) 以及 [`forceLoginMethod`](#forceloginmethod) 的 `"gateway"` 值**：Claude Code 从不从服务器托管设置中读取这些项，因此其中的值既不会生效，也不会覆盖 MDM 策略或托管设置文件中设置的值。在计算机上的管理员来源中，仅由包含策略键的排名最高的来源提供这些项，无论是否同时存在服务器托管设置。
 * **[`forceLoginOrgUUID`](#forceloginorguuid) 以及 [`forceLoginMethod`](#forceloginmethod) 的 `"claudeai"` 和 `"console"` 值**：请在[哪个托管来源提供登录键](https://code.claude.com/docs/zh-CN/managed-settings.md#which-managed-source-supplies-login-keys)中查找适用的值，而不是在表中查找。
+* **[`enforceAnthropicSignIn`](#enforceanthropicsignin)**：其条目的作用域说明指出了由哪些来源提供此键。
 * **[`allowedProviders`](#allowedproviders)**：在应用表中的规则之后，计算机自身的列表仍会限制结果，如其条目的作用域说明所述。
 
 要确认计算机上合并了哪些来源，请运行 `/status` 并[查看 `Setting sources` 行](https://code.claude.com/docs/zh-CN/managed-settings#read-the-source-in-/status)。
 
 ### `parentSettingsBehavior`
 
-选择当同时存在管理员部署的托管层级时，Claude Code 是否应用由嵌入宿主进程（例如 Agent SDK 或 IDE 扩展）提供的托管设置。使用 `"first-wins"` 时，Claude Code 会丢弃宿主提供的设置；使用 `"merge"` 时，它会通过仅限限制性值的过滤器，将这些设置应用于管理员层级之下。当宿主需要将自己的限制传递给它启动的会话时（例如 Claude Desktop 下发网关的出站允许列表），请设置 `"merge"`。
+选择当同时存在管理员部署的托管层级时，Claude Code 是否应用由嵌入宿主进程（例如 Agent SDK 或 IDE 扩展）提供的托管设置。当宿主需要将自己的限制传递给它启动的会话时（例如 Claude Desktop 下发网关的出站允许列表），请设置 `"merge"`。
 
 * **作用域**：[`Managed`](#scopes)。Claude Code 从最高优先级的管理员控制托管来源读取此项。
 * **类型**：字符串，取值之一：
   * `"first-wins"`：当存在管理员部署的托管层级时，Claude Code 丢弃宿主提供的设置
-  * `"merge"`：Claude Code 通过仅限限制性值的过滤器，将宿主提供的设置应用于管理员层级之下
+  * `"merge"`：Claude Code 通过保留限制性键的过滤器，将宿主提供的设置应用于管理员层级之下。除非您[设置了 `allowManaged*Only` 锁定项](https://code.claude.com/docs/zh-CN/claude-apps-gateway#restrict-parent-settings)，否则权限允许规则和沙箱允许列表也会通过
 * **默认值**：`"first-wins"`
 
 ```json managed-settings.json theme={null}
@@ -5742,7 +5763,7 @@ Claude Code 会缓存该值，并在以下情况下重新运行命令：
 }
 ```
 
-当不存在管理员部署的托管层级时，此键不起作用：此时宿主的设置将作为唯一的托管层级生效，但仍会被过滤为仅保留限制性值。有关过滤器的限制以及各托管来源之间的相互作用，请参阅[来自嵌入宿主的父级设置](https://code.claude.com/docs/zh-CN/managed-settings.md#parent-settings-from-embedding-hosts)和[限制父级设置](https://code.claude.com/docs/zh-CN/claude-apps-gateway#restrict-parent-settings)。
+当不存在管理员部署的托管层级时，此键不起作用：此时宿主的设置将作为唯一的托管层级生效，但仍会经过过滤。有关过滤器的限制以及各托管来源之间的相互作用，请参阅[来自嵌入宿主的父级设置](https://code.claude.com/docs/zh-CN/managed-settings.md#parent-settings-from-embedding-hosts)和[限制父级设置](https://code.claude.com/docs/zh-CN/claude-apps-gateway#restrict-parent-settings)。
 
 ### `policyHelper`
 
@@ -5782,9 +5803,12 @@ Claude Code 在不带参数的情况下运行辅助程序，在其环境中设�
 }
 ```
 
-当辅助程序输出 `managedSettings` 时，该对象将成为本次运行唯一的托管设置来源：Claude Code 会忽略 MDM、文件和 HKCU 来源，仅从辅助程序的输出中读取[跨来源键](https://code.claude.com/docs/zh-CN/managed-settings.md#keys-read-from-every-admin-source)，并且从不合并[父级设置](https://code.claude.com/docs/zh-CN/managed-settings.md#parent-settings-from-embedding-hosts)。
+当辅助程序输出 `managedSettings` 时，该对象将成为本次运行的托管设置来源。Claude Code 从中读取[跨来源键](https://code.claude.com/docs/zh-CN/managed-settings.md#keys-read-from-every-admin-source)，并且不合并[父级设置](https://code.claude.com/docs/zh-CN/managed-settings.md#parent-settings-from-embedding-hosts)。它会忽略 MDM、文件和 HKCU 来源，但以下这类键除外：
 
-启动时的 `forceRemoteSettingsRefresh` 检查在辅助程序之前运行，并读取任何管理员来源。如果辅助程序以 `0` 退出，但输出的封装对象中省略了 `managedSettings`，则它不提供任何托管设置，其他来源照常生效。
+* **[`forceRemoteSettingsRefresh`](#forceremotesettingsrefresh)**：启动检查在辅助程序之前运行，并读取任何管理员来源
+* **[`enforceAnthropicSignIn`](#enforceanthropicsignin)**：Claude Code 从 MDM 策略或托管设置文件中读取此键
+
+如果辅助程序以 `0` 退出，但输出的封装对象中省略了 `managedSettings`，则它不提供任何托管设置，其他来源照常生效。
 
 #### 辅助程序失败
 

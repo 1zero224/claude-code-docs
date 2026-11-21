@@ -180,17 +180,13 @@ Claude 只能回复或解决已激活的线程。其他线程保持打开状态�
 Read the comments on https://claude.ai/code/artifact/5fbea6f3-... and make the changes the commenters ask for.
 ```
 
-如果 Claude 告诉您它无法读取评论，请确认您的版本、您的会话和您的功能标志设置：
-
-* 您运行的是 Claude Code v2.1.221 或更高版本。
-* 您不在安装 Claude Code 或从 v2.1.221 之前的版本升级后的第一个会话中。在[安装或升级后的第一个会话](https://code.claude.com/docs/zh-CN/env-vars.md#first-session-after-an-install-or-upgrade)中，Claude 可能还无法读取评论；启动新会话并再次询问。
-* 您没有关闭功能标志获取。
+在 v2.1.326 之前，Claude 需要开启[功能标志获取](https://code.claude.com/docs/zh-CN/env-vars.md#features-that-need-feature-flag-fetching)才能读取或监视评论。
 
 ### 让 Claude 自动回复评论
 
 在您的会话发布 Artifact 后，Claude Code 会监视该 Artifact 的评论。当可以编辑 Artifact 的人向 Claude 发送评论时，它会立即到达您的会话，Claude 可以读取线程并回复，而无需您询问。
 
-您需要 Claude Code v2.1.228 或更高版本。如果您关闭了[功能标志获取](https://code.claude.com/docs/zh-CN/env-vars.md#features-that-need-feature-flag-fetching)，Claude Code 不会监视评论。
+您需要 Claude Code v2.1.228 或更高版本。
 
 您的[权限模式](https://code.claude.com/docs/zh-CN/permission-modes.md)决定了当发送的评论到达时 Claude 的行为：
 
@@ -208,7 +204,7 @@ Read the comments on https://claude.ai/code/artifact/5fbea6f3-... and make the c
 * **在 `/tasks` 中停止任务**：Claude 停止回复该工件，直到您要求它在那里恢复回复。重新发布工件不会再次启动回复，当您稍后恢复会话时，停止仍然适用。
 * **在 3 秒内按两次 `Ctrl+X Ctrl+K`**：[停止每个运行的后台子代理](https://code.claude.com/docs/zh-CN/interactive-mode.md#general-controls)的和弦也会停止 Claude 为会话的其余部分回复每个工件。要求 Claude 恢复回复不会撤销此停止。
 
-由 Claude Code 自行启动的监视可能会在 Artifact 数小时无活动后结束。要重新启动监视，请再次发布该 Artifact 或要求 Claude 监视它。
+由 Claude Code 自行启动的监视可能会在 Artifact 数小时无活动后结束。您会看到 `Stopped watching Artifact: <name> (idle)`。要重新启动监视，请再次发布该 Artifact 或要求 Claude 监视它。如果您看到的是 `(made room for a newer watch)` 而不是 `(idle)`，说明您的会话已达到 25 个监视的上限。再次发布即可重新启动该监视。
 
 如果传递评论的服务变得不可用或停止响应，Claude Code 会尝试重新连接一段时间，然后停止监视您的会话正在监视的每个工件。
 
@@ -222,13 +218,13 @@ Artifact 可以在每次有人查看它时调用 [MCP 连接器](https://code.cl
 构建一个我们未关闭的 Pull Request 的 dashboard Artifact，当页面加载时通过我的 GitHub 连接器拉取实时列表。
 ```
 
-Claude 声明该页面可能调用哪些连接器作为发布的一部分，该页面无法调用该声明之外的连接器。只有来自您 claude.ai 账户的连接器符合条件：Claude 在声明中命名它们，当有人查看页面时，每个调用都会[通过查看账户自己的连接](#how-connector-calls-work-for-viewers)运行到该连接器。您在 Claude Code 中配置的本地 MCP 服务器（例如来自 `.mcp.json` 的服务器）可以在 Claude 构建页面时提供数据，但已发布的页面无法调用它们。
+请使用来自您 claude.ai 账户的连接器。您在 Claude Code 中配置的本地 MCP 服务器（例如来自 `.mcp.json` 的服务器）可以在 Claude 构建页面时提供数据，但已发布的页面无法调用它们。
 
 页面在加载时获取数据，可以按间隔刷新或当查看者在页面上使用刷新控件时刷新。响应缓存在查看者的浏览器中，因此重新打开的页面会立即从缓存的响应呈现，然后使用新结果更新。
 
 ### 连接器调用如何为查看者工作
 
-当已发布的页面调用连接器时，该调用使用查看页面的人的账户，而不是发布它的人的账户：
+默认情况下，当已发布的页面调用连接器时，该调用使用查看页面的人的账户，而不是发布它的人的账户：
 
 * **每个查看者使用他们自己的连接器**：调用通过查看账户的已连接工具进行，因此两个打开同一 dashboard 的人可能会看到不同的数据，具体取决于他们的账户可以访问什么。该页面永远看不到任何人的凭证；claude.ai 代表页面进行调用。
 * **查看者首先批准访问**：claude.ai 在页面的第一个连接器调用之前向每个查看者请求权限。拒绝的查看者或未连接页面使用的连接器的查看者仍然可以看到页面，但没有其实时部分。
@@ -238,11 +234,15 @@ Claude 声明该页面可能调用哪些连接器作为发布的一部分，该�
 
 您可以在您的组织内或公开[共享一个由连接器支持的页面](#share-an-artifact)，如您的计划和组织设置所允许的那样。连接器调用不会为未登录 claude.ai 的查看者或来自您组织外部的查看者运行。该查看者看到的页面没有其实时部分。
 
+> [!WARNING]
+>
+> 如果您为 dashboard 启用了[实时共享](https://support.claude.com/en/articles/17454700-get-started-with-claude-data#h_9b12806a2a)，您共享的调用将通过您的账户运行。在共享之前，请检查该 dashboard 显示了哪些数据。
+
 ### 页面对查看者显示没有实时数据
 
 当由连接器支持的页面呈现但其实时部分对您组织中的查看者保持为空时，请解决这些原因：
 
-* **查看者未连接连接器**：连接器是按账户的，因此每个查看者都需要自己连接到页面调用的每个连接器。他们可以在 [claude.ai/customize/connectors](https://claude.ai/customize/connectors) 添加一个，然后重新加载页面。
+* **查看者未连接连接器**：他们可以在 [claude.ai/customize/connectors](https://claude.ai/customize/connectors) 添加它，然后重新加载页面。
 * **查看者拒绝了权限请求**：拒绝在该页面加载的其余部分持续。重新加载页面会再次显示权限请求。
 * **为组织关闭了连接器调用**：所有者控制管理设置中的[**启用 artifact 连接器**切换](#control-connector-calls-from-artifacts)。
 * **页面调用连接器不公开的工具名称**：受影响的部分对所有人（包括您）保持为空。当页面命名网关风格连接器后面的单个工具，而该连接器仅公开其自己的几个工具时，可能会发生这种情况。要求 Claude 修复页面调用的工具名称并再次发布它。
@@ -261,7 +261,7 @@ artifact 可以向查看者提供页面生成的文件，例如表格的 CSV 导
 Add a button that downloads this table as a CSV file.
 ```
 
-Claude 将下载功能声明为发布的一部分，与[声明连接器](#pull-live-data-with-mcp-connectors)的方式相同。
+Claude 会在发布过程中声明下载功能。
 
 ## 您可以构建的内容
 
@@ -423,7 +423,7 @@ Team 和 Enterprise 计划的所有者可以在 [claude.ai 管理设置](https:/
 
 在 Team 和 Enterprise 计划中，公开共享默认处于关闭状态。要允许成员将 Artifact 发布到任何人无需登录即可查看的公开链接，请前往 [**Organization settings > Artifacts**](https://claude.ai/admin-settings/artifacts)，然后打开 **Artifacts** 开关下方的 **External sharing**。重新关闭该选项会阻止通过现有公开链接进行访问，但不会更改各个 Artifact 的受众；如果您重新启用该选项，访问将恢复。
 
-### 设置保留策略
+### 在 Enterprise 计划中设置保留策略
 
 要设置 Artifact 在被自动删除之前的保留时长，请前往 [**Organization settings > Data and privacy**](https://claude.ai/admin-settings/data-privacy-controls)。您可以分别为仍仅对作者私有的 Artifact 和已被共享的 Artifact 设置不同的保留期限。
 

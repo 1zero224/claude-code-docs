@@ -61,11 +61,9 @@ Anthropic 提供的某些促销额度无法支付这些请求。其中包括 Cla
 
 设置您的后端如何向 `auth.claude.com` 证明其请求来自您的应用。这取代了客户端密钥：Anthropic 不会为 OAuth 应用颁发客户端密钥。
 
-在应用的 **Client authentication** 选项卡上，选择您的**身份提供商**（为您后端的令牌签名的颁发者）。如需添加一个，请点击 **Register a new issuer**。然后设置这些令牌必须匹配的**主题模式**，或在**高级匹配选项**下设置声明条件。保存后，该选项卡会显示预期的受众。您的客户端断言的 `aud` 声明必须与该值完全一致。
+在应用的 **Client authentication** 选项卡上，选择您的**身份提供商**。这是为您后端的令牌签名的颁发者，例如 AWS、Google Cloud 或 Kubernetes。如需添加，请点击 **Register a new issuer** 或参阅 [工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)。然后，设置这些令牌必须匹配的**主题模式**，或在**高级匹配选项**下设置声明条件。保存后，该选项卡会显示预期的受众。您的客户端断言的 `aud` 声明必须与该值完全一致。
 
-<Note>
-  您的应用使用 `private_key_jwt` 方法（RFC 7523）的一种变体向 PAR、令牌和撤销端点进行身份验证：每次请求时，您的后端都会发送一个"client assertion"（客户端断言），即由您的身份提供商颁发的 JWT。`auth.claude.com` 会使用为该颁发者注册的密钥检查令牌的签名，并根据您在此处设置的主体或声明条件对其进行检查。有关客户端断言必须包含的声明，请参阅[客户端断言声明](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/oauth-reference#client-assertion-claims)。
-</Note>
+您的应用使用 `private_key_jwt` 方法（RFC 7523）的一种变体向 PAR、令牌和撤销端点进行身份验证。每次请求时，您的后端都会发送一个"client assertion"（客户端断言），即由您的身份提供商颁发的 JWT。`auth.claude.com` 会使用为该颁发者注册的密钥检查令牌的签名。它还会根据您在此处设置的主体或声明条件对令牌进行检查。有关客户端断言必须包含的声明，请参阅[客户端断言声明](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/oauth-reference#client-assertion-claims)。
 
 ### 步骤 3：设置您后端的身份
 
@@ -109,7 +107,7 @@ Anthropic 提供的某些促销额度无法支付这些请求。其中包括 Cla
 
 对于每个关联其组织的客户，您需要执行步骤 4 到 8。以下 Python 代码片段需要 Anthropic SDK 和一些标准导入；请参阅[代码片段初始化](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#code-snippet-initialization)。其他语言的示例和 CLI 从环境中获取凭据。请确保未设置 `ANTHROPIC_API_KEY`，因为您的应用需要使用工作负载身份联合进行身份验证。
 
-在您产品中客户管理计费或集成的位置添加一个"Link your Claude organization"按钮（有关按钮的 HTML、颜色和徽标，请参阅[品牌示例](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/branding-samples#buttons)）。告知客户，要进行关联，他们必须在其 Claude 组织中具有管理员或账单角色。
+在您产品中客户管理计费或集成的位置添加一个 **Link your Claude organization** 按钮。有关按钮的 HTML、颜色和徽标，请参阅[品牌示例](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/branding-samples)。告知您的客户，要进行关联，他们必须在其 Claude 组织中具有管理员或账单角色。
 
 如需先自己走一遍这些步骤，请参阅[以客户身份测试](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#test-as-a-customer)。
 
@@ -486,9 +484,9 @@ Anthropic 不会告知您客户关联的是哪个 Claude 组织，因此您无�
 
 您的应用未针对此请求进行设置。对于工作区问题，`error_description` 会指明原因。对于缺少操作员服务账户的情况，它仅显示 `the client is not registered for this grant`。该拒绝不会消耗代码，因此在代码过期之前，您可以再次兑换同一代码。首先，请在 Claude Console 中检查以下各项：
 
-| 检查项          | 位置                                                                                                                                                 | 修复方法                                                |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| 应用有操作员服务账户   | 应用 **Client authentication** 选项卡上的 **Operator service account**                                                                                    | 选择一个并点击 **Save**。步骤 3 介绍了如何设置。                      |
+| 检查项 | 位置 | 修复方法 |
+| ----- | ----- | ----- |
+| 应用有操作员服务账户 | 应用 **Client authentication** 选项卡上的 **Operator service account** | 选择一个并点击 **Save**。步骤 3 介绍了如何设置。 |
 | 应用的工作区存在且未归档 | [设置您的应用](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#settings-for-a-connections-oauth-tokens) | 选择一个工作区。在应用没有工作区时，兑换同样会因 `unauthorized_client` 被拒绝。 |
 
 保存的服务账户可能需要一两分钟才能同步到 `auth.claude.com`，因此如果兑换再次被拒绝，请等待这么长时间后重试。如果届时代码已过期，请让用户再次批准（步骤 5 到 8）。有关 `error_description` 针对连接令牌所指明的原因，请参阅[存储令牌](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#keep-the-tokens-from-step-8)和[刷新令牌](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#refresh-the-connection)。
@@ -1432,11 +1430,11 @@ Claude Console 和[用量和成本分析 API](https://platform.claude.com/docs/z
 
 在响应中，`connection_status` 描述该用户配置文件与您应用的关联：
 
-| `connection_status.type` | 含义                                                                                                                                                            |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `connected`              | 该用户配置文件与您的应用之间至少有一个连接处于活跃状态。                                                                                                                                  |
-| `disconnected`           | 该用户配置文件曾被关联，且所有连接均已终止。`last_revoked_at` 表示最后一个连接终止的时间。`last_revoked_reason.type` 表示终止原因，例如 `revoked_by_admin`（客户组织的管理员）或 `revoked_by_app_owner`（您的组织，包括您的后端）。 |
-| `not_connected`          | 该用户配置文件从未关联到您的应用。                                                                                                                                             |
+| `connection_status.type` | 含义 |
+| ----- | ----- |
+| `connected` | 该用户配置文件与您的应用之间至少有一个连接处于活跃状态。 |
+| `disconnected` | 该用户配置文件曾被关联，且所有连接均已终止。`last_revoked_at` 表示最后一个连接终止的时间。`last_revoked_reason.type` 表示终止原因，例如 `revoked_by_admin`（客户组织的管理员）或 `revoked_by_app_owner`（您的组织，包括您的后端）。 |
+| `not_connected` | 该用户配置文件从未关联到您的应用。 |
 
 请将值为 `null` 的 `connection_status` 或您无法识别的 `type` 视为未知。将您无法识别的原因视为 `other`。`oauth_connections.data` 列出了连接本身。
 
@@ -1707,12 +1705,12 @@ Claude Console 和[用量和成本分析 API](https://platform.claude.com/docs/z
 
 如需改为通过 Claude API 取消关联客户，请在 `oauth_app_id` 中将您应用的客户端 ID 发送到 `POST /v1/user_profiles/{id}/unlink`。这会终止与使用 `user_profile_id` 调用撤销端点时相同的连接。这两种请求的区别如下：
 
-|             | 撤销端点                      | 取消关联                                                                                    |
-| ----------- | ------------------------- | --------------------------------------------------------------------------------------- |
-| **主机**      | `auth.claude.com`         | `api.anthropic.com`                                                                     |
-| **身份验证**    | 您应用的客户端身份验证（步骤 2）         | 您的操作员服务账户（步骤 3）：其访问令牌，或绑定到该账户的 API 密钥。访问令牌必须来自具有 `workspace:developer` 作用域的联合规则，这是默认设置。 |
-| **Beta 标头** | 无                         | `user-profiles-search-2026-08-30`                                                       |
-| **终止的内容**   | 一个连接，或您的应用在某个用户配置文件上的所有连接 | 您的应用在某个用户配置文件上的所有连接                                                                     |
+|  | 撤销端点 | 取消关联 |
+| ----- | ----- | ----- |
+| **主机** | `auth.claude.com` | `api.anthropic.com` |
+| **身份验证** | 您应用的客户端身份验证（步骤 2） | 您的操作员服务账户（步骤 3）：其访问令牌，或绑定到该账户的 API 密钥。访问令牌必须来自具有 `workspace:developer` 作用域的联合规则，这是默认设置。 |
+| **Beta 标头** | 无 | `user-profiles-search-2026-08-30` |
+| **终止的内容** | 一个连接，或您的应用在某个用户配置文件上的所有连接 | 您的应用在某个用户配置文件上的所有连接 |
 
 <CodeGroup exclude="shell:CLI, python, typescript, csharp, go, java, php, ruby">
   ```bash cURL
@@ -1792,7 +1790,7 @@ Claude Console 和[用量和成本分析 API](https://platform.claude.com/docs/z
 * **Set a monthly spend limit：** 用户以整数美元为您的应用输入一个限额并点击 **Continue**。金额字段初始为空，因此页面不会替用户选择限额。**Continue without a limit** 不会保存新的限额，客户之前保存的上限或默认值仍然适用。用户输入的限额即[支出上限](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#spend-caps)中所述的支出上限。当您的应用处于测试阶段时，此界面有所不同：请参阅[应用处于测试阶段时](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#while-your-app-is-in-testing)。
 * **最后一个界面：** 此界面列出您的应用将能够执行的操作，包括用户所选的限额。用户点击 **Link and authorize**。
 
-批准页面使用浏览器中当前登录的 Claude 账户，并且只提供该账户的 Claude 组织。该账户可能不是您的用户预期的账户，例如是个人账户而不是工作账户。您的应用无法选择账户。OpenID Connect 参数 `prompt=select_account` 和 `login_hint` 不会改变该页面使用哪个账户。
+批准页面使用浏览器中当前登录的 Claude 账户，并且只提供该账户的 Claude 组织。该账户可能不是您的用户预期的账户，例如是个人账户而不是工作账户。您的应用无法选择账户。`prompt=select_account` 和 `login_hint` 参数不会改变该页面使用哪个账户。
 
 ### 关联之后
 
@@ -1831,13 +1829,13 @@ Anthropic 不保证电子邮件一定会发送或送达。取消关联客户时�
 
 当您的应用处于测试中、审核中或未获批准状态时，只要有人关联您的应用或更改其上限，就会适用以下限制：
 
-|                                     | 测试中、审核中或未获批准   | 应用上线之后   |
-| ----------------------------------- | -------------- | -------- |
-| 批准页面上的每月支出限额                        | 必填，不超过 $50 USD | 可选       |
-| 批准页面上的金额字段                          | 初始为 $50 USD    | 初始为空     |
-| 批准页面上的 **Continue without a limit** | 不提供            | 提供       |
-| 在 Console 中移除上限                     | 不可行            | 可行       |
-| 客户可设置的最大上限                          | $50 USD        | 实际上没有最大值 |
+|  | 测试中、审核中或未获批准 | 应用上线之后 |
+| ----- | ----- | ----- |
+| 批准页面上的每月支出限额 | 必填，不超过 $50 USD | 可选 |
+| 批准页面上的金额字段 | 初始为 $50 USD | 初始为空 |
+| 批准页面上的 **Continue without a limit** | 不提供 | 提供 |
+| 在 Console 中移除上限 | 不可行 | 可行 |
+| 客户可设置的最大上限 | $50 USD | 实际上没有最大值 |
 
 您的应用上线后，客户在此之前保存的上限会保持不变。之后客户可以提高或移除该上限。
 

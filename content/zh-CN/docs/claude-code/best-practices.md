@@ -304,7 +304,7 @@ use a subagent to review the rate limiter diff against SPEC.md, check every requ
 * 对您某个 MCP 服务器的工具调用
 * [`prompt` 或 `agent` hook](https://code.claude.com/docs/zh-CN/hooks#hook-handler-fields)，让模型来决定
 
-`prompt` 或 `agent` hook 会让*另一个模型*来决定，所以它也不是确定性的。要真正强制执行，请使用 `command` 或 `http` hook，如果在 hook 本身崩溃或超时时也应阻止该操作，请添加 [`onFailure: "block"`](https://code.claude.com/docs/zh-CN/hooks#block-the-action-when-a-hook-fails)。例如，对于扫描提交中是否含有密钥的 hook，在扫描器宕机时，您宁愿阻止提交，也不愿让它未经扫描就通过。
+`prompt` 或 `agent` hook 会让*另一个模型*来决定，所以它也不是确定性的。要真正强制执行，请使用 `command`、`http` 或 `mcp_tool` hook，如果在 hook 本身崩溃或超时时也应阻止该操作，请添加 [`onFailure: "block"`](https://code.claude.com/docs/zh-CN/hooks#block-the-action-when-a-hook-fails)。例如，对于扫描提交中是否含有密钥的 hook，在扫描器宕机时，您宁愿阻止提交，也不愿让它未经扫描就通过。
 
 下面是将格式化规则写成 `PostToolUse` hook 的样子。它在每次 `Edit` 或 `Write` 之后运行，Claude 是否记得这条规则已不再重要，因为运行它的不是 Claude：
 
@@ -399,7 +399,7 @@ use a subagent to review the rate limiter diff against SPEC.md, check every requ
 
 当自动模式阻止某项操作时，您会收到通知，该操作会出现在 `/permissions` 的 **Recently blocked** 下，您可以在那里[批准该操作，以便 Claude 重试](https://code.claude.com/docs/zh-CN/auto-mode-config.md#review-denials)。在[连续三次阻止](https://code.claude.com/docs/zh-CN/permission-modes.md#when-auto-mode-falls-back)（或总计二十次）之后，自动模式会暂停并恢复为向您询问。
 
-这些都不会取代您的确定性控制，因为它在它们*之后*运行。拒绝规则、询问规则和 `PreToolUse` hook 会在分类器看到任何内容之前生效，因此拒绝规则在自动模式中的阻止效果与在其他任何地方完全相同。沙箱仍然会限制[它所包装的 shell 命令](https://code.claude.com/docs/zh-CN/sandboxing.md#what-runs-outside-the-sandbox)。
+沙箱仍然会限制[它所包装的 shell 命令](https://code.claude.com/docs/zh-CN/sandboxing.md#what-runs-outside-the-sandbox)。
 
 > [!NOTE]
 >
@@ -543,7 +543,7 @@ and report only the gaps that affect correctness. Skip style.
 
 在脚本中，您几乎总是需要再加几个标志：
 
-* [`--bare`](https://code.claude.com/docs/zh-CN/headless#start-faster-with-bare-mode) 会跳过 hook、skill、插件、MCP 服务器和 `CLAUDE.md` 文件（包括仓库的和机器的），因此无论在哪里运行，结果都一样。它也从不触及您的 claude.ai 登录：身份验证来自 `ANTHROPIC_API_KEY`、您通过 `--settings` 传入的文件中的 `apiKeyHelper`，或您的云提供商的凭据。
+* [`--bare`](https://code.claude.com/docs/zh-CN/headless#start-faster-with-bare-mode) 会跳过仓库和您主目录中的 hook、skill、插件、MCP 服务器和 `CLAUDE.md` 文件。它也不使用您的 claude.ai 登录：身份验证来自 `ANTHROPIC_API_KEY`、您通过 `--settings` 传入的文件中的 `apiKeyHelper`，或您的云提供商的凭据。
 * `--append-system-prompt`、`--mcp-config` 和 `--settings` 会显式传入运行*确实*需要的内容。通过 `--settings` 传入的 hook [在 `--bare` 下不会运行](https://code.claude.com/docs/zh-CN/headless#start-faster-with-bare-mode)，因此对于需要这些 hook 的运行，不要使用 `--bare`。
 * `--allowedTools` 会预先批准其工具，而 [`--permission-mode dontAsk`](https://code.claude.com/docs/zh-CN/permission-modes#allow-only-pre-approved-tools-with-dontask-mode) 会拒绝其他任何原本会触发提示的操作。
 * `--output-format json` 会为您提供一个可供解析的单一结果对象，而搭配 `--verbose` 的 `stream-json` 会在事件发生时流式输出。

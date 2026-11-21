@@ -16,12 +16,12 @@ Compliance API 使用两种密钥类型，您创建哪一种取决于您的组�
 
 ## 您需要哪种密钥？
 
-| 密钥类型                                           | 创建位置                                                                        | 用途                                                                                                                       | 是否适用于 Compliance API？ |
-| ---------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------- |
-| **Compliance Access Key** (`sk-ant-api01-...`) | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access)       | 活动源、聊天、文件、项目、会话（在 Cowork 和 Claude Code 等应用中）、用户、组织元数据和组织设置                                                               | 是（所有端点）               |
-| **Admin API 密钥** (`sk-ant-admin01-...`)        | Claude Console 中的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面 | [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 和 Compliance API 活动源                         | 仅活动源                  |
-| **Analytics API 密钥**                           | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access)       | Claude Enterprise Analytics API（请参阅 [Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api)） | 否                     |
-| **Claude API 密钥** (`sk-ant-api03-...`)         | Claude Console 中的 [API 密钥](https://platform.claude.com/settings/keys)页面     | 通过 [Claude API](https://platform.claude.com/docs/zh-CN/api/overview) 调用 Claude 模型                                        | 否                     |
+| 密钥类型 | 创建位置 | 用途 | 是否适用于 Compliance API？ |
+| ----- | ----- | ----- | ----- |
+| **Compliance Access Key** (`sk-ant-api01-...`) | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access) | 活动源、聊天、文件、项目、会话（在 Cowork 和 Claude Code 等应用中）、用户、组织元数据和组织设置 | 是（所有端点） |
+| **Admin API 密钥** (`sk-ant-admin01-...`) | Claude Console 中的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面 | [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 和 Compliance API 活动源 | 仅活动源 |
+| **Analytics API 密钥** | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access) | Claude Enterprise Analytics API（请参阅 [Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api)） | 否 |
+| **Claude API 密钥** (`sk-ant-api03-...`) | Claude Console 中的 [API 密钥](https://platform.claude.com/settings/keys)页面 | 通过 [Claude API](https://platform.claude.com/docs/zh-CN/api/overview) 调用 Claude 模型 | 否 |
 
 一个 Claude Enterprise 租户有一个**父组织**（parent organization），它为其下的每个工作负载组织集中管理身份、SSO 和 SCIM。这些工作负载组织是父组织的**关联组织**（linked organizations）。
 
@@ -74,12 +74,12 @@ Compliance API 使用两种密钥类型，您创建哪一种取决于您的组�
   <Step title="创建密钥">
     点击**创建密钥**，为密钥命名，并从下表中选择一个或多个范围。点击**创建**。
 
-    | 范围                            | 授予权限                                                                                                                                                                                                                                                           |
-    | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | `read:compliance_activities`  | 读取活动源。覆盖父组织的密钥可读取父组织及所有关联组织的事件。                                                                                                                                                                                                                                |
-    | `read:compliance_user_data`   | 读取用户聊天、消息、文件、项目、会话元数据和记录、组织用户、用户偏好以及群组成员。与 `read:compliance_org_data` 一起使用时，还可读取是谁做出了 [Security posture 声明](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#who-attested-and-comments)（在端点返回该信息的情况下）：用户 ID。 |
-    | `delete:compliance_user_data` | 删除用户聊天、文件和项目。                                                                                                                                                                                                                                                  |
-    | `read:compliance_org_data`    | 读取组织元数据（名称、类型、角色和群组）以及父组织下各组织当前生效的设置。还可读取组织的 [Security posture](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference)：其大多数安全控制项的当前结果，以及响应中包含的声明。用户列表和群组成员资格需要 `read:compliance_user_data`。                       |
+    | 范围 | 授予权限 |
+    | ----- | ----- |
+    | `read:compliance_activities` | 读取活动源。覆盖父组织的密钥可读取父组织及所有关联组织的事件。 |
+    | `read:compliance_user_data` | 读取用户聊天、消息、文件、项目、会话元数据和记录、组织用户、用户偏好以及群组成员。与 `read:compliance_org_data` 一起使用时，还可读取是谁做出了 [Security posture 声明](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#who-attested-and-comments)（在端点返回该信息的情况下）：用户 ID。 |
+    | `delete:compliance_user_data` | 删除用户聊天、文件和项目。 |
+    | `read:compliance_org_data` | 读取组织元数据（名称、类型、角色和群组）以及父组织下各组织当前生效的设置。还可读取组织的 [Security posture](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference)：其大多数安全控制项的当前结果，以及响应中包含的声明。用户列表和群组成员资格需要 `read:compliance_user_data`。 |
 
     借助插件 API，`read:compliance_org_data` 还可以通过 Admin API 读取您组织的插件和插件市场清单，包括成员的个人插件及其文件。该清单可识别成员：它包含拥有或创建插件的每个成员的用户 ID，或插件被单独共享给的每个成员的用户 ID，以及插件创建者仍为成员时的电子邮件地址；请参阅[读取插件和插件市场](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-org-data#read-plugins-and-plugin-marketplaces)。
 

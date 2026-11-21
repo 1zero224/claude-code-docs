@@ -152,11 +152,11 @@ Anthropic 会向您的管理员配置的 URL 发送一个 HTTPS `POST`。整个�
 
 每个请求都携带以下固定标头，以及您的管理员配置的任何[自定义请求标头](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-configuration)，并且一旦您的组织拥有签名密钥，还会携带[验证签名](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#verify-the-signature)中描述的 `webhook-*` 签名标头：
 
-| 标头                | 值                  |
-| ----------------- | ------------------ |
-| `Content-Type`    | `application/json` |
-| `User-Agent`      | `anthropic-dlp/1`  |
-| `Accept-Encoding` | `identity`         |
+| 标头 | 值 |
+| ----- | ----- |
+| `Content-Type` | `application/json` |
+| `User-Agent` | `anthropic-dlp/1` |
+| `Accept-Encoding` | `identity` |
 
 共有两种 hook 事件，通过顶层 `type` 字段加以区分。prompt 帧会在每个受管控的推理请求开始推理之前发送一次。在开启了 **Validate tool calls（验证工具调用）** 的组织中，当模型响应包含工具调用时，会在任何工具调用运行之前发送 tool call 帧。无论哪种情况，Anthropic 都会等待，直到您的 AI 安全服务器作出响应或裁决超时。
 
@@ -164,17 +164,17 @@ Anthropic 会向您的管理员配置的 URL 发送一个 HTTPS `POST`。整个�
 
 请求正文是一个包含以下字段的 JSON 对象：
 
-| 字段           | 类型            | 描述                                                                                                                                                                                                                                                                                         |
-| ------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `type`       | string        | 钩子事件：`"prompt"` 或 `"tool_call"`（请参阅[工具调用帧](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#the-tool-call-frame)）。未来将引入其他事件类型，因此请妥善处理无法识别的值（请参阅[向前兼容性](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#forward-compatibility)）。 |
-| `request_id` | string        | 每个帧的不透明标识符，用于关联。等于 `webhook-id` 标头。                                                                                                                                                                                                                                                        |
-| `tenant_id`  | string 或 null | 请求所属组织的不透明标识符。                                                                                                                                                                                                                                                                             |
-| `actor`      | object        | 请求所归属的主体，按 `type` 区分（`"user"` 是目前发送的唯一值）：`id`（带标签的标识符，对于同一账户在各请求之间保持稳定）和 `email_address`（如可用）。`id` 和 `email_address` 都可以为 null。                                                                                                                                                            |
-| `source`     | object        | 发起请求的应用程序：`application`（请参阅 [Source 值](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#source-values)）。                                                                                                                                                      |
-| `messages`   | array         | 截至推理时刻的对话记录。请参阅[内容块](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#content-blocks)。                                                                                                                                                                        |
-| `session_id` | string 或 null | 不透明的对话标识符（如存在）。不要解析它。对于 Claude Code，它是一个尽力而为的、由客户端声明的会话标识符。                                                                                                                                                                                                                                |
-| `model`      | string 或 null | 此请求的公开模型标识符（如可用）。                                                                                                                                                                                                                                                                          |
-| `metadata`   | object        | 保留的扩展映射，键和值均为字符串，目前发送为空。不要对其有任何要求，并容忍它的缺失、它的存在以及出现的任何键。                                                                                                                                                                                                                                    |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `type` | string | 钩子事件：`"prompt"` 或 `"tool_call"`（请参阅[工具调用帧](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#the-tool-call-frame)）。未来将引入其他事件类型，因此请妥善处理无法识别的值（请参阅[向前兼容性](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#forward-compatibility)）。 |
+| `request_id` | string | 每个帧的不透明标识符，用于关联。等于 `webhook-id` 标头。 |
+| `tenant_id` | string 或 null | 请求所属组织的不透明标识符。 |
+| `actor` | object | 请求所归属的主体，按 `type` 区分（`"user"` 是目前发送的唯一值）：`id`（带标签的标识符，对于同一账户在各请求之间保持稳定）和 `email_address`（如可用）。`id` 和 `email_address` 都可以为 null。 |
+| `source` | object | 发起请求的应用程序：`application`（请参阅 [Source 值](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#source-values)）。 |
+| `messages` | array | 截至推理时刻的对话记录。请参阅[内容块](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#content-blocks)。 |
+| `session_id` | string 或 null | 不透明的对话标识符（如存在）。不要解析它。对于 Claude Code，它是一个尽力而为的、由客户端声明的会话标识符。 |
+| `model` | string 或 null | 此请求的公开模型标识符（如可用）。 |
+| `metadata` | object | 保留的扩展映射，键和值均为字符串，目前发送为空。不要对其有任何要求，并容忍它的缺失、它的存在以及出现的任何键。 |
 
 请求正文示例：
 
@@ -219,12 +219,12 @@ Anthropic 会向您的管理员配置的 URL 发送一个 HTTPS `POST`。整个�
 
 `messages` 中的每个条目都有一个值为 `user` 或 `assistant` 的 `role`（工具结果出现在 `user` 角色下，与公开的 Messages API 内容模型一致），以及一个按 `type` 区分的块组成的 `content` 数组：
 
-| 块 `type`      | 字段                                                                                                                                                                                                                                  |
-| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `text`        | `text`：文本内容。                                                                                                                                                                                                                        |
-| `tool_use`    | `id`：对应工具结果所引用的标识符。`tool_name`：工具的名称。`input`：模型传递给工具的参数。`tool_info`：仅出现在工具调用帧中（其他地方省略，绝不为 `null`），是一个说明由谁运行或提供该工具的对象；请参阅[工具调用帧](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#the-tool-call-frame)。 |
-| `tool_result` | `content`：工具的文本输出，各部分以换行符连接；图像等二进制部分会被占位标记替换，且绝不会发送原始字节。`is_error`：工具调用是否失败。`tool_name`：工具的名称，以便策略可以根据工具身份进行判断，而无需交叉引用先前的块。`tool_use_id`：匹配的 `tool_use` 块的 `id`。                                                                    |
-| `attachment`  | `file_name`：原始文件名或路径。`media_type`：附件的媒体类型。`size_bytes`：原始文件的大小。`text`：附件的文本内容（如可用），例如提取的文档文本、音频转录或链接元数据。绝不会发送原始附件字节。                                                                                                                |
+| 块 `type` | 字段 |
+| ----- | ----- |
+| `text` | `text`：文本内容。 |
+| `tool_use` | `id`：对应工具结果所引用的标识符。`tool_name`：工具的名称。`input`：模型传递给工具的参数。`tool_info`：仅出现在工具调用帧中（其他地方省略，绝不为 `null`），是一个说明由谁运行或提供该工具的对象；请参阅[工具调用帧](https://platform.claude.com/docs/zh-CN/manage-claude/inference-hooks-endpoint#the-tool-call-frame)。 |
+| `tool_result` | `content`：工具的文本输出，各部分以换行符连接；图像等二进制部分会被占位标记替换，且绝不会发送原始字节。`is_error`：工具调用是否失败。`tool_name`：工具的名称，以便策略可以根据工具身份进行判断，而无需交叉引用先前的块。`tool_use_id`：匹配的 `tool_use` 块的 `id`。 |
+| `attachment` | `file_name`：原始文件名或路径。`media_type`：附件的媒体类型。`size_bytes`：原始文件的大小。`text`：附件的文本内容（如可用），例如提取的文档文本、音频转录或链接元数据。绝不会发送原始附件字节。 |
 
 除 `type`、`text` 块的 `text` 以及 `tool_result` 块的 `content` 和 `is_error` 之外，当值未知时，上述任何字段都可能为 `null`；例如，图像会以 `attachment` 块的形式到达，其 `file_name` 和 `text` 均为 `null`。
 
@@ -264,20 +264,20 @@ Anthropic 会向您的管理员配置的 URL 发送一个 HTTPS `POST`。整个�
 
 平台工具是 Claude API 在处理请求时自身运行的工具，例如网络搜索或代码执行。
 
-| 字段             | 是否存在 | 描述                                                   |
-| -------------- | ---- | ---------------------------------------------------- |
-| `type`         | 始终   | `"platform"`                                         |
-| `tool_type`    | 始终   | 工具的版本化类型，例如 `web_search_20250305`。请精确匹配；不要从中解析名称或日期。 |
-| `toolset_name` | 可选   | 它所属的工具组。                                             |
+| 字段 | 是否存在 | 描述 |
+| ----- | ----- | ----- |
+| `type` | 始终 | `"platform"` |
+| `tool_type` | 始终 | 工具的版本化类型，例如 `web_search_20250305`。请精确匹配；不要从中解析名称或日期。 |
+| `toolset_name` | 可选 | 它所属的工具组。 |
 
 ### 应用程序工具
 
 应用程序工具是发起请求的 Anthropic 应用程序自身提供的工具，例如 claude.ai 的自有工具。
 
-| 字段             | 是否存在 | 描述              |
-| -------------- | ---- | --------------- |
-| `type`         | 始终   | `"application"` |
-| `toolset_name` | 可选   | 它所属的工具组。        |
+| 字段 | 是否存在 | 描述 |
+| ----- | ----- | ----- |
+| `type` | 始终 | `"application"` |
+| `toolset_name` | 可选 | 它所属的工具组。 |
 
 claude.ai 自身提供的网络搜索工具的 `tool_use` 块：
 
@@ -301,12 +301,12 @@ claude.ai 并不总是将此工具命名为 `web_search`，因此不要仅根据
 
 第三方工具是位于 Anthropic 已知的服务器上的工具，例如 claude.ai 连接器，或请求在 `mcp_servers` 中指定的 MCP 服务器。这并不意味着 Anthropic 已审查过该服务器。在语音模式下，对 claude.ai 连接器工具的调用则为 `"client"`。
 
-| 字段                | 是否存在           | 描述                                                                                         |
-| ----------------- | -------------- | ------------------------------------------------------------------------------------------ |
-| `type`            | 始终             | `"third_party"`                                                                            |
-| `toolset_name`    | 可选             | 对于 `mcp_servers` 中的服务器，为请求给该服务器指定的名称。对于任何其他服务器（例如 claude.ai 连接器），为从 `tool_name` 中复制的服务器名称。 |
-| `origin`          | 可选             | 服务器 URL 的协议、主机和非默认端口。它可以是私有或本地地址，包括 `localhost`。缺少 `origin` 表示未知，而不是安全。                    |
-| `verified_origin` | 当 `origin` 存在时 | 仅当 Anthropic 的服务器自己连接到该服务器时为 `true`。请将 `false` 视为 Anthropic 尚未确认的来源。                       |
+| 字段 | 是否存在 | 描述 |
+| ----- | ----- | ----- |
+| `type` | 始终 | `"third_party"` |
+| `toolset_name` | 可选 | 对于 `mcp_servers` 中的服务器，为请求给该服务器指定的名称。对于任何其他服务器（例如 claude.ai 连接器），为从 `tool_name` 中复制的服务器名称。 |
+| `origin` | 可选 | 服务器 URL 的协议、主机和非默认端口。它可以是私有或本地地址，包括 `localhost`。缺少 `origin` 表示未知，而不是安全。 |
+| `verified_origin` | 当 `origin` 存在时 | 仅当 Anthropic 的服务器自己连接到该服务器时为 `true`。请将 `false` 视为 Anthropic 尚未确认的来源。 |
 
 请求在 `mcp_servers` 中命名为 `crm` 的 MCP 服务器上某个工具的 `tool_use` 块：
 
@@ -358,11 +358,11 @@ Claude Code 从用户计算机直接连接的 MCP 服务器（例如本地 MCP �
 
 拒绝会在 Claude Code 运行调用之前将其阻止。Claude Code 与本地服务器之间的交互不经过 Anthropic，因此只有当 Claude Code 将工具结果发回时，您的 AI 安全服务器才能看到它。届时，其文本会出现在下一个提示帧的 `tool_result` 块中。
 
-| 字段             | 是否存在 | 描述                                                                |
-| -------------- | ---- | ----------------------------------------------------------------- |
-| `type`         | 始终   | `"client"`                                                        |
-| `tool_type`    | 可选   | 当工具由 Anthropic 定义时，工具的版本化类型，例如 `bash_20250124`。请精确匹配；不要从中解析名称或日期。 |
-| `toolset_name` | 可选   | 它所属的工具组，例如 `browser`。                                             |
+| 字段 | 是否存在 | 描述 |
+| ----- | ----- | ----- |
+| `type` | 始终 | `"client"` |
+| `tool_type` | 可选 | 当工具由 Anthropic 定义时，工具的版本化类型，例如 `bash_20250124`。请精确匹配；不要从中解析名称或日期。 |
+| `toolset_name` | 可选 | 它所属的工具组，例如 `browser`。 |
 
 调用方应用程序声明的工具的 `tool_use` 块：
 
@@ -417,10 +417,10 @@ bash 的 `tool_use` 块，该工具由 Anthropic 定义并由调用方应用程�
 }
 ```
 
-| 字段             | 约束                                            | 语义                                                                                                                                                                                     |
-| -------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `action`       | `"allow"` 或 `"deny"`；必填                       | `allow` 让推理继续进行；`deny` 拒绝它。                                                                                                                                                            |
-| `deny_reason`  | string 或 null；最多 500 个字符，更长的值会被截断             | 当 `action` 为 `deny` 时向最终用户显示；在 `allow` 时被忽略。                                                                                                                                           |
+| 字段 | 约束 | 语义 |
+| ----- | ----- | ----- |
+| `action` | `"allow"` 或 `"deny"`；必填 | `allow` 让推理继续进行；`deny` 拒绝它。 |
+| `deny_reason` | string 或 null；最多 500 个字符，更长的值会被截断 | 当 `action` 为 `deny` 时向最终用户显示；在 `allow` 时被忽略。 |
 | `reference_id` | string 或 null；最多 50 个字符，取自 `[A-Za-z0-9._:/-]` | 您自己为此次评估设定的标识符。它会记录在该拒绝的 `inference_hooks_request_denied` [合规活动](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)中，且绝不会向最终用户显示。请保持其不透明：不包含请求内容，也不包含个人数据。 |
 
 拒绝绝不会因格式问题而被丢弃：超长的 `deny_reason` 会被截断，格式错误的 `reference_id` 会被静默丢弃，而 `action` 仍会被执行。
@@ -438,10 +438,10 @@ Anthropic 最多读取响应体的 64 KiB，且响应体必须是未压缩的�
 
 请求按照 [Standard Webhooks](https://www.standardwebhooks.com/) 规范进行签名，使用三个标头。Anthropic 以小写形式发送标头名称，而代理可以自由更改其大小写，因此请以不区分大小写的方式查找它们。
 
-| 标头                  | 内容                                                                                                                                    |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `webhook-id`        | 此次投递的唯一标识符。等于正文的 `request_id`。将其用作幂等键，并作为签名载荷的第一个组成部分。                                                                                |
-| `webhook-timestamp` | 请求签名时的 Unix 时间（以秒为单位），表示为十进制字符串。拒绝与您服务器时钟相差超过 5 分钟（无论哪个方向）的时间戳。                                                                       |
+| 标头 | 内容 |
+| ----- | ----- |
+| `webhook-id` | 此次投递的唯一标识符。等于正文的 `request_id`。将其用作幂等键，并作为签名载荷的第一个组成部分。 |
+| `webhook-timestamp` | 请求签名时的 Unix 时间（以秒为单位），表示为十进制字符串。拒绝与您服务器时钟相差超过 5 分钟（无论哪个方向）的时间戳。 |
 | `webhook-signature` | 一个或多个以空格分隔的 `v1,<base64>` 值，每个值都是对 `{webhook-id}.{webhook-timestamp}.{raw body bytes}` 计算的 HMAC-SHA256。如果任一值与您计算的值匹配，则接受请求，并使用常量时间比较。 |
 
 大多数验证错误由以下两个细节引起：

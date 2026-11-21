@@ -288,11 +288,11 @@ do {
 
 ## 其他资源
 
-| 参考资料                                                                                             | 涵盖内容                                                              |
-| ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------- |
-| [Apple Foundation Models 文档](https://developer.apple.com/documentation/foundationmodels)         | `LanguageModelSession`、`@Generable`、`Transcript`、`Tool` 以及框架的其余接口 |
-| [GitHub 上的 `ClaudeForFoundationModels`](https://github.com/anthropics/ClaudeForFoundationModels) | 源代码、可运行示例和问题跟踪器                                                   |
-| [Claude API 参考](https://platform.claude.com/docs/zh-CN/api/overview)                             | 底层 Messages API                                                   |
+| 参考资料 | 涵盖内容 |
+| ----- | ----- |
+| [Apple Foundation Models 文档](https://developer.apple.com/documentation/foundationmodels) | `LanguageModelSession`、`@Generable`、`Transcript`、`Tool` 以及框架的其余接口 |
+| [GitHub 上的 `ClaudeForFoundationModels`](https://github.com/anthropics/ClaudeForFoundationModels) | 源代码、可运行示例和问题跟踪器 |
+| [Claude API 参考](https://platform.claude.com/docs/zh-CN/api/overview) | 底层 Messages API |
 
 该包采用 Apache 2.0 许可证。欢迎通过 GitHub issues 提交错误报告。beta 期间不接受外部拉取请求。
 
@@ -306,6 +306,6 @@ Apple Foundation Models在所有模型上处于 beta 阶段。
 
 * 可用性：可用
 
-| 状态   | 云平台        |
-| ---- | ---------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API |

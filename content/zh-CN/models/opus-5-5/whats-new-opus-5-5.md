@@ -15,8 +15,8 @@ Claude Opus 5.5 专为长时间运行的智能体编码和知识工作而构建�
 
 ## 新模型
 
-| 模型              | Claude API ID   | 描述                  |
-| --------------- | --------------- | ------------------- |
+| 模型 | Claude API ID | 描述 |
+| ----- | ----- | ----- |
 | Claude Opus 5.5 | claude-opus-5-5 | 适用于长时间运行的智能体编码和知识工作 |
 
 [自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)始终开启，[effort 参数](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)控制思考深度；该模型上的默认值为 `medium`。有关上下文窗口、输出限制、知识截止日期和价格，请参阅 [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview) 模型页面；有关所有当前模型，请参阅[模型概览](https://platform.claude.com/docs/zh-CN/models/overview)。
@@ -53,14 +53,14 @@ tool_choice: type "tool" and "any" are not supported for this model.
 
 每个 thinking block（思考块）都会记录生成它的模型。切换模型的对话只有在切换后的模型能够读取先前模型的思考块时，才会保留其先前的推理内容：
 
-| 切换                                                                                      | 是否保留推理内容                                                         |
-| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| 从 Claude Opus 5 或更早版本、Claude Sonnet 5 或更早版本，或 Claude Haiku 4.5 或更早版本切换到 Claude Opus 5.5 | 是                                                                |
-| 从 Claude Sonnet 5.5 或 Claude Haiku 5.5 切换到 Claude Opus 5.5                              | 是，仅限 Claude API 和 Claude Models on Google Cloud (Google managed) |
-| 从 Claude Fable 或 Claude Mythos 模型切换到 Claude Opus 5.5                                    | 否                                                                |
-| 从 Claude Opus 5.5 切换到 Claude Fable 5.2 或 Claude Mythos 5.2                              | 是，仅限 Claude API 和 Claude Models on Google Cloud (Google managed) |
-| 从 Claude Opus 5.5 切换到 Claude Fable 5.1 或 Claude Mythos 5.1                              | 是，仅限 Claude API                                                  |
-| 从 Claude Opus 5.5 切换到任何其他模型                                                             | 否                                                                |
+| 切换 | 是否保留推理内容 |
+| ----- | ----- |
+| 从 Claude Opus 5 或更早版本、Claude Sonnet 5 或更早版本，或 Claude Haiku 4.5 或更早版本切换到 Claude Opus 5.5 | 是 |
+| 从 Claude Sonnet 5.5 或 Claude Haiku 5.5 切换到 Claude Opus 5.5 | 是，仅限 Claude API 和 Claude Models on Google Cloud (Google managed) |
+| 从 Claude Fable 或 Claude Mythos 模型切换到 Claude Opus 5.5 | 否 |
+| 从 Claude Opus 5.5 切换到 Claude Fable 5.2 或 Claude Mythos 5.2 | 是，仅限 Claude API 和 Claude Models on Google Cloud (Google managed) |
+| 从 Claude Opus 5.5 切换到 Claude Fable 5.1 或 Claude Mythos 5.1 | 是，仅限 Claude API |
+| 从 Claude Opus 5.5 切换到任何其他模型 | 否 |
 
 当请求中携带目标模型无法读取的思考块时，API 会在模型接收之前将其丢弃。请求会成功，且被丢弃的思考块不会计费。使用 `thinking-binding-controls-2026-08-01` beta 标头时，API 会在顶层的 `input_transformations` 数组中报告丢弃情况。请参阅[切换模型再切换回来](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。对于不涉及 Claude Opus 5.5 的切换，请参阅[在 Claude API 上哪些模型切换会保留推理](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#which-model-switches-keep-reasoning)。
 

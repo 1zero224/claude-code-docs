@@ -1184,17 +1184,17 @@ featureMetadata:
 
 * 可用性：可用
 
-| 状态 | 云平台     | 模型                                                             |
-| -- | ------- | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | 可用 | 所有支持的平台 | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                                                 | HIPAA                                                                                                                                             |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 状态   | 具备资格（有条件；不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)）                                                         | 具备资格                                                                                                                                              |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（有条件；不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
 | 详细信息 | 您的提示和 Claude 的输出不会被存储。仅缓存 JSON schema，自上次使用起最长保留 24 小时。这也涵盖严格工具使用（工具上的 `strict: true`），它使用相同的语法管道。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#data-retention) | JSON schema 定义中不得包含 PHI；请参阅 PHI 处理指南。 [了解更多](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#phi-handling-guidelines) |
 
 适用的端点：

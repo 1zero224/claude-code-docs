@@ -17,13 +17,13 @@ description: 将模型调用从您自托管的 Claude Managed Agents 服务器�
 
 `inference.provider` 设置可取以下值：
 
-| `inference.provider` | 模型调用发送到                                        | 服务器的身份验证方式                             |
-| -------------------- | ---------------------------------------------- | -------------------------------------- |
-| `anthropic`（默认）      | Claude API                                     | `ANTHROPIC_API_KEY`                    |
-| `bedrock`            | Amazon Bedrock                                 | 您的 AWS 凭据                              |
-| `vertex`             | Claude Models on Google Cloud (Google managed) | Google Application Default Credentials |
-| `foundry`            | Microsoft Foundry                              | Foundry API 密钥，或 Microsoft Entra ID    |
-| `gateway`            | 您自己运行的模型网关                                     | 您的网关接受的密钥或令牌                           |
+| `inference.provider` | 模型调用发送到 | 服务器的身份验证方式 |
+| ----- | ----- | ----- |
+| `anthropic`（默认） | Claude API | `ANTHROPIC_API_KEY` |
+| `bedrock` | Amazon Bedrock | 您的 AWS 凭据 |
+| `vertex` | Claude Models on Google Cloud (Google managed) | Google Application Default Credentials |
+| `foundry` | Microsoft Foundry | Foundry API 密钥，或 Microsoft Entra ID |
+| `gateway` | 您自己运行的模型网关 | 您的网关接受的密钥或令牌 |
 
 在除 `anthropic` 之外的所有取值下，服务器都不需要 Claude API 密钥。它会忽略 `ANTHROPIC_API_KEY`、`ANTHROPIC_AUTH_TOKEN` 和 `ANTHROPIC_BASE_URL`。唯一的例外是您让服务器从这些变量之一读取其密钥的[模型网关](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/inference-provider#model-gateway)。
 

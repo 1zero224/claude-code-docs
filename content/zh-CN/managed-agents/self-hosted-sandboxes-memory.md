@@ -149,12 +149,12 @@ Anthropic 已在 macOS 26.7.1 上使用 `ant` CLI worker 测试过此设置。
 
 `memory_sync_interval` (typescript: `memorySyncIntervalMs`; go: `MemorySyncInterval`) 设置会话运行期间两次同步之间的最短时间。
 
-| 设置       | 值                                                   |
-| -------- | --------------------------------------------------- |
-| 默认值      | 15 秒                                                |
-| 最小值      | 5 秒                                                 |
+| 设置 | 值 |
+| ----- | ----- |
+| 默认值 | 15 秒 |
+| 最小值 | 5 秒 |
 | 示例（10 秒） | `10` (typescript: `10_000`; go: `10 * time.Second`) |
-| 禁用记忆支持   | `None` (typescript: `null`; go: `-1`)               |
+| 禁用记忆支持 | `None` (typescript: `null`; go: `-1`) |
 
 worker 不按定时器进行同步。它会在每次调用在您的沙箱中运行的工具（例如 `bash`、`read` 或自定义工具）后检查间隔。该调用不必涉及记忆。如果没有工具调用，在[最终同步](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory#how-the-worker-handles-memory)之前不会进行任何同步。一个会话中的更改只有在两个会话都完成同步后才会到达另一个正在运行的会话，因此等待时间没有固定长度。
 
@@ -168,11 +168,11 @@ worker 不按定时器进行同步。它会在每次调用在您的沙箱中运�
 
 `memory_sync_deletions` (typescript: `memorySyncDeletions`; go: `MemorySyncDeletions`) 设置智能体在本地删除的文件是否也从存储中删除。上传和下载不受影响。
 
-| 值                                                               | 行为                                                       |
-| --------------------------------------------------------------- | -------------------------------------------------------- |
-| `"enabled"` (go: `environments.MemorySyncDeletionsEnabled`)（默认） | 在后续同步确认文件仍不存在后，从存储中删除该记忆。                                |
-| `"log_only"` (go: `environments.MemorySyncDeletionsLogOnly`)    | 执行相同的检查，但仅记录本应删除的内容。在信任启用模式之前，可使用此模式观察您的 worker 会删除哪些内容。 |
-| `"disabled"` (go: `environments.MemorySyncDeletionsDisabled`)   | 从不从存储中删除。                                                |
+| 值 | 行为 |
+| ----- | ----- |
+| `"enabled"` (go: `environments.MemorySyncDeletionsEnabled`)（默认） | 在后续同步确认文件仍不存在后，从存储中删除该记忆。 |
+| `"log_only"` (go: `environments.MemorySyncDeletionsLogOnly`) | 执行相同的检查，但仅记录本应删除的内容。在信任启用模式之前，可使用此模式观察您的 worker 会删除哪些内容。 |
+| `"disabled"` (go: `environments.MemorySyncDeletionsDisabled`) | 从不从存储中删除。 |
 
 例如，要最多每 10 秒同步一次，并且仅记录 worker 本应执行的删除操作，请使用以下示例。该示例使用 `/workspace` 作为工作目录，该目录必须在 worker 启动之前存在。[运行常驻 worker](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers#run-an-always-on-worker) 介绍了如何创建该目录以及在 macOS 上应使用什么。
 
@@ -312,11 +312,11 @@ worker 不按定时器进行同步。它会在每次调用在您的沙箱中运�
 
 冲突是指自上次同步以来在存储和沙箱中都发生了更改的记忆。删除也算作更改。对于以 `access: "read_write"` 附加的存储，worker 会在下一次同步时解决冲突：
 
-| 在存储中 | 在沙箱中 | 结果                   |
-| ---- | ---- | -------------------- |
-| 已更改  | 已更改  | 存储的版本覆盖该文件。          |
-| 已更改  | 已删除  | worker 将存储的版本写回沙箱。   |
-| 已删除  | 已更改  | worker 根据该文件重新创建该记忆。 |
+| 在存储中 | 在沙箱中 | 结果 |
+| ----- | ----- | ----- |
+| 已更改 | 已更改 | 存储的版本覆盖该文件。 |
+| 已更改 | 已删除 | worker 将存储的版本写回沙箱。 |
+| 已删除 | 已更改 | worker 根据该文件重新创建该记忆。 |
 
 在前两行中，智能体的更改或删除会丢失，即使工具调用已成功。不会有任何内容通知智能体，丢失的唯一迹象是 worker 日志中的一条警告。在最后一行中，存储中的删除会被撤销。
 
@@ -334,8 +334,8 @@ worker 不按定时器进行同步。它会在每次调用在您的沙箱中运�
 
 * 可用性：可用
 
-| 状态   | 云平台        |
-| ---- | ---------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API |
 
 ### 所需的 beta 请求头
@@ -350,9 +350,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

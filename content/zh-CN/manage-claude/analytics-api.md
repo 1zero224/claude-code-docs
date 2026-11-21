@@ -13,10 +13,10 @@ Anthropic 提供两种产品分析 API，您使用哪一种取决于您的组织
 
 ## 您需要哪种 API？
 
-| API                                 | 密钥类型             | 创建位置                                                                        | 谁可以创建 | 涵盖内容                                                     |
-| ----------------------------------- | ---------------- | --------------------------------------------------------------------------- | ----- | -------------------------------------------------------- |
-| **Claude Code 分析 API**              | Admin API 密钥     | Claude Console 中的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面 | 组织管理员 | 每位用户的每日 Claude Code 指标：会话、代码行数、提交、拉取请求、工具接受情况，以及按模型估算的成本 |
-| **Claude Enterprise Analytics API** | Analytics API 密钥 | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access)       | 主要所有者 | 全组织范围的参与度和采用情况（用户活动、活跃用户摘要、项目、技能和连接器使用情况），以及成本和使用报告      |
+| API | 密钥类型 | 创建位置 | 谁可以创建 | 涵盖内容 |
+| ----- | ----- | ----- | ----- | ----- |
+| **Claude Code 分析 API** | Admin API 密钥 | Claude Console 中的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面 | 组织管理员 | 每位用户的每日 Claude Code 指标：会话、代码行数、提交、拉取请求、工具接受情况，以及按模型估算的成本 |
+| **Claude Enterprise Analytics API** | Analytics API 密钥 | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access) | 主要所有者 | 全组织范围的参与度和采用情况（用户活动、活跃用户摘要、项目、技能和连接器使用情况），以及成本和使用报告 |
 
 这两种密钥类型可调用的内容有所不同：
 

@@ -18,14 +18,14 @@ description: 通过发送经过身份验证的 POST 请求，按需启动 Claude
 
 例程触发端点属于 Claude Code 产品层面，它与 Claude Platform 的 API 和 SDK 在以下几个方面有所不同：
 
-| 方面     | 此端点                                                                                                                   | Claude Platform API                                                                 |
-| ------ | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| 身份验证   | `Authorization: Bearer`，使用在 [claude.ai/code/routines](https://claude.ai/code/routines) 创建的每例程专属令牌（`sk-ant-oat01-...`） | 来自 Claude Console 的 Claude API 密钥，作为 `Authorization: Bearer` 发送                     |
-| 令牌作用域  | 仅限一个例程；无读取权限                                                                                                          | 工作区级别                                                                               |
-| SDK 支持 | 无                                                                                                                     | 所有[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 均支持 |
-| 计费     | claude.ai 上的 Claude Code 订阅用量                                                                                         | Claude Platform 用量                                                                  |
-| 路径命名空间 | `/v1/claude_code/...`                                                                                                 | `/v1/...`                                                                           |
-| 稳定性    | 实验性                                                                                                                   | 稳定版或标准 beta 版                                                                       |
+| 方面 | 此端点 | Claude Platform API |
+| ----- | ----- | ----- |
+| 身份验证 | `Authorization: Bearer`，使用在 [claude.ai/code/routines](https://claude.ai/code/routines) 创建的每例程专属令牌（`sk-ant-oat01-...`） | 来自 Claude Console 的 Claude API 密钥，作为 `Authorization: Bearer` 发送 |
+| 令牌作用域 | 仅限一个例程；无读取权限 | 工作区级别 |
+| SDK 支持 | 无 | 所有[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview) 均支持 |
+| 计费 | claude.ai 上的 Claude Code 订阅用量 | Claude Platform 用量 |
+| 路径命名空间 | `/v1/claude_code/...` | `/v1/...` |
+| 稳定性 | 实验性 | 稳定版或标准 beta 版 |
 
 ## 开始之前
 
@@ -69,25 +69,25 @@ curl -X POST https://api.anthropic.com/v1/claude_code/routines/$ROUTINE_ID/fire 
 
 ### 标头
 
-| 名称                  | 必需     | 描述                                                                                                                       |
-| ------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------ |
-| `Authorization`     | 是      | `Bearer <token>`。在 Claude Code 网页界面中创建的每例程专属令牌，前缀为 `sk-ant-oat01-`。                                                      |
-| `anthropic-version` | 是      | [API 版本](https://platform.claude.com/docs/zh-CN/api/versioning)，例如 `2026-10-21`。该端点接受 `2023-06-01` 及之后的所有版本，且在各版本中的行为相同。 |
-| `Content-Type`      | 存在请求体时 | `application/json`。                                                                                                      |
+| 名称 | 必需 | 描述 |
+| ----- | ----- | ----- |
+| `Authorization` | 是 | `Bearer <token>`。在 Claude Code 网页界面中创建的每例程专属令牌，前缀为 `sk-ant-oat01-`。 |
+| `anthropic-version` | 是 | [API 版本](https://platform.claude.com/docs/zh-CN/api/versioning)，例如 `2026-10-21`。该端点接受 `2023-06-01` 及之后的所有版本，且在各版本中的行为相同。 |
+| `Content-Type` | 存在请求体时 | `application/json`。 |
 
 无论是否包含 `anthropic-beta: experimental-cc-routine-2026-04-01` 标头，端点都会接受请求。
 
 ### 路径参数
 
-| 名称           | 类型     | 描述                                                                        |
-| ------------ | ------ | ------------------------------------------------------------------------- |
+| 名称 | 类型 | 描述 |
+| ----- | ----- | ----- |
 | `routine_id` | string | 例程的标识符。尽管参数名如此，其值的前缀是 `trig_` 而非 `routine_`。包含在您添加 API 触发器时模态窗口显示的 URL 中。 |
 
 ### 请求体
 
-| 字段     | 类型     | 必需 | 描述                                                                                                                     |
-| ------ | ------ | -- | ---------------------------------------------------------------------------------------------------------------------- |
-| `text` | string | 否  | 本次运行的初始上下文，例如告警正文、失败的日志行或 git diff。该值为自由格式文本，不会被解析；如果您发送 JSON 或其他结构化负载，例程会将其作为字面字符串接收。它会与例程保存的提示一起传递给例程。最多 65,536 个字符。 |
+| 字段 | 类型 | 必需 | 描述 |
+| ----- | ----- | ----- | ----- |
+| `text` | string | 否 | 本次运行的初始上下文，例如告警正文、失败的日志行或 git diff。该值为自由格式文本，不会被解析；如果您发送 JSON 或其他结构化负载，例程会将其作为字面字符串接收。它会与例程保存的提示一起传递给例程。最多 65,536 个字符。 |
 
 请求体是可选的。请求体中的未知字段将被忽略。
 
@@ -103,10 +103,10 @@ curl -X POST https://api.anthropic.com/v1/claude_code/routines/$ROUTINE_ID/fire 
 }
 ```
 
-| 字段                        | 类型     | 描述                                               |
-| ------------------------- | ------ | ------------------------------------------------ |
-| `type`                    | string | 始终为 `routine_fire`。                              |
-| `claude_code_session_id`  | string | 为本次运行创建的 Claude Code 会话的 ID。                     |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `type` | string | 始终为 `routine_fire`。 |
+| `claude_code_session_id` | string | 为本次运行创建的 Claude Code 会话的 ID。 |
 | `claude_code_session_url` | string | 指向 claude.ai 上该会话的链接。在浏览器中打开它即可观看运行过程、审查更改或继续对话。 |
 
 ### 错误
@@ -123,15 +123,15 @@ curl -X POST https://api.anthropic.com/v1/claude_code/routines/$ROUTINE_ID/fire 
 }
 ```
 
-| HTTP 状态码 | 错误类型                    | 原因                                                                                                                                                 |
-| -------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 400      | `invalid_request_error` | 缺少 `anthropic-version` 标头或其值不受支持、`text` 超过 65,536 个字符，或例程已暂停（请参阅[编辑和控制例程](https://code.claude.com/docs/zh-CN/routines#edit-and-control-routines)）。 |
-| 401      | `authentication_error`  | `Authorization` 标头中没有 bearer 令牌，或令牌与此例程不匹配。                                                                                                        |
-| 403      | `permission_error`      | 该账户或组织无权访问此端点。                                                                                                                                     |
-| 404      | `not_found_error`       | 该例程不存在。                                                                                                                                            |
-| 429      | `rate_limit_error`      | 已达到例程或账户的每小时触发次数上限。响应中包含 `Retry-After` 标头，指示时间窗口何时重置。                                                                                              |
-| 500      | `api_error`             | 意外的服务器错误。请使用指数退避进行重试；如果错误持续存在，请携带请求 ID 联系支持团队。                                                                                                     |
-| 503      | `overloaded_error`      | 服务暂时过载。请稍后重试。Claude Platform 对此错误类型返回 529；此端点返回 503。                                                                                               |
+| HTTP 状态码 | 错误类型 | 原因 |
+| ----- | ----- | ----- |
+| 400 | `invalid_request_error` | 缺少 `anthropic-version` 标头或其值不受支持、`text` 超过 65,536 个字符，或例程已暂停（请参阅[编辑和控制例程](https://code.claude.com/docs/zh-CN/routines#edit-and-control-routines)）。 |
+| 401 | `authentication_error` | `Authorization` 标头中没有 bearer 令牌，或令牌与此例程不匹配。 |
+| 403 | `permission_error` | 该账户或组织无权访问此端点。 |
+| 404 | `not_found_error` | 该例程不存在。 |
+| 429 | `rate_limit_error` | 已达到例程或账户的每小时触发次数上限。响应中包含 `Retry-After` 标头，指示时间窗口何时重置。 |
+| 500 | `api_error` | 意外的服务器错误。请使用指数退避进行重试；如果错误持续存在，请携带请求 ID 联系支持团队。 |
+| 503 | `overloaded_error` | 服务暂时过载。请稍后重试。Claude Platform 对此错误类型返回 529；此端点返回 503。 |
 
 ## 身份验证
 

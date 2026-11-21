@@ -310,14 +310,14 @@ sequenceDiagram
 
 ## 工具参数
 
-| 参数           | 类型             | 默认值        | 描述                                                                                                                                                                                                                                            |
-| ------------ | -------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`       | string         | *必需*       | 必须为 `"advisor_20260301"`。                                                                                                                                                                                                                     |
-| `name`       | string         | *必需*       | 必须为 `"advisor"`。                                                                                                                                                                                                                              |
-| `model`      | string         | *必需*       | 顾问模型 ID，例如 claude-opus-5-5。子推理按该模型的费率计费。                                                                                                                                                                                                      |
-| `max_uses`   | integer        | 无限制        | 单个回合中允许的最大顾问调用次数。一旦执行器达到此上限，进一步的顾问调用将返回带有 `error_code: "max_uses_exceeded"` 的 `advisor_tool_result_error`，执行器将在没有进一步建议的情况下继续。有关对话级别的限制，请参阅[成本控制](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#cost-control)。 |
-| `max_tokens` | integer        | 顾问模型的输出上限  | 限制每次调用顾问的总输出（思考加文本）。最小值为 1024。请参阅[限制顾问输出](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#capping-advisor-output)。                                                                                              |
-| `caching`    | object \| null | `null`（关闭） | 为顾问在对话内跨调用的自身记录启用[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)。请参阅[顾问提示缓存](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#advisor-prompt-caching)。                           |
+| 参数 | 类型 | 默认值 | 描述 |
+| ----- | ----- | ----- | ----- |
+| `type` | string | *必需* | 必须为 `"advisor_20260301"`。 |
+| `name` | string | *必需* | 必须为 `"advisor"`。 |
+| `model` | string | *必需* | 顾问模型 ID，例如 claude-opus-5-5。子推理按该模型的费率计费。 |
+| `max_uses` | integer | 无限制 | 单个回合中允许的最大顾问调用次数。一旦执行器达到此上限，进一步的顾问调用将返回带有 `error_code: "max_uses_exceeded"` 的 `advisor_tool_result_error`，执行器将在没有进一步建议的情况下继续。有关对话级别的限制，请参阅[成本控制](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#cost-control)。 |
+| `max_tokens` | integer | 顾问模型的输出上限 | 限制每次调用顾问的总输出（思考加文本）。最小值为 1024。请参阅[限制顾问输出](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#capping-advisor-output)。 |
+| `caching` | object \| null | `null`（关闭） | 为顾问在对话内跨调用的自身记录启用[提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)。请参阅[顾问提示缓存](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#advisor-prompt-caching)。 |
 
 `max_uses` 上限适用于整个回合，而一个回合可以跨越多个请求。当请求[在 `pause_turn` 之后恢复](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#resuming-a-paused-turn)，或其最后一条消息仅包含 `tool_result` 块时，该请求会延续该回合。该回合中较早请求里的顾问调用也会计入上限。
 
@@ -367,10 +367,10 @@ Advisor 工具还接受任何工具定义都可用的通用属性：`cache_contr
 
 `advisor_tool_result.content` 字段是一个可辨识联合类型。对于成功的调用，变体取决于顾问模型：
 
-| 变体                        | 字段                                | 返回条件                          |
-| ------------------------- | --------------------------------- | ----------------------------- |
-| `advisor_result`          | `text`、`stop_reason`              | 顾问模型返回明文（例如 Claude Opus 4.8）。 |
-| `advisor_redacted_result` | `encrypted_content`、`stop_reason` | 顾问模型返回加密输出。                   |
+| 变体 | 字段 | 返回条件 |
+| ----- | ----- | ----- |
+| `advisor_result` | `text`、`stop_reason` | 顾问模型返回明文（例如 Claude Opus 4.8）。 |
+| `advisor_redacted_result` | `encrypted_content`、`stop_reason` | 顾问模型返回加密输出。 |
 
 <Note>
   Claude Fable 5.2、Claude Mythos 5.2、Claude Sonnet 5.5、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Opus 5、Claude Fable 5、Claude Mythos 5 和 Claude Haiku 5.5 顾问返回加密的 `advisor_redacted_result`。[模型兼容性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#model-compatibility)中的其他所有顾问模型都返回明文的 `advisor_result`。如需在您自己的响应中读取建议文本，请使用返回明文的顾问，例如 `claude-opus-4-8`，前提是[模型兼容性](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#model-compatibility)中为您的执行器列出了此类顾问。Claude Fable 5.2、Claude Mythos 5.2、Claude Sonnet 5.5、Claude Fable 5.1、Claude Mythos 5.1、Claude Opus 5.5、Claude Opus 5、Claude Fable 5 和 Claude Mythos 5 执行器只能与返回加密形式的顾问配对，因此在这些执行器上，响应中的建议文本不可读。
@@ -427,15 +427,15 @@ Advisor 工具还接受任何工具定义都可用的通用属性：`cache_contr
 
 执行器会收到该错误，并在没有进一步建议的情况下继续。请求本身不会失败。
 
-| `error_code`              | 含义                                                                                                                                                 |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `max_uses_exceeded`       | 该回合达到了工具定义上设置的 [`max_uses`](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#tool-parameters) 上限。同一回合中进一步的顾问调用将返回此错误。 |
-| `too_many_requests`       | 顾问子推理受到速率限制。                                                                                                                                       |
-| `overloaded`              | 顾问子推理达到容量限制。                                                                                                                                       |
-| `prompt_too_long`         | 记录超过了顾问模型的上下文窗口。                                                                                                                                   |
-| `execution_time_exceeded` | 顾问子推理超时。                                                                                                                                           |
-| `model_not_found`         | 配置的顾问模型不可用。                                                                                                                                        |
-| `unavailable`             | 任何其他顾问故障。                                                                                                                                          |
+| `error_code` | 含义 |
+| ----- | ----- |
+| `max_uses_exceeded` | 该回合达到了工具定义上设置的 [`max_uses`](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#tool-parameters) 上限。同一回合中进一步的顾问调用将返回此错误。 |
+| `too_many_requests` | 顾问子推理受到速率限制。 |
+| `overloaded` | 顾问子推理达到容量限制。 |
+| `prompt_too_long` | 记录超过了顾问模型的上下文窗口。 |
+| `execution_time_exceeded` | 顾问子推理超时。 |
+| `model_not_found` | 配置的顾问模型不可用。 |
+| `unavailable` | 任何其他顾问故障。 |
 
 顾问速率限制从与直接调用顾问模型相同的每模型桶中提取。顾问上的速率限制在工具结果内显示为 `too_many_requests`。执行器上的速率限制会使整个请求以 HTTP 429 失败。
 
@@ -1623,12 +1623,12 @@ Advisor 工具可以与其他服务器端和客户端工具组合使用。将它
 
 执行器可以在同一回合中搜索网络、调用顾问并使用您的自定义工具。顾问的计划可以影响执行器接下来选用哪些工具。
 
-| 功能                                                                                | 交互                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)  | 支持。`usage.iterations` 按每个条目报告。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| [令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting)   | 仅返回执行器第一次迭代的输入令牌。若要粗略估算顾问用量，请调用 `client.beta.messages.count_tokens()` (typescript: `client.beta.messages.countTokens()`; go, csharp: `client.Beta.Messages.CountTokens()`; java: `client.beta().messages().countTokens()`; php: `$client->beta->messages->countTokens()`; cli: `ant beta:messages count-tokens`; curl: `POST /v1/messages/count_tokens`)，并将 `model` 设置为顾问模型，使用相同的消息。                                                                                                                                                                                                                                                              |
-| [上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) | `clear_tool_uses` 与 Advisor 工具块并不完全兼容。关于 `clear_thinking`，请参阅前面的缓存警告。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `pause_turn`                                                                      | 当同一回合中没有等待您结果的客户端 `tool_use` 块时，悬而未决的顾问调用会使响应以 `stop_reason: "pause_turn"` 结束，并带有一个没有结果的 `server_tool_use` 块。顾问会在恢复时运行。如果执行器在该回合中还调用了您的某个工具，响应则会改为以 `stop_reason: "tool_use"` 结束，待处理的顾问调用会在您发送 `tool_result` 块后，于下一个请求开始时运行。请参阅[恢复暂停的回合](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#resuming-a-paused-turn)、[在一个轮次中混合使用服务器工具和客户端工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#mixing-server-tools-and-client-tools-in-one-turn)以及[服务器端循环和 pause\_turn](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn)。 |
+| 功能 | 交互 |
+| ----- | ----- |
+| [批处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing) | 支持。`usage.iterations` 按每个条目报告。 |
+| [令牌计数](https://platform.claude.com/docs/zh-CN/build-with-claude/token-counting) | 仅返回执行器第一次迭代的输入令牌。若要粗略估算顾问用量，请调用 `client.beta.messages.count_tokens()` (typescript: `client.beta.messages.countTokens()`; go, csharp: `client.Beta.Messages.CountTokens()`; java: `client.beta().messages().countTokens()`; php: `$client->beta->messages->countTokens()`; cli: `ant beta:messages count-tokens`; curl: `POST /v1/messages/count_tokens`)，并将 `model` 设置为顾问模型，使用相同的消息。 |
+| [上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) | `clear_tool_uses` 与 Advisor 工具块并不完全兼容。关于 `clear_thinking`，请参阅前面的缓存警告。 |
+| `pause_turn` | 当同一回合中没有等待您结果的客户端 `tool_use` 块时，悬而未决的顾问调用会使响应以 `stop_reason: "pause_turn"` 结束，并带有一个没有结果的 `server_tool_use` 块。顾问会在恢复时运行。如果执行器在该回合中还调用了您的某个工具，响应则会改为以 `stop_reason: "tool_use"` 结束，待处理的顾问调用会在您发送 `tool_result` 块后，于下一个请求开始时运行。请参阅[恢复暂停的回合](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#resuming-a-paused-turn)、[在一个轮次中混合使用服务器工具和客户端工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#mixing-server-tools-and-client-tools-in-one-turn)以及[服务器端循环和 pause\_turn](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools#the-server-side-loop-and-pause-turn)。 |
 
 ## 最佳实践
 
@@ -1820,11 +1820,11 @@ Hard rule: your first write_file, edit_file, or state-changing bash call on a ta
 
 **推荐起点：** `max_tokens: 2048`。在 Anthropic 针对一项高难度推理基准的测试中（每种配置 n = 40），与不设置上限相比，这使顾问平均输出减少了约 7 倍，截断几乎为零，且未检测到质量下降。最小值 1024 使输出减少了约 10 倍，但截断了约 10% 的调用。在此样本量下，所有配置之间的准确率差异都在噪声范围内。请在您自己的工作负载上进行验证。
 
-| `max_tokens` | 平均顾问输出令牌        | 被截断的调用 |
-| ------------ | --------------- | ------ |
-| 未设置          | \~4,200 到 5,900 | 不适用    |
-| 2048         | \~630 到 840     | \~0%   |
-| 1024         | \~370 到 480     | \~10%  |
+| `max_tokens` | 平均顾问输出令牌 | 被截断的调用 |
+| ----- | ----- | ----- |
+| 未设置 | \~4,200 到 5,900 | 不适用 |
+| 2048 | \~630 到 840 | \~0% |
+| 1024 | \~370 到 480 | \~10% |
 
 硬推理任务引发的顾问输出比前面针对较轻工作负载引用的[典型 1,400 到 1,800 个令牌](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool#usage-and-billing)要长得多。使用此表来确定节省比率的大小，而不是作为顾问输出的通用基线。
 
@@ -2096,8 +2096,8 @@ Advisor 工具在部分模型上处于 beta 阶段，并具备零数据保留资
 * 可用性：可用
 * 用法：在请求的 `tools` 中添加带有顾问模型的 advisor 工具（类型为 `advisor_20260301`）。它接受 `max_uses`、`max_tokens` 和缓存选项。
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                  | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Haiku 4.5](https://platform.claude.com/docs/zh-CN/models/haiku-4-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview), [Claude Opus 4.6](https://platform.claude.com/docs/zh-CN/models/opus-4-6/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -2105,8 +2105,8 @@ Advisor 工具在部分模型上处于 beta 阶段，并具备零数据保留资
 * 可用性：可用
 * 用法：在智能体的 `multiagent` 块中将 `advisor` 设置为 `{"type": "enabled", "model": …}`。没有 `max_uses`、`max_tokens` 或缓存选项，建议以线程事件的形式出现在会话的事件流上。
 
-| 状态   | 云平台                                                                                                                   | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ---- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Haiku 4.5](https://platform.claude.com/docs/zh-CN/models/haiku-4-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview), [Claude Opus 4.7](https://platform.claude.com/docs/zh-CN/models/opus-4-7/overview), [Claude Opus 4.6](https://platform.claude.com/docs/zh-CN/models/opus-4-6/overview), [Claude Sonnet 4.6](https://platform.claude.com/docs/zh-CN/models/sonnet-4-6/overview) |
 
 ### 所需的 beta 请求头
@@ -2115,18 +2115,18 @@ Advisor 工具在部分模型上处于 beta 阶段，并具备零数据保留资
 
 Beta 请求头让您可以在实验性功能和新模型能力成为标准 API 的一部分之前访问它们。
 
-| 请求头                       | API                                                                                            |
-| ------------------------- | ---------------------------------------------------------------------------------------------- |
+| 请求头 | API |
+| ----- | ----- |
 | `advisor-tool-2026-03-01` | [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
-| 详细信息 | 顾问模型的输出在 API 响应中返回；响应后服务器端不存储任何内容。                                                                                                        | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
+| 详细信息 | 顾问模型的输出在 API 响应中返回；响应后服务器端不存储任何内容。 | — |
 
 适用的端点：
 

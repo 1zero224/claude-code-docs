@@ -55,16 +55,16 @@ API 会为您的 Messages API 请求和 Managed Agents 会话发出 span。要�
 
 2. 配置目标：
 
-   | 字段                | 填写内容                                                                                                                                                                                                                        |
-   | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   | **提供商**           | 您的可观测性平台；如果未列出，则选择**自定义**。如果您选择已列出的平台，Console 会要求您提供其详细信息（例如 API 密钥），而不是 **OTLP 端点 URL**、**请求标头**和 **OTLP 追踪端点 URL**。                                                                                                       |
-   | **名称**            | 可选。例如，"Acme 的可观测性平台"。                                                                                                                                                                                                       |
-   | **OTLP 端点 URL**   | 您的可观测性平台 OTLP/HTTP 端点的基础 HTTPS URL，需使用主机名而非 IP 地址。它可以带有路径前缀，例如 `https://gateway.example.com/otlp`。不要添加 `/v1/traces`，因为 API 会自动添加它。如果您设置了 **OTLP 追踪端点 URL**，API 会改用该 URL。                                                    |
-   | **请求标头**          | API 随每个请求发送的标头，例如您的可观测性平台的 API 密钥标头。请仅将凭据放在标头值中。保存后，Console 不会再次显示这些值。                                                                                                                                                      |
-   | **内容模式**          | **仅元数据**或**完整内容**。请参阅[内容模式的区别](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#choose-a-content-mode)。                                                                                                   |
-   | **工作区**           | 目标接收其 span 的工作区：**全部**、**所选**或**除所选外的全部**。请参阅[为目标选择工作区](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#choose-workspaces-for-a-destination)。                                                        |
-   | **OTLP 追踪端点 URL** | 可选，位于**高级设置**下。您的可观测性平台追踪端点的完整 URL，例如 `https://gateway.example.com/custom/traces`。当该平台在 OTLP 端点 URL 加 `/v1/traces` 以外的 URL 接收追踪时，请设置此项。它必须与 OTLP 端点 URL 使用相同的主机。                                                            |
-   | **最大内容大小（MB）**    | 可选，当内容模式为**完整内容**时位于**高级设置**下。API 在每个 span 中发送的最大内容量。Console 会根据您选择的**提供商**自动填写该值。请根据您的可观测性平台可接受的大小进行调整。将其留空即可发送 API 允许的最大内容量。请参阅[内容限制](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#content-limits)。 |
+   | 字段 | 填写内容 |
+   | ----- | ----- |
+   | **提供商** | 您的可观测性平台；如果未列出，则选择**自定义**。如果您选择已列出的平台，Console 会要求您提供其详细信息（例如 API 密钥），而不是 **OTLP 端点 URL**、**请求标头**和 **OTLP 追踪端点 URL**。 |
+   | **名称** | 可选。例如，"Acme 的可观测性平台"。 |
+   | **OTLP 端点 URL** | 您的可观测性平台 OTLP/HTTP 端点的基础 HTTPS URL，需使用主机名而非 IP 地址。它可以带有路径前缀，例如 `https://gateway.example.com/otlp`。不要添加 `/v1/traces`，因为 API 会自动添加它。如果您设置了 **OTLP 追踪端点 URL**，API 会改用该 URL。 |
+   | **请求标头** | API 随每个请求发送的标头，例如您的可观测性平台的 API 密钥标头。请仅将凭据放在标头值中。保存后，Console 不会再次显示这些值。 |
+   | **内容模式** | **仅元数据**或**完整内容**。请参阅[内容模式的区别](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#choose-a-content-mode)。 |
+   | **工作区** | 目标接收其 span 的工作区：**全部**、**所选**或**除所选外的全部**。请参阅[为目标选择工作区](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#choose-workspaces-for-a-destination)。 |
+   | **OTLP 追踪端点 URL** | 可选，位于**高级设置**下。您的可观测性平台追踪端点的完整 URL，例如 `https://gateway.example.com/custom/traces`。当该平台在 OTLP 端点 URL 加 `/v1/traces` 以外的 URL 接收追踪时，请设置此项。它必须与 OTLP 端点 URL 使用相同的主机。 |
+   | **最大内容大小（MB）** | 可选，当内容模式为**完整内容**时位于**高级设置**下。API 在每个 span 中发送的最大内容量。Console 会根据您选择的**提供商**自动填写该值。请根据您的可观测性平台可接受的大小进行调整。将其留空即可发送 API 允许的最大内容量。请参阅[内容限制](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#content-limits)。 |
 
 3. 点击**添加目标位置**保存。
 
@@ -662,12 +662,12 @@ API 从 W3C [`traceparent` 标头](https://www.w3.org/TR/trace-context/)中读�
 
 **投递**列显示每个目标的状态。该状态最多可能延迟一分钟。
 
-| 交付状态     | 含义                                 |
-| -------- | ---------------------------------- |
-| **正常**   | 最后一次交付成功。                          |
-| **失败**   | 最后一次交付失败。要查看错误，请将指针悬停在**失败**上。     |
-| **暂无数据** | API 尚未尝试交付。                        |
-| **已禁用**  | 该目标不接收 span。要查看原因，请将指针悬停在**已禁用**上。 |
+| 交付状态 | 含义 |
+| ----- | ----- |
+| **正常** | 最后一次交付成功。 |
+| **失败** | 最后一次交付失败。要查看错误，请将指针悬停在**失败**上。 |
+| **暂无数据** | API 尚未尝试交付。 |
+| **已禁用** | 该目标不接收 span。要查看原因，请将指针悬停在**已禁用**上。 |
 
 在以下情况下，API 会禁用目标：
 
@@ -680,15 +680,15 @@ API 从 W3C [`traceparent` 标头](https://www.w3.org/TR/trace-context/)中读�
 
 ## 限制
 
-| 限制                  | 值         |
-| ------------------- | --------- |
-| 每个组织的目标数量（包括已禁用的目标） | 10        |
-| 您为一个目标选择的工作区数量      | 1,000     |
-| 每个目标的请求头数量          | 20        |
-| 请求头名称的长度            | 128 字节    |
-| 请求头值的长度             | 4,096 字节  |
-| 所有请求头名称和值的总长度       | 16,384 字节 |
-| 端点 URL 的长度          | 2,048 个字符 |
+| 限制 | 值 |
+| ----- | ----- |
+| 每个组织的目标数量（包括已禁用的目标） | 10 |
+| 您为一个目标选择的工作区数量 | 1,000 |
+| 每个目标的请求头数量 | 20 |
+| 请求头名称的长度 | 128 字节 |
+| 请求头值的长度 | 4,096 字节 |
+| 所有请求头名称和值的总长度 | 16,384 字节 |
+| 端点 URL 的长度 | 2,048 个字符 |
 
 ## 零数据保留
 
@@ -696,29 +696,29 @@ Span（跨度）的 ZDR 资格与生成它们的功能相同。Claude Managed Ag
 
 ## 故障排除
 
-| 问题                            | 检查内容                                                                                                                                                                                                                                                                                                                                 |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 没有 API span                   | 工作区需要一个覆盖它的已启用目标。请参阅[为目标选择工作区](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#choose-workspaces-for-a-destination)。目标开始覆盖某个工作区后，来自该工作区的 span 可能需要最多一分钟才会到达。对于 `traceparent` 标头中采样标志关闭的请求，或发往 [OpenAI 兼容端点](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/libraries/openai-sdk)的请求，API 不会发出 span。 |
-| **投递**列显示**失败**               | 将指针悬停在其上以查看最后一个错误。要找出可能的原因，请参阅[投递错误](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#delivery-errors)。                                                                                                                                                                                                        |
-| **投递**列显示**已禁用**              | 将指针悬停在其上以查看原因。有关原因，请参阅[API 何时禁用目标](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#delivery-and-health)。                                                                                                                                                                                                      |
-| span 中没有提示或响应，但目标已设置为**完整内容** | 您的组织可能与 Anthropic 之间存在 HIPAA、FERPA 或 K-12 数据处理限制。请参阅[内容模式](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#choose-a-content-mode)。                                                                                                                                                                                |
+| 问题 | 检查内容 |
+| ----- | ----- |
+| 没有 API span | 工作区需要一个覆盖它的已启用目标。请参阅[为目标选择工作区](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#choose-workspaces-for-a-destination)。目标开始覆盖某个工作区后，来自该工作区的 span 可能需要最多一分钟才会到达。对于 `traceparent` 标头中采样标志关闭的请求，或发往 [OpenAI 兼容端点](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/libraries/openai-sdk)的请求，API 不会发出 span。 |
+| **投递**列显示**失败** | 将指针悬停在其上以查看最后一个错误。要找出可能的原因，请参阅[投递错误](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#delivery-errors)。 |
+| **投递**列显示**已禁用** | 将指针悬停在其上以查看原因。有关原因，请参阅[API 何时禁用目标](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#delivery-and-health)。 |
+| span 中没有提示或响应，但目标已设置为**完整内容** | 您的组织可能与 Anthropic 之间存在 HIPAA、FERPA 或 K-12 数据处理限制。请参阅[内容模式](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#choose-a-content-mode)。 |
 
 ### 投递错误
 
 当投递失败时，**投递**列会显示**失败**。将指针悬停在其上以查看错误，然后找出可能的原因：
 
-| 错误                                                | 可能的原因                                                                                                         |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| HTTP error (status 401) 或 HTTP error (status 403) | 身份验证请求头错误                                                                                                     |
-| HTTP error (status 404)                           | **OTLP 端点 URL** 或 **OTLP 追踪端点 URL** 中的路径错误                                                                    |
-| Invalid address                                   | 端点的主机名不存在，或无法解析为公共 IP 地址                                                                                      |
-| Temporary DNS failure                             | 端点的主机名 DNS 查询失败，例如因为其 DNS 服务器返回了错误                                                                            |
-| TLS failure                                       | TLS 问题，例如端点的证书问题                                                                                              |
-| Timeout                                           | 端点未及时响应。请参阅[投递超时](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#delivery-and-health) |
-| Connection failure                                | API 无法连接到端点                                                                                                   |
-| Redirect (status 3xx)                             | 端点重定向了请求。API 不会跟随重定向，因此请使用它重定向到的 URL                                                                          |
-| HTTP error (status 408、429 或 5xx)                 | 端点过载、限制了请求速率或发生了错误                                                                                            |
-| HTTP error (其他 status 4xx)                        | 端点拒绝了请求，例如因为请求的大小或格式                                                                                          |
+| 错误 | 可能的原因 |
+| ----- | ----- |
+| HTTP error (status 401) 或 HTTP error (status 403) | 身份验证请求头错误 |
+| HTTP error (status 404) | **OTLP 端点 URL** 或 **OTLP 追踪端点 URL** 中的路径错误 |
+| Invalid address | 端点的主机名不存在，或无法解析为公共 IP 地址 |
+| Temporary DNS failure | 端点的主机名 DNS 查询失败，例如因为其 DNS 服务器返回了错误 |
+| TLS failure | TLS 问题，例如端点的证书问题 |
+| Timeout | 端点未及时响应。请参阅[投递超时](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#delivery-and-health) |
+| Connection failure | API 无法连接到端点 |
+| Redirect (status 3xx) | 端点重定向了请求。API 不会跟随重定向，因此请使用它重定向到的 URL |
+| HTTP error (status 408、429 或 5xx) | 端点过载、限制了请求速率或发生了错误 |
+| HTTP error (其他 status 4xx) | 端点拒绝了请求，例如因为请求的大小或格式 |
 
 ## 可用性
 
@@ -730,26 +730,26 @@ API 追踪在所有模型上处于 beta 阶段，并具备零数据保留资格�
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA            |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格            |
-| 详细信息 | Beta 版。span 的 ZDR 资格与生成它们的功能相同。HIPAA 组织可以导出元数据。SDK span 直接从您的环境发送到您的导出器。送达后，数据由您选择的服务（位于 Anthropic 之外）持有，并受该服务的保留和访问控制约束。                 | HIPAA 组织可以导出元数据。 |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
+| 详细信息 | Beta 版。span 的 ZDR 资格与生成它们的功能相同。HIPAA 组织可以导出元数据。SDK span 直接从您的环境发送到您的导出器。送达后，数据由您选择的服务（位于 Anthropic 之外）持有，并受该服务的保留和访问控制约束。 | HIPAA 组织可以导出元数据。 |
 
 适用的端点：
 

@@ -252,10 +252,10 @@ API 是无状态的。您的 shell 会话的任何信息都不会在请求之间
 
 Bash 工具定义有两个必填字段：`type` 和 `name`，且 `name` 必须为 `bash`。该工具是无 schema 的：您无需提供 `input_schema`，因为 schema 已内置于 Claude 的模型中且无法修改。下表列出了 Claude 调用该工具时设置的输入字段。
 
-| 参数        | 必填  | 描述                     |
-| --------- | --- | ---------------------- |
-| `command` | 是\* | 要运行的 bash 命令           |
-| `restart` | 否   | 设置为 `true` 以重启 bash 会话 |
+| 参数 | 必填 | 描述 |
+| ----- | ----- | ----- |
+| `command` | 是\* | 要运行的 bash 命令 |
+| `restart` | 否 | 设置为 `true` 以重启 bash 会话 |
 
 \*除非使用 `restart`，否则为必填
 
@@ -1941,10 +1941,10 @@ Claude 决定运行哪条命令。其他一切都由您的应用程序负责：s
 
 bash 工具定义会向您的请求中添加以下 input tokens（输入令牌）。这是在每个模型的[工具使用系统提示](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview#pricing)之外额外添加的，只要存在任何工具，该系统提示就会生效。
 
-| 模型                                        | 额外输入令牌  |
-| ----------------------------------------- | ------- |
+| 模型 | 额外输入令牌 |
+| ----- | ----- |
 | Claude 4.7 及更高版本模型和 Claude Mythos Preview | 325 个令牌 |
-| Claude 4.6 及更早版本模型                        | 244 个令牌 |
+| Claude 4.6 及更早版本模型 | 244 个令牌 |
 
 以下内容会消耗额外的令牌：
 
@@ -2014,18 +2014,18 @@ Bash 工具在所有模型上可用，并具备零数据保留和HIPAA 就绪资
 
 * 可用性：可用
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
-| 详细信息 | 在您的环境中运行的客户端工具。                                                                                                                           | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
+| 详细信息 | 在您的环境中运行的客户端工具。 | — |
 
 适用的端点：
 

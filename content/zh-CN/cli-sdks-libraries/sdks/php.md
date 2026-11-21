@@ -104,19 +104,19 @@ try {
 
 错误代码如下：
 
-| 原因          | 错误类型                           |
-| ----------- | ------------------------------ |
-| HTTP 400    | `BadRequestException`          |
-| HTTP 401    | `AuthenticationException`      |
-| HTTP 403    | `PermissionDeniedException`    |
-| HTTP 404    | `NotFoundException`            |
-| HTTP 409    | `ConflictException`            |
-| HTTP 422    | `UnprocessableEntityException` |
-| HTTP 429    | `RateLimitException`           |
-| HTTP >= 500 | `InternalServerException`      |
-| 其他 HTTP 错误  | `APIStatusException`           |
-| 超时          | `APITimeoutException`          |
-| 网络错误        | `APIConnectionException`       |
+| 原因 | 错误类型 |
+| ----- | ----- |
+| HTTP 400 | `BadRequestException` |
+| HTTP 401 | `AuthenticationException` |
+| HTTP 403 | `PermissionDeniedException` |
+| HTTP 404 | `NotFoundException` |
+| HTTP 409 | `ConflictException` |
+| HTTP 422 | `UnprocessableEntityException` |
+| HTTP 429 | `RateLimitException` |
+| HTTP >= 500 | `InternalServerException` |
+| 其他 HTTP 错误 | `APIStatusException` |
+| 超时 | `APITimeoutException` |
+| 网络错误 | `APIConnectionException` |
 
 ## 重试
 

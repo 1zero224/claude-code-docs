@@ -31,13 +31,13 @@ description: 清点和管理您的 Claude Enterprise 组织中的插件：上传
 
 该 API 在五种资源上共提供 18 个端点：
 
-| 资源                                                   | 端点                                                                                                                                                                                                                                                                                                                        |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **插件：** 列出组织中的插件、上传新插件、查询某个插件、选择向成员提供的版本（回滚或升级）、删除插件 | `GET /v1/organizations/plugins`<br />`POST /v1/organizations/plugins`<br />`GET /v1/organizations/plugins/{plugin_id}`<br />`POST /v1/organizations/plugins/{plugin_id}`<br />`DELETE /v1/organizations/plugins/{plugin_id}`                                                                                              |
-| **插件版本：** 列出插件的版本历史、上传新版本、查询某个版本、下载某个版本的文件           | `GET /v1/organizations/plugins/{plugin_id}/versions`<br />`POST /v1/organizations/plugins/{plugin_id}/versions`<br />`GET /v1/organizations/plugins/{plugin_id}/versions/{version}`<br />`GET /v1/organizations/plugins/{plugin_id}/versions/{version}/content`                                                           |
-| **安装设置：** 读取谁可以使用组织拥有的插件、为整个组织或某个组设置该项、移除任一设置        | `GET /v1/organizations/plugins/{plugin_id}/installation_settings`<br />`POST /v1/organizations/plugins/{plugin_id}/installation_settings/{target}`<br />`DELETE /v1/organizations/plugins/{plugin_id}/installation_settings/{target}`                                                                                     |
-| **共享：** 读取成员将自己的插件共享给了谁（只读）                          | `GET /v1/organizations/plugins/{plugin_id}/shares`                                                                                                                                                                                                                                                                        |
-| **插件市场：** 查找市场的 ID、查询某个市场、为其插件设置默认安装设置、在连接市场之前检查其内容  | `GET /v1/organizations/plugin_marketplaces`<br />`GET /v1/organizations/plugin_marketplaces/{marketplace_id}`<br />`POST /v1/organizations/plugin_marketplaces/{marketplace_id}`<br />`POST /v1/organizations/plugin_marketplaces/validate_repository`<br />`POST /v1/organizations/plugin_marketplaces/validate_archive` |
+| 资源 | 端点 |
+| ----- | ----- |
+| **插件：** 列出组织中的插件、上传新插件、查询某个插件、选择向成员提供的版本（回滚或升级）、删除插件 | `GET /v1/organizations/plugins`<br />`POST /v1/organizations/plugins`<br />`GET /v1/organizations/plugins/{plugin_id}`<br />`POST /v1/organizations/plugins/{plugin_id}`<br />`DELETE /v1/organizations/plugins/{plugin_id}` |
+| **插件版本：** 列出插件的版本历史、上传新版本、查询某个版本、下载某个版本的文件 | `GET /v1/organizations/plugins/{plugin_id}/versions`<br />`POST /v1/organizations/plugins/{plugin_id}/versions`<br />`GET /v1/organizations/plugins/{plugin_id}/versions/{version}`<br />`GET /v1/organizations/plugins/{plugin_id}/versions/{version}/content` |
+| **安装设置：** 读取谁可以使用组织拥有的插件、为整个组织或某个组设置该项、移除任一设置 | `GET /v1/organizations/plugins/{plugin_id}/installation_settings`<br />`POST /v1/organizations/plugins/{plugin_id}/installation_settings/{target}`<br />`DELETE /v1/organizations/plugins/{plugin_id}/installation_settings/{target}` |
+| **共享：** 读取成员将自己的插件共享给了谁（只读） | `GET /v1/organizations/plugins/{plugin_id}/shares` |
+| **插件市场：** 查找市场的 ID、查询某个市场、为其插件设置默认安装设置、在连接市场之前检查其内容 | `GET /v1/organizations/plugin_marketplaces`<br />`GET /v1/organizations/plugin_marketplaces/{marketplace_id}`<br />`POST /v1/organizations/plugin_marketplaces/{marketplace_id}`<br />`POST /v1/organizations/plugin_marketplaces/validate_repository`<br />`POST /v1/organizations/plugin_marketplaces/validate_archive` |
 
 Anthropic 发布的插件不会被清点；其使用情况由 [Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api) 报告。市场的创建、与代码仓库的连接以及删除均在 claude.ai 中进行，而不是通过此 API。
 
@@ -210,12 +210,12 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 ## 作用域
 
-| 作用域                        | 授予的权限                                                                                                                                                                                                                               |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `read:plugins`             | 本页上的每个 `GET` 端点（包括归档下载），以及市场验证。                                                                                                                                                                                                     |
-| `write:plugins`            | 本页上的每个 `POST` 和 `DELETE` 端点：创建插件、创建版本、更改提供的版本、删除插件、设置和移除安装设置、设置市场的默认值，以及市场验证。它不授予读取权限。                                                                                                                                              |
-| `read:org_audit`           | 用于安全审计集成的只读作用域：本页上的每个 `GET` 端点（包括归档下载），以及[用户管理](https://platform.claude.com/docs/zh-CN/manage-claude/user-management)和 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 的读取端点。它不授予市场验证或任何写入权限。 |
-| `read:compliance_org_data` | Compliance API 用于组织元数据（名称、类型、角色和组）及有效设置的作用域。它授予本页上的每个 `GET` 端点，与 `read:org_audit` 完全相同，因此 Compliance Access Key 无需第二个密钥即可读取插件。它不授予市场验证或任何写入权限。                                                                                      |
+| 作用域 | 授予的权限 |
+| ----- | ----- |
+| `read:plugins` | 本页上的每个 `GET` 端点（包括归档下载），以及市场验证。 |
+| `write:plugins` | 本页上的每个 `POST` 和 `DELETE` 端点：创建插件、创建版本、更改提供的版本、删除插件、设置和移除安装设置、设置市场的默认值，以及市场验证。它不授予读取权限。 |
+| `read:org_audit` | 用于安全审计集成的只读作用域：本页上的每个 `GET` 端点（包括归档下载），以及[用户管理](https://platform.claude.com/docs/zh-CN/manage-claude/user-management)和 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 的读取端点。它不授予市场验证或任何写入权限。 |
+| `read:compliance_org_data` | Compliance API 用于组织元数据（名称、类型、角色和组）及有效设置的作用域。它授予本页上的每个 `GET` 端点，与 `read:org_audit` 完全相同，因此 Compliance Access Key 无需第二个密钥即可读取插件。它不授予市场验证或任何写入权限。 |
 
 一个密钥可以携带多个作用域。上传插件后再将其读回的集成需要同时具有 `read:plugins` 和 `write:plugins`。本页中凡是提到某个端点需要 `read:plugins` 作用域的地方，具有 `read:org_audit` 或 `read:compliance_org_data` 的密钥同样适用。
 
@@ -233,14 +233,14 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 **插件**是为您组织的成员扩展 Claude 功能的软件包。它包含以下组件的任意组合：
 
-| 组件                  | 说明                                                 |
-| ------------------- | -------------------------------------------------- |
-| Skill（技能）           | Claude 在任务需要时加载的指令和文件。                             |
-| Command（命令）         | 成员通过输入 `/` 加命令名称来运行的已保存提示。                         |
-| Agent（代理）           | 拥有自己指令的辅助助手，Claude 可以将部分任务交给它处理。                   |
-| Hook（钩子）            | 在会话中发生某个事件时（例如在 Claude 使用工具之前）自动运行的操作。             |
+| 组件 | 说明 |
+| ----- | ----- |
+| Skill（技能） | Claude 在任务需要时加载的指令和文件。 |
+| Command（命令） | 成员通过输入 `/` 加命令名称来运行的已保存提示。 |
+| Agent（代理） | 拥有自己指令的辅助助手，Claude 可以将部分任务交给它处理。 |
+| Hook（钩子） | 在会话中发生某个事件时（例如在 Claude 使用工具之前）自动运行的操作。 |
 | MCP server（MCP 服务器） | 从 Claude 到另一个系统中的工具和数据的连接（Model Context Protocol）。 |
-| CLI                 | 插件允许 Claude 运行的命令行程序。                              |
+| CLI | 插件允许 Claude 运行的命令行程序。 |
 
 每个插件在 `.claude-plugin/plugin.json` 处都有一个清单。清单中的 `name` 会成为插件的 `name`：一个在其市场内唯一的小写标识符。
 
@@ -287,11 +287,11 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 下表显示了管理员在 claude.ai 中保存的版本会发生什么。结果取决于固定最后是在何处设置的，以及保存之前插件的最新版本。
 
-| 固定最后的设置位置     | 保存之前插件的最新版本          | 在 claude.ai 中保存的版本                                     |
-| ------------- | -------------------- | ------------------------------------------------------ |
-| 通过此 API       | 任何版本                 | 会被存储，在有人选择它之前不会被提供。                                    |
-| 在 claude.ai 中 | 提供的版本或等待中的版本         | 可能在无人选择的情况下成为提供的版本。`served_version_pinned` 保持为 `true`。 |
-| 在 claude.ai 中 | 其他版本（例如，您上传的尚未提供的版本） | 会被存储，在有人选择它之前不会被提供。                                    |
+| 固定最后的设置位置 | 保存之前插件的最新版本 | 在 claude.ai 中保存的版本 |
+| ----- | ----- | ----- |
+| 通过此 API | 任何版本 | 会被存储，在有人选择它之前不会被提供。 |
+| 在 claude.ai 中 | 提供的版本或等待中的版本 | 可能在无人选择的情况下成为提供的版本。`served_version_pinned` 保持为 `true`。 |
+| 在 claude.ai 中 | 其他版本（例如，您上传的尚未提供的版本） | 会被存储，在有人选择它之前不会被提供。 |
 
 在 2026 年 11 月 8 日之前通过此 API 设置的固定，请视为在 claude.ai 中设置的固定。要替换它，请使用此 API 设置您希望提供的版本。
 
@@ -310,12 +310,12 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 **安装设置**决定谁可以使用组织拥有的插件。每个设置有四个值之一，承载在名为 `installation_preference` 的字段中（在插件和市场对象上，则是 `organization_installation_preference` 和 `default_installation_preference`）：
 
-| 值               | 成员看到的情况     |
-| --------------- | ----------- |
-| `required`      | 插件已安装且无法移除。 |
-| `auto_install`  | 插件已安装且可以移除。 |
-| `available`     | 插件可按需安装。    |
-| `not_available` | 插件被隐藏。      |
+| 值 | 成员看到的情况 |
+| ----- | ----- |
+| `required` | 插件已安装且无法移除。 |
+| `auto_install` | 插件已安装且可以移除。 |
+| `available` | 插件可按需安装。 |
+| `not_available` | 插件被隐藏。 |
 
 一个插件可以拥有一个组织范围的设置，以及每个组各一个设置（即[在用户管理中管理的组](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#groups)，基于角色的访问控制组）。成员按以下规则获得一个值：
 
@@ -353,11 +353,11 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 `reach`（影响范围）用一个值概括某个版本在成员计算机上及更远范围内的影响程度：
 
-| 值            | 含义                                                                    |
-| ------------ | --------------------------------------------------------------------- |
-| `remote`     | 声明了 MCP 服务器、CLI 或算作其中之一的内容，无论它还声明了什么。                                 |
-| `privileged` | 不是 `remote`，但满足此表之后列表中的至少一个条件。                                        |
-| `contained`  | 既不是 `remote` 也不是 `privileged`（通常是仅包含技能、命令和代理且均无 `allowed-tools` 的插件）。 |
+| 值 | 含义 |
+| ----- | ----- |
+| `remote` | 声明了 MCP 服务器、CLI 或算作其中之一的内容，无论它还声明了什么。 |
+| `privileged` | 不是 `remote`，但满足此表之后列表中的至少一个条件。 |
+| `contained` | 既不是 `remote` 也不是 `privileged`（通常是仅包含技能、命令和代理且均无 `allowed-tools` 的插件）。 |
 
 `privileged` 版本至少满足以下条件之一：
 
@@ -647,21 +647,21 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 插件对象描述位于您组织的某个市场或某个成员个人市场中的插件（[快速入门](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#quick-start)的响应展示了一个完整的插件对象）。其 `display_name`、`description`、`manifest_version`、`content_scan`、`components` 和 `reach` 描述的是其**提供的**版本，因此一次列表调用即可显示向成员提供的内容。
 
-| 字段                                                                                      | 描述                                                                                                                                                                                                                                                                                                                                                     |
-| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `id`                                                                                    | 前缀为 `plugin_`。                                                                                                                                                                                                                                                                                                                                         |
-| `name`                                                                                  | 来自清单。在其市场内唯一，而非在整个组织内唯一。对于组织拥有的插件是固定的；如果成员在 claude.ai 中重命名自己的插件，则会发生变化。                                                                                                                                                                                                                                                                                |
-| `display_name`、`description`、`manifest_version`                                         | 所提供版本的清单中的 `displayName`、`description` 和 `version`；当清单未声明时，各自为 `null`。`description` 可能是某个技能的 `description`，而不是清单的（在此表之后说明）。`manifest_version` 会为显示进行规范化：去掉一个前导 `v` 或 `V`，因此清单 `version` 为 `"v1.4.0"` 时返回 `"1.4.0"`。对于看起来不像版本号的值（例如 `"latest"`），以及在 claude.ai 于 2026 年 8 月开始记录此字段之前创建的插件版本，它也为 `null`。上传绝不会因为其 `version` 而被拒绝，且 `manifest_version` 不唯一。 |
-| `served_version_id`、`latest_version_id`                                                 | 前缀为 `pluginver_`：分别为向成员提供的版本和最新版本。请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)。                                                                                                                                                                                                     |
-| `served_version_pinned`                                                                 | 在插件被固定之前为 `false`（请参阅[固定](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pins)）；此后为 `true`。                                                                                                                                                                                                                                          |
-| `owner`                                                                                 | `{"type": "organization"}`，或对于成员的个人市场为 `{"type": "user", "user_id": "user_..."}`。                                                                                                                                                                                                                                                                      |
-| `marketplace_id`                                                                        | 前缀为 `marketplace_`。                                                                                                                                                                                                                                                                                                                                    |
-| `created_by`                                                                            | 插件的创建者：对于在 claude.ai 中的用户为 `{"type": "user_actor", "user_id": "user_...", "email_address": "..."}`（`email_address` 可能为 `null`），对于 API 密钥为 `{"type": "api_actor", "api_key_id": "apikey_..."}`。可能会出现其他操作者类型。未记录创建者时为 `null`，例如从 Git 同步的插件。                                                                                                              |
-| `organization_installation_preference`、`organization_installation_preference_inherited` | 组织拥有的插件：组织范围的值，以及该值是否来自市场的默认值（请参阅[安装设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#installation-settings)）。成员拥有的插件：两者均为 `null`。                                                                                                                                                                                                  |
-| `content_scan`                                                                          | 提供版本的扫描结果，一个包含 `status`、`assessment` 和 `reason` 的对象（在此表之后说明）。从未扫描时为 `null`。                                                                                                                                                                                                                                                                            |
-| `components`                                                                            | 提供版本的组件，每个组件为 `{"type", "name", "description"}`，其中 `type` 为 `skill`、`mcp_server`、`command`、`agent`、`hook` 或 `cli` 之一，先按该类型顺序排列，再按名称排列。对于 MCP 服务器，`name` 是其在清单中的键；对于钩子，是其运行时所对应的事件；对于 CLI，是可执行文件的名称。对于 MCP 服务器、钩子和 CLI，`description` 始终为 `null`。未记录时为 `null`。                                                                                           |
-| `reach`                                                                                 | `contained`、`privileged`、`remote` 或 `null`。请参阅[影响范围](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#reach)。                                                                                                                                                                                                                          |
-| `updated_at`                                                                            | 在所提供的版本变更时、插件被固定时更改，通常在存储新版本时也会更改。等待中的版本（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）在其成为所提供的版本时更改此值，而不一定在其被存储时更改。安装设置、共享或仅 `content_scan` 的变更不会更改此值。                                                                                                                              |
+| 字段 | 描述 |
+| ----- | ----- |
+| `id` | 前缀为 `plugin_`。 |
+| `name` | 来自清单。在其市场内唯一，而非在整个组织内唯一。对于组织拥有的插件是固定的；如果成员在 claude.ai 中重命名自己的插件，则会发生变化。 |
+| `display_name`、`description`、`manifest_version` | 所提供版本的清单中的 `displayName`、`description` 和 `version`；当清单未声明时，各自为 `null`。`description` 可能是某个技能的 `description`，而不是清单的（在此表之后说明）。`manifest_version` 会为显示进行规范化：去掉一个前导 `v` 或 `V`，因此清单 `version` 为 `"v1.4.0"` 时返回 `"1.4.0"`。对于看起来不像版本号的值（例如 `"latest"`），以及在 claude.ai 于 2026 年 8 月开始记录此字段之前创建的插件版本，它也为 `null`。上传绝不会因为其 `version` 而被拒绝，且 `manifest_version` 不唯一。 |
+| `served_version_id`、`latest_version_id` | 前缀为 `pluginver_`：分别为向成员提供的版本和最新版本。请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)。 |
+| `served_version_pinned` | 在插件被固定之前为 `false`（请参阅[固定](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#pins)）；此后为 `true`。 |
+| `owner` | `{"type": "organization"}`，或对于成员的个人市场为 `{"type": "user", "user_id": "user_..."}`。 |
+| `marketplace_id` | 前缀为 `marketplace_`。 |
+| `created_by` | 插件的创建者：对于在 claude.ai 中的用户为 `{"type": "user_actor", "user_id": "user_...", "email_address": "..."}`（`email_address` 可能为 `null`），对于 API 密钥为 `{"type": "api_actor", "api_key_id": "apikey_..."}`。可能会出现其他操作者类型。未记录创建者时为 `null`，例如从 Git 同步的插件。 |
+| `organization_installation_preference`、`organization_installation_preference_inherited` | 组织拥有的插件：组织范围的值，以及该值是否来自市场的默认值（请参阅[安装设置](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#installation-settings)）。成员拥有的插件：两者均为 `null`。 |
+| `content_scan` | 提供版本的扫描结果，一个包含 `status`、`assessment` 和 `reason` 的对象（在此表之后说明）。从未扫描时为 `null`。 |
+| `components` | 提供版本的组件，每个组件为 `{"type", "name", "description"}`，其中 `type` 为 `skill`、`mcp_server`、`command`、`agent`、`hook` 或 `cli` 之一，先按该类型顺序排列，再按名称排列。对于 MCP 服务器，`name` 是其在清单中的键；对于钩子，是其运行时所对应的事件；对于 CLI，是可执行文件的名称。对于 MCP 服务器、钩子和 CLI，`description` 始终为 `null`。未记录时为 `null`。 |
+| `reach` | `contained`、`privileged`、`remote` 或 `null`。请参阅[影响范围](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#reach)。 |
+| `updated_at` | 在所提供的版本变更时、插件被固定时更改，通常在存储新版本时也会更改。等待中的版本（请参阅[版本和提供的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#versions-and-the-served-version)）在其成为所提供的版本时更改此值，而不一定在其被存储时更改。安装设置、共享或仅 `content_scan` 的变更不会更改此值。 |
 
 `description` 并不总是清单中的描述。清单从顶层 `SKILL.md` 获取的 `description` 会被截断为前 500 个字符（请参阅[上传要求](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#upload-requirements)）。如果 `components` 的技能 `description` 中（内容相同的只算一个）恰好只有一个以清单的 `description` 作为前 500 个字符，API 将改为返回该技能的 `description`。因此：
 
@@ -670,29 +670,29 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 `content_scan` 对象：
 
-| 字段           | 描述                                                                                                                                                                                                                                         |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `status`     | 扫描运行期间为 `processing`，完成时为 `completed`，无法完成时为 `errored`（或者偶尔在本次响应无法读取其结果时也为此值，这种情况下之后的读取可能会报告结果）。如果存在已完成的扫描，则报告最新的一次。`status` 为 `processing` 或 `errored` 的版本不会提供给成员；将内容作为新版本再次上传会获得一次新的扫描。                                                  |
+| 字段 | 描述 |
+| ----- | ----- |
+| `status` | 扫描运行期间为 `processing`，完成时为 `completed`，无法完成时为 `errored`（或者偶尔在本次响应无法读取其结果时也为此值，这种情况下之后的读取可能会报告结果）。如果存在已完成的扫描，则报告最新的一次。`status` 为 `processing` 或 `errored` 的版本不会提供给成员；将内容作为新版本再次上传会获得一次新的扫描。 |
 | `assessment` | 当 `status` 为 `completed` 时设置：`pass`（未发现问题）、`warn`（发现了不妨碍使用的问题，或[在 claude.ai 中被允许的失败扫描](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#failed-scans-allowed-in-claude-ai)）、`fail`（发现了阻止使用的问题）或 `unknown`（无结论）。否则为 `null`。 |
-| `reason`     | 对于 `warn` 和 `fail`，为主要问题，取值见下表。否则为 `null`；对于早于原因记录功能的旧扫描，也为 `null`。                                                                                                                                                                        |
+| `reason` | 对于 `warn` 和 `fail`，为主要问题，取值见下表。否则为 `null`；对于早于原因记录功能的旧扫描，也为 `null`。 |
 
 <Accordion title="内容扫描原因值">
-  | `reason`                          | 含义                                                   |
-  | --------------------------------- | ---------------------------------------------------- |
-  | `covert-usage-telemetry`          | 指示 Claude 在不告知成员的情况下，将有关成员或其使用情况的信息发送到外部地址。          |
-  | `undisclosed-data-destination`    | 将文件、电子邮件、文档或其他内容发送到成员看不到且无法控制的固定外部目标。                |
-  | `remote-code-instruction-loader`  | 指示 Claude 下载并运行外部内容，或遵循来自外部内容的指令，而这些内容在插件安装后可能会发生变化。 |
-  | `credential-exposure`             | 包含有效凭据，或从成员的环境中收集凭据或令牌。                              |
-  | `guardrail-tampering`             | 削弱成员的安全防护，例如预先批准每个权限提示。                              |
-  | `system-prompt-spoofing`          | 模仿或试图替换 Claude 的系统指令。                                |
-  | `covert-record-tampering`         | 悄悄更改、隐藏或删除成员原本会看到的信息。                                |
-  | `covert-behavior-override`        | 在插件用途之外更改 Claude 的行为，并向成员隐藏该更改。                      |
-  | `hidden-code-execution`           | 运行捆绑的代码，同时指示 Claude 不要透露其作用。                         |
-  | `undisclosed-promotion-injection` | 在 Claude 的输出中插入未披露的推广内容。                             |
-  | `hidden-identity-gate`            | 根据运行它的账户改变或停止其行为，且不说明原因。                             |
-  | `destructive-persistence`         | 可能删除或损坏成员的文件，或安装在插件移除后仍然保留的程序。                       |
-  | `unanalyzable-binary`             | 包含已编译或无法读取的程序，因此扫描无法验证其作用。                           |
-  | `other`                           | 任何其他问题，包括比此列表更新的问题。                                  |
+  | `reason` | 含义 |
+  | ----- | ----- |
+  | `covert-usage-telemetry` | 指示 Claude 在不告知成员的情况下，将有关成员或其使用情况的信息发送到外部地址。 |
+  | `undisclosed-data-destination` | 将文件、电子邮件、文档或其他内容发送到成员看不到且无法控制的固定外部目标。 |
+  | `remote-code-instruction-loader` | 指示 Claude 下载并运行外部内容，或遵循来自外部内容的指令，而这些内容在插件安装后可能会发生变化。 |
+  | `credential-exposure` | 包含有效凭据，或从成员的环境中收集凭据或令牌。 |
+  | `guardrail-tampering` | 削弱成员的安全防护，例如预先批准每个权限提示。 |
+  | `system-prompt-spoofing` | 模仿或试图替换 Claude 的系统指令。 |
+  | `covert-record-tampering` | 悄悄更改、隐藏或删除成员原本会看到的信息。 |
+  | `covert-behavior-override` | 在插件用途之外更改 Claude 的行为，并向成员隐藏该更改。 |
+  | `hidden-code-execution` | 运行捆绑的代码，同时指示 Claude 不要透露其作用。 |
+  | `undisclosed-promotion-injection` | 在 Claude 的输出中插入未披露的推广内容。 |
+  | `hidden-identity-gate` | 根据运行它的账户改变或停止其行为，且不说明原因。 |
+  | `destructive-persistence` | 可能删除或损坏成员的文件，或安装在插件移除后仍然保留的程序。 |
+  | `unanalyzable-binary` | 包含已编译或无法读取的程序，因此扫描无法验证其作用。 |
+  | `other` | 任何其他问题，包括比此列表更新的问题。 |
 </Accordion>
 
 缺少 `plugin_` 前缀的 `plugin_id` 会返回 `400`。带有该前缀但不在您组织清单中的 `plugin_id` 会返回 `404`。
@@ -1182,14 +1182,14 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 除了违反[上传要求](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#upload-requirements)的上传返回 `400`（请求体超过 200 MB 时返回 `413`）以及通用响应（当 `marketplace_id` 是成员的个人市场时返回 `403`；请参阅[错误响应](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#error-responses)）之外，创建操作还可能因以下原因失败：
 
-| 状态                         | 原因                                                                                                                           | 处理方法                                                                                                                                     |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 404                        | `marketplace_id` 不是您组织的市场。                                                                                                   | 从[列出市场](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-marketplaces)获取 ID。                                        |
-| 400                        | 该市场从 Git 同步，或已包含 1,000 个插件（请参阅[上传要求](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#upload-requirements)）。 | 上传到另一个 `manual` 市场，或改为更改存储库。                                                                                                             |
-| 409 `plugin_name_taken`    | 该名称在该市场中已被占用。                                                                                                                | 仅当 `details.plugin_id` 是您打算更新的插件时，才向其上传版本，因为它可能是其他人创建的。否则，或者当 `details.plugin_id` 不存在时，请使用其他名称上传（更改清单的 `name`）。                          |
-| 409 `skill_name_taken`     | 该插件将进入库市场，且其某个技能与某个组织技能同名。                                                                                                   | 重命名该技能，或在 claude.ai 中移除该组织技能。                                                                                                            |
-| 409（无 `error_code`）        | 另一个向同一市场上传同名插件的操作正在进行中，或者此 API 未列出的某个插件占用了该名称。                                                                               | 使用退避策略重试。如果 `409` 持续超过几分钟，请使用其他名称上传（更改清单的 `name`）。                                                                                       |
-| 503 `registration_pending` | 插件已创建，但其注册未完成。                                                                                                               | 不要重新发送；将相同的文件作为 `details.plugin_id` 的版本上传（请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)）。 |
+| 状态 | 原因 | 处理方法 |
+| ----- | ----- | ----- |
+| 404 | `marketplace_id` 不是您组织的市场。 | 从[列出市场](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-marketplaces)获取 ID。 |
+| 400 | 该市场从 Git 同步，或已包含 1,000 个插件（请参阅[上传要求](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#upload-requirements)）。 | 上传到另一个 `manual` 市场，或改为更改存储库。 |
+| 409 `plugin_name_taken` | 该名称在该市场中已被占用。 | 仅当 `details.plugin_id` 是您打算更新的插件时，才向其上传版本，因为它可能是其他人创建的。否则，或者当 `details.plugin_id` 不存在时，请使用其他名称上传（更改清单的 `name`）。 |
+| 409 `skill_name_taken` | 该插件将进入库市场，且其某个技能与某个组织技能同名。 | 重命名该技能，或在 claude.ai 中移除该组织技能。 |
+| 409（无 `error_code`） | 另一个向同一市场上传同名插件的操作正在进行中，或者此 API 未列出的某个插件占用了该名称。 | 使用退避策略重试。如果 `409` 持续超过几分钟，请使用其他名称上传（更改清单的 `name`）。 |
+| 503 `registration_pending` | 插件已创建，但其注册未完成。 | 不要重新发送；将相同的文件作为 `details.plugin_id` 的版本上传（请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)）。 |
 
 ### 获取插件
 
@@ -1448,12 +1448,12 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 除了通用响应（成员拥有的插件返回 `403`，无法提供给成员的版本返回 `409 scan_pending` 或 `400 scan_failed`；请参阅[错误响应](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#error-responses)）之外，该请求还可能因以下原因失败：
 
-| 状态                     | 原因                                                                                   | 处理方法                                                                                                       |
-| ---------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| 400                    | 请求体省略了 `served_version_id`、将其设置为 `null` 或包含任何其他字段；或者该值缺少 `pluginver_` 前缀或为 `latest`。 | 仅发送 `{"served_version_id": "pluginver_..."}`。                                                              |
-| 404                    | `served_version_id` 不是此插件的版本。                                                        | 从[列出插件的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-a-plugins-versions)获取 ID。 |
-| 409（无 `error_code`）    | 对此插件的上传或另一个提供版本更改仍在进行中。                                                              | 稍后重试。                                                                                                      |
-| 409 `skill_name_taken` | 该插件位于库市场中，且该版本包含一个名称现已被某个组织技能使用的技能。                                                  | 选择另一个版本、上传一个已重命名该技能的版本，或在 claude.ai 中移除该组织技能。                                                              |
+| 状态 | 原因 | 处理方法 |
+| ----- | ----- | ----- |
+| 400 | 请求体省略了 `served_version_id`、将其设置为 `null` 或包含任何其他字段；或者该值缺少 `pluginver_` 前缀或为 `latest`。 | 仅发送 `{"served_version_id": "pluginver_..."}`。 |
+| 404 | `served_version_id` 不是此插件的版本。 | 从[列出插件的版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#list-a-plugins-versions)获取 ID。 |
+| 409（无 `error_code`） | 对此插件的上传或另一个提供版本更改仍在进行中。 | 稍后重试。 |
+| 409 `skill_name_taken` | 该插件位于库市场中，且该版本包含一个名称现已被某个组织技能使用的技能。 | 选择另一个版本、上传一个已重命名该技能的版本，或在 claude.ai 中移除该组织技能。 |
 
 ### 删除插件
 
@@ -1862,12 +1862,12 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 除了违反[上传要求](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#upload-requirements)的上传返回 `400`（请求体超过 200 MB 时返回 `413`）以及通用响应（对于成员拥有的插件返回 `403`；请参阅[错误响应](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#error-responses)）之外，请求还可能因以下原因失败：
 
-| 状态                         | 原因                                | 处理方法                                                                                                                                    |
-| -------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| 400                        | 该插件位于从 Git 同步的市场中，或上传的名称与插件的名称不同。 | 改为更改存储库，或修正清单的 `name`。                                                                                                                  |
-| 409（无 `error_code`）        | 对此插件的另一个上传或提供版本更改仍在进行中。           | 稍后重试。                                                                                                                                   |
-| 409 `skill_name_taken`     | 该插件位于库市场中，且该版本添加了一个与某个组织技能同名的技能。  | 重命名该技能，或在 claude.ai 中移除该组织技能。                                                                                                           |
-| 503 `registration_pending` | 版本已存储，但其注册未完成。                    | 当响应带有 `x-should-retry: true` 时，重新发送相同的请求（请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)）。 |
+| 状态 | 原因 | 处理方法 |
+| ----- | ----- | ----- |
+| 400 | 该插件位于从 Git 同步的市场中，或上传的名称与插件的名称不同。 | 改为更改存储库，或修正清单的 `name`。 |
+| 409（无 `error_code`） | 对此插件的另一个上传或提供版本更改仍在进行中。 | 稍后重试。 |
+| 409 `skill_name_taken` | 该插件位于库市场中，且该版本添加了一个与某个组织技能同名的技能。 | 重命名该技能，或在 claude.ai 中移除该组织技能。 |
+| 503 `registration_pending` | 版本已存储，但其注册未完成。 | 当响应带有 `x-should-retry: true` 时，重新发送相同的请求（请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)）。 |
 
 ### 获取版本
 
@@ -2645,15 +2645,15 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 }
 ```
 
-| 字段                                | 描述                                                                                                                                                   |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`                            | 市场的名称。在其整个生命周期内固定不变。                                                                                                                                 |
-| `owner`                           | 结构与插件上的相同。                                                                                                                                           |
-| `source`                          | `manual`、`github`、`gitlab` 或 `public_git`。请参阅[市场](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#marketplaces)。                    |
-| `sync_status`                     | 最近一次同步的结果：`success`、`in_progress`、`failed_content`、`failed_transient`、`failed_auth` 或 `failed_limits`。在首次尝试同步之前为 `null`，对于来源为 `manual` 的市场，永远不会进行同步。 |
-| `last_sync_ended_at`              | 最近一次同步尝试完成的时间，无论其结果如何；对于尚未同步的已连接存储库，为市场的创建时间。对于不进行同步的市场为 `null`。                                                                                     |
-| `last_sync_read_sha`              | 上次同步从存储库读取的提交。不一定是提供版本所来自的提交。对于不进行同步的市场为 `null`。                                                                                                     |
-| `default_installation_preference` | 组织市场：其中每个没有自身设置的插件所采用的组织范围值（如果从未设置，则为 `not_available`）。个人市场：`null`。                                                                                  |
+| 字段 | 描述 |
+| ----- | ----- |
+| `name` | 市场的名称。在其整个生命周期内固定不变。 |
+| `owner` | 结构与插件上的相同。 |
+| `source` | `manual`、`github`、`gitlab` 或 `public_git`。请参阅[市场](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#marketplaces)。 |
+| `sync_status` | 最近一次同步的结果：`success`、`in_progress`、`failed_content`、`failed_transient`、`failed_auth` 或 `failed_limits`。在首次尝试同步之前为 `null`，对于来源为 `manual` 的市场，永远不会进行同步。 |
+| `last_sync_ended_at` | 最近一次同步尝试完成的时间，无论其结果如何；对于尚未同步的已连接存储库，为市场的创建时间。对于不进行同步的市场为 `null`。 |
+| `last_sync_read_sha` | 上次同步从存储库读取的提交。不一定是提供版本所来自的提交。对于不进行同步的市场为 `null`。 |
+| `default_installation_preference` | 组织市场：其中每个没有自身设置的插件所采用的组织范围值（如果从未设置，则为 `not_available`）。个人市场：`null`。 |
 
 缺少 `marketplace_` 前缀的 `marketplace_id` 返回 `400`。带有该前缀但无法解析或属于其他组织的值返回 `404`。
 
@@ -3161,15 +3161,15 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 }
 ```
 
-| 字段                                     | 描述                                                                                                                                       |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `valid`                                | 当 `marketplace.json` 格式正确且没有插件会被跳过时为 `true`。警告不会使其变为 `false`。                                                                            |
-| `ref`                                  | 所读取分支的名称；当未指定分支而读取了默认分支、指定的是提交 SHA 或验证的是归档文件时为 `null`。                                                                                   |
-| `commit_sha`                           | 所验证的提交。对于从 Git 主机下载的归档文件，为主机记录在 ZIP 文件注释字段中的提交（如果有；未经验证）。                                                                                |
-| `total_plugin_count`                   | `marketplace.json` 声明的插件数量；无法读取时为 `0`。                                                                                                   |
+| 字段 | 描述 |
+| ----- | ----- |
+| `valid` | 当 `marketplace.json` 格式正确且没有插件会被跳过时为 `true`。警告不会使其变为 `false`。 |
+| `ref` | 所读取分支的名称；当未指定分支而读取了默认分支、指定的是提交 SHA 或验证的是归档文件时为 `null`。 |
+| `commit_sha` | 所验证的提交。对于从 Git 主机下载的归档文件，为主机记录在 ZIP 文件注释字段中的提交（如果有；未经验证）。 |
+| `total_plugin_count` | `marketplace.json` 声明的插件数量；无法读取时为 `0`。 |
 | `manifest_error`、`manifest_error_code` | 在无法验证任何内容时设置：来源无法读取，或 `marketplace.json` 缺失、格式错误或超出限制。未在 120 秒内完成的验证会报告 `manifest_error_code: "marketplace_validate_deadline_exceeded"`。 |
-| `plugin_errors`                        | 同步会跳过的每个插件各对应一个 `{name, error, error_code}`。                                                                                             |
-| `plugin_warnings`                      | 同步时会遗漏部分内容的每个插件各对应一个 `{name, warnings: [{message, error_code}]}`。                                                                        |
+| `plugin_errors` | 同步会跳过的每个插件各对应一个 `{name, error, error_code}`。 |
+| `plugin_warnings` | 同步时会遗漏部分内容的每个插件各对应一个 `{name, warnings: [{message, error_code}]}`。 |
 
 或者，改为以 `.zip` 形式验证市场目录的本地副本；响应是相同的报告：
 
@@ -3290,10 +3290,10 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 内容问题永远不会导致请求失败。除了所有端点共享的响应（仅具有 `read:org_audit` 或 `read:compliance_org_data` 的密钥返回 `403`；请参阅[错误响应](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#error-responses)和[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#rate-limiting)）之外，请求本身还可能因以下原因失败：
 
-| 状态  | 原因                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | 处理方法                    |
-| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| 400 | 对于 `validate_repository`：请求体不是 JSON 对象；`repository_url` 缺失、长度超过 2,048 个字符、包含凭据，或不符合 `https://github.com/{owner}/{repo}` 的格式（接受 `.git` 后缀；不接受其他主机、更长的路径（例如分支页面的 `/tree/main`）或 443 或 80 以外的端口）；`ref` 为空、长度超过 255 个字符、包含 `..`，或包含 ASCII 字母、数字、`.`、`_`、`-`、`+` 和 `/` 以外的字符；或者存在其他字段。通过这些检查但指向仓库中不存在分支的 `ref` 不会被拒绝：请求会成功并返回 `valid: false`，且 `manifest_error` 会说明未找到该分支。对于 `validate_archive`：请求体不是 `multipart/form-data`，`archive` 部分缺失、重复或未以带文件名的文件部分形式发送，或者存在其他表单字段。 | 修正请求后重新发送。              |
-| 413 | 对于 `validate_archive`：`archive` 部分或请求声明的请求体长度超过 32 MB。                                                                                                                                                                                                                                                                                                                                                                                                               | 改为通过 URL 验证存储库，或精简归档文件。 |
+| 状态 | 原因 | 处理方法 |
+| ----- | ----- | ----- |
+| 400 | 对于 `validate_repository`：请求体不是 JSON 对象；`repository_url` 缺失、长度超过 2,048 个字符、包含凭据，或不符合 `https://github.com/{owner}/{repo}` 的格式（接受 `.git` 后缀；不接受其他主机、更长的路径（例如分支页面的 `/tree/main`）或 443 或 80 以外的端口）；`ref` 为空、长度超过 255 个字符、包含 `..`，或包含 ASCII 字母、数字、`.`、`_`、`-`、`+` 和 `/` 以外的字符；或者存在其他字段。通过这些检查但指向仓库中不存在分支的 `ref` 不会被拒绝：请求会成功并返回 `valid: false`，且 `manifest_error` 会说明未找到该分支。对于 `validate_archive`：请求体不是 `multipart/form-data`，`archive` 部分缺失、重复或未以带文件名的文件部分形式发送，或者存在其他表单字段。 | 修正请求后重新发送。 |
+| 413 | 对于 `validate_archive`：`archive` 部分或请求声明的请求体长度超过 32 MB。 | 改为通过 URL 验证存储库，或精简归档文件。 |
 
 #### 报告代码
 
@@ -3319,17 +3319,17 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 错误响应遵循 [Claude API 错误](https://platform.claude.com/docs/zh-CN/api/errors)中记录的标准格式。联系支持团队时，请提供响应体中的 `request_id`。
 
-| 状态  | 含义                                                                                                                                                  |
-| --- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 含义 |
+| ----- | ----- |
 | 400 | 输入无效，或该操作不适用于此插件或市场（请参阅各端点的相应章节）。当请求包含端点无法识别的查询参数，或组织不是 Claude Enterprise 组织时（`this endpoint is not supported for this organization type`），也会返回此状态。 |
-| 401 | 缺少 `x-api-key` 标头，或无法识别该密钥。                                                                                                                         |
-| 403 | 密钥缺少所需的作用域，或者请求试图向成员的插件或个人市场上传内容、更改其提供的版本或为其设置默认值。（允许删除成员的插件。）                                                                                      |
-| 404 | 未找到资源。当请求省略 `anthropic-beta` 值，或您的组织未启用该 API 时，也会返回此状态，使这些端点看起来不存在。                                                                                 |
-| 409 | 名称已被占用、某个版本的 `content_scan` 为 `processing`，或有冲突的上传正在进行中。                                                                                            |
-| 413 | 请求正文超出大小限制：上传为 200 MB，市场验证为 32 MB。                                                                                                                  |
-| 429 | 超出速率限制。请参阅[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#rate-limiting)。                                                   |
-| 500 | 内部错误。                                                                                                                                               |
-| 503 | 临时错误。当针对同一插件的多个安装设置写入同时到达时，也会返回此状态；请逐个发送这些请求。请使用 backoff（退避）策略重试，但 `registration_pending` 除外（请参阅下表）。                                                |
+| 401 | 缺少 `x-api-key` 标头，或无法识别该密钥。 |
+| 403 | 密钥缺少所需的作用域，或者请求试图向成员的插件或个人市场上传内容、更改其提供的版本或为其设置默认值。（允许删除成员的插件。） |
+| 404 | 未找到资源。当请求省略 `anthropic-beta` 值，或您的组织未启用该 API 时，也会返回此状态，使这些端点看起来不存在。 |
+| 409 | 名称已被占用、某个版本的 `content_scan` 为 `processing`，或有冲突的上传正在进行中。 |
+| 413 | 请求正文超出大小限制：上传为 200 MB，市场验证为 32 MB。 |
+| 429 | 超出速率限制。请参阅[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#rate-limiting)。 |
+| 500 | 内部错误。 |
+| 503 | 临时错误。当针对同一插件的多个安装设置写入同时到达时，也会返回此状态；请逐个发送这些请求。请使用 backoff（退避）策略重试，但 `registration_pending` 除外（请参阅下表）。 |
 
 当同一状态有多种需要您分别处理的原因时，错误还会携带 `error.details.error_code`，并在原因涉及某个插件或版本时携带 `error.details.plugin_id` 或 `error.details.plugin_version_id`：
 
@@ -3348,15 +3348,15 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 }
 ```
 
-| `error_code`                                   | 状态  | 含义及处理方式                                                                                                                                                                                                                                          |
-| ---------------------------------------------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `plugin_name_taken`                            | 409 | 市场中已存在该名称。`details.plugin_id` 即为占用该名称的插件，它可能是其他人创建的。要查看创建者，请[获取该插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#get-a-plugin)并读取其 `created_by`，如果未记录创建者，则该值为 `null`。仅当它是您打算更新的插件时，才向其上传版本。否则，或当 `plugin_id` 不存在时，请使用其他名称上传。 |
-| `skill_name_taken`                             | 409 | 该插件位于库市场中，且其某个技能与某个组织技能同名。`details.skill_name` 给出了该名称。请使用不含该名称技能的上传或版本重试。您也可以在 claude.ai 中移除该组织技能。                                                                                                                                               |
-| `registration_pending`                         | 503 | 文件已存储，但插件的技能尚未能提供给成员使用。请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)。                                                                                                                             |
-| `scan_pending`                                 | 409 | 该版本的 `content_scan` 为 `processing`。请在扫描完成后重试。                                                                                                                                                                                                    |
-| `scan_failed`                                  | 400 | 该版本的 `content_scan` 为 `fail`、`unknown` 或 `errored`，因此无法提供。请选择其他版本。                                                                                                                                                                               |
-| `cmek_key_disabled`、`cmek_key_network_blocked` | 400 | 您组织的客户管理加密密钥不可用。请参阅[客户管理的加密密钥](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#customer-managed-encryption-keys)。                                                                                                               |
-| `unsupported_charset`                          | 400 | 在上传或 `validate_archive` 时，请求的 `Content-Type` 标头指定了 UTF-8、ISO-8859-1 或 US-ASCII 以外的字符集。请在不指定字符集或指定上述字符集之一的情况下发送请求。                                                                                                                                |
+| `error_code` | 状态 | 含义及处理方式 |
+| ----- | ----- | ----- |
+| `plugin_name_taken` | 409 | 市场中已存在该名称。`details.plugin_id` 即为占用该名称的插件，它可能是其他人创建的。要查看创建者，请[获取该插件](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#get-a-plugin)并读取其 `created_by`，如果未记录创建者，则该值为 `null`。仅当它是您打算更新的插件时，才向其上传版本。否则，或当 `plugin_id` 不存在时，请使用其他名称上传。 |
+| `skill_name_taken` | 409 | 该插件位于库市场中，且其某个技能与某个组织技能同名。`details.skill_name` 给出了该名称。请使用不含该名称技能的上传或版本重试。您也可以在 claude.ai 中移除该组织技能。 |
+| `registration_pending` | 503 | 文件已存储，但插件的技能尚未能提供给成员使用。请参阅[重试上传](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#retrying-uploads)。 |
+| `scan_pending` | 409 | 该版本的 `content_scan` 为 `processing`。请在扫描完成后重试。 |
+| `scan_failed` | 400 | 该版本的 `content_scan` 为 `fail`、`unknown` 或 `errored`，因此无法提供。请选择其他版本。 |
+| `cmek_key_disabled`、`cmek_key_network_blocked` | 400 | 您组织的客户管理加密密钥不可用。请参阅[客户管理的加密密钥](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#customer-managed-encryption-keys)。 |
+| `unsupported_charset` | 400 | 在上传或 `validate_archive` 时，请求的 `Content-Type` 标头指定了 UTF-8、ISO-8859-1 或 US-ASCII 以外的字符集。请在不指定字符集或指定上述字符集之一的情况下发送请求。 |
 
 未来可能会添加新的代码。对于无法识别的代码，请按照其对应状态的方式处理。
 
@@ -3375,19 +3375,19 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 
 通过此 API 进行的写入会记录在您组织的 Compliance API 活动源中（请参阅[查询活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)），并归属于该 API 密钥，表示为携带其 `apikey_` ID 的 `api_actor`。同一执行者也会出现在该密钥所创建的插件和版本的 `created_by` 中。未更改任何字段或设置的写入不会被记录。
 
-| 事件                                       | 触发时机                                                                                       |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `claude_plugin_created`                  | 通过上传（在此处或在 claude.ai 中）或通过已接受的发布请求创建插件时。通过 Git 同步创建的插件仅触发 `claude_plugin_version_created`。 |
-| `claude_plugin_version_created`          | 存储版本时。通过 Git 同步存储的版本归属于 `system_actor`。                                                    |
-| `claude_plugin_updated`                  | 向现有插件上传新版本时。                                                                               |
-| `claude_plugin_served_version_updated`   | 提供的版本发生变化时。                                                                                |
-| `claude_plugin_deleted`                  | 插件被单独删除时（在此处或在 claude.ai 中）。                                                               |
-| `plugin_installation_preference_updated` | 设置或移除安装设置时。                                                                                |
-| `marketplace_created`                    | 首次上传创建库市场时。                                                                                |
-| `marketplace_updated`                    | 市场的默认安装设置发生变化，或管理员或所有者在 claude.ai 中启动同步时。                                                  |
-| `marketplace_deleted`                    | 在 claude.ai 中将市场连同其插件一起删除时（不会触发针对单个插件的事件）。                                                 |
-| `claude_plugin_archive_accessed`         | 下载成员拥有的插件的归档文件时。                                                                           |
-| `claude_plugin_security_scan_completed`  | 内容扫描完成时。                                                                                   |
+| 事件 | 触发时机 |
+| ----- | ----- |
+| `claude_plugin_created` | 通过上传（在此处或在 claude.ai 中）或通过已接受的发布请求创建插件时。通过 Git 同步创建的插件仅触发 `claude_plugin_version_created`。 |
+| `claude_plugin_version_created` | 存储版本时。通过 Git 同步存储的版本归属于 `system_actor`。 |
+| `claude_plugin_updated` | 向现有插件上传新版本时。 |
+| `claude_plugin_served_version_updated` | 提供的版本发生变化时。 |
+| `claude_plugin_deleted` | 插件被单独删除时（在此处或在 claude.ai 中）。 |
+| `plugin_installation_preference_updated` | 设置或移除安装设置时。 |
+| `marketplace_created` | 首次上传创建库市场时。 |
+| `marketplace_updated` | 市场的默认安装设置发生变化，或管理员或所有者在 claude.ai 中启动同步时。 |
+| `marketplace_deleted` | 在 claude.ai 中将市场连同其插件一起删除时（不会触发针对单个插件的事件）。 |
+| `claude_plugin_archive_accessed` | 下载成员拥有的插件的归档文件时。 |
+| `claude_plugin_security_scan_completed` | 内容扫描完成时。 |
 
 这些事件中的插件、版本和市场 ID 与此 API 返回的 ID 相同。事件也可能指向此 API 未列出的市场，例如由 Anthropic 发布的插件组成的市场。`plugin_installation_preference_updated` 通过插件的 `name` 和 `marketplace_id` 而不是其 `id` 来标识插件。在 `claude_plugin_security_scan_completed` 中，`plugin_version` 不是版本 ID，[插件版本](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#plugin-versions)中也没有与之对应的字段。
 

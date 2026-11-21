@@ -205,11 +205,11 @@ featureMetadata:
 
 在 [Microsoft Foundry 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 上，快速模式有自己的模型 ID，速度由部署决定。请将快速模式请求发送到快速模式模型的部署，并省略 `speed`：
 
-| 模型                | 快速模式模型 ID                |
-| ----------------- | ------------------------ |
-| Claude Fable 5.2  | `claude-fable-5-2-fast`  |
+| 模型 | 快速模式模型 ID |
+| ----- | ----- |
+| Claude Fable 5.2 | `claude-fable-5-2-fast` |
 | Claude Mythos 5.2 | `claude-mythos-5-2-fast` |
-| Claude Opus 5.5   | `claude-opus-5-5-fast`   |
+| Claude Opus 5.5 | `claude-opus-5-5-fast` |
 
 在标准模型（例如 `claude-opus-5-5`）的部署上设置 `speed` 的请求会返回错误。
 
@@ -221,14 +221,14 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 具有默认的快速�
 
 响应中包含指示快速模式速率限制状态的标头：
 
-| 标头                                       | 描述               |
-| ---------------------------------------- | ---------------- |
-| `anthropic-fast-input-tokens-limit`      | 每分钟快速模式输入令牌的最大数量 |
-| `anthropic-fast-input-tokens-remaining`  | 剩余的快速模式输入令牌数     |
-| `anthropic-fast-input-tokens-reset`      | 快速模式输入令牌限制的重置时间  |
-| `anthropic-fast-output-tokens-limit`     | 每分钟快速模式输出令牌的最大数量 |
-| `anthropic-fast-output-tokens-remaining` | 剩余的快速模式输出令牌数     |
-| `anthropic-fast-output-tokens-reset`     | 快速模式输出令牌限制的重置时间  |
+| 标头 | 描述 |
+| ----- | ----- |
+| `anthropic-fast-input-tokens-limit` | 每分钟快速模式输入令牌的最大数量 |
+| `anthropic-fast-input-tokens-remaining` | 剩余的快速模式输入令牌数 |
+| `anthropic-fast-input-tokens-reset` | 快速模式输入令牌限制的重置时间 |
+| `anthropic-fast-output-tokens-limit` | 每分钟快速模式输出令牌的最大数量 |
+| `anthropic-fast-output-tokens-remaining` | 剩余的快速模式输出令牌数 |
+| `anthropic-fast-output-tokens-reset` | 快速模式输出令牌限制的重置时间 |
 
 要查看您的快速模式速率限制，请前往 Claude Console 中的[速率限制](https://platform.claude.com/usage/limits)页面。
 
@@ -686,11 +686,11 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 具有默认的快速�
 
 快速模式在整个 “context window”（上下文窗口）范围内按标准费率的倍数定价，包括输入令牌超过 200k 的请求。在 Claude Models on Google Cloud (Google managed) 上，快速模式价格由 Google Cloud 设定。请参阅[云平台定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#cloud-platform-pricing)。
 
-| 模型                              | 输入             | 输出             |
-| ------------------------------- | -------------- | -------------- |
-| Claude Fable 5.2                | $16 USD / MTok | $80 USD / MTok |
-| Claude Mythos 5.2               | $16 USD / MTok | $80 USD / MTok |
-| Claude Opus 5.5                 | $8 USD / MTok  | $40 USD / MTok |
+| 模型 | 输入 | 输出 |
+| ----- | ----- | ----- |
+| Claude Fable 5.2 | $16 USD / MTok | $80 USD / MTok |
+| Claude Mythos 5.2 | $16 USD / MTok | $80 USD / MTok |
+| Claude Opus 5.5 | $8 USD / MTok | $40 USD / MTok |
 | Claude Opus 5 / Claude Opus 4.8 | $10 USD / MTok | $50 USD / MTok |
 
 快速模式定价可与其他定价调整因素叠加：
@@ -715,14 +715,14 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 具有默认的快速�
 * 可用性：可用
 * 用法：在请求中设置 `speed: "fast"`。
 
-| 状态              | 云平台                                                                                                                                                                                                                                                                                                                                | 模型                                                                                                                                                                           |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 可用              | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview) |
-| 可用<sup>1</sup>  | [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)                                                                                                                                                                                                    | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview) |
-| 可用              | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                                                                                                                                          | [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview)                                                                                           |
-| 可用<sup>1</sup>  | [Microsoft Foundry (hosted on Azure)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)                                                                                                                                                                                                        | [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview)                                                                                           |
-| 研究预览            | Claude API                                                                                                                                                                                                                                                                                                                         | [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview)                                                                                               |
-| 已弃用<sup>2</sup> | Claude API                                                                                                                                                                                                                                                                                                                         | [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview)                                                                                           |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
+| 可用 | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview) |
+| 可用<sup>1</sup> | [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview) |
+| 可用 | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview) |
+| 可用<sup>1</sup> | [Microsoft Foundry (hosted on Azure)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview) |
+| 研究预览 | Claude API | [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview) |
+| 已弃用<sup>2</sup> | Claude API | [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
 
 1. 在 Microsoft Foundry 上，快速模式有自己的模型 ID，以 `-fast` 结尾。请将请求发送到快速模式模型的部署，并省略 `speed`。
 2. 移除日期：2026 年 11 月 30 日。移除后，向 `claude-opus-4-8` 发送的带有 `speed: "fast"` 的请求将返回错误。如需继续使用快速模式，请迁移到 Claude Opus 5.5。请参阅[从 Claude Opus 4.8 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8)。
@@ -732,11 +732,11 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 具有默认的快速�
 * 可用性：可用
 * 用法：在智能体的模型对象上设置 `speed`，例如 `{"id": "claude-opus-5-5", "speed": "fast"}`。
 
-| 状态              | 云平台                                                                                                                                                                       | 模型                                                                                 |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| 可用              | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview) |
-| 研究预览            | Claude API                                                                                                                                                                | [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview)     |
-| 已弃用<sup>1</sup> | Claude API                                                                                                                                                                | [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
+| 可用 | Claude API, [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview) |
+| 研究预览 | Claude API | [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview) |
+| 已弃用<sup>1</sup> | Claude API | [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
 
 1. 移除日期：2026 年 11 月 30 日。移除后，向 `claude-opus-4-8` 发送的带有 `speed: "fast"` 的请求将返回错误。如需继续使用快速模式，请迁移到 Claude Opus 5.5。请参阅[从 Claude Opus 4.8 迁移到 Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-4-8)。
 
@@ -746,18 +746,18 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 具有默认的快速�
 
 Beta 请求头让您可以在实验性功能和新模型能力成为标准 API 的一部分之前访问它们。
 
-| 请求头                    | 模型                                                                                                                                                                 |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 请求头 | 模型 |
+| ----- | ----- |
 | `fast-mode-2026-02-01` | [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
-| 详细信息 | 使用相同的 Messages API 端点，推理速度更快。无论速度设置如何，ZDR 均适用。                                                                                            | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
+| 详细信息 | 使用相同的 Messages API 端点，推理速度更快。无论速度设置如何，ZDR 均适用。 | — |
 
 适用的端点：
 

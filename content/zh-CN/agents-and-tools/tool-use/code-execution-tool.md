@@ -1076,14 +1076,14 @@ Bash 命令结果（`bash_code_execution_result`）包括：
 
 **按工具类型划分的错误代码：**
 
-| 工具           | 错误代码                      | 描述               |
-| ------------ | ------------------------- | ---------------- |
-| 所有工具         | `unavailable`             | 该工具暂时不可用         |
-| 所有工具         | `execution_time_exceeded` | 工具调用超过了最大执行时间    |
-| 所有工具         | `invalid_tool_input`      | 向工具提供了无效参数       |
-| 所有工具         | `too_many_requests`       | 工具使用超出速率限制       |
-| bash         | `output_file_too_large`   | 命令输出超过了最大大小      |
-| text\_editor | `file_not_found`          | 文件不存在（针对查看/编辑操作） |
+| 工具 | 错误代码 | 描述 |
+| ----- | ----- | ----- |
+| 所有工具 | `unavailable` | 该工具暂时不可用 |
+| 所有工具 | `execution_time_exceeded` | 工具调用超过了最大执行时间 |
+| 所有工具 | `invalid_tool_input` | 向工具提供了无效参数 |
+| 所有工具 | `too_many_requests` | 工具使用超出速率限制 |
+| bash | `output_file_too_large` | 命令输出超过了最大大小 |
+| text\_editor | `file_not_found` | 文件不存在（针对查看/编辑操作） |
 
 已过期的容器无法复用：引用它的请求会返回错误，而不会恢复它。请在不带 `container` 参数的情况下重新发送请求，以获取新容器。
 
@@ -1500,12 +1500,12 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "bas
 
 ### 变更内容
 
-| 组件      | 旧版                          | 当前                                                                 |
-| ------- | --------------------------- | ------------------------------------------------------------------ |
-| Beta 标头 | `code-execution-2025-05-22` | 无需                                                                 |
-| 工具类型    | `code_execution_20250522`   | `code_execution_20250825` 或更高版本                                    |
-| 能力      | 仅 Python                    | Bash 命令、文件操作                                                       |
-| 响应类型    | `code_execution_result`     | `bash_code_execution_result`、`text_editor_code_execution_*_result` |
+| 组件 | 旧版 | 当前 |
+| ----- | ----- | ----- |
+| Beta 标头 | `code-execution-2025-05-22` | 无需 |
+| 工具类型 | `code_execution_20250522` | `code_execution_20250825` 或更高版本 |
+| 能力 | 仅 Python | Bash 命令、文件操作 |
+| 响应类型 | `code_execution_result` | `bash_code_execution_result`、`text_editor_code_execution_*_result` |
 
 ### 向后兼容性
 
@@ -1560,18 +1560,18 @@ data: {"type": "content_block_start", "index": 2, "content_block": {"type": "bas
 
 * 可用性：可用
 
-| 状态 | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| -- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry (hosted on Anthropic)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                      | HIPAA |
-| ---- | -------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 不具备资格                                                                                                                      | 不具备资格 |
-| 详细信息 | 容器数据最多保留 30 天。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#data-retention) | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
+| 详细信息 | 容器数据最多保留 30 天。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#data-retention) | — |
 
 适用的端点：
 

@@ -73,12 +73,12 @@ curl --fail-with-body -sS -G \
 
 Compliance API 根据端点系列使用两种分页方案：
 
-| 端点系列                          | 排序顺序            | 方案   | 参数                                                |
-| ----------------------------- | --------------- | ---- | ------------------------------------------------- |
-| 活动                            | 从新到旧            | 游标   | `after_id`、`before_id`（以 `first_id`、`last_id` 返回） |
-| 聊天和聊天消息                       | 从旧到新            | 游标   | `after_id`、`before_id`（以 `first_id`、`last_id` 返回） |
-| 组织、项目、项目附件、用户、角色、角色权限、群组、群组成员 | 因端点而异           | 页面令牌 | `page`（以 `next_page` 返回）                          |
-| 本地和远程会话及会话消息                  | 会话从新到旧；消息默认从旧到新 | 页面令牌 | `page`（以 `next_page` 返回）                          |
+| 端点系列 | 排序顺序 | 方案 | 参数 |
+| ----- | ----- | ----- | ----- |
+| 活动 | 从新到旧 | 游标 | `after_id`、`before_id`（以 `first_id`、`last_id` 返回） |
+| 聊天和聊天消息 | 从旧到新 | 游标 | `after_id`、`before_id`（以 `first_id`、`last_id` 返回） |
+| 组织、项目、项目附件、用户、角色、角色权限、群组、群组成员 | 因端点而异 | 页面令牌 | `page`（以 `next_page` 返回） |
+| 本地和远程会话及会话消息 | 会话从新到旧；消息默认从旧到新 | 页面令牌 | `page`（以 `next_page` 返回） |
 
 文件不分页：它们按 ID 单独检索。
 
@@ -138,27 +138,27 @@ persist(cursor)
 
 `data` 中的每个条目都是一个 Activity，其顶层结构如下：
 
-| 字段                  | 类型              | 描述                                                                                                                                                                   |
-| ------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                | string          | 活动的唯一标识符。                                                                                                                                                            |
-| `created_at`        | RFC 3339 string | 活动发生的时间。                                                                                                                                                             |
-| `organization_id`   | string 或 null   | 活动发生所在的组织；对于不与组织关联的事件，则为 `null`。                                                                                                                                     |
-| `organization_uuid` | string 或 null   | 范围与 `organization_id` 相同，以 UUID 形式表示。                                                                                                                                |
-| `actor`             | Actor 联合类型      | 执行该活动的人员或实体。请参阅下面的 actor 表。                                                                                                                                          |
-| `type`              | string          | 活动类型，例如 `claude_chat_created`。                                                                                                                                       |
-| *其他字段*              | 不定              | 特定于类型的字段，例如聊天事件上的 `claude_chat_id` 或文件事件上的 `claude_file_id`。有关每种类型的字段列表，请参阅 API 参考中的[查询合规活动](https://platform.claude.com/docs/zh-CN/api/compliance/activities/list)。 |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `id` | string | 活动的唯一标识符。 |
+| `created_at` | RFC 3339 string | 活动发生的时间。 |
+| `organization_id` | string 或 null | 活动发生所在的组织；对于不与组织关联的事件，则为 `null`。 |
+| `organization_uuid` | string 或 null | 范围与 `organization_id` 相同，以 UUID 形式表示。 |
+| `actor` | Actor 联合类型 | 执行该活动的人员或实体。请参阅下面的 actor 表。 |
+| `type` | string | 活动类型，例如 `claude_chat_created`。 |
+| *其他字段* | 不定 | 特定于类型的字段，例如聊天事件上的 `claude_chat_id` 或文件事件上的 `claude_file_id`。有关每种类型的字段列表，请参阅 API 参考中的[查询合规活动](https://platform.claude.com/docs/zh-CN/api/compliance/activities/list)。 |
 
 `actor` 字段是一个 “discriminated union”（可辨识联合类型）。`type` 判别字段会告诉您存在哪些其他字段：
 
-| `actor.type`                 | 出现时机                                                                                                                       | 关键字段                                                                                          |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `user_actor`                 | 已登录的 claude.ai 或 Claude Console 用户执行了该操作。Anthropic 代表用户运行的进程也可能显示为此类型；请参阅此表后面的段落。                                          | `email_address`、`user_id`、`ip_address`、`user_agent`                                           |
-| `api_actor`                  | 某个请求使用客户签发的 API 密钥调用了 Claude API 或 Compliance API。对于 Compliance Access Key 和 Admin API 密钥，Compliance API 调用都会产生此 actor 类型。 | `api_key_id`、`ip_address`、`user_agent`                                                        |
-| `admin_api_key_actor`        | 组织管理员使用 Admin API 密钥管理用户、邀请、工作区或 API 密钥。                                                                                   | `admin_api_key_id`、`ip_address`、`user_agent`                                                  |
-| `unauthenticated_user_actor` | 操作发生在登录完成之前，例如 `sso_login_initiated`。                                                                                      | `unauthenticated_email_address`、`ip_address`、`user_agent`                                     |
-| `anthropic_actor`            | Anthropic 对组织执行了操作，例如通过内部工具。                                                                                               | `email_address`（始终为 `null`；存在此字段是为了与 `user_actor` 保持结构一致，因为 Anthropic 操作人员不以个人电子邮件表示）         |
-| `system_actor`               | 由 Anthropic 系统执行的自动后台处理，不涉及用户或客户凭据。                                                                                        | `service`（可为 null；在已知时为执行该操作的自动化进程的名称）                                                        |
-| `scim_directory_sync_actor`  | 身份提供商（例如 Okta、Microsoft Entra ID 或 JumpCloud）通过 SCIM 目录同步推送了更改。                                                            | `workos_event_id`、`directory_id`、`idp_connection_type`（可为 null；例如 `OktaSCIMV2`、`AzureSCIMV2`） |
+| `actor.type` | 出现时机 | 关键字段 |
+| ----- | ----- | ----- |
+| `user_actor` | 已登录的 claude.ai 或 Claude Console 用户执行了该操作。Anthropic 代表用户运行的进程也可能显示为此类型；请参阅此表后面的段落。 | `email_address`、`user_id`、`ip_address`、`user_agent` |
+| `api_actor` | 某个请求使用客户签发的 API 密钥调用了 Claude API 或 Compliance API。对于 Compliance Access Key 和 Admin API 密钥，Compliance API 调用都会产生此 actor 类型。 | `api_key_id`、`ip_address`、`user_agent` |
+| `admin_api_key_actor` | 组织管理员使用 Admin API 密钥管理用户、邀请、工作区或 API 密钥。 | `admin_api_key_id`、`ip_address`、`user_agent` |
+| `unauthenticated_user_actor` | 操作发生在登录完成之前，例如 `sso_login_initiated`。 | `unauthenticated_email_address`、`ip_address`、`user_agent` |
+| `anthropic_actor` | Anthropic 对组织执行了操作，例如通过内部工具。 | `email_address`（始终为 `null`；存在此字段是为了与 `user_actor` 保持结构一致，因为 Anthropic 操作人员不以个人电子邮件表示） |
+| `system_actor` | 由 Anthropic 系统执行的自动后台处理，不涉及用户或客户凭据。 | `service`（可为 null；在已知时为执行该操作的自动化进程的名称） |
+| `scim_directory_sync_actor` | 身份提供商（例如 Okta、Microsoft Entra ID 或 JumpCloud）通过 SCIM 目录同步推送了更改。 | `workos_event_id`、`directory_id`、`idp_connection_type`（可为 null；例如 `OktaSCIMV2`、`AzureSCIMV2`） |
 
 `user_actor` 活动并不总是意味着该用户执行了操作。Anthropic 代表用户运行的进程目前可能会以受影响用户的 `user_actor` 身份出现，而不是 `system_actor`，并且这种归属方式可能会发生变化。例如，来自迁移的记忆活动（如 `platform_memory_store_created`、`platform_memory_created` 和 `platform_memory_deleted`）就是以这种方式归属的。记忆活动 `platform_memory_store_created`、`platform_memory_created`、`platform_memory_updated` 和 `platform_memory_deleted` 目前无论由谁执行，其 `ip_address` 都显示为 `0.0.0.0`。因此，仅凭此值无法识别 Anthropic 代表用户运行的进程。
 

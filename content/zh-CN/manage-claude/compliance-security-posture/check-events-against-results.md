@@ -29,47 +29,47 @@ description: 每天一次，将您的 SIEM 已存储的声明活动与端点的�
 
 使用以下字段，将响应中的条目与已存储的活动进行匹配。
 
-| 在响应中                      | 在活动中                                                  | 两者的关系                                                                                                                                                                   |
-| ------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `organization_id`         | `organization_uuid`                                   | 相同的值；活动自身的 `organization_id` 带有 `org_` 前缀。                                                                                                                              |
-| `controls[].id`           | `control`                                             | 相同的标识符，[规则 S2](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/check-events-against-results#set-aside-what-cannot-be-compared) 中的情况除外。 |
-| `attestation.attested_at` | 最新的 `attested`、`changed` 或 `renewed` 活动的 `created_at` | 在响应中包含该声明时为同一时间；请按时间而非字符串进行比较。                                                                                                                                          |
-| `status`                  | `status`                                              | 在声明生效中时，`attested_completed` 对应 `completed`，`attested_accepted_risk` 和 `failed_check_accepted_risk` 对应 `accepted_risk`；没有任何值对应 `control_failed`。                        |
+| 在响应中 | 在活动中 | 两者的关系 |
+| ----- | ----- | ----- |
+| `organization_id` | `organization_uuid` | 相同的值；活动自身的 `organization_id` 带有 `org_` 前缀。 |
+| `controls[].id` | `control` | 相同的标识符，[规则 S2](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/check-events-against-results#set-aside-what-cannot-be-compared) 中的情况除外。 |
+| `attestation.attested_at` | 最新的 `attested`、`changed` 或 `renewed` 活动的 `created_at` | 在响应中包含该声明时为同一时间；请按时间而非字符串进行比较。 |
+| `status` | `status` | 在声明生效中时，`attested_completed` 对应 `completed`，`attested_accepted_risk` 和 `failed_check_accepted_risk` 对应 `accepted_risk`；没有任何值对应 `control_failed`。 |
 
 ## 搁置无法比较的内容
 
 在比较之前，先将以下内容搁置。
 
-| #  | 内容                                                                       | 规则                                         |
-| -- | ------------------------------------------------------------------------ | ------------------------------------------ |
-| S1 | `action` 不是 `attested`、`changed`、`renewed`、`cleared` 或 `lapsed` 的已存储声明活动 | 在整个核对中排除它；对于每个新的 `action` 值，标记一次以供审查。      |
-| S2 | 指向 `mdm_cowork_required_organization` 的已存储声明活动                           | 将其计为 `mdm_chat_required_organization` 的活动。 |
-| S3 | 其控制项在响应中没有条目的已存储声明活动                                                     | 无可比较的内容；将该控制项报告为不在响应中，绝不报告为“通过”（`passed`）。 |
-| S4 | `status` 为 `descriptive`、`not_applicable` 或 `not_evaluated` 的条目          | 跳过它；其为 `not_evaluated` 的运行不计入该控制项。         |
+| # | 内容 | 规则 |
+| ----- | ----- | ----- |
+| S1 | `action` 不是 `attested`、`changed`、`renewed`、`cleared` 或 `lapsed` 的已存储声明活动 | 在整个核对中排除它；对于每个新的 `action` 值，标记一次以供审查。 |
+| S2 | 指向 `mdm_cowork_required_organization` 的已存储声明活动 | 将其计为 `mdm_chat_required_organization` 的活动。 |
+| S3 | 其控制项在响应中没有条目的已存储声明活动 | 无可比较的内容；将该控制项报告为不在响应中，绝不报告为“通过”（`passed`）。 |
+| S4 | `status` 为 `descriptive`、`not_applicable` 或 `not_evaluated` 的条目 | 跳过它；其为 `not_evaluated` 的运行不计入该控制项。 |
 
 ## 判断每个不一致的含义
 
 剩下的每个控制项恰好符合一行。在此表中，请将 `null` 的 `state` 视为 `in_force`。
 
-| #  | 最新的已存储活动                                                                      | 响应中的条目                                                                                                         | 判定  | 处理方式                                                                                                                                                                                                                |
-| -- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1  | `attested`、`changed` 或 `renewed`                                              | `attested_at` 等于其 `created_at`；`state` 为 `in_force`；`status` 与其值对应。                                            | 一致  | 无需操作。                                                                                                                                                                                                               |
-| 2  | `cleared`                                                                     | `attestation` 为 `null`，第 11 行中的情况除外。                                                                           | 一致  | 无需操作。                                                                                                                                                                                                               |
-| 3  | `lapsed`，值为“已接受风险”（`accepted_risk`）                                           | `attestation` 为 `null`，或者带有较早活动的时间且 `state` 为 `check_passing` 或 `setting_changed`。                             | 一致  | 无需操作。                                                                                                                                                                                                               |
-| 4  | `lapsed`，值为 `completed` 或 `control_failed`                                    | `attestation` 为 `null`。                                                                                        | 一致  | 无需操作。                                                                                                                                                                                                               |
-| 5  | `attested`、`changed` 或 `renewed`                                              | `attested_at` 等于其 `created_at`；`state` 为 `review_due`、`check_passing` 或 `setting_changed`。                     | 预期内 | 不处于生效状态：对每个新的状态采取一次行动，无需等待活动；恢复为 `in_force` 会重置此项。                                                                                                                                                                  |
-| 6  | `attested`、`changed` 或 `renewed`，值为“已完成”（`completed`），且 `created_at` 晚于您的首次运行 | 在首次比较该活动的运行中，`attestation` 为 `null`，且 `status` 为带有 `current_value` 的 `failed`。                                 | 需核查 | Security posture 页面可能会将检查未通过的项显示为“通过”：标记以供审查，无需等待。                                                                                                                                                                  |
-| 7  | `attested`、`changed` 或 `renewed`，值为 `completed`                               | `attestation` 为 `null`；`status` 既不是 `not_attested`，也不是 `current_value` 为 `null` 的 `failed`；且不符合第 6 行。          | 预期内 | 无可比较的内容；响应中从不包含它。                                                                                                                                                                                                   |
-| 8  | `attested`、`changed` 或 `renewed`，值为“未通过”（`control_failed`）                    | `attestation` 为 `null`；`status` 为以下三者之一：`failed`；自动检查给出的任意状态；或者，从结束日期（`review_date`，UTC 时间）起，为 `not_attested`。 | 预期内 | 无可比较的内容；从结束日期起，当 `status` 不再是 `failed` 时，采取一次行动。                                                                                                                                                                    |
-| 9  | `attested`、`changed` 或 `renewed`，值为 `accepted_risk`                           | `attestation` 为 `null`，且 `status` 为 `passed`、`matches_profile` 或 `exceeds_baseline`。                           | 预期内 | 存储一条占位记录（[占位记录规则 7](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/check-events-against-results#keep-a-placeholder-where-the-two-sources-cannot-be-matched)）。                     |
-| 10 | 无，或者所有已存储活动都早于 `attested_at`                                                  | 存在 `attestation`。                                                                                              | 需核查 | 遵循占位记录规则。                                                                                                                                                                                                           |
-| 11 | 无，或者有一个值不是 `control_failed` 的活动                                               | `current_value` 为 `null`，且 `status` 为 `failed`。                                                                | 需核查 | 您的存储中缺少一个值为“未通过”（`control_failed`）的声明：遵循占位记录规则，并在 `status` 不再是 `failed` 时采取一次行动。                                                                                                                                    |
-| 12 | `attested`、`changed`、`renewed` 或 `cleared`，晚于 `attested_at`，且存在另一个几乎同一时间的活动   | 存在 `attestation`。                                                                                              | 预期内 | 几乎同一时间做出的变更可能以任一顺序存储。                                                                                                                                                                                               |
-| 13 | 同上，但没有这样的第二个活动                                                                | 存在 `attestation`。                                                                                              | 需核查 | 联系一次 Anthropic 支持团队。                                                                                                                                                                                                |
-| 14 | `attested`、`changed` 或 `renewed`                                              | `attested_at` 等于其 `created_at`；`state` 为 `in_force`；`status` 与其值不对应。                                           | 需核查 | 联系 Anthropic 支持团队，仅联系一次。                                                                                                                                                                                            |
-| 15 | `attested`、`changed` 或 `renewed`；之前的各行均不符合                                    | `attestation` 为 `null`。                                                                                        | 需核查 | 该声明最可能已被撤销：存储一条占位记录（[占位记录规则 7](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/check-events-against-results#keep-a-placeholder-where-the-two-sources-cannot-be-matched)）并标记一次以供审查。 |
-| 16 | 无                                                                             | `attestation` 为 `null`，且不符合第 11 行。                                                                             | 一致  | 无需操作。                                                                                                                                                                                                               |
-| 17 | 任何其他情况                                                                        | 任何其他情况。                                                                                                        | 需核查 | 标记一次以供审查。                                                                                                                                                                                                           |
+| # | 最新的已存储活动 | 响应中的条目 | 判定 | 处理方式 |
+| ----- | ----- | ----- | ----- | ----- |
+| 1 | `attested`、`changed` 或 `renewed` | `attested_at` 等于其 `created_at`；`state` 为 `in_force`；`status` 与其值对应。 | 一致 | 无需操作。 |
+| 2 | `cleared` | `attestation` 为 `null`，第 11 行中的情况除外。 | 一致 | 无需操作。 |
+| 3 | `lapsed`，值为“已接受风险”（`accepted_risk`） | `attestation` 为 `null`，或者带有较早活动的时间且 `state` 为 `check_passing` 或 `setting_changed`。 | 一致 | 无需操作。 |
+| 4 | `lapsed`，值为 `completed` 或 `control_failed` | `attestation` 为 `null`。 | 一致 | 无需操作。 |
+| 5 | `attested`、`changed` 或 `renewed` | `attested_at` 等于其 `created_at`；`state` 为 `review_due`、`check_passing` 或 `setting_changed`。 | 预期内 | 不处于生效状态：对每个新的状态采取一次行动，无需等待活动；恢复为 `in_force` 会重置此项。 |
+| 6 | `attested`、`changed` 或 `renewed`，值为“已完成”（`completed`），且 `created_at` 晚于您的首次运行 | 在首次比较该活动的运行中，`attestation` 为 `null`，且 `status` 为带有 `current_value` 的 `failed`。 | 需核查 | Security posture 页面可能会将检查未通过的项显示为“通过”：标记以供审查，无需等待。 |
+| 7 | `attested`、`changed` 或 `renewed`，值为 `completed` | `attestation` 为 `null`；`status` 既不是 `not_attested`，也不是 `current_value` 为 `null` 的 `failed`；且不符合第 6 行。 | 预期内 | 无可比较的内容；响应中从不包含它。 |
+| 8 | `attested`、`changed` 或 `renewed`，值为“未通过”（`control_failed`） | `attestation` 为 `null`；`status` 为以下三者之一：`failed`；自动检查给出的任意状态；或者，从结束日期（`review_date`，UTC 时间）起，为 `not_attested`。 | 预期内 | 无可比较的内容；从结束日期起，当 `status` 不再是 `failed` 时，采取一次行动。 |
+| 9 | `attested`、`changed` 或 `renewed`，值为 `accepted_risk` | `attestation` 为 `null`，且 `status` 为 `passed`、`matches_profile` 或 `exceeds_baseline`。 | 预期内 | 存储一条占位记录（[占位记录规则 7](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/check-events-against-results#keep-a-placeholder-where-the-two-sources-cannot-be-matched)）。 |
+| 10 | 无，或者所有已存储活动都早于 `attested_at` | 存在 `attestation`。 | 需核查 | 遵循占位记录规则。 |
+| 11 | 无，或者有一个值不是 `control_failed` 的活动 | `current_value` 为 `null`，且 `status` 为 `failed`。 | 需核查 | 您的存储中缺少一个值为“未通过”（`control_failed`）的声明：遵循占位记录规则，并在 `status` 不再是 `failed` 时采取一次行动。 |
+| 12 | `attested`、`changed`、`renewed` 或 `cleared`，晚于 `attested_at`，且存在另一个几乎同一时间的活动 | 存在 `attestation`。 | 预期内 | 几乎同一时间做出的变更可能以任一顺序存储。 |
+| 13 | 同上，但没有这样的第二个活动 | 存在 `attestation`。 | 需核查 | 联系一次 Anthropic 支持团队。 |
+| 14 | `attested`、`changed` 或 `renewed` | `attested_at` 等于其 `created_at`；`state` 为 `in_force`；`status` 与其值不对应。 | 需核查 | 联系 Anthropic 支持团队，仅联系一次。 |
+| 15 | `attested`、`changed` 或 `renewed`；之前的各行均不符合 | `attestation` 为 `null`。 | 需核查 | 该声明最可能已被撤销：存储一条占位记录（[占位记录规则 7](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/check-events-against-results#keep-a-placeholder-where-the-two-sources-cannot-be-matched)）并标记一次以供审查。 |
+| 16 | 无 | `attestation` 为 `null`，且不符合第 11 行。 | 一致 | 无需操作。 |
+| 17 | 任何其他情况 | 任何其他情况。 | 需核查 | 标记一次以供审查。 |
 
 ## 在两个来源无法匹配时保留占位记录
 

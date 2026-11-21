@@ -103,7 +103,7 @@ SDK 在您的应用程序中发出 span。您应用程序的 OpenTelemetry “ex
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.10.0")
+        implementation("com.anthropic:anthropic-java:3.12.0")
         ```
       </Tab>
 
@@ -112,7 +112,7 @@ SDK 在您的应用程序中发出 span。您应用程序的 OpenTelemetry “ex
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.10.0</version>
+            <version>3.12.0</version>
         </dependency>
         ```
       </Tab>
@@ -387,14 +387,14 @@ SDK 在您的应用程序中发出 span。您应用程序的 OpenTelemetry “ex
   如果您向客户端传递 `open_telemetry` (typescript, java, php: `openTelemetry`; csharp: `OpenTelemetry`; go: `option.With…()`)，它会整体覆盖该选项的环境变量，包括嵌套键。您省略的任何嵌套键都会使用表中的默认值，即使设置了其环境变量也是如此。
 </Note>
 
-| 选项                                                                                                                                                                                                                             | 用途                                                                                                                   | 默认值                                                                                                                                            |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `traces.content_mode` (typescript, java, php: `traces.contentMode`; csharp: `Traces.ContentMode`; go: `option.WithOpenTelemetryTracesContentMode()`)<br />`ANTHROPIC_OPEN_TELEMETRY_TRACES_CONTENT_MODE=content`               | 在 span 中包含提示和响应。请参阅[内容模式](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#choose-a-content-mode)。 | `metadata_only`                                                                                                                                |
-| `traces.max_content_bytes` (typescript, java, php: `traces.maxContentBytes`; csharp: `Traces.MaxContentBytes`; go: `option.WithOpenTelemetryTracesMaxContentBytes()`)<br />`ANTHROPIC_OPEN_TELEMETRY_TRACES_MAX_CONTENT_BYTES` | 更改每个 span 的内容限制。请参阅[内容限制](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#content-limits)。        | 0.75 MB                                                                                                                                        |
-| `conversation_id` (typescript, java, php: `conversationId`; csharp: `ConversationId`; go: `option.WithOpenTelemetryConversationID()`)                                                                                          | 将多次调用关联到一个对话中。SDK 会将该 ID 写入 `gen_ai.conversation.id`。该 ID 在两种内容模式下都会被导出，因此请勿在其中放入个人数据或机密信息。                          | 无                                                                                                                                              |
-| `tracer_provider` (typescript, java, php: `tracerProvider`; csharp: `AddSource("com.anthropic.sdk.csharp*")`; go: `option.WithTracerProvider()`)                                                                               | 选择接收 SDK span 的 tracer provider。                                                                                     | 您在[注册 tracer provider](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#register-a-tracer-provider) 中设置的 tracer provider |
-| `propagation` (go: `option.WithOpenTelemetryPropagation()`)<br />`ANTHROPIC_OPEN_TELEMETRY_PROPAGATION=false`                                                                                                                  | 停止随请求发送 trace 上下文和 baggage 请求头，例如当您的 HTTP 客户端插桩已经发送它们时。SDK 仍会发出 span。适用于 Python、TypeScript、Go、Java、Ruby 和 PHP SDK。   | 开启                                                                                                                                             |
-| `open_telemetry` (typescript, java, php: `openTelemetry`; csharp: `OpenTelemetry`; go: `option.WithoutOpenTelemetry()`)<br />`ANTHROPIC_OPEN_TELEMETRY=false`                                                                  | 为某个客户端关闭 span，例如当另一个库已经在追踪该 SDK 时。                                                                                   | 开启                                                                                                                                             |
+| 选项 | 用途 | 默认值 |
+| ----- | ----- | ----- |
+| `traces.content_mode` (typescript, java, php: `traces.contentMode`; csharp: `Traces.ContentMode`; go: `option.WithOpenTelemetryTracesContentMode()`)<br />`ANTHROPIC_OPEN_TELEMETRY_TRACES_CONTENT_MODE=content` | 在 span 中包含提示和响应。请参阅[内容模式](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#choose-a-content-mode)。 | `metadata_only` |
+| `traces.max_content_bytes` (typescript, java, php: `traces.maxContentBytes`; csharp: `Traces.MaxContentBytes`; go: `option.WithOpenTelemetryTracesMaxContentBytes()`)<br />`ANTHROPIC_OPEN_TELEMETRY_TRACES_MAX_CONTENT_BYTES` | 更改每个 span 的内容限制。请参阅[内容限制](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#content-limits)。 | 0.75 MB |
+| `conversation_id` (typescript, java, php: `conversationId`; csharp: `ConversationId`; go: `option.WithOpenTelemetryConversationID()`) | 将多次调用关联到一个对话中。SDK 会将该 ID 写入 `gen_ai.conversation.id`。该 ID 在两种内容模式下都会被导出，因此请勿在其中放入个人数据或机密信息。 | 无 |
+| `tracer_provider` (typescript, java, php: `tracerProvider`; csharp: `AddSource("com.anthropic.sdk.csharp*")`; go: `option.WithTracerProvider()`) | 选择接收 SDK span 的 tracer provider。 | 您在[注册 tracer provider](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#register-a-tracer-provider) 中设置的 tracer provider |
+| `propagation` (go: `option.WithOpenTelemetryPropagation()`)<br />`ANTHROPIC_OPEN_TELEMETRY_PROPAGATION=false` | 停止随请求发送 trace 上下文和 baggage 请求头，例如当您的 HTTP 客户端插桩已经发送它们时。SDK 仍会发出 span。适用于 Python、TypeScript、Go、Java、Ruby 和 PHP SDK。 | 开启 |
+| `open_telemetry` (typescript, java, php: `openTelemetry`; csharp: `OpenTelemetry`; go: `option.WithoutOpenTelemetry()`)<br />`ANTHROPIC_OPEN_TELEMETRY=false` | 为某个客户端关闭 span，例如当另一个库已经在追踪该 SDK 时。 | 开启 |
 
 以下示例展示了如何使用每个选项：
 
@@ -818,14 +818,14 @@ SDK 调用 [MCP 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/
 
 ## 故障排除
 
-| 问题                                                           | 检查内容                                                                                                                                                                                                        |
-| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 没有来自 SDK 的 span                                              | 在第一次调用之前注册 tracer provider。确保您已按[安装 SDK](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#install-the-sdk) 中的说明安装了 SDK，并且 `ANTHROPIC_OPEN_TELEMETRY` 不是 `false`。                      |
-| Java SDK 不向已注册的 tracer provider 发送 span，或不向 API 发送 trace 上下文 | 另一个依赖项将 `opentelemetry-api` 设置为低于 1.57.0 的版本。请将 `opentelemetry-api` 升级到 1.57.0 或更高版本。                                                                                                                       |
-| SDK span 没有嵌套在您的 span 之下，或者您的工具创建的 span 没有嵌套在工具 span 之下      | 在您自己的某个 span 内部调用 SDK，如[将 API span 连接到您自己的追踪](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#connect-api-spans-to-your-own-traces)中的示例所示。在 Go 中，请从工具运行器传递给工具的 `ctx` 启动您的工具创建的 span。 |
-| 来自 SDK 的请求没有 `traceparent` 请求头                               | 向 OpenTelemetry 注册 W3C trace 上下文传播器。SDK 使用您应用程序的传播器写入请求头。                                                                                                                                                   |
-| 流的 SDK span 没有结束或不包含响应                                       | 请参阅[流追踪](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#trace-a-stream)。                                                                                                            |
-| 每个请求出现两次                                                     | 请求的 SDK span 和 API span 具有相同的名称。使用 span 类型或 `service.name` 来区分它们。如果另一个库也在追踪该 SDK，请关闭两者之一。                                                                                                                   |
+| 问题 | 检查内容 |
+| ----- | ----- |
+| 没有来自 SDK 的 span | 在第一次调用之前注册 tracer provider。确保您已按[安装 SDK](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#install-the-sdk) 中的说明安装了 SDK，并且 `ANTHROPIC_OPEN_TELEMETRY` 不是 `false`。 |
+| Java SDK 不向已注册的 tracer provider 发送 span，或不向 API 发送 trace 上下文 | 另一个依赖项将 `opentelemetry-api` 设置为低于 1.57.0 的版本。请将 `opentelemetry-api` 升级到 1.57.0 或更高版本。 |
+| SDK span 没有嵌套在您的 span 之下，或者您的工具创建的 span 没有嵌套在工具 span 之下 | 在您自己的某个 span 内部调用 SDK，如[将 API span 连接到您自己的追踪](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#connect-api-spans-to-your-own-traces)中的示例所示。在 Go 中，请从工具运行器传递给工具的 `ctx` 启动您的工具创建的 span。 |
+| 来自 SDK 的请求没有 `traceparent` 请求头 | 向 OpenTelemetry 注册 W3C trace 上下文传播器。SDK 使用您应用程序的传播器写入请求头。 |
+| 流的 SDK span 没有结束或不包含响应 | 请参阅[流追踪](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#trace-a-stream)。 |
+| 每个请求出现两次 | 请求的 SDK span 和 API span 具有相同的名称。使用 span 类型或 `service.name` 来区分它们。如果另一个库也在追踪该 SDK，请关闭两者之一。 |
 
 ## 可用性
 
@@ -837,8 +837,8 @@ SDK 追踪在所有模型上处于 beta 阶段。
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -846,6 +846,6 @@ SDK 追踪在所有模型上处于 beta 阶段。
 * 可用性：可用
 * 用法：SDK 追踪您的代码发送的请求，例如您发送到会话的事件；智能体的模型请求和工具调用的 span 来自 API 追踪。在自托管沙箱中，SDK 的环境 worker 还会追踪其运行的每个工具。
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |

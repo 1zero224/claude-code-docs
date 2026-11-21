@@ -222,7 +222,7 @@ Claude 与您的 Android 应用的连接通过您设备的标准分享系统和�
 
 对于需要权限的功能（如位置或日历访问），Claude 会根据情况请求权限，并清楚地说明为什么需要访问。您将看到三个选项的提示：仅允许一次、始终允许或不允许。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1707351614/ccb910e4b87b1e96ad9a11bbd835/b57b2130-d8d6-4499-89f6-6c12de236fd4?expires=1795099500&amp;signature=2d4b25e0b9b712dabd697fc300fef29979bb1eb34c349352aafe3849f45b7473&amp;req=dScnEcp7nIdeXfMW1HO4zQe5G1qP0izxS5x65TIld%2FBlPVMMN24R0j246zMQ%0AHA2bjqbe%2F1F99JuC1Io%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1707351614/ccb910e4b87b1e96ad9a11bbd835/b57b2130-d8d6-4499-89f6-6c12de236fd4?expires=1795269600&amp;signature=0c8ac5643a0dd30e99cb888c5f72487f3a46ae6751de7c433f2bd59b62cc0804&amp;req=dScnEcp7nIdeXfMW1HO4zQe5G1qN3SzyS5x65TIld%2FCxNAks591USXarmK4Y%0AHYFym0nRM5ia3ogwD2g%3D%0A)
 
 这些权限可以随时在您的设备设置中进行管理，方法是进入“设置”>“应用”>“Claude”>“权限”。点击**已允许**和**未允许**下列出的每个权限进行更改。您可以在“仅在使用应用时允许”或“每次都询问”之间切换以更改 Claude 的访问权限，或通过选择“不允许”来移除权限。Claude 仅在特定功能需要时才会请求权限，您始终可以选择拒绝，同时继续使用其他功能。
 

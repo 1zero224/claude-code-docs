@@ -18,27 +18,27 @@ description: 诊断并修复思考功能故障：配置导致的 400 错误、�
 
 下表列出了每个模型支持的内容、默认值，以及它会以 400 错误拒绝的 `thinking.type` 值；未列为被拒绝的值均可接受。只有 Claude Sonnet 5.5 接受 `"between_tools"`，并且它用该值代替 `"disabled"`。
 
-| 模型                    | 思考类型                            | 默认值  | 以 400 拒绝                             |
-| --------------------- | ------------------------------- | ---- | ------------------------------------ |
-| Claude Fable 5.2      | 仅自适应                            | 始终开启 | `"enabled"`、`"disabled"`             |
-| Claude Mythos 5.2     | 仅自适应                            | 始终开启 | `"enabled"`、`"disabled"`             |
-| Claude Fable 5.1      | 仅自适应                            | 始终开启 | `"enabled"`、`"disabled"`             |
-| Claude Mythos 5.1     | 仅自适应                            | 始终开启 | `"enabled"`、`"disabled"`             |
-| Claude Fable 5        | 仅自适应                            | 始终开启 | `"enabled"`、`"disabled"`             |
-| Claude Mythos 5       | 仅自适应                            | 始终开启 | `"enabled"`、`"disabled"`             |
-| Claude Mythos Preview | 自适应、扩展                          | 始终开启 | `"disabled"`                         |
-| Claude Opus 5.5       | 仅自适应                            | 始终开启 | `"enabled"`、`"disabled"`             |
-| Claude Opus 5         | 仅自适应                            | 开启   | `"enabled"`、`"disabled"`<sup>2</sup> |
-| Claude Opus 4.8       | 仅自适应                            | 关闭   | `"enabled"`                          |
-| Claude Opus 4.7       | 仅自适应                            | 关闭   | `"enabled"`                          |
-| Claude Sonnet 5.5     | 自适应、`between_tools`<sup>3</sup> | 开启   | `"enabled"`、`"disabled"`             |
-| Claude Sonnet 5       | 仅自适应                            | 开启   | `"enabled"`                          |
-| Claude Haiku 5.5      | 仅自适应                            | 开启   | `"enabled"`、`"disabled"`<sup>2</sup> |
-| Claude Opus 4.6       | 自适应、扩展（已弃用）<sup>1</sup>         | 关闭   | 无                                    |
-| Claude Sonnet 4.6     | 自适应、扩展（已弃用）<sup>1</sup>         | 关闭   | 无                                    |
-| Claude Opus 4.5       | 仅扩展                             | 关闭   | `"adaptive"`                         |
-| Claude Haiku 4.5      | 仅扩展                             | 关闭   | `"adaptive"`                         |
-| Claude Sonnet 4.5     | 仅扩展                             | 关闭   | `"adaptive"`                         |
+| 模型 | 思考类型 | 默认值 | 以 400 拒绝 |
+| ----- | ----- | ----- | ----- |
+| Claude Fable 5.2 | 仅自适应 | 始终开启 | `"enabled"`、`"disabled"` |
+| Claude Mythos 5.2 | 仅自适应 | 始终开启 | `"enabled"`、`"disabled"` |
+| Claude Fable 5.1 | 仅自适应 | 始终开启 | `"enabled"`、`"disabled"` |
+| Claude Mythos 5.1 | 仅自适应 | 始终开启 | `"enabled"`、`"disabled"` |
+| Claude Fable 5 | 仅自适应 | 始终开启 | `"enabled"`、`"disabled"` |
+| Claude Mythos 5 | 仅自适应 | 始终开启 | `"enabled"`、`"disabled"` |
+| Claude Mythos Preview | 自适应、扩展 | 始终开启 | `"disabled"` |
+| Claude Opus 5.5 | 仅自适应 | 始终开启 | `"enabled"`、`"disabled"` |
+| Claude Opus 5 | 仅自适应 | 开启 | `"enabled"`、`"disabled"`<sup>2</sup> |
+| Claude Opus 4.8 | 仅自适应 | 关闭 | `"enabled"` |
+| Claude Opus 4.7 | 仅自适应 | 关闭 | `"enabled"` |
+| Claude Sonnet 5.5 | 自适应、`between_tools`<sup>3</sup> | 开启 | `"enabled"`、`"disabled"` |
+| Claude Sonnet 5 | 仅自适应 | 开启 | `"enabled"` |
+| Claude Haiku 5.5 | 仅自适应 | 开启 | `"enabled"`、`"disabled"`<sup>2</sup> |
+| Claude Opus 4.6 | 自适应、扩展（已弃用）<sup>1</sup> | 关闭 | 无 |
+| Claude Sonnet 4.6 | 自适应、扩展（已弃用）<sup>1</sup> | 关闭 | 无 |
+| Claude Opus 4.5 | 仅扩展 | 关闭 | `"adaptive"` |
+| Claude Haiku 4.5 | 仅扩展 | 关闭 | `"adaptive"` |
+| Claude Sonnet 4.5 | 仅扩展 | 关闭 | `"adaptive"` |
 
 *<sup>1</sup> `enabled` 和 `budget_tokens` 在这些模型上仍然有效，但已弃用；请改用自适应思考。*\
 *<sup>2</sup> Claude Opus 5 和 Claude Haiku 5.5 在 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 为 `high` 或更低时接受 `"disabled"`；将其与 effort `xhigh` 或 `max` 组合使用会返回 400 错误。在 Claude Opus 5 上，此限制针对每个请求强制执行。在 Claude Haiku 5.5 上，与当前生效级别不同的按消息设置的 effort 也会返回 400 错误。*\

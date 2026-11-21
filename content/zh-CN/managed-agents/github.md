@@ -460,13 +460,13 @@ GitHub 仓库会被缓存，因此后续使用同一仓库的会话启动速度�
 
 `github_repository` 资源接受以下字段：
 
-| 字段                                                                                        | 描述                                                                                                                                                                                                       |
-| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type` (csharp, go: `Type`)                                                               | 必填。必须为 `"github_repository"`。                                                                                                                                                                            |
-| `url` (csharp: `Url`; go: `URL`)                                                          | 必填。仓库的 HTTPS URL，格式为 `https://github.com/<owner>/<repo>`，不带 `.git` 后缀。其他格式（包括 SSH URL）将被拒绝并返回 `invalid_request_error`。                                                                                   |
+| 字段 | 描述 |
+| ----- | ----- |
+| `type` (csharp, go: `Type`) | 必填。必须为 `"github_repository"`。 |
+| `url` (csharp: `Url`; go: `URL`) | 必填。仓库的 HTTPS URL，格式为 `https://github.com/<owner>/<repo>`，不带 `.git` 后缀。其他格式（包括 SSH URL）将被拒绝并返回 `invalid_request_error`。 |
 | `authorization_token` (java, php: `authorizationToken`; csharp, go: `AuthorizationToken`) | 可选。用于克隆仓库和向其推送的 GitHub 令牌。如果没有令牌，私有仓库将在会话创建后克隆失败。公共仓库无需令牌即可克隆，智能体也可以在其克隆中提交，但 `git push` 会失败。该令牌不会在 API 响应中回显。请参阅[令牌权限](https://platform.claude.com/docs/zh-CN/managed-agents/github#token-permissions)。 |
-| `mount_path` (java, php: `mountPath`; csharp, go: `MountPath`)                            | 可选。`/workspace` 下用于克隆仓库的目录。默认为 `/workspace/<repo-name>`。                                                                                                                                                 |
-| `checkout` (csharp, go: `Checkout`)                                                       | 可选。要检出的分支（`{"type": "branch", "name": "main"}`）或提交（`{"type": "commit", "sha": "..."}`）。默认为仓库的默认分支。                                                                                                       |
+| `mount_path` (java, php: `mountPath`; csharp, go: `MountPath`) | 可选。`/workspace` 下用于克隆仓库的目录。默认为 `/workspace/<repo-name>`。 |
+| `checkout` (csharp, go: `Checkout`) | 可选。要检出的分支（`{"type": "branch", "name": "main"}`）或提交（`{"type": "commit", "sha": "..."}`）。默认为仓库的默认分支。 |
 
 挂载仓库还会加载存储在其根目录 `.claude/skills` 目录中的所有技能。每个会话只发现一次技能，基于会话开始时检出的仓库状态。请参阅[从 GitHub 仓库加载技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills#load-skills-from-a-github-repository)。
 
@@ -474,10 +474,10 @@ GitHub 仓库会被缓存，因此后续使用同一仓库的会话启动速度�
 
 提供 GitHub 令牌时，请使用所需的最小权限：
 
-| 操作       | 所需范围                      |
-| -------- | ------------------------- |
-| 克隆私有仓库   | `repo`                    |
-| 创建 PR    | `repo`                    |
+| 操作 | 所需范围 |
+| ----- | ----- |
+| 克隆私有仓库 | `repo` |
+| 创建 PR | `repo` |
 | 读取 issue | `repo`（私有）或 `public_repo` |
 | 创建 issue | `repo`（私有）或 `public_repo` |
 
@@ -975,8 +975,8 @@ GitHub 访问在所有模型上处于 beta 阶段。
 
 * 可用性：可用
 
-| 状态   | 云平台     |
-| ---- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | 所有支持的平台 |
 
 ### 所需的 beta 请求头
@@ -991,9 +991,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

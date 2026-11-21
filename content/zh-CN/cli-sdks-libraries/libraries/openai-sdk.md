@@ -318,34 +318,34 @@ OpenAI SDK 没有 `thinking` 参数，因此以下示例将其作为请求体中
 
 #### 简单字段
 
-| 字段                      | 支持状态                                                                                                                                                                                                                                                                                                 |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `model`                 | 使用 Claude 模型名称                                                                                                                                                                                                                                                                                       |
-| `max_tokens`            | 完全支持                                                                                                                                                                                                                                                                                                 |
-| `max_completion_tokens` | 完全支持                                                                                                                                                                                                                                                                                                 |
-| `stream`                | 完全支持                                                                                                                                                                                                                                                                                                 |
-| `stream_options`        | 完全支持                                                                                                                                                                                                                                                                                                 |
-| `top_p`                 | 传递给模型。Claude 4.7 及更高版本的模型以及 Claude Mythos Preview 对于除默认值 `0.99` 以外的任何值都会返回 400 错误，因此请省略此参数。同时设置 `temperature` 和 `top_p` 的请求也会返回 400 错误。请参阅[使用 Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages)。                                                         |
-| `parallel_tool_calls`   | 完全支持                                                                                                                                                                                                                                                                                                 |
-| `tool_choice`           | 有限支持。`"required"` 和指定名称的函数会强制进行工具调用。部分模型在强制工具使用时会返回 400 错误：Claude Fable 5.2、Claude Mythos 5.2、Claude Opus 5.5、Claude Sonnet 5.5、Claude Fable 5.1 和 Claude Mythos 5.1。在这些模型上请使用 `"auto"`。请参阅[强制工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#forcing-tool-use)。 |
-| `stop`                  | 所有非空白停止序列均有效                                                                                                                                                                                                                                                                                         |
-| `temperature`           | 介于 0 和 1 之间（含边界）。大于 1 的值将被限制为 1。在 Claude 4.7 及更高版本的模型以及 Claude Mythos Preview 上，任何低于 1 的值都会返回 400 错误，因此请省略此参数。请参阅[使用 Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages)。                                                                                  |
-| `n`                     | 必须恰好为 1。任何其他值都会返回 400 错误。                                                                                                                                                                                                                                                                            |
-| `response_format`       | 有限支持。仅接受带有 `strict: true` 的 `json_schema`，并且适用结构化输出的 [JSON Schema 限制](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#json-schema-limitations)。任何其他值（包括 `json_object` 和 `text`）都会返回 400 错误。                                                                              |
-| `logprobs`              | 忽略                                                                                                                                                                                                                                                                                                   |
-| `metadata`              | 忽略                                                                                                                                                                                                                                                                                                   |
-| `prediction`            | 忽略                                                                                                                                                                                                                                                                                                   |
-| `presence_penalty`      | 忽略                                                                                                                                                                                                                                                                                                   |
-| `frequency_penalty`     | 忽略                                                                                                                                                                                                                                                                                                   |
-| `seed`                  | 忽略                                                                                                                                                                                                                                                                                                   |
-| `service_tier`          | 忽略                                                                                                                                                                                                                                                                                                   |
-| `audio`                 | 忽略                                                                                                                                                                                                                                                                                                   |
-| `logit_bias`            | 忽略                                                                                                                                                                                                                                                                                                   |
-| `store`                 | 忽略                                                                                                                                                                                                                                                                                                   |
-| `user`                  | 忽略                                                                                                                                                                                                                                                                                                   |
-| `modalities`            | 忽略                                                                                                                                                                                                                                                                                                   |
-| `top_logprobs`          | 忽略                                                                                                                                                                                                                                                                                                   |
-| `reasoning_effort`      | 忽略                                                                                                                                                                                                                                                                                                   |
+| 字段 | 支持状态 |
+| ----- | ----- |
+| `model` | 使用 Claude 模型名称 |
+| `max_tokens` | 完全支持 |
+| `max_completion_tokens` | 完全支持 |
+| `stream` | 完全支持 |
+| `stream_options` | 完全支持 |
+| `top_p` | 传递给模型。Claude 4.7 及更高版本的模型以及 Claude Mythos Preview 对于除默认值 `0.99` 以外的任何值都会返回 400 错误，因此请省略此参数。同时设置 `temperature` 和 `top_p` 的请求也会返回 400 错误。请参阅[使用 Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages)。 |
+| `parallel_tool_calls` | 完全支持 |
+| `tool_choice` | 有限支持。`"required"` 和指定名称的函数会强制进行工具调用。部分模型在强制工具使用时会返回 400 错误：Claude Fable 5.2、Claude Mythos 5.2、Claude Opus 5.5、Claude Sonnet 5.5、Claude Fable 5.1 和 Claude Mythos 5.1。在这些模型上请使用 `"auto"`。请参阅[强制工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#forcing-tool-use)。 |
+| `stop` | 所有非空白停止序列均有效 |
+| `temperature` | 介于 0 和 1 之间（含边界）。大于 1 的值将被限制为 1。在 Claude 4.7 及更高版本的模型以及 Claude Mythos Preview 上，任何低于 1 的值都会返回 400 错误，因此请省略此参数。请参阅[使用 Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages)。 |
+| `n` | 必须恰好为 1。任何其他值都会返回 400 错误。 |
+| `response_format` | 有限支持。仅接受带有 `strict: true` 的 `json_schema`，并且适用结构化输出的 [JSON Schema 限制](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#json-schema-limitations)。任何其他值（包括 `json_object` 和 `text`）都会返回 400 错误。 |
+| `logprobs` | 忽略 |
+| `metadata` | 忽略 |
+| `prediction` | 忽略 |
+| `presence_penalty` | 忽略 |
+| `frequency_penalty` | 忽略 |
+| `seed` | 忽略 |
+| `service_tier` | 忽略 |
+| `audio` | 忽略 |
+| `logit_bias` | 忽略 |
+| `store` | 忽略 |
+| `user` | 忽略 |
+| `modalities` | 忽略 |
+| `top_logprobs` | 忽略 |
+| `reasoning_effort` | 忽略 |
 
 #### `tools` / `functions` 字段
 
@@ -354,12 +354,12 @@ OpenAI SDK 没有 `thinking` 参数，因此以下示例将其作为请求体中
     <Tab title="Tools">
       `tools[n].function` 字段
 
-      | 字段            | 支持状态                                                                                                                        |
-      | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
-      | `name`        | 完全支持                                                                                                                        |
-      | `description` | 完全支持                                                                                                                        |
-      | `parameters`  | 完全支持                                                                                                                        |
-      | `strict`      | 忽略。如需严格的 schema 验证，请在原生 Claude API 中使用[结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)。 |
+      | 字段 | 支持状态 |
+      | ----- | ----- |
+      | `name` | 完全支持 |
+      | `description` | 完全支持 |
+      | `parameters` | 完全支持 |
+      | `strict` | 忽略。如需严格的 schema 验证，请在原生 Claude API 中使用[结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)。 |
     </Tab>
 
     <Tab title="Functions">
@@ -369,12 +369,12 @@ OpenAI SDK 没有 `thinking` 参数，因此以下示例将其作为请求体中
         OpenAI 已弃用 `functions` 字段，并建议改用 `tools`。
       </Info>
 
-      | 字段            | 支持状态                                                                                                                        |
-      | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
-      | `name`        | 完全支持                                                                                                                        |
-      | `description` | 完全支持                                                                                                                        |
-      | `parameters`  | 完全支持                                                                                                                        |
-      | `strict`      | 忽略。如需严格的 schema 验证，请在原生 Claude API 中使用[结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)。 |
+      | 字段 | 支持状态 |
+      | ----- | ----- |
+      | `name` | 完全支持 |
+      | `description` | 完全支持 |
+      | `parameters` | 完全支持 |
+      | `strict` | 忽略。如需严格的 schema 验证，请在原生 Claude API 中使用[结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)。 |
     </Tab>
   </Tabs>
 </Accordion>
@@ -390,10 +390,10 @@ OpenAI SDK 没有 `thinking` 参数，因此以下示例将其作为请求体中
         开发者消息会被提升到对话开头，作为初始系统消息的一部分。
       </Info>
 
-      | 字段        | 支持状态       |
-      | --------- | ---------- |
+      | 字段 | 支持状态 |
+      | ----- | ----- |
       | `content` | 完全支持，但会被提升 |
-      | `name`    | 忽略         |
+      | `name` | 忽略 |
     </Tab>
 
     <Tab title="System 角色">
@@ -403,86 +403,86 @@ OpenAI SDK 没有 `thinking` 参数，因此以下示例将其作为请求体中
         系统消息会被提升到对话开头，作为初始系统消息的一部分。
       </Info>
 
-      | 字段        | 支持状态       |
-      | --------- | ---------- |
+      | 字段 | 支持状态 |
+      | ----- | ----- |
       | `content` | 完全支持，但会被提升 |
-      | `name`    | 忽略         |
+      | `name` | 忽略 |
     </Tab>
 
     <Tab title="User 角色">
       `messages[n].role == "user"` 的字段
 
-      | 字段        | 变体                               | 子字段      | 支持状态      |
-      | --------- | -------------------------------- | -------- | --------- |
-      | `content` | `string`                         |          | 完全支持      |
-      |           | `array`, `type == "text"`        |          | 完全支持      |
-      |           | `array`, `type == "image_url"`   | `url`    | 完全支持      |
-      |           |                                  | `detail` | 忽略        |
-      |           | `array`, `type == "input_audio"` |          | 返回 400 错误 |
-      |           | `array`, `type == "file"`        |          | 返回 400 错误 |
-      | `name`    |                                  |          | 忽略        |
+      | 字段 | 变体 | 子字段 | 支持状态 |
+      | ----- | ----- | ----- | ----- |
+      | `content` | `string` |  | 完全支持 |
+      |  | `array`, `type == "text"` |  | 完全支持 |
+      |  | `array`, `type == "image_url"` | `url` | 完全支持 |
+      |  |  | `detail` | 忽略 |
+      |  | `array`, `type == "input_audio"` |  | 返回 400 错误 |
+      |  | `array`, `type == "file"` |  | 返回 400 错误 |
+      | `name` |  |  | 忽略 |
     </Tab>
 
     <Tab title="Assistant 角色">
       `messages[n].role == "assistant"` 的字段
 
-      | 字段              | 变体                           | 支持状态 |
-      | --------------- | ---------------------------- | ---- |
-      | `content`       | `string`                     | 完全支持 |
-      |                 | `array`, `type == "text"`    | 完全支持 |
-      |                 | `array`, `type == "refusal"` | 忽略   |
-      | `tool_calls`    |                              | 完全支持 |
-      | `function_call` |                              | 完全支持 |
-      | `audio`         |                              | 忽略   |
-      | `refusal`       |                              | 忽略   |
+      | 字段 | 变体 | 支持状态 |
+      | ----- | ----- | ----- |
+      | `content` | `string` | 完全支持 |
+      |  | `array`, `type == "text"` | 完全支持 |
+      |  | `array`, `type == "refusal"` | 忽略 |
+      | `tool_calls` |  | 完全支持 |
+      | `function_call` |  | 完全支持 |
+      | `audio` |  | 忽略 |
+      | `refusal` |  | 忽略 |
     </Tab>
 
     <Tab title="Tool 角色">
       `messages[n].role == "tool"` 的字段
 
-      | 字段             | 变体                        | 支持状态 |
-      | -------------- | ------------------------- | ---- |
-      | `content`      | `string`                  | 完全支持 |
-      |                | `array`, `type == "text"` | 完全支持 |
-      | `tool_call_id` |                           | 完全支持 |
-      | `name`         |                           | 忽略   |
+      | 字段 | 变体 | 支持状态 |
+      | ----- | ----- | ----- |
+      | `content` | `string` | 完全支持 |
+      |  | `array`, `type == "text"` | 完全支持 |
+      | `tool_call_id` |  | 完全支持 |
+      | `name` |  | 忽略 |
     </Tab>
 
     <Tab title="Function 角色">
       `messages[n].role == "function"` 的字段
 
-      | 字段        | 变体       | 支持状态       |
-      | --------- | -------- | ---------- |
-      | `content` | `string` | 完全支持       |
-      | `name`    |          | 必需，但其值会被忽略 |
+      | 字段 | 变体 | 支持状态 |
+      | ----- | ----- | ----- |
+      | `content` | `string` | 完全支持 |
+      | `name` |  | 必需，但其值会被忽略 |
     </Tab>
   </Tabs>
 </Accordion>
 
 ### 响应字段
 
-| 字段                                | 支持状态    |
-| --------------------------------- | ------- |
-| `id`                              | 完全支持    |
-| `choices[]`                       | 长度始终为 1 |
-| `choices[].finish_reason`         | 完全支持    |
-| `choices[].index`                 | 完全支持    |
-| `choices[].message.role`          | 完全支持    |
-| `choices[].message.content`       | 完全支持    |
-| `choices[].message.tool_calls`    | 完全支持    |
-| `object`                          | 完全支持    |
-| `created`                         | 完全支持    |
-| `model`                           | 完全支持    |
-| `usage.completion_tokens`         | 完全支持    |
-| `usage.prompt_tokens`             | 完全支持    |
-| `usage.total_tokens`              | 完全支持    |
-| `usage.completion_tokens_details` | 始终为空    |
-| `usage.prompt_tokens_details`     | 始终为空    |
-| `choices[].message.refusal`       | 始终为空    |
-| `choices[].message.audio`         | 始终为空    |
-| `logprobs`                        | 始终为空    |
-| `service_tier`                    | 始终为空    |
-| `system_fingerprint`              | 始终为空    |
+| 字段 | 支持状态 |
+| ----- | ----- |
+| `id` | 完全支持 |
+| `choices[]` | 长度始终为 1 |
+| `choices[].finish_reason` | 完全支持 |
+| `choices[].index` | 完全支持 |
+| `choices[].message.role` | 完全支持 |
+| `choices[].message.content` | 完全支持 |
+| `choices[].message.tool_calls` | 完全支持 |
+| `object` | 完全支持 |
+| `created` | 完全支持 |
+| `model` | 完全支持 |
+| `usage.completion_tokens` | 完全支持 |
+| `usage.prompt_tokens` | 完全支持 |
+| `usage.total_tokens` | 完全支持 |
+| `usage.completion_tokens_details` | 始终为空 |
+| `usage.prompt_tokens_details` | 始终为空 |
+| `choices[].message.refusal` | 始终为空 |
+| `choices[].message.audio` | 始终为空 |
+| `logprobs` | 始终为空 |
+| `service_tier` | 始终为空 |
+| `system_fingerprint` | 始终为空 |
 
 ### 错误消息兼容性
 
@@ -492,19 +492,19 @@ OpenAI SDK 没有 `thinking` 参数，因此以下示例将其作为请求体中
 
 如果您的代码直接读取或设置标头，下表展示了 Claude API 如何处理 OpenAI 的标头。
 
-| 标头                               | 支持状态                                                                                                           |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `x-ratelimit-limit-requests`     | 不返回。请求限制位于 `x-ratelimit-requests` 中。                                                                           |
-| `x-ratelimit-limit-tokens`       | 不返回。令牌限制位于 `x-ratelimit-tokens` 中。                                                                             |
-| `x-ratelimit-remaining-requests` | 完全支持                                                                                                           |
-| `x-ratelimit-remaining-tokens`   | 完全支持                                                                                                           |
-| `x-ratelimit-reset-requests`     | 完全支持                                                                                                           |
-| `x-ratelimit-reset-tokens`       | 完全支持                                                                                                           |
-| `retry-after`                    | 完全支持                                                                                                           |
-| `x-request-id`                   | 完全支持。携带 Claude API 的[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id)，以替代 `request-id` 标头。 |
-| `openai-version`                 | 不返回                                                                                                            |
-| `openai-processing-ms`           | 不返回                                                                                                            |
-| `authorization`                  | 完全支持                                                                                                           |
+| 标头 | 支持状态 |
+| ----- | ----- |
+| `x-ratelimit-limit-requests` | 不返回。请求限制位于 `x-ratelimit-requests` 中。 |
+| `x-ratelimit-limit-tokens` | 不返回。令牌限制位于 `x-ratelimit-tokens` 中。 |
+| `x-ratelimit-remaining-requests` | 完全支持 |
+| `x-ratelimit-remaining-tokens` | 完全支持 |
+| `x-ratelimit-reset-requests` | 完全支持 |
+| `x-ratelimit-reset-tokens` | 完全支持 |
+| `retry-after` | 完全支持 |
+| `x-request-id` | 完全支持。携带 Claude API 的[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id)，以替代 `request-id` 标头。 |
+| `openai-version` | 不返回 |
+| `openai-processing-ms` | 不返回 |
+| `authorization` | 完全支持 |
 
 ## 可用性
 
@@ -516,6 +516,6 @@ OpenAI SDK 兼容性在所有模型上可用。
 
 * 可用性：可用
 
-| 状态 | 云平台        |
-| -- | ---------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | Claude API |

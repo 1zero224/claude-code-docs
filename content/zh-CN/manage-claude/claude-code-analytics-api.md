@@ -98,11 +98,11 @@ page=page_MjAyNS0wNS0xNFQwMDowMDowMFo=" \
 
 ### 请求参数
 
-| 参数            | 类型      | 必需 | 描述                              |
-| ------------- | ------- | -- | ------------------------------- |
-| `starting_at` | string  | 是  | YYYY-MM-DD 格式的 UTC 日期；仅返回该单日的指标 |
-| `limit`       | integer | 否  | 每页记录数（默认：20，最大：1000）            |
-| `page`        | string  | 否  | 来自上一个响应 `next_page` 字段的不透明游标令牌  |
+| 参数 | 类型 | 必需 | 描述 |
+| ----- | ----- | ----- | ----- |
+| `starting_at` | string | 是 | YYYY-MM-DD 格式的 UTC 日期；仅返回该单日的指标 |
+| `limit` | integer | 否 | 每页记录数（默认：20，最大：1000） |
+| `page` | string | 否 | 来自上一个响应 `next_page` 字段的不透明游标令牌 |
 
 ### 可用指标
 

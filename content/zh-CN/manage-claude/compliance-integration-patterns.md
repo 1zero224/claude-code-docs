@@ -31,9 +31,9 @@ description: 在轮询与游标驱动的活动源消费方式之间进行选择�
 * 游标值是不透明的字符串，您不得对其进行解析。
 * 每个[父组织](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api#how-the-compliance-api-works)的请求限制为每分钟 600 次，由所有密钥、所有关联组织以及所有 `/v1/compliance/*` 端点共享；与本地会话端点不同，远程会话端点在此之上还有第二个请求配额。有关响应标头和重试约定，请参阅 [429 Too Many Requests](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#429-too-many-requests)。
 
-| 模式        | 适用场景                                                      |
-| --------- | --------------------------------------------------------- |
-| 窗口轮询      | 您的管道按固定计划运行，您偏好无状态的工作进程，并且可以容忍重放或重叠的窗口                    |
+| 模式 | 适用场景 |
+| ----- | ----- |
+| 窗口轮询 | 您的管道按固定计划运行，您偏好无状态的工作进程，并且可以容忍重放或重叠的窗口 |
 | 游标驱动的增量读取 | 您希望活动发生与管道摄取之间的延迟最低，希望避免重新读取已经读完的页面，并且有一个持久的位置可以在运行之间保存游标 |
 
 ### 窗口轮询
@@ -95,13 +95,13 @@ persist(cursor)
 
 每个 `Activity` 都携带可与您 SIEM（Splunk、Datadog、Microsoft Sentinel、Cribl 或类似系统）中已有事件进行关联的字段：
 
-| Compliance API 字段     | 关联目标                 |
-| --------------------- | -------------------- |
-| `actor.user_id`       | 您的身份提供商的稳定用户标识符      |
-| `actor.email_address` | 当稳定 ID 不可用时使用目录电子邮件  |
-| `actor.ip_address`    | 网络、VPN 和终端日志         |
-| `actor.user_agent`    | 终端和设备清单，以及发出请求的客户端应用 |
-| `created_at`          | 跨任意来源的时间窗口关联         |
+| Compliance API 字段 | 关联目标 |
+| ----- | ----- |
+| `actor.user_id` | 您的身份提供商的稳定用户标识符 |
+| `actor.email_address` | 当稳定 ID 不可用时使用目录电子邮件 |
+| `actor.ip_address` | 网络、VPN 和终端日志 |
+| `actor.user_agent` | 终端和设备清单，以及发出请求的客户端应用 |
+| `created_at` | 跨任意来源的时间窗口关联 |
 
 当 `actor.type` 为 `user_actor` 时，`actor.user_id` 和 `actor.email_address` 存在。`actor.ip_address` 和 `actor.user_agent` 在某些 actor 类型上不存在，例如 `anthropic_actor` 和 `scim_directory_sync_actor`。在读取这些字段之前请先检查判别字段。`user_id` 是用户账户的稳定、不透明标识符：它在每个 Compliance API 端点和活动负载中保持一致，并且在用户的电子邮件或显示名称更改时不会改变。请使用 `user_id` 而非 `email_address` 作为主要关联键。
 
@@ -113,14 +113,14 @@ persist(cursor)
 
 六个保留期限决定了您之后可以检索的内容：
 
-| 数据                             | 保留期限                                                                                                                                   | 控制方                                        |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| 活动源记录                          | 6 年                                                                                                                                    | Anthropic                                  |
-| 聊天、文件和项目内容                     | 您组织的 claude.ai 保留策略，除非用户提前删除                                                                                                           | 您的组织                                       |
-| 本地会话记录（用户机器上的会话）               | 默认 6 年；如果您的组织设置了有限的自定义对话保留期，则为该期限；在启用了 HIPAA 就绪的组织中为 30 天                                                                              | 默认由 Anthropic 控制；当您的组织设置自定义期限时由您的组织控制      |
-| 远程会话记录（云端会话），Claude Tag 会话记录除外 | 无默认期限；请参阅[保留与删除](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retention-and-deletion)                      | 默认由您的用户控制；对于 Claude 从聊天中启动的会话，还由您组织的保留策略控制 |
-| Claude Tag 会话记录（云端会话）          | 无默认期限；随其频道或 Slack 工作区一同删除（请参阅[保留与删除](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retention-and-deletion)） | 您的组织                                       |
-| 通过 Compliance API 硬删除的内容       | 不保留；删除立即生效且不可恢复                                                                                                                        | `DELETE` 端点的调用方                            |
+| 数据 | 保留期限 | 控制方 |
+| ----- | ----- | ----- |
+| 活动源记录 | 6 年 | Anthropic |
+| 聊天、文件和项目内容 | 您组织的 claude.ai 保留策略，除非用户提前删除 | 您的组织 |
+| 本地会话记录（用户机器上的会话） | 默认 6 年；如果您的组织设置了有限的自定义对话保留期，则为该期限；在启用了 HIPAA 就绪的组织中为 30 天 | 默认由 Anthropic 控制；当您的组织设置自定义期限时由您的组织控制 |
+| 远程会话记录（云端会话），Claude Tag 会话记录除外 | 无默认期限；请参阅[保留与删除](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retention-and-deletion) | 默认由您的用户控制；对于 Claude 从聊天中启动的会话，还由您组织的保留策略控制 |
+| Claude Tag 会话记录（云端会话） | 无默认期限；随其频道或 Slack 工作区一同删除（请参阅[保留与删除](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retention-and-deletion)） | 您的组织 |
+| 通过 Compliance API 硬删除的内容 | 不保留；删除立即生效且不可恢复 | `DELETE` 端点的调用方 |
 
 要了解 Claude Platform 其他部分如何处理保留，请参阅 [API 与数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)。
 

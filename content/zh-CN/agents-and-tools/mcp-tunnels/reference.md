@@ -12,19 +12,19 @@ description: 代理配置字段、Tunnels REST API、证书要求以及设置组
 
 [代理](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/concepts#components)从 `/etc/mcp-gateway/config.yaml`（Compose）或渲染后的 ConfigMap（Helm，由 `gateway.config.*` 填充）读取其配置。
 
-| 字段                                | 描述                                                                                                                            | 默认值                   |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `listen_addr`                     | 要监听的地址和端口。                                                                                                                    | 必填                    |
-| `log_level`                       | 日志详细级别：`debug`、`info`、`warn` 或 `error`。                                                                                       | `info`                |
-| `shutdown_timeout`                | 优雅关闭期间等待进行中请求的时长。                                                                                                             | `30s`                 |
-| `tunnel_domain`                   | 分配给隧道的基础域名。设置后，路由查找会从传入的主机名中去除此后缀，因此 `routes` 的键可以是裸子域名（`wiki`）。为空时，`routes` 的键必须是精确的完整主机名。                                   | 当 `routes` 的键为裸子域名时必填 |
-| `tls.cert_file`                   | 服务器 TLS 证书的路径。                                                                                                                | 必填                    |
-| `tls.key_file`                    | 服务器 TLS 私钥的路径。                                                                                                                | 必填                    |
-| `routes`                          | 子域名或完整主机名到上游 URL 的映射。请参阅[路由匹配](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/reference#route-matching)。 | 必填                    |
-| `upstream.allowed_ips`            | 允许代理连接的 IPv4 CIDR 范围或单个地址。与 `disable_ip_validation` 互斥。                                                                       | RFC1918 私有地址范围        |
-| `upstream.disable_ip_validation`  | 完全禁用上游 IP 验证。与 `allowed_ips` 互斥。                                                                                              | `false`               |
-| `upstream.tls.ca_file`            | 用于验证上游 TLS 的 CA 证书包。                                                                                                          | 无                     |
-| `upstream.tls.include_system_cas` | 对上游 TLS 同时信任系统 CA 证书包。                                                                                                        | `false`               |
+| 字段 | 描述 | 默认值 |
+| ----- | ----- | ----- |
+| `listen_addr` | 要监听的地址和端口。 | 必填 |
+| `log_level` | 日志详细级别：`debug`、`info`、`warn` 或 `error`。 | `info` |
+| `shutdown_timeout` | 优雅关闭期间等待进行中请求的时长。 | `30s` |
+| `tunnel_domain` | 分配给隧道的基础域名。设置后，路由查找会从传入的主机名中去除此后缀，因此 `routes` 的键可以是裸子域名（`wiki`）。为空时，`routes` 的键必须是精确的完整主机名。 | 当 `routes` 的键为裸子域名时必填 |
+| `tls.cert_file` | 服务器 TLS 证书的路径。 | 必填 |
+| `tls.key_file` | 服务器 TLS 私钥的路径。 | 必填 |
+| `routes` | 子域名或完整主机名到上游 URL 的映射。请参阅[路由匹配](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/reference#route-matching)。 | 必填 |
+| `upstream.allowed_ips` | 允许代理连接的 IPv4 CIDR 范围或单个地址。与 `disable_ip_validation` 互斥。 | RFC1918 私有地址范围 |
+| `upstream.disable_ip_validation` | 完全禁用上游 IP 验证。与 `allowed_ips` 互斥。 | `false` |
+| `upstream.tls.ca_file` | 用于验证上游 TLS 的 CA 证书包。 | 无 |
+| `upstream.tls.include_system_cas` | 对上游 TLS 同时信任系统 CA 证书包。 | `false` |
 
 对于 `https://` 上游路由，请至少设置 `upstream.tls.ca_file` 或 `upstream.tls.include_system_cas` 之一；否则代理将没有用于验证上游证书的信任锚。
 
@@ -48,11 +48,11 @@ Tunnels REST API 位于 `/v1/tunnels`，支持创建、列出和归档隧道，�
 
 每个请求必需的标头：
 
-| 标头                  | 值                               |
-| ------------------- | ------------------------------- |
-| `Authorization`     | `Bearer <token>`（经 WIF 交换得到的令牌） |
-| `anthropic-version` | `2026-10-21`                    |
-| `anthropic-beta`    | `mcp-tunnels-2026-06-22`        |
+| 标头 | 值 |
+| ----- | ----- |
+| `Authorization` | `Bearer <token>`（经 WIF 交换得到的令牌） |
+| `anthropic-version` | `2026-10-21` |
+| `anthropic-beta` | `mcp-tunnels-2026-06-22` |
 
 ## 证书要求
 
@@ -90,13 +90,13 @@ Tunnels REST API 位于 `/v1/tunnels`，支持创建、列出和归档隧道，�
 
 附加到现有隧道（或在未提供隧道 ID 时创建一个），然后生成 CA 和服务器证书，注册 CA，获取隧道令牌，并将所有输出写入目标位置。
 
-| 标志                | 描述                                                                         | 默认值                                                     |
-| ----------------- | -------------------------------------------------------------------------- | ------------------------------------------------------- |
-| `--api-url`       | Claude API 基础 URL。也可从 `API_URL` 读取。                                        | 必填                                                      |
-| `--tunnel-id`     | 要附加到的隧道 ID（`tnl_...`）。也可从 `TUNNEL_ID` 读取。省略时会创建新隧道；重新运行时会复用输出中已存储的隧道 ID。   | 无（创建隧道）                                                 |
-| `--output`        | 输出目标：`dir:/path` 或 `k8s-secret:NAME`。Helm chart 传入 `k8s-secret:<release>`。 | `k8s-secret:mcp-tunnel`（在 Kubernetes pod 中运行时自动检测；否则必填） |
-| `--cert-duration` | 服务器证书有效期。                                                                  | `2160h`（90 天）                                           |
-| `--token-version` | 变更检测字符串。新值会在重新运行时触发令牌轮换。Helm chart 和 Compose 示例均传入 `1` 作为初始值。              | 无                                                       |
+| 标志 | 描述 | 默认值 |
+| ----- | ----- | ----- |
+| `--api-url` | Claude API 基础 URL。也可从 `API_URL` 读取。 | 必填 |
+| `--tunnel-id` | 要附加到的隧道 ID（`tnl_...`）。也可从 `TUNNEL_ID` 读取。省略时会创建新隧道；重新运行时会复用输出中已存储的隧道 ID。 | 无（创建隧道） |
+| `--output` | 输出目标：`dir:/path` 或 `k8s-secret:NAME`。Helm chart 传入 `k8s-secret:<release>`。 | `k8s-secret:mcp-tunnel`（在 Kubernetes pod 中运行时自动检测；否则必填） |
+| `--cert-duration` | 服务器证书有效期。 | `2160h`（90 天） |
+| `--token-version` | 变更检测字符串。新值会在重新运行时触发令牌轮换。Helm chart 和 Compose 示例均传入 `1` 作为初始值。 | 无 |
 
 该命令通过[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)进行身份验证。它读取 `ANTHROPIC_FEDERATION_RULE_ID`、`ANTHROPIC_ORGANIZATION_ID`、`ANTHROPIC_WORKSPACE_ID`（可选），以及 `ANTHROPIC_IDENTITY_TOKEN_FILE` 或 `ANTHROPIC_IDENTITY_TOKEN` 中的恰好一个。请参阅 [WIF 参考](https://platform.claude.com/docs/zh-CN/manage-claude/wif-reference)了解这些变量的当前语义；设置组件会从联合规则推导出服务账户，因此不需要单独提供 `ANTHROPIC_SERVICE_ACCOUNT_ID`。
 
@@ -104,10 +104,10 @@ Tunnels REST API 位于 `/v1/tunnels`，支持创建、列出和归档隧道，�
 
 签发一个由已存储的 CA 签名的新服务器证书。不进行任何 API 调用。
 
-| 标志                | 描述                                                                         | 默认值                                                     |
-| ----------------- | -------------------------------------------------------------------------- | ------------------------------------------------------- |
-| `--output`        | 输出目标：`dir:/path` 或 `k8s-secret:NAME`。Helm chart 传入 `k8s-secret:<release>`。 | `k8s-secret:mcp-tunnel`（在 Kubernetes pod 中运行时自动检测；否则必填） |
-| `--cert-duration` | 新证书有效期。                                                                    | `2160h`（90 天）                                           |
-| `--renew-before`  | 如果现有证书的剩余有效期超过此时长，则跳过续期。                                                   | `0`（始终续期）                                               |
+| 标志 | 描述 | 默认值 |
+| ----- | ----- | ----- |
+| `--output` | 输出目标：`dir:/path` 或 `k8s-secret:NAME`。Helm chart 传入 `k8s-secret:<release>`。 | `k8s-secret:mcp-tunnel`（在 Kubernetes pod 中运行时自动检测；否则必填） |
+| `--cert-duration` | 新证书有效期。 | `2160h`（90 天） |
+| `--renew-before` | 如果现有证书的剩余有效期超过此时长，则跳过续期。 | `0`（始终续期） |
 
 设置 `--renew-before=720h` 会使该命令在剩余有效期超过 30 天时不执行任何操作，因此可以安全地按固定计划运行。

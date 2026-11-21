@@ -588,11 +588,11 @@ SDK 提供了一个线程辅助工具，可以为您构建每个请求。使用�
 
 ## 每个请求要发送的内容
 
-| 分组  | 字段                                                                                                                                                                    | 规则                                                                                        |
-| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| 仅创建 | `system`、`tools`                                                                                                                                                      | 仅在创建请求上发送它们，并在其上附带任何 `cache_control` 断点。在继续请求上发送其中任何一个（即使为 `null`）都会返回 400 错误。            |
-| 固定  | `model`、`tool_choice`、`thinking`、`mcp_servers`（每个服务器的授权令牌除外）、`context_management`、`output_config`、`container` 中的 `skills`、顶层 `cache_control`，以及 `anthropic-beta` 值的集合 | 在线程的每个请求上发送它们，且值与创建请求上的相同。不同的值会返回代码为 `thread_fingerprint_mismatch` 的 400 错误，错误消息会指出不同的字段。 |
-| 自由  | `max_tokens`、`stop_sequences`、`stream`、`metadata`、`service_tier`，以及本页未提及的其他字段                                                                                         | 这些字段可以在各轮之间更改。                                                                            |
+| 分组 | 字段 | 规则 |
+| ----- | ----- | ----- |
+| 仅创建 | `system`、`tools` | 仅在创建请求上发送它们，并在其上附带任何 `cache_control` 断点。在继续请求上发送其中任何一个（即使为 `null`）都会返回 400 错误。 |
+| 固定 | `model`、`tool_choice`、`thinking`、`mcp_servers`（每个服务器的授权令牌除外）、`context_management`、`output_config`、`container` 中的 `skills`、顶层 `cache_control`，以及 `anthropic-beta` 值的集合 | 在线程的每个请求上发送它们，且值与创建请求上的相同。不同的值会返回代码为 `thread_fingerprint_mismatch` 的 400 错误，错误消息会指出不同的字段。 |
+| 自由 | `max_tokens`、`stop_sequences`、`stream`、`metadata`、`service_tier`，以及本页未提及的其他字段 | 这些字段可以在各轮之间更改。 |
 
 API 不会存储 MCP 服务器 URL、MCP 授权令牌或容器 `id`。请在每个使用它们的请求上发送 `mcp_servers` 和 `container`。MCP 授权令牌可以在请求之间更改。
 
@@ -713,18 +713,18 @@ SDK 的 beta 工具运行器默认也使用线程。您可以在创建运行器�
 
 ### 其他辅助方法
 
-| 要执行的操作            | 使用                                                                                                                                                                                                                                                                                                                                   |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 流式传输一个轮次          | `thread.stream(...)` (csharp: `thread.SendStreaming(...)`; go: `thread.SendStreaming(ctx, params)`; java: `thread.sendStreaming(...)`; php: `$thread->sendStream(...)`)                                                                                                                                                              |
-| 流式传输轮次的完整响应       | `stream.get_final_message()` (typescript: `stream.finalMessage()`; csharp: `thread.LastMessage`; go: `thread.LastMessage()`; java: `thread.lastMessage()`; php: `$thread->lastMessage()`; ruby: `stream.accumulated_message`)                                                                                                        |
-| 完整对话              | `thread.messages` (csharp: `thread.Messages`; go: `thread.Messages()`; java: `thread.messages()`; php: `$thread->messages()`)                                                                                                                                                                                                        |
-| 下一轮次将从中继续的响应 `id` | `thread.previous_message_id` (typescript: `thread.previousMessageId`; csharp: `thread.PreviousMessageID`; go: `thread.PreviousMessageID()`; java: `thread.previousMessageId()`; php: `$thread->previousMessageId()`)                                                                                                                 |
-| 添加消息但不发送          | `thread.append(...)` (csharp, go: `thread.Append(...)`; php: `$thread->append(...)`)                                                                                                                                                                                                                                                 |
-| 为后续轮次更改字段         | `thread.update(...)` (csharp: `thread.Update(p => p with { ... })`; go: `thread.Params.MaxTokens = ...`; java: `thread.update(b -> ...)`; php: `$thread->update([...])`)                                                                                                                                                             |
-| 复制线程              | `thread.fork()` (csharp, go: `thread.Fork()`; php: `$thread->fork()`; ruby: `thread.fork`)                                                                                                                                                                                                                                           |
-| 用于启动新线程的字段和对话     | `thread.params` (csharp, go: `thread.Params`; java: `thread.params()`; php: `$thread->params()`)                                                                                                                                                                                                                                     |
-| 此线程上的工具运行器        | `thread.tool_runner()` (typescript, java: `thread.toolRunner()`; csharp: `thread.ToolRunner(tools)`; go: `thread.NewToolRunner(tools)`; php: `$thread->toolRunner()`; ruby: `thread.tool_runner`)                                                                                                                                    |
-| 不使用线程的工具运行器       | `tool_runner(..., thread=False)` (typescript: `toolRunner({ ..., thread: false })`; csharp: `ToolRunner(parameters, tools, thread: false)`; go: `BetaToolRunnerParams{DisableThread: true}`; java: `ToolRunnerCreateParams.builder().thread(false)`; php: `toolRunner(..., thread: false)`; ruby: `tool_runner(..., thread: false)`) |
+| 要执行的操作 | 使用 |
+| ----- | ----- |
+| 流式传输一个轮次 | `thread.stream(...)` (csharp: `thread.SendStreaming(...)`; go: `thread.SendStreaming(ctx, params)`; java: `thread.sendStreaming(...)`; php: `$thread->sendStream(...)`) |
+| 流式传输轮次的完整响应 | `stream.get_final_message()` (typescript: `stream.finalMessage()`; csharp: `thread.LastMessage`; go: `thread.LastMessage()`; java: `thread.lastMessage()`; php: `$thread->lastMessage()`; ruby: `stream.accumulated_message`) |
+| 完整对话 | `thread.messages` (csharp: `thread.Messages`; go: `thread.Messages()`; java: `thread.messages()`; php: `$thread->messages()`) |
+| 下一轮次将从中继续的响应 `id` | `thread.previous_message_id` (typescript: `thread.previousMessageId`; csharp: `thread.PreviousMessageID`; go: `thread.PreviousMessageID()`; java: `thread.previousMessageId()`; php: `$thread->previousMessageId()`) |
+| 添加消息但不发送 | `thread.append(...)` (csharp, go: `thread.Append(...)`; php: `$thread->append(...)`) |
+| 为后续轮次更改字段 | `thread.update(...)` (csharp: `thread.Update(p => p with { ... })`; go: `thread.Params.MaxTokens = ...`; java: `thread.update(b -> ...)`; php: `$thread->update([...])`) |
+| 复制线程 | `thread.fork()` (csharp, go: `thread.Fork()`; php: `$thread->fork()`; ruby: `thread.fork`) |
+| 用于启动新线程的字段和对话 | `thread.params` (csharp, go: `thread.Params`; java: `thread.params()`; php: `$thread->params()`) |
+| 此线程上的工具运行器 | `thread.tool_runner()` (typescript, java: `thread.toolRunner()`; csharp: `thread.ToolRunner(tools)`; go: `thread.NewToolRunner(tools)`; php: `$thread->toolRunner()`; ruby: `thread.tool_runner`) |
+| 不使用线程的工具运行器 | `tool_runner(..., thread=False)` (typescript: `toolRunner({ ..., thread: false })`; csharp: `ToolRunner(parameters, tools, thread: false)`; go: `BetaToolRunnerParams{DisableThread: true}`; java: `ToolRunnerCreateParams.builder().thread(false)`; php: `toolRunner(..., thread: false)`; ruby: `tool_runner(..., thread: false)`) |
 
 **流式传输。** 辅助工具会在流到达 `message_stop` 时记录响应，因此请将流读取到结束。如果您提前停止读取，请结束该流，以便线程可用于下一轮：
 
@@ -758,13 +758,13 @@ SDK 的 beta 工具运行器默认也使用线程。您可以在创建运行器�
 
 API 会在模型运行之前返回此表中的错误。请求不消耗令牌，线程及其过期时间也不会改变。对于 400 错误，`error.type` 为 `invalid_request_error`；对于 404 错误，则为 `not_found_error`。
 
-| 状态  | `error_code`                  | 含义                                                        | 处理方法                                 |
-| --- | ----------------------------- | --------------------------------------------------------- | ------------------------------------ |
-| 404 | `thread_not_found`            | API 无法继续该线程。                                              | 在新的创建请求中发送完整对话。                      |
-| 400 | `thread_fingerprint_mismatch` | 某个固定字段与线程存储的值不同。错误消息会指出这些字段。                              | 保持固定字段不变，或开始一个新线程来更改某个字段。            |
-| 400 | `thread_already_continued`    | 每个响应 `id` 只能被继续一次。                                        | 从线程的最新响应 `id` 继续。如果您的客户端从未收到该响应，请重放。 |
-| 400 | `thread_continue_in_flight`   | 从此响应 `id` 发起的另一个继续请求仍在运行。这通常是您自己之前的尝试。                    | 等待其完成并从其响应 `id` 继续，或者重放。             |
-| 400 | `thread_unsupported_request`  | 请求使用了线程不支持的功能或组织设置。如果存在，`error.details.unsupported` 会指出它。 | 从请求中删除该功能，或不使用 `thread` 发送完整对话。      |
+| 状态 | `error_code` | 含义 | 处理方法 |
+| ----- | ----- | ----- | ----- |
+| 404 | `thread_not_found` | API 无法继续该线程。 | 在新的创建请求中发送完整对话。 |
+| 400 | `thread_fingerprint_mismatch` | 某个固定字段与线程存储的值不同。错误消息会指出这些字段。 | 保持固定字段不变，或开始一个新线程来更改某个字段。 |
+| 400 | `thread_already_continued` | 每个响应 `id` 只能被继续一次。 | 从线程的最新响应 `id` 继续。如果您的客户端从未收到该响应，请重放。 |
+| 400 | `thread_continue_in_flight` | 从此响应 `id` 发起的另一个继续请求仍在运行。这通常是您自己之前的尝试。 | 等待其完成并从其响应 `id` 继续，或者重放。 |
+| 400 | `thread_unsupported_request` | 请求使用了线程不支持的功能或组织设置。如果存在，`error.details.unsupported` 会指出它。 | 从请求中删除该功能，或不使用 `thread` 发送完整对话。 |
 
 某些带有 `thread` 的请求会返回不带 `error_code` 的 400 错误。例如，如果继续请求缺少 `previous_message_id`，或包含 `system` 或 `tools`，则会返回此错误。
 
@@ -798,13 +798,13 @@ API 会在模型运行之前返回此表中的错误。请求不消耗令牌，�
 
 API 会以 400 错误和代码 `thread_unsupported_request` 拒绝大多数线程不支持的请求。当 `error.details.unsupported` 存在时，它包含以下值之一：
 
-| 值                    | 含义                                                                                                                                    |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `context_management` | 请求使用了线程不支持的上下文管理或压缩。                                                                                                                  |
-| `cache_control`      | 请求包含超过 4 个 `cache_control` 断点。请参阅[线程上的提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#prompt-caching)。 |
-| `fallbacks`          | 请求设置了 `fallbacks`，而您的组织无法在线程中使用 `fallbacks`。                                                                                          |
-| `hipaa`              | 您的组织已启用 HIPAA 就绪。                                                                                                                     |
-| `inference_hooks`    | 您的组织已开启推理钩子。                                                                                                                          |
+| 值 | 含义 |
+| ----- | ----- |
+| `context_management` | 请求使用了线程不支持的上下文管理或压缩。 |
+| `cache_control` | 请求包含超过 4 个 `cache_control` 断点。请参阅[线程上的提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#prompt-caching)。 |
+| `fallbacks` | 请求设置了 `fallbacks`，而您的组织无法在线程中使用 `fallbacks`。 |
+| `hipaa` | 您的组织已启用 HIPAA 就绪。 |
+| `inference_hooks` | 您的组织已开启推理钩子。 |
 
 API 可能会向此列表添加值。如果您收到无法识别的值，请不使用 `thread` 发送完整对话。满足多个条件的请求收到的错误只会指出其中一个。
 
@@ -841,8 +841,8 @@ API 可能会向此列表添加值。如果您收到无法识别的值，请不�
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                                                                                                                             |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) |
 
 ### 所需的 beta 请求头
@@ -857,10 +857,10 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                                         | HIPAA |
-| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 不具备资格                                                                                                                                                                                         | 不具备资格 |
-| 详细信息 | 线程的内容（对话、系统提示和工具）保存在内存中，使用服务器管理的密钥加密，从不写入持久存储，并在线程最后一次使用后 1 小时内删除。使用此功能不会影响您使用其他具备 ZDR 资格的功能。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#data-retention) | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
+| 详细信息 | 线程的内容（对话、系统提示和工具）保存在内存中，使用服务器管理的密钥加密，从不写入持久存储，并在线程最后一次使用后 1 小时内删除。使用此功能不会影响您使用其他具备 ZDR 资格的功能。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/message-threads#data-retention) | — |
 
 适用的端点：
 

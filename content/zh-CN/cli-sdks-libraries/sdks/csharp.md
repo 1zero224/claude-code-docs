@@ -78,11 +78,11 @@ AnthropicClient client = new() { ApiKey = "my-anthropic-api-key" };
 
 可用选项请参见下表：
 
-| 属性          | 环境变量                   | 必需    | 默认值                           |
-| ----------- | ---------------------- | ----- | ----------------------------- |
-| `ApiKey`    | `ANTHROPIC_API_KEY`    | false | -                             |
-| `AuthToken` | `ANTHROPIC_AUTH_TOKEN` | false | -                             |
-| `BaseUrl`   | `ANTHROPIC_BASE_URL`   | true  | `"https://api.anthropic.com"` |
+| 属性 | 环境变量 | 必需 | 默认值 |
+| ----- | ----- | ----- | ----- |
+| `ApiKey` | `ANTHROPIC_API_KEY` | false | - |
+| `AuthToken` | `ANTHROPIC_AUTH_TOKEN` | false | - |
+| `BaseUrl` | `ANTHROPIC_BASE_URL` | true | `"https://api.anthropic.com"` |
 
 ### 修改配置
 
@@ -142,16 +142,16 @@ SDK 会抛出自定义的非受检异常类型：
 
 * `AnthropicApiException`：API 错误的基类。各 HTTP 状态码对应抛出的异常子类请参见下表：
 
-| 状态码 | 异常                                       |
-| --- | ---------------------------------------- |
-| 400 | `AnthropicBadRequestException`           |
-| 401 | `AnthropicUnauthorizedException`         |
-| 403 | `AnthropicForbiddenException`            |
-| 404 | `AnthropicNotFoundException`             |
-| 422 | `AnthropicUnprocessableEntityException`  |
-| 429 | `AnthropicRateLimitException`            |
-| 5xx | `Anthropic5xxException`                  |
-| 其他  | `AnthropicUnexpectedStatusCodeException` |
+| 状态码 | 异常 |
+| ----- | ----- |
+| 400 | `AnthropicBadRequestException` |
+| 401 | `AnthropicUnauthorizedException` |
+| 403 | `AnthropicForbiddenException` |
+| 404 | `AnthropicNotFoundException` |
+| 422 | `AnthropicUnprocessableEntityException` |
+| 429 | `AnthropicRateLimitException` |
+| 5xx | `Anthropic5xxException` |
+| 其他 | `AnthropicUnexpectedStatusCodeException` |
 
 此外，所有 4xx 错误都继承自 `Anthropic4xxException`。
 

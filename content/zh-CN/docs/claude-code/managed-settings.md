@@ -51,6 +51,7 @@
 
 * **交付控制**：[`policyHelper`](https://code.claude.com/docs/zh-CN/settings-reference#policyhelper)、[`wslInheritsWindowsSettings`](https://code.claude.com/docs/zh-CN/settings-reference#wslinheritswindowssettings) 和 [`managedSourcesBehavior`](https://code.claude.com/docs/zh-CN/settings-reference#managedsourcesbehavior)
 * **网关登录密钥**：[`forceLoginGatewayUrl`](https://code.claude.com/docs/zh-CN/settings-reference#forcelogingatewayurl)、[`gatewayInternalNetworks`](https://code.claude.com/docs/zh-CN/settings-reference#gatewayinternalnetworks) 和 [`forceLoginMethod`](https://code.claude.com/docs/zh-CN/settings-reference#forceloginmethod) 的 `"gateway"` 值
+* **登录要求**：[`enforceAnthropicSignIn`](https://code.claude.com/docs/zh-CN/settings-reference#enforceanthropicsignin)
 
 使用托管设置文件或 MDM 配置文件时，其覆盖到的每个人都会获得同一个策略。要为一组开发者提供不同的策略，请将不同的文件或配置文件部署到该组。在 Enterprise 计划中，您还可以在服务器托管设置中[为每个组提供各自的配置](https://code.claude.com/docs/zh-CN/server-managed-settings.md#give-groups-different-settings)。自托管 [Claude 应用网关](https://code.claude.com/docs/zh-CN/claude-apps-gateway)按 IdP 组交付托管设置。
 
@@ -122,6 +123,8 @@ Claude Code 首先合并 `managed-settings.json`，然后按字母顺序合并�
 
 ## Claude Code 如何组合托管源
 
+如果您在 claude.ai 的 **Organization settings > Desktop 3P** 下设置提供商或网关，请先阅读企业管理控制台指南中的 [哪些设置优先](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code#which-settings-take-priority)。
+
 当您的组织向同一台机器交付多个托管源时，[`managedSourcesBehavior`](https://code.claude.com/docs/zh-CN/settings-reference#managedsourcesbehavior) 键决定 Claude Code 对其他源的处理方式：
 
 * **`"first-wins"`，默认值**：Claude Code 使用提供至少一个策略键的最高排名源，并忽略其余源，而不是合并它们，除了 [从每个管理员源读取的键](#keys-read-from-every-admin-source) 中的键。Claude Code 不会对跳过的源显示警告；`/status` [命名它使用的源和跳过的源](#read-the-source-in-/status)。
@@ -134,7 +137,13 @@ Claude Code 首先合并 `managed-settings.json`，然后按字母顺序合并�
 
 Claude Code 按此顺序检查源，优先级最高的优先：
 
-1. 远程设置，从 claude.ai 作为 [服务器管理的设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md) 或通过 [Claude 应用网关](https://code.claude.com/docs/zh-CN/claude-apps-gateway) 交付。Claude Code 仅在会话使用 [符合条件的凭据](https://code.claude.com/docs/zh-CN/server-managed-settings.md#platform-availability) 直接向 Anthropic 的 API 进行身份验证、使用 `/login` 登录网关，或在 Claude Desktop 的 Code 标签页中通过 [为该会话提供设置](https://code.claude.com/docs/zh-CN/claude-apps-gateway-config.md#apply-code-settings-in-the-code-tab) 的网关运行时才获取此源。在其他提供商上，或当 `ANTHROPIC_BASE_URL` 指向 Anthropic 的 API 以外的地方时，它从下一个源开始
+1. 远程设置，从 claude.ai 作为 [服务器管理的设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md) 或通过 [Claude 应用网关](https://code.claude.com/docs/zh-CN/claude-apps-gateway) 交付。Claude Code 仅在会话满足以下条件之一时才获取此源：
+
+   * 它具有 [符合条件的凭据](https://code.claude.com/docs/zh-CN/server-managed-settings.md#platform-availability)
+   * 它使用 `/login` 登录网关
+   * 它在 Claude Desktop 的 Code 标签页中通过 [为该会话提供设置](https://code.claude.com/docs/zh-CN/claude-apps-gateway-config.md#apply-code-settings-in-the-code-tab) 的网关运行
+
+   如果您设置了提供商或 `ANTHROPIC_BASE_URL`，请 [在机器上检查获取结果](https://code.claude.com/docs/zh-CN/server-managed-settings.md#verify-settings-delivery)，以确认 Claude Code 是否跳过此源
 2. MDM 或操作系统级策略：macOS plist 或 HKLM 注册表键
 3. 托管设置文件，`managed-settings.d/*.json` 和 `managed-settings.json` 合并在一起
 4. HKCU 注册表，在 Windows 上，以及在 WSL 上一旦 HKLM 注册表或 Windows 托管设置文件打开 [`wslInheritsWindowsSettings`](https://code.claude.com/docs/zh-CN/settings-reference#wslinheritswindowssettings) 并且 HKCU 值也设置它时。Claude Code 仅在 [其上方没有存在的管理员文档](#present-admin-documents) 且没有 [主机提供的父设置](#let-an-embedding-host-add-policy) 提供限制性键时才读取它
@@ -221,7 +230,7 @@ Claude Code 按此顺序检查源，优先级最高的优先：
 
 [`policyHelper`](https://code.claude.com/docs/zh-CN/settings-reference#policyhelper) 是您的 MDM 策略或托管设置文件命名的可执行文件，Claude Code 在启动时运行它来计算托管设置。当选定的源配置一个并且辅助程序发出 `managedSettings` 对象时，该输出改变 Claude Code 读取的内容：
 
-* **发出的 `managedSettings` 对象是会话的唯一托管设置**，包括对于 [它否则从每个管理员源读取的键](#keys-read-from-every-admin-source)，除了 [`forceRemoteSettingsRefresh`，它有自己的启动规则](https://code.claude.com/docs/zh-CN/settings-reference#forceremotesettingsrefresh)
+* **发出的 `managedSettings` 对象是会话的唯一托管设置**，包括对于 [它否则从每个管理员源读取的键](#keys-read-from-every-admin-source)，除了 [少数键](https://code.claude.com/docs/zh-CN/settings-reference.md#write-the-helper-output)
 
 对于哪些辅助程序运行失败，以及当一个失败时 Claude Code 做什么，请参阅 [辅助程序失败](https://code.claude.com/docs/zh-CN/settings-reference.md#helper-failures)。
 
@@ -276,6 +285,7 @@ Claude Desktop 应用中的 [Cowork](https://claude.com/docs/cowork/overview) �
 * **本地管理员权限**：作为机器上的管理员的开发人员可以编辑托管源本身，这就是为什么 MDM 工具可以按计划重新部署配置文件或文件，以及为什么 HKLM 注册表和 macOS 托管首选项域存在。
 * **服务器管理的缓存**：服务器管理的设置来自 Anthropic 的服务器，对本地缓存的编辑 [仅持续到下一次成功获取](https://code.claude.com/docs/zh-CN/server-managed-settings.md#security-considerations)。
 * **其他工具**：托管设置仅绑定 Claude Code。从另一个工具调用 API 的开发人员不在它们下。
+* **允许规则和允许列表**：开发人员可以向 `permissions.allow` 和 `allowedMcpServers` 等列表 [添加条目](https://code.claude.com/docs/zh-CN/settings.md#lists-merge-instead-of-overriding)，因此在列表有对应的 [`allowManaged*Only` 键](#managed-only-settings) 时请部署该键。使用 [`allowManagedPermissionRulesOnly`](https://code.claude.com/docs/zh-CN/settings-reference#allowmanagedpermissionrulesonly) 时，还需将您依赖的拒绝规则和询问规则也移入托管设置。
 
 ## 检查策略是否生效
 

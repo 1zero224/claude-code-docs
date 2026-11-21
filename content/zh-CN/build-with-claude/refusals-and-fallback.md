@@ -199,13 +199,13 @@ Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude 
 * 当拒绝未映射到某个命名类别时，`category` 和 `explanation` 均为 `null`。该 `null` 是一个正常的、永久的值，而不是占位符。
 * 对于除 `refusal` 之外的所有停止原因，`stop_details` 本身为 `null`。
 
-| `category`               | 含义                                                                                                                                                                                                                                                 | 在产生任何输出之前即计费 |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| `"cyber"`                | 该请求可能助长网络危害，例如恶意软件或漏洞利用开发。良性的网络安全工作也可能触发此类别。                                                                                                                                                                                                       | 否            |
-| `"bio"`                  | 该请求可能助长生物危害，例如危险的实验室方法。有益的生命科学工作也可能触发此类别。                                                                                                                                                                                                          | 是            |
-| `"frontier_llm"`         | 该请求可能有助于开发竞争性 AI 模型，这受到 [Anthropic 商业条款](https://www.anthropic.com/legal/commercial-terms)的限制。良性的机器学习工作也可能触发此类别。                                                                                                                                   | 是            |
-| `"reasoning_extraction"` | 该请求要求模型在响应文本中复现其内部推理。若要以结构化形式获取推理，请改用[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)。请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。 | 是            |
-| `"general_harms"`        | 该请求属于上述四个具名类别之外的使用政策领域。良性工作也可能触发此类别。                                                                                                                                                                                                               | 否            |
+| `category` | 含义 | 在产生任何输出之前即计费 |
+| ----- | ----- | ----- |
+| `"cyber"` | 该请求可能助长网络危害，例如恶意软件或漏洞利用开发。良性的网络安全工作也可能触发此类别。 | 否 |
+| `"bio"` | 该请求可能助长生物危害，例如危险的实验室方法。有益的生命科学工作也可能触发此类别。 | 是 |
+| `"frontier_llm"` | 该请求可能有助于开发竞争性 AI 模型，这受到 [Anthropic 商业条款](https://www.anthropic.com/legal/commercial-terms)的限制。良性的机器学习工作也可能触发此类别。 | 是 |
+| `"reasoning_extraction"` | 该请求要求模型在响应文本中复现其内部推理。若要以结构化形式获取推理，请改用[自适应思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking)。请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。 | 是 |
+| `"general_harms"` | 该请求属于上述四个具名类别之外的使用政策领域。良性工作也可能触发此类别。 | 否 |
 
 拒绝可能在任何输出之前到达，也可能在部分输出之后于流式传输中途到达。无论哪种情况，都应将任何部分输出视为不完整并丢弃。
 
@@ -220,7 +220,14 @@ Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude 
 
 这类措辞可能出现在系统提示、skill 或工具描述中，因此也请检查这些内容。
 
-您仍然可以要求 Claude 解释其答案。可以要求提供简短的解释、结果背后的依据，或其所采取操作的摘要。要查看模型是如何推理的，请设置 `display: "summarized"` 并阅读 [`thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#summarized-thinking)。此类别没有推荐的回退模型，因此请修改提示，而不是重试请求。如果改写后的请求仍被拒绝，请[联系支持团队](https://support.claude.com/en/articles/9015913-how-to-get-support)并附上[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id)。
+可能返回此类别的模型包括以下几种：
+
+* Claude Fable 5.2、Claude Fable 5.1 和 Claude Fable 5
+* Claude Opus 5.5 和 Claude Opus 5
+* Claude Sonnet 5.5
+* Claude Haiku 5.5
+
+您仍然可以要求 Claude 解释其答案。可以要求提供简短的解释、结果背后的依据，或其所采取操作的摘要。要查看模型推理过程的摘要，请设置 `thinking: {"type": "adaptive", "display": "summarized"}` 并阅读 [`thinking` 块](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#summarized-thinking)。此类别没有推荐的回退模型，因此请修改提示，而不是重试请求。如果改写后的请求仍被拒绝，请[联系支持团队](https://support.claude.com/en/articles/9015913-how-to-get-support)并附上[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id)。
 
 ## 拒绝如何计费
 
@@ -238,11 +245,11 @@ Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude 
 
 有三种方式可以在另一个模型上重试被拒绝的请求。合适的方式取决于您的运行环境以及您需要多大的控制权。
 
-| 您的情况                                                                  | 使用                                                                                                                                                                                     | 原因                    |
-| --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| Claude API 或 Claude Models on Google Cloud (Anthropic managed)，最简单的设置 | [服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback)                                                                          | 一次请求，一个响应。由 API 处理重试。 |
-| 任何平台，使用 Anthropic SDK                                                 | [借助 SDK 中间件的客户端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#client-side-fallback)                                                                | 在客户端上配置一次。重试自动进行。     |
-| 原始 HTTP 或自定义重试逻辑                                                      | [手动重试](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#manual-retry)并配合[回退抵扣](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit) | 完全控制。回退抵扣可降低成本。       |
+| 您的情况 | 使用 | 原因 |
+| ----- | ----- | ----- |
+| Claude API 或 Claude Models on Google Cloud (Anthropic managed)，最简单的设置 | [服务器端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#server-side-fallback) | 一次请求，一个响应。由 API 处理重试。 |
+| 任何平台，使用 Anthropic SDK | [借助 SDK 中间件的客户端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#client-side-fallback) | 在客户端上配置一次。重试自动进行。 |
+| 原始 HTTP 或自定义重试逻辑 | [手动重试](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#manual-retry)并配合[回退抵扣](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit) | 完全控制。回退抵扣可降低成本。 |
 
 服务端回退和 SDK 中间件会为您应用回退抵扣。只有在您自行构建重试时，才需要参阅[回退抵扣](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit)页面。Claude Haiku 5.5 既没有服务端回退，也没有回退抵扣，因此请使用 SDK 中间件或手动重试。
 
@@ -717,14 +724,14 @@ Anthropic 根据模型的能力，为每个模型和每个策略类别分别设�
 
 在下一轮中，按您收到的原样发回助手内容。在输出中途回退之后，`content` 可能包含拒绝模型在交接前生成的块类型。下表说明了在回显该轮次时应保留哪些、丢弃哪些。
 
-| 块类型                                                                    | 在下一轮中                                                           |
-| ---------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `fallback`                                                             | 精确保留在其出现的位置。API 使用其位置来验证其周围的思考块，因此如果该块被省略或移动，回显了边界两侧思考块的请求会被拒绝。 |
-| `text`                                                                 | 保留。                                                             |
-| 最后一个 `fallback` 块之后的任何块                                                | 保留。                                                             |
-| 最后一个 `fallback` 块之前的 `thinking`、`redacted_thinking` 或 `connector_text` | 丢弃。                                                             |
-| 最后一个 `fallback` 块之前的客户端 `tool_use`                                     | 丢弃。                                                             |
-| 最后一个 `fallback` 块之前的 `server_tool_use`                                 | 与其结果配对时保留。没有匹配结果时丢弃。                                            |
+| 块类型 | 在下一轮中 |
+| ----- | ----- |
+| `fallback` | 精确保留在其出现的位置。API 使用其位置来验证其周围的思考块，因此如果该块被省略或移动，回显了边界两侧思考块的请求会被拒绝。 |
+| `text` | 保留。 |
+| 最后一个 `fallback` 块之后的任何块 | 保留。 |
+| 最后一个 `fallback` 块之前的 `thinking`、`redacted_thinking` 或 `connector_text` | 丢弃。 |
+| 最后一个 `fallback` 块之前的客户端 `tool_use` | 丢弃。 |
+| 最后一个 `fallback` 块之前的 `server_tool_use` | 与其结果配对时保留。没有匹配结果时丢弃。 |
 
 <Note>
   `connector_text` 块携带某些使用工具的响应在工具调用之间包含的叙述文本。
@@ -1208,14 +1215,14 @@ SDK 包含一个拒绝回退中间件。您只需在客户端上使用回退模�
 
 * 可用性：始终开启
 
-| 状态 | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| -- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 模型 |
+| ----- | ----- |
 | 可用 | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 
 * 可用性：始终开启
 
-| 状态   | 云平台                                                                                                                   | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ---- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview) |

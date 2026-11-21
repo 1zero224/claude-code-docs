@@ -8,10 +8,10 @@ Claude Platform on AWS 使用 AWS IAM 进行访问控制。每个 API 路由都�
 
 ## 服务详情
 
-| 属性           | 值                        |
-| ------------ | ------------------------ |
+| 属性 | 值 |
+| ----- | ----- |
 | **IAM 服务前缀** | `aws-external-anthropic` |
-| **资源类型**     | `workspace`              |
+| **资源类型** | `workspace` |
 
 工作区 ARN 格式：
 
@@ -27,20 +27,20 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 推理
 
-| 操作                | 授权的路由                            |
-| ----------------- | -------------------------------- |
-| `CreateInference` | `POST /v1/messages`              |
-| `CountTokens`     | `POST /v1/messages/count_tokens` |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateInference` | `POST /v1/messages` |
+| `CountTokens` | `POST /v1/messages/count_tokens` |
 
 ### 批处理
 
-| 操作                     | 授权的路由                                                                        |
-| ---------------------- | ---------------------------------------------------------------------------- |
-| `CreateBatchInference` | `POST /v1/messages/batches`                                                  |
-| `GetBatchInference`    | `GET /v1/messages/batches/{id}`<br />`GET /v1/messages/batches/{id}/results` |
-| `ListBatchInferences`  | `GET /v1/messages/batches`                                                   |
-| `CancelBatchInference` | `POST /v1/messages/batches/{id}/cancel`                                      |
-| `DeleteBatchInference` | `DELETE /v1/messages/batches/{id}`                                           |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateBatchInference` | `POST /v1/messages/batches` |
+| `GetBatchInference` | `GET /v1/messages/batches/{id}`<br />`GET /v1/messages/batches/{id}/results` |
+| `ListBatchInferences` | `GET /v1/messages/batches` |
+| `CancelBatchInference` | `POST /v1/messages/batches/{id}/cancel` |
+| `DeleteBatchInference` | `DELETE /v1/messages/batches/{id}` |
 
 <Note>
   `GetBatchInference` 同时授权读取批处理元数据和下载批处理结果。`AnthropicReadOnlyAccess`、`AnthropicInferenceAccess` 和 `AnthropicLimitedAccess` 策略的 `Get*` 通配符包含此操作。
@@ -48,19 +48,19 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 模型
 
-| 操作           | 授权的路由                 |
-| ------------ | --------------------- |
-| `GetModel`   | `GET /v1/models/{id}` |
-| `ListModels` | `GET /v1/models`      |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `GetModel` | `GET /v1/models/{id}` |
+| `ListModels` | `GET /v1/models` |
 
 ### 文件
 
-| 操作           | 授权的路由                                                  |
-| ------------ | ------------------------------------------------------ |
-| `CreateFile` | `POST /v1/files`                                       |
-| `GetFile`    | `GET /v1/files/{id}`<br />`GET /v1/files/{id}/content` |
-| `ListFiles`  | `GET /v1/files`                                        |
-| `DeleteFile` | `DELETE /v1/files/{id}`                                |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateFile` | `POST /v1/files` |
+| `GetFile` | `GET /v1/files/{id}`<br />`GET /v1/files/{id}/content` |
+| `ListFiles` | `GET /v1/files` |
+| `DeleteFile` | `DELETE /v1/files/{id}` |
 
 <Note>
   `GetFile` 同时授权元数据读取和内容下载。拥有只读访问权限的主体可以下载文件字节，而不仅仅是列出文件。
@@ -68,13 +68,13 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 技能
 
-| 操作            | 授权的路由                                                                                                                                                         |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CreateSkill` | `POST /v1/skills`                                                                                                                                             |
-| `GetSkill`    | `GET /v1/skills/{id}`<br />`GET /v1/skills/{id}/versions`<br />`GET /v1/skills/{id}/versions/{version}`<br />`GET /v1/skills/{id}/versions/{version}/content` |
-| `ListSkills`  | `GET /v1/skills`                                                                                                                                              |
-| `UpdateSkill` | `POST /v1/skills/{id}/versions`<br />`DELETE /v1/skills/{id}/versions/{version}`                                                                              |
-| `DeleteSkill` | `DELETE /v1/skills/{id}`                                                                                                                                      |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateSkill` | `POST /v1/skills` |
+| `GetSkill` | `GET /v1/skills/{id}`<br />`GET /v1/skills/{id}/versions`<br />`GET /v1/skills/{id}/versions/{version}`<br />`GET /v1/skills/{id}/versions/{version}/content` |
+| `ListSkills` | `GET /v1/skills` |
+| `UpdateSkill` | `POST /v1/skills/{id}/versions`<br />`DELETE /v1/skills/{id}/versions/{version}` |
+| `DeleteSkill` | `DELETE /v1/skills/{id}` |
 
 <Note>
   `GetSkill` 同时授权技能元数据读取和技能内容下载。拥有只读访问权限的主体可以下载技能字节，而不仅仅是列出技能。
@@ -86,13 +86,13 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 代理
 
-| 操作             | 授权的路由                                                     |
-| -------------- | --------------------------------------------------------- |
-| `CreateAgent`  | `POST /v1/agents`                                         |
-| `GetAgent`     | `GET /v1/agents/{id}`<br />`GET /v1/agents/{id}/versions` |
-| `ListAgents`   | `GET /v1/agents`                                          |
-| `UpdateAgent`  | `POST /v1/agents/{id}`                                    |
-| `ArchiveAgent` | `POST /v1/agents/{id}/archive`                            |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateAgent` | `POST /v1/agents` |
+| `GetAgent` | `GET /v1/agents/{id}`<br />`GET /v1/agents/{id}/versions` |
+| `ListAgents` | `GET /v1/agents` |
+| `UpdateAgent` | `POST /v1/agents/{id}` |
+| `ArchiveAgent` | `POST /v1/agents/{id}/archive` |
 
 <Note>
   代理仅支持归档，不支持硬删除。拒绝 `aws-external-anthropic:Delete*` 的策略不会阻止 `ArchiveAgent`。要阻止 `/v1/agents` 下的所有写入路由，请拒绝 `CreateAgent`、`UpdateAgent` 和 `ArchiveAgent`。
@@ -100,14 +100,14 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 会话
 
-| 操作               | 授权的路由                                                                                                                                                                                                                                                                                                                                                                      |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CreateSession`  | `POST /v1/sessions`                                                                                                                                                                                                                                                                                                                                                        |
-| `GetSession`     | `GET /v1/sessions/{id}`<br />`GET /v1/sessions/{id}/events`<br />`GET /v1/sessions/{id}/events/stream`<br />`GET /v1/sessions/{id}/resources`<br />`GET /v1/sessions/{id}/resources/{id}`<br />`GET /v1/sessions/{id}/threads`<br />`GET /v1/sessions/{id}/threads/{id}`<br />`GET /v1/sessions/{id}/threads/{id}/events`<br />`GET /v1/sessions/{id}/threads/{id}/stream` |
-| `ListSessions`   | `GET /v1/sessions`                                                                                                                                                                                                                                                                                                                                                         |
-| `UpdateSession`  | `POST /v1/sessions/{id}`<br />`POST /v1/sessions/{id}/events`<br />`POST /v1/sessions/{id}/resources`<br />`POST /v1/sessions/{id}/resources/{id}`<br />`DELETE /v1/sessions/{id}/resources/{id}`<br />`POST /v1/sessions/{id}/threads/{id}/archive`                                                                                                                       |
-| `ArchiveSession` | `POST /v1/sessions/{id}/archive`                                                                                                                                                                                                                                                                                                                                           |
-| `DeleteSession`  | `DELETE /v1/sessions/{id}`                                                                                                                                                                                                                                                                                                                                                 |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateSession` | `POST /v1/sessions` |
+| `GetSession` | `GET /v1/sessions/{id}`<br />`GET /v1/sessions/{id}/events`<br />`GET /v1/sessions/{id}/events/stream`<br />`GET /v1/sessions/{id}/resources`<br />`GET /v1/sessions/{id}/resources/{id}`<br />`GET /v1/sessions/{id}/threads`<br />`GET /v1/sessions/{id}/threads/{id}`<br />`GET /v1/sessions/{id}/threads/{id}/events`<br />`GET /v1/sessions/{id}/threads/{id}/stream` |
+| `ListSessions` | `GET /v1/sessions` |
+| `UpdateSession` | `POST /v1/sessions/{id}`<br />`POST /v1/sessions/{id}/events`<br />`POST /v1/sessions/{id}/resources`<br />`POST /v1/sessions/{id}/resources/{id}`<br />`DELETE /v1/sessions/{id}/resources/{id}`<br />`POST /v1/sessions/{id}/threads/{id}/archive` |
+| `ArchiveSession` | `POST /v1/sessions/{id}/archive` |
+| `DeleteSession` | `DELETE /v1/sessions/{id}` |
 
 <Note>
   `GetSession` 授权读取会话元数据、事件流（对话历史）、会话资源以及[会话线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)，包括每个线程的事件。`AnthropicReadOnlyAccess`、`AnthropicInferenceAccess` 和 `AnthropicLimitedAccess` 策略的 `Get*` 通配符包含此操作，而 `AnthropicSelfHostedEnvironmentAccess` 策略则显式授予此操作。
@@ -119,14 +119,14 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 环境
 
-| 操作                       | 授权的路由                                                                                                                                                                                                                                                        |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `CreateEnvironment`      | `POST /v1/environments`                                                                                                                                                                                                                                      |
-| `GetEnvironment`         | `GET /v1/environments/{id}`<br />`GET /v1/environments/{id}/work`<br />`GET /v1/environments/{id}/work/{work_id}`<br />`GET /v1/environments/{id}/work/stats`                                                                                                |
-| `ListEnvironments`       | `GET /v1/environments`                                                                                                                                                                                                                                       |
-| `UpdateEnvironment`      | `POST /v1/environments/{id}`                                                                                                                                                                                                                                 |
-| `ArchiveEnvironment`     | `POST /v1/environments/{id}/archive`                                                                                                                                                                                                                         |
-| `DeleteEnvironment`      | `DELETE /v1/environments/{id}`                                                                                                                                                                                                                               |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateEnvironment` | `POST /v1/environments` |
+| `GetEnvironment` | `GET /v1/environments/{id}`<br />`GET /v1/environments/{id}/work`<br />`GET /v1/environments/{id}/work/{work_id}`<br />`GET /v1/environments/{id}/work/stats` |
+| `ListEnvironments` | `GET /v1/environments` |
+| `UpdateEnvironment` | `POST /v1/environments/{id}` |
+| `ArchiveEnvironment` | `POST /v1/environments/{id}/archive` |
+| `DeleteEnvironment` | `DELETE /v1/environments/{id}` |
 | `ProcessEnvironmentWork` | `GET /v1/environments/{id}/work/poll`<br />`POST /v1/environments/{id}/work/{work_id}`<br />`POST /v1/environments/{id}/work/{work_id}/ack`<br />`POST /v1/environments/{id}/work/{work_id}/heartbeat`<br />`POST /v1/environments/{id}/work/{work_id}/stop` |
 
 <Note>
@@ -139,14 +139,14 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 保管库
 
-| 操作             | 授权的路由                                                                                                                                                                                                           |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CreateVault`  | `POST /v1/vaults`                                                                                                                                                                                               |
-| `GetVault`     | `GET /v1/vaults/{id}`<br />`GET /v1/vaults/{id}/credentials`<br />`GET /v1/vaults/{id}/credentials/{id}`                                                                                                        |
-| `ListVaults`   | `GET /v1/vaults`                                                                                                                                                                                                |
-| `UpdateVault`  | `POST /v1/vaults/{id}`<br />`POST /v1/vaults/{id}/credentials`<br />`POST /v1/vaults/{id}/credentials/{id}`<br />`POST /v1/vaults/{id}/credentials/{id}/archive`<br />`DELETE /v1/vaults/{id}/credentials/{id}` |
-| `ArchiveVault` | `POST /v1/vaults/{id}/archive`                                                                                                                                                                                  |
-| `DeleteVault`  | `DELETE /v1/vaults/{id}`                                                                                                                                                                                        |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateVault` | `POST /v1/vaults` |
+| `GetVault` | `GET /v1/vaults/{id}`<br />`GET /v1/vaults/{id}/credentials`<br />`GET /v1/vaults/{id}/credentials/{id}` |
+| `ListVaults` | `GET /v1/vaults` |
+| `UpdateVault` | `POST /v1/vaults/{id}`<br />`POST /v1/vaults/{id}/credentials`<br />`POST /v1/vaults/{id}/credentials/{id}`<br />`POST /v1/vaults/{id}/credentials/{id}/archive`<br />`DELETE /v1/vaults/{id}/credentials/{id}` |
+| `ArchiveVault` | `POST /v1/vaults/{id}/archive` |
+| `DeleteVault` | `DELETE /v1/vaults/{id}` |
 
 <Note>
   创建、更新、归档或删除单个保管库凭证映射到 `UpdateVault`。读取凭证映射到 `GetVault`。保管库凭证密钥不会被暴露：密钥字段为只写字段，`GetVault` 永远不会返回它们（请参阅[使用保管库进行身份验证](https://platform.claude.com/docs/zh-CN/managed-agents/vaults)）。拒绝 `aws-external-anthropic:Create*`、`Delete*` 或 `Archive*` 的策略仍然允许创建、删除和归档凭证。要阻止 `/v1/vaults` 下的所有写入路由，请拒绝 `CreateVault`、`UpdateVault`、`ArchiveVault` 和 `DeleteVault`。
@@ -154,14 +154,14 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 记忆存储
 
-| 操作                   | 授权的路由                                                                                                                                                                                                                                        |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CreateMemoryStore`  | `POST /v1/memory_stores`                                                                                                                                                                                                                     |
-| `GetMemoryStore`     | `GET /v1/memory_stores/{id}`<br />`GET /v1/memory_stores/{id}/memories`<br />`GET /v1/memory_stores/{id}/memories/{id}`<br />`GET /v1/memory_stores/{id}/memory_versions`<br />`GET /v1/memory_stores/{id}/memory_versions/{id}`             |
-| `ListMemoryStores`   | `GET /v1/memory_stores`                                                                                                                                                                                                                      |
-| `UpdateMemoryStore`  | `POST /v1/memory_stores/{id}`<br />`POST /v1/memory_stores/{id}/memories`<br />`POST /v1/memory_stores/{id}/memories/{id}`<br />`DELETE /v1/memory_stores/{id}/memories/{id}`<br />`POST /v1/memory_stores/{id}/memory_versions/{id}/redact` |
-| `ArchiveMemoryStore` | `POST /v1/memory_stores/{id}/archive`                                                                                                                                                                                                        |
-| `DeleteMemoryStore`  | `DELETE /v1/memory_stores/{id}`                                                                                                                                                                                                              |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateMemoryStore` | `POST /v1/memory_stores` |
+| `GetMemoryStore` | `GET /v1/memory_stores/{id}`<br />`GET /v1/memory_stores/{id}/memories`<br />`GET /v1/memory_stores/{id}/memories/{id}`<br />`GET /v1/memory_stores/{id}/memory_versions`<br />`GET /v1/memory_stores/{id}/memory_versions/{id}` |
+| `ListMemoryStores` | `GET /v1/memory_stores` |
+| `UpdateMemoryStore` | `POST /v1/memory_stores/{id}`<br />`POST /v1/memory_stores/{id}/memories`<br />`POST /v1/memory_stores/{id}/memories/{id}`<br />`DELETE /v1/memory_stores/{id}/memories/{id}`<br />`POST /v1/memory_stores/{id}/memory_versions/{id}/redact` |
+| `ArchiveMemoryStore` | `POST /v1/memory_stores/{id}/archive` |
+| `DeleteMemoryStore` | `DELETE /v1/memory_stores/{id}` |
 
 <Note>
   `GetMemoryStore` 授权读取存储元数据、所有记忆以及记忆版本历史。`AnthropicReadOnlyAccess`、`AnthropicInferenceAccess` 和 `AnthropicLimitedAccess` 策略的 `Get*` 通配符包含此操作。
@@ -173,13 +173,13 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### Webhook
 
-| 操作                    | 授权的路由                                              |
-| --------------------- | -------------------------------------------------- |
-| `CreateWebhook`       | `POST /v1/webhooks`                                |
-| `GetWebhook`          | `GET /v1/webhooks/{id}`                            |
-| `ListWebhooks`        | `GET /v1/webhooks`                                 |
-| `UpdateWebhook`       | `POST /v1/webhooks/{id}`                           |
-| `DeleteWebhook`       | `DELETE /v1/webhooks/{id}`                         |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateWebhook` | `POST /v1/webhooks` |
+| `GetWebhook` | `GET /v1/webhooks/{id}` |
+| `ListWebhooks` | `GET /v1/webhooks` |
+| `UpdateWebhook` | `POST /v1/webhooks/{id}` |
+| `DeleteWebhook` | `DELETE /v1/webhooks/{id}` |
 | `RotateWebhookSecret` | `POST /v1/webhooks/{id}/regenerate_signing_secret` |
 
 <Note>
@@ -192,13 +192,13 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 用户配置文件
 
-| 操作                               | 授权的路由                                        |
-| -------------------------------- | -------------------------------------------- |
-| `CreateUserProfile`              | `POST /v1/user_profiles`                     |
-| `GetUserProfile`                 | `GET /v1/user_profiles/{id}`                 |
-| `ListUserProfiles`               | `GET /v1/user_profiles`                      |
-| `UpdateUserProfile`              | `POST /v1/user_profiles/{id}`                |
-| `DeleteUserProfile`              | `DELETE /v1/user_profiles/{id}`              |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateUserProfile` | `POST /v1/user_profiles` |
+| `GetUserProfile` | `GET /v1/user_profiles/{id}` |
+| `ListUserProfiles` | `GET /v1/user_profiles` |
+| `UpdateUserProfile` | `POST /v1/user_profiles/{id}` |
+| `DeleteUserProfile` | `DELETE /v1/user_profiles/{id}` |
 | `CreateUserProfileEnrollmentUrl` | `POST /v1/user_profiles/{id}/enrollment_url` |
 
 <Note>
@@ -211,12 +211,12 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 工作区
 
-| 操作                 | 授权的路由                                            |
-| ------------------ | ------------------------------------------------ |
-| `CreateWorkspace`  | `POST /v1/organizations/workspaces`              |
-| `GetWorkspace`     | `GET /v1/organizations/workspaces/{id}`          |
-| `ListWorkspaces`   | `GET /v1/organizations/workspaces`               |
-| `UpdateWorkspace`  | `POST /v1/organizations/workspaces/{id}`         |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateWorkspace` | `POST /v1/organizations/workspaces` |
+| `GetWorkspace` | `GET /v1/organizations/workspaces/{id}` |
+| `ListWorkspaces` | `GET /v1/organizations/workspaces` |
+| `UpdateWorkspace` | `POST /v1/organizations/workspaces/{id}` |
 | `ArchiveWorkspace` | `POST /v1/organizations/workspaces/{id}/archive` |
 
 <Note>
@@ -225,13 +225,13 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 加密密钥
 
-| 操作            | 授权的路由                                         |
-| ------------- | --------------------------------------------- |
-| `RegisterKey` | `POST /v1/organizations/external_keys`        |
-| `GetKey`      | `GET /v1/organizations/external_keys/{id}`    |
-| `ListKeys`    | `GET /v1/organizations/external_keys`         |
-| `UpdateKey`   | `POST /v1/organizations/external_keys/{id}`   |
-| `DisableKey`  | `DELETE /v1/organizations/external_keys/{id}` |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `RegisterKey` | `POST /v1/organizations/external_keys` |
+| `GetKey` | `GET /v1/organizations/external_keys/{id}` |
+| `ListKeys` | `GET /v1/organizations/external_keys` |
+| `UpdateKey` | `POST /v1/organizations/external_keys/{id}` |
+| `DisableKey` | `DELETE /v1/organizations/external_keys/{id}` |
 
 <Note>
   这些操作管理您组织的[客户管理加密密钥（CMEK）](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws)注册，即记录哪些 AWS KMS 密钥 ARN 已被注册。它们不会在 AWS KMS 中创建、更改或禁用密钥。`DisableKey` 会移除一项注册，并且在任何工作区仍在使用该密钥时会被拒绝。`RegisterKey` 和 `DisableKey` 不会被 `Create*`、`Update*` 或 `Delete*` 通配符匹配。要阻止 `/v1/organizations/external_keys` 下的所有写入路由，请拒绝 `RegisterKey`、`UpdateKey` 和 `DisableKey`。在这些路由中，`{id}` 是经过 URL 编码的 KMS 密钥 ARN。将已注册的密钥附加到工作区属于工作区操作，由 `CreateWorkspace` 或 `UpdateWorkspace` 授权；附加密钥的主体还需要对该密钥拥有 `kms:DescribeKey`、`kms:Encrypt` 和 `kms:Decrypt` 权限（请参阅[先决条件](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-claude-platform-on-aws#prerequisites)）。外部密钥操作是账户范围的：在这些操作上指定工作区 ARN 不会产生任何效果；请使用 `Resource: "*"`。
@@ -239,8 +239,8 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 合规
 
-| 操作                         | 授权的路由                           |
-| -------------------------- | ------------------------------- |
+| 操作 | 授权的路由 |
+| ----- | ----- |
 | `ListComplianceActivities` | `GET /v1/compliance/activities` |
 
 <Note>
@@ -253,17 +253,17 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 遥测目标
 
-| 操作                                          | 授权的路由                                                                            |
-| ------------------------------------------- | -------------------------------------------------------------------------------- |
-| `CreateAccountTelemetryDestination`         | `POST /v1/organizations/telemetry_destinations`                                  |
-| `GetAccountTelemetryDestination`            | `GET /v1/organizations/telemetry_destinations/{id}`                              |
-| `ListAccountTelemetryDestinations`          | `GET /v1/organizations/telemetry_destinations`                                   |
-| `UpdateAccountTelemetryDestination`         | `POST /v1/organizations/telemetry_destinations/{id}`                             |
-| `DeleteAccountTelemetryDestination`         | `DELETE /v1/organizations/telemetry_destinations/{id}`                           |
-| `TestAccountTelemetryDestination`           | `POST /v1/organizations/telemetry_destinations/{id}/test`                        |
-| `ListAccountTelemetryDestinationWorkspaces` | `GET /v1/organizations/telemetry_destinations/{id}/workspaces`                   |
-| `AddTelemetryDestinationWorkspace`          | `POST /v1/organizations/telemetry_destinations/{id}/workspaces/{workspace_id}`   |
-| `RemoveTelemetryDestinationWorkspace`       | `DELETE /v1/organizations/telemetry_destinations/{id}/workspaces/{workspace_id}` |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CreateAccountTelemetryDestination` | `POST /v1/organizations/telemetry_destinations` |
+| `GetAccountTelemetryDestination` | `GET /v1/organizations/telemetry_destinations/{id}` |
+| `ListAccountTelemetryDestinations` | `GET /v1/organizations/telemetry_destinations` |
+| `UpdateAccountTelemetryDestination` | `POST /v1/organizations/telemetry_destinations/{id}` |
+| `DeleteAccountTelemetryDestination` | `DELETE /v1/organizations/telemetry_destinations/{id}` |
+| `TestAccountTelemetryDestination` | `POST /v1/organizations/telemetry_destinations/{id}/test` |
+| `ListAccountTelemetryDestinationWorkspaces` | `GET /v1/organizations/telemetry_destinations/{id}/workspaces` |
+| `AddTelemetryDestinationWorkspace` | `POST /v1/organizations/telemetry_destinations/{id}/workspaces/{workspace_id}` |
+| `RemoveTelemetryDestinationWorkspace` | `DELETE /v1/organizations/telemetry_destinations/{id}/workspaces/{workspace_id}` |
 
 <Note>
   除 `AddTelemetryDestinationWorkspace` 和 `RemoveTelemetryDestinationWorkspace` 之外，这些操作都是账户范围的，因此在这些操作上指定工作区 ARN 不会产生任何效果。请使用 `Resource: "*"`。一个目标可以导出组织在所有区域中每个工作区的遥测数据。请仅将 `CreateAccountTelemetryDestination` 和 `UpdateAccountTelemetryDestination` 授予您信任其访问全部这些遥测数据的主体。
@@ -275,10 +275,10 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 用量和成本
 
-| 操作                 | 授权的路由                                   |
-| ------------------ | --------------------------------------- |
+| 操作 | 授权的路由 |
+| ----- | ----- |
 | `ListAccountUsage` | `GET /v1/organizations/analytics/usage` |
-| `ListAccountCost`  | `GET /v1/organizations/analytics/cost`  |
+| `ListAccountCost` | `GET /v1/organizations/analytics/cost` |
 
 <Note>
   这些操作授权[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)。两者均为账户范围的操作。在这些操作上指定工作区 ARN 不会产生任何效果；请使用 `Resource: "*"`。
@@ -286,17 +286,17 @@ ARN 中的区域始终会被填充，并与工作区所绑定的区域一致。�
 
 ### 身份验证
 
-| 操作                    | 授权的路由 |
-| --------------------- | ----- |
-| `CallWithBearerToken` | （无）   |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `CallWithBearerToken` | （无） |
 
 `CallWithBearerToken` 是一项身份验证层权限，授权主体通过 API 密钥（bearer token，持有者令牌）而非 AWS SigV4 进行身份验证。它不映射到任何路由。请将其与您希望 API 密钥持有者能够执行的路由映射操作一起授予。
 
 ### 控制台访问
 
-| 操作              | 授权的路由 |
-| --------------- | ----- |
-| `AssumeConsole` | （无）   |
+| 操作 | 授权的路由 |
+| ----- | ----- |
+| `AssumeConsole` | （无） |
 
 `AssumeConsole` 授权主体通过 AWS Console 联合登录流程为其 Claude Platform on AWS 组织打开 Claude Console。它不映射到任何路由，也不绑定到工作区 ARN，因此授予它的语句需要使用 `Resource: "*"`。请将其授予应当能够在 AWS Console 中 Claude Platform on AWS 服务页面上点击 **Open Claude Console** 的主体。有关登录流程以及每个 Claude Console 角色（Admin 或 Developer）可以执行的操作，请参阅[使用 Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#using-the-claude-console)。
 
@@ -310,134 +310,134 @@ Claude Console 会话覆盖整个组织，而不是单个工作区，并且某�
 
 CloudTrail 将每个操作分类为 Data 事件（高容量的数据平面操作）或 Management 事件（控制平面操作）。它将保管库和 webhook 操作分类为 Management 事件，因为它们持有密钥（保管库凭证和 webhook 签名密钥），并受益于默认开启的审计日志记录。它还将工作区、外部密钥、遥测目标、合规以及速率限制提升请求操作分类为 Management 事件。这些操作是组织范围的控制平面操作。CloudTrail 将所有其他操作分类为 Data 事件。这些操作包括推理、批处理、模型、文件、技能、用户配置文件、用量和成本以及其余的 Claude Managed Agents 操作。
 
-| 方法       | 路由                                                                        | IAM 操作                                      | CloudTrail 事件类型 |
-| -------- | ------------------------------------------------------------------------- | ------------------------------------------- | --------------- |
-| `POST`   | `/v1/messages`                                                            | `CreateInference`                           | Data            |
-| `POST`   | `/v1/messages/count_tokens`                                               | `CountTokens`                               | Data            |
-| `POST`   | `/v1/messages/batches`                                                    | `CreateBatchInference`                      | Data            |
-| `GET`    | `/v1/messages/batches`                                                    | `ListBatchInferences`                       | Data            |
-| `GET`    | `/v1/messages/batches/{id}`                                               | `GetBatchInference`                         | Data            |
-| `GET`    | `/v1/messages/batches/{id}/results`                                       | `GetBatchInference`                         | Data            |
-| `POST`   | `/v1/messages/batches/{id}/cancel`                                        | `CancelBatchInference`                      | Data            |
-| `DELETE` | `/v1/messages/batches/{id}`                                               | `DeleteBatchInference`                      | Data            |
-| `GET`    | `/v1/models`                                                              | `ListModels`                                | Data            |
-| `GET`    | `/v1/models/{id}`                                                         | `GetModel`                                  | Data            |
-| `POST`   | `/v1/files`                                                               | `CreateFile`                                | Data            |
-| `GET`    | `/v1/files`                                                               | `ListFiles`                                 | Data            |
-| `GET`    | `/v1/files/{id}`                                                          | `GetFile`                                   | Data            |
-| `GET`    | `/v1/files/{id}/content`                                                  | `GetFile`                                   | Data            |
-| `DELETE` | `/v1/files/{id}`                                                          | `DeleteFile`                                | Data            |
-| `POST`   | `/v1/skills`                                                              | `CreateSkill`                               | Data            |
-| `GET`    | `/v1/skills`                                                              | `ListSkills`                                | Data            |
-| `GET`    | `/v1/skills/{id}`                                                         | `GetSkill`                                  | Data            |
-| `DELETE` | `/v1/skills/{id}`                                                         | `DeleteSkill`                               | Data            |
-| `POST`   | `/v1/skills/{id}/versions`                                                | `UpdateSkill`                               | Data            |
-| `GET`    | `/v1/skills/{id}/versions`                                                | `GetSkill`                                  | Data            |
-| `GET`    | `/v1/skills/{id}/versions/{version}`                                      | `GetSkill`                                  | Data            |
-| `GET`    | `/v1/skills/{id}/versions/{version}/content`                              | `GetSkill`                                  | Data            |
-| `DELETE` | `/v1/skills/{id}/versions/{version}`                                      | `UpdateSkill`                               | Data            |
-| `POST`   | `/v1/user_profiles`                                                       | `CreateUserProfile`                         | Data            |
-| `GET`    | `/v1/user_profiles`                                                       | `ListUserProfiles`                          | Data            |
-| `GET`    | `/v1/user_profiles/{id}`                                                  | `GetUserProfile`                            | Data            |
-| `POST`   | `/v1/user_profiles/{id}`                                                  | `UpdateUserProfile`                         | Data            |
-| `DELETE` | `/v1/user_profiles/{id}`                                                  | `DeleteUserProfile`                         | Data            |
-| `POST`   | `/v1/user_profiles/{id}/enrollment_url`                                   | `CreateUserProfileEnrollmentUrl`            | Data            |
-| `POST`   | `/v1/organizations/workspaces`                                            | `CreateWorkspace`                           | Management      |
-| `GET`    | `/v1/organizations/workspaces`                                            | `ListWorkspaces`                            | Management      |
-| `GET`    | `/v1/organizations/workspaces/{id}`                                       | `GetWorkspace`                              | Management      |
-| `POST`   | `/v1/organizations/workspaces/{id}`                                       | `UpdateWorkspace`                           | Management      |
-| `POST`   | `/v1/organizations/workspaces/{id}/archive`                               | `ArchiveWorkspace`                          | Management      |
-| `POST`   | `/v1/organizations/external_keys`                                         | `RegisterKey`                               | Management      |
-| `GET`    | `/v1/organizations/external_keys`                                         | `ListKeys`                                  | Management      |
-| `GET`    | `/v1/organizations/external_keys/{id}`                                    | `GetKey`                                    | Management      |
-| `POST`   | `/v1/organizations/external_keys/{id}`                                    | `UpdateKey`                                 | Management      |
-| `DELETE` | `/v1/organizations/external_keys/{id}`                                    | `DisableKey`                                | Management      |
-| `POST`   | `/v1/organizations/telemetry_destinations`                                | `CreateAccountTelemetryDestination`         | Management      |
-| `GET`    | `/v1/organizations/telemetry_destinations`                                | `ListAccountTelemetryDestinations`          | Management      |
-| `GET`    | `/v1/organizations/telemetry_destinations/{id}`                           | `GetAccountTelemetryDestination`            | Management      |
-| `POST`   | `/v1/organizations/telemetry_destinations/{id}`                           | `UpdateAccountTelemetryDestination`         | Management      |
-| `DELETE` | `/v1/organizations/telemetry_destinations/{id}`                           | `DeleteAccountTelemetryDestination`         | Management      |
-| `POST`   | `/v1/organizations/telemetry_destinations/{id}/test`                      | `TestAccountTelemetryDestination`           | Management      |
-| `GET`    | `/v1/organizations/telemetry_destinations/{id}/workspaces`                | `ListAccountTelemetryDestinationWorkspaces` | Management      |
-| `POST`   | `/v1/organizations/telemetry_destinations/{id}/workspaces/{workspace_id}` | `AddTelemetryDestinationWorkspace`          | Management      |
-| `DELETE` | `/v1/organizations/telemetry_destinations/{id}/workspaces/{workspace_id}` | `RemoveTelemetryDestinationWorkspace`       | Management      |
-| `GET`    | `/v1/compliance/activities`                                               | `ListComplianceActivities`                  | Management      |
-| `POST`   | `/v1/agents`                                                              | `CreateAgent`                               | Data            |
-| `GET`    | `/v1/agents`                                                              | `ListAgents`                                | Data            |
-| `GET`    | `/v1/agents/{id}`                                                         | `GetAgent`                                  | Data            |
-| `POST`   | `/v1/agents/{id}`                                                         | `UpdateAgent`                               | Data            |
-| `POST`   | `/v1/agents/{id}/archive`                                                 | `ArchiveAgent`                              | Data            |
-| `GET`    | `/v1/agents/{id}/versions`                                                | `GetAgent`                                  | Data            |
-| `POST`   | `/v1/sessions`                                                            | `CreateSession`                             | Data            |
-| `GET`    | `/v1/sessions`                                                            | `ListSessions`                              | Data            |
-| `GET`    | `/v1/sessions/{id}`                                                       | `GetSession`                                | Data            |
-| `POST`   | `/v1/sessions/{id}`                                                       | `UpdateSession`                             | Data            |
-| `POST`   | `/v1/sessions/{id}/archive`                                               | `ArchiveSession`                            | Data            |
-| `DELETE` | `/v1/sessions/{id}`                                                       | `DeleteSession`                             | Data            |
-| `GET`    | `/v1/sessions/{id}/events`                                                | `GetSession`                                | Data            |
-| `POST`   | `/v1/sessions/{id}/events`                                                | `UpdateSession`                             | Data            |
-| `GET`    | `/v1/sessions/{id}/events/stream`                                         | `GetSession`                                | Data            |
-| `GET`    | `/v1/sessions/{id}/resources`                                             | `GetSession`                                | Data            |
-| `GET`    | `/v1/sessions/{id}/resources/{id}`                                        | `GetSession`                                | Data            |
-| `POST`   | `/v1/sessions/{id}/resources`                                             | `UpdateSession`                             | Data            |
-| `POST`   | `/v1/sessions/{id}/resources/{id}`                                        | `UpdateSession`                             | Data            |
-| `DELETE` | `/v1/sessions/{id}/resources/{id}`                                        | `UpdateSession`                             | Data            |
-| `GET`    | `/v1/sessions/{id}/threads`                                               | `GetSession`                                | Data            |
-| `GET`    | `/v1/sessions/{id}/threads/{id}`                                          | `GetSession`                                | Data            |
-| `GET`    | `/v1/sessions/{id}/threads/{id}/events`                                   | `GetSession`                                | Data            |
-| `GET`    | `/v1/sessions/{id}/threads/{id}/stream`                                   | `GetSession`                                | Data            |
-| `POST`   | `/v1/sessions/{id}/threads/{id}/archive`                                  | `UpdateSession`                             | Data            |
-| `POST`   | `/v1/environments`                                                        | `CreateEnvironment`                         | Data            |
-| `GET`    | `/v1/environments`                                                        | `ListEnvironments`                          | Data            |
-| `GET`    | `/v1/environments/{id}`                                                   | `GetEnvironment`                            | Data            |
-| `POST`   | `/v1/environments/{id}`                                                   | `UpdateEnvironment`                         | Data            |
-| `POST`   | `/v1/environments/{id}/archive`                                           | `ArchiveEnvironment`                        | Data            |
-| `DELETE` | `/v1/environments/{id}`                                                   | `DeleteEnvironment`                         | Data            |
-| `GET`    | `/v1/environments/{id}/work`                                              | `GetEnvironment`                            | Data            |
-| `GET`    | `/v1/environments/{id}/work/poll`                                         | `ProcessEnvironmentWork`                    | Data            |
-| `GET`    | `/v1/environments/{id}/work/{work_id}`                                    | `GetEnvironment`                            | Data            |
-| `GET`    | `/v1/environments/{id}/work/stats`                                        | `GetEnvironment`                            | Data            |
-| `POST`   | `/v1/environments/{id}/work/{work_id}`                                    | `ProcessEnvironmentWork`                    | Data            |
-| `POST`   | `/v1/environments/{id}/work/{work_id}/ack`                                | `ProcessEnvironmentWork`                    | Data            |
-| `POST`   | `/v1/environments/{id}/work/{work_id}/heartbeat`                          | `ProcessEnvironmentWork`                    | Data            |
-| `POST`   | `/v1/environments/{id}/work/{work_id}/stop`                               | `ProcessEnvironmentWork`                    | Data            |
-| `POST`   | `/v1/vaults`                                                              | `CreateVault`                               | Management      |
-| `GET`    | `/v1/vaults`                                                              | `ListVaults`                                | Management      |
-| `GET`    | `/v1/vaults/{id}`                                                         | `GetVault`                                  | Management      |
-| `POST`   | `/v1/vaults/{id}`                                                         | `UpdateVault`                               | Management      |
-| `POST`   | `/v1/vaults/{id}/archive`                                                 | `ArchiveVault`                              | Management      |
-| `DELETE` | `/v1/vaults/{id}`                                                         | `DeleteVault`                               | Management      |
-| `GET`    | `/v1/vaults/{id}/credentials`                                             | `GetVault`                                  | Management      |
-| `POST`   | `/v1/vaults/{id}/credentials`                                             | `UpdateVault`                               | Management      |
-| `GET`    | `/v1/vaults/{id}/credentials/{id}`                                        | `GetVault`                                  | Management      |
-| `POST`   | `/v1/vaults/{id}/credentials/{id}`                                        | `UpdateVault`                               | Management      |
-| `POST`   | `/v1/vaults/{id}/credentials/{id}/archive`                                | `UpdateVault`                               | Management      |
-| `DELETE` | `/v1/vaults/{id}/credentials/{id}`                                        | `UpdateVault`                               | Management      |
-| `POST`   | `/v1/memory_stores`                                                       | `CreateMemoryStore`                         | Data            |
-| `GET`    | `/v1/memory_stores`                                                       | `ListMemoryStores`                          | Data            |
-| `GET`    | `/v1/memory_stores/{id}`                                                  | `GetMemoryStore`                            | Data            |
-| `POST`   | `/v1/memory_stores/{id}`                                                  | `UpdateMemoryStore`                         | Data            |
-| `POST`   | `/v1/memory_stores/{id}/archive`                                          | `ArchiveMemoryStore`                        | Data            |
-| `DELETE` | `/v1/memory_stores/{id}`                                                  | `DeleteMemoryStore`                         | Data            |
-| `POST`   | `/v1/memory_stores/{id}/memories`                                         | `UpdateMemoryStore`                         | Data            |
-| `GET`    | `/v1/memory_stores/{id}/memories`                                         | `GetMemoryStore`                            | Data            |
-| `GET`    | `/v1/memory_stores/{id}/memories/{id}`                                    | `GetMemoryStore`                            | Data            |
-| `POST`   | `/v1/memory_stores/{id}/memories/{id}`                                    | `UpdateMemoryStore`                         | Data            |
-| `DELETE` | `/v1/memory_stores/{id}/memories/{id}`                                    | `UpdateMemoryStore`                         | Data            |
-| `GET`    | `/v1/memory_stores/{id}/memory_versions`                                  | `GetMemoryStore`                            | Data            |
-| `GET`    | `/v1/memory_stores/{id}/memory_versions/{id}`                             | `GetMemoryStore`                            | Data            |
-| `POST`   | `/v1/memory_stores/{id}/memory_versions/{id}/redact`                      | `UpdateMemoryStore`                         | Data            |
-| `GET`    | `/v1/webhooks`                                                            | `ListWebhooks`                              | Management      |
-| `GET`    | `/v1/webhooks/{id}`                                                       | `GetWebhook`                                | Management      |
-| `POST`   | `/v1/webhooks`                                                            | `CreateWebhook`                             | Management      |
-| `POST`   | `/v1/webhooks/{id}`                                                       | `UpdateWebhook`                             | Management      |
-| `DELETE` | `/v1/webhooks/{id}`                                                       | `DeleteWebhook`                             | Management      |
-| `POST`   | `/v1/webhooks/{id}/regenerate_signing_secret`                             | `RotateWebhookSecret`                       | Management      |
+| 方法 | 路由 | IAM 操作 | CloudTrail 事件类型 |
+| ----- | ----- | ----- | ----- |
+| `POST` | `/v1/messages` | `CreateInference` | Data |
+| `POST` | `/v1/messages/count_tokens` | `CountTokens` | Data |
+| `POST` | `/v1/messages/batches` | `CreateBatchInference` | Data |
+| `GET` | `/v1/messages/batches` | `ListBatchInferences` | Data |
+| `GET` | `/v1/messages/batches/{id}` | `GetBatchInference` | Data |
+| `GET` | `/v1/messages/batches/{id}/results` | `GetBatchInference` | Data |
+| `POST` | `/v1/messages/batches/{id}/cancel` | `CancelBatchInference` | Data |
+| `DELETE` | `/v1/messages/batches/{id}` | `DeleteBatchInference` | Data |
+| `GET` | `/v1/models` | `ListModels` | Data |
+| `GET` | `/v1/models/{id}` | `GetModel` | Data |
+| `POST` | `/v1/files` | `CreateFile` | Data |
+| `GET` | `/v1/files` | `ListFiles` | Data |
+| `GET` | `/v1/files/{id}` | `GetFile` | Data |
+| `GET` | `/v1/files/{id}/content` | `GetFile` | Data |
+| `DELETE` | `/v1/files/{id}` | `DeleteFile` | Data |
+| `POST` | `/v1/skills` | `CreateSkill` | Data |
+| `GET` | `/v1/skills` | `ListSkills` | Data |
+| `GET` | `/v1/skills/{id}` | `GetSkill` | Data |
+| `DELETE` | `/v1/skills/{id}` | `DeleteSkill` | Data |
+| `POST` | `/v1/skills/{id}/versions` | `UpdateSkill` | Data |
+| `GET` | `/v1/skills/{id}/versions` | `GetSkill` | Data |
+| `GET` | `/v1/skills/{id}/versions/{version}` | `GetSkill` | Data |
+| `GET` | `/v1/skills/{id}/versions/{version}/content` | `GetSkill` | Data |
+| `DELETE` | `/v1/skills/{id}/versions/{version}` | `UpdateSkill` | Data |
+| `POST` | `/v1/user_profiles` | `CreateUserProfile` | Data |
+| `GET` | `/v1/user_profiles` | `ListUserProfiles` | Data |
+| `GET` | `/v1/user_profiles/{id}` | `GetUserProfile` | Data |
+| `POST` | `/v1/user_profiles/{id}` | `UpdateUserProfile` | Data |
+| `DELETE` | `/v1/user_profiles/{id}` | `DeleteUserProfile` | Data |
+| `POST` | `/v1/user_profiles/{id}/enrollment_url` | `CreateUserProfileEnrollmentUrl` | Data |
+| `POST` | `/v1/organizations/workspaces` | `CreateWorkspace` | Management |
+| `GET` | `/v1/organizations/workspaces` | `ListWorkspaces` | Management |
+| `GET` | `/v1/organizations/workspaces/{id}` | `GetWorkspace` | Management |
+| `POST` | `/v1/organizations/workspaces/{id}` | `UpdateWorkspace` | Management |
+| `POST` | `/v1/organizations/workspaces/{id}/archive` | `ArchiveWorkspace` | Management |
+| `POST` | `/v1/organizations/external_keys` | `RegisterKey` | Management |
+| `GET` | `/v1/organizations/external_keys` | `ListKeys` | Management |
+| `GET` | `/v1/organizations/external_keys/{id}` | `GetKey` | Management |
+| `POST` | `/v1/organizations/external_keys/{id}` | `UpdateKey` | Management |
+| `DELETE` | `/v1/organizations/external_keys/{id}` | `DisableKey` | Management |
+| `POST` | `/v1/organizations/telemetry_destinations` | `CreateAccountTelemetryDestination` | Management |
+| `GET` | `/v1/organizations/telemetry_destinations` | `ListAccountTelemetryDestinations` | Management |
+| `GET` | `/v1/organizations/telemetry_destinations/{id}` | `GetAccountTelemetryDestination` | Management |
+| `POST` | `/v1/organizations/telemetry_destinations/{id}` | `UpdateAccountTelemetryDestination` | Management |
+| `DELETE` | `/v1/organizations/telemetry_destinations/{id}` | `DeleteAccountTelemetryDestination` | Management |
+| `POST` | `/v1/organizations/telemetry_destinations/{id}/test` | `TestAccountTelemetryDestination` | Management |
+| `GET` | `/v1/organizations/telemetry_destinations/{id}/workspaces` | `ListAccountTelemetryDestinationWorkspaces` | Management |
+| `POST` | `/v1/organizations/telemetry_destinations/{id}/workspaces/{workspace_id}` | `AddTelemetryDestinationWorkspace` | Management |
+| `DELETE` | `/v1/organizations/telemetry_destinations/{id}/workspaces/{workspace_id}` | `RemoveTelemetryDestinationWorkspace` | Management |
+| `GET` | `/v1/compliance/activities` | `ListComplianceActivities` | Management |
+| `POST` | `/v1/agents` | `CreateAgent` | Data |
+| `GET` | `/v1/agents` | `ListAgents` | Data |
+| `GET` | `/v1/agents/{id}` | `GetAgent` | Data |
+| `POST` | `/v1/agents/{id}` | `UpdateAgent` | Data |
+| `POST` | `/v1/agents/{id}/archive` | `ArchiveAgent` | Data |
+| `GET` | `/v1/agents/{id}/versions` | `GetAgent` | Data |
+| `POST` | `/v1/sessions` | `CreateSession` | Data |
+| `GET` | `/v1/sessions` | `ListSessions` | Data |
+| `GET` | `/v1/sessions/{id}` | `GetSession` | Data |
+| `POST` | `/v1/sessions/{id}` | `UpdateSession` | Data |
+| `POST` | `/v1/sessions/{id}/archive` | `ArchiveSession` | Data |
+| `DELETE` | `/v1/sessions/{id}` | `DeleteSession` | Data |
+| `GET` | `/v1/sessions/{id}/events` | `GetSession` | Data |
+| `POST` | `/v1/sessions/{id}/events` | `UpdateSession` | Data |
+| `GET` | `/v1/sessions/{id}/events/stream` | `GetSession` | Data |
+| `GET` | `/v1/sessions/{id}/resources` | `GetSession` | Data |
+| `GET` | `/v1/sessions/{id}/resources/{id}` | `GetSession` | Data |
+| `POST` | `/v1/sessions/{id}/resources` | `UpdateSession` | Data |
+| `POST` | `/v1/sessions/{id}/resources/{id}` | `UpdateSession` | Data |
+| `DELETE` | `/v1/sessions/{id}/resources/{id}` | `UpdateSession` | Data |
+| `GET` | `/v1/sessions/{id}/threads` | `GetSession` | Data |
+| `GET` | `/v1/sessions/{id}/threads/{id}` | `GetSession` | Data |
+| `GET` | `/v1/sessions/{id}/threads/{id}/events` | `GetSession` | Data |
+| `GET` | `/v1/sessions/{id}/threads/{id}/stream` | `GetSession` | Data |
+| `POST` | `/v1/sessions/{id}/threads/{id}/archive` | `UpdateSession` | Data |
+| `POST` | `/v1/environments` | `CreateEnvironment` | Data |
+| `GET` | `/v1/environments` | `ListEnvironments` | Data |
+| `GET` | `/v1/environments/{id}` | `GetEnvironment` | Data |
+| `POST` | `/v1/environments/{id}` | `UpdateEnvironment` | Data |
+| `POST` | `/v1/environments/{id}/archive` | `ArchiveEnvironment` | Data |
+| `DELETE` | `/v1/environments/{id}` | `DeleteEnvironment` | Data |
+| `GET` | `/v1/environments/{id}/work` | `GetEnvironment` | Data |
+| `GET` | `/v1/environments/{id}/work/poll` | `ProcessEnvironmentWork` | Data |
+| `GET` | `/v1/environments/{id}/work/{work_id}` | `GetEnvironment` | Data |
+| `GET` | `/v1/environments/{id}/work/stats` | `GetEnvironment` | Data |
+| `POST` | `/v1/environments/{id}/work/{work_id}` | `ProcessEnvironmentWork` | Data |
+| `POST` | `/v1/environments/{id}/work/{work_id}/ack` | `ProcessEnvironmentWork` | Data |
+| `POST` | `/v1/environments/{id}/work/{work_id}/heartbeat` | `ProcessEnvironmentWork` | Data |
+| `POST` | `/v1/environments/{id}/work/{work_id}/stop` | `ProcessEnvironmentWork` | Data |
+| `POST` | `/v1/vaults` | `CreateVault` | Management |
+| `GET` | `/v1/vaults` | `ListVaults` | Management |
+| `GET` | `/v1/vaults/{id}` | `GetVault` | Management |
+| `POST` | `/v1/vaults/{id}` | `UpdateVault` | Management |
+| `POST` | `/v1/vaults/{id}/archive` | `ArchiveVault` | Management |
+| `DELETE` | `/v1/vaults/{id}` | `DeleteVault` | Management |
+| `GET` | `/v1/vaults/{id}/credentials` | `GetVault` | Management |
+| `POST` | `/v1/vaults/{id}/credentials` | `UpdateVault` | Management |
+| `GET` | `/v1/vaults/{id}/credentials/{id}` | `GetVault` | Management |
+| `POST` | `/v1/vaults/{id}/credentials/{id}` | `UpdateVault` | Management |
+| `POST` | `/v1/vaults/{id}/credentials/{id}/archive` | `UpdateVault` | Management |
+| `DELETE` | `/v1/vaults/{id}/credentials/{id}` | `UpdateVault` | Management |
+| `POST` | `/v1/memory_stores` | `CreateMemoryStore` | Data |
+| `GET` | `/v1/memory_stores` | `ListMemoryStores` | Data |
+| `GET` | `/v1/memory_stores/{id}` | `GetMemoryStore` | Data |
+| `POST` | `/v1/memory_stores/{id}` | `UpdateMemoryStore` | Data |
+| `POST` | `/v1/memory_stores/{id}/archive` | `ArchiveMemoryStore` | Data |
+| `DELETE` | `/v1/memory_stores/{id}` | `DeleteMemoryStore` | Data |
+| `POST` | `/v1/memory_stores/{id}/memories` | `UpdateMemoryStore` | Data |
+| `GET` | `/v1/memory_stores/{id}/memories` | `GetMemoryStore` | Data |
+| `GET` | `/v1/memory_stores/{id}/memories/{id}` | `GetMemoryStore` | Data |
+| `POST` | `/v1/memory_stores/{id}/memories/{id}` | `UpdateMemoryStore` | Data |
+| `DELETE` | `/v1/memory_stores/{id}/memories/{id}` | `UpdateMemoryStore` | Data |
+| `GET` | `/v1/memory_stores/{id}/memory_versions` | `GetMemoryStore` | Data |
+| `GET` | `/v1/memory_stores/{id}/memory_versions/{id}` | `GetMemoryStore` | Data |
+| `POST` | `/v1/memory_stores/{id}/memory_versions/{id}/redact` | `UpdateMemoryStore` | Data |
+| `GET` | `/v1/webhooks` | `ListWebhooks` | Management |
+| `GET` | `/v1/webhooks/{id}` | `GetWebhook` | Management |
+| `POST` | `/v1/webhooks` | `CreateWebhook` | Management |
+| `POST` | `/v1/webhooks/{id}` | `UpdateWebhook` | Management |
+| `DELETE` | `/v1/webhooks/{id}` | `DeleteWebhook` | Management |
+| `POST` | `/v1/webhooks/{id}/regenerate_signing_secret` | `RotateWebhookSecret` | Management |
 
-| 方法    | 路由                                  | IAM 操作             | CloudTrail 事件类型 |
-| ----- | ----------------------------------- | ------------------ | --------------- |
-| `GET` | `/v1/organizations/analytics/usage` | `ListAccountUsage` | Data            |
-| `GET` | `/v1/organizations/analytics/cost`  | `ListAccountCost`  | Data            |
+| 方法 | 路由 | IAM 操作 | CloudTrail 事件类型 |
+| ----- | ----- | ----- | ----- |
+| `GET` | `/v1/organizations/analytics/usage` | `ListAccountUsage` | Data |
+| `GET` | `/v1/organizations/analytics/cost` | `ListAccountCost` | Data |
 
 不在这些表中的公共 API 路由在 Claude Platform on AWS 上不可用。网关会拒绝这些路由。
 
@@ -449,13 +449,13 @@ CloudTrail 将每个操作分类为 Data 事件（高容量的数据平面操作
 
 AWS 为 Claude Platform on AWS 提供五个托管策略。所有托管策略均应用于 `Resource: "*"`。
 
-| 策略                                     | 授予                                                                                                                                        |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `AnthropicFullAccess`                  | `aws-external-anthropic:*`                                                                                                                |
-| `AnthropicReadOnlyAccess`              | `Get*`、`List*`、`CallWithBearerToken`                                                                                                      |
-| `AnthropicInferenceAccess`             | `Get*`、`List*`、`CreateInference`、`CreateBatchInference`、`CancelBatchInference`、`DeleteBatchInference`、`CountTokens`、`CallWithBearerToken` |
-| `AnthropicLimitedAccess`               | 所有 `AnthropicInferenceAccess` 操作，加上所有 Claude Managed Agents 操作（代理、会话、环境、保管库、记忆存储、webhook 以及自托管环境工作）                                       |
-| `AnthropicSelfHostedEnvironmentAccess` | `GetEnvironment`、`ProcessEnvironmentWork`、`GetSession`、`UpdateSession`、`GetSkill`、`CallWithBearerToken`                                   |
+| 策略 | 授予 |
+| ----- | ----- |
+| `AnthropicFullAccess` | `aws-external-anthropic:*` |
+| `AnthropicReadOnlyAccess` | `Get*`、`List*`、`CallWithBearerToken` |
+| `AnthropicInferenceAccess` | `Get*`、`List*`、`CreateInference`、`CreateBatchInference`、`CancelBatchInference`、`DeleteBatchInference`、`CountTokens`、`CallWithBearerToken` |
+| `AnthropicLimitedAccess` | 所有 `AnthropicInferenceAccess` 操作，加上所有 Claude Managed Agents 操作（代理、会话、环境、保管库、记忆存储、webhook 以及自托管环境工作） |
+| `AnthropicSelfHostedEnvironmentAccess` | `GetEnvironment`、`ProcessEnvironmentWork`、`GetSession`、`UpdateSession`、`GetSkill`、`CallWithBearerToken` |
 
 `AnthropicInferenceAccess` 是足以运行推理的最窄托管策略。它涵盖同步推理和批量推理，并通过 `Get*` 和 `List*` 通配符授予对命名空间中每个 API 资源的读取访问权限，包括 Claude Managed Agents（CMA）资源（代理、会话、环境、保管库、记忆存储和 webhook）。这包括通过 `GetFile` 下载文件内容（请参阅[文件](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#files)注释）、通过 `GetSkill` 下载技能内容（请参阅[技能](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#skills)注释）以及通过 `GetMemoryStore` 读取记忆内容。保管库凭证密钥和 webhook 签名密钥不会被暴露：这些字段为只写字段，`GetVault` 或 `GetWebhook` 永远不会返回它们（请参阅[使用保管库进行身份验证](https://platform.claude.com/docs/zh-CN/managed-agents/vaults)）。`AnthropicInferenceAccess` 不授予文件创建或删除、技能管理、用户配置文件管理、工作区变更、加密密钥管理、遥测目标管理或任何 Claude Managed Agents 写入操作（创建、更新、归档、删除、处理或轮换）。若要排除 CMA 读取权限，请将 `AnthropicInferenceAccess` 替换为仅枚举您所需的特定非 CMA 操作的自定义策略。
 

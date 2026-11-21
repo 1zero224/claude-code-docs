@@ -396,17 +396,17 @@ const message = await client.messages
 
 错误代码如下：
 
-| 状态码   | 错误类型                       |
-| ----- | -------------------------- |
-| 400   | `BadRequestError`          |
-| 401   | `AuthenticationError`      |
-| 403   | `PermissionDeniedError`    |
-| 404   | `NotFoundError`            |
-| 409   | `ConflictError`            |
-| 422   | `UnprocessableEntityError` |
-| 429   | `RateLimitError`           |
-| >=500 | `InternalServerError`      |
-| 不适用   | `APIConnectionError`       |
+| 状态码 | 错误类型 |
+| ----- | ----- |
+| 400 | `BadRequestError` |
+| 401 | `AuthenticationError` |
+| 403 | `PermissionDeniedError` |
+| 404 | `NotFoundError` |
+| 409 | `ConflictError` |
+| 422 | `UnprocessableEntityError` |
+| 429 | `RateLimitError` |
+| >=500 | `InternalServerError` |
+| 不适用 | `APIConnectionError` |
 
 ## 请求 ID
 

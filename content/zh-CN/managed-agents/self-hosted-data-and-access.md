@@ -44,11 +44,11 @@ description: 自托管 Claude Managed Agents 会向您的网络外部发送哪�
 
 当 Claude API 是推理提供商时，每个模型调用还会携带最多三个标头。这些标头包含由您的服务器生成的 ID：
 
-| 标头                                        | 包含的内容         |
-| ----------------------------------------- | ------------- |
-| `anthropic-managed-agents-session-id`     | 该调用所服务的会话的 ID |
-| `anthropic-managed-agents-agent-id`       | 该会话的智能体的 ID   |
-| `anthropic-managed-agents-environment-id` | 该会话的环境的 ID    |
+| 标头 | 包含的内容 |
+| ----- | ----- |
+| `anthropic-managed-agents-session-id` | 该调用所服务的会话的 ID |
+| `anthropic-managed-agents-agent-id` | 该会话的智能体的 ID |
+| `anthropic-managed-agents-environment-id` | 该会话的环境的 ID |
 
 ID 不包含任何名称或内容，但确实编码了您的服务器创建它的时间。借助这些标头，Anthropic 可以将用量归属到某个会话、智能体或环境。没有任何设置可以关闭它们。如果 `ANTHROPIC_BASE_URL` 指向代理或网关，这些标头会发送到那里。在任何其他推理提供商下，服务器从不发送这些标头。
 
@@ -79,7 +79,7 @@ ID 不包含任何名称或内容，但确实编码了您的服务器创建它�
 
 服务器将其他所有内容（例如智能体、会话和会话历史记录）存储在您的数据库中。如果您未设置数据库（这是默认情况），服务器会将这些数据保存在内存中，重启后数据将被清除。如果您配置了密钥管理器，服务器会将每个新的[保管库凭据](https://platform.claude.com/docs/zh-CN/managed-agents/vaults)的密钥保存在该密钥管理器中，而不是数据库中。服务器之前存储的密钥仍保留在数据库中。
 
-会话及其历史记录会一直保留在您的数据库中，直到您将其删除。服务器不会因会话的存在时长而删除会话，无论该会话是否已归档。通过 API 删除会话会从您的数据库中移除该会话及其历史记录，但服务器会保留该会话的 ID。会话正在运行时，服务器可以拒绝删除操作。删除操作不会影响其他位置的副本，例如数据库备份、导出的日志和追踪，或智能体写入[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory)的内容。在 Kubernetes 上，删除操作还会保留该会话的 `/workspace` 卷，如[释放会话的卷](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/kubernetes#free-a-sessions-volume)中所述。
+会话及其历史记录会一直保留在您的数据库中，直到您将其删除。服务器不会因会话的存在时长而删除会话，无论该会话是否已归档。通过 API 删除会话会从您的数据库中移除该会话及其历史记录，但服务器会保留该会话的 ID。会话正在运行时，服务器可以拒绝删除操作。删除操作不会影响其他位置的副本，例如数据库备份、导出的日志和追踪，或智能体写入[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory)的内容。在 Kubernetes 上，删除操作后该会话的 `/workspace` 卷可能仍会保留，如[释放会话的卷](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/kubernetes#free-a-sessions-volume)中所述。
 
 服务器发送给模型的内容以及模型返回的内容，受您的组织与提供该模型的服务商之间的协议约束。该协议的数据保留条款适用。当由 Claude API 提供模型时，适用您的组织与 Anthropic 之间的数据保留协议和设置。如果您的组织有[零数据保留（ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)安排，该安排以与其他 Messages API 调用相同的方式涵盖这些模型调用。
 
@@ -104,12 +104,12 @@ Anthropic 无法远程访问服务器或其日志。您的应用程序和工作�
 
 服务器在一个地址和端口上接收 API 请求。服务器还会打开另外两个监听器，每个监听器仅在您启用时才会打开。
 
-| 监听器                                                                                                                                 | 默认启用                                                                                                                   | 默认地址                                                     | 要求提供的内容                                                                                                                               |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| API 请求                                                                                                                              | 是                                                                                                                      | `127.0.0.1:8400`，只有同一台机器可以访问。要更改地址和端口，请设置 `server.addr`。 | 请参阅[服务器接受的凭据](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#credentials-that-the-server-accepts)。 |
-| [您服务器上的控制台](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/console)，一个网页                                         | 是。要停止提供该网页，请参阅[关闭控制台](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/console#turn-off-the-console)。 | 与 API 请求相同的地址和端口                                         | 任何能够访问该页面的人都无需提供任何内容即可加载该页面。要在控制台中执行任何操作，用户需要通过您的身份提供商登录。                                                                             |
-| Prometheus 指标端点                                                                                                                     | 否                                                                                                                      | `localhost:9464`，只有同一台机器可以访问                             | 无需凭据                                                                                                                                  |
-| 服务器为[出口网关](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/agent-identity#environment-variable-credentials)提供的监听器 | 否                                                                                                                      | 所有接口上的端口 8410                                            | 网关的密钥                                                                                                                                 |
+| 监听器 | 默认启用 | 默认地址 | 要求提供的内容 |
+| ----- | ----- | ----- | ----- |
+| API 请求 | 是 | `127.0.0.1:8400`，只有同一台机器可以访问。要更改地址和端口，请设置 `server.addr`。 | 请参阅[服务器接受的凭据](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#credentials-that-the-server-accepts)。 |
+| [您服务器上的控制台](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/console)，一个网页 | 是。要停止提供该网页，请参阅[关闭控制台](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/console#turn-off-the-console)。 | 与 API 请求相同的地址和端口 | 任何能够访问该页面的人都无需提供任何内容即可加载该页面。要在控制台中执行任何操作，用户需要通过您的身份提供商登录。 |
+| Prometheus 指标端点 | 否 | `localhost:9464`，只有同一台机器可以访问 | 无需凭据 |
+| 服务器为[出口网关](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/agent-identity#environment-variable-credentials)提供的监听器 | 否 | 所有接口上的端口 8410 | 网关的密钥 |
 
 关于最后两个监听器的更多详细信息：
 
@@ -122,11 +122,11 @@ Docker Compose 栈在 Docker 主机的环回地址 `127.0.0.1` 上发布端口 8
 
 每个部署以单一信任级别为一个租户（tenant）提供服务。同一部署中的环境无法将信任级别相互隔离。服务器 API 密钥可以访问每个环境。每个拥有角色的调用方都可以在每个环境中运行会话，并可访问该环境的工作器所能访问的任何网络和文件。
 
-| 要隔离的对象      | 操作方法                                                                                                                                                                                                                                                                                   |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 租户          | 为每个租户提供其自己的部署，包括其自己的数据库、服务器 API 密钥和工作器。                                                                                                                                                                                                                                                |
-| 不同信任级别的工作负载 | 为每个信任级别提供其自己的部署，并按照租户的方式进行设置。例如可信代码与不可信代码，或者访问仅部分调用方可以使用的系统的工作器。                                                                                                                                                                                                                       |
-| 同一部署中的调用方   | 启用[单点登录](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/configure#single-sign-on)，将组映射到 `developer` 或 `user` 角色，并将服务器 API 密钥仅留给管理员使用。[各角色可执行的操作](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/configure#what-each-role-can-do)说明了这些调用方可以看到的内容。 |
+| 要隔离的对象 | 操作方法 |
+| ----- | ----- |
+| 租户 | 为每个租户提供其自己的部署，包括其自己的数据库、服务器 API 密钥和工作器。 |
+| 不同信任级别的工作负载 | 为每个信任级别提供其自己的部署，并按照租户的方式进行设置。例如可信代码与不可信代码，或者访问仅部分调用方可以使用的系统的工作器。 |
+| 同一部署中的调用方 | 启用[单点登录](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/configure#single-sign-on)，将组映射到 `developer` 或 `user` 角色，并将服务器 API 密钥仅留给管理员使用。[各角色可执行的操作](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/configure#what-each-role-can-do)说明了这些调用方可以看到的内容。 |
 
 ### 密钥管理器、单点登录和模型网关
 

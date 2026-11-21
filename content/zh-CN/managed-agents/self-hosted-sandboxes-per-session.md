@@ -124,7 +124,7 @@ helm install cma \
     <File filename="Dockerfile">
       ```dockerfile
       FROM your-base-image
-      ARG ANT_VERSION=2.11.0
+      ARG ANT_VERSION=2.12.1
       ARG TARGETARCH
       RUN ARCH=$([ "$TARGETARCH" = "arm64" ] && echo arm64 || echo amd64) && \
           curl -fsSL "https://github.com/anthropics/anthropic-cli/releases/download/v${ANT_VERSION}/ant_${ANT_VERSION}_linux_${ARCH}.tar.gz" \
@@ -174,9 +174,9 @@ helm install cma \
 
 在同一进程中认领并运行会话的 worker 会自行传递该机密。使用 `run()` (go: `Run()`) 的 `EnvironmentWorker` 就是这样的 worker，不带 `--on-work` 的 `ant beta:worker poll` 也是。当您自己的代码位于认领和 worker 之间时，需要由您转发该机密：
 
-| 您认领工作的方式                                                                                                          | 机密的到达形式                              | 传递给 worker 的方式                                                                                                                                                    |
-| ----------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ant beta:worker poll --on-work`                                                                                  | 脚本标准输入上工作项 JSON 的 `secret` 字段        | 沙箱环境中的 `ANTHROPIC_WORK_SECRET`                                                                                                                                    |
+| 您认领工作的方式 | 机密的到达形式 | 传递给 worker 的方式 |
+| ----- | ----- | ----- |
+| `ant beta:worker poll --on-work` | 脚本标准输入上工作项 JSON 的 `secret` 字段 | 沙箱环境中的 `ANTHROPIC_WORK_SECRET` |
 | Python、TypeScript 或 Go SDK 的 `work.poller()` (typescript: `new WorkPoller()`; go: `environments.NewWorkPoller()`) | 每个被认领工作项的 `secret` (go: `Secret`) 字段 | 沙箱环境中的 `ANTHROPIC_WORK_SECRET`，或 `handle_item()` (typescript: `handleItem()`; go: `HandleItem()`) 的 `work_secret` (typescript: `workSecret`; go: `WorkSecret`) 参数 |
 
 只将机密传入为该会话服务的沙箱，并且切勿记录它。有关它与环境密钥的关系，请参阅[安全模型](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-security)。

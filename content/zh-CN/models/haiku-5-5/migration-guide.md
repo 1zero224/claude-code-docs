@@ -32,6 +32,7 @@ description: 借助本迁移指南，从早期 Haiku 模型切换到 Claude Haik
 8. 如果您通过不同的账户重放已存储的对话，请通过生成每个对话的账户来重放该对话。请参阅[通过生成思考块的账户重放思考块](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#replay-thinking-blocks-through-the-producing-account)。
 9. 如果您的代码在同一对话的请求之间更改 `system`、`tools` 或较早的 `messages`，并将思考块发回，请保持对话仅追加（append-only）。请参阅[保持较早的轮次不变](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/migration-guide#keep-earlier-turns-unchanged)。
 10. 处理 `stop_reason: "refusal"`。Claude Haiku 5.5 运行的安全分类器可能会拒绝请求，并且它没有服务器端回退机制。请参阅[安全防护拒绝](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5#safeguard-refusals)。
+11. 如果您的提示要求模型在响应中写出其推理过程，例如放在 `<thinking>` 或 `<reasoning>` 标签中，请移除这些指示。Claude Haiku 5.5 可能会拒绝包含此类指示的请求，并返回 `reasoning_extraction` 类别。请参阅[安全防护拒绝](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5#safeguard-refusals)。
 
 如果您的组织在 Claude Haiku 4.5 上有 [Priority Tier](https://platform.claude.com/docs/zh-CN/api/service-tiers#supported-models) 承诺，请单独规划容量：Claude Haiku 5.5 不支持 Priority Tier。
 
@@ -48,14 +49,14 @@ description: 借助本迁移指南，从早期 Haiku 模型切换到 Claude Haik
 
 将 Claude Haiku 4.5 模型 ID 替换为您所用平台的 Claude Haiku 5.5 ID。
 
-| 平台                                                | Claude Haiku 4.5                                 | Claude Haiku 5.5             |
-| ------------------------------------------------- | ------------------------------------------------ | ---------------------------- |
-| Claude API                                        | `claude-haiku-4-5-20251001` 或 `claude-haiku-4-5` | `claude-haiku-5-5`           |
-| Amazon Bedrock                                    | `anthropic.claude-haiku-4-5`                     | `anthropic.claude-haiku-5-5` |
-| Claude Platform on AWS                            | `claude-haiku-4-5`                               | `claude-haiku-5-5`           |
-| Claude Models on Google Cloud (Anthropic managed) | `claude-haiku-4-5-20251001`                      | `claude-haiku-5-5`           |
-| Claude Models on Google Cloud (Google managed)    | `claude-haiku-4-5@20251001`                      | `claude-haiku-5-5`           |
-| Microsoft Foundry                                 | `claude-haiku-4-5`                               | `claude-haiku-5-5`           |
+| 平台 | Claude Haiku 4.5 | Claude Haiku 5.5 |
+| ----- | ----- | ----- |
+| Claude API | `claude-haiku-4-5-20251001` 或 `claude-haiku-4-5` | `claude-haiku-5-5` |
+| Amazon Bedrock | `anthropic.claude-haiku-4-5` | `anthropic.claude-haiku-5-5` |
+| Claude Platform on AWS | `claude-haiku-4-5` | `claude-haiku-5-5` |
+| Claude Models on Google Cloud (Anthropic managed) | `claude-haiku-4-5-20251001` | `claude-haiku-5-5` |
+| Claude Models on Google Cloud (Google managed) | `claude-haiku-4-5@20251001` | `claude-haiku-5-5` |
+| Microsoft Foundry | `claude-haiku-4-5` | `claude-haiku-5-5` |
 
 `claude-haiku-5-5` 是一个固定的模型 ID，没有日期后缀，也没有单独的别名。
 
@@ -111,12 +112,12 @@ Claude Haiku 5.5 接受强制的 `tool_choice`（`any` 或指定名称的工具�
 
 从 Claude Haiku 4.5 切换到 Claude Haiku 5.5 的对话会保留其推理过程。对于其他切换，则取决于所涉及的两个模型：
 
-| 切换                                                                                            | 是否保留推理过程                                                          |
-| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 切换到 Claude Haiku 5.5，来源为 Claude Haiku 4.5 或更早版本、Claude Sonnet 5 或更早版本，或 Claude Opus 4.8 或更早版本 | 是                                                                 |
-| 切换到 Claude Haiku 5.5，来源为任何其他模型                                                                | 否。API 会丢弃该模型的思考块而不报错。                                             |
+| 切换 | 是否保留推理过程 |
+| ----- | ----- |
+| 切换到 Claude Haiku 5.5，来源为 Claude Haiku 4.5 或更早版本、Claude Sonnet 5 或更早版本，或 Claude Opus 4.8 或更早版本 | 是 |
+| 切换到 Claude Haiku 5.5，来源为任何其他模型 | 否。API 会丢弃该模型的思考块而不报错。 |
 | 从 Claude Haiku 5.5 切换到 Claude Opus 5.5、Claude Sonnet 5.5、Claude Fable 5.2 或 Claude Mythos 5.2 | 是，但仅限 Claude API 和 Claude Models on Google Cloud (Google managed) |
-| 从 Claude Haiku 5.5 切换到任何其他模型                                                                  | 否                                                                 |
+| 从 Claude Haiku 5.5 切换到任何其他模型 | 否 |
 
 请参阅[切换模型再切换回来](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#switching-models)。对于不涉及 Claude Haiku 5.5 的切换，请参阅[在 Claude API 上哪些模型切换会保留推理](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#which-model-switches-keep-reasoning)。
 

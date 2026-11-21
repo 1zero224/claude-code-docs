@@ -215,6 +215,8 @@ docker compose down --remove-orphans
 
 ## 故障排除
 
+* **`docker compose up` 停止并显示 `required variable CMA_PG_USER is missing a value`：** 如果是全新安装，请在 `.env` 中添加一行 `CMA_PG_USER=cma_server`，然后再次运行 `docker compose up --build -d`。如果是升级栈，请不要添加该行。请参阅[如果升级失败](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade#if-the-upgrade-fails)。
+
 * **您的归档中没有 `compose` 目录：** 该归档包含的是较早的发布版本，本页面的命令与其不匹配。请向您的 Anthropic 客户团队索取当前发布版本。如需将正在运行的部署迁移到当前发布版本，请参阅[升级自托管 Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade)。
 
 * **服务器始终无法启动：** 运行 `docker compose logs migrate`。一次性的 `migrate` 容器负责创建数据库表。它必须以状态 `0` 退出，服务器才会启动。

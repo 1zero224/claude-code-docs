@@ -28,7 +28,7 @@ The broker also removes the need for a `localhost` or `127.0.0.1` loopback redir
 | Amazon Bedrock identity provider sign-in (through a proxy) | Set `inferenceIdpAuthFlow` to `broker` | [Amazon Bedrock](https://claude.com/docs/third-party/claude-desktop/bedrock.md#sign-in-with-your-identity-provider) |
 | Managed MCP server | Set `authFlow` to `broker` in the entry's `oauth` object | [Managed MCP servers](https://claude.com/docs/third-party/claude-desktop/extensions.md#managed-mcp-servers-admin) |
 
-For the gateway, Amazon Bedrock, and Workforce Identity flows, the broker is available only when your identity provider is Microsoft Entra ID: the `issuer` in `inferenceGatewayOidc`, `inferenceIdpOidc`, or `inferenceVertexWorkforceOidc` must have the form `https://login.microsoftonline.com/TENANT_ID/v2.0`. For a managed MCP server, the `oauth` object must also set `tenantId`, `clientId`, and `scope`.
+For the gateway, Amazon Bedrock, and Workforce Identity flows, the broker is available only when your identity provider is Microsoft Entra ID: the `issuer` in `inferenceGatewayOidc`, `inferenceIdpOidc`, or `inferenceVertexWorkforceOidc` must have the form `https://login.microsoftonline.com/TENANT_ID/v2.0`. For a managed MCP server, the `oauth` object must also set `tenantId`, `clientId`, and `scope`. For a GCC High or DoD tenant, see [GCC High and DoD tenants](#gcc-high-and-dod-tenants).
 
 The [Microsoft 365 connector](https://claude.com/docs/third-party/claude-desktop/connectors-m365.md#how-users-sign-in) also uses the OS broker for its own Entra sign-in. Its broker setup is documented on that page, and its app registration needs the same settings described under [Register the Entra ID application](#register-the-entra-id-application).
 
@@ -37,6 +37,19 @@ The [Microsoft 365 connector](https://claude.com/docs/third-party/claude-desktop
 Brokered sign-in is available on Windows and macOS. Linux has no OS identity broker.
 
 What happens on Linux, or on a Windows or macOS device where the broker is unavailable, depends on the feature. For the inference sign-in flows (Foundry, gateway, Amazon Bedrock, and Workforce Identity), the app shows an error that names the browser flow as the alternative rather than falling back to a browser or device-code flow, because a silent fallback would bypass the device policy the broker was chosen to satisfy. Managed MCP servers and the [Microsoft 365 connector](https://claude.com/docs/third-party/claude-desktop/connectors-m365.md#how-users-sign-in) fall back to the system browser instead. To make the Microsoft 365 connector's sign-in fail rather than fall back, set [`microsoftAuthBroker`](https://claude.com/docs/third-party/claude-desktop/configuration#microsoftauthbroker) to `required` (Claude Desktop 1.49585.0 or later).
+
+## GCC High and DoD tenants
+
+Brokered sign-in for Microsoft Foundry, gateway, Amazon Bedrock, Workforce Identity, and managed MCP servers works with commercial and Microsoft 365 GCC tenants only. For these features, Claude Desktop asks the broker to sign in at `login.microsoftonline.com`. GCC High and DoD tenants sign in at `login.microsoftonline.us`. This limit doesn't apply to the local [Microsoft 365 connector](https://claude.com/docs/third-party/claude-desktop/connectors-m365.md#set-up-the-local-connector), which signs in at the host that its `azureCloud` setting selects.
+
+For a GCC High or DoD tenant, set up the following features to sign in through the system browser:
+
+* **Managed MCP server**: in the entry's [`oauth` object](https://claude.com/docs/third-party/claude-desktop/mcp-sign-in#oauth-fields), set `authorizationServer` to `["https://login.microsoftonline.us/TENANT_ID/v2.0"]` alongside `clientId` and `scope`. Leave `tenantId` and `authFlow` unset. Register the [loopback redirect URI](https://claude.com/docs/third-party/claude-desktop/extensions.md#oauth-sign-in). If sign-in fails with Microsoft Entra error `AADSTS9010010`, see [Omit the resource parameter](https://claude.com/docs/third-party/claude-desktop/mcp-sign-in.md#omit-the-resource-parameter).
+* **Gateway, Amazon Bedrock, and Workforce Identity**: set the `issuer` in `inferenceGatewayOidc`, `inferenceIdpOidc`, or `inferenceVertexWorkforceOidc` to `https://login.microsoftonline.us/TENANT_ID/v2.0`. Set `inferenceGatewayOidcAuthFlow`, `inferenceIdpAuthFlow`, or `inferenceVertexWorkforceAuthFlow` to `browser`, or leave the key unset. Register the redirect URI `http://127.0.0.1/callback`.
+
+If your Conditional Access policy requires a compliant or managed device, browser sign-in satisfies it only when the browser is [integrated with device identity](#why-use-the-broker).
+
+For Microsoft Foundry, the device-code and browser flows also sign in at `login.microsoftonline.com`, so a different sign-in flow doesn't change the host.
 
 ## Register the Entra ID application
 
@@ -66,6 +79,32 @@ On macOS, the broker is provided by Intune Company Portal. Each device needs:
 ## Token storage
 
 The operating system's broker holds the credential and renews it silently from the device's primary refresh token. The app stores only a reference to the signed-in account, not a refresh token. When the broker can no longer renew silently (for example, the device falls out of compliance or the user's sessions are revoked in Entra), the app prompts the user to sign in again.
+
+Claude Code in the terminal doesn't use the broker. If you let it sign in to your gateway with the browser, it can store a refresh token on the computer. See [Allow browser sign-in where your gateway uses the Entra broker](#allow-browser-sign-in-where-your-gateway-uses-the-entra-broker).
+
+## Allow browser sign-in where your gateway uses the Entra broker
+
+If you [manage Claude Code in the terminal from the Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code.md), Claude Code in the terminal can't use the OS identity broker. If your gateway's sign-in flow is `broker`, Claude Code can't use your gateway, and after a developer signs in, it doesn't start unless their computer sets a provider itself. You can turn on a switch so that Claude Code signs in with the browser instead, while Claude Desktop still uses the broker. The switch changes the following:
+
+* **Provider settings**: the next time a signed-in developer starts Claude Code, your gateway replaces their own provider settings and `apiKeyHelper`
+* **Gateway sign-in**: the developer approves the gateway's address and then signs in to the gateway, with `/login` in Claude Code. Until then, Claude Code refuses each prompt.
+* **Stored sign-in**: the browser sign-in stays on the developer's computer, with a refresh token if Entra returns one. On Linux and Windows, the sign-in is in the plain file `.credentials.json`. Some Windows computers use Windows Credential Manager instead.
+
+**1. Add the redirect URI**
+
+In your Entra app registration, add `http://127.0.0.1/gateway-sign-in/callback` under **Mobile and desktop applications**. If your **Redirect host** is `localhost`, add the `localhost` form. If the portal refuses the address, add it in the app manifest as a redirect URI for a public client (mobile and desktop).
+
+**2. Check consent and Conditional Access**
+
+If your tenant requires it, grant consent for `offline_access`. If your Conditional Access policies check the device, set up developers' browsers to identify it, as described in [Why use the broker](#why-use-the-broker). A browser can't meet a policy that requires token protection.
+
+**3. Turn on both switches**
+
+Go to **Organization settings > Products > Claude Code**, and turn on the **Allow sign-in from Claude Code in terminals and IDEs** switch. Then turn on the **Allow Claude Code to sign in with the browser instead of the Entra broker** switch, which appears when the first switch is on, and click **Save changes**. To test with one group first, if your organization has a parent organization, turn on both switches in the **Claude Code** section of that group's policy instead.
+
+To store no refresh token, fill in **Scopes** without `offline_access`. If **Bearer token** is **Access token**, also turn off **Append offline\_access**. Developers then sign in again each time the token expires. **Scopes** also applies to Claude Desktop.
+
+If you turn the browser sign-in switch off, the change applies the next time each developer starts Claude Code. It revokes nothing. The token stays on the computer until the developer runs `claude auth logout` in their terminal. To stop the stored refresh tokens from working, revoke the developers' sessions in Entra. This also ends their other Microsoft sign-ins, and Claude Desktop asks them to sign in again.
 
 ## Troubleshoot
 

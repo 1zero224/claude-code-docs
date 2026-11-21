@@ -205,7 +205,7 @@ description: 通过选择更快的模型（例如 Claude Haiku 5.5）、精简�
 以下是一些帮助您优化提示和输出的技巧：
 
 * **清晰而简洁：** 力求在提示中清晰、简洁地传达您的意图。避免不必要的细节或冗余信息，同时请记住，[Claude 缺乏关于您用例的上下文](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices#be-clear-and-direct)，如果指令不清晰，它可能无法做出您预期的推断。
-* **要求更简短的响应：** 直接要求 Claude 保持简洁。如果 Claude 输出的内容过长，请要求 Claude [减少冗长](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices#be-clear-and-direct)。
+* **要求更简短的响应：** 直接要求 Claude 保持简洁。如果 Claude 输出的内容过长，请要求 Claude [减少冗长](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices#communication-style-and-verbosity)。
   <Tip>
     由于 LLM 计算的是
 
@@ -237,11 +237,19 @@ description: 通过选择更快的模型（例如 Claude Haiku 5.5）、精简�
 ## 后续步骤
 
 <CardGroup cols={2}>
+  <Card title="Claude Cookbook：Claude API 延迟优化" icon="book" href="https://platform.claude.com/cookbook/latency-optimization-latency-optimization">
+    跟随一个可运行的笔记本，为示例智能体构建延迟评估，每次应用一种技术，并检查输出质量是否保持在阈值之上。
+  </Card>
+
   <Card title="减少幻觉" icon="shield" href="https://platform.claude.com/docs/zh-CN/test-and-evaluate/strengthen-guardrails/reduce-hallucinations">
     通过允许表达不确定性、以直接引用为响应依据以及通过引文验证论断，最大限度地减少 Claude 输出中的幻觉。
   </Card>
 
   <Card title="流式传输消息" icon="bolt" href="https://platform.claude.com/docs/zh-CN/build-with-claude/streaming">
     通过服务器发送事件（server-sent events）增量流式传输 Messages API 响应，包括文本、工具使用和扩展思考增量。
+  </Card>
+
+  <Card title="Claude API 技能" icon="terminal" href="https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/claude-api-skill">
+    在 Claude Code 中运行 `/claude-api latency-optimize`，衡量您的应用程序在哪些环节等待 Claude API，并测试能够在不降低输出质量的前提下缩短等待时间的更改。
   </Card>
 </CardGroup>

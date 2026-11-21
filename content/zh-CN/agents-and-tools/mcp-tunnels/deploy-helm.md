@@ -101,11 +101,11 @@ EOF
       <Step title="为集群设置工作负载身份联合">
         按照[在 Kubernetes 中使用 WIF](https://platform.claude.com/docs/zh-CN/manage-claude/wif-providers/kubernetes) 注册集群的 OIDC 颁发者并创建联合规则。设置组件在发布命名空间中以其自己的 ServiceAccount 运行；确切名称遵循 Helm 的 `fullname` 约定，因此对于 `mcp-tunnel` 以外的任何发布名称，请在创建规则之前运行 `helm template <release> ... | grep -A2 'kind: ServiceAccount'` 进行确认。本指南的其余部分假定发布名称为 `mcp-tunnel`，命名空间为 `mcp-tunnel`，此时 ServiceAccount 为 `mcp-tunnel-setup`。
 
-        | 字段  | 值                                                   |
-        | --- | --------------------------------------------------- |
-        | 主体  | `system:serviceaccount:mcp-tunnel:mcp-tunnel-setup` |
-        | 受众  | `api.anthropic.com`（chart 的默认值；不含协议）                |
-        | 作用域 | `workspace:manage_tunnels`                          |
+        | 字段 | 值 |
+        | ----- | ----- |
+        | 主体 | `system:serviceaccount:mcp-tunnel:mcp-tunnel-setup` |
+        | 受众 | `api.anthropic.com`（chart 的默认值；不含协议） |
+        | 作用域 | `workspace:manage_tunnels` |
 
         <Note>
           chart 的默认受众是不含协议的 `api.anthropic.com`，但 Console 的联合规则表单建议使用 `https://api.anthropic.com`。两者必须逐字节匹配，否则身份验证会失败。请将规则的受众设置为 `api.anthropic.com`，或在 `values.yaml` 中将 `api.wif.audience` 设置为 `https://api.anthropic.com`。

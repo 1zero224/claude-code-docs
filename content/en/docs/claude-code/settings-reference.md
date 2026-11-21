@@ -86,7 +86,7 @@ Every key below links to its entry. Scope lists the [files](https://code.claude.
 | [`disabledMcpjsonServers`](#disabledmcpjsonservers) | Reject specific servers from a project's [`.mcp.json`](https://code.claude.com/docs/en/mcp#project-scope) | MCP | Any file |
 | [`disableMobileSimulatorTools`](#disablemobilesimulatortools) | Block Claude's tools in the [desktop](https://code.claude.com/docs/en/desktop.md) iOS Simulator pane | Tools | Managed |
 | [`disableRemoteControl`](#disableremotecontrol) | Turn off [Remote Control](https://code.claude.com/docs/en/remote-control.md) everywhere it can start | Remote, desktop, and notifications | Any file |
-| [`disableRemotePreviewScripts`](#disableremotepreviewscripts) | Turn off scripts in the [desktop](https://code.claude.com/docs/en/desktop.md#preview-html-files-in-ssh-and-wsl-sessions) app's HTML previews in SSH and WSL sessions | Remote, desktop, and notifications | Managed |
+| [`disableRemotePreviewScripts`](#disableremotepreviewscripts) | Turn off scripts in the Browser pane's HTML previews in the [desktop](https://code.claude.com/docs/en/desktop.md#preview-html-files-in-ssh-and-wsl-sessions) app's SSH and WSL sessions | Remote, desktop, and notifications | Managed |
 | [`disableSideloadFlags`](#disablesideloadflags) | Reject the CLI flags that sideload [plugins](https://code.claude.com/docs/en/plugins/overview.md), [subagents](https://code.claude.com/docs/en/sub-agents.md), and [MCP servers](https://code.claude.com/docs/en/mcp.md) | Enterprise and managed settings | Managed |
 | [`disableSkillShellExecution`](#disableskillshellexecution) | Stop [skills](https://code.claude.com/docs/en/skills.md) and custom commands from running inline shell | Plugins and skills | Any file |
 | [`disableWorkflows`](#disableworkflows) | Turn [dynamic workflows](https://code.claude.com/docs/en/workflows.md) off for everyone; use `enableWorkflows` for yourself | Hooks and automation | Any file |
@@ -98,6 +98,7 @@ Every key below links to its entry. Scope lists the [files](https://code.claude.
 | [`enabledMcpjsonServers`](#enabledmcpjsonservers) | Approve specific servers from a project's [`.mcp.json`](https://code.claude.com/docs/en/mcp#project-server-approvals-and-workspace-trust) | MCP | Any file |
 | [`enabledPlugins`](#enabledplugins) | Turn individual [plugins](https://code.claude.com/docs/en/plugins/overview.md) on or off per scope | Plugins and skills | Any file |
 | [`enableWorkflows`](#enableworkflows) | Turn [dynamic workflows](https://code.claude.com/docs/en/workflows.md) on or off against your plan's default | Hooks and automation | Any file |
+| [`enforceAnthropicSignIn`](#enforceanthropicsignin) | Require a claude.ai login on Anthropic's API, or an Enterprise Admin Console sign-in | Authentication and providers | Managed |
 | [`enforceAvailableModels`](#enforceavailablemodels) | Keep the [`/model` Default choice](https://code.claude.com/docs/en/model-config#enforce-the-allowlist-for-the-default-model) inside your `availableModels` allowlist | Model and responses | Any file |
 | [`env`](#env) | Set [environment variables](https://code.claude.com/docs/en/env-vars.md#in-settings-files) for every session and its subprocesses | Memory and context | Any file |
 | [`externalEditorContext`](#externaleditorcontext) | Show Claude's last response as comments when you press [Ctrl+G](https://code.claude.com/docs/en/interactive-mode.md#general-controls) to edit | Global config settings | Global config |
@@ -1146,7 +1147,7 @@ Set the default [permission mode](https://code.claude.com/docs/en/permission-mod
 
 * **Scope**: [`Any file`](#scopes). `auto` and `bypassPermissions` don't take effect from project or local settings, so set them in `~/.claude/settings.json` instead. Before v2.1.257, `bypassPermissions` took effect from any file. For conversations the VS Code extension starts, Claude Code reads only user, managed, and `--settings` values.
 * **Type**: string, one of:
-  * `"default"`: Claude Code runs only reads without asking
+  * `"default"`: Claude Code runs file reads inside your working directories and [some other actions](https://code.claude.com/docs/en/permission-modes.md#available-modes) without asking
   * `"acceptEdits"`: Claude Code also runs file edits and common filesystem commands such as `mkdir` and `mv` without asking
   * `"plan"`: Claude Code reads and plans but blocks edits until you approve a plan
   * `"auto"`: Claude Code runs without routine prompts; before actions such as shell commands and network requests run, a background classifier checks that they align with your request
@@ -1948,7 +1949,7 @@ A `mask` entry accepts these optional fields. Without `extract` or `decode`, Cla
 | `onExtractNoMatch` | `"warn"`, `"deny"`, or `"error"`; default `"warn"`. On an entry with `decode`, only `"warn"` is accepted | What happens when `extract` matches nothing. `warn` passes the variable through unmasked, `deny` unsets it inside the sandbox, and `error` stops sandbox setup until you fix the configuration. Requires v2.1.224 or later |
 | `decode` | the string `"jwt"` | Verify the whole value is a JWT and replace it with a structurally valid fake token, so code inside the sandbox that decodes the token keeps working; the proxy substitutes the whole real token on egress. A value that doesn't verify passes through unmasked with a warning. Requires v2.1.224 or later |
 | `maskClaims` | array of strings, at least one claim name; requires `decode` | Mask only the named top-level payload claims inside the decoded JWT and rebuild the token around the modified payload, so the other claims stay readable. When no named claim matches, the variable passes through unmasked with a warning. Requires v2.1.224 or later |
-| `injectHosts` | array of strings, each a host that [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) also admits | Narrow the hosts where the sandbox proxy substitutes the real value. When unset, the proxy substitutes it on requests to every host in `sandbox.network.allowedDomains`. Write an IPv6 destination as the bare compressed address, such as `"::1"`, not the bracketed form; see [IPv6 destinations in `injectHosts`](https://code.claude.com/docs/en/sandboxing#ipv6-destinations-in-injecthosts) |
+| `injectHosts` | array of strings, each a host that [`sandbox.network.allowedDomains`](#sandbox-network-alloweddomains) also admits | List the hosts where the sandbox proxy substitutes the real value. For most variables with no `injectHosts`, the proxy substitutes the real value on requests to every host in `sandbox.network.allowedDomains`. Write an IPv6 destination as the bare compressed address, such as `"::1"`, not the bracketed form; see [IPv6 destinations in `injectHosts`](https://code.claude.com/docs/en/sandboxing#ipv6-destinations-in-injecthosts) |
 
 This masks only the password inside `DATABASE_URL`, unsets the variable if the pattern matches nothing, and masks a JWT in `SERVICE_JWT` while leaving every claim except `api_key` readable:
 
@@ -2023,7 +2024,7 @@ This links three custom-named variables into one AWS credential for re-signing:
 
 Each named variable must be a whole-value `mask` entry in [`sandbox.credentials.envVars`](#sandbox-credentials-envvars), without `extract` or `decode`, and can fill only one slot across all pairs. These rules also apply:
 
-* The proxy re-signs requests on the hosts listed in the access key ID entry's `injectHosts`
+* The proxy can re-sign requests on the hosts listed in the access key ID entry's `injectHosts`
 * When `sessionTokenVar` is set, the proxy sends the real token as `x-amz-security-token` on re-signed requests
 * Naming any of the conventional variables in a pair replaces the automatic pairing
 
@@ -3568,11 +3569,11 @@ Set the attribution text Claude Code adds to pull request descriptions. Set it t
 
 ### `attribution.sessionUrl`
 
-Choose whether Claude Code appends the claude.ai session link when it commits or opens a pull request from a [cloud](https://code.claude.com/docs/en/claude-code-on-the-web.md) or [Remote Control](https://code.claude.com/docs/en/remote-control.md) session. Claude Code adds the link as a `Claude-Session` trailer on commits and as a link in pull request descriptions. Set it to `false` to omit the link.
+Choose whether Claude Code tells Claude to add the claude.ai session link to commits and pull requests from a [cloud](https://code.claude.com/docs/en/claude-code-on-the-web.md) or [Remote Control](https://code.claude.com/docs/en/remote-control.md) session. The setting covers a `Claude-Session` trailer on commits and a URL in pull request descriptions. Set it to `false` to omit the link.
 
 * **Scope**: [`Any file`](#scopes)
 * **Type**: Boolean
-  * `true`: Claude Code appends the claude.ai session link when it commits or opens a pull request from a cloud or Remote Control session
+  * `true`: Claude Code tells Claude to add the link
   * `false`: Claude Code omits the link
 * **Default**: `true`
 
@@ -3924,7 +3925,7 @@ This example turns channels on and allows only the Telegram plugin from the offi
 }
 ```
 
-An empty array blocks every channel plugin.
+An empty array blocks every channel plugin unless a user loads it with [`--dangerously-load-development-channels`](https://code.claude.com/docs/en/channels#restrict-which-channel-plugins-can-run).
 
 This key takes effect once channels pass the [`channelsEnabled`](#channelsenabled) gate for the account: on Team and Enterprise plans, and on Console accounts with managed settings, that means `channelsEnabled: true`. See [Restrict which channel plugins can run](https://code.claude.com/docs/en/channels.md#restrict-which-channel-plugins-can-run).
 
@@ -4484,9 +4485,9 @@ Built-in servers such as Claude in Chrome, the `ide` server Claude Code connects
 
 Servers your organization delivers are also exempt from the allowlist, and the denylist still applies to them. The exemption covers every [`managedMcpServers`](#managedmcpservers) entry, and any [`managed-mcp.json`](https://code.claude.com/docs/en/managed-mcp#exclusive-control-with-managed-mcp-json) entry whose values use [no `${VAR}` expansion outside `env`](https://code.claude.com/docs/en/managed-mcp#how-allowlists-and-denylists-apply-to-the-managed-set). See [How a server is evaluated](https://code.claude.com/docs/en/managed-mcp.md#how-a-server-is-evaluated) for the full check order. Before v2.1.259, servers from `managed-mcp.json` had to match too.
 
-* **Scope**: [`Any file`](#scopes). Entries from every file merge into one allowlist unless [`allowManagedMcpServersOnly`](#allowmanagedmcpserversonly) is set. Deploy it in managed settings to enforce it.
+* **Scope**: [`Any file`](#scopes). For servers users add, entries from every file merge into one allowlist unless [`allowManagedMcpServersOnly`](#allowmanagedmcpserversonly) is set. To keep users from adding entries, deploy both keys in managed settings.
 * **Type**: array of objects, each with exactly one key. Use `serverName`, a string limited to letters, numbers, hyphens, and underscores; `serverCommand`, an array of the command and its arguments matched exactly; or `serverUrl`, a URL pattern with `*` wildcards
-* **Default**: unset, so every server is allowed; an empty array blocks every server users add
+* **Default**: unset, so every server is allowed; an empty merged list blocks every server users add
 
 This example allows only the stdio server that the listed `npx` command starts:
 
@@ -4583,8 +4584,8 @@ Approve every MCP server defined in project `.mcp.json` files without a prompt. 
 * **Scope**: [`Any file`](#scopes). In a folder whose trust dialog you haven't accepted, Claude Code honors it from user settings, managed settings, and `--settings` and ignores it in the shared project file, both in the session and for `claude mcp list` and `claude mcp get`; [Project server approvals and workspace trust](https://code.claude.com/docs/en/mcp.md#project-server-approvals-and-workspace-trust) says when an untracked `.claude/settings.local.json` counts too.
 * **Type**: Boolean
   * `true`: Claude Code approves every MCP server defined in project `.mcp.json` files without a prompt
-  * `false`: Claude Code asks you to approve each server. In a trusted folder, a `false` in a higher-precedence file overrides a `true` in a lower one; in a folder you haven't trusted, a `true` in any honored file is enough
-* **Default**: unset, so Claude Code asks you to approve each server
+  * `false`: interactive terminal sessions ask you to approve each [pending](https://code.claude.com/docs/en/mcp.md#server-status) server. See [Project scope](https://code.claude.com/docs/en/mcp.md#project-scope) for some sessions that connect it without asking and how to keep it out. In a trusted folder, a `false` in a higher-precedence file overrides a `true` in a lower one; in a folder you haven't trusted, a `true` in any honored file is enough
+* **Default**: unset, so interactive terminal sessions ask the same way
 
 ```json settings.json theme={null}
 {
@@ -4879,7 +4880,7 @@ Allow Claude to send a push notification to your phone when it decides one is wo
 * **Type**: Boolean
   * `true`: Claude can send a push notification to your phone when it decides one is worth sending
   * `false`: Claude doesn't send those notifications
-* **Default**: `false`
+* **Default**: unset, so Claude Code uses the value saved to your account, or `false` if none is saved
 
 ```json settings.json theme={null}
 {
@@ -4976,7 +4977,7 @@ Claude Desktop supplies Code sessions with policy derived from your desktop conf
 
 ### `disableRemoteControl`
 
-Turn off [Remote Control](https://code.claude.com/docs/en/remote-control.md): Claude Code then refuses `claude remote-control`, the `--remote-control` flag, auto-start, and the in-session toggle, and reports that your organization's policy disabled it. Place it in [managed settings](https://code.claude.com/docs/en/managed-settings.md) for per-device MDM enforcement.
+Turn off [Remote Control](https://code.claude.com/docs/en/remote-control.md): Claude Code then refuses `claude remote-control`, the `--remote-control` flag, auto-start, and the in-session toggle. Place it in [managed settings](https://code.claude.com/docs/en/managed-settings.md) for per-device MDM enforcement.
 
 * **Scope**: [`Any file`](#scopes)
 * **Type**: Boolean
@@ -4992,13 +4993,13 @@ Turn off [Remote Control](https://code.claude.com/docs/en/remote-control.md): Cl
 
 ### `disableRemotePreviewScripts`
 
-Keep scripts from running when people [preview an HTML file](https://code.claude.com/docs/en/desktop.md#preview-html-files-in-ssh-and-wsl-sessions) from an SSH or WSL session in the desktop app. External browsing in the Browser pane is unaffected.
+Keep scripts from running when people [preview an HTML file](https://code.claude.com/docs/en/desktop.md#preview-html-files-in-ssh-and-wsl-sessions) in the desktop app's Browser pane from an SSH or WSL session. External browsing in that pane is unaffected.
 
 The desktop app reads this key; the terminal CLI ignores it. Requires Claude Desktop v5.1231.0 or later. Earlier versions ignore the key: to stop the scripts there, also set [`disableBrowserExternalNavigation`](#disablebrowserexternalnavigation), which turns off external browsing too.
 
 * **Scope**: [`Managed`](#scopes). The desktop app doesn't read the key from the remote machine or the WSL distribution.
 * **Type**: Boolean; only the JSON Boolean `true` takes effect
-  * `true`: HTML previews in SSH and WSL sessions don't run scripts
+  * `true`: in SSH and WSL sessions, HTML previews in the Browser pane don't run scripts
   * `false`: the key doesn't turn scripts off
 * **Default**: unset, so the key has no effect
 
@@ -5038,7 +5039,7 @@ Get a push notification on your phone when a permission prompt or question is wa
 
 * **Scope**: [`Any file`](#scopes). Claude Code also reads a value left in `~/.claude.json` by older versions.
 * **Type**: Boolean
-* **Default**: `false`
+* **Default**: unset, so Claude Code uses the value saved to your account
 
 ```json settings.json theme={null}
 {
@@ -5286,6 +5287,23 @@ Run your own command that prints AWS credentials as JSON, so Claude Code can cal
 
 Unlike [`awsAuthRefresh`](#awsauthrefresh), Claude Code always runs this command when it's set, without checking the ambient credentials first. See [advanced credential configuration](https://code.claude.com/docs/en/amazon-bedrock.md#advanced-credential-configuration).
 
+### `enforceAnthropicSignIn`
+
+Require a claude.ai login on Anthropic's API, or an [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code) sign-in. An Enterprise Admin Console sign-in counts only when [`forceLoginOrgUUID`](#forceloginorguuid) names your organization and you set no [`policyHelper`](#policyhelper). Requires Claude Code v2.1.329 or later.
+
+The key also stops Claude Desktop sessions that run on a cloud provider or gateway, so read [Require the sign-in with managed settings](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code#require-the-sign-in-with-managed-settings) first.
+
+* **Scope**: [`Managed`](#scopes). Set it in a managed settings file, where it applies even beneath server-managed settings. If the machine also has an MDM policy, set it there. Claude Code ignores the key in server-managed settings, HKCU, and policy helper output.
+* **Type**: Boolean
+* **Default**: unset
+
+```json managed-settings.json theme={null}
+{
+  "forceLoginOrgUUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "enforceAnthropicSignIn": true
+}
+```
+
 ### `forceLoginMethod`
 
 Restrict which kind of account people can log in with: `"claudeai"` for claude.ai sign-in or `"console"` for Claude Console sign-in. Set `"gateway"` to send people to a [cloud gateway](https://code.claude.com/docs/en/claude-apps-gateway) instead of a first-party login. Administrators set it in managed settings and pair it with [`forceLoginOrgUUID`](#forceloginorguuid) to keep developers' claude.ai logins inside one organization.
@@ -5305,7 +5323,7 @@ If you set it to `"claudeai"` in any settings file, Claude Code also stops offer
 }
 ```
 
-Every first-party login path applies the restriction, including the [VS Code extension](https://code.claude.com/docs/en/vs-code.md), the Agent SDK, `claude setup-token`, and `/install-github-app`, except the terminal's interactive login screen, reached by `/login` or first-run onboarding, which pre-selects the method without enforcing it. Before v2.1.212, only terminal logins applied it. See [Restrict login to your organization](https://code.claude.com/docs/en/authentication.md#restrict-login-to-your-organization) for how each login path, environment credentials, and third-party providers are handled.
+Every first-party login path applies the restriction, including the [VS Code extension](https://code.claude.com/docs/en/vs-code.md), the Agent SDK, `claude setup-token`, and `/install-github-app`, except the terminal's interactive login screen, reached by `/login` or first-run onboarding, which can pre-select the method without enforcing it. Before v2.1.212, only terminal logins applied the restriction. See [Restrict login to your organization](https://code.claude.com/docs/en/authentication.md#restrict-login-to-your-organization) for how each login path, environment credentials, and third-party providers are handled.
 
 When a managed source on the machine sets `"gateway"`, Claude Code doesn't use a leftover login, API key, or `apiKeyHelper` credential. See [Administrator policy requires a Cloud gateway sign-in](https://code.claude.com/docs/en/errors.md#administrator-policy-requires-a-cloud-gateway-sign-in) for the message each one produces. If you select a cloud provider through `CLAUDE_CODE_USE_BEDROCK` or a similar environment variable, the session doesn't need the gateway sign-in. Before v2.1.261, Claude Code used a leftover login on these machines.
 
@@ -5329,7 +5347,9 @@ If the value isn't a valid URL, the sign-in screen reports it, and the rest of t
 
 ### `forceLoginOrgUUID`
 
-From a managed source, require claude.ai account logins to belong to one Anthropic organization, given as a single UUID, or to any of several organizations, given as an array. From any settings file, Claude Code also uses a single UUID to pre-select that organization during a claude.ai or Claude Console login, and pre-selects nothing for an array. If you set the key in any settings file, Claude Code also stops offering the [keyless Console sign-in](https://code.claude.com/docs/en/authentication.md#sign-in-without-an-api-key) in the sessions that file applies to and creates an API key instead.
+From a managed source, require claude.ai account logins to belong to one Anthropic organization, given as a single UUID, or to any of several organizations, given as an array. From any settings file, Claude Code also uses a single UUID to pre-select that organization during a claude.ai or Claude Console login, and pre-selects nothing for an array.
+
+If you set the key in any settings file, Claude Code stops offering the [keyless Console sign-in](https://code.claude.com/docs/en/authentication.md#sign-in-without-an-api-key) in the sessions that file applies to.
 
 * **Scope**: [`Any file`](#scopes). In a settings file that isn't a managed source, Claude Code doesn't check which organization a login belongs to, and a single UUID pre-selects the organization during login.
 * **Type**: string, one UUID, or array of strings, several UUIDs
@@ -5498,7 +5518,7 @@ Any other value leaves Claude's tools on, and a non-empty string that isn't one 
 
 ### `disableBrowserExternalNavigation`
 
-Turn off external browsing in the desktop app's [Browser pane](https://code.claude.com/docs/en/desktop.md#browse-external-sites) for people and Claude alike. Localhost dev server previews keep working. HTML previews in SSH and WSL sessions still open, but they [don't run scripts](https://code.claude.com/docs/en/desktop.md#turn-off-scripts-in-ssh-and-wsl-previews-for-your-organization). The desktop app reads this key; the terminal CLI ignores it.
+Turn off external browsing in the desktop app's [Browser pane](https://code.claude.com/docs/en/desktop.md#browse-external-sites) for people and Claude alike. Localhost dev server previews keep working. The Browser pane's HTML previews in SSH and WSL sessions still open, but they [don't run scripts](https://code.claude.com/docs/en/desktop.md#turn-off-scripts-in-ssh-and-wsl-previews-for-your-organization). The desktop app reads this key; the terminal CLI ignores it.
 
 * **Scope**: [`Managed`](#scopes)
 * **Type**: Boolean; only the JSON Boolean `true` takes effect
@@ -5722,18 +5742,19 @@ A few keys add a condition that the table doesn't show:
 * **[`modelOverrides`](#modeloverrides)**: pairs with `availableModels`. Claude Code takes `modelOverrides` from the highest source that sets it, unless a higher source sets `availableModels` without `modelOverrides`. In that case it ignores `modelOverrides` from every source.
 * **[`forceLoginGatewayUrl`](#forcelogingatewayurl), [`gatewayInternalNetworks`](#gatewayinternalnetworks), and the `"gateway"` value of [`forceLoginMethod`](#forceloginmethod)**: Claude Code never reads any of them from server-managed settings, so a value there neither applies nor hides one set in an MDM policy or managed settings file. Among the admin sources on the machine, only the highest-ranked one that carries a policy key supplies them, whether or not server-managed settings are also present.
 * **[`forceLoginOrgUUID`](#forceloginorguuid) and the `"claudeai"` and `"console"` values of [`forceLoginMethod`](#forceloginmethod)**: look up which value applies in [Which managed source supplies login keys](https://code.claude.com/docs/en/managed-settings.md#which-managed-source-supplies-login-keys) rather than in the table.
+* **[`enforceAnthropicSignIn`](#enforceanthropicsignin)**: its entry's Scope note says which sources supply it.
 * **[`allowedProviders`](#allowedproviders)**: after the table's rule, the machine's own list still limits the result, as its entry's Scope note states.
 
 To confirm which sources combined on a machine, run `/status` and [read the `Setting sources` line](https://code.claude.com/docs/en/managed-settings#read-the-source-in-/status).
 
 ### `parentSettingsBehavior`
 
-Choose whether Claude Code applies managed settings supplied by an embedding host process, such as the Agent SDK or an IDE extension, when an admin-deployed managed tier is also present. With `"first-wins"`, Claude Code drops the host-supplied settings; with `"merge"`, it applies them under the admin tier through a restrictive-only filter. Set `"merge"` when a host needs to pass its own restrictions to the sessions it launches, for example Claude Desktop delivering a gateway's egress allowlist.
+Choose whether Claude Code applies managed settings supplied by an embedding host process, such as the Agent SDK or an IDE extension, when an admin-deployed managed tier is also present. Set `"merge"` when a host needs to pass its own restrictions to the sessions it launches, for example Claude Desktop delivering a gateway's egress allowlist.
 
 * **Scope**: [`Managed`](#scopes). Claude Code reads it from the highest-priority admin-controlled managed source.
 * **Type**: string, one of:
   * `"first-wins"`: Claude Code drops the host-supplied settings when an admin-deployed managed tier is present
-  * `"merge"`: Claude Code applies the host-supplied settings under the admin tier through a restrictive-only filter
+  * `"merge"`: Claude Code applies the host-supplied settings under the admin tier through a filter that keeps restrictive keys. Unless you [set the `allowManaged*Only` locks](https://code.claude.com/docs/en/claude-apps-gateway#restrict-parent-settings), permission allow rules and sandbox allowlists pass too
 * **Default**: `"first-wins"`
 
 ```json managed-settings.json theme={null}
@@ -5742,7 +5763,7 @@ Choose whether Claude Code applies managed settings supplied by an embedding hos
 }
 ```
 
-This key has no effect when no admin-deployed managed tier exists: the host's settings then apply as the only managed tier, still filtered to restrictive values. For the filter's limits and how the managed sources interact, see [Parent settings from embedding hosts](https://code.claude.com/docs/en/managed-settings.md#parent-settings-from-embedding-hosts) and [Restrict parent settings](https://code.claude.com/docs/en/claude-apps-gateway#restrict-parent-settings).
+This key has no effect when no admin-deployed managed tier exists: the host's settings then apply as the only managed tier, still filtered. For the filter's limits and how the managed sources interact, see [Parent settings from embedding hosts](https://code.claude.com/docs/en/managed-settings.md#parent-settings-from-embedding-hosts) and [Restrict parent settings](https://code.claude.com/docs/en/claude-apps-gateway#restrict-parent-settings).
 
 ### `policyHelper`
 
@@ -5782,9 +5803,12 @@ Put the settings under a `managedSettings` key. A bare settings object with no `
 }
 ```
 
-When the helper emits `managedSettings`, that object becomes the only managed settings source for the run: Claude Code ignores the MDM, file, and HKCU sources, reads the [cross-source keys](https://code.claude.com/docs/en/managed-settings.md#keys-read-from-every-admin-source) from the helper's output alone, and never merges [parent settings](https://code.claude.com/docs/en/managed-settings.md#parent-settings-from-embedding-hosts).
+When the helper emits `managedSettings`, that object becomes the managed settings source for the run. Claude Code reads the [cross-source keys](https://code.claude.com/docs/en/managed-settings.md#keys-read-from-every-admin-source) from it and doesn't merge [parent settings](https://code.claude.com/docs/en/managed-settings.md#parent-settings-from-embedding-hosts). It ignores the MDM, file, and HKCU sources, apart from keys such as these:
 
-The startup `forceRemoteSettingsRefresh` check runs before the helper and reads any admin source. A helper that exits `0` with an envelope that omits `managedSettings` contributes no managed settings, and the other sources apply as usual.
+* **[`forceRemoteSettingsRefresh`](#forceremotesettingsrefresh)**: the startup check runs before the helper and reads any admin source
+* **[`enforceAnthropicSignIn`](#enforceanthropicsignin)**: Claude Code reads it from the MDM policy or managed settings file
+
+A helper that exits `0` with an envelope that omits `managedSettings` contributes no managed settings, and the other sources apply as usual.
 
 #### Helper failures
 

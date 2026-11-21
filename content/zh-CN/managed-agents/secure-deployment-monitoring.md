@@ -47,15 +47,15 @@ featureMetadata:
 
 订阅在会话需要处理时通知您的 webhook，并删除不再需要的会话。验证每次投递的签名。请参阅[验证签名](https://platform.claude.com/docs/zh-CN/managed-agents/webhooks#verify-the-signature)。
 
-| 需要关注的内容            | 查看位置                                                                                                                                                                                          |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 进入空闲状态的会话，例如等待批准   | `session.status_idled` webhook。每当会话因任何原因进入空闲状态时都会触发                                                                                                                                           |
-| 达到预算或终止的会话         | `session.budget_reached` 和 `session.status_terminated` webhook                                                                                                                                |
-| 未能启动会话的计划运行        | `deployment_run.failed` 和 `deployment.paused` webhook                                                                                                                                         |
-| 无法刷新的 MCP OAuth 凭据 | `vault_credential.refresh_failed` webhook                                                                                                                                                     |
-| 服务器拒绝或暂停的工具调用      | `agent.tool_use` 和 `agent.mcp_tool_use` 事件上的 `evaluated_permission` (java, php: `evaluatedPermission`; csharp, go: `EvaluatedPermission`)。在多智能体会话中，还要列出每个线程的事件                                |
-| 智能体在会话中执行的操作       | Claude Console 会话查看器                                                                                                                                                                          |
-| 超出您授予智能体权限的行为      | 您运行的可选离线审查作业，用于读取每个会话的事件。请参阅[可选：让离线审查器阅读每份会话记录](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) |
+| 需要关注的内容 | 查看位置 |
+| ----- | ----- |
+| 进入空闲状态的会话，例如等待批准 | `session.status_idled` webhook。每当会话因任何原因进入空闲状态时都会触发 |
+| 达到预算或终止的会话 | `session.budget_reached` 和 `session.status_terminated` webhook |
+| 未能启动会话的计划运行 | `deployment_run.failed` 和 `deployment.paused` webhook |
+| 无法刷新的 MCP OAuth 凭据 | `vault_credential.refresh_failed` webhook |
+| 服务器拒绝或暂停的工具调用 | `agent.tool_use` 和 `agent.mcp_tool_use` 事件上的 `evaluated_permission` (java, php: `evaluatedPermission`; csharp, go: `EvaluatedPermission`)。在多智能体会话中，还要列出每个线程的事件 |
+| 智能体在会话中执行的操作 | Claude Console 会话查看器 |
+| 超出您授予智能体权限的行为 | 您运行的可选离线审查作业，用于读取每个会话的事件。请参阅[可选：让离线审查器阅读每份会话记录](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) |
 
 要查看会话进入空闲状态的原因，请列出其事件，并将 `types` (curl: `types[]`; cli: `--type`; csharp, go: `Types`) 设置为 `session.status_idle`、`order` (csharp, go: `Order`) 设置为 `desc`、`limit` (csharp, go: `Limit`) 设置为 `1`。该事件名为 `session.status_idle`，而 webhook 名为 `session.status_idled`。如果 `stop_reason.type` 为 `requires_action`，则会话正在等待您处理，`stop_reason.event_ids` 会列出它正在等待的事件。要响应这些事件，请参阅[回答使会话暂停的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session)。在自托管沙箱中，`agent.tool_use` 事件可能正在等待您的沙箱返回工具结果。当工作流运行处于打开状态时，工具调用可能会在会话保持 `running` 状态的同时等待您的响应。请在每个调用的事件到达时进行响应。请参阅[运行处于打开状态时](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#while-a-run-is-open)。
 

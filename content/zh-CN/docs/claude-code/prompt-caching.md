@@ -121,7 +121,7 @@ Fable 模型、Opus 5.5、Sonnet 5.5 和 Opus 5 上的[自动模型回退](https
 | 会话中途的更改 | 缓存 | 下一个请求中的工具定义 |
 | - | - | - |
 | 服务器连接，或[动态工具更新](https://code.claude.com/docs/zh-CN/mcp.md#dynamic-tool-updates)添加工具 | 失效 | 添加新定义 |
-| 服务器在您未执行任何操作的情况下断开，例如 stdio 服务器的进程退出 | 保持 | 服务器的定义保持不变。对其工具的调用会返回错误而不是运行，除非 Claude Code 为该调用[重新启动服务器](https://code.claude.com/docs/zh-CN/mcp.md#stdio-servers-that-exit-or-fail-to-start) |
+| 服务器在您未执行任何操作的情况下断开，例如 stdio 服务器的进程退出 | 保持 | 服务器的定义保持不变 |
 | 远程服务器在连接断开后[自动重新连接](https://code.claude.com/docs/zh-CN/mcp.md#automatic-reconnection) | 保持，除非在服务器重新连接期间发送的请求添加了 `WaitForMcpServers` 工具，这会使缓存失效一次 | 服务器的定义保持不变。如果对话尚未列出 `WaitForMcpServers`，在服务器重新连接期间发送的请求可能会添加它，之后该工具会在对话的其余部分保持列出 |
 | 您有意移除工具，例如使用[拒绝规则](#denying-an-entire-tool)或在 `/mcp` 中禁用其服务器 | 失效 | 定义被移除 |
 
@@ -176,7 +176,7 @@ Claude Code 永远不会因插件的 skill、命令、Agent、hook、监视器�
 
 [压缩](https://code.claude.com/docs/zh-CN/context-window.md#what-survives-compaction)会用摘要替换您的消息历史记录。按照设计，这会使对话层失效：下一个请求拥有一个新的、更短的历史记录，与旧的历史记录不共享前缀。
 
-* **系统提示词**：下一个请求会从缓存中读取此层，除非某个[恢复的对话](#resuming-a-session)保留了现已过时的系统提示词。该对话第一次被压缩时，Claude Code 会将其切换为当前的提示词，下一个请求会重建此层的缓存一次。
+* **系统提示词**：当对话的提示词是最新的时，下一个请求会从缓存中读取此层。如果该提示词已过时，例如在您[恢复对话](#resuming-a-session)之后，Claude Code 会切换为当前的提示词，下一个请求会重建此层的缓存一次。
 * **项目上下文**：Claude Code 会从磁盘重新加载此层。它与对话一起缓存，因此在 `/compact` 或自动压缩之后，即使其文件未改变，其缓存也会被重建。
 
 为了生成摘要，Claude Code 会发送一个单独的请求。该请求会重复您对话的系统提示词、工具以及正在被摘要的历史记录，并以一条摘要指令结尾。当缓存温暖时，该请求会从缓存中读取您的前缀。因此，会话中途的 `/compact` 成本只是上下文大小所暗示成本的一小部分，其大部分时间都花在生成摘要上。

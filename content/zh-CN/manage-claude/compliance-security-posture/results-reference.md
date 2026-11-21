@@ -21,12 +21,12 @@ curl --fail-with-body -sS \
   -H "anthropic-version: 2026-10-21"
 ```
 
-| 项                   | 规则                                                                                                                                                                                                                                     |
-| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `organization_id`   | 来自[列出组织](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-org-data#list-organizations)的[已关联组织](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api#how-the-compliance-api-works)的 `uuid`；任何其他值都会返回 404。 |
-| 密钥                  | [父组织的密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)可以指定任一已关联组织，而单个组织的密钥只能指定该组织。                                                                                             |
-| `anthropic-version` | 必需；不带该标头的请求返回 400。                                                                                                                                                                                                                     |
-| 查询参数                | 无；带有任何查询参数的请求都会返回 400。                                                                                                                                                                                                                 |
+| 项 | 规则 |
+| ----- | ----- |
+| `organization_id` | 来自[列出组织](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-org-data#list-organizations)的[已关联组织](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api#how-the-compliance-api-works)的 `uuid`；任何其他值都会返回 404。 |
+| 密钥 | [父组织的密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)可以指定任一已关联组织，而单个组织的密钥只能指定该组织。 |
+| `anthropic-version` | 必需；不带该标头的请求返回 400。 |
+| 查询参数 | 无；带有任何查询参数的请求都会返回 400。 |
 
 ## 响应
 
@@ -107,27 +107,27 @@ curl --fail-with-body -sS \
 
 ### 顶层字段
 
-| 字段                | 类型                     | 说明                                                                                                                                                   |
-| ----------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`            | string                 | 始终为 `security_posture`。                                                                                                                              |
-| `organization_id` | string                 | 组织的 UUID。                                                                                                                                            |
-| `evaluated_at`    | string (RFC 3339, UTC) | 评估所有控制项的时间。                                                                                                                                          |
-| `comments_status` | string                 | 是否读取了声明备注；请参阅[声明者与备注](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#who-attested-and-comments)。 |
-| `controls`        | array of objects       | 组织的控制项，绝不为空。                                                                                                                                         |
+| 字段 | 类型 | 说明 |
+| ----- | ----- | ----- |
+| `type` | string | 始终为 `security_posture`。 |
+| `organization_id` | string | 组织的 UUID。 |
+| `evaluated_at` | string (RFC 3339, UTC) | 评估所有控制项的时间。 |
+| `comments_status` | string | 是否读取了声明备注；请参阅[声明者与备注](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#who-attested-and-comments)。 |
+| `controls` | array of objects | 组织的控制项，绝不为空。 |
 
 ### `controls[]` 字段
 
-| 字段              | 类型            | 说明                                                                                                                                                                                                                                                                   |
-| --------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`            | string        | 控制项的标识符，对每个组织都相同，且永不改变。                                                                                                                                                                                                                                              |
-| `display_name`  | string        | 控制项的显示名称，为英文显示文本，其措辞可能会改变。                                                                                                                                                                                                                                           |
-| `section`       | string        | 控制项所属的部分，为本表之后列出的十个部分之一；可能会添加更多值，因此请将未知值视为一个独立的部分。                                                                                                                                                                                                                   |
-| `setting_name`  | string 或 null | 此控制项所读取的组织有效设置中条目的 `name`；当它不读取此类条目时为 `null`。                                                                                                                                                                                                                        |
-| `status`        | string        | 控制项结果的原因；请参阅[状态值](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#status-values)。                                                                                                                                 |
-| `rating`        | string        | 控制项的结果，由 `status` 决定；请参阅[状态值](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#status-values)。                                                                                                                     |
-| `current_value` | string 或 null | 当前值，为英文显示文本，其措辞可能会改变；在手动控制项上或未读取到值时为 `null`。                                                                                                                                                                                                                         |
-| `desired_state` | string 或 null | 推荐值，为英文显示文本，其措辞可能会改变；当此组织没有推荐值时为 `null`。                                                                                                                                                                                                                             |
-| `attestation`   | object 或 null | 响应中显示的声明，在声明未处于生效中时也会显示；当 `status` 为 `descriptive`、`not_applicable` 或 `not_evaluated` 时，以及在[声明在响应中的显示方式](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#how-an-attestation-shows-in-the-response)所列的情况下为 `null`。 |
+| 字段 | 类型 | 说明 |
+| ----- | ----- | ----- |
+| `id` | string | 控制项的标识符，对每个组织都相同，且永不改变。 |
+| `display_name` | string | 控制项的显示名称，为英文显示文本，其措辞可能会改变。 |
+| `section` | string | 控制项所属的部分，为本表之后列出的十个部分之一；可能会添加更多值，因此请将未知值视为一个独立的部分。 |
+| `setting_name` | string 或 null | 此控制项所读取的组织有效设置中条目的 `name`；当它不读取此类条目时为 `null`。 |
+| `status` | string | 控制项结果的原因；请参阅[状态值](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#status-values)。 |
+| `rating` | string | 控制项的结果，由 `status` 决定；请参阅[状态值](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#status-values)。 |
+| `current_value` | string 或 null | 当前值，为英文显示文本，其措辞可能会改变；在手动控制项上或未读取到值时为 `null`。 |
+| `desired_state` | string 或 null | 推荐值，为英文显示文本，其措辞可能会改变；当此组织没有推荐值时为 `null`。 |
+| `attestation` | object 或 null | 响应中显示的声明，在声明未处于生效中时也会显示；当 `status` 为 `descriptive`、`not_applicable` 或 `not_evaluated` 时，以及在[声明在响应中的显示方式](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#how-an-attestation-shows-in-the-response)所列的情况下为 `null`。 |
 
 `section` 为以下值之一：`identity_access`、`data_privacy`、`capabilities`、`connectors_integrations`、`chats_desktop_mdm`、`cowork_admin_console`、`cowork_desktop_mdm`、`claude_code_admin_console`、`claude_code_managed_settings` 和 `healthy_adoption`。
 
@@ -135,39 +135,39 @@ curl --fail-with-body -sS \
 
 ### `attestation` 字段
 
-| 字段            | 类型                     | 说明                                                                                                                                                       |
-| ------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `state`       | string 或 null          | 声明是否生效（`null` 表示生效）；请参阅[声明的生效状态](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#attestation-states)。 |
-| `attested_at` | string (RFC 3339, UTC) | 作出声明的时间。                                                                                                                                                 |
-| `comment`     | string 或 null          | 随声明保存的备注，最多 2,000 个字符；如果没有备注，或 `comments_status` 不是 `available`，则为 `null`。                                                                               |
-| `attested_by` | object 或 null          | 作出声明的人；当密钥既不持有 `read:compliance_user_data` 也不持有 `read:org_audit`、该人员的账户已被删除或正在被删除，或端点不返回该组织的声明人时为 `null`。                                                |
+| 字段 | 类型 | 说明 |
+| ----- | ----- | ----- |
+| `state` | string 或 null | 声明是否生效（`null` 表示生效）；请参阅[声明的生效状态](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/results-reference#attestation-states)。 |
+| `attested_at` | string (RFC 3339, UTC) | 作出声明的时间。 |
+| `comment` | string 或 null | 随声明保存的备注，最多 2,000 个字符；如果没有备注，或 `comments_status` 不是 `available`，则为 `null`。 |
+| `attested_by` | object 或 null | 作出声明的人；当密钥既不持有 `read:compliance_user_data` 也不持有 `read:org_audit`、该人员的账户已被删除或正在被删除，或端点不返回该组织的声明人时为 `null`。 |
 
 ### `attested_by` 字段
 
-| 字段        | 类型     | 说明                   |
-| --------- | ------ | -------------------- |
-| `type`    | string | 始终为 `user_actor`。    |
+| 字段 | 类型 | 说明 |
+| ----- | ----- | ----- |
+| `type` | string | 始终为 `user_actor`。 |
 | `user_id` | string | 用户的 ID，以 `user_` 开头。 |
 
 ## 状态值
 
 `status` 给出控制项结果的原因，每个状态对应一个 `rating`。
 
-| `status`                     | 控制项类型 | 含义                                   | `rating`       | 页面上的显示                   |
-| ---------------------------- | ----- | ------------------------------------ | -------------- | ------------------------ |
-| `passed`                     | 自动    | 当前值满足推荐值。                            | `passed`       | “通过”                     |
-| `matches_profile`            | 自动    | 当前值等于推荐值。                            | `passed`       | “通过”                     |
-| `exceeds_baseline`           | 自动    | 当前值比推荐值更严格。                          | `passed`       | “通过”                     |
-| `failed_check_accepted_risk` | 自动    | 自动检查未通过，且有一项已接受风险处于生效状态。             | `passed`       | “通过”                     |
-| `failed`                     | 自动或手动 | 当前值不满足推荐值，或响应中未包含的某项声明导致此结果。         | `failed`       | “未通过”，或在有“已完成”声明生效时为“通过” |
-| `review`                     | 自动    | 当前值比推荐值更宽松。                          | `failed`       | “未通过”                    |
-| `attested_completed`         | 手动    | 值为“已完成”（`completed`）的声明处于生效状态。       | `passed`       | “通过”                     |
-| `attested_accepted_risk`     | 手动    | 值为“已接受风险”（`accepted_risk`）的声明处于生效状态。 | `passed`       | “通过”                     |
-| `not_attested`               | 手动    | 没有声明处于生效状态。                          | `not_attested` | “未声明”                    |
-| `attestation_not_enabled`    | 手动    | 任何人都无法对该控制项作出声明。                     | `not_attested` | “描述性”                    |
-| `descriptive`                | 仅供参考  | 该控制项仅作报告，未评定。                        | `descriptive`  | “描述性”                    |
-| `not_applicable`             | 任意    | 该控制项不适用于该组织。                         | `descriptive`  | “描述性”                    |
-| `not_evaluated`              | 任意    | 无法读取该设置，或无法读取决定该控制项是否适用的另一项设置。       | `descriptive`  | “描述性”                    |
+| `status` | 控制项类型 | 含义 | `rating` | 页面上的显示 |
+| ----- | ----- | ----- | ----- | ----- |
+| `passed` | 自动 | 当前值满足推荐值。 | `passed` | “通过” |
+| `matches_profile` | 自动 | 当前值等于推荐值。 | `passed` | “通过” |
+| `exceeds_baseline` | 自动 | 当前值比推荐值更严格。 | `passed` | “通过” |
+| `failed_check_accepted_risk` | 自动 | 自动检查未通过，且有一项已接受风险处于生效状态。 | `passed` | “通过” |
+| `failed` | 自动或手动 | 当前值不满足推荐值，或响应中未包含的某项声明导致此结果。 | `failed` | “未通过”，或在有“已完成”声明生效时为“通过” |
+| `review` | 自动 | 当前值比推荐值更宽松。 | `failed` | “未通过” |
+| `attested_completed` | 手动 | 值为“已完成”（`completed`）的声明处于生效状态。 | `passed` | “通过” |
+| `attested_accepted_risk` | 手动 | 值为“已接受风险”（`accepted_risk`）的声明处于生效状态。 | `passed` | “通过” |
+| `not_attested` | 手动 | 没有声明处于生效状态。 | `not_attested` | “未声明” |
+| `attestation_not_enabled` | 手动 | 任何人都无法对该控制项作出声明。 | `not_attested` | “描述性” |
+| `descriptive` | 仅供参考 | 该控制项仅作报告，未评定。 | `descriptive` | “描述性” |
+| `not_applicable` | 任意 | 该控制项不适用于该组织。 | `descriptive` | “描述性” |
+| `not_evaluated` | 任意 | 无法读取该设置，或无法读取决定该控制项是否适用的另一项设置。 | `descriptive` | “描述性” |
 
 没有字段标明控制项的类型；对于 `failed`，`current_value` 为 `null` 表示这是手动控制项。可能会添加更多值，因此请按 `rating` 统计具有未知 `status` 的控制项，并将未知的 `rating` 视为未获“通过”。状态 `review` 与生效状态 `review_due` 无关。
 
@@ -175,13 +175,13 @@ curl --fail-with-body -sS \
 
 `state` 说明响应中显示的声明是否生效。
 
-| `state`           | 含义                                     |
-| ----------------- | -------------------------------------- |
-| `in_force`        | 该声明生效中。                                |
-| `null`            | 该声明生效中，与 `in_force` 相同。此状态仅出现在手动控制项上。  |
-| `review_due`      | 已到结束日期。                                |
+| `state` | 含义 |
+| ----- | ----- |
+| `in_force` | 该声明生效中。 |
+| `null` | 该声明生效中，与 `in_force` 相同。此状态仅出现在手动控制项上。 |
+| `review_due` | 已到结束日期。 |
 | `setting_changed` | 检查在已接受风险的值以外的其他值上未通过，或该已接受风险此前已被记录为终止。 |
-| `check_passing`   | 检查通过，因此没有需要接受的风险。                      |
+| `check_passing` | 检查通过，因此没有需要接受的风险。 |
 
 当适用的原因超过一个时，响应按 `check_passing`、`setting_changed`、`review_due` 的顺序给出第一个适用的原因。从结束日期当天 00:00 UTC 起，声明不再生效。响应中没有结束日期，因此由 `state` 决定；已保存的结束日期即声明活动的 [`review_date`](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#attestation-activity)。请将未知的 `state` 视为未生效。
 
@@ -189,23 +189,23 @@ curl --fail-with-body -sS \
 
 响应会显示某些声明而省略其他声明，因此 `attestation` 为 `null` 并不能证明没有人作出声明。
 
-| 控制项类型      | 声明为                     | `status`                                                 | `rating`       | `attestation`                          |
-| ---------- | ----------------------- | -------------------------------------------------------- | -------------- | -------------------------------------- |
-| 手动         | 无声明                     | `not_attested`；如果任何人都无法作出声明，则为 `attestation_not_enabled` | `not_attested` | `null`                                 |
-| 手动         | “已完成”                   | `attested_completed`                                     | `passed`       | 显示                                     |
-| 手动         | “已接受风险”                 | `attested_accepted_risk`                                 | `passed`       | 显示                                     |
-| 手动         | “未通过”（`control_failed`） | `failed`                                                 | `failed`       | `null`：从不显示                            |
-| 自动，检查未通过   | 无声明                     | `failed` 或 `review`                                      | `failed`       | `null`                                 |
-| 自动，检查未通过   | “已接受风险”                 | `failed_check_accepted_risk`                             | `passed`       | 显示                                     |
-| 自动，检查未通过   | “已完成”                   | `failed`，即使自动检查给出的是 `review`                             | `failed`       | `null`：从不显示                            |
-| 自动，检查未通过   | “未通过”                   | 自动检查给出的 `status`                                         | `failed`       | `null`：从不显示                            |
-| 自动，检查通过    | 无声明                     | `passed`、`matches_profile` 或 `exceeds_baseline`          | `passed`       | `null`                                 |
-| 自动，检查通过    | “已完成”                   | 自动检查给出的 `status`                                         | `passed`       | `null`：从不显示                            |
-| 自动，检查通过    | “已接受风险”                 | 自动检查给出的 `status`                                         | `passed`       | 在检查基于已接受的值通过期间为 `null`                 |
-| 自动，检查通过    | “未通过”                   | `failed`                                                 | `failed`       | `null`：从不显示                            |
-| 仅供参考       | 任一值                     | `descriptive`                                            | `descriptive`  | `null`：从不显示                            |
-| 任意，声明未生效期间 | 前面某行中显示的值               | 与无声明时相同                                                  | 与无声明时相同        | 显示，且 `state` 既不为 `in_force` 也不为 `null` |
-| 任意，声明未生效期间 | 前面某行中省略的值               | 与无声明时相同                                                  | 与无声明时相同        | `null`                                 |
+| 控制项类型 | 声明为 | `status` | `rating` | `attestation` |
+| ----- | ----- | ----- | ----- | ----- |
+| 手动 | 无声明 | `not_attested`；如果任何人都无法作出声明，则为 `attestation_not_enabled` | `not_attested` | `null` |
+| 手动 | “已完成” | `attested_completed` | `passed` | 显示 |
+| 手动 | “已接受风险” | `attested_accepted_risk` | `passed` | 显示 |
+| 手动 | “未通过”（`control_failed`） | `failed` | `failed` | `null`：从不显示 |
+| 自动，检查未通过 | 无声明 | `failed` 或 `review` | `failed` | `null` |
+| 自动，检查未通过 | “已接受风险” | `failed_check_accepted_risk` | `passed` | 显示 |
+| 自动，检查未通过 | “已完成” | `failed`，即使自动检查给出的是 `review` | `failed` | `null`：从不显示 |
+| 自动，检查未通过 | “未通过” | 自动检查给出的 `status` | `failed` | `null`：从不显示 |
+| 自动，检查通过 | 无声明 | `passed`、`matches_profile` 或 `exceeds_baseline` | `passed` | `null` |
+| 自动，检查通过 | “已完成” | 自动检查给出的 `status` | `passed` | `null`：从不显示 |
+| 自动，检查通过 | “已接受风险” | 自动检查给出的 `status` | `passed` | 在检查基于已接受的值通过期间为 `null` |
+| 自动，检查通过 | “未通过” | `failed` | `failed` | `null`：从不显示 |
+| 仅供参考 | 任一值 | `descriptive` | `descriptive` | `null`：从不显示 |
+| 任意，声明未生效期间 | 前面某行中显示的值 | 与无声明时相同 | 与无声明时相同 | 显示，且 `state` 既不为 `in_force` 也不为 `null` |
+| 任意，声明未生效期间 | 前面某行中省略的值 | 与无声明时相同 | 与无声明时相同 | `null` |
 
 除最后两行外，每一行都适用于声明生效期间。在自动控制项上，只要检查读取的值与保存声明时的值不同，该声明就不生效。响应在自动控制项上显示的每个声明都是已接受风险。[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)也会记录响应所省略的那些类型的声明。
 
@@ -213,10 +213,10 @@ curl --fail-with-body -sS \
 
 响应中不包含任何分数或计数，无论是总体的还是按组划分的。在 Security posture 页面上，摘要行会说明有多少控制项通过，以及该页面统计了多少控制项。要按照摘要行的方式进行统计，请统计以下条目：
 
-| 数字     | 所统计的条目                                                                                  |
-| ------ | --------------------------------------------------------------------------------------- |
-| 通过的控制项 | 评级为 `passed` 的条目                                                                        |
-| 总数     | 评级为 `passed`、`failed` 或 `not_attested` 的条目，但 `status` 为 `attestation_not_enabled` 的条目除外 |
+| 数字 | 所统计的条目 |
+| ----- | ----- |
+| 通过的控制项 | 评级为 `passed` 的条目 |
+| 总数 | 评级为 `passed`、`failed` 或 `not_attested` 的条目，但 `status` 为 `attestation_not_enabled` 的条目除外 |
 
 该页面将 `attestation_not_enabled` 条目显示为“描述性”，且不统计它们。评级为 `descriptive` 的条目不计入任何一个数字。
 
@@ -230,12 +230,12 @@ curl --fail-with-body -sS \
 
 按 `rating` 统计控制项时需要检查以下四点。
 
-| 如果您统计                 | 还需检查                                                                                      |
-| --------------------- | ----------------------------------------------------------------------------------------- |
-| “通过”（`passed`）        | 它包括每个有已接受风险生效的控制项，因此请查找 `failed_check_accepted_risk` 和 `attested_accepted_risk`。          |
-| “未通过”（`failed`）       | 它包括声明为“未通过”（`control_failed`）的控制项，以及自动检查未通过但有“已完成”声明生效的控制项，Security posture 页面将后者显示为“通过”。 |
-| “未声明”（`not_attested`） | 它包括 `status` 为 `attestation_not_enabled` 的条目，Security posture 页面将这些条目显示为“描述性”。            |
-| “描述性”（`descriptive`）  | 它可能掩盖无法读取的控制项，因此请查找 `not_evaluated`。                                                      |
+| 如果您统计 | 还需检查 |
+| ----- | ----- |
+| “通过”（`passed`） | 它包括每个有已接受风险生效的控制项，因此请查找 `failed_check_accepted_risk` 和 `attested_accepted_risk`。 |
+| “未通过”（`failed`） | 它包括声明为“未通过”（`control_failed`）的控制项，以及自动检查未通过但有“已完成”声明生效的控制项，Security posture 页面将后者显示为“通过”。 |
+| “未声明”（`not_attested`） | 它包括 `status` 为 `attestation_not_enabled` 的条目，Security posture 页面将这些条目显示为“描述性”。 |
+| “描述性”（`descriptive`） | 它可能掩盖无法读取的控制项，因此请查找 `not_evaluated`。 |
 
 Security posture 页面按产品对控制项进行分组。您无法从响应中重建这些分组。唯一的分组字段是 `section`，而页面并非仅根据部分来构建其分组。按 `section` 统计是可行的，但得到的行与页面上的不同。
 
@@ -245,13 +245,13 @@ Security posture 页面按产品对控制项进行分组。您无法从响应中
 
 此端点不返回备注，即使 Security posture 页面上显示了备注：每个 `comment` 都为 `null`，且 `comments_status` 为 `not_enabled` 或 `not_permitted`。因此，`not_enabled` 和为 `null` 的备注并不表示该声明没有备注。`comments_status` 说明如何解读为 `null` 的备注，schema 定义了以下值。
 
-| `comments_status`           | 含义                                                                                                       |
-| --------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `not_permitted`             | API 密钥既不持有 `read:compliance_user_data` 也不持有 `read:org_audit`，因此每个 `comment` 和每个 `attested_by` 都为 `null`。 |
-| `requires_organization_key` | API 密钥不是在该组织中创建的（例如父组织的密钥），因此每个 `comment` 都为 `null`。重试无济于事。                                              |
-| `available`                 | 已读取备注，因此为 `null` 的备注表示没有备注，或备注是刚刚保存的。                                                                    |
-| `not_enabled`               | 此端点不为该组织返回备注，因此每个 `comment` 都为 `null`。                                                                   |
-| `unavailable`               | 无法为此响应读取备注；稍后的请求可能会成功，但某些原因会一直持续，直到客户采取行动。                                                               |
+| `comments_status` | 含义 |
+| ----- | ----- |
+| `not_permitted` | API 密钥既不持有 `read:compliance_user_data` 也不持有 `read:org_audit`，因此每个 `comment` 和每个 `attested_by` 都为 `null`。 |
+| `requires_organization_key` | API 密钥不是在该组织中创建的（例如父组织的密钥），因此每个 `comment` 都为 `null`。重试无济于事。 |
+| `available` | 已读取备注，因此为 `null` 的备注表示没有备注，或备注是刚刚保存的。 |
+| `not_enabled` | 此端点不为该组织返回备注，因此每个 `comment` 都为 `null`。 |
+| `unavailable` | 无法为此响应读取备注；稍后的请求可能会成功，但某些原因会一直持续，直到客户采取行动。 |
 
 可能会添加更多值；请将未知值视为 `unavailable`。
 
@@ -259,15 +259,15 @@ Security posture 页面按产品对控制项进行分组。您无法从响应中
 
 错误使用与 Compliance API 其余部分相同的正文。[处理 Compliance API 错误](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors)介绍了该正文。下表列出此端点以其特有方式返回的错误。
 
-| 状态和 `error.type`                                                                  | 何时                                                                    | 处理方法                                                                                                                                              |
-| --------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 400 `invalid_request_error`                                                       | `anthropic-version` 缺失或无效、父组织未启用 Compliance API，或存在查询参数。              | 修正 `error.message` 指出的问题。                                                                                                                         |
-| 401 `authentication_error`                                                        | 密钥缺失、无法识别，或不是 Compliance Access Key 或 Admin API 密钥。                   | 在 `x-api-key` 中发送有效的 Compliance Access Key。                                                                                                       |
-| 403 `permission_error`                                                            | 该密钥不得调用此端点，通常是因为它既缺少 `read:compliance_org_data` 也缺少 `read:org_audit`。 | 使用具有其中任一作用域的密钥。                                                                                                                                   |
-| 404 `not_found_error`                                                             | 请参阅此表格之后列出的原因。                                                        | 不要立即重试。404 并不表示该组织没有未通过的控制项。                                                                                                                      |
-| 429 `rate_limit_error`                                                            | 共享的 Compliance API 速率限制或此端点更低的限制已用尽；`error.message` 会说明是哪一个。          | 等待 `retry-after` 指定的时间；请参阅 [429 Too Many Requests](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#429-too-many-requests)。 |
-| 503 `overloaded_error`，且 `error.details.error_code` 为 `posture_evaluation_failed` | 无法生成结果。                                                               | 等待 `retry-after` 指定的时间后重试；如果在之后的运行中某个组织再次出现此问题，请联系 Anthropic 支持一次。                                                                                |
-| 不带 `error_code` 的 503，或 504 `timeout_error`                                       | 临时故障。                                                                 | 使用指数退避重试。                                                                                                                                         |
+| 状态和 `error.type` | 何时 | 处理方法 |
+| ----- | ----- | ----- |
+| 400 `invalid_request_error` | `anthropic-version` 缺失或无效、父组织未启用 Compliance API，或存在查询参数。 | 修正 `error.message` 指出的问题。 |
+| 401 `authentication_error` | 密钥缺失、无法识别，或不是 Compliance Access Key 或 Admin API 密钥。 | 在 `x-api-key` 中发送有效的 Compliance Access Key。 |
+| 403 `permission_error` | 该密钥不得调用此端点，通常是因为它既缺少 `read:compliance_org_data` 也缺少 `read:org_audit`。 | 使用具有其中任一作用域的密钥。 |
+| 404 `not_found_error` | 请参阅此表格之后列出的原因。 | 不要立即重试。404 并不表示该组织没有未通过的控制项。 |
+| 429 `rate_limit_error` | 共享的 Compliance API 速率限制或此端点更低的限制已用尽；`error.message` 会说明是哪一个。 | 等待 `retry-after` 指定的时间；请参阅 [429 Too Many Requests](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#429-too-many-requests)。 |
+| 503 `overloaded_error`，且 `error.details.error_code` 为 `posture_evaluation_failed` | 无法生成结果。 | 等待 `retry-after` 指定的时间后重试；如果在之后的运行中某个组织再次出现此问题，请联系 Anthropic 支持一次。 |
+| 不带 `error_code` 的 503，或 504 `timeout_error` | 临时故障。 | 使用指数退避重试。 |
 
 404 的原因：
 

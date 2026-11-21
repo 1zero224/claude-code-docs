@@ -378,17 +378,17 @@ except anthropic.APIStatusError as e:
 
 错误码如下：
 
-| 状态码   | 错误类型                       |
-| ----- | -------------------------- |
-| 400   | `BadRequestError`          |
-| 401   | `AuthenticationError`      |
-| 403   | `PermissionDeniedError`    |
-| 404   | `NotFoundError`            |
-| 409   | `ConflictError`            |
-| 422   | `UnprocessableEntityError` |
-| 429   | `RateLimitError`           |
-| >=500 | `InternalServerError`      |
-| 不适用   | `APIConnectionError`       |
+| 状态码 | 错误类型 |
+| ----- | ----- |
+| 400 | `BadRequestError` |
+| 401 | `AuthenticationError` |
+| 403 | `PermissionDeniedError` |
+| 404 | `NotFoundError` |
+| 409 | `ConflictError` |
+| 422 | `UnprocessableEntityError` |
+| 429 | `RateLimitError` |
+| >=500 | `InternalServerError` |
+| 不适用 | `APIConnectionError` |
 
 ## 请求 ID
 
@@ -755,14 +755,14 @@ response = client.beta.messages.create(
 
 所有六个客户端类都包含在基础 `anthropic` 包中：
 
-| 提供商                                               | 客户端                                            | 额外依赖                                    |
-| ------------------------------------------------- | ---------------------------------------------- | --------------------------------------- |
-| Claude Models on Google Cloud (Google managed)    | `from anthropic import AnthropicVertex`        | `pip install "anthropic[vertex]"`       |
-| Bedrock                                           | `from anthropic import AnthropicBedrockMantle` | `pip install "anthropic[bedrock]"`      |
-| Bedrock（`bedrock-runtime` 路径）                     | `from anthropic import AnthropicBedrock`       | `pip install "anthropic[bedrock]"`      |
-| Claude Platform on AWS                            | `from anthropic import AnthropicAWS`           | `pip install "anthropic[aws]"`          |
-| Claude Models on Google Cloud (Anthropic managed) | `from anthropic import AnthropicGoogleCloud`   | `pip install "anthropic[google_cloud]"` |
-| Foundry                                           | `from anthropic import AnthropicFoundry`       | 无                                       |
+| 提供商 | 客户端 | 额外依赖 |
+| ----- | ----- | ----- |
+| Claude Models on Google Cloud (Google managed) | `from anthropic import AnthropicVertex` | `pip install "anthropic[vertex]"` |
+| Bedrock | `from anthropic import AnthropicBedrockMantle` | `pip install "anthropic[bedrock]"` |
+| Bedrock（`bedrock-runtime` 路径） | `from anthropic import AnthropicBedrock` | `pip install "anthropic[bedrock]"` |
+| Claude Platform on AWS | `from anthropic import AnthropicAWS` | `pip install "anthropic[aws]"` |
+| Claude Models on Google Cloud (Anthropic managed) | `from anthropic import AnthropicGoogleCloud` | `pip install "anthropic[google_cloud]"` |
+| Foundry | `from anthropic import AnthropicFoundry` | 无 |
 
 `AnthropicAWS` 客户端处于 beta 阶段。请将 `workspace_id` 传递给构造函数，或设置 `ANTHROPIC_AWS_WORKSPACE_ID` 环境变量。`AnthropicGoogleCloud` 客户端同样处于 beta 阶段。请将 `workspace_id` 传递给构造函数，或设置 `ANTHROPIC_GOOGLE_CLOUD_WORKSPACE_ID` 环境变量。有关客户端如何解析工作区 ID，请参阅[项目、位置和工作区解析](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#project-location-and-workspace-resolution)。
 

@@ -20,25 +20,25 @@ description: 查找活动源中记录 Security posture 页面变更的活动：�
 
 此类型新增以下字段，其中 `status` 是声明的值，`review_date` 是其结束日期。
 
-| 字段                | 类型     | 描述                                                                                                                                         |
-| ----------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `control`         | string | 声明所适用的安全控制项的标识符，例如 `oauth_conditional_access`；请将其视为不透明字符串。                                                                                 |
-| `action`          | string | 发生了什么变更，为 [`action` 值](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#action-values)之一。 |
-| `status`          | string | 声明的值：“已完成”（`completed`）、“已接受风险”（`accepted_risk`）或声明为“未通过”（`control_failed`）；撤销声明后不存在。                                                      |
-| `previous_status` | string | 此次变更之前声明的值，为上述三者之一；当 `action` 为 `attested` 时不存在。                                                                                           |
-| `review_date`     | string | 声明预定终止的 UTC 日期（ISO 8601 日期）；如果保存时未设置结束日期，或声明已被撤销，则不存在。                                                                                     |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `control` | string | 声明所适用的安全控制项的标识符，例如 `oauth_conditional_access`；请将其视为不透明字符串。 |
+| `action` | string | 发生了什么变更，为 [`action` 值](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/events-reference#action-values)之一。 |
+| `status` | string | 声明的值：“已完成”（`completed`）、“已接受风险”（`accepted_risk`）或声明为“未通过”（`control_failed`）；撤销声明后不存在。 |
+| `previous_status` | string | 此次变更之前声明的值，为上述三者之一；当 `action` 为 `attested` 时不存在。 |
+| `review_date` | string | 声明预定终止的 UTC 日期（ISO 8601 日期）；如果保存时未设置结束日期，或声明已被撤销，则不存在。 |
 
 对于仅供参考控制项，值“已审阅”记录为 `completed`。
 
 ### `action` 值
 
-| `action`   | 含义                  |
-| ---------- | ------------------- |
+| `action` | 含义 |
+| ----- | ----- |
 | `attested` | 为一个此前没有声明的控制项记录了声明。 |
-| `changed`  | 声明以另一个值重新保存。        |
-| `renewed`  | 声明以相同的值重新保存。        |
-| `cleared`  | 某人撤销了声明。            |
-| `lapsed`   | 声明自动终止，而非由某人操作。     |
+| `changed` | 声明以另一个值重新保存。 |
+| `renewed` | 声明以相同的值重新保存。 |
+| `cleared` | 某人撤销了声明。 |
+| `lapsed` | 声明自动终止，而非由某人操作。 |
 
 在 2026 年 10 月 23 日（UTC）或之前，`changed` 活动也可能记录以相同的值进行的保存。此类活动的 `created_at` 在该日或之前，且 `status` 等于 `previous_status`。
 

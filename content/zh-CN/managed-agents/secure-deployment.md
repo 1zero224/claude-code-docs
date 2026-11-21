@@ -39,19 +39,19 @@ featureMetadata:
 
 本指南列出了限制 Claude Managed Agents 上的智能体可以访问和执行哪些操作的设置，按重要性从高到低排列。每个部分都链接到完整介绍该设置的页面。
 
-| 部分                                                                                                                                                                | 设置或决策                                                                                                                                       | 推荐                                                                                                                              |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| [选择智能体的运行位置](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#choose-where-the-agent-runs)                                                 | 云端或自托管沙箱                                                                                                                                    | 云端，除非工具必须在您控制的基础设施上运行                                                                                                           |
-| [限制网络](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#limit-the-network)                                                                 | 环境的 `networking.type`                                                                                                                       | `limited`，仅包含智能体需要的主机                                                                                                           |
-| [将凭据保存在保管库中](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-credentials-in-vaults)                                                  | 每个环境变量凭据上的 `injection_location` (java, php: `injectionLocation`; csharp, go: `InjectionLocation`) 和 `networking` (csharp, go: `Networking`) | 仅限请求头，并使用 `limited` 网络，仅包含该密钥所对应的主机                                                                                             |
-| [将凭据保存在保管库中](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-credentials-in-vaults)                                                  | 您的应用程序如何向 Claude API 进行身份验证                                                                                                                 | 在可行的情况下，使用仅在一个工作区中启用的工作负载身份联合规则，否则使用限定于一个工作区的 API 密钥                                                                            |
-| [限制网页搜索和网页抓取](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#restrict-web-search-and-web-fetch)                                          | 每个 Web 工具上的 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`)                                                   | 在每个工具上设置允许列表。在 `web_fetch` 上，仅列出智能体需要的站点。在 `web_search` 上，列出您希望从中获取结果的站点                                                        |
-| [审批有风险的操作](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#approve-risky-actions)                                                         | 每个工具上的 `permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`)                                                  | 在 `bash`、`write`、`edit`、`web_fetch` 以及仅读取数据的 MCP 工具上使用 `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，或者仅凭转发的最终用户文本不应使其运行，则改为在该工具上使用 `always_ask` |
-| [为智能体提供最小的工具集](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#give-the-agent-the-smallest-tool-set)                                      | 智能体工具集上的 `default_config.enabled` (java, php: `defaultConfig.enabled`; csharp, go: `DefaultConfig.Enabled`)                                 | `false`，然后启用智能体需要的工具                                                                                                            |
-| [让不受信任的输入远离强大的工具](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-untrusted-input-away-from-powerful-tools)                          | 智能体在读取不受信任的输入时持有哪些工具和凭据                                                                                                                     | 任何读取不受信任输入的智能体都不应持有设置为 `always_allow` 且会写入文件、运行命令或更改记录的工具                                                                       |
-| [设置限制和停止方式](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#set-limits-and-a-way-to-stop)                                                 | 每个会话和部署上的 `budget` (csharp, go: `Budget`)                                                                                                   | 根据您预期的单次运行成本设定上限                                                                                                                |
-| [可选：让离线审查器阅读每份会话记录](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) | 由您运行的、读取每个会话事件的离线审查作业                                                                                                                       | 可选。按计划审查每个已进入空闲或已终止的会话                                                                                                          |
-| [监控会话并查看保留策略](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#monitor-sessions-and-review-retention)                           | Webhook 和会话删除                                                                                                                               | 在会话进入空闲、达到预算或终止时发出告警，并检查其进入空闲的原因。将您想保留的事件存储在您自己的日志中，并删除不再需要的会话                                                                  |
+| 部分 | 设置或决策 | 推荐 |
+| ----- | ----- | ----- |
+| [选择智能体的运行位置](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#choose-where-the-agent-runs) | 云端或自托管沙箱 | 云端，除非工具必须在您控制的基础设施上运行 |
+| [限制网络](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#limit-the-network) | 环境的 `networking.type` | `limited`，仅包含智能体需要的主机 |
+| [将凭据保存在保管库中](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-credentials-in-vaults) | 每个环境变量凭据上的 `injection_location` (java, php: `injectionLocation`; csharp, go: `InjectionLocation`) 和 `networking` (csharp, go: `Networking`) | 仅限请求头，并使用 `limited` 网络，仅包含该密钥所对应的主机 |
+| [将凭据保存在保管库中](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-credentials-in-vaults) | 您的应用程序如何向 Claude API 进行身份验证 | 在可行的情况下，使用仅在一个工作区中启用的工作负载身份联合规则，否则使用限定于一个工作区的 API 密钥 |
+| [限制网页搜索和网页抓取](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#restrict-web-search-and-web-fetch) | 每个 Web 工具上的 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) | 在每个工具上设置允许列表。在 `web_fetch` 上，仅列出智能体需要的站点。在 `web_search` 上，列出您希望从中获取结果的站点 |
+| [审批有风险的操作](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#approve-risky-actions) | 每个工具上的 `permission_policy` (java, php: `permissionPolicy`; csharp, go: `PermissionPolicy`) | 在 `bash`、`write`、`edit`、`web_fetch` 以及仅读取数据的 MCP 工具上使用 `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，或者仅凭转发的最终用户文本不应使其运行，则改为在该工具上使用 `always_ask` |
+| [为智能体提供最小的工具集](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#give-the-agent-the-smallest-tool-set) | 智能体工具集上的 `default_config.enabled` (java, php: `defaultConfig.enabled`; csharp, go: `DefaultConfig.Enabled`) | `false`，然后启用智能体需要的工具 |
+| [让不受信任的输入远离强大的工具](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#keep-untrusted-input-away-from-powerful-tools) | 智能体在读取不受信任的输入时持有哪些工具和凭据 | 任何读取不受信任输入的智能体都不应持有设置为 `always_allow` 且会写入文件、运行命令或更改记录的工具 |
+| [设置限制和停止方式](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#set-limits-and-a-way-to-stop) | 每个会话和部署上的 `budget` (csharp, go: `Budget`) | 根据您预期的单次运行成本设定上限 |
+| [可选：让离线审查器阅读每份会话记录](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) | 由您运行的、读取每个会话事件的离线审查作业 | 可选。按计划审查每个已进入空闲或已终止的会话 |
+| [监控会话并查看保留策略](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring#monitor-sessions-and-review-retention) | Webhook 和会话删除 | 在会话进入空闲、达到预算或终止时发出告警，并检查其进入空闲的原因。将您想保留的事件存储在您自己的日志中，并删除不再需要的会话 |
 
 [安全风险与沙箱边界](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-risks)解释了这些设置为何重要以及它们无法防范哪些情况。要审查和监控会话，请参阅[审查和监控智能体会话](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment-monitoring)。
 
@@ -227,11 +227,11 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 `limited` 环境有三个网络设置：
 
-| 设置                                                                                                                      | 向沙箱中的代码开放的内容                                                                                                                                                                                     | 推荐                                                                                                                                                                                   |
-| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`)                                                 | 您列出的主机，可用于任何请求                                                                                                                                                                                   | 仅限智能体需要的主机，包括您运营或信任的每个 MCP 服务器的主机                                                                                                                                                    |
-| `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`)                        | [包管理器主机](https://platform.claude.com/docs/zh-CN/managed-agents/environments#package-manager-hosts)。其中包括 `github.com`、`gitlab.com` 和 `bitbucket.org` 上的每个仓库和路径，任何人都可以在这些地方发布内容，沙箱中的代码也可以向这些地方上传文件 | `false`，除非环境的 `packages` (csharp, go: `Packages`) 设置列出了软件包，这种情况需要设为 `true`。如果智能体在运行时安装软件包，请改为在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中仅列出它需要的注册表主机 |
-| `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) | 不开放任何主机。Managed Agents 从 Anthropic 的服务器连接到 MCP 服务器                                                                                                                                               | `false`，并在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中列出您运营或信任的每个 MCP 服务器的主机                                                                           |
+| 设置 | 向沙箱中的代码开放的内容 | 推荐 |
+| ----- | ----- | ----- |
+| `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) | 您列出的主机，可用于任何请求 | 仅限智能体需要的主机，包括您运营或信任的每个 MCP 服务器的主机 |
+| `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) | [包管理器主机](https://platform.claude.com/docs/zh-CN/managed-agents/environments#package-manager-hosts)。其中包括 `github.com`、`gitlab.com` 和 `bitbucket.org` 上的每个仓库和路径，任何人都可以在这些地方发布内容，沙箱中的代码也可以向这些地方上传文件 | `false`，除非环境的 `packages` (csharp, go: `Packages`) 设置列出了软件包，这种情况需要设为 `true`。如果智能体在运行时安装软件包，请改为在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中仅列出它需要的注册表主机 |
+| `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) | 不开放任何主机。Managed Agents 从 Anthropic 的服务器连接到 MCP 服务器 | `false`，并在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中列出您运营或信任的每个 MCP 服务器的主机 |
 
 `allow_package_managers` (java, php: `allowPackageManagers`; csharp, go: `AllowPackageManagers`) 和 `allow_mcp_servers` (java: `allowMcpServers`; php: `allowMCPServers`; csharp: `AllowMcpServers`; go: `AllowMCPServers`) 设置不会为网页搜索和网页抓取添加任何主机。
 
@@ -258,12 +258,12 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 将每个密钥都存储在保管库中。对于每个环境变量凭据，将注入位置设置为仅限请求头，并仅列出该密钥所针对的主机。沙箱中的代码看到的是占位符而非密钥。Managed Agents 仅在发往该凭据所允许主机的出站 HTTPS 请求中替换为真实密钥。因此，密钥不会被模型直接获取，除非某个服务将其发回，例如会回显请求头的端点。如果凭据的 `networking` (csharp, go: `Networking`) 为 `unrestricted`，Managed Agents 会在发往环境允许沙箱访问的任何主机的请求中替换为真实密钥。要使用保管库，请在创建会话或部署时在 `vault_ids` (java: `vaultIds`; php: `vaultIDs`; csharp: `VaultIds`; go: `VaultIDs`) 中传入其 ID。
 
-| 设置                                                                                     | 设置为                                                                                            | 原因                                                                           | 它不能做什么                                           |
-| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------ |
-| `injection_location` (java, php: `injectionLocation`; csharp, go: `InjectionLocation`) | `{"header": true, "body": false}`，在您确认服务从请求头读取密钥之后                                             | 请求体通常由智能体读取的内容构建，因此请求体中的密钥暴露风险更高。请同时指定两个字段：省略该对象的创建请求会同时启用两个位置，而更新只会更改您发送的字段 | 代码仍然可以在凭据允许的每个主机上使用该密钥。期望在请求体中接收密钥的服务会收到占位符并拒绝请求 |
-| 凭据上的 `networking` (csharp, go: `Networking`)                                           | `limited`，并列出该密钥所对应的确切主机                                                                       | 响应会未经脱敏地到达沙箱，因此请避免使用通配符、共享托管域名以及回显请求头的主机                                     | 它不会开放该主机。环境也必须允许该主机                              |
-| 密钥的权限，在签发该密钥的服务处设置                                                                     | 仅限智能体需要的权限                                                                                     | 智能体可以执行该密钥允许的任何操作                                                            | 不适用                                              |
-| 已挂载仓库的 GitHub 令牌                                                                       | 具有最低权限的[细粒度令牌](https://platform.claude.com/docs/zh-CN/managed-agents/github#token-permissions) | 沙箱中的代码可以在整个会话期间使用它从已挂载的仓库拉取和推送。仅当智能体必须推送时才授予写入权限                             | 不适用                                              |
+| 设置 | 设置为 | 原因 | 它不能做什么 |
+| ----- | ----- | ----- | ----- |
+| `injection_location` (java, php: `injectionLocation`; csharp, go: `InjectionLocation`) | `{"header": true, "body": false}`，在您确认服务从请求头读取密钥之后 | 请求体通常由智能体读取的内容构建，因此请求体中的密钥暴露风险更高。请同时指定两个字段：省略该对象的创建请求会同时启用两个位置，而更新只会更改您发送的字段 | 代码仍然可以在凭据允许的每个主机上使用该密钥。期望在请求体中接收密钥的服务会收到占位符并拒绝请求 |
+| 凭据上的 `networking` (csharp, go: `Networking`) | `limited`，并列出该密钥所对应的确切主机 | 响应会未经脱敏地到达沙箱，因此请避免使用通配符、共享托管域名以及回显请求头的主机 | 它不会开放该主机。环境也必须允许该主机 |
+| 密钥的权限，在签发该密钥的服务处设置 | 仅限智能体需要的权限 | 智能体可以执行该密钥允许的任何操作 | 不适用 |
+| 已挂载仓库的 GitHub 令牌 | 具有最低权限的[细粒度令牌](https://platform.claude.com/docs/zh-CN/managed-agents/github#token-permissions) | 沙箱中的代码可以在整个会话期间使用它从已挂载的仓库拉取和推送。仅当智能体必须推送时才授予写入权限 | 不适用 |
 
 客服智能体不需要保管库凭据，因为您的应用程序持有订单 API 的 API 密钥。如果您的智能体确实持有保管库凭据，请参阅[添加凭证](https://platform.claude.com/docs/zh-CN/managed-agents/vaults#add-a-credential)，了解各种语言的请求示例。
 
@@ -285,38 +285,38 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 在 `limited` 环境中，[限制网络](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#limit-the-network)中的 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 列表也会限制 Web 工具。`unrestricted` 环境或自托管沙箱不会限制 Web 工具。
 
-| 在 `limited` 环境中                                            | 结果                                                                                             |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| 在 `limited` 环境中 | 结果 |
+| ----- | ----- |
 | 已启用的 Web 工具上的某个 `allowed_domains` 条目不在 `allowed_hosts` 范围内 | 创建会话会失败并返回 400 错误，添加此类条目的会话更新也会失败。由部署按计划或通过手动运行启动的会话仍会被创建。之后该工具不会从 `allowed_hosts` 之外的主机返回任何内容 |
-| 某个 Web 工具没有自己的列表                                           | 该工具仅返回来自 `allowed_hosts` 中主机的页面和结果。也请在该工具上设置 `allowed_domains`                                 |
-| `allowed_hosts` 没有任何条目                                     | 两个 Web 工具都不会返回任何页面或搜索结果                                                                        |
-| 您为某个 Web 工具向 `allowed_hosts` 添加了一个主机                       | 该主机也会向沙箱中的代码开放                                                                                 |
+| 某个 Web 工具没有自己的列表 | 该工具仅返回来自 `allowed_hosts` 中主机的页面和结果。也请在该工具上设置 `allowed_domains` |
+| `allowed_hosts` 没有任何条目 | 两个 Web 工具都不会返回任何页面或搜索结果 |
+| 您为某个 Web 工具向 `allowed_hosts` 添加了一个主机 | 该主机也会向沙箱中的代码开放 |
 
 这两个列表匹配主机的方式不同：
 
-| 列表                        | 条目              | 匹配                    | 不匹配               |
-| ------------------------- | --------------- | --------------------- | ----------------- |
-| `allowed_hosts`（环境）       | `example.com`   | `example.com`         | `www.example.com` |
-| `allowed_hosts`（环境）       | `*.example.com` | 每个子域名                 | `example.com`     |
-| `allowed_domains`（Web 工具） | `example.com`   | `example.com` 及其每个子域名 | 其他域名              |
+| 列表 | 条目 | 匹配 | 不匹配 |
+| ----- | ----- | ----- | ----- |
+| `allowed_hosts`（环境） | `example.com` | `example.com` | `www.example.com` |
+| `allowed_hosts`（环境） | `*.example.com` | 每个子域名 | `example.com` |
+| `allowed_domains`（Web 工具） | `example.com` | `example.com` 及其每个子域名 | 其他域名 |
 
 如果智能体需要某个站点及其所有子域名，请在 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 中同时列出 `example.com` 和 `*.example.com`，否则请列出确切的主机。如果某个工具列出了 `example.com`，而 `allowed_hosts` (java, php: `allowedHosts`; csharp, go: `AllowedHosts`) 仅列出了 `*.example.com`，会话仍会被创建。会话创建时的检查会将 `example.com` 视为在 `*.example.com` 范围内，但该工具不会从 `example.com` 本身返回任何内容。有关这两个列表如何匹配，请参阅[在智能体上设置域名列表](https://platform.claude.com/docs/zh-CN/managed-agents/tools-web-restrictions#set-domain-lists-on-an-agent)。
 
 `web_fetch` 工具也只会打开已在会话中出现过的 URL：
 
-| URL 出现的位置                                | `web_fetch` 能否打开            |
-| ---------------------------------------- | --------------------------- |
-| 用户消息的文本，包括您转发的最终用户文本                     | 能                           |
-| `user.define_outcome` 事件的描述              | 能                           |
-| 网页搜索结果的地址                                | 能                           |
-| `web_fetch` 之前返回的页面文本（非 PDF），其中显示了完整 URL | 能                           |
-| 自定义工具结果的文本，当 Claude 直接调用该工具时             | 能，除非结果被标记为 `is_error: true` |
-| 系统提示                                     | 不能                          |
-| 智能体的配置，包括 `allowed_domains` 条目           | 不能                          |
-| Claude 自己的输出                             | 不能                          |
-| `bash` 和其他沙箱工具的输出                        | 不能                          |
-| MCP 工具结果                                 | 不能                          |
-| 附加到用户消息的文件                               | 不能                          |
+| URL 出现的位置 | `web_fetch` 能否打开 |
+| ----- | ----- |
+| 用户消息的文本，包括您转发的最终用户文本 | 能 |
+| `user.define_outcome` 事件的描述 | 能 |
+| 网页搜索结果的地址 | 能 |
+| `web_fetch` 之前返回的页面文本（非 PDF），其中显示了完整 URL | 能 |
+| 自定义工具结果的文本，当 Claude 直接调用该工具时 | 能，除非结果被标记为 `is_error: true` |
+| 系统提示 | 不能 |
+| 智能体的配置，包括 `allowed_domains` 条目 | 不能 |
+| Claude 自己的输出 | 不能 |
+| `bash` 和其他沙箱工具的输出 | 不能 |
+| MCP 工具结果 | 不能 |
+| 附加到用户消息的文件 | 不能 |
 
 在多智能体会话中，只有当来自另一个智能体的 URL 是通过标记为"能"的来源到达该智能体时，`web_fetch` 才会打开它。直接调用的自定义工具结果算作标记为"能"的来源。即使其文本是由 Claude 编写的（例如当工具重复其输入时），这一点也成立。即使 URL 在书写时没有 `https://`（例如 `example.com/docs`），也可能被计入。`web_fetch` 工具并不总能打开显示文字而非 URL 的链接，例如"联系支持"。如果智能体必须获取尚未在会话中出现过的 URL，请在用户消息中发送该 URL。
 
@@ -328,15 +328,15 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 在 `bash`、`write`、`edit`、`web_fetch` 以及仅读取数据的 MCP 工具上设置 `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，请改为在该工具上使用 `always_ask`。如果您转发的最终用户文本不应足以让某个工具运行，也请在该工具上使用它。[权限策略](https://platform.claude.com/docs/zh-CN/managed-agents/permission-policies)决定服务器是允许工具调用、将其保留以等待您的审批，还是对其进行评估。
 
-| 工具                    | 推荐策略                                                                                      | 原因                                                                                                     |
-| --------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `read`、`glob`、`grep`  | `always_allow`                                                                            | 它们读取沙箱中的文件，不做任何更改                                                                                      |
-| `bash`、`write`、`edit` | `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，请在该工具上使用 `always_ask`。如果您转发最终用户文本，请在 `bash` 上使用 `always_ask` | 智能体工具集的默认值是 `always_allow`，它会在未经审批的情况下运行每个调用                                                           |
-| `web_fetch`           | `auto`                                                                                    | 智能体获取的 URL 可能将数据携带到其指向的站点                                                                              |
-| `web_search`          | 如果智能体处理您不希望在搜索查询中发送的数据，则使用 `always_ask`。否则使用 `always_allow`                               | `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) 限制的是结果来自哪些站点，而不是查询包含什么内容 |
-| 仅读取数据的 MCP 工具         | `auto`，在工具集的 `configs` (csharp, go: `Configs`) 中为每个工具单独设置                                 | 工具集默认值保持为 `always_ask`，因此 MCP 服务器之后添加的工具仍会等待审批                                                         |
-| 更改数据的 MCP 工具          | `always_ask`                                                                              | 这是 MCP 工具集的默认值。请保持不变                                                                                   |
-| 自定义工具                 | 由您的代码决定每个调用是否运行                                                                           | 权限策略不适用                                                                                                |
+| 工具 | 推荐策略 | 原因 |
+| ----- | ----- | ----- |
+| `read`、`glob`、`grep` | `always_allow` | 它们读取沙箱中的文件，不做任何更改 |
+| `bash`、`write`、`edit` | `auto`。如果您无法撤销某个工具在沙箱之外所做的更改，请在该工具上使用 `always_ask`。如果您转发最终用户文本，请在 `bash` 上使用 `always_ask` | 智能体工具集的默认值是 `always_allow`，它会在未经审批的情况下运行每个调用 |
+| `web_fetch` | `auto` | 智能体获取的 URL 可能将数据携带到其指向的站点 |
+| `web_search` | 如果智能体处理您不希望在搜索查询中发送的数据，则使用 `always_ask`。否则使用 `always_allow` | `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) 限制的是结果来自哪些站点，而不是查询包含什么内容 |
+| 仅读取数据的 MCP 工具 | `auto`，在工具集的 `configs` (csharp, go: `Configs`) 中为每个工具单独设置 | 工具集默认值保持为 `always_ask`，因此 MCP 服务器之后添加的工具仍会等待审批 |
+| 更改数据的 MCP 工具 | `always_ask` | 这是 MCP 工具集的默认值。请保持不变 |
+| 自定义工具 | 由您的代码决定每个调用是否运行 | 权限策略不适用 |
 
 [为智能体提供最小的工具集](https://platform.claude.com/docs/zh-CN/managed-agents/secure-deployment#give-the-agent-the-smallest-tool-set)中的工具集应用了这些策略。
 
@@ -354,11 +354,11 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 将 `default_config.enabled` (java, php: `defaultConfig.enabled`; csharp, go: `DefaultConfig.Enabled`) 设置为 `false`，并[仅启用智能体需要的工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools#enabling-only-specific-tools)。智能体工具集默认启用全部八个内置工具。
 
-| 工具                       | 作用                              |
-| ------------------------ | ------------------------------- |
-| `bash`                   | 运行任何命令，包括向允许的主机发出请求             |
-| `write`、`edit`           | 更改沙箱中的文件                        |
-| `read`、`glob`、`grep`     | 读取沙箱中的文件                        |
+| 工具 | 作用 |
+| ----- | ----- |
+| `bash` | 运行任何命令，包括向允许的主机发出请求 |
+| `write`、`edit` | 更改沙箱中的文件 |
+| `read`、`glob`、`grep` | 读取沙箱中的文件 |
 | `web_fetch`、`web_search` | 通过 Anthropic 的服务器返回来自网络的页面和搜索结果 |
 
 客服智能体需要三个内置工具：用于起草回复的 `read` 和 `write`，以及用于访问帮助中心的 `web_fetch`。它通过由您的应用程序运行的[自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools#custom-tools) `lookup_order` 查询订单。您的应用程序持有订单 API 的 API 密钥，因此智能体既不需要 `bash`，也不需要凭据。
@@ -808,13 +808,13 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 不受信任输入中的文本可以指示智能体使用其持有的强大工具。客服智能体会读取工单，因此它只能通过自定义工具 `lookup_order` 访问您的订单 API。您的应用程序会检查该订单是否属于工单的发送者。
 
-| 智能体读取的输入       | 它同时拥有的能力                                                                                                  | 应对措施                                                                                                                                                                                          |
-| -------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 工单、电子邮件或上传内容   | 带有凭据的 `bash`                                                                                              | 用只做一件事的自定义工具替换 `bash`。如果智能体必须保留 `bash`，请使用 `always_ask` 审批每个调用                                                                                                                                |
-| 网页或搜索结果        | 写入文件或更改记录                                                                                                 | 关闭 Web 工具，或将其限制为您运营或信任的站点                                                                                                                                                                     |
-| MCP 结果或仓库文件    | 会写入的 MCP 工具                                                                                               | 将 MCP 工具集保持为 `always_ask`，并仅启用智能体需要的工具                                                                                                                                                        |
-| 已挂载的 GitHub 仓库 | 任何工具                                                                                                      | 仅挂载您信任的仓库。拥有 `read` 的智能体会将仓库 `.claude/skills` 目录中的技能作为智能体指令加载，且没有审查步骤。请参阅[从 GitHub 仓库加载技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills#load-skills-from-a-github-repository) |
-| 任何不受信任的输入      | 写入[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory#attach-a-memory-store-to-a-session) | 除非智能体必须写入，否则以 `read_only` 方式附加存储。默认值为 `read_write`，之后的会话会将已保存的文本作为受信任的记忆读取                                                                                                                    |
+| 智能体读取的输入 | 它同时拥有的能力 | 应对措施 |
+| ----- | ----- | ----- |
+| 工单、电子邮件或上传内容 | 带有凭据的 `bash` | 用只做一件事的自定义工具替换 `bash`。如果智能体必须保留 `bash`，请使用 `always_ask` 审批每个调用 |
+| 网页或搜索结果 | 写入文件或更改记录 | 关闭 Web 工具，或将其限制为您运营或信任的站点 |
+| MCP 结果或仓库文件 | 会写入的 MCP 工具 | 将 MCP 工具集保持为 `always_ask`，并仅启用智能体需要的工具 |
+| 已挂载的 GitHub 仓库 | 任何工具 | 仅挂载您信任的仓库。拥有 `read` 的智能体会将仓库 `.claude/skills` 目录中的技能作为智能体指令加载，且没有审查步骤。请参阅[从 GitHub 仓库加载技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills#load-skills-from-a-github-repository) |
+| 任何不受信任的输入 | 写入[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory#attach-a-memory-store-to-a-session) | 除非智能体必须写入，否则以 `read_only` 方式附加存储。默认值为 `read_write`，之后的会话会将已保存的文本作为受信任的记忆读取 |
 
 在云环境中，使用 `read` 读取文件还可能将 `CLAUDE.md` 和 `AGENTS.md` 文件作为指令加载。它们从该文件所在目录及其父目录加载，直到沙箱的工作目录为止。它们通过 `@` 加路径引用的文件（例如 `@docs/setup.md`）也会被加载，最多可嵌套五层引用。引用可以指向沙箱中的任何位置，例如 `@/etc/hosts`。除了禁用 `read` 之外，没有任何设置可以关闭此行为，因此请将您团队之外的人可以写入的仓库、软件包或归档文件视为不受信任的输入。
 
@@ -826,11 +826,11 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 分离设计使用三个智能体：
 
-| 智能体             | 读取                | 持有                                                                                                                                                | 传递                  |
-| --------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| 主智能体（会话所运行的智能体） | 您的消息，以及其他智能体返回的内容 | 无内置工具。其 `subagents` (csharp, go: `Subagents`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表中指定了获取者和写入者 | 给每个智能体的任务           |
-| 获取者             | 网页和搜索结果           | 仅 `web_fetch` 和 `web_search`，每个都带有 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`)                                  | 简短的结果，格式由您在其系统提示中指定 |
-| 写入者             | 来自主智能体的任务         | 写入文件、运行命令或更改记录的工具，设置为 `auto` 或 `always_ask`。没有 Web 工具                                                                                             | 其结果                 |
+| 智能体 | 读取 | 持有 | 传递 |
+| ----- | ----- | ----- | ----- |
+| 主智能体（会话所运行的智能体） | 您的消息，以及其他智能体返回的内容 | 无内置工具。其 `subagents` (csharp, go: `Subagents`) 的 `predefined_agents` (java, php: `predefinedAgents`; csharp, go: `PredefinedAgents`) 列表中指定了获取者和写入者 | 给每个智能体的任务 |
+| 获取者 | 网页和搜索结果 | 仅 `web_fetch` 和 `web_search`，每个都带有 `allowed_domains` (java, php: `allowedDomains`; csharp, go: `AllowedDomains`) | 简短的结果，格式由您在其系统提示中指定 |
+| 写入者 | 来自主智能体的任务 | 写入文件、运行命令或更改记录的工具，设置为 `auto` 或 `always_ask`。没有 Web 工具 | 其结果 |
 
 获取者基于不受信任的页面构建其结果，主智能体可能会将其文本传递给写入者。请在写入者的工具上保持 `auto` 或 `always_ask`。获取者仍然可以将其读取的部分内容发送到其 `web_fetch` 列表中的站点，并通过查询发送给搜索提供商。
 
@@ -840,14 +840,14 @@ Claude Code 附带的 [Claude API 技能](https://platform.claude.com/docs/zh-CN
 
 在创建每个会话时设置预算，并提前决定如何停止智能体。
 
-| 控制措施                                                                                                                  | 作用                                                                                                                                                                                                                                                       |
-| --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 会话预算                                                                                                                  | 按公开标价计算的支出上限。达到上限时，会话及每个[线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)都会暂停。正在进行的请求可以完成，其工具调用仍会运行，因此支出可能超过上限。请参阅[当会话达到其预算时](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#when-a-session-reaches-its-budget) |
-| 部署预算                                                                                                                  | 相同的上限，应用于部署启动的每个会话                                                                                                                                                                                                                                       |
-| [`user.interrupt` 事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#interrupt-the-agent) | 立即停止模型响应。正在运行的工具调用可以先完成。会话进入 `idle` 状态（除非某个工作流运行使其保持 `running`），并在您发送下一条消息时恢复。中断不会结束任何工作流运行                                                                                                                                                              |
-| 归档或删除会话                                                                                                               | 归档会保留历史记录并阻止新事件。删除是永久性的，会删除记录、事件和沙箱                                                                                                                                                                                                                      |
-| 暂停或归档部署                                                                                                               | 暂停会停止新的计划运行，但仍允许手动运行。归档会永久结束计划。已在运行的会话会继续运行                                                                                                                                                                                                              |
-| 归档或删除保管库或凭据                                                                                                           | 无需重启即可从正在运行的会话中移除密钥。请预留一定的延迟时间。会话会继续运行，因此也请中断它们。智能体已使用该密钥获取的令牌会保留在沙箱中                                                                                                                                                                                    |
+| 控制措施 | 作用 |
+| ----- | ----- |
+| 会话预算 | 按公开标价计算的支出上限。达到上限时，会话及每个[线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)都会暂停。正在进行的请求可以完成，其工具调用仍会运行，因此支出可能超过上限。请参阅[当会话达到其预算时](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#when-a-session-reaches-its-budget) |
+| 部署预算 | 相同的上限，应用于部署启动的每个会话 |
+| [`user.interrupt` 事件](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#interrupt-the-agent) | 立即停止模型响应。正在运行的工具调用可以先完成。会话进入 `idle` 状态（除非某个工作流运行使其保持 `running`），并在您发送下一条消息时恢复。中断不会结束任何工作流运行 |
+| 归档或删除会话 | 归档会保留历史记录并阻止新事件。删除是永久性的，会删除记录、事件和沙箱 |
+| 暂停或归档部署 | 暂停会停止新的计划运行，但仍允许手动运行。归档会永久结束计划。已在运行的会话会继续运行 |
+| 归档或删除保管库或凭据 | 无需重启即可从正在运行的会话中移除密钥。请预留一定的延迟时间。会话会继续运行，因此也请中断它们。智能体已使用该密钥获取的令牌会保留在沙箱中 |
 
 要停止正在运行的智能体，请按照以下步骤操作：
 

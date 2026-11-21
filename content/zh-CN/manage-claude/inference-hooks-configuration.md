@@ -60,15 +60,15 @@ description: 为您的 Claude Enterprise 组织允许推理钩子，连接您的
 
     常见的失败结果：
 
-    | 结果       | 检查内容                                                      |
-    | -------- | --------------------------------------------------------- |
-    | URL 被拒绝  | URL 未通过结构检查。请使用 443 端口上的 `https://` URL。                  |
-    | 私有或内部 IP | URL 的主机是私有或内部 IP 地址、IPv6 地址或 `localhost`。请使用可公开路由的主机。     |
-    | 超时       | AI 安全服务器未在超时时间内返回裁决。                                      |
-    | 传输错误     | DNS 解析、TLS 握手或连接失败，或者主机名解析为私有地址。                          |
-    | 非 200 状态 | AI 安全服务器返回了 200 以外的状态码。裁决必须以 HTTP 200 返回；重定向不会被跟随，并计为失败。  |
-    | 无法解析的响应  | AI 安全服务器已响应，但响应体不是有效的裁决。                                  |
-    | 需要签名密钥   | 您的组织没有签名密钥，因此测试请求将以未签名的方式发送。请点击**请求签名**下的**生成密钥**，然后再次测试。 |
+    | 结果 | 检查内容 |
+    | ----- | ----- |
+    | URL 被拒绝 | URL 未通过结构检查。请使用 443 端口上的 `https://` URL。 |
+    | 私有或内部 IP | URL 的主机是私有或内部 IP 地址、IPv6 地址或 `localhost`。请使用可公开路由的主机。 |
+    | 超时 | AI 安全服务器未在超时时间内返回裁决。 |
+    | 传输错误 | DNS 解析、TLS 握手或连接失败，或者主机名解析为私有地址。 |
+    | 非 200 状态 | AI 安全服务器返回了 200 以外的状态码。裁决必须以 HTTP 200 返回；重定向不会被跟随，并计为失败。 |
+    | 无法解析的响应 | AI 安全服务器已响应，但响应体不是有效的裁决。 |
+    | 需要签名密钥 | 您的组织没有签名密钥，因此测试请求将以未签名的方式发送。请点击**请求签名**下的**生成密钥**，然后再次测试。 |
   </Step>
 
   <Step title="选择故障处理和超时">
@@ -141,15 +141,15 @@ Shadow mode（影子模式）会针对实时流量运行您的钩子，但不会
 
 **近期错误**中的错误类型含义如下：
 
-| 显示的错误                                                | 含义                                                                                   | 是否计入断路器 |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------ | ------- |
-| `DlpWebhookTimeoutError` · `webhook_error`           | 您的 AI 安全服务器未在您设置的**提示词裁定超时（毫秒）** 内返回裁决。                                              | 是       |
-| `DlpWebhookStatusError` · `webhook_error`            | 您的 AI 安全服务器返回了 200 以外的 HTTP 状态，例如重定向。                                                | 是       |
-| `DlpWebhookResponseError` · `webhook_error`          | 您的 AI 安全服务器返回了 200，但响应体不是有效的裁决，或大于 64 KiB。                                           | 是       |
-| `DlpWebhookTransportError` · `webhook_error`         | 在收到完整响应之前连接失败或中断：例如，主机名无法解析或解析为私有地址、连接被拒绝或重置，或 TLS 握手失败。Anthropic 一侧的网络问题也可能以这种方式显示。 | 否       |
-| `DlpWebhookDisallowedAddressError` · `webhook_error` | 端点 URL 的主机是私有或内部 IP 地址、IPv6 地址或 `localhost`。解析为此类地址的主机名则会显示为传输错误。                    | 是       |
-| `DlpWebhookBlockedError` · `webhook_error`           | 端点 URL 不是 443 端口上的 `https://` URL，或无法解析，因此未发送任何请求。                                   | 否       |
-| `DlpWebhookRelayError` · `relay_error`               | 故障发生在 Anthropic 系统内部，通常未联系您的 AI 安全服务器。                                               | 否       |
+| 显示的错误 | 含义 | 是否计入断路器 |
+| ----- | ----- | ----- |
+| `DlpWebhookTimeoutError` · `webhook_error` | 您的 AI 安全服务器未在您设置的**提示词裁定超时（毫秒）** 内返回裁决。 | 是 |
+| `DlpWebhookStatusError` · `webhook_error` | 您的 AI 安全服务器返回了 200 以外的 HTTP 状态，例如重定向。 | 是 |
+| `DlpWebhookResponseError` · `webhook_error` | 您的 AI 安全服务器返回了 200，但响应体不是有效的裁决，或大于 64 KiB。 | 是 |
+| `DlpWebhookTransportError` · `webhook_error` | 在收到完整响应之前连接失败或中断：例如，主机名无法解析或解析为私有地址、连接被拒绝或重置，或 TLS 握手失败。Anthropic 一侧的网络问题也可能以这种方式显示。 | 否 |
+| `DlpWebhookDisallowedAddressError` · `webhook_error` | 端点 URL 的主机是私有或内部 IP 地址、IPv6 地址或 `localhost`。解析为此类地址的主机名则会显示为传输错误。 | 是 |
+| `DlpWebhookBlockedError` · `webhook_error` | 端点 URL 不是 443 端口上的 `https://` URL，或无法解析，因此未发送任何请求。 | 否 |
+| `DlpWebhookRelayError` · `relay_error` | 故障发生在 Anthropic 系统内部，通常未联系您的 AI 安全服务器。 | 否 |
 
 在影子模式下，任何错误都不会计入断路器。
 

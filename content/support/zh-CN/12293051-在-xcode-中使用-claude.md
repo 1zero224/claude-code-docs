@@ -34,7 +34,7 @@ Claude Sonnet 4 为 Xcode 中的多项编码智能功能提供支持：
 
 3. 使用您的 Claude 账户登录。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1727371585/b18ca03a6357c52d12d10386f28e/dab2dcb2-f670-4173-b77d-38767a34cec1?expires=1795099500&amp;signature=22aa605a3f40b93e027b760b7996331b2eed402c246f47293ad61c5e9e4076ad&amp;req=dSclEcp5nIRXXPMW1HO4zUAXIskCW6HRFalhp3bugHIDFZckOt2GVHeXKxFw%0Af0%2BkIFAR4lzrdMFd%2FlA%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1727371585/b18ca03a6357c52d12d10386f28e/dab2dcb2-f670-4173-b77d-38767a34cec1?expires=1795269600&amp;signature=52a0924d4b3a31aa0da7ddb211a410858f0bf2c6ab88b9255c8f9c26d7b2a8ac&amp;req=dSclEcp5nIRXXPMW1HO4zUAXIskAVKHSFalhp3bugHKR6yXoUF84SleJfcJY%0AAX%2BGcbzl0DIom6vxEeg%3D%0A)
 
 ## 使用限制
 

@@ -76,25 +76,25 @@ Claude for Intune 专为使用 Microsoft Intune 管理移动设备的组织而�
 
 1. 在 Microsoft Intune 管理中心，从左侧导航面板选择“应用”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700192269/ce2bf95a18aba11042da50f4c1ad/dda0f9a2-d585-4b09-ae4f-a1ff70b1e010?expires=1795099500&amp;signature=607d1aa0867a19d3de954590207e343a17bf8486cdd7eb1208e7001af6f1bf2a&amp;req=dicnFsh3n4NZUPMW1HO4ze7khjTR62JlAMLV2Uu0R4UC2Ee1SX9jebzXmEg8%0A9jql%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700192269/ce2bf95a18aba11042da50f4c1ad/dda0f9a2-d585-4b09-ae4f-a1ff70b1e010?expires=1795269600&amp;signature=9cddade3c25d37fcf7c1e5007b357ee13b2be781ede0add9bbaaf6248a591667&amp;req=dicnFsh3n4NZUPMW1HO4ze7khjTT5GJmAMLV2Uu0R4WW6FN%2B0JNqh3OyE75r%0AiU0V%0A)
 
 2. 在“平台”下，选择“iOS/iPadOS”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700195036/b70c6c0bdeff5f2b72568ef4943b/67cc834c-5e91-42da-9d3b-1f32c8dd8c05?expires=1795099500&amp;signature=7f31c6f0ccced33d3afbe586e8fe352b2e23ad79cb801c58355f766c68e1d527&amp;req=dicnFsh3mIFcX%2FMW1HO4zeH1oUjnuHqRQ7hR7Wh%2Bi72%2B6fDjGA5QB7X%2F3avS%0AS57Q%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700195036/b70c6c0bdeff5f2b72568ef4943b/67cc834c-5e91-42da-9d3b-1f32c8dd8c05?expires=1795269600&amp;signature=b2be9e2b741a0ac89ee4e767f76870a46e2c1f2175930877ede425a93b838f27&amp;req=dicnFsh3mIFcX%2FMW1HO4zeH1oUjlt3qSQ7hR7Wh%2Bi72v30lxK%2BE4CWtiYj34%0A4bQ%2F%0A)
 
 3. 单击“+ 创建。”对于应用类型，选择“iOS 商店应用，”然后单击底部的“选择”按钮：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700195791/9a01290b4189e6a39c473af0a448/cfed06da-f35a-4b22-b687-286ea48864c1?expires=1795099500&amp;signature=06f42e0e002ebb6d1a26b773b687f4d6ee619f9bb42976c499c4ee4f3f4866da&amp;req=dicnFsh3mIZWWPMW1HO4zTni3cMpa5cp2SRx6amjj9E87O%2BKZushSefbSJmG%0AzYz5%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700195791/9a01290b4189e6a39c473af0a448/cfed06da-f35a-4b22-b687-286ea48864c1?expires=1795269600&amp;signature=410db976839ba003e8d00346e985659213f436be6d77dc3410a26938611e18d5&amp;req=dicnFsh3mIZWWPMW1HO4zTni3cMrZJcq2SRx6amjj9EWIVWcK6SLsFwzU1%2F0%0ABTEH%0A)
 
 4. 搜索“Claude Intune”并单击底部的“选择”按钮。
 
 5. 在**应用信息**中，将**最低操作系统**设置为 iOS 18，然后单击“下一步”按钮：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700196458/588327ab209e9524c45111a244a1/258697c2-2f82-471b-9104-2bccb1b01614?expires=1795099500&amp;signature=af245504c67fc87753618bc3db61c6833e2b5e633db5437a39eff2f2a284867a&amp;req=dicnFsh3m4VaUfMW1HO4zbxl5Y1XfjsrDNNSLAHCCFoPH7vGxPZS%2Fw%2Br%2BNPJ%0ADsZD%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700196458/588327ab209e9524c45111a244a1/258697c2-2f82-471b-9104-2bccb1b01614?expires=1795269600&amp;signature=891c8259ce70e4fe6b41cfd95b54bb899958a7d51e1ed7e15881afd072f37314&amp;req=dicnFsh3m4VaUfMW1HO4zbxl5Y1VcTsoDNNSLAHCCFr3VOSPS34ldqGgnQlj%0ArbzE%0A)
 
 6. 对于**分配**，添加应该获取应用的组：在“必需”下自动安装，或在“可用”下用于已注册的设备，以便员工可以从公司门户安装。您可以使用用户组或设备组。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2741107114/8f15b0d179a54c2ca4effaad8577/55bed25a-4b20-47b0-9e89-7f8adc86c04f?expires=1795099500&amp;signature=ed67e863fc48ec0b7215f9d7cc82f0993aad2623c69b8c7101d8b77c20f30aeb&amp;req=dicjF8h%2BmoBeXfMW1HO4zYaZMe28cPqbmN%2B6UXepdg%2B9KZeRTL7FxLMVX%2BPH%0AbiZb%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2741107114/8f15b0d179a54c2ca4effaad8577/55bed25a-4b20-47b0-9e89-7f8adc86c04f?expires=1795269600&amp;signature=d28d47ede1713a53be600c6b6f34e6320c050cdeada5881541fe822d730a3c9d&amp;req=dicjF8h%2BmoBeXfMW1HO4zYaZMe2%2Bf%2FqYmN%2B6UXepdg%2FBczK%2FcgTPGfTa0Bhx%0AvTKt%0A)
 
 7. 单击“下一步，”审查并创建。
 
@@ -104,27 +104,27 @@ Claude for Intune 专为使用 Microsoft Intune 管理移动设备的组织而�
 
 1. 在 Microsoft Intune 管理中心，从左侧导航面板选择“应用”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700190760/9f6412fe68632cffee29826f7d30/42fdeb30-64af-4089-a976-5094bb6b8292?expires=1795099500&amp;signature=2f9a274ccc820001065533c291dafb88e2c706646592a4776167e14396479a87&amp;req=dicnFsh3nYZZWfMW1HO4zQwrZI8CWts5LtTCoSp4D6oku8vOUV9iG11AUQCv%0AzGwW%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700190760/9f6412fe68632cffee29826f7d30/42fdeb30-64af-4089-a976-5094bb6b8292?expires=1795269600&amp;signature=f945e06260cf5f8effee4e74614594e222bd1144c9921d59a5e610ef611c42f6&amp;req=dicnFsh3nYZZWfMW1HO4zQwrZI8AVds6LtTCoSp4D6p5X4V5x5SPHGAZoxjl%0Aq8pJ%0A)
 
 2. 在**管理应用**下，选择“保护”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700200858/a7ddd4265aeb6d61a7a096297cd5/fc9a1fe2-3d0e-4038-9b2c-f96bd19e4020?expires=1795099500&amp;signature=8eacb4dd781416301c905076546f9c0dd4dc385d679144f65bd30c76feb9883d&amp;req=dicnFst%2BnYlaUfMW1HO4zeBHXBo9%2FPTonJWY0xu8hzJoeCL6yyZkEYaSqXp8%0AndQp%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700200858/a7ddd4265aeb6d61a7a096297cd5/fc9a1fe2-3d0e-4038-9b2c-f96bd19e4020?expires=1795269600&amp;signature=f8fa07b13381394f125284ce630c26fccbf53cd10262b39a00dedc399ccbff9b&amp;req=dicnFst%2BnYlaUfMW1HO4zeBHXBo%2F8%2FTrnJWY0xu8hzKOVSI1w325%2FMYJPC4m%0A1hga%0A)
 
 3. 单击“+ 创建”，然后选择“iOS/iPadOS”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700201382/6240e257b2b498b5fa5ac1111561/11ef4f59-aba1-4d2b-ac58-9aec1dd60a4d?expires=1795099500&amp;signature=a48588722784c4be67221dc9697dd34fd17ef7fbd1a27828773c09d0f8ef56c1&amp;req=dicnFst%2BnIJXW%2FMW1HO4zc89y05WC3NLV2VWh%2B9zzEqoxUukYLnAnIvJBOd%2F%0AEETJ%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700201382/6240e257b2b498b5fa5ac1111561/11ef4f59-aba1-4d2b-ac58-9aec1dd60a4d?expires=1795269600&amp;signature=0a8371069c5703b40b952a703fdea1a6386f24981aa77135aef3cb7a4b82f550&amp;req=dicnFst%2BnIJXW%2FMW1HO4zc89y05UBHNIV2VWh%2B9zzEojiOwlMOoCa3P15NUN%0AsfaB%0A)
 
 4. 在**基础**选项卡中输入名称，然后单击“下一步”到**应用**。将**目标策略设置为**“选定的应用。”单击“+ 选择自定义应用”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700201929/2edf45cedc0bc03204f86d01a49e/4d96c12d-962b-43f6-8b3f-668e3247d4c1?expires=1795099500&amp;signature=4dd5366d0c841b75bce5f4a62889824f404ef947e6d1cf9fbecb531c17e78032&amp;req=dicnFst%2BnIhdUPMW1HO4zVmMRJQUWjQNKETwku7gMsvQM%2BtZ77m%2Frn0FKDp2%0AajGC%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700201929/2edf45cedc0bc03204f86d01a49e/4d96c12d-962b-43f6-8b3f-668e3247d4c1?expires=1795269600&amp;signature=0d09b298a76f13989f772c6ca81c40a5f8c284d21230f32c69ca2bb065464040&amp;req=dicnFst%2BnIhdUPMW1HO4zVmMRJQWVTQOKETwku7gMsvVcPlqTWq%2F3TwiHPzh%0A5K58%0A)
 
 5. 输入捆绑 ID `com.anthropic.claudeforintune`。选择它以使其显示在“选择”之前的**选定应用**下：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700202816/3565aea2d1b9c22a5f8d105825c5/3de6d241-6259-463e-a503-a6ca9f2095e0?expires=1795099500&amp;signature=ebe284979a6f31a47b2ea5bc64934d9c27aae3a3f5b074b35cf1efc2371f0877&amp;req=dicnFst%2Bn4leX%2FMW1HO4zf6tYiYowaNy12LT9vQL0W40rHhGLkSGlUH7S%2B%2BF%0Au5qw%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700202816/3565aea2d1b9c22a5f8d105825c5/3de6d241-6259-463e-a503-a6ca9f2095e0?expires=1795269600&amp;signature=cedd53249d2154c5c6c51af35cdddedb5e71bf0f53326a67b07920f167cd5b42&amp;req=dicnFst%2Bn4leX%2FMW1HO4zf6tYiYqzqNx12LT9vQL0W7Gt3OauHKj2ZOG0j2I%0Ajg4E%0A)
 
 6. 在应用中，确认捆绑 ID 现在显示在**自定义应用**下，然后单击“下一步”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700203780/24ed354ef0de87bf0a0c1bc129a1/46eed662-f488-48ee-a4d1-8a9a76079884?expires=1795099500&amp;signature=0f4a94f8857cf8959ee9b5e1774d29796a68d187239fc36b2c31ec12d0c703d2&amp;req=dicnFst%2BnoZXWfMW1HO4zQd95NCK0sHa8F6Cfy2R7u%2Bx2GBOPKpnYihLuXvO%0AztsP%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700203780/24ed354ef0de87bf0a0c1bc129a1/46eed662-f488-48ee-a4d1-8a9a76079884?expires=1795269600&amp;signature=0f82d57a49f3edbe8cc556058729e978e34b81d707ff9a50bfd0436ae2458701&amp;req=dicnFst%2BnoZXWfMW1HO4zQd95NCI3cHZ8F6Cfy2R7u%2FTTvSeDN4v%2FKFmRRUb%0Aa8H8%0A)
 
 7. 根据需要配置数据保护、访问要求和条件启动设置。
 

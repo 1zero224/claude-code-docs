@@ -46,80 +46,80 @@ Webhook 事件返回事件的 `type` 和 `id`，而不是完整对象。当您�
   <Tab title="会话事件">
     其中一些事件的名称与会话[事件流](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming)上对应事件的名称不同。例如，事件流中的 `session.status_idle` 和 `session.status_running` 分别对应 `session.status_idled` 和 `session.status_run_started` webhook 事件。
 
-    | 事件                                 | 触发条件                                                                                                                                                                                                                                                                                                                                                            |
-    | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | `session.status_run_started`       | 智能体开始运行。每次会话状态转换为 `running` 时都会触发。                                                                                                                                                                                                                                                                                                                              |
-    | `session.status_idled`             | 智能体正在等待输入，例如工具权限批准或新的用户消息。                                                                                                                                                                                                                                                                                                                                      |
-    | `session.budget_reached`           | 会话达到其[预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)并已暂停。对于您设置的每个预算值最多触发一次；更改预算会重新启用该事件。                                                                                                                                                                                                                                                    |
-    | `session.status_rescheduled`       | 发生了暂时性错误，会话正在自动重试。                                                                                                                                                                                                                                                                                                                                              |
-    | `session.status_terminated`        | 会话已终止，原因可能是发生了不可恢复的错误，也可能是会话已被归档。                                                                                                                                                                                                                                                                                                                               |
-    | `session.thread_created`           | 打开了新的[多智能体线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)：会话所运行的智能体调用的另一个智能体开始工作，或者正在咨询会话的[顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)。它还会针对[工作流运行](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#a-runs-threads)的每个线程触发，本表中的另外两个线程事件也是如此。 |
-    | `session.thread_idled`             | [多智能体交互](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)中的某个智能体正在等待输入。                                                                                                                                                                                                                                                                   |
-    | `session.thread_terminated`        | 某个[多智能体线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)已终止，原因可能是该线程已被归档，也可能是其重试次数已用尽。完成工作的子智能体会进入 `idle` 状态，而不是 `terminated`（顾问线程在其咨询完成后终止，工作流运行的线程在服务器将其归档时终止，即在运行结束时）。仅针对子线程触发；主线程的结束（包括归档整个会话）仅以 `session.status_terminated` 的形式呈现。                                                                                                |
-    | `session.outcome_evaluation_ended` | 单次迭代的[结果评估](https://platform.claude.com/docs/zh-CN/managed-agents/define-outcomes)已完成。                                                                                                                                                                                                                                                                          |
-    | `session.updated`                  | 会话属性已更改（例如，其名称或配置已更新）。                                                                                                                                                                                                                                                                                                                                          |
-    | `session.deleted`                  | 会话已被永久删除。已没有可获取的对象，因此请将该事件本身视为最终结果。                                                                                                                                                                                                                                                                                                                             |
+    | 事件 | 触发条件 |
+    | ----- | ----- |
+    | `session.status_run_started` | 智能体开始运行。每次会话状态转换为 `running` 时都会触发。 |
+    | `session.status_idled` | 智能体正在等待输入，例如工具权限批准或新的用户消息。 |
+    | `session.budget_reached` | 会话达到其[预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)并已暂停。对于您设置的每个预算值最多触发一次；更改预算会重新启用该事件。 |
+    | `session.status_rescheduled` | 发生了暂时性错误，会话正在自动重试。 |
+    | `session.status_terminated` | 会话已终止，原因可能是发生了不可恢复的错误，也可能是会话已被归档。 |
+    | `session.thread_created` | 打开了新的[多智能体线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)：会话所运行的智能体调用的另一个智能体开始工作，或者正在咨询会话的[顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)。它还会针对[工作流运行](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#a-runs-threads)的每个线程触发，本表中的另外两个线程事件也是如此。 |
+    | `session.thread_idled` | [多智能体交互](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)中的某个智能体正在等待输入。 |
+    | `session.thread_terminated` | 某个[多智能体线程](https://platform.claude.com/docs/zh-CN/managed-agents/session-threads)已终止，原因可能是该线程已被归档，也可能是其重试次数已用尽。完成工作的子智能体会进入 `idle` 状态，而不是 `terminated`（顾问线程在其咨询完成后终止，工作流运行的线程在服务器将其归档时终止，即在运行结束时）。仅针对子线程触发；主线程的结束（包括归档整个会话）仅以 `session.status_terminated` 的形式呈现。 |
+    | `session.outcome_evaluation_ended` | 单次迭代的[结果评估](https://platform.claude.com/docs/zh-CN/managed-agents/define-outcomes)已完成。 |
+    | `session.updated` | 会话属性已更改（例如，其名称或配置已更新）。 |
+    | `session.deleted` | 会话已被永久删除。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
   </Tab>
 
   <Tab title="保管库事件">
-    | 事件                                | 触发条件                                                                            |
-    | --------------------------------- | ------------------------------------------------------------------------------- |
-    | `vault.created`                   | 保管库已创建。                                                                         |
-    | `vault.archived`                  | 保管库已归档。同时还会为每个底层凭据发出一个 `vault_credential.archived` 事件。                          |
-    | `vault.deleted`                   | 保管库已删除。同时还会为每个底层凭据发出一个 `vault_credential.deleted` 事件。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
-    | `vault_credential.created`        | 凭据已创建。                                                                          |
-    | `vault_credential.archived`       | 凭据已归档，可能是直接归档，也可能是由于保管库归档所致。                                                    |
-    | `vault_credential.deleted`        | 凭据已删除，可能是直接删除，也可能是由于保管库删除所致。已没有可获取的对象，因此请将该事件本身视为最终结果。                          |
-    | `vault_credential.refresh_failed` | 无法刷新 `mcp_oauth` 凭据（刷新令牌无效，或 OAuth 服务器返回不可恢复的错误）。                               |
+    | 事件 | 触发条件 |
+    | ----- | ----- |
+    | `vault.created` | 保管库已创建。 |
+    | `vault.archived` | 保管库已归档。同时还会为每个底层凭据发出一个 `vault_credential.archived` 事件。 |
+    | `vault.deleted` | 保管库已删除。同时还会为每个底层凭据发出一个 `vault_credential.deleted` 事件。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
+    | `vault_credential.created` | 凭据已创建。 |
+    | `vault_credential.archived` | 凭据已归档，可能是直接归档，也可能是由于保管库归档所致。 |
+    | `vault_credential.deleted` | 凭据已删除，可能是直接删除，也可能是由于保管库删除所致。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
+    | `vault_credential.refresh_failed` | 无法刷新 `mcp_oauth` 凭据（刷新令牌无效，或 OAuth 服务器返回不可恢复的错误）。 |
   </Tab>
 
   <Tab title="智能体事件">
     这些事件跟踪您工作区中智能体资源的生命周期，与在会话事件流上传递的智能体事件不同。
 
-    | 事件               | 触发条件                                                                                                              |
-    | ---------------- | ----------------------------------------------------------------------------------------------------------------- |
-    | `agent.created`  | 智能体已创建。                                                                                                           |
-    | `agent.updated`  | 发布了[智能体的新版本](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup#update-an-agent)。不创建新版本的更新不会触发此事件。 |
-    | `agent.archived` | 智能体已归档。                                                                                                           |
-    | `agent.deleted`  | 智能体已被永久删除。已没有可获取的对象，因此请将该事件本身视为最终结果。                                                                              |
+    | 事件 | 触发条件 |
+    | ----- | ----- |
+    | `agent.created` | 智能体已创建。 |
+    | `agent.updated` | 发布了[智能体的新版本](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup#update-an-agent)。不创建新版本的更新不会触发此事件。 |
+    | `agent.archived` | 智能体已归档。 |
+    | `agent.deleted` | 智能体已被永久删除。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
   </Tab>
 
   <Tab title="部署事件">
-    | 事件                    | 触发条件                                                                                                                                                                                    |
-    | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | `deployment.created`  | [计划部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)已创建。                                                                                                 |
-    | `deployment.updated`  | 部署属性已更改（例如，其计划已更新）。                                                                                                                                                                     |
-    | `deployment.paused`   | 部署已暂停，可能是应请求暂停，也可能是在计划运行因不可恢复的错误（例如子智能体已归档或环境已归档）而失败时自动暂停。可恢复的失败（包括速率限制）不会暂停部署。请参阅[失败行为](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments#failure-behavior)。 |
-    | `deployment.unpaused` | 部署已取消暂停，恢复其计划。                                                                                                                                                                          |
-    | `deployment.archived` | 部署已归档，可能是直接归档，也可能是因为其智能体已被归档。如果智能体被删除，计划部署会在其下一次计划运行时被归档；没有计划的部署不会被自动归档。                                                                                                                |
-    | `deployment.deleted`  | 部署已被永久删除。已没有可获取的对象，因此请将该事件本身视为最终结果。                                                                                                                                                     |
+    | 事件 | 触发条件 |
+    | ----- | ----- |
+    | `deployment.created` | [计划部署](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments)已创建。 |
+    | `deployment.updated` | 部署属性已更改（例如，其计划已更新）。 |
+    | `deployment.paused` | 部署已暂停，可能是应请求暂停，也可能是在计划运行因不可恢复的错误（例如子智能体已归档或环境已归档）而失败时自动暂停。可恢复的失败（包括速率限制）不会暂停部署。请参阅[失败行为](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments#failure-behavior)。 |
+    | `deployment.unpaused` | 部署已取消暂停，恢复其计划。 |
+    | `deployment.archived` | 部署已归档，可能是直接归档，也可能是因为其智能体已被归档。如果智能体被删除，计划部署会在其下一次计划运行时被归档；没有计划的部署不会被自动归档。 |
+    | `deployment.deleted` | 部署已被永久删除。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
   </Tab>
 
   <Tab title="部署运行事件">
-    | 事件                         | 触发条件                                                                                                                                                                                                                                                                                         |
-    | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | `deployment_run.started`   | 计划运行已开始。只有计划运行会发出 `deployment_run` 事件；[手动运行](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments#trigger-a-manual-run)不会。                                                                                                                                            |
+    | 事件 | 触发条件 |
+    | ----- | ----- |
+    | `deployment_run.started` | 计划运行已开始。只有计划运行会发出 `deployment_run` 事件；[手动运行](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments#trigger-a-manual-run)不会。 |
     | `deployment_run.succeeded` | 计划运行已创建其会话。该事件携带的 `data.id`（运行 ID）与该运行的 `deployment_run.started` 事件相同。要跟踪会话的工作，请订阅其会话事件（**会话事件**选项卡），或获取[部署运行](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments#deployment-runs)以得到其 `session_id` (java: `sessionId`; php: `sessionID`; csharp, go: `SessionID`)。 |
-    | `deployment_run.failed`    | 计划运行未创建会话。该事件携带的 `data.id` 与该运行的 `deployment_run.started` 事件相同。获取[部署运行](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments#deployment-runs)以查看错误详情。                                                                                                                 |
+    | `deployment_run.failed` | 计划运行未创建会话。该事件携带的 `data.id` 与该运行的 `deployment_run.started` 事件相同。获取[部署运行](https://platform.claude.com/docs/zh-CN/managed-agents/scheduled-deployments#deployment-runs)以查看错误详情。 |
   </Tab>
 
   <Tab title="环境事件">
-    | 事件                     | 触发条件                                        |
-    | ---------------------- | ------------------------------------------- |
-    | `environment.created`  | 环境已创建。                                      |
-    | `environment.updated`  | 环境已更新，且至少有一个字段发生了更改。无实际变更的更新不会发出任何事件。       |
-    | `environment.archived` | 环境已归档。重新归档已归档的环境不会发出任何事件。                   |
-    | `environment.deleted`  | 环境已删除，包括删除已归档的环境。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
+    | 事件 | 触发条件 |
+    | ----- | ----- |
+    | `environment.created` | 环境已创建。 |
+    | `environment.updated` | 环境已更新，且至少有一个字段发生了更改。无实际变更的更新不会发出任何事件。 |
+    | `environment.archived` | 环境已归档。重新归档已归档的环境不会发出任何事件。 |
+    | `environment.deleted` | 环境已删除，包括删除已归档的环境。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
 
     环境的[工作项](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes)不会发出任何 webhook 事件。
   </Tab>
 
   <Tab title="记忆存储事件">
-    | 事件                      | 触发条件                                                                                                          |
-    | ----------------------- | ------------------------------------------------------------------------------------------------------------- |
-    | `memory_store.created`  | 记忆存储已创建，可能由您创建，也可能由 Anthropic 运营的、克隆您现有存储之一的进程创建。                                                             |
-    | `memory_store.archived` | 记忆存储已归档。重新归档已归档的存储不会发出任何事件。                                                                                   |
-    | `memory_store.deleted`  | 记忆存储已删除，包括删除已归档的存储。删除存储会级联删除其记忆和记忆版本，但不会为每条记忆发出事件；单个 `memory_store.deleted` 事件即为信号。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
+    | 事件 | 触发条件 |
+    | ----- | ----- |
+    | `memory_store.created` | 记忆存储已创建，可能由您创建，也可能由 Anthropic 运营的、克隆您现有存储之一的进程创建。 |
+    | `memory_store.archived` | 记忆存储已归档。重新归档已归档的存储不会发出任何事件。 |
+    | `memory_store.deleted` | 记忆存储已删除，包括删除已归档的存储。删除存储会级联删除其记忆和记忆版本，但不会为每条记忆发出事件；单个 `memory_store.deleted` 事件即为信号。已没有可获取的对象，因此请将该事件本身视为最终结果。 |
 
     单个[记忆](https://platform.claude.com/docs/zh-CN/managed-agents/memory)和记忆版本不会发出任何 webhook 事件。
   </Tab>
@@ -449,8 +449,8 @@ Webhook在所有模型上处于 beta 阶段。
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) |
 
 ### 所需的 beta 请求头
@@ -465,9 +465,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

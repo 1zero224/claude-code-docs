@@ -12,7 +12,7 @@ description: 通过 Compliance API 接收 Anthropic 人员对您组织数据进�
   * Anthropic 员工每次人工查看您的留存数据（请参阅[涵盖的内容](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#what-access-transparency-covers)）时，都会向您的 [Compliance API 活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)写入一条 `anthropic_access` 活动。
   * 访问仅出于安全审查或事件响应的目的而发生。请参阅[原因代码](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#reason-codes)。
 
-  访问透明度可应符合条件的客户请求提供，并非自助开通。有关资格要求，请参阅您的合同条款或联系您的 Anthropic 客户代表。
+  访问透明度可应符合条件的客户请求提供，并非自助开通。有关资格要求，请参阅您的合同条款或联系您的 Anthropic 客户代表。当 Anthropic [批准您的整个组织使用客户管理密钥](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)时，也会启用访问透明度。您无法在 Claude Console 中或通过 API 关闭访问透明度。
 </Note>
 
 ## 访问透明度的工作原理
@@ -59,6 +59,29 @@ Anthropic 人员仅在明确规定的条件下访问客户内容。访问透明�
 
 访问透明度在组织级别启用，涵盖所有工作区。目前不支持按工作区单独注册。
 
+### 使用客户管理密钥时的访问透明度
+
+当 Anthropic 批准您的整个组织使用"customer-managed encryption keys"（客户管理的加密密钥），即 [CMEK](https://platform.claude.com/docs/zh-CN/manage-claude/cmek) 时，也会为该组织启用访问透明度。这发生在批准之时、您附加密钥之前，因此您无需单独申请访问透明度。访问透明度仍不涵盖 claude.ai 中的内容。请参阅[访问透明度不涵盖的内容](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#what-access-transparency-does-not-cover)。
+
+关于该批准，请注意以下几点：
+
+* **关联的组织：** 如果您的组织关联到某个[父组织](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#which-key-do-you-need)，该批准并不保证关联到该父组织的其他 Claude Console 组织现在或将来会启用访问透明度。其中一些组织可能已启用。
+* **浏览器调用：** 启用了访问透明度的组织无法直接从浏览器调用 Claude API。请参阅[基于浏览器的应用程序](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#browser-based-applications)。
+
+该批准不会更改您的 Compliance API 设置。即使 Compliance API 处于关闭状态，Anthropic 也会记录访问透明度事件，但您只能在其开启时读取这些事件。要读取这些事件：
+
+1. [开启 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)。
+2. 使用 [Compliance Access Key 或 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#which-key-do-you-need)读取[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)。请在开启 Compliance API 之后创建 Admin API 密钥，因为之前创建的密钥无法读取活动源。
+
+在 Claude Platform on AWS 上，请让您的 Anthropic 客户代表开启 Compliance API。然后使用 [`ListComplianceActivities` IAM 操作](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#compliance)读取活动源。
+
+并非每个使用 CMEK 的组织都启用了访问透明度。例如，在以下情况下可能未启用：
+
+* Anthropic 批准的是单个工作区使用 CMEK，而不是您的整个组织。
+* Anthropic 在 2026 年 11 月 2 日之前批准您的组织使用 CMEK。
+
+如需确认，请联系您的 Anthropic 客户代表。
+
 ## 接收访问透明度事件
 
 访问透明度事件以 `anthropic_access` 活动类型在 Compliance API 活动源上交付。使用 `activity_types[]` 进行筛选：
@@ -78,23 +101,23 @@ curl --fail-with-body -sS -G \
 
 每条 `anthropic_access` 活动都包含标准的 Activity 字段以及以下字段：
 
-| 字段                            | 类型            | 描述                                                                                                                                                                            |
-| ----------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                          | string        | 此活动的唯一标识符                                                                                                                                                                     |
-| `accessed_at`                 | RFC 3339 字符串  | 访问发生的时间。可能早于该活动在您的活动源中可见的时间                                                                                                                                                   |
-| `created_at`                  | RFC 3339 字符串  | Anthropic 记录该事件的时间。事件通常在此之后不久即可在您的活动源中看到；有关可能出现延迟的情况，请参阅[时间安排](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#timing)                           |
-| `actor`                       | object        | 始终为 `{ "type": "anthropic_actor", "email_address": null }`。不会披露员工个人身份                                                                                                         |
-| `accessor_department`         | string        | 执行访问的 Anthropic 团队（例如 `Safeguards`）                                                                                                                                           |
-| `reason_code`                 | enum          | 请参阅[原因代码](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#reason-codes)                                                                              |
-| `resource_details.type`       | enum          | 资源类型，目前仅有 `message`。可扩展以支持未来的资源类型                                                                                                                                             |
-| `resource_details.id`         | string 或 null | 被访问内容的标识符                                                                                                                                                                     |
-| `resource_details.parent`     | string 或 null | 内容父级的标识符，例如包含某条消息的对话 ID。在支持具有父级的资源之前，目前为 `null` 或省略                                                                                                                           |
-| `organization_id`             | string        | 内容所属的组织。带标签的 ID 格式（`org_...`）                                                                                                                                                 |
-| `organization_uuid`           | string        | 内容所属的组织。UUID 格式                                                                                                                                                               |
-| `workspace_id`                | string 或 null | 内容所属的工作区                                                                                                                                                                      |
-| `workspace_uuid`              | string        | 内容所属的工作区。UUID 格式。当访问限定于某个工作区时存在，否则不存在。它不属于透明度日志的[叶子字段](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#how-an-event-becomes-a-leaf)，因此包含证明不涵盖该字段 |
-| `transparency_log_leaf_index` | integer       | 该事件在您组织的透明度日志（beta）中从零开始的位置。只要事件有叶子就会存在，否则不存在。请参阅[使用透明度日志验证访问透明度事件](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log)                             |
-| `user_profile_id`             | string        | 被访问或保全的内容在其下创建的[用户配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles)。带标签的 ID 格式（`uprof_...`）。仅当内容是在某个用户配置文件下创建时存在                                      |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `id` | string | 此活动的唯一标识符 |
+| `accessed_at` | RFC 3339 字符串 | 访问发生的时间。可能早于该活动在您的活动源中可见的时间 |
+| `created_at` | RFC 3339 字符串 | Anthropic 记录该事件的时间。事件通常在此之后不久即可在您的活动源中看到；有关可能出现延迟的情况，请参阅[时间安排](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#timing) |
+| `actor` | object | 始终为 `{ "type": "anthropic_actor", "email_address": null }`。不会披露员工个人身份 |
+| `accessor_department` | string | 执行访问的 Anthropic 团队（例如 `Safeguards`） |
+| `reason_code` | enum | 请参阅[原因代码](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#reason-codes) |
+| `resource_details.type` | enum | 资源类型，目前仅有 `message`。可扩展以支持未来的资源类型 |
+| `resource_details.id` | string 或 null | 被访问内容的标识符 |
+| `resource_details.parent` | string 或 null | 内容父级的标识符，例如包含某条消息的对话 ID。在支持具有父级的资源之前，目前为 `null` 或省略 |
+| `organization_id` | string | 内容所属的组织。带标签的 ID 格式（`org_...`） |
+| `organization_uuid` | string | 内容所属的组织。UUID 格式 |
+| `workspace_id` | string 或 null | 内容所属的工作区 |
+| `workspace_uuid` | string | 内容所属的工作区。UUID 格式。当访问限定于某个工作区时存在，否则不存在。它不属于透明度日志的[叶子字段](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log#how-an-event-becomes-a-leaf)，因此包含证明不涵盖该字段 |
+| `transparency_log_leaf_index` | integer | 该事件在您组织的透明度日志（beta）中从零开始的位置。只要事件有叶子就会存在，否则不存在。请参阅[使用透明度日志验证访问透明度事件](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency-log) |
+| `user_profile_id` | string | 被访问或保全的内容在其下创建的[用户配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles)。带标签的 ID 格式（`uprof_...`）。仅当内容是在某个用户配置文件下创建时存在 |
 
 JSON 消息示例：
 
@@ -157,29 +180,29 @@ JSON 消息示例：
 
 原因代码集合是封闭的。如果 Anthropic 引入新代码，将会更新本页面。
 
-| 代码                               | 含义                     |
-| -------------------------------- | ---------------------- |
-| `safety_review`                  | 内容作为使用政策或安全调查的一部分被查看   |
-| `incident_response`              | 内容在调查影响您组织的事件时被查看      |
-| `policy_violation_investigation` | 内容在信任与安全政策违规调查期间被保全    |
-| `csae_report`                    | 内容作为儿童安全（CSAE）报告的证据被保全 |
+| 代码 | 含义 |
+| ----- | ----- |
+| `safety_review` | 内容作为使用政策或安全调查的一部分被查看 |
+| `incident_response` | 内容在调查影响您组织的事件时被查看 |
+| `policy_violation_investigation` | 内容在信任与安全政策违规调查期间被保全 |
+| `csae_report` | 内容作为儿童安全（CSAE）报告的证据被保全 |
 
 ## 产品界面资格
 
 下表列出了哪些产品界面受访问透明度涵盖。涵盖意味着对来自该界面的内容进行人工访问会生成 `anthropic_access` 事件。
 
-| 产品界面                                                          | 是否涵盖 | 详情                                                                   |
-| ------------------------------------------------------------- | ---- | -------------------------------------------------------------------- |
-| Claude API（`api.anthropic.com`）                               | 是    | 提示、补全以及直接嵌入 API 输入中的数据                                               |
-| Claude Code（使用 API 密钥）                                        | 是    | 来自 Claude Code 的 API 流量作为 Claude API 流量被涵盖                           |
-| Claude Platform on AWS                                        | 是    | Claude Platform on AWS 在 Compliance API（而非 AWS CloudTrail）中生成访问透明度事件 |
-| Claude API（`api.anthropic.com`）（Batch、Files）                  | 否    | Claude API 的 Batch 和 Files API 不在涵盖范围内，正如它们不受 ZDR 涵盖一样               |
-| Claude for Enterprise（claude.ai 席位）                           | 否    | 不涵盖                                                                  |
-| Claude for Work                                               | 否    | 不涵盖                                                                  |
-| Claude Free、Pro、Max、Ultra                                     | 否    | 消费者计划不符合资格                                                           |
-| Playground（Claude Console）                                    | 否    | 不涵盖                                                                  |
-| Microsoft Foundry                                             | 否    | 不可用                                                                  |
-| Amazon Bedrock、Claude Models on Google Cloud (Google managed) | 否    | 合作伙伴运营的平台；请参阅这些平台的透明度控制                                              |
+| 产品界面 | 是否涵盖 | 详情 |
+| ----- | ----- | ----- |
+| Claude API（`api.anthropic.com`） | 是 | 提示、补全以及直接嵌入 API 输入中的数据 |
+| Claude Code（使用 API 密钥） | 是 | 来自 Claude Code 的 API 流量作为 Claude API 流量被涵盖 |
+| Claude Platform on AWS | 是 | Claude Platform on AWS 在 Compliance API（而非 AWS CloudTrail）中生成访问透明度事件 |
+| Claude API（`api.anthropic.com`）（Batch、Files） | 否 | Claude API 的 Batch 和 Files API 不在涵盖范围内，正如它们不受 ZDR 涵盖一样 |
+| Claude for Enterprise（claude.ai 席位） | 否 | 不涵盖 |
+| Claude for Work | 否 | 不涵盖 |
+| Claude Free、Pro、Max、Ultra | 否 | 消费者计划不符合资格 |
+| Playground（Claude Console） | 否 | 不涵盖 |
+| Microsoft Foundry | 否 | 不可用 |
+| Amazon Bedrock、Claude Models on Google Cloud (Google managed) | 否 | 合作伙伴运营的平台；请参阅这些平台的透明度控制 |
 
 ## 限制与排除
 
@@ -215,7 +238,7 @@ JSON 消息示例：
   </Accordion>
 
   <Accordion title="向其自身最终用户提供 Claude 服务的平台可以启用访问透明度吗？">
-    访问透明度不适用于平台部署。请联系您的 Anthropic 客户代表讨论您的用例。
+    平台部署无法通过申请获得访问透明度。但当 Anthropic 批准某个平台的整个组织使用 CMEK 时，确实会为其启用访问透明度。请参阅[使用客户管理密钥时的访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)。请联系您的 Anthropic 客户代表讨论您的用例。
   </Accordion>
 
   <Accordion title="对于我的组织注册之前发生的访问，或其较早的数据，我会看到事件吗？">
@@ -235,7 +258,7 @@ JSON 消息示例：
   </Accordion>
 
   <Accordion title="访问透明度与 CMEK 有何关系？">
-    两者相互独立。使用 CMEK 时，在您的密钥之外进行的安全保全会在同一活动源上发出一个单独的 `cmek_preserve` 事件。请参阅 [CMEK 内容保全](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#cmek-content-preservation)和[您的密钥之外的有限保存](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#limited-preservation-outside-your-key)。
+    访问透明度不需要 CMEK。当 Anthropic 批准您的整个组织使用 CMEK 时，也会启用访问透明度。请参阅[使用客户管理密钥时的访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)。使用 CMEK 时，在您的密钥之外进行的安全保全会在同一活动源上发出一个单独的 `cmek_preserve` 事件。请参阅 [CMEK 内容保全](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#cmek-content-preservation)和[您的密钥之外的有限保存](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#limited-preservation-outside-your-key)。
   </Accordion>
 
   <Accordion title="如何确认我的访问透明度记录未被篡改？">

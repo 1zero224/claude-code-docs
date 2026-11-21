@@ -78,19 +78,19 @@ featureMetadata:
 
 ### 必填字段
 
-| 字段        | 类型     | 描述                                                     |
-| --------- | ------ | ------------------------------------------------------ |
-| `type`    | string | 必须为 `"search_result"`                                  |
-| `source`  | string | 内容的来源。任何稳定的字符串都可以：URL，或诸如 `kb://article-1234` 之类的内部标识符 |
-| `title`   | string | 搜索结果的描述性标题                                             |
-| `content` | array  | 包含实际内容的文本块数组                                           |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `type` | string | 必须为 `"search_result"` |
+| `source` | string | 内容的来源。任何稳定的字符串都可以：URL，或诸如 `kb://article-1234` 之类的内部标识符 |
+| `title` | string | 搜索结果的描述性标题 |
+| `content` | array | 包含实际内容的文本块数组 |
 
 ### 可选字段
 
-| 字段              | 类型     | 描述                                                                                                                                                                                          |
-| --------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `citations`     | object | 带有 `enabled` 布尔字段的引用配置。引用默认处于禁用状态；本页上的每个示例都显式设置了 `"enabled": true`。请求中的所有搜索结果必须使用相同的设置（请参阅[引用控制](https://platform.claude.com/docs/zh-CN/build-with-claude/search-results#citation-control)） |
-| `cache_control` | object | 缓存控制设置（例如 `{"type": "ephemeral"}`）                                                                                                                                                          |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `citations` | object | 带有 `enabled` 布尔字段的引用配置。引用默认处于禁用状态；本页上的每个示例都显式设置了 `"enabled": true`。请求中的所有搜索结果必须使用相同的设置（请参阅[引用控制](https://platform.claude.com/docs/zh-CN/build-with-claude/search-results#citation-control)） |
+| `cache_control` | object | 缓存控制设置（例如 `{"type": "ephemeral"}`） |
 
 `content` 数组中的每一项都必须是一个文本块，包含：
 
@@ -1279,15 +1279,15 @@ featureMetadata:
 
 每条引用包括：
 
-| 字段                    | 类型            | 描述                                                                                |
-| --------------------- | ------------- | --------------------------------------------------------------------------------- |
-| `type`                | string        | 对于搜索结果引用，始终为 `"search_result_location"`                                           |
-| `source`              | string        | 原始搜索结果中的来源                                                                        |
-| `title`               | string 或 null | 原始搜索结果中的标题                                                                        |
-| `cited_text`          | string        | 被引用块的完整文本（拼接而成）。等于 `content[start_block_index:end_block_index]` 的内容拼接在一起。不计入输出令牌。 |
-| `search_result_index` | integer       | 被引用的搜索结果在请求中所有 `search_result` 块中的索引（从 0 开始），按其出现顺序排列（跨所有消息和工具结果）。                |
-| `start_block_index`   | integer       | 搜索结果 `content` 数组中第一个被引用块的索引（从 0 开始）。                                             |
-| `end_block_index`     | integer       | 搜索结果 `content` 数组中被引用块范围的结束索引（不含）。始终大于 `start_block_index`。                       |
+| 字段 | 类型 | 描述 |
+| ----- | ----- | ----- |
+| `type` | string | 对于搜索结果引用，始终为 `"search_result_location"` |
+| `source` | string | 原始搜索结果中的来源 |
+| `title` | string 或 null | 原始搜索结果中的标题 |
+| `cited_text` | string | 被引用块的完整文本（拼接而成）。等于 `content[start_block_index:end_block_index]` 的内容拼接在一起。不计入输出令牌。 |
+| `search_result_index` | integer | 被引用的搜索结果在请求中所有 `search_result` 块中的索引（从 0 开始），按其出现顺序排列（跨所有消息和工具结果）。 |
+| `start_block_index` | integer | 搜索结果 `content` 数组中第一个被引用块的索引（从 0 开始）。 |
+| `end_block_index` | integer | 搜索结果 `content` 数组中被引用块范围的结束索引（不含）。始终大于 `start_block_index`。 |
 
 块索引标识搜索结果 `content` 数组的一个切片，而 `cited_text` 是该切片的完整文本。文本块是最小的可引用单元：Claude 引用的是整个块，而不是块内的子字符串。要获得更细粒度的引用，请将搜索结果内容拆分为更小的块（请参阅[多个内容块](https://platform.claude.com/docs/zh-CN/build-with-claude/search-results#multiple-content-blocks)）。
 
@@ -2221,8 +2221,8 @@ featureMetadata:
 * 可用性：可用
 * 用法：在工具结果中或直接在用户消息中发送 `search_result` 块。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -2230,17 +2230,17 @@ featureMetadata:
 * 可用性：可用
 * 用法：仅在工具结果中接受（例如 `user.custom_tool_result` 事件），不在 `user.message` 事件中接受。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目 | 零数据保留                                                                                                                                     | HIPAA |
-| -- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
 
 适用的端点：
 

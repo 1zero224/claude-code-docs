@@ -82,27 +82,27 @@ Claude 是否会针对某个请求进行思考，以及思考的深度，取决�
 
 在大多数模型上，思考默认开启，或者只需一个参数即可开启。下表展示了每个模型对请求可发送的每种 `thinking` 值的处理方式。400 错误表示 API 拒绝该请求，[思考故障排除](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting)列出了每种错误及其修复方法。
 
-| 模型                    | 无 `thinking` 字段 | `"adaptive"` | `"enabled"` 配合 `budget_tokens` | `"between_tools"`          | `"disabled"`             |
-| --------------------- | --------------- | ------------ | ------------------------------ | -------------------------- | ------------------------ |
-| Claude Opus 5.5       | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 400 错误                   |
-| Claude Sonnet 5.5     | 自适应思考           | 自适应思考        | 400 错误                         | 在 `high` effort 或以下时关闭预先思考 | 400 错误                   |
-| Claude Haiku 5.5      | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 在 `high` effort 或以下时关闭思考 |
-| Claude Fable 5.2      | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 400 错误                   |
-| Claude Mythos 5.2     | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 400 错误                   |
-| Claude Fable 5.1      | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 400 错误                   |
-| Claude Mythos 5.1     | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 400 错误                   |
-| Claude Fable 5        | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 400 错误                   |
-| Claude Mythos 5       | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 400 错误                   |
-| Claude Opus 5         | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 在 `high` effort 或以下时关闭思考 |
-| Claude Sonnet 5       | 自适应思考           | 自适应思考        | 400 错误                         | 400 错误                     | 关闭思考                     |
-| Claude Opus 4.8       | 关闭思考            | 自适应思考        | 400 错误                         | 400 错误                     | 关闭思考                     |
-| Claude Opus 4.7       | 关闭思考            | 自适应思考        | 400 错误                         | 400 错误                     | 关闭思考                     |
-| Claude Mythos Preview | 自适应思考           | 自适应思考        | 扩展思考                           | 400 错误                     | 400 错误                   |
-| Claude Opus 4.6       | 关闭思考            | 自适应思考        | 扩展思考（已弃用）                      | 400 错误                     | 关闭思考                     |
-| Claude Sonnet 4.6     | 关闭思考            | 自适应思考        | 扩展思考（已弃用）                      | 400 错误                     | 关闭思考                     |
-| Claude Opus 4.5       | 关闭思考            | 400 错误       | 扩展思考                           | 400 错误                     | 关闭思考                     |
-| Claude Sonnet 4.5     | 关闭思考            | 400 错误       | 扩展思考                           | 400 错误                     | 关闭思考                     |
-| Claude Haiku 4.5      | 关闭思考            | 400 错误       | 扩展思考                           | 400 错误                     | 关闭思考                     |
+| 模型 | 无 `thinking` 字段 | `"adaptive"` | `"enabled"` 配合 `budget_tokens` | `"between_tools"` | `"disabled"` |
+| ----- | ----- | ----- | ----- | ----- | ----- |
+| Claude Opus 5.5 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 400 错误 |
+| Claude Sonnet 5.5 | 自适应思考 | 自适应思考 | 400 错误 | 在 `high` effort 或以下时关闭预先思考 | 400 错误 |
+| Claude Haiku 5.5 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 在 `high` effort 或以下时关闭思考 |
+| Claude Fable 5.2 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 400 错误 |
+| Claude Mythos 5.2 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 400 错误 |
+| Claude Fable 5.1 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 400 错误 |
+| Claude Mythos 5.1 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 400 错误 |
+| Claude Fable 5 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 400 错误 |
+| Claude Mythos 5 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 400 错误 |
+| Claude Opus 5 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 在 `high` effort 或以下时关闭思考 |
+| Claude Sonnet 5 | 自适应思考 | 自适应思考 | 400 错误 | 400 错误 | 关闭思考 |
+| Claude Opus 4.8 | 关闭思考 | 自适应思考 | 400 错误 | 400 错误 | 关闭思考 |
+| Claude Opus 4.7 | 关闭思考 | 自适应思考 | 400 错误 | 400 错误 | 关闭思考 |
+| Claude Mythos Preview | 自适应思考 | 自适应思考 | 扩展思考 | 400 错误 | 400 错误 |
+| Claude Opus 4.6 | 关闭思考 | 自适应思考 | 扩展思考（已弃用） | 400 错误 | 关闭思考 |
+| Claude Sonnet 4.6 | 关闭思考 | 自适应思考 | 扩展思考（已弃用） | 400 错误 | 关闭思考 |
+| Claude Opus 4.5 | 关闭思考 | 400 错误 | 扩展思考 | 400 错误 | 关闭思考 |
+| Claude Sonnet 4.5 | 关闭思考 | 400 错误 | 扩展思考 | 400 错误 | 关闭思考 |
+| Claude Haiku 4.5 | 关闭思考 | 400 错误 | 扩展思考 | 400 错误 | 关闭思考 |
 
 表中，"在 `high` effort 或以下"表示该请求在 `low`、`medium` 和 `high` effort 下有效，而在 `xhigh` 或 `max` 下返回 400 错误。
 
@@ -561,7 +561,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
   在极少数需要访问完整思考输出的情况下，请[联系 Anthropic 销售团队](mailto:sales@anthropic.com)。
 </Note>
 
-要查看模型的推理，请读取 `thinking` 块，而不是在响应文本中通过提示索取推理。在 Claude Fable 5.2、Claude Fable 5.1、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5 和 Claude Fable 5 上，试图将模型的内部推理作为响应文本的一部分引出的请求可能会被拒绝，并返回 `stop_details.category: "reasoning_extraction"`。有关字段参考，请参阅[拒绝的样子](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)；有关应改为请求的内容，请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。
+要查看模型的推理，请读取 `thinking` 块，而不是在响应文本中通过提示索取推理。某些模型可能会拒绝要求将其内部推理作为响应文本一部分的请求。该拒绝带有 `stop_details.category: "reasoning_extraction"`。有关这些模型的示例以及应改为请求的内容，请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。有关字段参考，请参阅[拒绝的样子](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)。
 
 ### 流式传输思考
 
@@ -1016,11 +1016,11 @@ Assistant: [thinking] + [text: "..."] (thinking enabled - new turn)
 
 进度更新块包含的内容取决于 [`display`](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#controlling-thinking-display)：
 
-| `display`              | 推理块             | 进度更新块           |
-| ---------------------- | --------------- | --------------- |
+| `display` | 推理块 | 进度更新块 |
+| ----- | ----- | ----- |
 | `"omitted"`（这些模型上的默认值） | `thinking` 字段为空 | `thinking` 字段为空 |
-| `"updates"`（beta）      | `thinking` 字段为空 | 摘要文本            |
-| `"summarized"`         | 摘要文本            | 摘要文本，无法与推理块区分   |
+| `"updates"`（beta） | `thinking` 字段为空 | 摘要文本 |
+| `"summarized"` | 摘要文本 | 摘要文本，无法与推理块区分 |
 
 在 Claude Sonnet 5.5 上，最低的思考设置是 `thinking: {type: "between_tools"}`。它会关闭预先思考，并且每个进度更新都会附带摘要文本返回，就像在 `display: "updates"` 下一样。`between_tools` 仅在 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 为 `high` 或以下时被接受。在 `xhigh` 或 `max` 下，使用该设置的请求会返回 400 错误。`between_tools` 不接受任何其他字段：与其一起发送 `display`、`budget_tokens` 或 `block_binding` 都会返回 400 错误。该设置适用于所有提供 Claude Sonnet 5.5 的平台。请原样传回这些块：您传回的进度更新块会为模型提供它所编写的完整说明，而不是摘要。
 
@@ -1237,27 +1237,27 @@ Claude 4.6 及更高版本的模型以及 Claude Mythos Preview 会以 400 错�
 
 每个模型接受的 `max_tokens` 上限如下所列。在 [Message Batches API](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing#extended-output-beta) 上，`output-300k-2026-03-24` [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers)会为列出了批处理上限的模型提高该上限。
 
-| Model                 | Max output tokens | Batches beta ceiling |
-| :-------------------- | :---------------- | :------------------- |
-| Claude Fable 5.2      | 128K              | —                    |
-| Claude Mythos 5.2     | 128K              | —                    |
-| Claude Fable 5.1      | 128K              | —                    |
-| Claude Mythos 5.1     | 128K              | —                    |
-| Claude Fable 5        | 128K              | —                    |
-| Claude Mythos 5       | 128K              | —                    |
-| Claude Mythos Preview | 128K              | Not available        |
-| Claude Opus 5.5       | 128K              | 300K                 |
-| Claude Opus 5         | 128K              | 300K                 |
-| Claude Opus 4.8       | 128K              | 300K                 |
-| Claude Opus 4.7       | 128K              | 300K                 |
-| Claude Opus 4.6       | 128K              | 300K                 |
-| Claude Opus 4.5       | 64K               | Not available        |
-| Claude Sonnet 5.5     | 128K              | 300K                 |
-| Claude Sonnet 5       | 128K              | 300K                 |
-| Claude Sonnet 4.6     | 128K              | 300K                 |
-| Claude Sonnet 4.5     | 64K               | Not available        |
-| Claude Haiku 5.5      | 128K              | 300K                 |
-| Claude Haiku 4.5      | 64K               | Not available        |
+| Model | Max output tokens | Batches beta ceiling |
+| :---- | :---- | :---- |
+| Claude Fable 5.2 | 128K | — |
+| Claude Mythos 5.2 | 128K | — |
+| Claude Fable 5.1 | 128K | — |
+| Claude Mythos 5.1 | 128K | — |
+| Claude Fable 5 | 128K | — |
+| Claude Mythos 5 | 128K | — |
+| Claude Mythos Preview | 128K | Not available |
+| Claude Opus 5.5 | 128K | 300K |
+| Claude Opus 5 | 128K | 300K |
+| Claude Opus 4.8 | 128K | 300K |
+| Claude Opus 4.7 | 128K | 300K |
+| Claude Opus 4.6 | 128K | 300K |
+| Claude Opus 4.5 | 64K | Not available |
+| Claude Sonnet 5.5 | 128K | 300K |
+| Claude Sonnet 5 | 128K | 300K |
+| Claude Sonnet 4.6 | 128K | 300K |
+| Claude Sonnet 4.5 | 64K | Not available |
+| Claude Haiku 5.5 | 128K | 300K |
+| Claude Haiku 4.5 | 64K | Not available |
 
 如需以编程方式读取模型的限制，请参阅[使用 Models API](https://platform.claude.com/docs/zh-CN/models/overview#using-the-models-api)。
 
@@ -1300,8 +1300,8 @@ Claude 4.6 及更高版本的模型以及 Claude Mythos Preview 会以 400 错�
 * 可用性：默认开启
 * 用法：在接受该值的模型上，`thinking: {"type": "disabled"}` 会将其关闭。在默认关闭的模型上，设置 `thinking` 即可将其开启。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -1309,17 +1309,17 @@ Claude 4.6 及更高版本的模型以及 Claude Mythos Preview 会以 400 错�
 * 可用性：始终开启
 * 用法：由 Managed Agents 设置思考配置；智能体定义中没有 `thinking` 字段。
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目 | 零数据保留                                                                                                                                     | HIPAA |
-| -- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
 
 适用的端点：
 

@@ -27,18 +27,18 @@ ant beta:sessions:events list --session-id session_01...
 
 ### 全局标志
 
-| 标志                                    | 描述                                                                                                                                                                                                                                                                                                                                   |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `--profile`                           | 此命令使用的命名配置文件（等同于设置 `ANTHROPIC_PROFILE`）。请参阅[在工作区之间切换](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/authentication#switch-between-workspaces)。                                                                                                                                                                       |
-| `--api-key-stdin`                     | 从标准输入读取 API 密钥。该标志会读取全部标准输入，因此请通过[标志](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/using#flags)传递请求体。                                                                                                                                                                                                               |
-| `--auth-token-stdin`                  | 从标准输入读取 bearer 令牌。该标志会读取全部标准输入，因此请通过[标志](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/using#flags)传递请求体。                                                                                                                                                                                                            |
-| `--format`                            | 输出格式：`auto`、`json`、`jsonl`、`yaml`、`pretty`、`raw`、`explore`                                                                                                                                                                                                                                                                           |
-| `--transform`                         | 使用 GJSON 路径过滤或重塑响应。请参阅[使用 GJSON 转换输出](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/using#transform-output-with-gjson)。                                                                                                                                                                                              |
-| `-r`, `--raw-output`                  | 打印字符串结果时不带外围引号，类似 `jq -r`                                                                                                                                                                                                                                                                                                            |
-| `--base-url`                          | 覆盖 API 基础 URL                                                                                                                                                                                                                                                                                                                        |
-| `--workspace-id`                      | 可选。作为 `anthropic-workspace-id` 标头发送的工作区 ID（`wrkspc_...`），适用于未限定到某个工作区的 API 密钥（等同于设置 `ANTHROPIC_WORKSPACE_ID`）。请参阅[选择工作区](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#select-a-workspace)。[Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 命令有其自己的 `--workspace-id`，用于指定它们所管理的工作区。 |
-| `--debug`                             | 将完整的 HTTP 请求和响应打印到 stderr                                                                                                                                                                                                                                                                                                            |
-| `--format-error`, `--transform-error` | 与 `--format` 和 `--transform` 相同，但应用于[错误响应](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/scripting#inspect-errors)                                                                                                                                                                                                   |
+| 标志 | 描述 |
+| ----- | ----- |
+| `--profile` | 此命令使用的命名配置文件（等同于设置 `ANTHROPIC_PROFILE`）。请参阅[在工作区之间切换](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/authentication#switch-between-workspaces)。 |
+| `--api-key-stdin` | 从标准输入读取 API 密钥。该标志会读取全部标准输入，因此请通过[标志](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/using#flags)传递请求体。 |
+| `--auth-token-stdin` | 从标准输入读取 bearer 令牌。该标志会读取全部标准输入，因此请通过[标志](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/using#flags)传递请求体。 |
+| `--format` | 输出格式：`auto`、`json`、`jsonl`、`yaml`、`pretty`、`raw`、`explore` |
+| `--transform` | 使用 GJSON 路径过滤或重塑响应。请参阅[使用 GJSON 转换输出](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/using#transform-output-with-gjson)。 |
+| `-r`, `--raw-output` | 打印字符串结果时不带外围引号，类似 `jq -r` |
+| `--base-url` | 覆盖 API 基础 URL |
+| `--workspace-id` | 可选。作为 `anthropic-workspace-id` 标头发送的工作区 ID（`wrkspc_...`），适用于未限定到某个工作区的 API 密钥（等同于设置 `ANTHROPIC_WORKSPACE_ID`）。请参阅[选择工作区](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#select-a-workspace)。[Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 命令有其自己的 `--workspace-id`，用于指定它们所管理的工作区。 |
+| `--debug` | 将完整的 HTTP 请求和响应打印到 stderr |
+| `--format-error`, `--transform-error` | 与 `--format` 和 `--transform` 相同，但应用于[错误响应](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/scripting#inspect-errors) |
 
 ## 输出格式
 

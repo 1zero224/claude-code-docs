@@ -25,21 +25,21 @@ description: 在 Claude Platform 上平衡成本与智能，附有提示缓存�
 
 将您的情况与某一行对应。
 
-| 您的情况                             | 这样做                                                                               | 参见                                                                                                                                                                                                                                                                         |
-| -------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 任何工作负载、任何模型                      | 开启提示缓存并精简不需要的令牌；两者都是免费的                                                           | [缓存重复的上下文](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#cache-repeated-context) · [精简令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens) |
-| 轮次之间有人在等待                        | 统计请求之间的间隔，然后根据该部分的表格选择缓存时长                                                        | [选择缓存时长](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#pick-the-cache-duration)                                                                                                                                          |
-| 成本过高；质量尚可                        | 在您当前使用的模型上尝试更低的努力程度                                                               | [调整努力程度](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#tune-effort)                                                                                                                                                      |
-| 您没有使用最新模型                        | 升级；在该部分的编码基准测试中，每个较新的模型解决的任务至少与前一个模型一样多，且每个已解决任务的成本通常更低                           | [升级模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#upgrade-the-model)                                                                                                                                                  |
-| 您正在选择或切换模型                       | 按每个已完成任务的成本进行比较，而不是按每个令牌                                                          | [比较模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#compare-models-on-cost-per-task)                                                                                                                                    |
-| 输出可检查的大批量工作                      | 先尝试 Claude Haiku 5.5                                                              | [比较模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#compare-models-on-cost-per-task)                                                                                                                                    |
-| 质量不够好                            | 如果您降低了努力程度，请恢复它；否则尝试以默认努力程度使用更高一级的模型                                              | [调整努力程度](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#tune-effort) · [比较模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#compare-models-on-cost-per-task)            |
-| 尝试以 `stop_reason: max_tokens` 结束 | 将 `max_tokens` 提高到 64,000：在 Anthropic 的测试中，只有约 18,000 个中的 7 个轮次更长，且每个已解决任务的成本没有上升 | [设置预算](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#set-budgets-and-output-caps)                                                                                                                                        |
-| 您可以检查输出（测试、验证器）                  | 以 `low` 努力程度运行，并以 `high` 重新运行失败的任务：在 Anthropic 的测试中，成本比全部使用 `high` 低约 40%，通过率相同   | [重新运行失败任务](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#re-run-failures-at-higher-effort)                                                                                                                               |
-| 智能体循环中有少数运行成本极高                  | 设置 Claude Managed Agents 会话预算和工作区支出限制                                             | [设置预算](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#set-budgets-and-output-caps)                                                                                                                                        |
-| 您希望智能体运行更快完成                     | 告诉模型时间很重要，并向其展示已用时间：在 Anthropic 的测试中用时减少 7% 到 47%，代价是得分降低几个百分点                    | [向模型显示已用时间](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#show-the-model-elapsed-time)                                                                                                                                   |
-| 低成本模型仅在困难决策上停滞                   | 尝试顾问。只有当您的模型咨询它时它才能提供帮助；先单独以低努力程度为其模型定价，并测量咨询率                                    | [顾问策略](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#advisor-strategy-escalate-hard-decisions)                                                                                                                           |
-| 工作超出一个上下文窗口                      | 拆分工作，并将各部分交给较低成本的模型                                                               | [编排器策略](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#orchestrator-strategy-delegate-bulk-work)                                                                                                                          |
+| 您的情况 | 这样做 | 参见 |
+| ----- | ----- | ----- |
+| 任何工作负载、任何模型 | 开启提示缓存并精简不需要的令牌；两者都是免费的 | [缓存重复的上下文](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#cache-repeated-context) · [精简令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens) |
+| 轮次之间有人在等待 | 统计请求之间的间隔，然后根据该部分的表格选择缓存时长 | [选择缓存时长](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#pick-the-cache-duration) |
+| 成本过高；质量尚可 | 在您当前使用的模型上尝试更低的努力程度 | [调整努力程度](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#tune-effort) |
+| 您没有使用最新模型 | 升级；在该部分的编码基准测试中，每个较新的模型解决的任务至少与前一个模型一样多，且每个已解决任务的成本通常更低 | [升级模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#upgrade-the-model) |
+| 您正在选择或切换模型 | 按每个已完成任务的成本进行比较，而不是按每个令牌 | [比较模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#compare-models-on-cost-per-task) |
+| 输出可检查的大批量工作 | 先尝试 Claude Haiku 5.5 | [比较模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#compare-models-on-cost-per-task) |
+| 质量不够好 | 如果您降低了努力程度，请恢复它；否则尝试以默认努力程度使用更高一级的模型 | [调整努力程度](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#tune-effort) · [比较模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#compare-models-on-cost-per-task) |
+| 尝试以 `stop_reason: max_tokens` 结束 | 将 `max_tokens` 提高到 64,000：在 Anthropic 的测试中，只有约 18,000 个中的 7 个轮次更长，且每个已解决任务的成本没有上升 | [设置预算](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#set-budgets-and-output-caps) |
+| 您可以检查输出（测试、验证器） | 以 `low` 努力程度运行，并以 `high` 重新运行失败的任务：在 Anthropic 的测试中，成本比全部使用 `high` 低约 40%，通过率相同 | [重新运行失败任务](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#re-run-failures-at-higher-effort) |
+| 智能体循环中有少数运行成本极高 | 设置 Claude Managed Agents 会话预算和工作区支出限制 | [设置预算](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#set-budgets-and-output-caps) |
+| 您希望智能体运行更快完成 | 告诉模型时间很重要，并向其展示已用时间：在 Anthropic 的测试中用时减少 7% 到 47%，代价是得分降低几个百分点 | [向模型显示已用时间](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#show-the-model-elapsed-time) |
+| 低成本模型仅在困难决策上停滞 | 尝试顾问。只有当您的模型咨询它时它才能提供帮助；先单独以低努力程度为其模型定价，并测量咨询率 | [顾问策略](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#advisor-strategy-escalate-hard-decisions) |
+| 工作超出一个上下文窗口 | 拆分工作，并将各部分交给较低成本的模型 | [编排器策略](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#orchestrator-strategy-delegate-bulk-work) |
 
 这些结果来自 Anthropic 内部测量（[引用的基准测试](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)），仅供方向性参考，并非保证，因此请使用[四步方法](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#measure-on-your-own-workload)在您自己的工作负载上进行测量。
 
@@ -75,11 +75,11 @@ Anthropic 对 DeepResearch Bench II<sup>[7](https://platform.claude.com/docs/zh-
 
 以同样的方式对其他运行记录的令牌数进行定价（每个模型均使用其默认努力程度），可以得出无缓存时每个任务的平均令牌成本：
 
-| 基准测试                                                                                                                                                                                                                                                                                | 模型                | 无缓存时          |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------- |
-| SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>                                                                                                                                                   | Claude Opus 5.5   | 有缓存时成本的 3.3 倍 |
-| SWE-bench Pro                                                                                                                                                                                                                                                                       | Claude Sonnet 5.5 | 有缓存时成本的 3.1 倍 |
-| Claude Managed Agents 任务集<sup>[25](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>，其会话较短                                                                                                                                | Claude Haiku 5.5  | 有缓存时成本的 1.7 倍 |
+| 基准测试 | 模型 | 无缓存时 |
+| ----- | ----- | ----- |
+| SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | Claude Opus 5.5 | 有缓存时成本的 3.3 倍 |
+| SWE-bench Pro | Claude Sonnet 5.5 | 有缓存时成本的 3.1 倍 |
+| Claude Managed Agents 任务集<sup>[25](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>，其会话较短 | Claude Haiku 5.5 | 有缓存时成本的 1.7 倍 |
 | 一个对错误报告进行分诊的小型智能体（[精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens)）<sup>[16](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | Claude Sonnet 5.5 | 有缓存时成本的 7.3 倍 |
 
 节省幅度随任务所需的轮次数而变化，因为较短的循环重复读取的内容更少。
@@ -102,15 +102,15 @@ Anthropic 测量了一个对错误报告进行分诊的小型智能体（[精简
 
 要做出决定，请统计对话中连续请求之间的间隔，并在下表中找到对应的行。指明您所用模型的行优先于"模型"列为"任意"的行：
 
-| 您的请求间隔                                           | 模型                                  | 使用                      |
-| ------------------------------------------------ | ----------------------------------- | ----------------------- |
-| 轮次间隔只有几秒                                         | 任意                                  | 5 分钟默认值                 |
-| 大约每 20 个间隔中有 1 个或更多落在 5 分钟到 1 小时之间，且很少有间隔超过 1 小时 | 任意                                  | 1 小时时长                  |
-| 超过 1 小时的间隔很常见：超过 5 分钟的暂停中约 60% 或更多也超过了 1 小时      | 任意                                  | 5 分钟默认值                 |
-| 每 20 个间隔中只有 1 或 2 个落在 5 分钟到 1 小时之间，且没有一个超过约半小时   | Claude Opus 5.5 和 Claude Sonnet 5.5 | 保持预热的 5 分钟缓存，而不是 1 小时时长 |
-| 每个轮次之前都有超过 5 分钟的暂停，且很少有暂停超过 1 小时                 | Claude Opus 5.5 和 Claude Sonnet 5.5 | 1 小时时长                  |
-| 暂停持续数分钟                                          | Claude Fable 5.1 和 Claude Fable 5.2 | 保持预热的 5 分钟缓存，而不是 1 小时时长 |
-| 暂停接近 1 小时，且很少有暂停超过 1 小时                          | Claude Fable 5.1 和 Claude Fable 5.2 | 1 小时时长                  |
+| 您的请求间隔 | 模型 | 使用 |
+| ----- | ----- | ----- |
+| 轮次间隔只有几秒 | 任意 | 5 分钟默认值 |
+| 大约每 20 个间隔中有 1 个或更多落在 5 分钟到 1 小时之间，且很少有间隔超过 1 小时 | 任意 | 1 小时时长 |
+| 超过 1 小时的间隔很常见：超过 5 分钟的暂停中约 60% 或更多也超过了 1 小时 | 任意 | 5 分钟默认值 |
+| 每 20 个间隔中只有 1 或 2 个落在 5 分钟到 1 小时之间，且没有一个超过约半小时 | Claude Opus 5.5 和 Claude Sonnet 5.5 | 保持预热的 5 分钟缓存，而不是 1 小时时长 |
+| 每个轮次之前都有超过 5 分钟的暂停，且很少有暂停超过 1 小时 | Claude Opus 5.5 和 Claude Sonnet 5.5 | 1 小时时长 |
+| 暂停持续数分钟 | Claude Fable 5.1 和 Claude Fable 5.2 | 保持预热的 5 分钟缓存，而不是 1 小时时长 |
+| 暂停接近 1 小时，且很少有暂停超过 1 小时 | Claude Fable 5.1 和 Claude Fable 5.2 | 1 小时时长 |
 
 在 Claude Haiku 5.5 上，请使用"任意"行：它以输入价格的标准 0.1 倍读取缓存，是 Claude Opus 5.5 和 Claude Sonnet 5.5 的 0.05 倍的两倍，因此根据标价，每个保活请求相对于输入价格的成本是这两个模型上的两倍。在另一项测试中，`max_tokens: 0` 请求刷新了其缓存（参考文献 16）。
 
@@ -369,16 +369,16 @@ Anthropic 在一个客服台评估<sup>[14](https://platform.claude.com/docs/zh-
 
 下表列出了结果：
 
-| 基准测试                                                                                                                                                  | 模型                | 努力程度         | 分数                                                   | 成本                                                         |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------ | ---------------------------------------------------- | ---------------------------------------------------------- |
-| SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> 子集                  | Claude Sonnet 5.5 | `high`（默认）   | 解决了 87.6% 的任务                                        | 每个已解决任务 $0.11 USD                                          |
-| SWE-bench Pro 子集                                                                                                                                      | Claude Opus 5.5   | `low`        | 解决了 87.4% 的任务                                        | 每个已解决任务 $0.12 USD                                          |
-| SWE-bench Pro 子集                                                                                                                                      | Claude Opus 5.5   | `medium`（默认） | 解决了 92.8% 的任务                                        | 每个已解决任务 $0.22 USD                                          |
-| SWE-bench Pro 子集                                                                                                                                      | Claude Fable 5.1  | `high`（默认）   | 解决了 92.3% 的任务（单次运行）                                  | 每个已解决任务 $1.19 USD                                          |
-| 内部智能体编码基准测试<sup>[11](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>                      | Claude Opus 5.5   | `medium`（默认） | 86.6%                                                | 每次尝试 $0.84 USD                                             |
-| 内部智能体编码基准测试                                                                                                                                           | Claude Fable 5.2  | `medium`     | 88.9%（单次运行）                                          | 每次尝试 $1.34 USD                                             |
-| GPQA Diamond<sup>[9](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>                      | Claude Haiku 5.5  | `medium`（默认） | 准确率 85%，而 Claude Opus 5.5 和 Claude Sonnet 5.5 均为 91% | 每个正确答案的成本约为 Claude Opus 5.5 的二十分之一、Claude Sonnet 5.5 的十分之一 |
-| Claude Managed Agents 任务集<sup>[25](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>，79 个任务 | Claude Haiku 5.5  | `medium`     | 93% 的尝试通过（单次运行）                                      | 每次通过的尝试约 $0.011 USD                                        |
+| 基准测试 | 模型 | 努力程度 | 分数 | 成本 |
+| ----- | ----- | ----- | ----- | ----- |
+| SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> 子集 | Claude Sonnet 5.5 | `high`（默认） | 解决了 87.6% 的任务 | 每个已解决任务 $0.11 USD |
+| SWE-bench Pro 子集 | Claude Opus 5.5 | `low` | 解决了 87.4% 的任务 | 每个已解决任务 $0.12 USD |
+| SWE-bench Pro 子集 | Claude Opus 5.5 | `medium`（默认） | 解决了 92.8% 的任务 | 每个已解决任务 $0.22 USD |
+| SWE-bench Pro 子集 | Claude Fable 5.1 | `high`（默认） | 解决了 92.3% 的任务（单次运行） | 每个已解决任务 $1.19 USD |
+| 内部智能体编码基准测试<sup>[11](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | Claude Opus 5.5 | `medium`（默认） | 86.6% | 每次尝试 $0.84 USD |
+| 内部智能体编码基准测试 | Claude Fable 5.2 | `medium` | 88.9%（单次运行） | 每次尝试 $1.34 USD |
+| GPQA Diamond<sup>[9](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | Claude Haiku 5.5 | `medium`（默认） | 准确率 85%，而 Claude Opus 5.5 和 Claude Sonnet 5.5 均为 91% | 每个正确答案的成本约为 Claude Opus 5.5 的二十分之一、Claude Sonnet 5.5 的十分之一 |
+| Claude Managed Agents 任务集<sup>[25](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>，79 个任务 | Claude Haiku 5.5 | `medium` | 93% 的尝试通过（单次运行） | 每次通过的尝试约 $0.011 USD |
 
 在 SWE-bench Pro 子集 478 个问题中的 463 个上（即参考解决方案在无网络访问时也能通过的问题，参考文献 3），`high`（其在 Messages API 上的默认值）下的 Claude Fable 5.2 解决了 96.3% 的任务，每个已解决任务 $1.39 USD。同一次默认设置下的 Claude Fable 5.1 运行在这 463 个问题上统计，解决了 92.4%，每个已解决任务 $1.17 USD。在 `low` 下，Fable 5.2 解决了 94.6%，每个已解决任务 $0.39 USD：比默认设置下的 Fable 5.1 解决的任务更多，成本约为其三分之一。在相近的通过率下，Claude Opus 5.5 在这些问题上每个已解决任务的成本仍然更低：默认设置下解决了 93.1%，$0.22 USD；`high` 下为 95.5%，$0.30 USD；`xhigh` 下为 96.5%，$0.75 USD，与 `high` 下的 Fable 5.2 持平，成本略高于其一半。
 
@@ -406,14 +406,14 @@ Anthropic 在一个客服台评估<sup>[14](https://platform.claude.com/docs/zh-
   ![图表：在 SWE-bench Pro 上，Opus 5.5 和 Sonnet 5.5 对每个已解决任务成本的削减最大；在 Terminal-Bench 3 上，Opus 降至 $28 USD](https://platform.claude.com/docs/zh-CN/images/cost-intel/upgrade-ladder-sonnet-5-5.svg)
 </Frame>
 
-| 基准测试                                                                                                                                           | 升级                                    | 努力程度                               | 分数                        | 成本                                                    |
-| ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ---------------------------------- | ------------------------- | ----------------------------------------------------- |
-| SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> 子集           | Claude Sonnet 4.6 升级到 Claude Sonnet 5 | 默认                                 | 高 5 分                     | 每个已解决任务成本降低 16%                                       |
-| SWE-bench Pro 子集                                                                                                                               | Claude Sonnet 5 升级到 Claude Sonnet 5.5 | 默认                                 | 约高 10 分                   | 每个已解决任务成本降低 87%；按 Claude Sonnet 5 的价格计算降低 85%         |
-| SWE-bench Pro 子集                                                                                                                               | Claude Opus 5 升级到 Claude Opus 5.5     | 默认：`high` 到 `medium`               | 大致相同：解决的任务从 91.9% 到 92.8% | 每个已解决任务成本降低 78%；按 Claude Opus 5 的价格计算约降低 69%          |
-| SWE-bench Pro 子集                                                                                                                               | Claude Fable 5 升级到 Claude Fable 5.1   | 默认                                 | 分数大致相同                    | 每个已解决任务成本降低 43%                                       |
-| Terminal-Bench 3<sup>[20](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>          | Claude Opus 4.7 升级到 Claude Opus 4.8   | `high`                             | 解决的任务从 7% 到 15%           | 每个已解决任务从 $183 USD 降至 $63 USD                          |
-| Terminal-Bench 3                                                                                                                               | Claude Opus 4.8 升级到 Claude Opus 5     | `high`                             | 解决的任务从 15% 到 41%          | 每个已解决任务从 $63 USD 降至 $28 USD，节省 56%                    |
+| 基准测试 | 升级 | 努力程度 | 分数 | 成本 |
+| ----- | ----- | ----- | ----- | ----- |
+| SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> 子集 | Claude Sonnet 4.6 升级到 Claude Sonnet 5 | 默认 | 高 5 分 | 每个已解决任务成本降低 16% |
+| SWE-bench Pro 子集 | Claude Sonnet 5 升级到 Claude Sonnet 5.5 | 默认 | 约高 10 分 | 每个已解决任务成本降低 87%；按 Claude Sonnet 5 的价格计算降低 85% |
+| SWE-bench Pro 子集 | Claude Opus 5 升级到 Claude Opus 5.5 | 默认：`high` 到 `medium` | 大致相同：解决的任务从 91.9% 到 92.8% | 每个已解决任务成本降低 78%；按 Claude Opus 5 的价格计算约降低 69% |
+| SWE-bench Pro 子集 | Claude Fable 5 升级到 Claude Fable 5.1 | 默认 | 分数大致相同 | 每个已解决任务成本降低 43% |
+| Terminal-Bench 3<sup>[20](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | Claude Opus 4.7 升级到 Claude Opus 4.8 | `high` | 解决的任务从 7% 到 15% | 每个已解决任务从 $183 USD 降至 $63 USD |
+| Terminal-Bench 3 | Claude Opus 4.8 升级到 Claude Opus 5 | `high` | 解决的任务从 15% 到 41% | 每个已解决任务从 $63 USD 降至 $28 USD，节省 56% |
 | Claude Managed Agents 任务集<sup>[25](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | Claude Haiku 4.5 升级到 Claude Haiku 5.5 | 按服务默认；Claude Haiku 5.5 上为 `medium` | 通过的尝试从 62% 到 93%，每个模型运行一次 | 每次尝试的令牌成本从 $0.041 USD 降至约 $0.010 USD；每次通过的尝试成本约降低 84% |
 
 **何时划算。**
@@ -429,15 +429,15 @@ Anthropic 在一个客服台评估<sup>[14](https://platform.claude.com/docs/zh-
 
 下表列出了 Anthropic 使用当前模型在两个基准测试上的测量结果；两个基准测试之间的分数和成本不可比。成本按每个任务计算，而不是像[按每任务成本比较模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#compare-models-on-cost-per-task)中那样按每个已解决任务计算。除非单元格另有说明，每个分数在 SWE-bench Pro 上汇总了两次运行，在 DeepResearch Bench II 上汇总了三次运行：
 
-| 基准测试                                                                                                                                      | 模型               | 努力程度                       | 分数                  | 每任务成本     |
-| ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------------------------- | ------------------- | --------- |
-| SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> 子集      | Claude Opus 5.5  | `low`                      | 解决了 87.4% 的任务       | $0.11 USD |
-| SWE-bench Pro 子集                                                                                                                          | Claude Opus 5.5  | `medium`（默认）               | 解决了 92.8% 的任务       | $0.21 USD |
-| SWE-bench Pro 子集                                                                                                                          | Claude Opus 5.5  | `high`                     | 解决了 95.3% 的任务       | $0.29 USD |
-| SWE-bench Pro 子集                                                                                                                          | Claude Opus 5.5  | `xhigh`                    | 解决了 96.7% 的任务（单次运行） | $0.74 USD |
-| DeepResearch Bench II<sup>[7](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | Claude Fable 5.2 | `low`                      | 评分标准得分 54.5%        | $1.49 USD |
-| DeepResearch Bench II                                                                                                                     | Claude Fable 5.2 | `medium`                   | 评分标准得分 55.0%        | $2.16 USD |
-| DeepResearch Bench II                                                                                                                     | Claude Fable 5.2 | `high`（Messages API 上的默认值） | 评分标准得分 57.7%        | $4.82 USD |
+| 基准测试 | 模型 | 努力程度 | 分数 | 每任务成本 |
+| ----- | ----- | ----- | ----- | ----- |
+| SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> 子集 | Claude Opus 5.5 | `low` | 解决了 87.4% 的任务 | $0.11 USD |
+| SWE-bench Pro 子集 | Claude Opus 5.5 | `medium`（默认） | 解决了 92.8% 的任务 | $0.21 USD |
+| SWE-bench Pro 子集 | Claude Opus 5.5 | `high` | 解决了 95.3% 的任务 | $0.29 USD |
+| SWE-bench Pro 子集 | Claude Opus 5.5 | `xhigh` | 解决了 96.7% 的任务（单次运行） | $0.74 USD |
+| DeepResearch Bench II<sup>[7](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | Claude Fable 5.2 | `low` | 评分标准得分 54.5% | $1.49 USD |
+| DeepResearch Bench II | Claude Fable 5.2 | `medium` | 评分标准得分 55.0% | $2.16 USD |
+| DeepResearch Bench II | Claude Fable 5.2 | `high`（Messages API 上的默认值） | 评分标准得分 57.7% | $4.82 USD |
 
 下图绘制了 Claude Opus 5.5 在 SWE-bench Pro<sup>[3](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> 子集上的准确率与每任务成本的关系：
 
@@ -472,11 +472,11 @@ Anthropic 根据[调整努力程度](https://platform.claude.com/docs/zh-CN/abou
 
 在下表中，重新运行的成本计入了失败的低成本尝试：
 
-| 策略                         | 解决的任务 | 每任务成本       |
-| -------------------------- | ----- | ----------- |
-| `low`，失败任务以 `high` 重新运行    | 约 97% | 约 $0.17 USD |
+| 策略 | 解决的任务 | 每任务成本 |
+| ----- | ----- | ----- |
+| `low`，失败任务以 `high` 重新运行 | 约 97% | 约 $0.17 USD |
 | `medium`，失败任务以 `high` 重新运行 | 约 97% | 约 $0.24 USD |
-| 全部使用 `high`                | 95.3% | $0.29 USD   |
+| 全部使用 `high` | 95.3% | $0.29 USD |
 
 * 在 `low` 下，13% 的任务失败。将这些任务以 `high` 重新运行后，通过率略高于全部使用 `high`，而成本仅略高于一半。
 * 使用此策略是为了节省成本，而不是为了提升分数。这一小幅提升大部分来自第二次尝试：将一次 `high` 运行中的失败任务以 `high` 重新运行，得分大致相同，但花费更多。
@@ -495,14 +495,14 @@ Anthropic 根据[调整努力程度](https://platform.claude.com/docs/zh-CN/abou
 
 下表显示了在一个内部代码仓库任务基准测试<sup>[12](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>上，每个模型在每个上限下解决了多少任务以及每个已解决任务的成本，每个任务一次尝试，每个模型使用其在 Messages API 上的默认努力程度。16,384 的行是两次运行的平均值，其他行各为一次运行：
 
-| 模型               | `max_tokens` | 因上限而结束的尝试 | 解决的任务 | 每个已解决任务的成本     |
-| ---------------- | ------------ | --------- | ----- | -------------- |
-| Claude Opus 5.5  | 16,384       | 25%       | 57.6% | 按标价 $5.38 USD  |
-| Claude Opus 5.5  | 64,000       | 0%        | 75.6% | 按标价 $5.38 USD  |
-| Claude Opus 5.5  | 128,000      | 0%        | 68.9% | 按标价 $5.94 USD  |
-| Claude Fable 5.2 | 16,384       | 85%       | 20.3% | 按标价 $27.96 USD |
-| Claude Fable 5.2 | 64,000       | 2%        | 77.4% | 按标价 $24.42 USD |
-| Claude Fable 5.2 | 128,000      | 0%        | 78.2% | 按标价 $24.52 USD |
+| 模型 | `max_tokens` | 因上限而结束的尝试 | 解决的任务 | 每个已解决任务的成本 |
+| ----- | ----- | ----- | ----- | ----- |
+| Claude Opus 5.5 | 16,384 | 25% | 57.6% | 按标价 $5.38 USD |
+| Claude Opus 5.5 | 64,000 | 0% | 75.6% | 按标价 $5.38 USD |
+| Claude Opus 5.5 | 128,000 | 0% | 68.9% | 按标价 $5.94 USD |
+| Claude Fable 5.2 | 16,384 | 85% | 20.3% | 按标价 $27.96 USD |
+| Claude Fable 5.2 | 64,000 | 2% | 77.4% | 按标价 $24.42 USD |
+| Claude Fable 5.2 | 128,000 | 0% | 78.2% | 按标价 $24.52 USD |
 
 **Claude Opus 5.5 在 64,000 和 128,000 下：** 在这两个上限下都没有尝试被截断，因此上限无法解释这两行在解决的任务或每个已解决任务成本上的差异。每行为一次运行。
 
@@ -552,10 +552,10 @@ Anthropic 根据[调整努力程度](https://platform.claude.com/docs/zh-CN/abou
 
 下表比较了两种策略：
 
-| 策略                    | 控制流              | 前沿模型的角色     | 适合                                   | 前沿成本随之增长的因素 |
-| --------------------- | ---------------- | ----------- | ------------------------------------ | ----------- |
-| **顾问（Advisor）**       | 较小模型运行循环，按需升级    | 被咨询以获取计划和纠正 | 局部困难的串行工作，例如编码智能体在少数真正决策之间的许多轮次      | 执行器卡住的频率    |
-| **编排器（Orchestrator）** | 前沿模型运行循环，委派大批量工作 | 规划、分派和综合    | 可扇出到真正独立的文件、文档或案例的工作，尤其是超过一个上下文窗口的工作 | 各部分协调的难度    |
+| 策略 | 控制流 | 前沿模型的角色 | 适合 | 前沿成本随之增长的因素 |
+| ----- | ----- | ----- | ----- | ----- |
+| **顾问（Advisor）** | 较小模型运行循环，按需升级 | 被咨询以获取计划和纠正 | 局部困难的串行工作，例如编码智能体在少数真正决策之间的许多轮次 | 执行器卡住的频率 |
+| **编排器（Orchestrator）** | 前沿模型运行循环，委派大批量工作 | 规划、分派和综合 | 可扇出到真正独立的文件、文档或案例的工作，尤其是超过一个上下文窗口的工作 | 各部分协调的难度 |
 
 ### 顾问策略：升级困难决策
 
@@ -571,11 +571,11 @@ Anthropic 根据[调整努力程度](https://platform.claude.com/docs/zh-CN/abou
 
 下表将每个组合与相同努力程度下单独的执行器进行比较：
 
-| 基准测试                                                                                                                              | 分数                              | 成本                                                     | 顾问被咨询情况                         |
-| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------------------------ | ------------------------------- |
-| 内部智能体编码基准测试<sup>[11](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>  | 90.1%，比单独的执行器高 1.7 分，处于运行间噪声的边缘 | 每次尝试 $2.92 USD，约为单独执行器的 2.1 倍                          | 每次尝试约 1.4 次；4% 的尝试未获得建议         |
-| GPQA Diamond<sup>[9](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup>  | 与单独的执行器相差在运行间噪声范围内              | Claude Haiku 5.5 每个问题成本增加 12%，Claude Sonnet 5.5 增加 25% | 在 198 个问题中均未咨询，各运行两次；没有系统提示要求咨询 |
-| Chartography<sup>[13](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | 61.7，比单独的执行器低 7 分，超出运行间噪声       | 与单独的执行器大致相同                                            | 300 个任务中有 1 个                   |
+| 基准测试 | 分数 | 成本 | 顾问被咨询情况 |
+| ----- | ----- | ----- | ----- |
+| 内部智能体编码基准测试<sup>[11](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | 90.1%，比单独的执行器高 1.7 分，处于运行间噪声的边缘 | 每次尝试 $2.92 USD，约为单独执行器的 2.1 倍 | 每次尝试约 1.4 次；4% 的尝试未获得建议 |
+| GPQA Diamond<sup>[9](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | 与单独的执行器相差在运行间噪声范围内 | Claude Haiku 5.5 每个问题成本增加 12%，Claude Sonnet 5.5 增加 25% | 在 198 个问题中均未咨询，各运行两次；没有系统提示要求咨询 |
+| Chartography<sup>[13](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | 61.7，比单独的执行器低 7 分，超出运行间噪声 | 与单独的执行器大致相同 | 300 个任务中有 1 个 |
 
 * **内部智能体编码基准测试。** `high` 下的 Claude Opus 5.5，配合 Claude Fable 5.1 顾问。
 * **GPQA Diamond。** 各自默认设置（`medium` 和 `high`）下的 Claude Haiku 5.5 或 Claude Sonnet 5.5，配合 Claude Opus 5.5 顾问。
@@ -828,23 +828,23 @@ Anthropic 根据[调整努力程度](https://platform.claude.com/docs/zh-CN/abou
 
 下表按建议尝试的顺序列出了各项优化手段。这些数据来自 Anthropic 的测试、发布公告以及公布的价格和速度：
 
-| 手段              | 节省                                                                 | 质量代价                                                                                                                                        | 延迟                                                                                                                                     | 位置                                                                                                                                                    |
-| --------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 提示缓存            | 在一个研究智能体上成本降低为原来的 1/4.8 到 1/7.2，在一个小型分诊智能体上降幅为 83% 到 86%           | 无                                                                                                                                           | 更快                                                                                                                                     | [缓存重复的上下文](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#cache-repeated-context)                    |
-| 1 小时缓存时长        | 当每 10 轮中有 1 轮发生在暂停之后时，5 分钟默认时长的成本高出 54%；每 20 轮中有 1 轮时，成本大致相同       | 无                                                                                                                                           | 在早期模型上，暂停后缓存仍保持预热<sup>[16](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | [选择缓存时长](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#pick-the-cache-duration)                     |
-| 精简输入            | 在小型分诊智能体的账单上再节省 21% 到 26%                                          | 使用工具搜索时，准确率与不使用时处于相同范围<sup>[27](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | 无影响                                                                                                                                    | [精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens)           |
-| 工具搜索            | 附加 500 个工具定义时节省 45%；延迟加载 GitHub MCP 服务器的工具集节省 20%                  | 对于任务从不需要的工具，无代价                                                                                                                             | 无影响                                                                                                                                    | [精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens)           |
-| 通过代码执行处理数据文件    | 在一个包含 25 个问题的数据任务上节省 92%（关闭提示缓存）                                   | 有提升：25 题全对，而非 7 题                                                                                                                           | 更快                                                                                                                                     | [精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens)           |
-| Batch API       | 50%                                                                | 无                                                                                                                                           | 24 小时内返回结果                                                                                                                             | [批处理可以等待的工作](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#batch-work-that-can-wait)                |
-| 针对当前模型审计提示      | 在测试的两次模型升级中均节省 14%                                                 | 无；其中一次有提升                                                                                                                                   | 更快（工具调用轮次更少）                                                                                                                           | [针对当前模型审计提示](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#audit-prompts-against-the-current-model) |
-| 升级模型            | 通常更低：在典型工作负载上最多降低 40%，在一个编码基准上每个已解决任务的成本最多降低 87%                   | 在编码上无代价，大多数情况下有提升；在一个研究基准上，Claude Fable 5.2 的得分更低                                                                                           | 无影响                                                                                                                                    | [升级模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#upgrade-the-model)                             |
-| 降低努力程度          | 在长编码任务上，`medium` 的成本比 `high` 低约 30% 到 52%，`low` 则低约三分之二            | 视任务和模型而定，最多低 34 分；在一个研究智能体上低 3.3 分                                                                                                          | 更快                                                                                                                                     | [调整努力程度](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#tune-effort)                                 |
-| 重新运行失败任务        | 比全部以 `high` 运行低约 40%，通过率相同或略高                                      | 无                                                                                                                                           | 对失败的任务进行第二次尝试                                                                                                                          | [以更高的努力程度重新运行失败的任务](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#re-run-failures-at-higher-effort) |
-| 要求更简短的回答        | 输出令牌减少 39%，成本降低约 13%                                               | 无                                                                                                                                           | 更快                                                                                                                                     | [设置预算和输出上限](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#set-budgets-and-output-caps)              |
-| 提高 `max_tokens` | 无：每个已解决任务的成本在 64,000 时没有上升                                         | 有提升：在一个编码基准上已解决任务最多增加 57 个百分点（在 64,000 时）；在另一个基准上无变化                                                                                        | 无影响                                                                                                                                    | [设置预算和输出上限](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#set-budgets-and-output-caps)              |
-| 顾问              | 无：在一个编码基准上，成本约为单独使用该模型的 2.1 倍                                      | 在编码上有小幅提升，但可能是偶然；在图表阅读上有损失                                                                                                                  | 在编码上，每次尝试约多 1.4 次调用                                                                                                                    | [顾问策略](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#advisor-strategy-escalate-hard-decisions)      |
-| 编排器             | 在超出单个上下文窗口的工作上，使用低一级模型的子智能体时，成本比默认努力程度下单独使用编排器模型低约三分之一；对于常规工作，请先测量 | 在该类工作上没有可测量的损失                                                                                                                              | 最多同时运行 25 个子智能体                                                                                                                        | [编排器策略](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#orchestrator-strategy-delegate-bulk-work)     |
-| 快速模式            | 无：标准令牌价格的两倍                                                        | 无                                                                                                                                           | 每秒输出令牌数最高提升 2.5 倍                                                                                                                      | [向模型显示已用时间](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#show-the-model-elapsed-time)              |
+| 手段 | 节省 | 质量代价 | 延迟 | 位置 |
+| ----- | ----- | ----- | ----- | ----- |
+| 提示缓存 | 在一个研究智能体上成本降低为原来的 1/4.8 到 1/7.2，在一个小型分诊智能体上降幅为 83% 到 86% | 无 | 更快 | [缓存重复的上下文](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#cache-repeated-context) |
+| 1 小时缓存时长 | 当每 10 轮中有 1 轮发生在暂停之后时，5 分钟默认时长的成本高出 54%；每 20 轮中有 1 轮时，成本大致相同 | 无 | 在早期模型上，暂停后缓存仍保持预热<sup>[16](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | [选择缓存时长](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#pick-the-cache-duration) |
+| 精简输入 | 在小型分诊智能体的账单上再节省 21% 到 26% | 使用工具搜索时，准确率与不使用时处于相同范围<sup>[27](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#refs)</sup> | 无影响 | [精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens) |
+| 工具搜索 | 附加 500 个工具定义时节省 45%；延迟加载 GitHub MCP 服务器的工具集节省 20% | 对于任务从不需要的工具，无代价 | 无影响 | [精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens) |
+| 通过代码执行处理数据文件 | 在一个包含 25 个问题的数据任务上节省 92%（关闭提示缓存） | 有提升：25 题全对，而非 7 题 | 更快 | [精简输入和上下文令牌](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#trim-input-and-context-tokens) |
+| Batch API | 50% | 无 | 24 小时内返回结果 | [批处理可以等待的工作](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#batch-work-that-can-wait) |
+| 针对当前模型审计提示 | 在测试的两次模型升级中均节省 14% | 无；其中一次有提升 | 更快（工具调用轮次更少） | [针对当前模型审计提示](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#audit-prompts-against-the-current-model) |
+| 升级模型 | 通常更低：在典型工作负载上最多降低 40%，在一个编码基准上每个已解决任务的成本最多降低 87% | 在编码上无代价，大多数情况下有提升；在一个研究基准上，Claude Fable 5.2 的得分更低 | 无影响 | [升级模型](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#upgrade-the-model) |
+| 降低努力程度 | 在长编码任务上，`medium` 的成本比 `high` 低约 30% 到 52%，`low` 则低约三分之二 | 视任务和模型而定，最多低 34 分；在一个研究智能体上低 3.3 分 | 更快 | [调整努力程度](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#tune-effort) |
+| 重新运行失败任务 | 比全部以 `high` 运行低约 40%，通过率相同或略高 | 无 | 对失败的任务进行第二次尝试 | [以更高的努力程度重新运行失败的任务](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#re-run-failures-at-higher-effort) |
+| 要求更简短的回答 | 输出令牌减少 39%，成本降低约 13% | 无 | 更快 | [设置预算和输出上限](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#set-budgets-and-output-caps) |
+| 提高 `max_tokens` | 无：每个已解决任务的成本在 64,000 时没有上升 | 有提升：在一个编码基准上已解决任务最多增加 57 个百分点（在 64,000 时）；在另一个基准上无变化 | 无影响 | [设置预算和输出上限](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#set-budgets-and-output-caps) |
+| 顾问 | 无：在一个编码基准上，成本约为单独使用该模型的 2.1 倍 | 在编码上有小幅提升，但可能是偶然；在图表阅读上有损失 | 在编码上，每次尝试约多 1.4 次调用 | [顾问策略](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#advisor-strategy-escalate-hard-decisions) |
+| 编排器 | 在超出单个上下文窗口的工作上，使用低一级模型的子智能体时，成本比默认努力程度下单独使用编排器模型低约三分之一；对于常规工作，请先测量 | 在该类工作上没有可测量的损失 | 最多同时运行 25 个子智能体 | [编排器策略](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#orchestrator-strategy-delegate-bulk-work) |
+| 快速模式 | 无：标准令牌价格的两倍 | 无 | 每秒输出令牌数最高提升 2.5 倍 | [向模型显示已用时间](https://platform.claude.com/docs/zh-CN/about-claude/models/optimizing-for-cost-and-intelligence#show-the-model-elapsed-time) |
 
 ### 使用 Claude API skill 自动化搜索
 

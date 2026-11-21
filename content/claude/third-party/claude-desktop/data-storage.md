@@ -43,10 +43,11 @@ Within the application-data directory:
 | `local-agent-mode-sessions/.../memory/` | Cowork memory: a `CLAUDE.md` instructions file plus a `memory/` subdirectory of Markdown notes Claude writes about the user's preferences, projects, and feedback. See [Memory](#memory). |
 | `local-agent-mode-sessions/.../spaces/<projectId>/memory/` | Markdown memory notes for one project, used by Cowork sessions and Chat conversations inside that project. See [Memory](#memory). |
 | `local-agent-mode-sessions/.../<sessionId>/audit.jsonl` | Log of one Cowork session or Chat conversation. It holds the full text of prompts, Claude's responses, and tool inputs and results. See [Session audit log](#session-audit-log). |
+| `typed-artifacts/` | [Designs and slide decks](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md), and the design systems that users added on the computer. |
 | `claude-code-sessions/` | Code session records holding each session's working folder, settings, title, and sometimes a short summary. The conversation transcripts themselves are in Claude Code's own store at `~/.claude/projects/`, outside this directory. |
 | `claude-code/`, `claude-code-vm/` | Claude Code binary and VM workspace data for Code sessions. |
 | `vm_bundles/` | Cached copy of the VM workspace bundle that Cowork uses, plus the data disk the app creates to hold Cowork sessions' home directories inside the VM. |
-| `cowork_plugins/` | User-installed and [org-provisioned](https://claude.com/docs/third-party/claude-desktop/extensions.md#organization-plugins-admin) plugins. Created on first plugin install. |
+| `local-agent-mode-sessions/.../cowork_plugins/` | User-installed and [org-provisioned](https://claude.com/docs/third-party/claude-desktop/extensions.md#organization-plugins-admin) plugins. Created on first plugin install. |
 | `plugin-mcp-auth/`, `connectors/*/plugin-mcp/` | On Windows and Linux, the `.credentials.json` file that holds the user's sign-ins to plugin servers, made outside **Code**. See [Credentials](#credentials). |
 | `IndexedDB/`, `Local Storage/`, `Session Storage/` | Renderer-side UI state (window layout, recent folders, preferences). |
 
@@ -56,7 +57,7 @@ The app doesn't encrypt conversations, settings, or the locally applied configur
 
 The logs directory contains `main.log` (application and configuration-validation events), `ssh.log` (SSH connection events), `cowork_vm_node.log` (sandbox VM activity), `claude.ai-web.log` (renderer events), and `mcp.log` / `mcp-server-<name>.log` (MCP connection events).
 
-Separately from the application-data directory, Claude Desktop writes user-visible outputs (Artifacts and scheduled-task results) to `~/Claude/` in your home directory, or `~/Documents/Claude/` on legacy installs. This folder is intended for you to browse directly and is not removed when you delete the application-data directory. To back up a user's data, copy every location listed under [Copy the data to the new device](#copy-the-data-to-the-new-device).
+Separately from the application-data directory, Claude Desktop writes live artifacts (interactive pages) and scheduled-task results to `~/Claude/` in your home directory, or `~/Documents/Claude/` on legacy installs. This folder is intended for you to browse directly and is not removed when you delete the application-data directory. To back up a user's data, copy every location listed under [Copy the data to the new device](#copy-the-data-to-the-new-device).
 
 ### Data shared with standard Claude Desktop
 
@@ -67,7 +68,7 @@ Unless you [restrict a device to one deployment mode](https://claude.com/docs/th
 * **Claude Code setup**: `~/.claude/` and `~/.claude.json` also hold Claude Code's setup, such as skills, plugins, hooks, permission rules, trusted folders, and MCP servers, shared by **Code** in both modes and Claude Code in the terminal. Sign-ins to MCP servers made in **Code** are in [Claude Code's own credential store](https://code.claude.com/docs/en/authentication#credential-management), which they share too.
 * **Connectors**: standard Claude Desktop doesn't load the connectors, plugins, or extensions that users added outside **Code**. From your [`managedMcpServers`](https://claude.com/docs/third-party/claude-desktop/configuration#managedmcpservers) entries, it loads only a built-in Microsoft 365 connector set in the device's managed profile.
 * **Connector sign-ins**: on a device configured by MDM, a local file, or a bootstrap server, switching modes leaves [connector sign-ins](#credentials) made outside **Code** in place and doesn't revoke them. Standard Claude Desktop doesn't use them, and Claude Desktop on 3P uses them again when the user switches back.
-* **Files in `~/Claude/`**: by default, both modes write Artifacts, scheduled tasks, and project files here, and each lists only its own. To give Claude Desktop on 3P a folder of its own, have the user go to **Settings > Cowork** and click **Change** next to **Cowork files**. The app copies everything in the current folder, the other mode's files included, to the new location and leaves the old folder in place.
+* **Files in `~/Claude/`**: by default, both modes write live artifacts, scheduled tasks, and project files here, and each lists only its own. To give Claude Desktop on 3P a folder of its own, have the user go to **Settings > Cowork** and click **Change** next to **Cowork files**. The app copies everything in the current folder, the other mode's files included, to the new location and leaves the old folder in place.
 
 With the migration on, standard Claude Desktop also copies the data described under [What is migrated](https://claude.com/docs/third-party/claude-desktop/move-to-claude-enterprise.md#what-is-migrated). `~/.claude/`, `~/.claude.json`, and `~/Claude/` are still shared.
 
@@ -178,15 +179,15 @@ An API key that managed configuration delivers is never stored in the `configLib
 
 ## Automatic deletion of idle sessions
 
-By default, chats, Cowork tasks, and Code sessions stay on the device until the user deletes them. To delete them after a period without activity, set [`chatSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#chatsessionretentiondays), [`coworkSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#coworksessionretentiondays), or [`codeSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#codesessionretentiondays) to a number of days from 1 to 3650. Each key covers one kind of session, and a kind you leave unset is kept until the user deletes it. Idle time counts from the session's last activity, such as a message, and pinned sessions aren't exempt.
+By default, chats, Cowork tasks, and Code sessions stay on the device until the user deletes them. To delete them after a period without activity, set [`chatSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#chatsessionretentiondays), [`coworkSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#coworksessionretentiondays), or [`codeSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/configuration#codesessionretentiondays) to a number of days from 1 to 3650. Each key covers one kind of session, and a kind you leave unset is kept until the user deletes it. Idle time counts from the session's last activity, such as a message, or from when the app imported the session, whichever is later. Pinned sessions aren't exempt. Before Claude Desktop 6.28899.6, the app can delete an imported Code session soon after the import if the session's last activity is older than the period.
 
 > [!WARNING]
 >
-> If you set `chatSessionRetentionDays` or `coworkSessionRetentionDays`, an upcoming release of Claude Desktop deletes idle chats and Cowork tasks that earlier versions keep past the period you set. The app can delete many of them at once, shortly after it first starts on that release. Users see no notice, and deleted sessions can't be recovered.
+> If you set `chatSessionRetentionDays` or `coworkSessionRetentionDays`, Claude Desktop 6.28899.2 and later delete idle chats and Cowork tasks that earlier versions keep past the period you set. The app can delete many of them at once, shortly after it first starts on 6.28899.2 or later. Users see no notice, and deleted sessions can't be recovered.
 >
-> Earlier versions keep an idle chat or Cowork task for one more period after actions such as these, which the upcoming release doesn't count as activity:
+> Earlier versions keep an idle chat or Cowork task for one more period after actions such as these, which Claude Desktop 6.28899.2 and later don't count as activity:
 >
-> * **Turning a connector or tool on or off**: from Claude Desktop 3.1623.0 until the upcoming release, when a user does this, the app can keep all of that user's idle chats and Cowork tasks
+> * **Turning a connector or tool on or off**: from Claude Desktop 3.1623.0 until 6.28899.2, when a user does this, the app can keep all of that user's idle chats and Cowork tasks
 > * **Renaming or pinning a chat or task without sending a message**: this affects only that chat or task
 >
 > If you want those sessions deleted, you don't need to do anything. To keep some users' sessions, make the change described under [Keep sessions for some users](#keep-sessions-for-some-users) now, before their devices update.
@@ -197,7 +198,10 @@ The app deletes whole sessions in the background:
 
 * **Chats**: the app deletes a chat, its copies of attached files, its outputs, and the live artifacts (interactive pages) that Claude created in the chat. The live artifacts of chats deleted before Claude Desktop 4.16336.0 stay on the device.
 * **Cowork tasks**: the app deletes a task, its copies of attached files, and its outputs. The task's live artifacts stay. A home-screen conversation that is a Cowork session is deleted the same way, and its live artifacts stay.
+* **[Designs and slide decks](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md)**: when the app or the user deletes a chat, the app also deletes the designs and decks made in the chat, if `artifactsEnabled` is `true` at that time. It deletes them even if the user edited them after the chat's last activity. The designs and decks made in a Cowork task, or in a home-screen conversation that is a Cowork session, stay on the device until the user [deletes them](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md#use-design-and-slides).
 * **Code sessions**: the app deletes a session and its conversation. It also removes the session's [Git worktree](https://code.claude.com/docs/en/worktrees), except in some cases, such as when the worktree has uncommitted changes or the session is pinned. Other files in the session's working folder stay, and Code sessions on an SSH host or in WSL aren't affected.
+* **Task folders with no session record**: if both `chatSessionRetentionDays` and `coworkSessionRetentionDays` are set, the app also deletes the folder of a new task that stopped before the app saved it, once nothing in the folder has changed for the longer period.
+* **Code sessions from the terminal**: a session that the user resumes in **Code** from Claude Code in the terminal, or imports with **Help > Troubleshooting > Import Claude Code CLI Sessions…**, uses the terminal's own transcript in `~/.claude/projects/`, not a copy. When the app deletes the session, it deletes that transcript too, except in some cases, such as when Claude Code is running the conversation or wrote to the transcript in the last `codeSessionRetentionDays` days.
 
 Projects and memory stay. A session that is running or open on screen is skipped until a later pass. On a device that gets its configuration from a server, the app stops deleting idle sessions shortly after it loses contact with that server.
 
@@ -224,17 +228,17 @@ A running app finds a change on a server at its next [configuration check](https
 
 Other deletions continue, such as these:
 
-* **By users**: users can delete their own sessions, for example from the sidebar or in the [**Storage** window](#how-users-free-up-disk-space)
+* **By users**: users can delete their own sessions, for example from the sidebar. In the [**Storage** window](#how-users-free-up-disk-space), they can delete inactive chats and Cowork tasks and remove the Git worktrees of Code sessions, including uncommitted changes and files that Git ignores.
 * **By Claude Code**: [Claude Code's own cleanup](https://code.claude.com/docs/en/claude-directory#cleaned-up-automatically) deletes some of its older files, such as checkpoints and large tool outputs. If [Claude Code managed settings](https://code.claude.com/docs/en/managed-settings) set `cleanupPeriodDays`, it also deletes Code session conversations older than that number of days.
 
 ## How users free up disk space
 
 The **Storage** window shows how much disk space Claude uses on the device. To open it, users go to **Settings > This computer > System** and click **Manage** next to **Storage**. They can also enter `/storage` in the message box in Chat, Cowork, or Code. The window requires Claude Desktop 3.6556.1 or later.
 
-In the window, users can clean up their own inactive sessions on the device, except pinned ones:
+In the window, users can free up disk space that their own sessions use on the device, except for pinned sessions:
 
-* **Chats and Cowork tasks**: the app deletes them, including runs of scheduled tasks. It also deletes their outputs and their copies of attached files in the [application-data directory](#where-data-lives). For a chat, the app also deletes the live artifacts (interactive pages) that Claude created in the chat. Other files stay, such as the live artifacts of a Cowork task or of a [home-screen conversation that is a Cowork session](https://claude.com/docs/third-party/claude-desktop/unified-claude.md), the rest of `~/Claude/`, and files in folders that the user connected. The live artifacts of chats deleted before Claude Desktop 4.16336.0 stay too.
-* **Code sessions**: the app removes their [Git worktrees](https://code.claude.com/docs/en/worktrees) that have no uncommitted changes, except those it can't safely remove, such as a worktree that another session uses. It removes worktrees with uncommitted changes only if the user selects the **Also remove** checkbox, and then those changes are lost. If the user chooses, the app also deletes the sessions with their conversations, but not a session whose worktree stays.
+* **Chats and Cowork tasks**: the app deletes inactive ones, including runs of scheduled tasks. It also deletes their outputs and their copies of attached files in the [application-data directory](#where-data-lives). For a chat, the app also deletes the live artifacts (interactive pages) that Claude created in the chat. If `artifactsEnabled` is `true` at that time, it also deletes the [designs and slide decks](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md) made in the chat, but not those made in a Cowork session. Other files stay, such as the live artifacts of a Cowork task or of a [home-screen conversation that is a Cowork session](https://claude.com/docs/third-party/claude-desktop/unified-claude.md), the rest of `~/Claude/`, and files in folders that the user connected. The live artifacts of chats deleted before Claude Desktop 4.16336.0 stay too.
+* **Code sessions**: the user selects sessions in a list, and the app removes their [Git worktrees](https://code.claude.com/docs/en/worktrees), including files that Git ignores. The list leaves out worktrees that the app can't safely remove and those of sessions that are running or open. If a selected worktree has uncommitted changes, the app asks the user to confirm, and then those changes are lost. The sessions and their conversations stay. Before Claude Desktop 6.28899.2, the user could also use the window to delete inactive Code sessions and their conversations.
 
 Users can't undo these deletions.
 
@@ -257,6 +261,7 @@ Copy the data if:
 
 * **The user's Cowork projects and scheduled tasks use many folders.** After an import, the user adds each folder again.
 * **On Windows, the user's Code sessions or Code scheduled tasks use folders on a mapped network drive.** An import leaves out those sessions and tasks.
+* **The user needs their live artifacts, designs, or slide decks on the new device.** An export leaves them out.
 * **Your policies don't let users save their conversations and files to a zip file**
 * **Claude Desktop doesn't open on the old device**, so the user can't start an export
 * **You set `allowedOrganizationUuids`** under [`claudeAiImport`](https://claude.com/docs/third-party/claude-desktop/configuration#claudeaiimport), which turns off import from a file
@@ -309,6 +314,7 @@ A [copy](#copy-the-data-to-the-new-device) moves:
 
 * Chats, Cowork tasks, and Code sessions
 * Projects, project instructions, and memory
+* Live artifacts (interactive pages), [designs and slide decks](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md), and design systems that the user added
 * Scheduled tasks, skills, and plugins
 * Attached files
 * Local MCP server settings and app preferences

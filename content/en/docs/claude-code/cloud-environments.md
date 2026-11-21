@@ -263,7 +263,7 @@ Committed files from public repositories arrive through `raw.githubusercontent.c
 
 ### Security proxy
 
-Cloud sessions in Anthropic-hosted environments run behind an HTTP/HTTPS network proxy for security and abuse prevention purposes; in a [self-hosted environment](https://code.claude.com/docs/en/self-hosted-environments-deploy.md#default-deny-egress), outbound traffic leaves through your own network boundary instead. All outbound internet traffic from an Anthropic-hosted session passes through this proxy, which provides:
+Cloud sessions in Anthropic-hosted environments run behind an HTTP/HTTPS network proxy for security and abuse prevention purposes. In a [self-hosted environment](https://code.claude.com/docs/en/self-hosted-environments-deploy.md#default-deny-egress), outbound traffic leaves through your own network boundary instead. Outbound internet traffic from an Anthropic-hosted session's VM passes through this proxy, which provides:
 
 * Protection against malicious requests
 * Rate limiting and abuse prevention
@@ -280,7 +280,7 @@ In Anthropic-hosted environments, each session gets a fresh virtual machine (VM)
 
 > [!NOTE]
 >
-> Of the repository configuration in this table, a cloud thread in a [project](https://code.claude.com/docs/en/claude-projects.md) loads only the repository root's `CLAUDE.md`, `.claude/CLAUDE.md`, and `.claude/rules/` files that aren't [path-specific](https://code.claude.com/docs/en/memory.md#path-specific-rules). See [What threads pick up from your repositories](https://code.claude.com/docs/en/claude-projects.md#what-threads-pick-up-from-your-repositories).
+> A cloud thread in a [project](https://code.claude.com/docs/en/claude-projects.md) loads less of the repository configuration in this table. It starts without `.mcp.json` servers or `.claude/settings.json` hooks and permission rules, and it can skip skills, agents, and commands. See [What threads pick up from your repositories](https://code.claude.com/docs/en/claude-projects.md#what-threads-pick-up-from-your-repositories).
 
 Cloud sessions start from a fresh clone of your repository. Anything you commit to the repo is available. Anything you've installed or configured only on your own machine isn't available in the session. Your organization's policy arrives separately through [server-managed settings](https://code.claude.com/docs/en/server-managed-settings.md).
 
@@ -546,7 +546,7 @@ SessionStart hooks behave the same in the cloud as locally, with these caveats:
 * **Not in a project's cloud threads**: a cloud thread in a [project](https://code.claude.com/docs/en/claude-projects.md#what-threads-pick-up-from-your-repositories) doesn't run hooks from a repository's `.claude/settings.json`, whatever the number of repositories. In an Anthropic-hosted environment, install dependencies for threads with a [setup script](#setup-scripts). In a self-hosted environment, use a hook in the [runner host's settings](https://code.claude.com/docs/en/self-hosted-environments-configuration.md#repository-settings-in-sessions-with-several-repositories) instead.
 * **No cloud-only scoping**: hooks run in both local and cloud sessions. To skip local execution, exit early unless the `CLAUDE_CODE_REMOTE` environment variable is `true`, the way the [dependency install script](#install-dependencies-with-a-sessionstart-hook) does.
 * **Requires network access**: install commands need to reach package registries. If your environment uses **None** network access, these hooks fail. Under the default **Limited** level with **Allow package managers** checked, the [default allowlist](#default-allowed-domains) covers npm, PyPI, RubyGems, and crates.io.
-* **Proxy compatibility**: in Anthropic-hosted environments, all outbound traffic passes through a [security proxy](#security-proxy), and some package managers don't work correctly with it; Bun is a known example. In a [self-hosted environment](https://code.claude.com/docs/en/self-hosted-environments-deploy.md#default-deny-egress), outbound traffic goes through your own network boundary instead.
+* **Proxy compatibility**: in Anthropic-hosted environments, outbound traffic from the session's VM passes through a [security proxy](#security-proxy), and some package managers don't work correctly with it; Bun is a known example. In a [self-hosted environment](https://code.claude.com/docs/en/self-hosted-environments-deploy.md#default-deny-egress), outbound traffic goes through your own network boundary instead.
 * **Adds startup latency**: hooks run each time a session starts or resumes, unlike setup scripts which benefit from [environment caching](#environment-caching). Keep install scripts fast by skipping work that's already done, the way the [dependency install script](#install-dependencies-with-a-sessionstart-hook) does.
 
 To customize the base image, use a setup script to install what you need on top of the [provided image](#installed-tools), or run your own image as a container alongside Claude with `docker compose`. Replacing the base image entirely isn't supported yet.

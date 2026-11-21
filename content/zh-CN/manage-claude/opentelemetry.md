@@ -74,21 +74,21 @@ OpenTelemetry 是一个大多数可观测性平台都支持的供应商中立标
   </Card>
 </CardGroup>
 
-| 您获得的内容                                                                                                          | SDK 追踪                                                                                                        | API 追踪                                                                                      | 两者结合                                                                                        |
-| --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| [Messages API](https://platform.claude.com/docs/zh-CN/api/messages/create) 请求                                   | ✅                                                                                                             | ✅                                                                                           | ✅                                                                                           |
-| [Sessions API](https://platform.claude.com/docs/zh-CN/managed-agents/sessions) 请求                               | ✅                                                                                                             | ✅                                                                                           | ✅                                                                                           |
-| 令牌用量（参见[令牌统计](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#count-tokens)）                 | ✅                                                                                                             | ✅                                                                                           | ✅                                                                                           |
-| 请求中的每次模型运行                                                                                                      | —                                                                                                             | ✅                                                                                           | ✅                                                                                           |
-| [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 轮次                             | —                                                                                                             | ✅                                                                                           | ✅                                                                                           |
-| 由 API 运行的[服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools)                 | —                                                                                                             | ✅                                                                                           | ✅                                                                                           |
-| 由[工具运行器](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-runner)运行的客户端工具                  | ✅                                                                                                             | —                                                                                           | ✅                                                                                           |
-| [自托管沙箱](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#trace-a-self-hosted-sandbox)中的工具 | ✅                                                                                                             | —                                                                                           | ✅                                                                                           |
-| 其他 API 请求，例如上传文件                                                                                                | ✅                                                                                                             | —                                                                                           | ✅                                                                                           |
-| 设置                                                                                                              | [代码](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk)                                  | [Console](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api)           | 两者                                                                                          |
-| 所需权限                                                                                                            | 无                                                                                                             | [管理员](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#what-you-need) | [管理员](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#what-you-need) |
-| 覆盖范围                                                                                                            | 使用 SDK 的客户端                                                                                                   | 任何客户端                                                                                       | 任何客户端                                                                                       |
-| 云平台支持                                                                                                           | 请参阅 [SDK 追踪的可用性](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#feature-availability) | Claude API<br />Claude Platform on AWS                                                      | Claude API<br />Claude Platform on AWS                                                      |
+| 您获得的内容 | SDK 追踪 | API 追踪 | 两者结合 |
+| ----- | ----- | ----- | ----- |
+| [Messages API](https://platform.claude.com/docs/zh-CN/api/messages/create) 请求 | ✅ | ✅ | ✅ |
+| [Sessions API](https://platform.claude.com/docs/zh-CN/managed-agents/sessions) 请求 | ✅ | ✅ | ✅ |
+| 令牌用量（参见[令牌统计](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry#count-tokens)） | ✅ | ✅ | ✅ |
+| 请求中的每次模型运行 | — | ✅ | ✅ |
+| [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 轮次 | — | ✅ | ✅ |
+| 由 API 运行的[服务器工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/server-tools) | — | ✅ | ✅ |
+| 由[工具运行器](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-runner)运行的客户端工具 | ✅ | — | ✅ |
+| [自托管沙箱](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#trace-a-self-hosted-sandbox)中的工具 | ✅ | — | ✅ |
+| 其他 API 请求，例如上传文件 | ✅ | — | ✅ |
+| 设置 | [代码](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk) | [Console](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api) | 两者 |
+| 所需权限 | 无 | [管理员](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#what-you-need) | [管理员](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#what-you-need) |
+| 覆盖范围 | 使用 SDK 的客户端 | 任何客户端 | 任何客户端 |
+| 云平台支持 | 请参阅 [SDK 追踪的可用性](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/sdk#feature-availability) | Claude API<br />Claude Platform on AWS | Claude API<br />Claude Platform on AWS |
 
 对于 Claude Code、Agent SDK 或 Cowork，请参阅 [Claude Code 监控](https://code.claude.com/docs/en/monitoring-usage)、[Agent SDK 可观测性](https://code.claude.com/docs/en/agent-sdk/observability)或 [Cowork 活动监控](https://support.claude.com/en/articles/14477985-monitor-claude-cowork-activity-with-opentelemetry)。
 
@@ -275,14 +275,14 @@ OpenTelemetry在所有模型上处于 beta 阶段。
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | 模型                                                             |
-| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock), [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy), [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                   | 模型                                                             |
-| ---- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |

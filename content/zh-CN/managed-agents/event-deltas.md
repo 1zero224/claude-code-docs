@@ -889,12 +889,12 @@ agent.message   {"id": "sevt_01abc...", "content": [...]}
 
 ## 预览故障排除
 
-| 您看到的情况                                    | 含义                                                                                                                                                                                                 |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 流中有缓冲事件，但没有 `event_start` 或 `event_delta` | 您正在读取的连接没有选择启用，或者该轮次从未涉及您正在流式传输的线程。`event_deltas[]` 按连接生效，而不是按会话生效。要查找运行了哪个线程，请列出会话的线程（`GET /v1/sessions/{session_id}/threads`）。                                                                   |
-| 流在预览期间中断                                  | 增量不会被重放。请按照[重新连接流程](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#reconnect-without-missing-events)操作：重新打开流并列出事件历史。该历史包含您断开连接期间发出的所有缓冲事件，包括您的预览正在等待的 `agent.message`。 |
-| 流 URL 返回 404                              | 路径或某个 ID 有误，或者请求根本没有携带 managed-agents beta 标头。线程端点受 beta 限制，因此没有该标头时它们不存在。                                                                                                                         |
-| 返回指明 `event_deltas` 的 400 错误              | 仅接受 `agent.message` 和 `agent.thinking`。                                                                                                                                                            |
+| 您看到的情况 | 含义 |
+| ----- | ----- |
+| 流中有缓冲事件，但没有 `event_start` 或 `event_delta` | 您正在读取的连接没有选择启用，或者该轮次从未涉及您正在流式传输的线程。`event_deltas[]` 按连接生效，而不是按会话生效。要查找运行了哪个线程，请列出会话的线程（`GET /v1/sessions/{session_id}/threads`）。 |
+| 流在预览期间中断 | 增量不会被重放。请按照[重新连接流程](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#reconnect-without-missing-events)操作：重新打开流并列出事件历史。该历史包含您断开连接期间发出的所有缓冲事件，包括您的预览正在等待的 `agent.message`。 |
+| 流 URL 返回 404 | 路径或某个 ID 有误，或者请求根本没有携带 managed-agents beta 标头。线程端点受 beta 限制，因此没有该标头时它们不存在。 |
+| 返回指明 `event_deltas` 的 400 错误 | 仅接受 `agent.message` 和 `agent.thinking`。 |
 
 ## 后续步骤
 
@@ -918,8 +918,8 @@ agent.message   {"id": "sevt_01abc...", "content": [...]}
 
 * 可用性：可用
 
-| 状态   | 云平台     | 模型                                                             |
-| ---- | ------- | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | 所有支持的平台 | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 所需的 beta 请求头
@@ -934,9 +934,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

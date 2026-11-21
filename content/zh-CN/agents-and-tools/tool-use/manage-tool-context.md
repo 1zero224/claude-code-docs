@@ -10,12 +10,12 @@ description: 在工具搜索、程序化工具调用、提示缓存和上下文�
 
 每种方法针对不同的上下文压力来源。请选择与您的令牌消耗去向相匹配的方法。
 
-| 方法      | 减少的内容                   | 适用场景                        | 了解更多                                                                                                         |
-| ------- | ----------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| 工具搜索    | 预先加载的工具定义               | 大量工具（10 个以上），其中大多数工具并非每轮都需要 | [工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)                  |
-| 程序化工具调用 | `tool_result` 往返        | 可以作为单个脚本运行的工具调用链            | [程序化工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling)        |
-| 提示缓存    | 重复工具定义的令牌成本             | 在大量请求中保持稳定的工具定义             | [结合提示缓存的工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-use-with-prompt-caching) |
-| 上下文编辑   | 历史记录中的旧 `tool_result` 块 | 早期结果已不再相关的长对话               | [上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing)                            |
+| 方法 | 减少的内容 | 适用场景 | 了解更多 |
+| ----- | ----- | ----- | ----- |
+| 工具搜索 | 预先加载的工具定义 | 大量工具（10 个以上），其中大多数工具并非每轮都需要 | [工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool) |
+| 程序化工具调用 | `tool_result` 往返 | 可以作为单个脚本运行的工具调用链 | [程序化工具调用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/programmatic-tool-calling) |
+| 提示缓存 | 重复工具定义的令牌成本 | 在大量请求中保持稳定的工具定义 | [结合提示缓存的工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-use-with-prompt-caching) |
+| 上下文编辑 | 历史记录中的旧 `tool_result` 块 | 早期结果已不再相关的长对话 | [上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) |
 
 ### 工具搜索
 

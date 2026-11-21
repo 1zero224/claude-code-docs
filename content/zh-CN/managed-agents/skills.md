@@ -237,11 +237,11 @@ featureMetadata:
 
 `skills` (csharp, go: `Skills`) 数组中的每个条目使用以下字段：
 
-| 字段                                                                  | 描述                                                                                                                                                                      |
-| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type` (csharp, go: `Type`)                                         | 预构建技能使用 `anthropic`，工作区编写的技能使用 `custom`。                                                                                                                                |
+| 字段 | 描述 |
+| ----- | ----- |
+| `type` (csharp, go: `Type`) | 预构建技能使用 `anthropic`，工作区编写的技能使用 `custom`。 |
 | `skill_id` (java: `skillId`; php: `skillID`; csharp, go: `SkillID`) | 技能标识符。对于 Anthropic 技能，使用短名称（例如 `xlsx`）。对于自定义技能，使用创建时返回的 `skill_*` ID（请参阅[创建自定义技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills#create-a-custom-skill)）。 |
-| `version` (csharp, go: `Version`)                                   | 固定到特定版本或使用 `latest`。可选。省略时默认为 `latest`。适用于 Anthropic 技能和自定义技能。                                                                                                          |
+| `version` (csharp, go: `Version`) | 固定到特定版本或使用 `latest`。可选。省略时默认为 `latest`。适用于 Anthropic 技能和自定义技能。 |
 
 <CodeGroup defaultLanguage="CLI">
   ```bash cURL

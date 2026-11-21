@@ -22,8 +22,8 @@ These keys are passed directly to the Claude Code process as environment variabl
 | - | - |
 | `inferenceProvider` and all provider credential keys (`inferenceGateway*`, `inferenceAnthropicApiKey`, `inferenceVertex*`, `inferenceBedrock*`, `inferenceFoundry*`, `inferenceCredentialHelper*`) | Selects the inference backend and supplies credentials. Code sessions use the same provider and endpoint as Cowork sessions, and the same credentials unless [your organization's launcher](#start-code-sessions-through-a-corporate-launcher) starts them. |
 | `inferenceModels` | Populates the model picker. The first entry is the default for new Code sessions. |
-| `autoModeEnabled` | Controls **Auto mode**, which needs a [model that supports it](https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode). When the key isn't set, Code sessions offer **Auto mode** and new sessions start in it unless the user has already chosen another mode or a Claude Code `permissions.defaultMode` applies. Set it to `false` to remove **Auto mode** from Code and Cowork. Set it to `true` to also offer the mode in Cowork, where it appears as **Automatically approve**. In Code sessions, a separately deployed Claude Code [managed-settings file](#interaction-with-claude-code%E2%80%99s-own-managed-settings) that sets `disableAutoMode` to `"disable"` also keeps **Auto mode** hidden, whatever this key is set to. To change what **Auto mode** allows and blocks, see [Tune the Auto mode classifier](#tune-the-auto-mode-classifier). To have the model provider review actions on a gateway deployment, see [Auto mode checks](https://claude.com/docs/third-party/claude-desktop/gateway.md#auto-mode-checks). |
-| `autoModeClassifierModel` | Sets the model for Claude Code's built-in safety check in **Auto mode**. See [Choose the Auto mode classifier model](#choose-the-auto-mode-classifier-model). |
+| `autoModeEnabled` | Controls **Auto mode**, which needs a [model that supports it](https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode). When the key isn't set, Code sessions offer **Auto mode** and new sessions start in it unless the user has already chosen another mode or a Claude Code `permissions.defaultMode` applies. On Claude Opus 4.6 and Claude Sonnet 4.6, users can pick **Auto mode**, but it isn't the default. While **Auto mode** is available, its safety classifier, not a prompt, also decides shell commands in **Plan** mode. Set it to `false` to remove **Auto mode** from Code and Cowork. Set it to `true` to also offer the mode in Cowork, where it appears as **Automatically approve**. In Code sessions, a separately deployed Claude Code [managed-settings file](#interaction-with-claude-code%E2%80%99s-own-managed-settings) that sets `disableAutoMode` to `"disable"` also keeps **Auto mode** hidden, whatever this key is set to. To change what **Auto mode** allows and blocks, see [Tune the Auto mode classifier](#tune-the-auto-mode-classifier). For who reviews actions on a gateway deployment, see [Auto mode checks](https://claude.com/docs/third-party/claude-desktop/gateway.md#auto-mode-checks). |
+| `autoModeClassifierModel` | Sets the model for Claude Code's built-in safety check in **Auto mode**. Claude Code managed settings that set `CLAUDE_CODE_AUTO_MODE_MODEL` can take priority. See [Choose the Auto mode classifier model](#choose-the-auto-mode-classifier-model). |
 | `scheduledTasksEnabled` | When `false`, the routines list in Code is hidden and Code sessions start without Claude Code's in-session scheduling tools, so the `/loop` command cannot schedule recurring work. Cowork's scheduled tasks are turned off by the same key. |
 | `disabledBuiltinTools` | Removes the listed tools from Code sessions. A `Read(…)` rule applies to Claude's file tools, and [only in part to shell commands](#file-path-rules-and-shell-commands). Tools your provider doesn't support, such as WebSearch on Amazon Bedrock, are removed automatically in addition to your list. To stop Claude from starting nested sessions (separate sessions for a task), add `mcp__ccd_session__start_session` and `mcp__ccd_session__hand_off_to_session`. Claude then can't start a nested session, even at a user's request or from inside one. In the [in-app configuration window](https://claude.com/docs/third-party/claude-desktop/in-app-configuration.md#set-up-a-device-without-mdm) or the [Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#start-from-an-existing-configuration-file), where the tool picker doesn't list these names, import your full configuration as JSON with the names added. Otherwise, add them to your MDM profile or bootstrap server's response. |
 | `builtinToolPolicy` | Tools set to `"ask"` require approval on each call in Code sessions. Argument-scoped rules such as `Bash(curl *)` are [applied as managed policy](#applied-as-managed-policy) instead. |
@@ -46,7 +46,7 @@ These keys are translated into Claude Code [managed settings](https://code.claud
 | Claude Desktop on 3P key | Claude Code policy it produces |
 | - | - |
 | `coworkEgressAllowedHosts` | A network sandbox restricted to your hosts, `allowManagedDomainsOnly`, and `WebFetch` allow rules for the same hosts, which [don't block other hosts](https://claude.com/docs/third-party/claude-desktop/web-tools.md#how-the-egress-allowlist-applies-in-code-sessions). Claude Code's own inference and telemetry connections run outside the sandbox. A shell command or [HTTP hook](https://code.claude.com/docs/en/hooks#http-hook-fields) that calls your inference provider, `api.anthropic.com`, or your OTLP collector needs that host in the list. |
-| `allowedWorkspaceFolders` | A filesystem sandbox for shell commands, which can then create or change files only inside your allowed roots and the session's temporary locations. Those commands can still read files outside the roots, except where `blockReadsOutsideWorkingDirectories` or a [`Read(…)` rule](#file-path-rules-and-shell-commands) hides them. The roots are also passed as `additionalDirectories` at launch, which is always applied independent of managed-settings precedence. The app also keeps Claude's file tools inside the roots, except that they can read [plugin files](#plugin-files-under-allowedworkspacefolders). It refuses to start a Code session outside an allowed root. |
+| `allowedWorkspaceFolders` | A filesystem sandbox for shell commands, which can then create or change files only inside your allowed roots and the session's temporary locations. Those commands can still read files outside the roots, except where `blockReadsOutsideWorkingDirectories` or a [`Read(…)` rule](#file-path-rules-and-shell-commands) hides them. The roots are also passed as `additionalDirectories` at launch, which is always applied independent of managed-settings precedence. The app also keeps Claude's file tools inside the roots, apart from reads of [plugin files](#plugin-files-under-allowedworkspacefolders) and, in a local session, of Claude Code's own plan files. In **Plan** mode, they can also write those plan files. It refuses to start a Code session outside an allowed root. |
 | `blockReadsOutsideWorkingDirectories` | Claude Code's `permissions.blockReadsOutsideWorkingDirectories` for Code sessions. Claude's file tools refuse to read outside the working directories (the session's folder plus your allowed roots, if any) in every permission mode. Where the sandbox from `allowedWorkspaceFolders` or `coworkEgressAllowedHosts` is running, it also hides the user's home directory and similar locations, such as other users' home folders and mounted volumes, from shell commands. A sandboxed command can't read a hidden location, even after the user approves the command. Without a running sandbox, a shell command that Claude Code recognizes as reading outside the working directories, or whose command line it can't analyze, asks the user for approval first, even in bypass permissions mode. Claude Code can't see what a running script or other program reads. Without a running sandbox, a command such as `python3 report.py` can read outside the working directories with no prompt when the session's permission mode or permission rules allow the command. The key requires Claude Desktop 1.46388.1 or later. The block takes effect only in sessions that run Claude Code v2.1.257 or later; if the app cannot install its current Claude Code engine and a session runs one older than v2.1.257 that is still on the device, that session runs without the block and the app logs a warning. |
 | `managedMcpServers` | `strictPluginOnlyCustomization` set to `["mcp"]`, so the Code session does not load MCP servers that users define on Claude Code's side (`~/.claude.json`, a project's `.mcp.json`, or `claude mcp add`); your managed servers, which the app connects and supplies to the session itself, and MCP servers bundled in plugins still load. Per-tool [`toolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#tool-permissions-for-managed-mcp-servers) values on each server are emitted as `permissions.deny` (for `blocked`) or `permissions.ask` (for `ask`) rules against the corresponding `mcp__<server>__<tool>` names. In local Code sessions and Code sessions on an SSH host, `allow` doesn't pre-approve the tool. |
 | `isLocalDevMcpEnabled` | When `false` and `allowedPluginMcpServers` is unset, an `allowedMcpServers` list that admits only remote servers, with `allowManagedMcpServersOnly`, whether or not `managedMcpServers` is set. The Code session refuses local (stdio) servers bundled in plugins from marketplaces or that users install themselves, and local servers that users define on Claude Code's side (`~/.claude.json`, a project's `.mcp.json`, or `claude mcp add`). Those plugins' remote servers still connect. Your managed servers and the servers from the organization plugins directory, which the app connects and supplies to the session itself, aren't subject to the list. |
@@ -70,9 +70,9 @@ On Ubuntu 24.04 and later, AppArmor can block the sandbox even when `bubblewrap`
 
 Under `blockReadsOutsideWorkingDirectories`, sandboxed shell commands can still read system locations such as `/usr`, the session's plugin and attachment folders (which become read-only), and the user's git configuration files (`~/.gitconfig` and the `config`, `ignore`, and `attributes` files under `~/.config/git`), which can themselves hold credentials such as tokens in remote URLs. Other files under the home folder outside the working directories are hidden from them, including `~/.ssh`, stored git credentials, included git configuration files, signing keys, and the target of a symlinked git configuration file, so git operations that need those files fail in the session until the user re-opens the paths. In a local session Claude also cannot read a file attached or `@`-mentioned from outside the working directories, so users should move such files into the session's folder or an allowed folder first.
 
-While `blockReadsOutsideWorkingDirectories` is on and Claude Code's [`sandbox.autoAllowBashIfSandboxed`](https://code.claude.com/docs/en/settings-reference#sandbox-autoallowbashifsandboxed) is off, a sandboxed command that reads outside the working directories can ask for approval first, [even in bypass permissions mode](https://code.claude.com/docs/en/permission-modes#actions-no-mode-auto-approves). Claude Code managed settings can replace the sandbox and other policy values that Claude Desktop supplies. Before you set `sandbox.autoAllowBashIfSandboxed` in those settings, read [Interaction with Claude Code's own managed settings](#interaction-with-claude-code%E2%80%99s-own-managed-settings).
+In **Manual** and **Accept edits** modes, many sandboxed shell commands ask the user first, because they go through Claude Code's regular permission flow. Claude Code's [`sandbox.autoAllowBashIfSandboxed`](https://code.claude.com/docs/en/settings-reference#sandbox-autoallowbashifsandboxed) setting is off by default. When it's `true`, most sandboxed commands run without asking. Claude Code managed settings can replace the sandbox and other policy values that Claude Desktop supplies. Before you set `sandbox.autoAllowBashIfSandboxed` in those settings, read [Interaction with Claude Code's own managed settings](#interaction-with-claude-code%E2%80%99s-own-managed-settings).
 
-An allowed root that is or contains the home directory, such as `~` or `/Users`, leaves the home directory readable, so list folders below it. The block guards against content a session reads steering Claude into the user's files, not against the user, who can re-open any path, up to their whole home folder, with `sandbox.filesystem.allowRead` (shell commands) or `permissions.additionalDirectories` (file tools and shell commands) in their own Claude Code settings, while a settings file tracked in a git repository cannot.
+While `blockReadsOutsideWorkingDirectories` is on and `sandbox.autoAllowBashIfSandboxed` is off, a sandboxed command that reads outside the working directories can ask for approval first, [even in bypass permissions mode](https://code.claude.com/docs/en/permission-modes#actions-no-mode-auto-approves). An allowed root that is or contains the home directory, such as `~` or `/Users`, leaves the home directory readable, so list folders below it. The block guards against content a session reads steering Claude into the user's files, not against the user, who can re-open any path, up to their whole home folder, with `sandbox.filesystem.allowRead` (shell commands) or `permissions.additionalDirectories` (file tools and shell commands) in their own Claude Code settings, while a settings file tracked in a git repository cannot.
 
 ### Plugin files under `allowedWorkspaceFolders`
 
@@ -122,6 +122,39 @@ With `"merge"`, two Claude Code policy keys weaken `blockReadsOutsideWorkingDire
 >
 > Without a Claude Code `managed-settings.json` file, OS profile, or server-managed settings, Claude Desktop's policy applies automatically and you don't need to set `parentSettingsBehavior`.
 
+### Policy status on the device
+
+Claude Desktop checks whether Claude Code managed settings replace your policy on the device. Each time it starts Claude Code on the device for a Code, Cowork, or Chat session, it asks Claude Code whether it applies the [managed policy](#applied-as-managed-policy) values that Claude Desktop sent. A session over SSH has [its own check](https://claude.com/docs/third-party/claude-desktop/ssh-remote-sessions.md#policy-status-on-the-remote-host), and a WSL session has none. Requires Claude Desktop 5.1231.0 or later.
+
+If Claude Code answers no, the session continues. Cowork and Chat sessions show no message. A Code session shows a message that begins with these words:
+
+```text theme={null}
+Your organization's policy isn't fully applied on this computer
+```
+
+Claude Desktop also reports that answer outside the session:
+
+* **On the device**: Claude Desktop writes a warning that names the affected session types and the fix to `main.log` in the [logs directory](https://claude.com/docs/third-party/claude-desktop/data-storage.md#where-data-lives) and to the [diagnostic report](https://claude.com/docs/third-party/claude-desktop/installation.md#troubleshooting).
+* **On your collector**: if you set [`otlpEndpoint`](https://claude.com/docs/third-party/claude-desktop/configuration#otlpendpoint), you receive a `desktop_local_policy_check_failed` event under the `service.name` value `claude-desktop`, unless you set [`otlpDesktopLogLevel`](https://claude.com/docs/third-party/claude-desktop/configuration#otlpdesktoploglevel) to `off`.
+
+To have your Claude Desktop policy apply on the device, change what supplies its Claude Code managed settings:
+
+* **A `managed-settings.json` file, a configuration profile, a registry policy, or server-managed settings**: set `parentSettingsBehavior` to `"merge"` in each one that holds your Claude Code policy. Claude Code reads the key only from [the highest-priority one](https://code.claude.com/docs/en/managed-settings#how-claude-code-combines-managed-sources) that the session uses. See [Interaction with Claude Code's own managed settings](#interaction-with-claude-code%E2%80%99s-own-managed-settings).
+* **A [`policyHelper`](https://code.claude.com/docs/en/settings-reference#policyhelper)**: put the limits from your Claude Desktop policy in what the helper returns. Claude Code never merges Claude Desktop's values with a helper's output. It still answers no, and the message, the warning, and the event keep appearing.
+
+To check the fix, have the user start a new session of each type that the warning names, and then generate a [diagnostic report](https://claude.com/docs/third-party/claude-desktop/installation.md#troubleshooting). Once Claude Code answers yes, `managed-config.txt` in the report no longer lists the warning. `main.log` and your collector don't show the recovery.
+
+The event carries these attributes:
+
+* **`tab`**: `code` for a Code session, or `cowork` for a Cowork or Chat session
+* **`session_id`**: Claude Desktop's ID for the session that got the answer
+
+Claude Desktop sends the event when Claude Code first answers no, once for Code sessions and once for Cowork and Chat sessions. It sends the event again if Claude Code answers no after a restart of Claude Desktop, or after it answered yes.
+
+The event doesn't name the device. To find the device, identify the user from the event's [user attribution](https://claude.com/docs/third-party/claude-desktop/telemetry.md#user-attribution) attributes, and ask that user.
+
+Claude Code answers yes when it applies at least one of the sent values, not necessarily all of them. Even with no message and no event, Claude Code can still leave out part of your policy.
+
 ### Start Code sessions through a corporate launcher
 
 If your organization starts Claude Code through a [corporate launcher](https://code.claude.com/docs/en/corporate-launcher), Code sessions in Claude Desktop can go through it too. This takes two settings:
@@ -137,13 +170,52 @@ Name the launcher where the session runs:
 
 Code sessions still use the provider and endpoint in Claude Desktop's configuration, but Claude Desktop passes no inference credential and no [`inferenceCustomHeaders`](https://claude.com/docs/third-party/claude-desktop/configuration#inferencecustomheaders) to Claude Code when the launcher starts it. The launcher must set a credential in Claude Code's environment, such as `ANTHROPIC_AUTH_TOKEN` for a gateway or the variable that your provider's credential uses. It must also pass on the `ANTHROPIC_BASE_URL` that it receives, or set your gateway's address in its place. With no credential, the session still starts, and each reply fails with a message that Claude Code has no working credentials. Cowork, the connection test, and session titles don't go through the launcher. They use the credential in Claude Desktop's configuration, so a passing connection test doesn't show that the launcher supplies one.
 
-A session doesn't start if Claude Desktop can't use the launcher you named: for example, if the file is missing or isn't executable, or the value doesn't follow Claude Code's [launcher value format](https://code.claude.com/docs/en/corporate-launcher#format-of-the-launcher-value).
+A session doesn't start if Claude Desktop can't use the launcher you named. For example:
+
+* **The launcher file or value**: the file is missing or isn't executable, or the value doesn't follow Claude Code's [launcher value format](https://code.claude.com/docs/en/corporate-launcher#format-of-the-launcher-value).
+* **The `--version` run on an SSH host**: Claude Desktop's [remote server](https://claude.com/docs/third-party/claude-desktop/ssh-remote-sessions.md#how-a-remote-session-works) on the host runs the launcher with the Claude Code engine's path and `--version`. It does so, with a time limit, when Claude Desktop places the engine on the host or checks the one that is there. Have the launcher run that path with `--version` and exit with Claude Code's status. Claude Desktop hands this run none of the variables that it sets for a session, such as `ANTHROPIC_BASE_URL`, so the launcher must not fail this run because they are missing. If the run doesn't end with status 0 within the limit, the session doesn't start. If the run failed before the limit, Claude Desktop shows the card `Your organization's launcher on <host> didn't start Claude Code during setup`.
+
+#### Devices that skip the corporate launcher
 
 To keep users from turning the launcher off, set `claudeCodeProcessWrapperEnabled` in the device's [managed profile](https://claude.com/docs/third-party/claude-desktop/admin-console.md#devices-with-a-managed-profile), which users can't change. The key is an [app-behavior key](https://claude.com/docs/third-party/claude-desktop/mdm.md#update-keys-and-managed-precedence), so add every other app-behavior key you use, such as the update keys, to the same profile. If the profile sets any other kind of key, also [keep the device on its managed profile](https://claude.com/docs/third-party/claude-desktop/admin-console.md#keep-a-device-on-its-managed-profile).
 
+An SSH host's managed settings alone can't make Claude Desktop's sessions use the launcher. Any device where `claudeCodeProcessWrapperEnabled` is `false` or missing, managed by you or not, doesn't use a launcher that the host's settings name. If the inference credential in that device's configuration is a [kind that is refused on a remote host](https://claude.com/docs/third-party/claude-desktop/ssh-remote-sessions.md#inference-credentials-on-the-remote-host), Claude Desktop refuses the SSH session at the start. Otherwise, it starts the Claude Code engine on the host directly, with that credential.
+
 ## Tune the Auto mode classifier
 
-In [**Auto mode**](https://claude.com/docs/third-party/claude-desktop/configuration.md#automodeenabled), which Cowork shows as **Automatically approve**, a safety classifier reviews Claude's actions and blocks the ones it judges risky. To tell it what your organization trusts, or to add block and allow rules, deploy Claude Code's [`autoMode` settings](https://code.claude.com/docs/en/auto-mode-config) in [Claude Code managed settings](https://code.claude.com/docs/en/managed-settings) on each device. Check which of your sessions read those settings:
+In [**Auto mode**](https://claude.com/docs/third-party/claude-desktop/configuration.md#automodeenabled), which Cowork shows as **Automatically approve**, a safety classifier reviews Claude's actions and blocks the ones it judges risky. To tell it what your organization trusts, or to add block and allow rules, set [`autoModeRules`](https://claude.com/docs/third-party/claude-desktop/configuration#automoderules) where your devices [get their configuration](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#which-configuration-source-applies-on-a-device). The key takes the value of Claude Code's [`autoMode` settings](https://code.claude.com/docs/en/auto-mode-config), and applies to Cowork sessions and to Code sessions, including those on an SSH host.
+
+For example, describe an internal service, add one allow rule, and add one block rule:
+
+```json theme={null}
+{
+  "autoModeRules": {
+    "environment": [
+      "$defaults",
+      "Key internal services: the ticket tracker at tickets.example.corp"
+    ],
+    "allow": [
+      "$defaults",
+      "Creating and updating tickets in the ticket tracker is allowed: routine support work"
+    ],
+    "hard_deny": [
+      "$defaults",
+      "Never publish a package"
+    ]
+  }
+}
+```
+
+To confirm that the rules apply, add a `hard_deny` rule for a harmless shell command on one device, such as `"Never run the logger command"`. Quit and reopen Claude Desktop, and start a session in **Auto mode**. Ask Claude to run that command, and check that the classifier blocks it.
+
+* **Start each list with `"$defaults"`** to keep the built-in rules. An `environment`, `allow`, or `hard_deny` list without it can [replace them](https://code.claude.com/docs/en/auto-mode-config#override-the-block-and-allow-rules).
+* **Use [`disabledBuiltinTools`](https://claude.com/docs/third-party/claude-desktop/configuration#disabledbuiltintools) to block a tool for certain.** A model applies these rules, and an `allow` rule can overrule a `soft_deny` rule.
+* **A value that Claude Desktop can't read turns Auto mode off** until you correct it, for example one with a misspelled member or more than 16,384 characters of JSON.
+* **A device on the [Enterprise Admin Console's configuration](https://claude.com/docs/third-party/claude-desktop/admin-console.md#which-settings-apply-on-a-device-with-a-managed-profile) ignores the key from the other sources.** For those devices, set `autoModeRules` in the [admin console](https://claude.com/docs/third-party/claude-desktop/admin-console.md#configure-claude-desktop).
+
+### Set Auto mode rules in Claude Code managed settings
+
+You can also deploy Claude Code's [`autoMode` settings](https://code.claude.com/docs/en/auto-mode-config) in [Claude Code managed settings](https://code.claude.com/docs/en/managed-settings) on each device. Use them for a `claude` command that runs in a terminal or in a session's shell, which doesn't get `autoModeRules`. A session that gets both combines the lists. Check which of your sessions read those settings:
 
 * **Cowork sessions** read the managed settings on the device, and never read [server-managed settings](https://code.claude.com/docs/en/server-managed-settings).
 * **Local Code sessions** read the managed settings on the device too, unless server-managed settings or [a Claude apps gateway's `code` settings](https://code.claude.com/docs/en/claude-apps-gateway-config#apply-code-settings-in-the-code-tab) [take priority](https://code.claude.com/docs/en/managed-settings#how-claude-code-combines-managed-sources). They also read `autoMode` entries from the user's own `~/.claude/settings.json`, which Cowork sessions don't read.
@@ -167,7 +239,6 @@ For example, on a device with no other Claude Code managed settings, deploy this
 }
 ```
 
-* **Start each list with `"$defaults"`** to keep the built-in rules. Without it, a list can [replace its built-in rules](https://code.claude.com/docs/en/auto-mode-config#override-the-block-and-allow-rules), the block lists included.
 * **Leaving `"$defaults"` out removes the built-in rules from some lists only.** In Cowork sessions and local Code sessions, Claude Code combines your lists with the `environment`, `allow`, and `soft_deny` lists that Claude Desktop sends, which start with `"$defaults"`. If your `allow` or `environment` list has entries but leaves out `"$defaults"`, Claude Desktop's list doesn't restore the built-in entries for that list. Claude Desktop's own entries in that list still apply. Before Claude Desktop 6.6395.0, Claude Desktop's list restored the built-in `environment` entries. A `soft_deny` list without `"$defaults"` keeps the built-in `soft_deny` rules, because Claude Desktop's list restores them. A `hard_deny` list without `"$defaults"` can replace the built-in `hard_deny` rules.
 * **Keep `parentSettingsBehavior`.** Without it, Claude Code ignores the [managed policy](#applied-as-managed-policy) values that Claude Desktop supplies to Cowork and Code sessions, except [in a Code session that gets `code` settings from a Claude apps gateway](#interaction-with-claude-code%E2%80%99s-own-managed-settings).
 * **Deploy to [Claude Code's policy locations](https://code.claude.com/docs/en/managed-settings#where-each-mechanism-stores-the-policy)**, not to [Claude Desktop's configuration locations](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#where-claude-desktop-reads-configuration-on-a-device). In a macOS configuration profile for Claude Code, use the same keys as in `managed-settings.json`, with nested settings as dictionaries and lists as arrays. In a Windows registry policy, put the file's JSON in the `Settings` value under `HKLM\SOFTWARE\Policies\ClaudeCode`.
@@ -177,7 +248,9 @@ On a device that has the Claude Code CLI, run `claude auto-mode config` in a ter
 
 ### Choose the Auto mode classifier model
 
-In [**Auto mode**](https://claude.com/docs/third-party/claude-desktop/configuration.md#automodeenabled), which Cowork shows as **Automatically approve**, a safety classifier reviews Claude's actions. Except [on a gateway](https://claude.com/docs/third-party/claude-desktop/gateway.md#auto-mode-checks), sessions [ask your model provider for a review first](https://code.claude.com/docs/en/permission-modes#server-side-classifier-review), and Claude Code's built-in safety check takes over when the provider doesn't review the session. The built-in safety check uses Claude Sonnet 5 by default, and [some sessions use a different model](https://code.claude.com/docs/en/permission-modes#default-classifier-model). The model you choose for it doesn't affect your provider's reviews.
+In [**Auto mode**](https://claude.com/docs/third-party/claude-desktop/configuration.md#automodeenabled), which Cowork shows as **Automatically approve**, a safety classifier reviews Claude's actions. Sessions [ask your model provider for a review first](https://code.claude.com/docs/en/permission-modes#server-side-classifier-review), except on a gateway where [server-side Auto mode checks](https://claude.com/docs/third-party/claude-desktop/gateway.md#auto-mode-checks) are off. When the provider doesn't review the session, Claude Code's built-in safety check does.
+
+The built-in safety check uses Claude Sonnet 5 by default, and [some sessions use a different model](https://code.claude.com/docs/en/permission-modes#default-classifier-model). The model you choose for it doesn't affect your provider's reviews.
 
 Requires Claude Desktop 5.11492.0 or later. To choose the model for Cowork and Code sessions, set [`autoModeClassifierModel`](https://claude.com/docs/third-party/claude-desktop/configuration#automodeclassifiermodel) where your devices [get their configuration](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#which-configuration-source-applies-on-a-device):
 
@@ -200,19 +273,20 @@ This example sets Claude Sonnet 4.6. Replace the IDs with your provider's:
 * **Don't use Claude Opus 5, Sonnet 5.5, or Opus 5.5.** These models [can't do the review](https://code.claude.com/docs/en/permission-modes#classifier-model-not-reviewing).
 * **A weaker model may allow actions that the default would block**
 
-Set `autoModeClassifierModel` even if your devices already set [`CLAUDE_CODE_AUTO_MODE_MODEL`](https://code.claude.com/docs/en/permission-modes#choose-the-classifier-model), Claude Code's environment variable for this model:
+Check where your devices also set [`CLAUDE_CODE_AUTO_MODE_MODEL`](https://code.claude.com/docs/en/permission-modes#choose-the-classifier-model), Claude Code's environment variable for this model:
 
-* **In [Claude Code managed settings](https://code.claude.com/docs/en/managed-settings) on the device, or in a user's `~/.claude/settings.json`**: Cowork and Code sessions ignore the value
+* **In [Claude Code managed settings](https://code.claude.com/docs/en/managed-settings) on the device**: Cowork sessions and local Code sessions use the value in place of `autoModeClassifierModel`. Use the same ID in both. Otherwise, a device switches to the managed value without warning when it updates to Claude Desktop 5.11492.5 or later. Earlier versions ignore the value. To deploy these settings, see [Set Auto mode rules in Claude Code managed settings](#set-auto-mode-rules-in-claude-code-managed-settings).
+* **In a user's `~/.claude/settings.json`**: Cowork and Code sessions ignore the value
 * **In a user's shell profile, the device's environment variables, or [the variables that a user saves in Code](https://code.claude.com/docs/en/desktop#environment-variables-in-local-sessions)**: Cowork and Code sessions ignore the value. Before Claude Desktop 5.11492.0, Code sessions could use it.
 
 Confirm the change on one device:
 
 1. Quit and reopen Claude Desktop
 2. Start a session in **Auto mode** on a model other than the one you set
-3. Have Claude call a connector tool
+3. Have Claude call a connector tool. If Code shows a card with **Stop** and **Continue**, select **Continue**.
 4. Check your provider's or gateway's logs for requests to the model you set
 
-If these requests don't appear, see [When your model doesn't review](https://code.claude.com/docs/en/permission-modes#classifier-model-not-reviewing).
+If these requests don't appear, open `cli-diagnostics-log.txt` in the [diagnostic report](https://claude.com/docs/third-party/claude-desktop/installation.md#verifying-the-deployment). A [`verdict` line](https://claude.com/docs/third-party/claude-desktop/gateway#auto-mode-check-results-in-the-diagnostic-report) from your test means that your provider reviewed the action, which is expected. Without one, see [When your model doesn't review](https://code.claude.com/docs/en/permission-modes#classifier-model-not-reviewing).
 
 ### Run vetted connector tools without classifier review
 
@@ -231,9 +305,9 @@ Write the rule as [`mcp__<server>__<tool>`](https://code.claude.com/docs/en/perm
 
 > [!WARNING]
 >
-> Claude runs a connector tool named in `permissions.allow` with no classifier review, whatever the call's arguments and even if the server marks the tool as destructive. A `permissions.ask` or `permissions.deny` rule for the same tool still applies. Keep `parentSettingsBehavior` set to `"merge"` in that file, so that a `toolPolicy` of `"ask"` for the tool goes on asking.
+> Claude runs a connector tool named in `permissions.allow` with no classifier review, whatever the call's arguments and even if the server marks the tool as destructive. A `permissions.ask` or `permissions.deny` rule for the same tool still applies. Keep `parentSettingsBehavior` set to `"merge"` in that file, so that a `toolPolicy` of `"ask"` for the tool goes on asking. In a Code session, an allow rule for a [Claude in Chrome](https://claude.com/docs/third-party/claude-desktop/browser.md#claude-in-chrome) tool doesn't end the review: the safety classifier still reviews calls such as a navigation, typing, or running a script, and where the classifier can't run, Claude Code asks the user.
 >
-> List only tools that you would let run unattended, and leave destructive ones out. The rule matches by name. If a user's own MCP server, such as a local MCP server that the user adds to Claude Desktop, has the same server name, the rule also covers a tool of the same name on it.
+> List only tools that you would let run unattended, and leave destructive ones out. The rule matches by name. If a user's own MCP server has the same server name, the rule also covers a tool of the same name on it.
 
 ## Claude Code mods
 
@@ -243,16 +317,16 @@ Code sessions support Claude Code [mods](https://code.claude.com/docs/en/plugins
 
 A [mod](https://code.claude.com/docs/en/plugins/mods/overview) is code that a plugin runs inside Claude Code. That code runs as the user, [outside the sandbox](https://code.claude.com/docs/en/sandboxing#what-runs-outside-the-sandbox). It can read and write files, run programs, and make network requests itself, and your tool policies don't apply to those actions. For example, in a Code session it can reach hosts that aren't in [`coworkEgressAllowedHosts`](https://claude.com/docs/third-party/claude-desktop/configuration#coworkegressallowedhosts).
 
-A mod can also call the session's tools, such as the shell tool (`Bash`) or a connector tool. Claude Code doesn't ask the user to approve a call that a mod makes, and treats the call according to your policy for the tool:
+A mod can also call the session's tools, such as the shell tool (`Bash`) or a connector tool. Claude Code doesn't ask the user to approve a call that a mod makes itself. In local Code sessions, Cowork sessions, and Chat conversations, your policy for the tool decides whether that call runs:
 
-* **No policy**: the mod's call can run with no prompt
+* **No policy**: the mod's call can run with no prompt. The write tools of [built-in connectors](https://claude.com/docs/third-party/claude-desktop/built-in-connectors.md#how-built-in-servers-behave) are at `"ask"` by default, so Claude Desktop refuses a mod's own calls to them.
 * **`"allow"`** in [`toolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#tool-permissions-for-managed-mcp-servers): the mod's call can run with no prompt, even in Code sessions, where `"allow"` doesn't pre-approve Claude's own calls
-* **`"ask"`** in `toolPolicy`: under the `permissions.ask` rule that [Claude Desktop supplies](#applied-as-managed-policy), Claude Code refuses the mod's call, and the user sees no prompt. In a Code session, the same holds for a built-in tool set to `"ask"` in [`builtinToolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#builtintoolpolicy). Claude's own calls to the tool still prompt the user each time.
-* **Blocked**, by `"blocked"` in `toolPolicy` or by the tool's name in [`disabledBuiltinTools`](https://claude.com/docs/third-party/claude-desktop/configuration#disabledbuiltintools): a mod can't call the tool
+* **`"ask"`** in `toolPolicy` or [`orgPluginSettings`](https://claude.com/docs/third-party/claude-desktop/configuration#orgpluginsettings), or for a tool name, such as `Bash`, in [`builtinToolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#builtintoolpolicy): Claude Desktop refuses the mod's call, and the user sees no prompt. To check for a refusal, search `main.log` in the [logs directory](https://claude.com/docs/third-party/claude-desktop/data-storage.md#where-data-lives) for `refused a plugin's own call`. Claude's own calls to the tool still prompt the user each time.
+* **Blocked**, by `"blocked"` in `toolPolicy` or `orgPluginSettings`, or by the tool's name in [`disabledBuiltinTools`](https://claude.com/docs/third-party/claude-desktop/configuration#disabledbuiltintools): a mod can't call the tool
 
-Claude Code's own managed settings can [replace the policy](#interaction-with-claude-code%E2%80%99s-own-managed-settings) that holds the `permissions.ask` rule. For a tool that a mod must never call, block the tool, which removes it from the session.
+Your policy also applies to mods in [plugins from your marketplaces](https://claude.com/docs/third-party/claude-desktop/extensions.md#plugin-marketplaces-admin). For a tool that a mod must never call, even with the user's approval, block the tool.
 
-In **Auto mode** and in Cowork's **Automatically approve**, the safety classifier doesn't review a mod's calls, so your [`autoMode` rules](#tune-the-auto-mode-classifier) don't apply to them.
+In **Auto mode** and in Cowork's **Automatically approve**, the safety classifier doesn't review a mod's calls, so your [Auto mode rules](#tune-the-auto-mode-classifier) don't apply to them.
 
 Your tool policies don't cover what a mod or a hook does without calling a tool. To control that, limit which mods and hooks run: see [Stop user-installed mods from loading](#stop-user-installed-mods-from-loading) and [Turn off user hooks](https://claude.com/docs/third-party/claude-desktop/extensions.md#turn-off-user-hooks). To limit which plugins users can add, see [Controlling user extensions](https://claude.com/docs/third-party/claude-desktop/extensions.md#controlling-user-extensions).
 
@@ -275,7 +349,7 @@ To stop users' own mods from loading in local Code sessions, Cowork sessions, an
 
 This file also stops mods in plugins from your marketplaces.
 
-* **Deploy it to [Claude Code's policy locations](https://code.claude.com/docs/en/managed-settings#where-each-mechanism-stores-the-policy)**, not to [Claude Desktop's configuration locations](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#where-claude-desktop-reads-configuration-on-a-device). If you set these keys in [server-managed settings](https://code.claude.com/docs/en/server-managed-settings) or in a Claude apps gateway's [`code` settings](https://code.claude.com/docs/en/claude-apps-gateway-config#apply-code-settings-in-the-code-tab) instead, they don't reach Cowork sessions or Chat conversations, and users' mods still load there. If the device already has Claude Code managed settings, such as an [`autoMode` block](#tune-the-auto-mode-classifier), add these keys to them and leave their `parentSettingsBehavior` as it is.
+* **Deploy it to [Claude Code's policy locations](https://code.claude.com/docs/en/managed-settings#where-each-mechanism-stores-the-policy)**, not to [Claude Desktop's configuration locations](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#where-claude-desktop-reads-configuration-on-a-device). If you set these keys in [server-managed settings](https://code.claude.com/docs/en/server-managed-settings) or in a Claude apps gateway's [`code` settings](https://code.claude.com/docs/en/claude-apps-gateway-config#apply-code-settings-in-the-code-tab) instead, they don't reach Cowork sessions or Chat conversations, and users' mods still load there. If the device already has Claude Code managed settings, such as an [`autoMode` block](#set-auto-mode-rules-in-claude-code-managed-settings), add these keys to them and leave their `parentSettingsBehavior` as it is.
 * **Keep `parentSettingsBehavior`.** Without it, Claude Code ignores the sandbox and the other [managed policy](#applied-as-managed-policy) values that Claude Desktop supplies, except [in a Code session that gets `code` settings from a Claude apps gateway](#interaction-with-claude-code%E2%80%99s-own-managed-settings). In Cowork sessions, without it, Claude doesn't ask for approval before a tool call that matches an argument-scoped [`builtinToolPolicy`](https://claude.com/docs/third-party/claude-desktop/configuration#builtintoolpolicy) rule such as `Read(//**/.env)` set to `"ask"`.
 * **Leave out `disableSideloadFlags`**, which a longer sample in the Claude Code docs includes. With it, Code sessions start without the skills, organization plugins, and uploaded plugins that Claude Desktop delivers.
 * **Optionally, remove the `/plugin-authoring` command**, which has Claude write a mod. Add `"enabledPlugins": { "cc-plugin-plugin-authoring@builtin": false }` to the file.
@@ -289,5 +363,7 @@ A Code session can run its Claude Code engine on a remote host over SSH while th
 ## Disabling Code
 
 To turn off Code, set `isClaudeCodeForDesktopEnabled` to `false` in your Claude Desktop on 3P configuration. Users can no longer open Code. Cowork is unaffected, and so is [Chat](https://claude.com/docs/third-party/claude-desktop/chat.md#configuration).
+
+Turning off Code doesn't delete Code sessions or their conversations on users' devices. The app still deletes them after a period without activity if you set [`codeSessionRetentionDays`](https://claude.com/docs/third-party/claude-desktop/data-storage#automatic-deletion-of-idle-sessions).
 
 If you set `desktopHome` to `off`, keep Code on. For what `desktopHome` does, see [Unified Claude](https://claude.com/docs/third-party/claude-desktop/unified-claude.md).

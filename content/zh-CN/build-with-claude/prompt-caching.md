@@ -250,30 +250,30 @@ featureMetadata:
 
 提示缓存有其单独的定价。下表显示了每个受支持模型每百万令牌的价格：
 
-| Model                                                                                                                                                                     | Base input tokens | 5m cache writes | 1h cache writes | Cache hits and refreshes | Output tokens |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :---------------- | :-------------- | :-------------- | :----------------------- | :------------ |
-| Claude Fable 5.2                                                                                                                                                          | $8 / MTok         | $10 / MTok      | $16 / MTok      | $0.20 / MTok<sup>1</sup> | $40 / MTok    |
-| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842))                                                                               | $8 / MTok         | $10 / MTok      | $16 / MTok      | $0.20 / MTok<sup>1</sup> | $40 / MTok    |
-| Claude Fable 5.1                                                                                                                                                          | $10 / MTok        | $12.50 / MTok   | $20 / MTok      | $0.25 / MTok<sup>1</sup> | $50 / MTok    |
-| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842))                                                                               | $10 / MTok        | $12.50 / MTok   | $20 / MTok      | $0.25 / MTok<sup>1</sup> | $50 / MTok    |
-| Claude Fable 5                                                                                                                                                            | $10 / MTok        | $12.50 / MTok   | $20 / MTok      | $1 / MTok                | $50 / MTok    |
-| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842))                                                                                 | $10 / MTok        | $12.50 / MTok   | $20 / MTok      | $1 / MTok                | $50 / MTok    |
-| Claude Opus 5.5                                                                                                                                                           | $4 / MTok         | $5 / MTok       | $8 / MTok       | $0.20 / MTok<sup>2</sup> | $20 / MTok    |
-| Claude Opus 5                                                                                                                                                             | $5 / MTok         | $6.25 / MTok    | $10 / MTok      | $0.50 / MTok             | $25 / MTok    |
-| Claude Opus 4.8                                                                                                                                                           | $5 / MTok         | $6.25 / MTok    | $10 / MTok      | $0.50 / MTok             | $25 / MTok    |
-| Claude Opus 4.7                                                                                                                                                           | $5 / MTok         | $6.25 / MTok    | $10 / MTok      | $0.50 / MTok             | $25 / MTok    |
-| Claude Opus 4.6                                                                                                                                                           | $5 / MTok         | $6.25 / MTok    | $10 / MTok      | $0.50 / MTok             | $25 / MTok    |
-| Claude Opus 4.5                                                                                                                                                           | $5 / MTok         | $6.25 / MTok    | $10 / MTok      | $0.50 / MTok             | $25 / MTok    |
-| Claude Opus 4.1 ([retired, except on Claude Models on Google Cloud (Google managed) and Bedrock](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $15 / MTok        | $18.75 / MTok   | $30 / MTok      | $1.50 / MTok             | $75 / MTok    |
-| Claude Opus 4 ([retired, except on Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations))               | $15 / MTok        | $18.75 / MTok   | $30 / MTok      | $1.50 / MTok             | $75 / MTok    |
-| Claude Sonnet 5.5                                                                                                                                                         | $2 / MTok         | $2.50 / MTok    | $4 / MTok       | $0.10 / MTok<sup>2</sup> | $10 / MTok    |
-| Claude Sonnet 5                                                                                                                                                           | $2 / MTok         | $2.50 / MTok    | $4 / MTok       | $0.20 / MTok             | $10 / MTok    |
-| Claude Sonnet 4.6                                                                                                                                                         | $3 / MTok         | $3.75 / MTok    | $6 / MTok       | $0.30 / MTok             | $15 / MTok    |
-| Claude Sonnet 4.5                                                                                                                                                         | $3 / MTok         | $3.75 / MTok    | $6 / MTok       | $0.30 / MTok             | $15 / MTok    |
-| Claude Sonnet 4 ([retired, except on Claude Models on Google Cloud (Google managed) and Bedrock](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $3 / MTok         | $3.75 / MTok    | $6 / MTok       | $0.30 / MTok             | $15 / MTok    |
-| Claude Haiku 5.5 (for prompts up to 100,000 tokens)                                                                                                                       | $0.10 / MTok      | $0.125 / MTok   | $0.20 / MTok    | $0.01 / MTok             | $0.50 / MTok  |
-| Claude Haiku 5.5 (for prompts over 100,000 tokens)                                                                                                                        | $0.50 / MTok      | $0.625 / MTok   | $1 / MTok       | $0.05 / MTok             | $2.50 / MTok  |
-| Claude Haiku 4.5                                                                                                                                                          | $1 / MTok         | $1.25 / MTok    | $2 / MTok       | $0.10 / MTok             | $5 / MTok     |
+| Model | Base input tokens | 5m cache writes | 1h cache writes | Cache hits and refreshes | Output tokens |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| Claude Fable 5.2 | $8 / MTok | $10 / MTok | $16 / MTok | $0.20 / MTok<sup>1</sup> | $40 / MTok |
+| Claude Mythos 5.2 ([limited availability](https://support.claude.com/en/articles/14604842)) | $8 / MTok | $10 / MTok | $16 / MTok | $0.20 / MTok<sup>1</sup> | $40 / MTok |
+| Claude Fable 5.1 | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok<sup>1</sup> | $50 / MTok |
+| Claude Mythos 5.1 ([limited availability](https://support.claude.com/en/articles/14604842)) | $10 / MTok | $12.50 / MTok | $20 / MTok | $0.25 / MTok<sup>1</sup> | $50 / MTok |
+| Claude Fable 5 | $10 / MTok | $12.50 / MTok | $20 / MTok | $1 / MTok | $50 / MTok |
+| Claude Mythos 5 ([limited availability](https://support.claude.com/en/articles/14604842)) | $10 / MTok | $12.50 / MTok | $20 / MTok | $1 / MTok | $50 / MTok |
+| Claude Opus 5.5 | $4 / MTok | $5 / MTok | $8 / MTok | $0.20 / MTok<sup>2</sup> | $20 / MTok |
+| Claude Opus 5 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok |
+| Claude Opus 4.8 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok |
+| Claude Opus 4.7 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok |
+| Claude Opus 4.6 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok |
+| Claude Opus 4.5 | $5 / MTok | $6.25 / MTok | $10 / MTok | $0.50 / MTok | $25 / MTok |
+| Claude Opus 4.1 ([retired, except on Claude Models on Google Cloud (Google managed) and Bedrock](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $15 / MTok | $18.75 / MTok | $30 / MTok | $1.50 / MTok | $75 / MTok |
+| Claude Opus 4 ([retired, except on Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $15 / MTok | $18.75 / MTok | $30 / MTok | $1.50 / MTok | $75 / MTok |
+| Claude Sonnet 5.5 | $2 / MTok | $2.50 / MTok | $4 / MTok | $0.10 / MTok<sup>2</sup> | $10 / MTok |
+| Claude Sonnet 5 | $2 / MTok | $2.50 / MTok | $4 / MTok | $0.20 / MTok | $10 / MTok |
+| Claude Sonnet 4.6 | $3 / MTok | $3.75 / MTok | $6 / MTok | $0.30 / MTok | $15 / MTok |
+| Claude Sonnet 4.5 | $3 / MTok | $3.75 / MTok | $6 / MTok | $0.30 / MTok | $15 / MTok |
+| Claude Sonnet 4 ([retired, except on Claude Models on Google Cloud (Google managed) and Bedrock](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | $3 / MTok | $3.75 / MTok | $6 / MTok | $0.30 / MTok | $15 / MTok |
+| Claude Haiku 5.5 (for prompts up to 100,000 tokens) | $0.10 / MTok | $0.125 / MTok | $0.20 / MTok | $0.01 / MTok | $0.50 / MTok |
+| Claude Haiku 5.5 (for prompts over 100,000 tokens) | $0.50 / MTok | $0.625 / MTok | $1 / MTok | $0.05 / MTok | $2.50 / MTok |
+| Claude Haiku 4.5 | $1 / MTok | $1.25 / MTok | $2 / MTok | $0.10 / MTok | $5 / MTok |
 
 *<sup>1 Cache hits and refreshes on Claude Fable 5.2, Claude Mythos 5.2, Claude Fable 5.1, and Claude Mythos 5.1 are priced at 0.025x the base input price.</sup>*
 
@@ -488,10 +488,10 @@ featureMetadata:
 
 使用自动缓存时，缓存点会随着对话的增长自动向前移动。每个新请求都会缓存直到最后一个可缓存块的所有内容，而之前的内容则从缓存中读取。
 
-| 请求   | 内容                                                                                                        | 缓存行为                                                |
-| ---- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| 请求 1 | System<br />+ User(1) + Asst(1)<br />+ **User(2)** ◀ 缓存                                                   | 所有内容写入缓存                                            |
-| 请求 2 | System<br />+ User(1) + Asst(1)<br />+ User(2) + Asst(2)<br />+ **User(3)** ◀ 缓存                          | System 到 User(2) 从缓存读取；<br />Asst(2) + User(3) 写入缓存 |
+| 请求 | 内容 | 缓存行为 |
+| ----- | ----- | ----- |
+| 请求 1 | System<br />+ User(1) + Asst(1)<br />+ **User(2)** ◀ 缓存 | 所有内容写入缓存 |
+| 请求 2 | System<br />+ User(1) + Asst(1)<br />+ User(2) + Asst(2)<br />+ **User(3)** ◀ 缓存 | System 到 User(2) 从缓存读取；<br />Asst(2) + User(3) 写入缓存 |
 | 请求 3 | System<br />+ User(1) + Asst(1)<br />+ User(2) + Asst(2)<br />+ User(3) + Asst(3)<br />+ **User(4)** ◀ 缓存 | System 到 User(3) 从缓存读取；<br />Asst(3) + User(4) 写入缓存 |
 
 缓存断点会自动移动到每个请求中的最后一个可缓存块，因此随着对话的增长，您无需更新任何 `cache_control` 标记。
@@ -666,18 +666,18 @@ featureMetadata:
 
 下表显示了不同类型的更改会使缓存的哪些部分失效。✘ 表示缓存失效，而 ✓ 表示缓存保持有效。
 
-| 更改内容                | 工具缓存  | 系统缓存  | 消息缓存  | 影响                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ------------------- | ----- | ----- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **工具定义**            | ✘     | ✘     | ✘     | 修改工具定义（名称、描述、参数）会使整个缓存失效                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| **网络搜索开关**          | ✓     | ✘     | ✘     | 启用/禁用网络搜索会修改系统提示                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| **引用开关**            | ✓     | ✘     | ✘     | 启用/禁用引用会修改系统提示                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| **速度设置**            | ✓     | ✘     | ✘     | 在 [`speed: "fast"` 和标准速度](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)之间切换会使系统和消息缓存失效                                                                                                                                                                                                                                                                                                                                |
-| **工具选择**            | ✓     | ✓     | ✘     | 对 `tool_choice` 参数的更改只影响消息块                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| **图像**              | ✓     | ✓     | ✘     | 在提示中任何位置添加/删除图像都会影响消息块                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **思考参数**            | 因模型而异 | 因模型而异 | ✘     | 思考配置（模式，以及扩展模式中的 `budget_tokens`）会被渲染到提示中，因此更改它总是会使消息块失效；在将该配置渲染在工具和系统之前的模型上，工具和系统缓存也会失效。请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。                                                                                                                                                                                                                                       |
-| **Effort 设置**       | 因模型而异 | 因模型而异 | ✘     | 更改 [`output_config.effort`](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 值可能会使消息块失效，在某些模型上还可能使工具和系统缓存失效（请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)）。将 effort 显式设置为模型的默认值等同于省略它，不会导致失效。在支持[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 的模型上，通过 `messages` 中的 `role: "system"` 消息传递的 effort 更改会使缓存前缀保持不变。 |
-| **向启用思考的请求传递非工具结果** | ✓     | ✓     | 因模型而异 | 在 Claude Opus 4.5 及更高版本的 Opus 模型、Claude Sonnet 4.6 及更高版本的 Sonnet 模型、Claude Haiku 5.5 以及所有 Claude Fable 和 Claude Mythos 模型上，思考块默认会被保留，因此缓存保持有效（✓）。在其他模型上，所有先前缓存的思考块都会从上下文中剥离，并且这些思考块之后的所有消息都会从缓存中移除（✘）。更多详情，请参阅[使用思考块进行缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#caching-with-thinking-blocks)。                                                                                                            |
-| **被丢弃的思考块**         | ✓     | ✓     | ✘     | 当 API 丢弃在该请求中未被[保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-thinking)的思考块时，该请求中从该块位置开始的缓存前缀都会发生变化。接收模型可以读取且原样传回的块会使缓存保持完整。                                                                                                                                                                                                                                                                              |
+| 更改内容 | 工具缓存 | 系统缓存 | 消息缓存 | 影响 |
+| ----- | ----- | ----- | ----- | ----- |
+| **工具定义** | ✘ | ✘ | ✘ | 修改工具定义（名称、描述、参数）会使整个缓存失效 |
+| **网络搜索开关** | ✓ | ✘ | ✘ | 启用/禁用网络搜索会修改系统提示 |
+| **引用开关** | ✓ | ✘ | ✘ | 启用/禁用引用会修改系统提示 |
+| **速度设置** | ✓ | ✘ | ✘ | 在 [`speed: "fast"` 和标准速度](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)之间切换会使系统和消息缓存失效 |
+| **工具选择** | ✓ | ✓ | ✘ | 对 `tool_choice` 参数的更改只影响消息块 |
+| **图像** | ✓ | ✓ | ✘ | 在提示中任何位置添加/删除图像都会影响消息块 |
+| **思考参数** | 因模型而异 | 因模型而异 | ✘ | 思考配置（模式，以及扩展模式中的 `budget_tokens`）会被渲染到提示中，因此更改它总是会使消息块失效；在将该配置渲染在工具和系统之前的模型上，工具和系统缓存也会失效。请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)。 |
+| **Effort 设置** | 因模型而异 | 因模型而异 | ✘ | 更改 [`output_config.effort`](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 值可能会使消息块失效，在某些模型上还可能使工具和系统缓存失效（请参阅[思考与提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-and-prompt-caching)）。将 effort 显式设置为模型的默认值等同于省略它，不会导致失效。在支持[按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) 的模型上，通过 `messages` 中的 `role: "system"` 消息传递的 effort 更改会使缓存前缀保持不变。 |
+| **向启用思考的请求传递非工具结果** | ✓ | ✓ | 因模型而异 | 在 Claude Opus 4.5 及更高版本的 Opus 模型、Claude Sonnet 4.6 及更高版本的 Sonnet 模型、Claude Haiku 5.5 以及所有 Claude Fable 和 Claude Mythos 模型上，思考块默认会被保留，因此缓存保持有效（✓）。在其他模型上，所有先前缓存的思考块都会从上下文中剥离，并且这些思考块之后的所有消息都会从缓存中移除（✘）。更多详情，请参阅[使用思考块进行缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#caching-with-thinking-blocks)。 |
+| **被丢弃的思考块** | ✓ | ✓ | ✘ | 当 API 丢弃在该请求中未被[保留](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#preserved-thinking)的思考块时，该请求中从该块位置开始的缓存前缀都会发生变化。接收模型可以读取且原样传回的块会使缓存保持完整。 |
 
 在支持[对话中途更改工具](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#mid-conversation-tool-changes)的模型上，`inline-tools-2026-09-15` beta 头允许您在对话进行中添加工具或更改工具的定义，而无需编辑 `tools`。在对话中途的系统消息中通过 `tool_addition` 块发送定义，并使 `tools` 与您首次发送时完全相同。缓存前缀仍然匹配，因此只有追加的消息会作为新输入处理。唯一的例外是 `tools` 数组中没有非延迟工具的情况，此时以这种方式定义的第一个工具会在该请求上造成一次完整的缓存未命中。请参阅[在消息中定义工具](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#define-tools-in-a-message-beta)。
 
@@ -3503,8 +3503,8 @@ API 返回一个空的 `content` 数组：
 * 可用性：可用
 * 用法：通过在顶层或内容块上使用 `cache_control` 启用。
 
-| 状态 | 云平台     | 模型                                                             |
-| -- | ------- | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | 可用 | 所有支持的平台 | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -3512,18 +3512,18 @@ API 返回一个空的 `content` 数组：
 * 可用性：始终开启
 * 用法：缓存条目默认有效期为 5 分钟，缓存读取和写入会显示在会话的用量中。
 
-| 状态   | 云平台     | 模型                                                             |
-| ---- | ------- | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | 所有支持的平台 | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                        | HIPAA |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)）                    | 具备资格  |
-| 详细信息 | 您的提示和 Claude 的输出不会被存储。KV 缓存表示和加密哈希在缓存 TTL 期间保存在内存中，并在过期后立即删除。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#data-retention) | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
+| 详细信息 | 您的提示和 Claude 的输出不会被存储。KV 缓存表示和加密哈希在缓存 TTL 期间保存在内存中，并在过期后立即删除。 [了解更多](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#data-retention) | — |
 
 适用的端点：
 

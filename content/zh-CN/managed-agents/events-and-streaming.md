@@ -666,11 +666,11 @@ featureMetadata:
 
 `session.status_idle` 事件表示智能体已停止并正在等待输入。其 `stop_reason.type` 说明了原因：
 
-| `stop_reason.type` | 会话停止的原因                                                                                                             | 应采取的操作                                                                                                                                |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `end_turn`         | 智能体完成了其轮次，或[您中断了它](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#interrupt-the-agent)。 | 当您有更多工作交给智能体时，[发送 `user.message`](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#resume-an-idle-session)。 |
-| `requires_action`  | 一个或多个工具调用需要您的回答，例如自定义工具调用或确认请求。                                                                                     | [回答每个阻塞的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session)。   |
-| `budget_reached`   | 会话跟踪的标价成本达到了其[预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)。                                   | [更改或移除预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#resume-a-session-at-its-budget)。                              |
+| `stop_reason.type` | 会话停止的原因 | 应采取的操作 |
+| ----- | ----- | ----- |
+| `end_turn` | 智能体完成了其轮次，或[您中断了它](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#interrupt-the-agent)。 | 当您有更多工作交给智能体时，[发送 `user.message`](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#resume-an-idle-session)。 |
+| `requires_action` | 一个或多个工具调用需要您的回答，例如自定义工具调用或确认请求。 | [回答每个阻塞的工具调用](https://platform.claude.com/docs/zh-CN/managed-agents/events-and-streaming#answer-tool-calls-that-pause-the-session)。 |
+| `budget_reached` | 会话跟踪的标价成本达到了其[预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets)。 | [更改或移除预算](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#resume-a-session-at-its-budget)。 |
 
 您发送的任何事件都无法恢复因达到预算而暂停的会话。当您将预算更改为高于已消耗标价成本的值或移除预算时，被预算暂停的工作会自动恢复。工作恢复时，会话会为每个[被预算暂停的工作流运行](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#budgets-and-limits)发出一个 `workflow_run.status_running` 事件。被中断暂停的运行会保持暂停状态；请参阅[在达到预算时恢复会话](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#resume-a-session-at-its-budget)。有关标记暂停的事件以及会话仍接受的事件，请参阅[当会话达到其预算时](https://platform.claude.com/docs/zh-CN/managed-agents/budgets#when-a-session-reaches-its-budget)。
 

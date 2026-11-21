@@ -18,26 +18,9 @@ The window is organized into sections in the left sidebar. Work through them in 
 
 [Unified Claude](https://claude.com/docs/third-party/claude-desktop/unified-claude.md#enabling-unified-claude) is on by default in current versions of Claude Desktop, even where your profile sets `chatTabEnabled`, `chatAdvancedFileAnalysisEnabled`, or `coworkTabEnabled` to `false`.
 
-> [!NOTE]
->
-> When a managed (MDM-delivered) configuration is already present on the device, the configuration window opens read-only: it shows what the admin deployed, marks the configuration as organization-managed, and directs users to their IT administrator. To author a new configuration, use a device without a managed profile, or temporarily remove the profile. Profiles that set only the [app-behavior keys and the keys treated like them](#update-keys-and-managed-precedence) leave the window editable.
-
 ## 2. Export the profile
 
-Once your configuration tests successfully, click **Export** and choose a format:
-
-| Format | Platform | Deploy with |
-| - | - | - |
-| `.mobileconfig` | macOS | Jamf, Kandji, Mosyle, Workspace ONE, or any Apple MDM |
-| `.reg` | Windows | Group Policy (import into a GPO), Intune (via custom ADMX or script), or any MDM that can write registry policy |
-| `.zip` (ADMX template) | Windows | Schema-only template for Intune or Group Policy; you enter values in the management console |
-| `.plist` (Profile Manifest) | macOS | Schema-only template for a profile editor such as iMazing Profile Editor or ProfileCreator; you enter values there to build the profile that your MDM installs |
-| JSON config | Linux (beta) | Any tool that can place the [Linux configuration file](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#the-linux-configuration-file) on your devices |
-
-**Apply Changes** and **Export** do different things:
-
-* **Apply Changes** asks you to confirm, then writes the selected configuration to your own machine's Claude settings and relaunches the app, so you can test it end to end before deploying it.
-* **Export** writes a deployment file in the format you choose and leaves your local settings untouched.
+To test the configuration on your own machine, click **Apply Changes**, which writes it to your Claude settings and relaunches the app. Once it works, click **Export** and choose one of the formats under [Apply locally or export for a fleet](https://claude.com/docs/third-party/claude-desktop/in-app-configuration.md#apply-locally-or-export-for-a-fleet). **Export** leaves your local settings untouched.
 
 ### Export a configuration template
 
@@ -127,6 +110,8 @@ Push the exported configuration through your MDM. On macOS and Windows, put all 
 
 When a managed source sets any key other than the [app-behavior keys and the keys treated like them](#update-keys-and-managed-precedence), the managed configuration takes effect, the in-app configuration window becomes read-only, and locally authored values in `configLibrary/` are ignored.
 
+If you also deploy Claude Code's own managed settings to the same devices, see [Interaction with Claude Code's own managed settings](https://claude.com/docs/third-party/claude-desktop/code.md#interaction-with-claude-code%E2%80%99s-own-managed-settings) for how the two combine.
+
 ### Restrict a device to one deployment mode
 
 Claude Desktop on 3P runs on the inference provider or bootstrap server in your configuration. In standard Claude Desktop, users sign in to claude.ai. To stop users from switching a device between the two, set [`deploymentMode`](https://claude.com/docs/third-party/claude-desktop/configuration#deploymentmode) in the managed source:
@@ -155,7 +140,7 @@ A small group of **app-behavior keys** is treated specially, so you can set an u
 
 When a managed source sets only keys from this group (any of them), the device keeps its locally authored configuration and the configuration window stays editable. The group is still enforced as a unit: every key in it is resolved from the managed source alone, so a locally set or bootstrap-served value for any of them is ignored even if the profile sets only one. A profile that sets the update keys but not `relaunchEnforcementHours` or `configRecheckIntervalMinutes` therefore runs their defaults (24 hours and 10 minutes) on those devices, so set them in the same profile when you want other values.
 
-A profile of only these keys leaves what the device connects to in the local configuration, which a user can edit. If that connection runs every session on a server and none on the device, that server answers the device's update checks, so the app installs only the updates that the server offers. Update, restart, and re-check timing then comes from that server or takes its default, and most of these keys stop applying, the network proxy keys among them, though `disableAutoUpdates` still applies. To prevent this, set the connection in the profile, or set [`deploymentMode`](#restrict-a-device-to-one-deployment-mode) to `1p` on a device that only signs in to claude.ai.
+A profile of only these keys leaves what the device connects to in the local configuration, which a user can edit. If that connection runs every session on a server and none on the device, update, restart, and re-check timing comes from that server or takes its default, and most of these keys stop applying, the network proxy keys among them, though `disableAutoUpdates`, `updateViaUpdatesHost`, and `releaseChannel` still apply. To prevent this, set the connection in the profile, or set [`deploymentMode`](#restrict-a-device-to-one-deployment-mode) to `1p` on a device that only signs in to claude.ai.
 
 [`organizationAnnouncement`](https://claude.com/docs/third-party/claude-desktop/configuration#organizationannouncement), [`deploymentLogo`](https://claude.com/docs/third-party/claude-desktop/configuration#deploymentlogo) (the logo shown beside the announcement), and [`remoteFileDownloads`](https://claude.com/docs/third-party/claude-desktop/configuration#remotefiledownloads) aren't in the group. A profile that sets one or more of them, alone or beside keys from the group, also leaves the locally authored configuration in force. Such a profile still changes behaviors on the device (see [What a profile or policy changes on a device](#what-a-profile-or-policy-changes-on-a-device)). Update devices before you add one of these keys (see [Keys that an earlier version does not recognize](#keys-that-an-earlier-version-does-not-recognize)). For a profile that also sets `bootstrapUrl`, see [Which configuration source applies on a device](https://claude.com/docs/third-party/claude-desktop/configuration-format.md#which-configuration-source-applies-on-a-device).
 

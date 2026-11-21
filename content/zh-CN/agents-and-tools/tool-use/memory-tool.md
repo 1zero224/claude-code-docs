@@ -1059,18 +1059,18 @@ Claude 通常会拒绝将敏感信息写入记忆文件。为了获得更强的�
 
 * 可用性：可用
 
-| 状态 | 模型                                                             |
-| -- | -------------------------------------------------------------- |
+| 状态 | 模型 |
+| ----- | ----- |
 | 可用 | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 数据处理
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                     | HIPAA |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
-| 详细信息 | 客户端记忆存储，数据保留由您控制。                                                                                                                         | —     |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
+| 详细信息 | 客户端记忆存储，数据保留由您控制。 | — |
 
 适用的端点：
 

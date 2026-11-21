@@ -19,7 +19,7 @@ description: 使用发布归档中的两个 Helm chart 在 Kubernetes 集群上�
 
 * **一个集群：** Kubernetes 1.30 或更高版本，并具备：
 
-  * Agent Sandbox 控制器（在 GKE 上，即 [Agent Sandbox 插件](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/how-install-agent-sandbox)）
+  * Agent Sandbox 控制器（在 GKE 上，即 Agent Sandbox 插件；如[在 GKE 上设置插件](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/kubernetes#set-up-the-add-on-on-gke)中所述，版本 0.16.0 需要 GKE 1.35）
   * 运行 gVisor 的节点（在 GKE 上，即 [GKE Sandbox 节点池](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/sandbox-pods)）
   * 强制执行 NetworkPolicy 的网络插件（在 GKE 上，即 Dataplane V2 或 Calico）
 
@@ -230,11 +230,21 @@ description: 使用发布归档中的两个 Helm chart 在 Kubernetes 集群上�
 
 下表将其与另外两种模式进行了比较：
 
-| `egress.mode`    | 沙箱可以访问的内容                                                                                                                                                                      |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `closed`（默认值）    | 您的服务器和 dispatcher，且无法访问任何 DNS 服务器                                                                                                                                              |
-| `publicInternet` | 您的服务器、dispatcher、DNS 服务器以及公共互联网                                                                                                                                                |
-| `gateway`        | 您的服务器、dispatcher，以及通过出口网关访问您列出的主机。请参阅[在 Kubernetes 上启用网关](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/agent-identity#turn-on-the-gateway-on-kubernetes)。 |
+| `egress.mode` | 沙箱可以访问的内容 |
+| ----- | ----- |
+| `closed`（默认值） | 您的服务器和 dispatcher，且无法访问任何 DNS 服务器 |
+| `publicInternet` | 您的服务器、dispatcher、DNS 服务器以及公共互联网 |
+| `gateway` | 您的服务器、dispatcher，以及通过出口网关访问您列出的主机。请参阅[在 Kubernetes 上启用网关](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/agent-identity#turn-on-the-gateway-on-kubernetes)。 |
+
+## 在 GKE 上设置插件
+
+版本 0.16.0 需要一个运行 GKE 1.35 的集群以及 Agent Sandbox 插件的 `v1alpha1` API。GKE 无法将集群退回到更早的次要版本。如果您的集群运行的是 1.36 或更高版本，请创建一个新集群。新集群中没有您现有会话的 `/workspace` 卷，因此请在删除旧集群之前复制出您需要的所有文件。
+
+从 GKE 1.36.3-gke.1767000 开始，该插件改用 `v1beta1`，当集群升级到该版本或更高版本时，[现有的 `v1alpha1` 工作负载可能会失败](https://docs.cloud.google.com/kubernetes-engine/docs/troubleshooting/known-issues#agentsandbox-v1alpha1-workload-failures)。
+
+1. 使用 `gcloud beta container clusters update <cluster> --enable-agent-sandbox` 启用该插件。
+2. 检查 `kubectl api-versions | grep agents.x-k8s.io` 是否列出了 `agents.x-k8s.io/v1alpha1`。更高的 GKE 版本也可能列出它，因此还请确认集群运行的是 1.35。
+3. 由于 GKE 会自动升级集群，请添加一个范围为 `no_minor_upgrades` 的[维护排除项](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/maintenance-windows-and-exclusions#configuring_a_maintenance_exclusion)。
 
 ## 其他集群
 
@@ -250,25 +260,25 @@ description: 使用发布归档中的两个 Helm chart 在 Kubernetes 集群上�
 
 按照 chart 的默认设置，每个会话都有一个用于 `/workspace` 的 10 GiB 卷。会话的 pod 消失后，该卷仍会保留，因此会话的下一条消息可以找到其文件。
 
-| 要释放的内容    | 操作方法                                                                                                                                     |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| 单个会话的卷    | 在会话的轮次结束后将其归档。dispatcher 通常会在约 5 分钟内删除该卷。                                                                                                |
+| 要释放的内容 | 操作方法 |
+| ----- | ----- |
+| 单个会话的卷 | 在会话的轮次结束后将其归档。dispatcher 通常会在约 5 分钟内删除该卷。 |
 | 无人归档的会话的卷 | 在 `cma-values.yaml` 中设置 `dispatcher.retentionDays`。之后，当会话空闲达到该天数时，dispatcher 会删除其卷，而该会话的下一条消息将以空的 `/workspace` 开始。chart 的默认值 `0` 会保留所有卷。 |
 
 本节中的命令适用于 GKE。在其他集群上，请使用 `sandboxclaims` 代替 `sandboxes`。
 
-删除会话不会释放其卷。请先归档该会话。仅当 `kubectl -n cma get sandboxes -l anthropic.com/session-id=<session-id>` 没有列出任何内容时，才删除该会话。
+删除会话可能不会释放其卷，因此请先归档该会话。仅当 `kubectl -n cma get sandboxes -l anthropic.com/session-id=<session-id>` 没有列出任何内容时，才删除该会话。如 [Kubernetes：已删除会话的卷](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/upgrade#deleted-sessions-volumes)中所述，升级可能会删除已删除会话的卷。
 
-如果您删除了会话但未将其归档，请自行释放其卷：
+如果您删除了会话但未将其归档，且其卷仍然存在，请自行释放该卷：
 
-1. 在 dispatcher 的日志中查找会话的 ID。此命令会为每个看起来已被删除但仍有卷的会话打印一行，ID 位于 `session_id` 之后：
+1. 在 dispatcher 的日志中查找会话的 ID。此命令可能会为每个看起来已被删除但仍有卷的会话打印一行，ID 位于 `session_id` 之后：
 
    ```bash
    kubectl -n cma logs deployment/cma-dispatcher --since=6m \
      | grep "could not check the claim's session" | grep "403 Forbidden"
    ```
 
-   dispatcher 每 5 分钟写入一次这些行。如果该会话未列出，请等待 5 分钟后再次运行该命令。
+   dispatcher 每 5 分钟写入一次这些行。如果该会话未列出，请等待 5 分钟后再次运行该命令。如果它仍未列出，请运行 `kubectl -n cma get sandboxes -l anthropic.com/session-id=<session-id>`。如果没有列出任何内容，则该卷已消失。如果列出了一个沙箱，请使用该 ID 继续执行第 2 步。
 
 2. 确认该会话已被删除。在按照[运行会话](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted/kubernetes#run-a-session)中的方式转发端口并设置 `ANTHROPIC_API_KEY` 后，运行 `ant --base-url http://127.0.0.1:8400 beta:sessions retrieve --session-id <session-id>`。仅当响应为带有 `Session not found` 的 `404 Not Found` 时才继续。如果该命令打印出一个会话，请停止：该会话并未被删除。
 

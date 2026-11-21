@@ -56,7 +56,7 @@ A cloud session
 
 * **托管**：由您的组织部署。您无需创建或编辑它。
 * **共享项目**：已经使用 Claude Code 的项目可能已提交了该文件。如果没有，请在项目文件夹中的 `.claude/settings.json` 创建它。
-* **用户**和**项目本地**：您可以自行创建，也可以让 Claude Code 创建。当您第一次在 `/config` 菜单中更改存储在用户设置中的选项（例如主题）时，它会写入 `~/.claude/settings.json`；当您第一次在权限提示上给予常设批准（例如对 Bash 命令选择"Yes, and don't ask again"）时，它会写入 `.claude/settings.local.json`。少数 `/config` 选项（包括 **Show tips**）会保存到 `.claude/settings.local.json`，而不是用户文件。
+* **用户**和**项目本地**：您可以自行创建，也可以让 Claude Code 创建。当您保存用户设置（例如主题）时，它会写入 `~/.claude/settings.json`。当您在权限提示上给予常设批准（例如对 Bash 命令选择"Yes, and don't ask again"）时，它会写入 `.claude/settings.local.json`。
 
 > [!NOTE]
 >
@@ -118,7 +118,7 @@ Claude Code 的系统提示未发布。要给 Claude 常设指令，使用 [`CLA
 在 Claude Code 内运行 `/config` 并打开**配置**选项卡。它列出了一小组个人选项，如主题、编辑器模式和详细输出，而不是每个设置键。选择一个选项来更改它；Claude Code 为您保存它：
 
 * **大多数选项**：`~/.claude/settings.json`
-* **一些选项，如显示提示**：`.claude/settings.local.json`
+* **输出样式**：`.claude/settings.local.json`
 * **[全局配置选项](https://code.claude.com/docs/zh-CN/settings-reference.md#global-config-settings)**：`~/.claude.json`
 
 要设置一个选项而不使用菜单，传递 `key=value`，例如 `/config verbose=true`。
@@ -323,7 +323,7 @@ Settings precedence, highest first: managed settings, command line, project loca
 
 ## 云会话中的设置
 
-[云会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)在[云环境](https://code.claude.com/docs/zh-CN/cloud-environments.md)中运行在您的存储库的新克隆上，而不是在您的机器上。这改变了哪些设置到达它：
+[云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)在[云环境](https://code.claude.com/docs/zh-CN/cloud-environments.md)中运行，基于您的仓库的全新克隆。这会改变哪些设置能够作用于它：
 
 * **项目中的云端线程**：在[项目](https://code.claude.com/docs/zh-CN/claude-projects.md#what-threads-pick-up-from-your-repositories)中的云端线程里，无论该项目包含多少个仓库，仓库 `.claude/settings.json` 中的权限规则、hook 和 `env` 均不适用。[线程从您的仓库中获取哪些内容](https://code.claude.com/docs/zh-CN/claude-projects.md#what-threads-pick-up-from-your-repositories)列出了可改用的方式。
 * **共享项目设置**（`.claude/settings.json`）：在项目线程之外只有一个仓库的会话中会被读取，因为该文件是克隆的一部分，且会话在其中启动。将设置提交到该文件中，即可在这些会话中应用。

@@ -10,15 +10,15 @@ description: 了解每个 stop_reason 值的含义，以及如何在您的应用
 
 ## 快速参考
 
-| 值                                                                                                                                               | 何时出现                             | 应对措施                                                                                                                                   |
-| ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| [`end_turn`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#end-turn)                                           | Claude 自然地完成了其响应。                | 使用该响应。                                                                                                                                 |
-| [`max_tokens`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#max-tokens)                                       | 响应达到了您的 `max_tokens` 限制。         | 提高 `max_tokens` 或[继续生成响应](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#ensuring-complete-responses)。 |
-| [`stop_sequence`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#stop-sequence)                                 | Claude 输出了您的某个 `stop_sequences`。 | 读取 `stop_sequence` 以查看触发的是哪一个。                                                                                                         |
-| [`tool_use`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#tool-use)                                           | Claude 正在调用工具。                   | 运行该工具并返回结果。仍缺少结果块的服务器工具调用会在后续响应中完成。                                                                                                    |
-| [`pause_turn`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#pause-turn)                                       | 服务器工具循环达到了其迭代上限。                 | 将助手内容发回以继续。                                                                                                                            |
-| [`refusal`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#refusal)                                             | Claude 拒绝响应。                     | 读取 `stop_details` 并[在回退模型上重试](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)。                         |
-| [`model_context_window_exceeded`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#model-context-window-exceeded) | 响应填满了模型的上下文窗口。                   | 将响应视为已截断。                                                                                                                              |
+| 值 | 何时出现 | 应对措施 |
+| ----- | ----- | ----- |
+| [`end_turn`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#end-turn) | Claude 自然地完成了其响应。 | 使用该响应。 |
+| [`max_tokens`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#max-tokens) | 响应达到了您的 `max_tokens` 限制。 | 提高 `max_tokens` 或[继续生成响应](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#ensuring-complete-responses)。 |
+| [`stop_sequence`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#stop-sequence) | Claude 输出了您的某个 `stop_sequences`。 | 读取 `stop_sequence` 以查看触发的是哪一个。 |
+| [`tool_use`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#tool-use) | Claude 正在调用工具。 | 运行该工具并返回结果。仍缺少结果块的服务器工具调用会在后续响应中完成。 |
+| [`pause_turn`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#pause-turn) | 服务器工具循环达到了其迭代上限。 | 将助手内容发回以继续。 |
+| [`refusal`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#refusal) | Claude 拒绝响应。 | 读取 `stop_details` 并[在回退模型上重试](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)。 |
+| [`model_context_window_exceeded`](https://platform.claude.com/docs/zh-CN/build-with-claude/handling-stop-reasons#model-context-window-exceeded) | 响应填满了模型的上下文窗口。 | 将响应视为已截断。 |
 
 ## stop\_reason 字段
 
@@ -1541,13 +1541,13 @@ API 会将您的结果添加到 Claude 未完成的轮次中，运行正在等�
 
 后续请求中的以下每种错误都会以 400 `invalid_request_error` 失败。所示消息适用于网络搜索。对于其他服务器工具，消息中的名称会有所不同。
 
-| 错误                                     | 错误消息包含                                                                         |
-| -------------------------------------- | ------------------------------------------------------------------------------ |
-| `tools` 不再定义正在等待的服务器工具                 | ``but no `web_search` tool was provided``                                      |
-| 文本或其他内容位于 `tool_result` 块之后            | ``was found without a corresponding `web_search_tool_result` block``           |
-| 使用程序化工具调用时，文本或其他内容位于 `tool_result` 块之后 | `only tool_result blocks are allowed`                                          |
-| 文本或其他内容位于 `tool_result` 块之前            | `` `tool_use` ids were found without `tool_result` blocks immediately after `` |
-| 缺少某个 `tool_result` 块                   | `` `tool_use` ids were found without `tool_result` blocks immediately after `` |
+| 错误 | 错误消息包含 |
+| ----- | ----- |
+| `tools` 不再定义正在等待的服务器工具 | ``but no `web_search` tool was provided`` |
+| 文本或其他内容位于 `tool_result` 块之后 | ``was found without a corresponding `web_search_tool_result` block`` |
+| 使用程序化工具调用时，文本或其他内容位于 `tool_result` 块之后 | `only tool_result blocks are allowed` |
+| 文本或其他内容位于 `tool_result` 块之前 | `` `tool_use` ids were found without `tool_result` blocks immediately after `` |
+| 缺少某个 `tool_result` 块 | `` `tool_use` ids were found without `tool_result` blocks immediately after `` |
 
 `tool_result` 块之后的内容会导致失败，因为它会在服务器工具仍在等待时结束 Claude 的轮次。若要向 Claude 提供更多输入，请继续直到某个响应的 `stop_reason` 既不是 `tool_use` 也不是 `pause_turn`。然后，在同一个 `messages` 列表中将该输入作为新的用户消息发送。
 
@@ -1929,6 +1929,8 @@ Claude 拒绝生成响应。安全分类器以正常的 HTTP 200 响应而非错
 发生拒绝时，[`stop_details`](https://platform.claude.com/docs/zh-CN/api/messages/create#message.stop_details) 对象会标识触发拒绝的策略类别。这些类别以及完整的拒绝响应形态在[拒绝是什么样子的](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)中有介绍。对于 `refusal` 以外的所有停止原因，`stop_details` 均为 `null`。
 
 被拒绝的请求通常可以通过在另一个 Claude 模型上重试来获得响应。这适用于 Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5 和 Claude Haiku 5.5。[拒绝与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)介绍了如何在服务器端或您的客户端中设置该重试。Claude Haiku 5.5 没有服务器端回退，因此请通过[客户端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#client-side-fallback)设置其重试。如果您自行构建从上述任一模型（Claude Haiku 5.5 除外）发起的重试，[回退抵扣](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit)介绍了如何避免两次支付提示缓存费用。
+
+`reasoning_extraction` 拒绝是一个例外：请修改提示，而不是在另一个模型上重试，如[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)所述。
 
 ### model\_context\_window\_exceeded
 

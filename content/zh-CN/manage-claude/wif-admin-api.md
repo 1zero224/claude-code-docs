@@ -496,11 +496,11 @@ SDK 和 `ant` CLI 会自动读取 `ANTHROPIC_AUTH_TOKEN`。请在同一 shell �
 
 [联合颁发者](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation#federation-issuers)（`fdis_...`）用于向您的组织注册 OIDC 身份提供商。`jwks` 字段是一个可辨识联合类型，用于控制 Anthropic 如何获取提供商的签名密钥：
 
-| `jwks` 值                                 | 使用场景                                                 |
-| ---------------------------------------- | ---------------------------------------------------- |
-| `{"type": "discovery"}`                  | 提供商在颁发者 URL 处提供 `/.well-known/openid-configuration`。 |
-| `{"type": "explicit_url", "url": "..."}` | 直接指向 JWKS 端点。                                        |
-| `{"type": "inline", "keys": [...]}`      | 为无法从公共互联网访问的提供商上传密钥集。                                |
+| `jwks` 值 | 使用场景 |
+| ----- | ----- |
+| `{"type": "discovery"}` | 提供商在颁发者 URL 处提供 `/.well-known/openid-configuration`。 |
+| `{"type": "explicit_url", "url": "..."}` | 直接指向 JWKS 端点。 |
+| `{"type": "inline", "keys": [...]}` | 为无法从公共互联网访问的提供商上传密钥集。 |
 
 注册颁发者。此示例使用 JWKS 发现注册 GitHub Actions：
 

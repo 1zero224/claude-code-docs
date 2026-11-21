@@ -234,13 +234,13 @@ SDK 和 `ant` CLI 会自动读取 `ANTHROPIC_AUTH_TOKEN`。请在同一 shell �
 
 Claude Console 组织共有五种组织级角色。详情请参阅 [API Console 角色和权限](https://support.claude.com/en/articles/10186004-api-console-roles-and-permissions)。
 
-| 角色                 | 权限                                                                           |
-| ------------------ | ---------------------------------------------------------------------------- |
-| user               | 可以使用 playground                                                              |
+| 角色 | 权限 |
+| ----- | ----- |
+| user | 可以使用 playground |
 | claude\_code\_user | 可以使用 playground 和 [Claude Code](https://code.claude.com/docs/zh-CN/overview) |
-| developer          | 可以使用 playground 并管理 API 密钥                                                   |
-| billing            | 可以使用 playground 并管理账单详情                                                      |
-| admin              | 可以执行上述所有操作，并可管理用户                                                            |
+| developer | 可以使用 playground 并管理 API 密钥 |
+| billing | 可以使用 playground 并管理账单详情 |
+| admin | 可以执行上述所有操作，并可管理用户 |
 
 Claude Enterprise 组织具有一套不同的角色，包括所有者和主要所有者。请参阅[组织角色](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#organization-roles)。
 

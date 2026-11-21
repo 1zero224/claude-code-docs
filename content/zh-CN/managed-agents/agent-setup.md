@@ -43,17 +43,17 @@ featureMetadata:
 
 ## 智能体配置字段
 
-| 字段                                                                              | 描述                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name` (csharp, go: `Name`)                                                     | 必填。智能体的可读名称。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `model` (csharp, go: `Model`)                                                   | 必填。为智能体提供支持的 Claude [模型](https://platform.claude.com/docs/zh-CN/models/overview)。接受模型 ID 字符串或对象，例如 `{"id": "claude-opus-5-5"}`。支持 Claude 4.5 及更高版本的模型。对象形式还接受 `speed` (csharp, go: `Speed`)、`effort` (csharp, go: `Effort`) 和 `inference_geo` (java, php: `inferenceGeo`; csharp, go: `InferenceGeo`) 字段；请参阅[创建智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup#create-an-agent)下的提示、[努力程度级别](https://platform.claude.com/docs/zh-CN/build-with-claude/effort#effort-levels)以及[固定推理地理位置](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup#pin-the-inference-geo)。 |
-| `system` (csharp, go: `System`; ruby: `system_`)                                | 定义智能体行为和角色设定的[系统提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role)。系统提示不同于[用户消息](https://platform.claude.com/docs/zh-CN/managed-agents/reference#event-types)，后者应描述要完成的工作。                                                                                                                                                                                                                                                                                                                                              |
-| `tools` (csharp, go: `Tools`)                                                   | 智能体可用的工具。包括[预构建的智能体工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools)、[MCP 工具](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector)和[自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools#custom-tools)。                                                                                                                                                                                                                                                                                                                                                     |
-| `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) | 提供标准化第三方能力的 [MCP 服务器](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector)。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `skills` (csharp, go: `Skills`)                                                 | 通过渐进式披露提供特定领域上下文的[技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills)。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `multiagent` (csharp, go: `Multiagent`)                                         | 允许智能体将工作交给其他智能体（作为子智能体或在[动态工作流](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#dynamic-workflows)中），并可选择咨询[顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)模型。使用 `multiagent_20261001` 类型时，除非您将其禁用，否则动态工作流默认开启。请参阅[多智能体编排](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)。                                                                                                                                                                                               |
-| `description` (csharp, go: `Description`)                                       | 对智能体功能的描述。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `metadata` (csharp, go: `Metadata`)                                             | 供您自行跟踪使用的任意键值对。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 字段 | 描述 |
+| ----- | ----- |
+| `name` (csharp, go: `Name`) | 必填。智能体的可读名称。 |
+| `model` (csharp, go: `Model`) | 必填。为智能体提供支持的 Claude [模型](https://platform.claude.com/docs/zh-CN/models/overview)。接受模型 ID 字符串或对象，例如 `{"id": "claude-opus-5-5"}`。支持 Claude 4.5 及更高版本的模型。对象形式还接受 `speed` (csharp, go: `Speed`)、`effort` (csharp, go: `Effort`) 和 `inference_geo` (java, php: `inferenceGeo`; csharp, go: `InferenceGeo`) 字段；请参阅[创建智能体](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup#create-an-agent)下的提示、[努力程度级别](https://platform.claude.com/docs/zh-CN/build-with-claude/effort#effort-levels)以及[固定推理地理位置](https://platform.claude.com/docs/zh-CN/managed-agents/agent-setup#pin-the-inference-geo)。 |
+| `system` (csharp, go: `System`; ruby: `system_`) | 定义智能体行为和角色设定的[系统提示](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices#give-claude-a-role)。系统提示不同于[用户消息](https://platform.claude.com/docs/zh-CN/managed-agents/reference#event-types)，后者应描述要完成的工作。 |
+| `tools` (csharp, go: `Tools`) | 智能体可用的工具。包括[预构建的智能体工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools)、[MCP 工具](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector)和[自定义工具](https://platform.claude.com/docs/zh-CN/managed-agents/tools#custom-tools)。 |
+| `mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) | 提供标准化第三方能力的 [MCP 服务器](https://platform.claude.com/docs/zh-CN/managed-agents/mcp-connector)。 |
+| `skills` (csharp, go: `Skills`) | 通过渐进式披露提供特定领域上下文的[技能](https://platform.claude.com/docs/zh-CN/managed-agents/skills)。 |
+| `multiagent` (csharp, go: `Multiagent`) | 允许智能体将工作交给其他智能体（作为子智能体或在[动态工作流](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#dynamic-workflows)中），并可选择咨询[顾问](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration#give-the-session-an-advisor)模型。使用 `multiagent_20261001` 类型时，除非您将其禁用，否则动态工作流默认开启。请参阅[多智能体编排](https://platform.claude.com/docs/zh-CN/managed-agents/multiagent-orchestration)。 |
+| `description` (csharp, go: `Description`) | 对智能体功能的描述。 |
+| `metadata` (csharp, go: `Metadata`) | 供您自行跟踪使用的任意键值对。 |
 
 您还可以针对单个会话覆盖 `model` (csharp, go: `Model`)、`system` (csharp, go: `System`; ruby: `system_`)、`tools` (csharp, go: `Tools`)、`mcp_servers` (java, php: `mcpServers`; csharp: `McpServers`; go: `MCPServers`) 和 `skills` (csharp, go: `Skills`)，而无需更改智能体本身。`model` (csharp, go: `Model`) 覆盖会完整替换智能体的 `model` (csharp, go: `Model`) 对象，因此智能体自身的 `effort` (csharp, go: `Effort`) 不会被沿用。若要以特定 effort 级别运行会话，请在覆盖的 `model` (csharp, go: `Model`) 对象中设置 `effort` (csharp, go: `Effort`)。请参阅[为会话覆盖智能体配置](https://platform.claude.com/docs/zh-CN/managed-agents/sessions#override-agent-configuration-for-a-session)。
 
@@ -717,11 +717,11 @@ featureMetadata:
 
 ## 智能体生命周期
 
-| 操作       | 行为                            |
-| -------- | ----------------------------- |
-| **更新**   | 当配置发生变化时生成新的智能体版本。            |
-| **列出版本** | 返回完整的版本历史，以便您跟踪随时间发生的变化。      |
-| **归档**   | 使智能体变为只读。新会话无法引用它，但现有会话会继续运行。 |
+| 操作 | 行为 |
+| ----- | ----- |
+| **更新** | 当配置发生变化时生成新的智能体版本。 |
+| **列出版本** | 返回完整的版本历史，以便您跟踪随时间发生的变化。 |
+| **归档** | 使智能体变为只读。新会话无法引用它，但现有会话会继续运行。 |
 
 ### 列出版本
 
@@ -875,8 +875,8 @@ featureMetadata:
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                                                                                  | 模型                                                             |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
 | Beta | Claude API, [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [所有模型](https://platform.claude.com/docs/zh-CN/models/overview) |
 
 ### 所需的 beta 请求头
@@ -891,9 +891,9 @@ Beta 请求头让您可以在实验性功能和新模型能力成为标准 API �
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                                         | HIPAA                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| 状态   | 不具备资格                                                                                                                                                                         | 不具备资格                                  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 不具备资格 | 不具备资格 |
 | 详细信息 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) | 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 适用的端点：

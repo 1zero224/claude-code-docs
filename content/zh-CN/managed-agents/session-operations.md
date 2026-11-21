@@ -43,12 +43,12 @@ featureMetadata:
 
 会话会经历以下状态。有关会话生命周期，请参阅[启动会话](https://platform.claude.com/docs/zh-CN/managed-agents/sessions)。
 
-| 状态             | 描述                                                                                                                                                                                                                                                                                                                                                                                        |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `idle`         | 智能体正在等待输入，包括用户消息或工具确认。未使用 `initial_events` (java, php: `initialEvents`; csharp, go: `InitialEvents`) 创建的会话以 `idle` 状态开始。当[工作流运行](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#while-a-run-is-open)仍处于打开状态时，会话也可能处于 `idle` 状态，因此仅凭 `idle` 并不意味着工作已完成。请参阅[了解工作何时完成](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#know-when-the-work-is-done)。 |
-| `running`      | 智能体正在主动执行。                                                                                                                                                                                                                                                                                                                                                                                |
-| `rescheduling` | 发生了瞬时错误，正在自动重试。                                                                                                                                                                                                                                                                                                                                                                           |
-| `terminated`   | 会话已结束，原因是发生了不可恢复的错误或会话已被归档。完成工作的会话会进入 `idle`，而不是 `terminated`。                                                                                                                                                                                                                                                                                                                            |
+| 状态 | 描述 |
+| ----- | ----- |
+| `idle` | 智能体正在等待输入，包括用户消息或工具确认。未使用 `initial_events` (java, php: `initialEvents`; csharp, go: `InitialEvents`) 创建的会话以 `idle` 状态开始。当[工作流运行](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#while-a-run-is-open)仍处于打开状态时，会话也可能处于 `idle` 状态，因此仅凭 `idle` 并不意味着工作已完成。请参阅[了解工作何时完成](https://platform.claude.com/docs/zh-CN/managed-agents/workflow-runs#know-when-the-work-is-done)。 |
+| `running` | 智能体正在主动执行。 |
+| `rescheduling` | 发生了瞬时错误，正在自动重试。 |
+| `terminated` | 会话已结束，原因是发生了不可恢复的错误或会话已被归档。完成工作的会话会进入 `idle`，而不是 `terminated`。 |
 
 ## 更新智能体配置
 

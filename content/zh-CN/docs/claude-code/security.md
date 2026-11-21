@@ -43,7 +43,7 @@
 ### 核心保护
 
 * **权限系统**：在手动模式下，敏感操作需要明确批准
-* **网络命令批准**：从网络获取内容的命令，如 `curl` 和 `wget`，默认不会自动批准。在手动模式下，它们会像任何其他非只读 Bash 命令一样提示，因此您仍然可以批准一次或添加显式允许规则，如 `Bash(curl *)`。要阻止 Claude 运行它们，请将其添加到 [`permissions.deny`](https://code.claude.com/docs/zh-CN/permissions#tool-specific-permission-rules)。拒绝规则匹配[按照编写的命令](https://code.claude.com/docs/zh-CN/permissions.md#bash-rule-limits)；对于不依赖命令文本的网络强制执行，请参阅[沙箱网络隔离](https://code.claude.com/docs/zh-CN/sandboxing.md#network-isolation)
+* **网络命令批准**：在手动模式下，`curl` 和 `wget` 等命令默认会提示您，因此您可以批准一次，或添加允许规则，如 `Bash(curl *)`。要阻止 Claude 运行它们，请将其添加到 [`permissions.deny`](https://code.claude.com/docs/zh-CN/permissions#tool-specific-permission-rules)。拒绝规则匹配[按照编写的命令](https://code.claude.com/docs/zh-CN/permissions.md#bash-rule-limits)；对于不依赖命令文本的网络强制执行，请参阅[沙箱网络隔离](https://code.claude.com/docs/zh-CN/sandboxing.md#network-isolation)
 
 ### 隐私保护
 
@@ -58,7 +58,7 @@
 ### 其他保护措施
 
 * **网络请求批准**：在手动模式下，进行网络请求的大多数工具默认需要用户批准
-* **网页摘要**：对于大多数获取操作，WebFetch 会针对页面运行一次单独的模型调用，Claude 接收的是该调用的回答，而不是原始页面。请参阅 [WebFetch 工具行为](https://code.claude.com/docs/zh-CN/tools-reference.md#webfetch-tool-behavior)
+* **网页摘要**：对于大多数 WebFetch 获取操作，会由一次单独的模型调用读取页面，Claude 接收的是该调用的回答，而不是原始页面。请参阅 [WebFetch 工具行为](https://code.claude.com/docs/zh-CN/tools-reference.md#webfetch-tool-behavior)
 * **信任验证**：在交互式会话中，当您在尚未信任的文件夹中启动 Claude Code 时，它会显示工作区信任对话框。项目 `.mcp.json` 中的服务器有其单独的批准提示，[项目作用域](https://code.claude.com/docs/zh-CN/mcp.md#project-scope) 列出了跳过该提示的会话
   * 注意：`-p` 会话不会显示上述任何一种提示。[信任文件夹之前会运行什么](https://code.claude.com/docs/zh-CN/permissions.md#what-runs-before-you-trust-a-folder) 列出了仓库中的文件在此情况下可以运行的内容
   * 注意：当您直接在主目录中启动 Claude Code 时，信任接受仅在当前会话期间保持，不会写入磁盘，因此提示在每次启动时都会重新出现。没有设置可以持久化它。请从项目子目录启动 Claude Code，其中信任接受按目录保存
@@ -94,9 +94,8 @@
 
 ## 云执行安全性
 
-使用 [cloud sessions](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md) 时，会实施额外的安全控制。您的组织路由到 [自托管环境](https://code.claude.com/docs/zh-CN/self-hosted-environments) 的会话在您自己的基础设施上运行，其中隔离、网络出口和 git 凭证是您部署的责任。在 Anthropic 托管的环境中：
+使用[云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)时，会实施额外的安全控制。默认情况下，会话在隔离的、由 Anthropic 管理的 VM 中运行其 shell 命令和文件编辑。您的组织路由到[自托管环境](https://code.claude.com/docs/zh-CN/self-hosted-environments)的会话在您自己的基础设施上运行，其中隔离、网络出口和 git 凭据是您部署的责任。在 Anthropic 托管的环境中：
 
-* **隔离的虚拟机**：每个云会话在隔离的、由 Anthropic 管理的 VM 中运行
 * **网络访问控制**：网络访问默认受限，可以配置为禁用或仅允许特定域
 * **凭证保护**：GitHub 凭证在 Anthropic 的服务器上以加密方式存储，永远不会进入会话 VM。VM 持有一个作用域限制于该会话的短期凭证，GitHub 流量通过 [Anthropic proxy](https://code.claude.com/docs/zh-CN/cloud-environments.md#github-proxy) 进行，该代理在服务器端附加 GitHub 凭证。有关如何授予访问权限，请参阅 [GitHub authentication options](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md#github-authentication-options)
 * **推送限制**：[GitHub 代理](https://code.claude.com/docs/zh-CN/cloud-environments.md#github-proxy)会拒绝删除分支，以及推送分支以外的任何内容（例如标签）。GitHub 通过将您仓库的分支保护规则和规则集应用于您所连接的 GitHub 访问权限，来决定会话可以更新哪些分支。该访问权限可以绕过的规则不会阻止会话的推送

@@ -26,50 +26,50 @@ Voyage AI 提供以下文本嵌入模型：
 
 **最新一代**
 
-| 模型               | 上下文长度  | 嵌入维度                  | 描述                                                                                                                                                                                                                 |
-| ---------------- | ------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `voyage-4-large` | 32,000 | 1024（默认）、256、512、2048 | 最佳的通用和多语言检索质量。详情请参阅 [Voyage 4 博客文章](https://blog.voyageai.com/2026/01/15/voyage-4/)。                                                                                                                               |
-| `voyage-4`       | 32,000 | 1024（默认）、256、512、2048 | 针对通用和多语言检索质量进行了优化。在质量与效率之间取得平衡。详情请参阅 [Voyage 4 博客文章](https://blog.voyageai.com/2026/01/15/voyage-4/)。                                                                                                              |
-| `voyage-4-lite`  | 32,000 | 1024（默认）、256、512、2048 | 针对延迟和成本进行了优化。详情请参阅 [Voyage 4 博客文章](https://blog.voyageai.com/2026/01/15/voyage-4/)。                                                                                                                                |
-| `voyage-code-4`  | 32,000 | 1024（默认）、256、512、2048 | 针对**代码**检索和智能体编码应用进行了优化。详情请参阅 [voyage-code-4 博客文章](https://blog.voyageai.com/2026/08/13/voyage-code-4/)。                                                                                                           |
-| `voyage-4-nano`  | 32,000 | 2048（默认）、256、512、1024 | 开放权重模型（Apache 2.0 许可证），您可以从 [Hugging Face](https://huggingface.co/voyageai/voyage-4-nano) 下载并自行运行。无法通过 Atlas Embedding and Reranking API 使用。详情请参阅 [Voyage 4 博客文章](https://blog.voyageai.com/2026/01/15/voyage-4/)。 |
+| 模型 | 上下文长度 | 嵌入维度 | 描述 |
+| ----- | ----- | ----- | ----- |
+| `voyage-4-large` | 32,000 | 1024（默认）、256、512、2048 | 最佳的通用和多语言检索质量。详情请参阅 [Voyage 4 博客文章](https://blog.voyageai.com/2026/01/15/voyage-4/)。 |
+| `voyage-4` | 32,000 | 1024（默认）、256、512、2048 | 针对通用和多语言检索质量进行了优化。在质量与效率之间取得平衡。详情请参阅 [Voyage 4 博客文章](https://blog.voyageai.com/2026/01/15/voyage-4/)。 |
+| `voyage-4-lite` | 32,000 | 1024（默认）、256、512、2048 | 针对延迟和成本进行了优化。详情请参阅 [Voyage 4 博客文章](https://blog.voyageai.com/2026/01/15/voyage-4/)。 |
+| `voyage-code-4` | 32,000 | 1024（默认）、256、512、2048 | 针对**代码**检索和智能体编码应用进行了优化。详情请参阅 [voyage-code-4 博客文章](https://blog.voyageai.com/2026/08/13/voyage-code-4/)。 |
+| `voyage-4-nano` | 32,000 | 2048（默认）、256、512、1024 | 开放权重模型（Apache 2.0 许可证），您可以从 [Hugging Face](https://huggingface.co/voyageai/voyage-4-nano) 下载并自行运行。无法通过 Atlas Embedding and Reranking API 使用。详情请参阅 [Voyage 4 博客文章](https://blog.voyageai.com/2026/01/15/voyage-4/)。 |
 
 **上一代**
 
 有关每个模型的生命周期状态和推荐的替代模型，请参阅 MongoDB 文档中的[模型弃用、生命周期状态和支持](https://www.mongodb.com/docs/voyageai/models/lifecycle/)。
 
-| 模型                 | 上下文长度  | 嵌入维度                  | 描述                                                                                                                                                          |
-| ------------------ | ------ | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `voyage-3-large`   | 32,000 | 1024（默认）、256、512、2048 | `voyage-4-large` 的上一代。详情请参阅 [voyage-3-large 博客文章](https://blog.voyageai.com/2025/01/07/voyage-3-large/)。                                                    |
-| `voyage-3.5`       | 32,000 | 1024（默认）、256、512、2048 | `voyage-4` 的上一代。详情请参阅 [voyage-3.5 博客文章](https://blog.voyageai.com/2025/05/20/voyage-3-5/)。                                                                  |
-| `voyage-3.5-lite`  | 32,000 | 1024（默认）、256、512、2048 | `voyage-4-lite` 的上一代。详情请参阅 [voyage-3.5 博客文章](https://blog.voyageai.com/2025/05/20/voyage-3-5/)。                                                             |
-| `voyage-code-3`    | 32,000 | 1024（默认）、256、512、2048 | `voyage-code-4` 的上一代。详情请参阅 [voyage-code-3 博客文章](https://blog.voyageai.com/2024/12/04/voyage-code-3/)。                                                       |
-| `voyage-finance-2` | 32,000 | 1024                  | 针对**金融**检索和 RAG 进行了优化。详情请参阅 [voyage-finance-2 博客文章](https://blog.voyageai.com/2024/06/03/domain-specific-embeddings-finance-edition-voyage-finance-2/)。     |
-| `voyage-law-2`     | 16,000 | 1024                  | 针对**法律**检索和 RAG 进行了优化。详情请参阅 [voyage-law-2 博客文章](https://blog.voyageai.com/2024/04/15/domain-specific-embeddings-and-retrieval-legal-edition-voyage-law-2/)。 |
+| 模型 | 上下文长度 | 嵌入维度 | 描述 |
+| ----- | ----- | ----- | ----- |
+| `voyage-3-large` | 32,000 | 1024（默认）、256、512、2048 | `voyage-4-large` 的上一代。详情请参阅 [voyage-3-large 博客文章](https://blog.voyageai.com/2025/01/07/voyage-3-large/)。 |
+| `voyage-3.5` | 32,000 | 1024（默认）、256、512、2048 | `voyage-4` 的上一代。详情请参阅 [voyage-3.5 博客文章](https://blog.voyageai.com/2025/05/20/voyage-3-5/)。 |
+| `voyage-3.5-lite` | 32,000 | 1024（默认）、256、512、2048 | `voyage-4-lite` 的上一代。详情请参阅 [voyage-3.5 博客文章](https://blog.voyageai.com/2025/05/20/voyage-3-5/)。 |
+| `voyage-code-3` | 32,000 | 1024（默认）、256、512、2048 | `voyage-code-4` 的上一代。详情请参阅 [voyage-code-3 博客文章](https://blog.voyageai.com/2024/12/04/voyage-code-3/)。 |
+| `voyage-finance-2` | 32,000 | 1024 | 针对**金融**检索和 RAG 进行了优化。详情请参阅 [voyage-finance-2 博客文章](https://blog.voyageai.com/2024/06/03/domain-specific-embeddings-finance-edition-voyage-finance-2/)。 |
+| `voyage-law-2` | 16,000 | 1024 | 针对**法律**检索和 RAG 进行了优化。详情请参阅 [voyage-law-2 博客文章](https://blog.voyageai.com/2024/04/15/domain-specific-embeddings-and-retrieval-legal-edition-voyage-law-2/)。 |
 
 此外，Voyage AI 还提供以下多模态嵌入模型。请使用 `multimodal_embed()` 而不是 `embed()` 来调用这些模型：
 
-| 模型                      | 上下文长度  | 嵌入维度                  | 描述                                                                                                                                                                 |
-| ----------------------- | ------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `voyage-multimodal-3.5` | 32,000 | 1024（默认）、256、512、2048 | 功能丰富的多模态嵌入模型，可以将交错的文本、图像和视频向量化。作为首个生产级视频嵌入模型，它包含视频支持。详情请参阅 [voyage-multimodal-3.5 博客文章](https://blog.voyageai.com/2026/01/15/voyage-multimodal-3-5/)。              |
-| `voyage-multimodal-3`   | 32,000 | 1024                  | `voyage-multimodal-3.5` 的上一代。可将交错的文本和内容丰富的图像（例如 PDF 截图、幻灯片、表格、图表等）向量化。详情请参阅 [voyage-multimodal-3 博客文章](https://blog.voyageai.com/2024/11/12/voyage-multimodal-3/)。 |
+| 模型 | 上下文长度 | 嵌入维度 | 描述 |
+| ----- | ----- | ----- | ----- |
+| `voyage-multimodal-3.5` | 32,000 | 1024（默认）、256、512、2048 | 功能丰富的多模态嵌入模型，可以将交错的文本、图像和视频向量化。作为首个生产级视频嵌入模型，它包含视频支持。详情请参阅 [voyage-multimodal-3.5 博客文章](https://blog.voyageai.com/2026/01/15/voyage-multimodal-3-5/)。 |
+| `voyage-multimodal-3` | 32,000 | 1024 | `voyage-multimodal-3.5` 的上一代。可将交错的文本和内容丰富的图像（例如 PDF 截图、幻灯片、表格、图表等）向量化。详情请参阅 [voyage-multimodal-3 博客文章](https://blog.voyageai.com/2024/11/12/voyage-multimodal-3/)。 |
 
 以下上下文化分块嵌入模型可生成分块级向量，无需手动添加元数据即可捕获完整的文档上下文。请使用 `contextualized_embed()` 而非 `embed()` 调用这些模型：
 
-| 模型                 | 上下文长度   | 嵌入维度                  | 描述                                                                                                                |
-| ------------------ | ------- | --------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 模型 | 上下文长度 | 嵌入维度 | 描述 |
+| ----- | ----- | ----- | ----- |
 | `voyage-context-4` | 120,000 | 1024（默认）、256、512、2048 | 针对通用和多语言检索质量进行了优化的上下文化分块嵌入。详情请参阅 [voyage-context-4 博客文章](https://blog.voyageai.com/2026/06/29/voyage-context-4/)。 |
-| `voyage-context-3` | 120,000 | 1024（默认）、256、512、2048 | `voyage-context-4` 的上一代。详情请参阅 [voyage-context-3 博客文章](https://blog.voyageai.com/2025/07/23/voyage-context-3/)。    |
+| `voyage-context-3` | 120,000 | 1024（默认）、256、512、2048 | `voyage-context-4` 的上一代。详情请参阅 [voyage-context-3 博客文章](https://blog.voyageai.com/2025/07/23/voyage-context-3/)。 |
 
 120,000 令牌的限制适用于将 `enable_auto_chunking` 设置为 `true` 的情况。否则，所有输入的令牌总数不能超过 32,000。
 
 Voyage AI 还提供 “rerankers”（重排序器），它接收一个查询和一组文档，并按与查询的相关性排序后返回这些文档。请使用 `rerank()` 调用这些模型：
 
-| 模型                | 上下文长度  | 描述                                                                                              |
-| ----------------- | ------ | ----------------------------------------------------------------------------------------------- |
-| `rerank-3`        | 32,000 | 最高准确度。推荐用于大多数应用。详情请参阅 [rerank-3 博客文章](https://blog.voyageai.com/2026/09/30/rerank-3/)。          |
-| `rerank-3-lite`   | 32,000 | 针对延迟和成本进行了优化。详情请参阅 [rerank-3 博客文章](https://blog.voyageai.com/2026/09/30/rerank-3/)。             |
-| `rerank-2.5`      | 32,000 | `rerank-3` 的上一代。详情请参阅 [rerank-2.5 博客文章](https://blog.voyageai.com/2025/08/11/rerank-2-5/)。      |
+| 模型 | 上下文长度 | 描述 |
+| ----- | ----- | ----- |
+| `rerank-3` | 32,000 | 最高准确度。推荐用于大多数应用。详情请参阅 [rerank-3 博客文章](https://blog.voyageai.com/2026/09/30/rerank-3/)。 |
+| `rerank-3-lite` | 32,000 | 针对延迟和成本进行了优化。详情请参阅 [rerank-3 博客文章](https://blog.voyageai.com/2026/09/30/rerank-3/)。 |
+| `rerank-2.5` | 32,000 | `rerank-3` 的上一代。详情请参阅 [rerank-2.5 博客文章](https://blog.voyageai.com/2025/08/11/rerank-2-5/)。 |
 | `rerank-2.5-lite` | 32,000 | `rerank-3-lite` 的上一代。详情请参阅 [rerank-2.5 博客文章](https://blog.voyageai.com/2025/08/11/rerank-2-5/)。 |
 
 需要帮助决定使用哪个模型？请参阅 MongoDB 文档中的 [Voyage AI 嵌入和重排序模型概述](https://www.mongodb.com/docs/voyageai/models/)。

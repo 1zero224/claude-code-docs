@@ -1109,10 +1109,10 @@ Claude 现在持有可以据以执行操作的引用，因此它的下一轮可�
 
 对某个位置执行操作的成员工具接受一个 `target` 对象，它要么是视口像素坐标，要么是对 `read_page` 或 `find` 返回的元素的引用。[成员工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#member-tools)表格中用 `Target` 表示接受任一形状的参数。
 
-| 形状                 | `target.type`  | 字段                       | 接受者                                                                                                                                                                          |
-| ------------------ | -------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CoordinateTarget` | `"coordinate"` | `x`、`y`（整数，视口像素）         | `left_click`、`right_click`、`middle_click`、`double_click`、`triple_click`、`hover`、`left_click_drag`（`from` 和 `target`）、`left_mouse_down`、`left_mouse_up`、`mouse_move`、`scroll` |
-| `RefTarget`        | `"ref"`        | `ref`（元素引用，例如 `"ref_2"`） | `left_click`、`right_click`、`middle_click`、`double_click`、`triple_click`、`hover`、`scroll_to`、`form_input`、`file_upload`                                                       |
+| 形状 | `target.type` | 字段 | 接受者 |
+| ----- | ----- | ----- | ----- |
+| `CoordinateTarget` | `"coordinate"` | `x`、`y`（整数，视口像素） | `left_click`、`right_click`、`middle_click`、`double_click`、`triple_click`、`hover`、`left_click_drag`（`from` 和 `target`）、`left_mouse_down`、`left_mouse_up`、`mouse_move`、`scroll` |
+| `RefTarget` | `"ref"` | `ref`（元素引用，例如 `"ref_2"`） | `left_click`、`right_click`、`middle_click`、`double_click`、`triple_click`、`hover`、`scroll_to`、`form_input`、`file_upload` |
 
 **坐标是视口像素**，即完整视口 `screenshot` 的像素空间，原点位于渲染页面的左上角；不存在外围的桌面或窗口框架。该工具集不声明显示尺寸，Claude 会根据您返回的屏幕截图推断视口大小，因此请保持截图尺寸一致。`zoom` 不会改变坐标系，因此其 `region` 以及 Claude 在收到缩放图像后给出的任何坐标仍然是完整视口像素。
 
@@ -1169,69 +1169,69 @@ Anthropic 已训练模型抵御这些提示注入，并增加了一层额外的�
 
 ### 导航和捕获
 
-| 成员           | 输入                 | 描述                                                                                                                                                                |
-| ------------ | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `navigate`   | `url`、`tab_id?`    | 加载 `http` 或 `https` URL，或使用 `"back"`、`"forward"` 或 `"reload"` 在历史记录中移动。将没有协议的 URL 视为 `https://`，并以错误结果拒绝任何其他协议。返回简短的确认，当标签页的 URL 或标题发生变化时再加上一个 `browser_state` 块。 |
-| `screenshot` | `tab_id?`          | 捕获视口并返回一个 `image` 块。                                                                                                                                              |
-| `zoom`       | `region`、`tab_id?` | 返回 `region`（以视口像素表示为 `[x0, y0, x1, y1]`）的裁剪并放大的 `image`，用于更仔细地检查小文本或控件。                                                                                           |
+| 成员 | 输入 | 描述 |
+| ----- | ----- | ----- |
+| `navigate` | `url`、`tab_id?` | 加载 `http` 或 `https` URL，或使用 `"back"`、`"forward"` 或 `"reload"` 在历史记录中移动。将没有协议的 URL 视为 `https://`，并以错误结果拒绝任何其他协议。返回简短的确认，当标签页的 URL 或标题发生变化时再加上一个 `browser_state` 块。 |
+| `screenshot` | `tab_id?` | 捕获视口并返回一个 `image` 块。 |
+| `zoom` | `region`、`tab_id?` | 返回 `region`（以视口像素表示为 `[x0, y0, x1, y1]`）的裁剪并放大的 `image`，用于更仔细地检查小文本或控件。 |
 
 ### 指针
 
-| 成员                | 输入                                                                       | 描述                                                                                                      |
-| ----------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
-| `left_click`      | `target: Target`、`modifiers?`、`tab_id?`                                  | 左键点击坐标或被引用的元素。`modifiers` 是点击期间按住的组合键，例如 `"shift"` 或 `"ctrl+shift"`。                                    |
-| `right_click`     | `target: Target`、`modifiers?`、`tab_id?`                                  | 右键点击坐标或元素。                                                                                              |
-| `middle_click`    | `target: Target`、`modifiers?`、`tab_id?`                                  | 中键点击坐标或元素。                                                                                              |
-| `double_click`    | `target: Target`、`modifiers?`、`tab_id?`                                  | 左键双击坐标或元素。                                                                                              |
-| `triple_click`    | `target: Target`、`modifiers?`、`tab_id?`                                  | 左键三击坐标或元素，通常会选中一行或一个段落。                                                                                 |
-| `hover`           | `target: Target`、`tab_id?`                                               | 将指针移到坐标或元素上方而不点击。                                                                                       |
-| `left_click_drag` | `from: CoordinateTarget`、`target: CoordinateTarget`、`tab_id?`            | 在 `from` 处按下，拖动到 `target`，然后释放。                                                                         |
-| `left_mouse_down` | `target: CoordinateTarget`、`tab_id?`                                     | 在坐标处按下并按住左键；与 `left_mouse_up` 配对以实现自定义拖动。                                                               |
-| `left_mouse_up`   | `target: CoordinateTarget`、`tab_id?`                                     | 在坐标处释放左键。                                                                                               |
-| `mouse_move`      | `target: CoordinateTarget`、`tab_id?`                                     | 将指针移动到坐标。                                                                                               |
-| `scroll`          | `target: CoordinateTarget`、`scroll_direction`、`scroll_amount?`、`tab_id?` | 在视口位置滚动。`scroll_direction` 为 `"up"`、`"down"`、`"left"` 或 `"right"`；`scroll_amount` 以滚轮刻度为单位，1 到 10，默认 3。 |
-| `scroll_to`       | `target: RefTarget`、`tab_id?`                                            | 将被引用的元素滚动到视图中。                                                                                          |
+| 成员 | 输入 | 描述 |
+| ----- | ----- | ----- |
+| `left_click` | `target: Target`、`modifiers?`、`tab_id?` | 左键点击坐标或被引用的元素。`modifiers` 是点击期间按住的组合键，例如 `"shift"` 或 `"ctrl+shift"`。 |
+| `right_click` | `target: Target`、`modifiers?`、`tab_id?` | 右键点击坐标或元素。 |
+| `middle_click` | `target: Target`、`modifiers?`、`tab_id?` | 中键点击坐标或元素。 |
+| `double_click` | `target: Target`、`modifiers?`、`tab_id?` | 左键双击坐标或元素。 |
+| `triple_click` | `target: Target`、`modifiers?`、`tab_id?` | 左键三击坐标或元素，通常会选中一行或一个段落。 |
+| `hover` | `target: Target`、`tab_id?` | 将指针移到坐标或元素上方而不点击。 |
+| `left_click_drag` | `from: CoordinateTarget`、`target: CoordinateTarget`、`tab_id?` | 在 `from` 处按下，拖动到 `target`，然后释放。 |
+| `left_mouse_down` | `target: CoordinateTarget`、`tab_id?` | 在坐标处按下并按住左键；与 `left_mouse_up` 配对以实现自定义拖动。 |
+| `left_mouse_up` | `target: CoordinateTarget`、`tab_id?` | 在坐标处释放左键。 |
+| `mouse_move` | `target: CoordinateTarget`、`tab_id?` | 将指针移动到坐标。 |
+| `scroll` | `target: CoordinateTarget`、`scroll_direction`、`scroll_amount?`、`tab_id?` | 在视口位置滚动。`scroll_direction` 为 `"up"`、`"down"`、`"left"` 或 `"right"`；`scroll_amount` 以滚轮刻度为单位，1 到 10，默认 3。 |
+| `scroll_to` | `target: RefTarget`、`tab_id?` | 将被引用的元素滚动到视图中。 |
 
 ### 键盘和计时
 
-| 成员         | 输入                          | 描述                                                                                                                   |
-| ---------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `type`     | `text`、`tab_id?`            | 在当前焦点处输入字面字符串。                                                                                                       |
-| `key`      | `text`、`repeat?`、`tab_id?`  | 按下一个键或组合键。`text` 是单个键（`"Enter"`）、用 `+` 连接的组合键（`"ctrl+a"`）或以空格分隔的序列（`"Backspace Backspace"`）；`repeat` 为 1 到 100，默认 1。 |
-| `hold_key` | `text`、`duration`、`tab_id?` | 按住一个键或组合键 `duration` 秒，0 到 30。                                                                                       |
-| `wait`     | `duration`、`tab_id?`        | 暂停 `duration` 秒，0 到 30。                                                                                              |
+| 成员 | 输入 | 描述 |
+| ----- | ----- | ----- |
+| `type` | `text`、`tab_id?` | 在当前焦点处输入字面字符串。 |
+| `key` | `text`、`repeat?`、`tab_id?` | 按下一个键或组合键。`text` 是单个键（`"Enter"`）、用 `+` 连接的组合键（`"ctrl+a"`）或以空格分隔的序列（`"Backspace Backspace"`）；`repeat` 为 1 到 100，默认 1。 |
+| `hold_key` | `text`、`duration`、`tab_id?` | 按住一个键或组合键 `duration` 秒，0 到 30。 |
+| `wait` | `duration`、`tab_id?` | 暂停 `duration` 秒，0 到 30。 |
 
 ### 页面读取
 
-| 成员              | 输入                                  | 描述                                                                                                                                                                                                                                  |
-| --------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `read_page`     | `filter?`、`depth?`、`ref?`、`tab_id?` | 以文本形式返回页面的无障碍树，每个元素都带有一个引用标签，例如 `[ref_2]`。省略 `filter` 时返回每个可见元素；为 `"interactive"` 时仅返回可见的交互元素；为 `"all"` 时还包括视口之外的元素。`depth` 限制树的深度（最小 1，默认 15），`ref` 将读取范围限定为该元素的子树。将输出限制在 50,000 个字符以内并在文本中说明；Claude 随后会用更小的 `depth` 或 `ref` 缩小范围。 |
-| `find`          | `query`、`tab_id?`                   | 查找与自然语言描述（例如 `"search field"` 或 `"add to cart button"`）匹配的元素，并以与 `read_page` 相同的带标签格式返回最多 20 个匹配项。                                                                                                                                  |
-| `get_page_text` | `tab_id?`                           | 以纯文本形式返回页面的可见文本，优先返回主要文章内容；适用于文章、文档和其他以文本为主的页面。                                                                                                                                                                                     |
+| 成员 | 输入 | 描述 |
+| ----- | ----- | ----- |
+| `read_page` | `filter?`、`depth?`、`ref?`、`tab_id?` | 以文本形式返回页面的无障碍树，每个元素都带有一个引用标签，例如 `[ref_2]`。省略 `filter` 时返回每个可见元素；为 `"interactive"` 时仅返回可见的交互元素；为 `"all"` 时还包括视口之外的元素。`depth` 限制树的深度（最小 1，默认 15），`ref` 将读取范围限定为该元素的子树。将输出限制在 50,000 个字符以内并在文本中说明；Claude 随后会用更小的 `depth` 或 `ref` 缩小范围。 |
+| `find` | `query`、`tab_id?` | 查找与自然语言描述（例如 `"search field"` 或 `"add to cart button"`）匹配的元素，并以与 `read_page` 相同的带标签格式返回最多 20 个匹配项。 |
+| `get_page_text` | `tab_id?` | 以纯文本形式返回页面的可见文本，优先返回主要文章内容；适用于文章、文档和其他以文本为主的页面。 |
 
 ### 表单和文件
 
-| 成员                  | 输入                                                     | 描述                                                                                                                                                                              |
-| ------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `form_input`        | `target: RefTarget`、`value`、`tab_id?`                  | 直接设置表单元素的值。`value` 是 `string`、`number` 或 `boolean`；对复选框使用 `boolean`，对下拉选择框使用选项的值或可见文本。                                                                                          |
+| 成员 | 输入 | 描述 |
+| ----- | ----- | ----- |
+| `form_input` | `target: RefTarget`、`value`、`tab_id?` | 直接设置表单元素的值。`value` 是 `string`、`number` 或 `boolean`；对复选框使用 `boolean`，对下拉选择框使用选项的值或可见文本。 |
 | `file_upload`（默认禁用） | `target: RefTarget`、`paths?`、`document_ids?`、`tab_id?` | 从执行器文件系统上的 `paths`、您的应用程序已暂存的 `document_ids` 或两者设置文件输入元素上的文件；至少需要其中之一。参见[上传文件](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#upload-files)。 |
 
 ### 诊断和脚本
 
-| 成员                      | 输入               | 描述                                                                                                                                                                             |
-| ----------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `read_console`（默认禁用）    | `tab_id?`        | 返回自上次读取以来累积的标签页控制台条目（日志、警告和错误行），每个条目一行。参见[读取控制台和网络活动](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#read-console-and-network-activity)。    |
-| `read_network`（默认禁用）    | `tab_id?`        | 返回自上次读取以来标签页的网络请求（方法、URL、状态、MIME 类型、计时），每个条目一行。                                                                                                                                |
+| 成员 | 输入 | 描述 |
+| ----- | ----- | ----- |
+| `read_console`（默认禁用） | `tab_id?` | 返回自上次读取以来累积的标签页控制台条目（日志、警告和错误行），每个条目一行。参见[读取控制台和网络活动](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#read-console-and-network-activity)。 |
+| `read_network`（默认禁用） | `tab_id?` | 返回自上次读取以来标签页的网络请求（方法、URL、状态、MIME 类型、计时），每个条目一行。 |
 | `javascript_exec`（默认禁用） | `text`、`tab_id?` | 在页面上下文中将 `text` 作为 JavaScript 运行，并以文本形式返回最后一个表达式的值。参见[启用可选成员](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#enable-optional-member-tools)。 |
 
 ### 标签页管理
 
-| 成员           | 输入           | 描述                  |
-| ------------ | ------------ | ------------------- |
-| `new_tab`    | （无）          | 打开一个标签页并使其成为活动标签页。  |
-| `list_tabs`  | （无）          | 报告标签页清单。            |
+| 成员 | 输入 | 描述 |
+| ----- | ----- | ----- |
+| `new_tab` | （无） | 打开一个标签页并使其成为活动标签页。 |
+| `list_tabs` | （无） | 报告标签页清单。 |
 | `switch_tab` | `tab_id`（必需） | 使 `tab_id` 成为活动标签页。 |
-| `close_tab`  | `tab_id`（必需） | 关闭 `tab_id`。        |
+| `close_tab` | `tab_id`（必需） | 关闭 `tab_id`。 |
 
 成功时，这些成员中的每一个都恰好返回一个 `browser_state` 块，不含文本或图像；参见[标签页管理结果](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#tab-management-results)。
 
@@ -1239,10 +1239,10 @@ Anthropic 已训练模型抵御这些提示注入，并增加了一层额外的�
 
 除 `type` 之外，工具集条目还接受 `configs`、`cache_control` 和 `allowed_callers`；这些字段与计算机使用工具集共享的规则列在[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)下，本节介绍浏览器特有的默认值。`configs` 是一个以成员名称为键的对象，每个成员的值接受两个字段：
 
-| 字段              | 默认值                                                                                                                                       | 含义                                                                                                                                                                                           |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `enabled`       | `true`，但四个[可选成员](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#enable-optional-member-tools)为 `false` | 是否向 Claude 提供该成员。                                                                                                                                                                            |
-| `defer_loading` | `false`                                                                                                                                   | 工具集的定义是否为工具搜索而延迟加载。必须在每个已启用的成员上解析为相同的值。在四个可选成员保持禁用的情况下，延迟加载工具集意味着在其他 27 个成员上设置它；参见[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)。 |
+| 字段 | 默认值 | 含义 |
+| ----- | ----- | ----- |
+| `enabled` | `true`，但四个[可选成员](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#enable-optional-member-tools)为 `false` | 是否向 Claude 提供该成员。 |
+| `defer_loading` | `false` | 工具集的定义是否为工具搜索而延迟加载。必须在每个已启用的成员上解析为相同的值。在四个可选成员保持禁用的情况下，延迟加载工具集意味着在其他 27 个成员上设置它；参见[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)。 |
 
 ### 启用或禁用成员工具
 
@@ -1343,12 +1343,12 @@ Claude 通过 `tab_id` 来指代标签页，您的应用程序是哪些标签页
 
 对于 `new_tab`、`switch_tab`、`close_tab` 和 `list_tabs`，成功结果的 `content` 恰好是一个 `browser_state` 内容块，不含文本或图像，由 API 编写 Claude 接收的文本。`new_tab` 结果的内容块还必须恰好携带一个 `tab_opened` 状态变更，其 `tab_id` 与标记为 `active: true` 的条目相匹配。
 
-| 成员           | Claude 接收的文本                                                                                             |
-| ------------ | -------------------------------------------------------------------------------------------------------- |
-| `switch_tab` | `Switched to tab {tab_id}`，取自调用的 `input.tab_id`                                                          |
-| `close_tab`  | `Closed tab {tab_id}`，取自调用的 `input.tab_id`                                                               |
-| `new_tab`    | `Created new tab with tab_id: {tab_id}, URL: {url}. It is now the current tab.`，取自标记为 `active: true` 的条目 |
-| `list_tabs`  | `Available tabs:` 后跟每个标签页一行，或者当 `tabs` 为空时为 `No tabs available`                                          |
+| 成员 | Claude 接收的文本 |
+| ----- | ----- |
+| `switch_tab` | `Switched to tab {tab_id}`，取自调用的 `input.tab_id` |
+| `close_tab` | `Closed tab {tab_id}`，取自调用的 `input.tab_id` |
+| `new_tab` | `Created new tab with tab_id: {tab_id}, URL: {url}. It is now the current tab.`，取自标记为 `active: true` 的条目 |
+| `list_tabs` | `Available tabs:` 后跟每个标签页一行，或者当 `tabs` 为空时为 `No tabs available` |
 
 一个 `list_tabs` 结果，其内容块列出两个标签页且第一个处于活动状态，渲染结果如下，每行缩进两个空格，且仅在活动标签页后追加 `(current)`：
 
@@ -1445,11 +1445,11 @@ Claude 接收到 `Clicked element ref_5.`，后跟前面展示的 Tab Context �
 
 当点击或导航启动文件下载时，请在发生下载的那次调用的结果中通过 `state_changes` 报告，并通过您分配的 `download_id` 在各结果之间关联。下载是异步运行的，可能跨越多个结果，因此有三种事件类型：
 
-| `type`               | 字段                                        | 何时发送                                                                                                                                                                                          |
-| -------------------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `download_started`   | `download_id`、`url`                       | 在下载开始时所在调用的结果上发送。`url` 是经过重定向后提供该文件的最终 URL。                                                                                                                                                   |
+| `type` | 字段 | 何时发送 |
+| ----- | ----- | ----- |
+| `download_started` | `download_id`、`url` | 在下载开始时所在调用的结果上发送。`url` 是经过重定向后提供该文件的最终 URL。 |
 | `download_completed` | `download_id`、`url`、`path?`、`size_bytes?` | 在下载完成时正在运行的后续调用的结果上发送。仅当同一环境中的其他工具（例如 [bash 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool)或 `file_upload`）可以在该路径读取文件时才包含 `path`；否则 `download_id` 是该下载的唯一标识符。 |
-| `download_failed`    | `download_id`、`url`、`error?`              | 当下载失败或被取消时，如果浏览器提供了原因，则在 `error` 中给出。                                                                                                                                                         |
+| `download_failed` | `download_id`、`url`、`error?` | 当下载失败或被取消时，如果浏览器提供了原因，则在 `error` 中给出。 |
 
 API 会按条目出现的顺序，将每个条目渲染为一行供 Claude 阅读的文本。这些行位于结果文本之后（以一个空行隔开），并位于任何 Tab Context 页脚之前。所有类型的成员结果都会带上这些行，包括 `zoom` 和标签页管理结果。对于没有 `text` 块的结果，这些行会作为一个单独的文本块添加。每一行都会给出 `download_id` 和 `url`；如果您发送了相应字段，还会给出 `path` 和 `size_bytes`（针对 `download_completed`）或 `error`（针对 `download_failed`）。您无需在自己的文本中描述下载。API 会用双引号包裹 `url`、`path` 和 `error`，并转义其中的双引号和反斜杠，因此不要预先转义这些值。
 
@@ -1556,16 +1556,16 @@ Download completed with download_id: dl-1, URL: "https://example.com/pricing/pri
 
 API 会校验工具集条目以及对话中的每个成员 `tool_use` 和 `tool_result` 内容块。当其中之一格式错误时，API 会在 Claude 运行之前返回 `invalid_request_error`。在下表中，左列指明您发送的内容。
 
-| 请求                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | 失败原因及处理方法                                                                                                                                                                          |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 工具集条目不接受的选项或组合，例如：条目本身上的 `name`、`strict: true`、`input_examples`、`defer_loading`，不是成员名称的 `configs` 键，成员 `configs` 值中除 `enabled` 或 `defer_loading` 之外的字段（[配置工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#configure-the-toolset)），`defer_loading` 值不同的已启用成员（[配置工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#configure-the-toolset)），未启用任何成员的 `configs`，`allowed_callers` 中的代码执行调用方，请求中的 `fine-grained-tool-streaming-2025-05-14` beta 标头，指定 `browser` 或某个成员的 `tool` 类型 `tool_choice`，或者第二个浏览器工具集条目或另一个名为 `browser` 的工具 | 客户端工具集不支持这些。有关每条规则及其替代方案，请参阅[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)。                                             |
-| 回应成员调用的 `tool_result` 缺少 `"toolset_name": "browser"` 或使用了不同的值，或者在其调用并非成员调用的结果上带有 `toolset_name`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 在成员结果上原样回传 `toolset_name`，且仅在成员结果上回传。                                                                                                                                              |
-| 来自较早轮次的成员 `tool_use` 没有匹配的 `tool_result`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 回应每一个成员调用，包括在失败后您未运行的调用。                                                                                                                                                           |
-| 成员结果中包含 `text`、`image` 或 `browser_state` 之外的内容块                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 成员结果仅接受这三种块类型。                                                                                                                                                                     |
-| 违反[使用 `browser_state` 跟踪标签页](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#track-tabs-and-page-state)中规则的 `browser_state` 块，例如：位于 `is_error: true` 结果上或位于不回应浏览器成员调用的结果上的块，一个结果中有多个该块，非空的 `tabs` 中不是恰好有一个 `active: true` 条目，重复的 `tab_id`，空的 `state_changes` 数组，其 `tab_id` 不在 `tabs` 中的 `tab_opened`，针对同一个 `download_id` 的两个状态变更，或其 `type` 未声明的状态变更字段（[报告下载](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#report-downloads)），或者超出限制的字段                                                                                           | 修正该块。"没有需要报告的内容"应通过省略该块或 `state_changes` 字段来表达，绝不能使用空值。                                                                                                                            |
-| 成功的 `new_tab`、`switch_tab`、`close_tab` 或 `list_tabs` 结果的 `content` 不是恰好一个 `browser_state` 块，或者 `new_tab` 结果中没有恰好一个与活动标签页匹配的 `tab_opened`                                                                                                                                                                                                                                                                                                                                                                                                                                                                | API 根据该块渲染这些结果，并要求其完全符合该结构；请参阅[标签页管理结果](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#tab-management-results)。                                 |
-| 结果中的 `image` 超出您模型的[图像尺寸限制](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#evaluate-image-size)，或者在请求包含[超过 20 张图像](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#request-limits)时超出适用的更严格的单图限制（计入较早结果中的截图和 `zoom` 图像）                                                                                                                                                                                                                                                                                                                                                | API 不会缩小工具集图像。请在返回截图之前调整其大小（[调整截图尺寸以符合图像限制](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#handle-coordinate-scaling-for-higher-resolutions)）。 |
-| 不支持 `browser_toolset_20260801` 的 `model`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 有关支持的模型，请参阅 [API 支持](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#availability-feature-support)。                                              |
+| 请求 | 失败原因及处理方法 |
+| ----- | ----- |
+| 工具集条目不接受的选项或组合，例如：条目本身上的 `name`、`strict: true`、`input_examples`、`defer_loading`，不是成员名称的 `configs` 键，成员 `configs` 值中除 `enabled` 或 `defer_loading` 之外的字段（[配置工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#configure-the-toolset)），`defer_loading` 值不同的已启用成员（[配置工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#configure-the-toolset)），未启用任何成员的 `configs`，`allowed_callers` 中的代码执行调用方，请求中的 `fine-grained-tool-streaming-2025-05-14` beta 标头，指定 `browser` 或某个成员的 `tool` 类型 `tool_choice`，或者第二个浏览器工具集条目或另一个名为 `browser` 的工具 | 客户端工具集不支持这些。有关每条规则及其替代方案，请参阅[客户端工具集](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-reference#client-toolsets)。 |
+| 回应成员调用的 `tool_result` 缺少 `"toolset_name": "browser"` 或使用了不同的值，或者在其调用并非成员调用的结果上带有 `toolset_name` | 在成员结果上原样回传 `toolset_name`，且仅在成员结果上回传。 |
+| 来自较早轮次的成员 `tool_use` 没有匹配的 `tool_result` | 回应每一个成员调用，包括在失败后您未运行的调用。 |
+| 成员结果中包含 `text`、`image` 或 `browser_state` 之外的内容块 | 成员结果仅接受这三种块类型。 |
+| 违反[使用 `browser_state` 跟踪标签页](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#track-tabs-and-page-state)中规则的 `browser_state` 块，例如：位于 `is_error: true` 结果上或位于不回应浏览器成员调用的结果上的块，一个结果中有多个该块，非空的 `tabs` 中不是恰好有一个 `active: true` 条目，重复的 `tab_id`，空的 `state_changes` 数组，其 `tab_id` 不在 `tabs` 中的 `tab_opened`，针对同一个 `download_id` 的两个状态变更，或其 `type` 未声明的状态变更字段（[报告下载](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#report-downloads)），或者超出限制的字段 | 修正该块。"没有需要报告的内容"应通过省略该块或 `state_changes` 字段来表达，绝不能使用空值。 |
+| 成功的 `new_tab`、`switch_tab`、`close_tab` 或 `list_tabs` 结果的 `content` 不是恰好一个 `browser_state` 块，或者 `new_tab` 结果中没有恰好一个与活动标签页匹配的 `tab_opened` | API 根据该块渲染这些结果，并要求其完全符合该结构；请参阅[标签页管理结果](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#tab-management-results)。 |
+| 结果中的 `image` 超出您模型的[图像尺寸限制](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#evaluate-image-size)，或者在请求包含[超过 20 张图像](https://platform.claude.com/docs/zh-CN/build-with-claude/vision#request-limits)时超出适用的更严格的单图限制（计入较早结果中的截图和 `zoom` 图像） | API 不会缩小工具集图像。请在返回截图之前调整其大小（[调整截图尺寸以符合图像限制](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/computer-use-tool#handle-coordinate-scaling-for-higher-resolutions)）。 |
+| 不支持 `browser_toolset_20260801` 的 `model` | 有关支持的模型，请参阅 [API 支持](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#availability-feature-support)。 |
 
 ## 限制
 
@@ -1625,13 +1625,13 @@ API 会校验工具集条目以及对话中的每个成员 `tool_use` 和 `tool_
 
 * 可用性：可用
 
-| 状态 | 云平台                                                                                                                                                                                                                  | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| -- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 可用 | Claude API, [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)                                                  | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
-| 可用 | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                                        | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview)                        |
-| 可用 | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview)                        |
-| 可用 | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)                                                                                                                  | [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview)                                                                                                                                                                                                      |
-| 可用 | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)                                                                                         | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview)                                                                                                                                                                                                    |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
+| 可用 | Claude API, [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| 可用 | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| 可用 | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| 可用 | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) | [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| 可用 | [Amazon Bedrock (bedrock-runtime)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 
@@ -1641,9 +1641,9 @@ API 会校验工具集条目以及对话中的每个成员 `tool_use` 和 `tool_
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目   | 零数据保留                                                                                                                                                   | HIPAA                             |
-| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
-| 状态   | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)）               | 不具备资格                             |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 不具备资格 |
 | 详细信息 | 客户端工具。除标准 API 处理外，Anthropic 不运行浏览器操作，也不保留页面内容。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/browser-use-tool#data-retention) | 不在 HIPAA 就绪范围内；包含浏览器使用工具的请求不会被阻止。 |
 
 适用的端点：

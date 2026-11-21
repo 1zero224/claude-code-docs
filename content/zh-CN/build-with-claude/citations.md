@@ -793,11 +793,11 @@ Answer with one line per field in the form "field: value", and cite the document
 
 引用功能支持三种文档类型。文档可以直接在消息中提供（base64、文本或 URL），也可以通过 [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files) 上传并通过 `file_id` 引用：
 
-| 类型    | 最适用于                 | 分块方式  | 引用格式         |
-| ----- | -------------------- | ----- | ------------ |
-| 纯文本   | 简单文本文档、散文            | 句子    | 字符索引（从 0 开始） |
-| PDF   | 包含文本内容的 PDF 文件       | 句子    | 页码（从 1 开始）   |
-| 自定义内容 | 列表、转录文本、特殊格式、更细粒度的引用 | 无额外分块 | 块索引（从 0 开始）  |
+| 类型 | 最适用于 | 分块方式 | 引用格式 |
+| ----- | ----- | ----- | ----- |
+| 纯文本 | 简单文本文档、散文 | 句子 | 字符索引（从 0 开始） |
+| PDF | 包含文本内容的 PDF 文件 | 句子 | 页码（从 1 开始） |
+| 自定义内容 | 列表、转录文本、特殊格式、更细粒度的引用 | 无额外分块 | 块索引（从 0 开始） |
 
 <Note>
   对于 `document` 块不支持的文件类型（例如 .docx 和 .xlsx），请将文件转换为纯文本，并将内容直接包含在消息内容中。已经是纯文本的文件（例如 .csv 和 .md 文件）也可以使用显式的 `text/plain` 内容类型上传。请参阅[处理其他文件格式](https://platform.claude.com/docs/zh-CN/build-with-claude/files#working-with-other-file-formats)。
@@ -2379,8 +2379,8 @@ Claude 无法引用图像，因此无法引用作为文档扫描件且不包含�
 
 * 可用性：可用
 
-| 状态 | 云平台     |
-| -- | ------- |
+| 状态 | 云平台 |
+| ----- | ----- |
 | 可用 | 所有支持的平台 |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
@@ -2391,9 +2391,9 @@ Claude 无法引用图像，因此无法引用作为文档扫描件且不包含�
 
 [数据处理概览](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)
 
-| 项目 | 零数据保留                                                                                                                                     | HIPAA |
-| -- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----- |
-| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格  |
+| 项目 | 零数据保留 | HIPAA |
+| ----- | ----- | ----- |
+| 状态 | 具备资格（不包括 [涵盖的模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)） | 具备资格 |
 
 适用的端点：
 

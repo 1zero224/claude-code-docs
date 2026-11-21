@@ -8,19 +8,15 @@ description: 用于 Linked billing 的 Link your Claude organization 按钮：�
   Claude Platform OAuth 是一项 Beta Service：根据您与 Anthropic 签订的协议（例如[商业服务条款](https://www.anthropic.com/legal/commercial-terms)和[特定服务条款](https://www.anthropic.com/legal/service-specific-terms)）提供的预发布软件。在Beta 期间，端点、参数和行为可能会发生变化。它可能不适合用于生产环境。
 </Warning>
 
-本页面为使用 [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections) 的产品提供品牌示例：Link your Claude organization 按钮。
-
-## 按钮
-
-在您的客户管理计费或集成的位置放置 **Link your Claude organization** 按钮。当有人点击该按钮时，您的后端会[启动计费连接](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#runtime-step-2)。
+为使用 [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections) 的产品添加 **Link your Claude organization** 按钮。将该按钮放在您的客户管理计费或集成的位置。当有人点击该按钮时，您的后端会[启动计费连接](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections#runtime-step-2)。
 
 <Frame caption="按钮的浅色（light）和深色（dark）版本">
   ![浅色和深色的 Link your Claude organization 按钮，文字前有 Claude 徽标](https://platform.claude.com/docs/images/claude-link-button.svg)
 </Frame>
 
-### 复制按钮的 HTML
+## 复制按钮的 HTML 和 CSS
 
-打开 **按钮 CSS**，将其 `<style>` 块放在页面的 `<head>` 中，或者将其中的规则移到您的样式表中。然后打开 **Link your Claude organization 按钮的示例 HTML**，并将链接放在您希望显示按钮的位置。将 `/claude/billing/link` 更改为您后端上启动连接的地址。
+打开 **按钮 CSS**，将其 `<style>` 块放在页面的 `<head>` 中，或者将其中的规则移到您的样式表中。然后，打开 **Link your Claude organization 按钮的示例 HTML**，并将链接放在您希望显示按钮的位置。将 `/claude/billing/link` 更改为您后端上启动连接的地址。
 
 该 CSS 和 HTML 共同包含徽标和按钮的所有样式，因此如果您的网站有"Content Security Policy"（内容安全策略），则无需向其中添加 Anthropic 主机。
 
@@ -122,21 +118,19 @@ description: 用于 Linked billing 的 Link your Claude organization 按钮：�
   对于深色按钮，请向链接添加 `claude-button-dark` 类。
 </Accordion>
 
-<Note>
-  如果您的页面通过提交表单来启动连接，请使用 `<button type="submit" class="claude-button">` 代替链接。同样的样式适用。您样式表中为容器内所有按钮设置样式的规则仍可能会改变其样式。请将结果与图片进行比较。
-</Note>
+如果您的页面通过提交表单来启动连接，请使用 `<button type="submit" class="claude-button">` 代替链接。同样的样式适用。您样式表中为容器内所有按钮设置样式的规则仍可能会改变该按钮的样式。请将结果与图片进行比较。
 
-### 颜色
+## 颜色
 
-| 部分           | 浅色按钮      | 深色按钮      |
-| ------------ | --------- | --------- |
-| 背景           | `#FFFFFF` | `#141413` |
-| 文字           | `#141413` | `#FAF9F5` |
-| 边框           | `#87867F` | `#73726C` |
+| 部分 | 浅色按钮 | 深色按钮 |
+| ----- | ----- | ----- |
+| 背景 | `#FFFFFF` | `#141413` |
+| 文字 | `#141413` | `#FAF9F5` |
+| 边框 | `#87867F` | `#73726C` |
 | 指针悬停在按钮上时的背景 | `#F5F4ED` | `#262624` |
-| 徽标           | `#D97757` | `#D97757` |
+| 徽标 | `#D97757` | `#D97757` |
 
-### 下载徽标
+## 下载徽标
 
 如需在不使用 HTML 的情况下构建相同的按钮（例如在移动应用或桌面应用中），请将以下文件保存为 `claude-logo.svg`。使用[颜色](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/branding-samples#button-colors)中的颜色，并对屏幕阅读器隐藏徽标，因为按钮上的文字已经说明了按钮的名称。
 

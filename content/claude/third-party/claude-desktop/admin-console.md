@@ -22,11 +22,9 @@ The console works with Claude Desktop on macOS, Windows, and Linux, where the ap
 
 While the app runs, it re-checks the configuration on a timer. When you save a change, the app downloads it at the next check and, for most settings, asks the user to relaunch, as described under [Configuration updates](#configuration-updates).
 
-Users are provisioned a Claude account only to sign in to Claude Desktop and receive their settings.
+Users are provisioned a Claude account only to sign in and receive their settings.
 
 ## Where your data goes
-
-Anthropic stores your organization's user accounts and the configuration you save, and delivers that configuration to users' apps. If you turn on usage analytics, Anthropic also stores the token and session counts that users' apps report. As with MDM or bootstrap delivery, prompts and model responses go to your inference provider and conversations stay on the device.
 
 | Data | Does Anthropic store it? |
 | - | - |
@@ -102,7 +100,7 @@ From the console you can set the same [configuration keys](https://claude.com/do
 | Page | What you configure there |
 | - | - |
 | **Connection** | The inference provider ([gateway](https://claude.com/docs/third-party/claude-desktop/gateway.md), [Amazon Bedrock](https://claude.com/docs/third-party/claude-desktop/bedrock.md), [Bedrock Mantle](https://claude.com/docs/third-party/claude-desktop/mantle.md), [Google Cloud's Agent Platform](https://claude.com/docs/third-party/claude-desktop/vertex.md), or [Microsoft Foundry](https://claude.com/docs/third-party/claude-desktop/foundry.md)), its endpoint, region, or project, how users authenticate to it, custom request headers, and, under **Models**, the model list, default model, model discovery, and cost-estimate rates. **Desktop sign-in** on this page holds the **Require this organization in Claude Desktop** switch described under [Users in more than one Claude organization](#users-in-more-than-one-claude-organization). |
-| **Capabilities** | Whether [Unified Claude](#unified-claude-in-the-admin-console) and Code are available, the folders and network hosts the app may use, permission modes and built-in tool policy, the [built-in browser](https://claude.com/docs/third-party/claude-desktop/browser.md#manage-the-built-in-browser-from-the-enterprise-admin-console) and its site permissions, whether users may add their own skills and plugins, [skill scanning](https://claude.com/docs/third-party/claude-desktop/extensions.md#skill-scanning), organization instructions, and [**Claude.ai data import**](https://claude.com/docs/third-party/claude-desktop/import.md) |
+| **Capabilities** | Whether [Unified Claude](#unified-claude-in-the-admin-console) and Code are available, the folders and network hosts the app may use, permission modes and built-in tool policy, the [built-in browser](https://claude.com/docs/third-party/claude-desktop/browser.md#manage-the-built-in-browser-from-the-enterprise-admin-console) and its site permissions, whether users may add their own skills and plugins, [skill scanning](https://claude.com/docs/third-party/claude-desktop/extensions.md#skill-scanning), [Design and Slides](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md), organization instructions, and [**Claude.ai data import**](https://claude.com/docs/third-party/claude-desktop/import.md) |
 | **Connectors** | Managed MCP servers, including the [built-in connectors](https://claude.com/docs/third-party/claude-desktop/built-in-connectors.md), whether users may add their own MCP servers, and desktop extension policy |
 | **Telemetry & updates** | Which telemetry categories go to Anthropic, whether users' apps report [usage analytics](#usage-analytics) to your organization, OpenTelemetry export to your collector, update policy, the [configuration relaunch window](#configuration-updates), the configuration re-check interval, and [how much of the configuration devices keep on disk](#configuration-kept-on-devices) |
 | **Limits** | A per-user token limit and its window |
@@ -114,6 +112,8 @@ The console refuses API keys, tokens, and secrets anywhere in the configuration,
 A setting takes effect only on Claude Desktop releases that support it, so a device on an earlier release gets a new restriction only after it updates. The [configuration changelog](https://claude.com/docs/third-party/claude-desktop/configuration-changelog.md) lists the release that added each key.
 
 Most of these settings can also differ per group of users, on the **Permission policies** page under **People**, as described under [Per-group permission policies](#per-group-permission-policies).
+
+Claude Code in the terminal follows some of these settings after a developer signs in from their terminal, as described in [Manage Claude Code in the terminal from the Enterprise Admin Console](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code.md). Claude for Microsoft 365 uses some of these settings after a user signs in to your organization from the Office add-in, as described in [Manage Claude for Microsoft 365 from the Enterprise Admin Console](https://claude.com/docs/office-agents/admin-console.md).
 
 ### Choose how users authenticate to your provider
 
@@ -168,13 +168,13 @@ A localhost address in these fields requires Claude Desktop 1.52386.0 or later o
 
 The **Permission policies** page, under **People** in the left navigation, applies different settings to users in specific groups. You can add policies after you save the organization-wide settings on the **Connection** page, and each group can have one policy. Click **Add permission policy**, pick a group, and set only the settings that should differ. Every other setting comes from the organization-wide settings.
 
-A policy can, for example, turn Code on or off, narrow the model list and the managed MCP servers to a subset by name, and change built-in tool settings, network allowlists, telemetry, token limits, the banner, and **Claude.ai data import**. The inference connection (the provider, its endpoint, and how users authenticate to it) is organization-wide, and a policy can't add models or managed MCP servers that the organization-wide settings don't define.
+A policy can, for example, turn Code on or off, narrow the model list and the managed MCP servers to a subset by name, and change built-in tool settings, network allowlists, telemetry, token limits, the banner, and **Claude.ai data import**. The inference connection (the provider, its endpoint, and how users authenticate to it) is organization-wide, and a policy can't add models or managed MCP servers that the organization-wide settings don't define. A policy's list of plugin marketplaces replaces the organization-wide list, so add to the policy each marketplace that the group needs.
 
 Policies are ranked in the order shown on the page, and you drag them to change the ranking. When a user belongs to several listed groups, each kind of setting follows its own rule:
 
 * **Most settings, including the model list**: each setting comes from the highest-ranked of the user's policies that sets it, and lower-ranked policies fill in only what the higher ones leave unset.
 * **Managed MCP servers**: these combine, so the user keeps every server that any of their policies selects.
-* **OpenTelemetry settings, token limit, banner, and Claude.ai data import settings**: for each of these, only the highest-ranked policy that sets any part of it applies. That policy supplies the parts it sets. Every other part keeps the organization-wide value, even when a lower-ranked policy sets that part.
+* **OpenTelemetry settings, token limit, banner, Auto mode rules, and Claude.ai data import settings**: for each of these, only the highest-ranked policy that sets any part of it applies. That policy supplies the parts it sets. Every other part keeps the organization-wide value, even when a lower-ranked policy sets that part.
 
 For example, if the Traders policy (ranked first) turns Code off and selects the wiki server, and the Analysts policy (ranked second) sets a token limit and selects the tickets server, a user in both groups has Code off, the Analysts token limit, and both servers. Everything these policies leave unset comes from the organization-wide settings, and a user in no listed group gets the organization-wide settings unchanged. Groups are managed on the **Groups** page under **People**, including groups synced from your identity provider.
 
@@ -321,7 +321,7 @@ On a device whose managed profile sets an inference provider or bootstrap keys, 
 
 ### Block other accounts in Claude Desktop
 
-To keep personal accounts and other organizations' accounts out of Claude Desktop without device management, turn on the **Block other accounts after a member signs in** switch. After a user uses Claude Desktop signed in to your organization, the app blocks other accounts for that computer login from its next start. The block also applies on personal devices. A blocked person sees a page that reads "This account is not approved by your enterprise admin" and can only log out.
+To keep personal accounts and other organizations' accounts out of Claude Desktop without device management, turn on the **Block other accounts after a member signs in** switch. After a user uses Claude Desktop signed in to your organization, the app blocks other accounts for that computer login from its next start. The block also applies on personal devices. A blocked person can only log out, as described under [What people see when other accounts are blocked](#what-people-see-when-other-accounts-are-blocked).
 
 > [!WARNING]
 >
@@ -336,23 +336,43 @@ Check what the block covers:
 To turn on the block:
 
 1. Check that devices run Claude Desktop 4.29.0 or later. Devices on the [`staggered` release channel](https://claude.com/docs/third-party/claude-desktop/installation#updates) get releases later.
-   * **Releases 3.6556.1 and 3.6556.2**: the app applies the block but ignores the list, so it also blocks the organizations on it. After an update to 4.29.0 or later, the device allows those organizations from the first app start after a user next uses Claude Desktop there signed in to your organization.
+   * **Releases 3.6556.1 and 3.6556.2**: the app applies the block but ignores the list, so it also blocks the organizations on it. After an update to 4.29.0 or later, the device allows those organizations after it [gets the list](#when-devices-get-a-change-to-the-block).
    * **Releases before 3.6556.1**: the app ignores the block's switch.
 2. In the admin console, go to **Desktop sign-in** on the **Connection** page. Turn on the [**Require this organization in Claude Desktop**](#users-in-more-than-one-claude-organization) switch. Without that switch, the block's switch is unavailable.
-3. If people at your company use other Claude organizations, save the list before you turn on the block. Otherwise, a device can block those organizations until it gets the list and restarts. Click **Edit list** in the **Allowed organizations** row. Add each organization's ID on its own line, below your own organization's ID. Click **Copy list**. Then click **Save**.
+3. If people at your company use other Claude organizations, save the list before you turn on the block. Otherwise, a device can block those organizations until it [gets the list](#when-devices-get-a-change-to-the-block). Click **Edit list** in the **Allowed organizations** row. Add each organization's ID on its own line, below your own organization's ID. Click **Copy list**. Then click **Save**.
 4. Turn on the **Block other accounts after a member signs in** switch. Then click **Block other accounts**.
 5. Set up the block in each Claude Enterprise organization on the list too. Without this step, on devices where only that organization's users use Claude Desktop, the block ends about 30 days after your users last used Claude Desktop there.
    * **With a Connection page**: follow the same steps and paste the same list.
    * **Without a Connection page**: go to **Organization settings > Organization and access**. Under **Security**, click **Edit list** in the **Allowed organizations** row, paste the same list, and click **Save**. Then turn on the switch above that row and confirm.
 
+#### What people see when other accounts are blocked
+
+With the [block](#block-other-accounts-in-claude-desktop) on, people can see these messages in standard Claude Desktop, where users sign in to claude.ai:
+
+* **"This account is not approved by your enterprise admin"**: the account isn't in an allowed organization. The person can only log out.
+* **"Restricted by your admin"**: an organization that isn't allowed is unavailable in the menus that list organizations. Its tooltip starts with these words.
+* **"Couldn't switch to the required organization"**: the person's account was signed in to an organization that isn't allowed, and the app couldn't move it to an allowed organization that the account belongs to. The app tries again on its own. While the app tries, the page reads "Waiting to switch to the required organization". The person can also quit Claude Desktop and open it again, or log out and sign in again.
+* **"Organization not allowed on this computer"**: a Code session or a Cowork task tried to start in an organization that isn't allowed. On Claude Desktop 4.23118.0 and later versions before 6.6395.0, the app shows the general sign-in message "Couldn't verify your sign-in".
+
+To allow an organization, add its ID to the **Allowed organizations** list under **Desktop sign-in** on the **Connection** page. Devices get the new list as described under [When devices get a change to the block](#when-devices-get-a-change-to-the-block).
+
 #### Unblock other accounts in Claude Desktop
 
 Remove the [block](#block-other-accounts-in-claude-desktop) from every device or from one:
 
-* **Every device**: turn off the **Block other accounts after a member signs in** switch under **Desktop sign-in** on the **Connection** page of the admin console. Each device gets the change when a user next uses Claude Desktop there signed in to your organization. The device removes the block at the start after that, so the change can take two restarts. A removed user's device can't get the change, so remove users after their devices get it.
+* **Every device**: turn off the **Block other accounts after a member signs in** switch under **Desktop sign-in** on the **Connection** page of the admin console. Remove users from your organization only after their devices [get the change](#when-devices-get-a-change-to-the-block). A removed user's device can't get it.
 * **One device**: ask the person at the device to sign out of your organization, quit Claude Desktop, and delete the `saved-org-lock.json` file from the [application data directory](https://claude.com/docs/third-party/claude-desktop/data-storage.md#where-data-lives). The block returns if a user signs in to your organization there while the switch is on.
 
 The block also ends by itself at the first app start about 30 days after a user last used Claude Desktop on the device signed in to your organization.
+
+#### When devices get a change to the block
+
+A device gets a change to the **Block other accounts after a member signs in** switch or to the **Allowed organizations** list when a user next uses Claude Desktop there signed in to your organization. When the change allows more accounts, the app applies it without a restart. Before Claude Desktop 6.28899.2, standard Claude Desktop applies the change at its next start, and a user might need to quit and open it twice.
+
+To get the change to a device sooner:
+
+* **A user is signed in to your organization there**: ask the user to quit Claude Desktop and open it again. Closing its window isn't enough.
+* **A blocked account is signed in there**: the device doesn't get the change. Ask the person to log out and sign in to your organization. If the person has no account in your organization, follow the **One device** steps under [Unblock other accounts in Claude Desktop](#unblock-other-accounts-in-claude-desktop).
 
 ### Configuration updates
 
@@ -382,6 +402,8 @@ Upload your current configuration, as described under [Start from an existing co
 **2. Finish the configuration before users sign in**
 
 Set every setting you rely on in the console, because the console's configuration replaces the profile's. Add your [plugin marketplaces](#plugin-marketplaces) on the **Plugins** page. To migrate users' work, check that the **Automatically import earlier third-party sessions** switch under **Claude.ai data import** on the **Capabilities** page is on (the default). To skip the migration, turn it off. Devices that already migrated keep their items.
+
+Designs and slide decks [aren't migrated](#what-is-not-migrated), so have users [export the ones they need](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md#use-design-and-slides) to files before you go on.
 
 With a bootstrap server, each telemetry category is off unless the server's response sets its key, [`disableEssentialTelemetry`](https://claude.com/docs/third-party/claude-desktop/configuration#disableessentialtelemetry) or [`disableNonessentialTelemetry`](https://claude.com/docs/third-party/claude-desktop/configuration#disablenonessentialtelemetry), to `false`. With the console, both categories are on. To keep them off, turn on the **Block essential telemetry** and **Block nonessential telemetry** switches on the **Telemetry & updates** page before users sign in.
 
@@ -417,7 +439,7 @@ Claude Desktop 5.11492.0 or later migrates these items in the background. [Earli
 
 * Chat, Cowork, and Code sessions, in their custom groups in the sidebar. Cowork sessions keep their connected folders. Cowork and Chat sessions keep their attached files, apart from those under [What is not migrated](#what-is-not-migrated).
 * Cowork projects, with their descriptions, folders, and sidebar pins
-* Artifacts, with their earlier versions
+* Live artifacts (interactive pages), with their earlier versions
 * Memory, unless the user paused it
 * Users' global instructions and **Instructions for Claude**, unless they already set them in your organization
 * Scheduled tasks from Cowork and Code, except one-time tasks whose time has passed. Each task stays on or off as it was. Its **History** lists its earlier runs, which also arrive as ordinary sessions.
@@ -434,6 +456,8 @@ Claude Desktop 5.11492.0 or later migrates these items in the background. [Earli
 With Claude Desktop 5.11492.0 or later, users set up these items again. [Earlier releases leave out more](#devices-that-migrated-on-an-earlier-release):
 
 * **Project links**: add them again on each project's page
+* **[Designs and slide decks](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md)**: before the device moves to the admin console, have users [export the ones they need](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md#use-design-and-slides) to files. The originals stay on the device.
+* **Design systems that users added on the computer**: [add them again](https://claude.com/docs/third-party/claude-desktop/design-and-slides.md#add-a-design-system-on-one-computer)
 * **Project folders in Chat**: Claude can't read a migrated project's folder in Chat until the user [adds the folder to the project again](https://claude.com/docs/third-party/claude-desktop/import.md#make-an-imported-project-folder-readable-in-chat)
 * **Model of scheduled tasks, and the approval mode of some**: each task arrives with **Default model**. A task that ran on **Automatically approve** or in bypass permissions mode arrives on **Automatically approve** if its tab offers that mode when the device migrates. Cowork offers it only where [`autoModeEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#automodeenabled) is `true`. Code offers it unless `autoModeEnabled` is `false` or a managed Claude Code setting turns Auto mode off. Any other task arrives without its approval mode. Until the user sets the mode again, a run that needs an approval waits for them.
 * **Sidebar pins of sessions and scheduled tasks**: pin them again
@@ -449,25 +473,9 @@ To let users import their claude.ai conversations, and any local sessions that t
 
 ### Devices that migrated on an earlier release
 
-On a device that migrated before Claude Desktop 5.1231.0, users set up these items themselves:
+A device that migrated on a release before Claude Desktop 5.11492.0 brought over less than [What is migrated](#what-is-migrated) lists. Send its user to [If the automatic copy ran on an earlier version](https://claude.com/docs/third-party/claude-desktop/import.md#if-the-automatic-copy-ran-on-an-earlier-version), which lists, for each release, the items to set up again and the items that an update brings while the **Automatically import earlier third-party sessions** switch is still on.
 
-* **Project descriptions**: enter them again on each project's page
-* **Project folders outside the default location**: the project has a new, empty folder. The user [adds the original folder again](https://claude.com/docs/third-party/claude-desktop/import.md#add-the-original-folder-to-a-copied-project).
-* **Connected folders in Cowork sessions**: connect the folders again
-
-The first time such a device starts 5.1231.0 or later, it gets these items:
-
-* **Sidebar pins of projects and custom groups of sessions**
-* **Earlier versions of artifacts**, if the **Automatically import earlier third-party sessions** switch is still on
-* **The work of a user who had no earlier sessions**, if that switch is still on. Releases before 5.1231.0 migrate nothing for a user who had projects, scheduled tasks, or instructions but no sessions. Projects and scheduled tasks that the user made again in your organization appear twice. A migrated task that was on runs beside the user's new one, and the migrated task can arrive on [**Automatically approve**](#what-is-not-migrated) unless [`autoModeEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#automodeenabled) is `false` when the device updates.
-
-Releases from 5.1231.0 migrate most kinds of items in [What is migrated](#what-is-migrated). On a device that migrated on a release before Claude Desktop 5.11492.0, what already arrived differs from that list in these items, and an update doesn't change it:
-
-* **History of scheduled tasks**: a task's earlier runs are listed only as ordinary sessions
-* **Approval mode of scheduled tasks**: every task waits for approvals until the user sets the mode again
-* **Files that users attached to sessions**: attach them again
-* **First message in a migrated session**: the app [asks the user to confirm](https://claude.com/docs/third-party/claude-desktop/import.md#continue-an-imported-conversation) once in each session
-* **Data that users imported from a Claude Desktop export or a folder**: the migration left it out. After an update to 5.11492.0 or later, the device gets the projects and scheduled tasks of an export that the user imported with **Import as my own**, if the **Automatically import earlier third-party sessions** switch is still on. The tasks arrive turned off, and the projects of an export that the user imported again in your organization appear twice. Users can then import sessions that are still missing with the [import wizard](https://claude.com/docs/third-party/claude-desktop/import.md#open-the-import-wizard).
+Releases before 5.1231.0 migrate nothing for a user who had projects, scheduled tasks, or instructions but no sessions. The first time a device that migrated before 5.1231.0 starts 5.1231.0 or later, it gets that user's work, if that switch is still on. Projects and scheduled tasks that the user made again in your organization appear twice. A migrated task that was on runs beside the user's new one, and the migrated task can arrive on [**Automatically approve**](#what-is-not-migrated) unless [`autoModeEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#automodeenabled) is `false` when the device updates.
 
 ## Devices with a managed profile
 
@@ -508,7 +516,7 @@ The app doesn't fall back to the profile's provider or server when it can't reac
 On Claude Desktop 2.37337.0 or later, a user who belongs to any organization that uses the admin console can move a device to that organization's configuration by signing in. The organization doesn't have to be yours. To prevent the move, or to allow it only for your organization, set one of these keys in the device's [managed profile](#devices-with-a-managed-profile):
 
 * **Prevent the move:** set `deploymentMode` to `3p` in a profile that says what the app connects to, or to `1p` in a profile that leaves the device on standard Claude Desktop. The app ignores the admin console, and a device that already moved leaves the console's configuration at its next launch. Devices on versions before 4.16336.0 also need `disableDeploymentModeChooser`, as described under [Restrict a device to one deployment mode](https://claude.com/docs/third-party/claude-desktop/mdm.md#restrict-a-device-to-one-deployment-mode).
-* **Allow only your organization:** set [`forceLoginOrgUUID`](https://claude.com/docs/cowork/hipaa-setup#what-each-claude-desktop-key-does) to your Claude organization's ID. This ID isn't [`deploymentOrganizationUuid`](https://claude.com/docs/third-party/claude-desktop/configuration#deploymentorganizationuuid), which is a UUID you generate. Devices already on your organization's admin console configuration stay on it. The app ignores the admin console configuration of any other organization and limits standard Claude Desktop sign-in on the device to your organization.
+* **Allow only your organization:** set [`forceLoginOrgUUID`](https://claude.com/docs/cowork/hipaa-setup#what-each-claude-desktop-key-does) to your Claude organization's ID. This ID isn't [`deploymentOrganizationUuid`](https://claude.com/docs/third-party/claude-desktop/configuration#deploymentorganizationuuid), which is a UUID you generate. Devices already on your organization's admin console configuration stay on it. The app ignores the admin console configuration of any other organization and limits standard Claude Desktop sign-in on the device to your organization. You can set the key in the same profile as an inference provider. The device runs on that provider unless a user signs in with a claude.ai account.
 
 You can use `forceLoginOrgUUID` to help prevent shadow IT, which here means people using personal Claude accounts or other organizations' accounts in Claude Desktop on work computers. A user who signs in to standard Claude Desktop with an account that isn't in your organization sees a page that reads "This account is not approved by your enterprise admin" and can only log out.
 

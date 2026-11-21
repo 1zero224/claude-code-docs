@@ -204,13 +204,13 @@ SDK 会在您的代码运行之前拒绝对已禁用成员的调用。启用您�
 
 成员返回的内容决定了 Claude 读取的内容。成功的结果以根据您的状态报告构建的 `browser_state` 块结尾。错误结果不带该块。
 
-| 成员                                                                                 | 返回                                                                           | Claude 读取的内容                                   |
-| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------- |
-| `screenshot`、`zoom`                                                                | `BetaScreenshotResult`                                                       | 一个图像块                                          |
-| `navigate`                                                                         | `BetaBrowserNavigateResult`                                                  | `Navigated to {url} — {title} (HTTP {status})` |
-| `new_tab`、`switch_tab`、`list_tabs`、`close_tab`                                     | 一个标签页条目（`new_tab`、`switch_tab`）、一个标签页条目列表（`list_tabs`），或不返回任何内容（`close_tab`） | 仅 `browser_state` 块                            |
-| `read_page`、`get_page_text`、`find`、`read_console`、`read_network`、`javascript_exec` | 一个字符串                                                                        | 该字符串；如果是空字符串，则为 `(empty)`                      |
-| 其他所有成员                                                                             | 不返回任何内容，或一行文本                                                                | 一条简短的确认信息（例如 `Clicked.`），然后是位于单独文本块中的返回行       |
+| 成员 | 返回 | Claude 读取的内容 |
+| ----- | ----- | ----- |
+| `screenshot`、`zoom` | `BetaScreenshotResult` | 一个图像块 |
+| `navigate` | `BetaBrowserNavigateResult` | `Navigated to {url} — {title} (HTTP {status})` |
+| `new_tab`、`switch_tab`、`list_tabs`、`close_tab` | 一个标签页条目（`new_tab`、`switch_tab`）、一个标签页条目列表（`list_tabs`），或不返回任何内容（`close_tab`） | 仅 `browser_state` 块 |
+| `read_page`、`get_page_text`、`find`、`read_console`、`read_network`、`javascript_exec` | 一个字符串 | 该字符串；如果是空字符串，则为 `(empty)` |
+| 其他所有成员 | 不返回任何内容，或一行文本 | 一条简短的确认信息（例如 `Clicked.`），然后是位于单独文本块中的返回行 |
 
 ### 报告浏览器状态
 
@@ -230,11 +230,11 @@ Claude 会按照您的驱动程序所写的原样读取每个标签页的 URL、
 
 ### 处理错误
 
-| 由成员或 SDK 引发         | Claude 读取的内容                                               | 运行状态 |
-| ------------------- | ---------------------------------------------------------- | ---- |
-| `ToolError`         | 其消息，作为错误结果                                                 | 继续   |
-| `ToolsetUsageError` | 无                                                          | 停止   |
-| 任何其他异常              | `ClassName: message` (typescript: `Error: message`)，作为错误结果 | 继续   |
+| 由成员或 SDK 引发 | Claude 读取的内容 | 运行状态 |
+| ----- | ----- | ----- |
+| `ToolError` | 其消息，作为错误结果 | 继续 |
+| `ToolsetUsageError` | 无 | 停止 |
+| 任何其他异常 | `ClassName: message` (typescript: `Error: message`)，作为错误结果 | 继续 |
 
 SDK 会在出现配置错误、调用期间误用 SDK，或在 `close` 之后进行调用时抛出 `ToolsetUsageError`。当 `_browser_state` (typescript: `browserState`) 抛出任何异常（即使是 `ToolError`）时，它也会抛出该错误。工具运行器和 `tool_result` (typescript: `toolResult`) 不会捕获它，因此它会传递到它们的调用方。
 
@@ -1190,11 +1190,11 @@ SDK 不会限制 `duration`、`repeat` 次数或 `scroll_amount`。[安全运行
 
 工具返回的内容决定了 Claude 读取的内容：
 
-| 工具                  | 返回                                 | Claude 读取                          |
-| ------------------- | ---------------------------------- | ---------------------------------- |
-| `screenshot`、`zoom` | `BetaScreenshotResult`             | 一个图像块                              |
-| `cursor_position`   | `BetaComputerCursorPositionResult` | `X={x},Y={y}`                      |
-| 其他所有工具              | 无，或一行文本                            | 一条简短确认，例如 `Clicked.`，然后是单独文本块中的返回行 |
+| 工具 | 返回 | Claude 读取 |
+| ----- | ----- | ----- |
+| `screenshot`、`zoom` | `BetaScreenshotResult` | 一个图像块 |
+| `cursor_position` | `BetaComputerCursorPositionResult` | `X={x},Y={y}` |
+| 其他所有工具 | 无，或一行文本 | 一条简短确认，例如 `Clicked.`，然后是单独文本块中的返回行 |
 
 ### 安全地运行计算机工具集
 
@@ -1337,14 +1337,14 @@ SDK 通过您传递的可调用对象应用第 2 步。其他步骤取决于您�
 
 构造函数选项在两个 SDK 中的含义相同：
 
-| Python              | TypeScript     | 设置                                          |
-| ------------------- | -------------- | ------------------------------------------- |
-| `configs`           | `configs`      | 启用哪些成员                                      |
-| `confirm`           | `confirm`      | 批准或拒绝每个调用的可调用对象                             |
-| `url_policy`        | `urlPolicy`    | 您的 URL 策略，SDK 会在每次 `navigate` 到某个 URL 之前调用它 |
-| `file_policy`       | `filePolicy`   | 上传根目录和下载路径暴露                                |
-| `tool_configs`      | `toolConfigs`  | `tools` 条目的字段，例如 `cache_control`            |
-| `_browser_state` 方法 | `browserState` | 状态报告                                        |
+| Python | TypeScript | 设置 |
+| ----- | ----- | ----- |
+| `configs` | `configs` | 启用哪些成员 |
+| `confirm` | `confirm` | 批准或拒绝每个调用的可调用对象 |
+| `url_policy` | `urlPolicy` | 您的 URL 策略，SDK 会在每次 `navigate` 到某个 URL 之前调用它 |
+| `file_policy` | `filePolicy` | 上传根目录和下载路径暴露 |
+| `tool_configs` | `toolConfigs` | `tools` 条目的字段，例如 `cache_control` |
+| `_browser_state` 方法 | `browserState` | 状态报告 |
 
 浏览器类接受表中的所有选项。计算机类接受 `configs`、`confirm` 和 `tool_configs` (typescript: `toolConfigs`)。
 
@@ -1390,12 +1390,12 @@ SDK 通过您传递的可调用对象应用第 2 步。其他步骤取决于您�
 
 * 可用性：可用
 
-| 状态   | 云平台                                                                                                                                                                                                                  | 模型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Beta | Claude API, [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed)                                                  | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
-| Beta | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed)                                                        | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview)                        |
-| Beta | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview)                        |
-| Beta | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)                                                                                                                  | [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview)                                                                                                                                                                                                      |
+| 状态 | 云平台 | 模型 |
+| ----- | ----- | ----- |
+| Beta | Claude API, [Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), Claude Mythos Preview, [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| Beta | [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| Beta | [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws), [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
+| Beta | [Amazon Bedrock](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock) | [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Sonnet 5](https://platform.claude.com/docs/zh-CN/models/sonnet-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview), [Claude Opus 4.8](https://platform.claude.com/docs/zh-CN/models/opus-4-8/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 

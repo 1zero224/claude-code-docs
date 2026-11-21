@@ -1,5 +1,51 @@
 # Changelog
 
+## [2.12.0](https://github.com/anthropics/anthropic-sdk-python/compare/v2.11.0...v2.12.0) (2026-11-20)
+
+### Features
+
+* **api:** add the image_dimensions_too_large error code
+
+
+### Bug Fixes
+
+* **bedrock:** send the user profile ID in the request body
+
+  Amazon Bedrock reads `user_profile_id` from the request body and ignores the `anthropic-user-profile-id` header, so a profile ID given to `AnthropicBedrock` or `AsyncAnthropicBedrock` was not applied. Both clients now move it into the body of Messages requests and no longer send the header. A `user_profile_id` already in the body takes priority over the header.
+
+  Some models on Bedrock do not support user profiles. A request to one of them with a profile ID now fails with a 400 error; before, the ID was ignored. Leave the ID off requests to those models.
+
+
+### Chores
+
+* **docs:** clarify billing_policy in batches and two billing errors
+
+## [2.11.0](https://github.com/anthropics/anthropic-sdk-python/compare/v2.10.0...v2.11.0) (2026-11-19)
+
+### Features
+
+* **api:** add Claude Code managed settings to the Admin API
+* **api:** add the sandbox_egress_restricted error to Admin API plugin methods
+
+
+### Bug Fixes
+
+* **client:** encode spaces in query strings as %20
+
+  The AWS SigV4 signature of a request now matches its query string when a parameter contains a space.
+
+
+### Performance Improvements
+
+* **structured outputs:** build each call's output schema from a cached raw schema
+
+
+### Chores
+
+* **docs:** explain how the input-token rate limit types differ
+* **docs:** name Claude Security in the usage and cost report descriptions
+* **docs:** note that a Google Cloud external key's provider and key_name can't be changed
+
 ## [2.10.0](https://github.com/anthropics/anthropic-sdk-python/compare/v2.9.0...v2.10.0) (2026-11-17)
 
 ### Features
