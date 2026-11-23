@@ -59,12 +59,11 @@ How end-to-end, property and differential tests let coding agents verify their w
 Claude Code
 (opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
 ArticleNov 13, 2026
+### Building strong safety evaluations
+Recommendations for designing, running, and reporting safety evaluations, based on our own experiences.
+(opens in new tab)](https://www.anthropic.com/research/building-strong-safety-evaluations)[
+ArticleNov 13, 2026
 ### Building always-on agents
 Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
 Claude Platform
-](https://claude.com/resources/articles/building-always-on-agents)[
-ArticleNov 13, 2026
-### The Claude Tag guide for startups
-How leading startups use Claude Tag to ship faster and scale operations
-Claude Tag
-](https://claude.com/resources/articles/claude-tag-guide-for-startups)
+](https://claude.com/resources/articles/building-always-on-agents)

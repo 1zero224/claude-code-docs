@@ -591,7 +591,7 @@ SDK 提供了一个线程辅助工具，可以为您构建每个请求。使用�
 | 分组 | 字段 | 规则 |
 | ----- | ----- | ----- |
 | 仅创建 | `system`、`tools` | 仅在创建请求上发送它们，并在其上附带任何 `cache_control` 断点。在继续请求上发送其中任何一个（即使为 `null`）都会返回 400 错误。 |
-| 固定 | `model`、`tool_choice`、`thinking`、`mcp_servers`（每个服务器的授权令牌除外）、`context_management`、`output_config`、`container` 中的 `skills`、顶层 `cache_control`，以及 `anthropic-beta` 值的集合 | 在线程的每个请求上发送它们，且值与创建请求上的相同。不同的值会返回代码为 `thread_fingerprint_mismatch` 的 400 错误，错误消息会指出不同的字段。 |
+| 固定 | `model`、`tool_choice`、`thinking`、`mcp_servers`（每个服务器的授权令牌除外）、`context_management`、`output_config`、`container` 中的 `skills`、顶层 `cache_control`，以及 `anthropic-beta` 标头中 beta 的集合 | 在线程的每个请求上发送它们，且值与创建请求上的相同。不同的值会返回代码为 `thread_fingerprint_mismatch` 的 400 错误，错误消息会指出不同的字段。 |
 | 自由 | `max_tokens`、`stop_sequences`、`stream`、`metadata`、`service_tier`，以及本页未提及的其他字段 | 这些字段可以在各轮之间更改。 |
 
 API 不会存储 MCP 服务器 URL、MCP 授权令牌或容器 `id`。请在每个使用它们的请求上发送 `mcp_servers` 和 `container`。MCP 授权令牌可以在请求之间更改。

@@ -586,6 +586,7 @@ Claude Code v2.1.261 及更高版本还会默认阻止以下操作：
 >    * 任何允许规则都不会批准已识别的 `rm` 和 `rmdir` [关键路径删除操作](#critical-paths)
 >    * 标记为 [`requiresUserInteraction`](https://code.claude.com/docs/zh-CN/mcp#require-approval-for-a-specific-tool) 的 MCP 工具即使匹配了允许规则，也会直接向您发出提示；在该设置作用于 Claude Code 的会话中，[您的组织设置为 `ask`](https://code.claude.com/docs/zh-CN/mcp#organization-controls-on-connector-tools) 的连接器工具同样如此
 >    * 带有[按命令允许的域名](https://code.claude.com/docs/zh-CN/sandboxing.md#per-command-allowed-domains-in-auto-mode)的 shell 命令即使匹配了允许规则，也会交由分类器处理，因为规则批准的是命令本身，而不是其访问的主机
+>    * 即使在 Manual、`acceptEdits` 和 `dontAsk` 模式下，分类器也可以审查匹配了允许规则的 [Claude in Chrome](https://code.claude.com/docs/zh-CN/chrome.md) 操作
 >    * 基于命令内容进行匹配的询问规则（例如 `Bash(git push *)`）会回退为权限提示
 >    * 如果 Claude 请求的路径本身不受保护，但经[符号链接检查](https://code.claude.com/docs/zh-CN/permissions.md#symlinks)解析后指向受保护路径，则该写入会向您发出提示
 >    * 从[网络路径](https://code.claude.com/docs/zh-CN/permissions.md#network-paths)进行的读取即使匹配了允许规则，也会向您发出提示
@@ -628,11 +629,15 @@ Claude Code v2.1.261 及更高版本还会默认阻止以下操作：
 
 > [accordion] 自动模式如何处理子代理
 >
-> 分类器会在三个时间点检查[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)的工作：
+> 当 Claude 使用 Agent 工具启动[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)时，分类器会在三个时间点检查该子代理的工作：
 >
 > 1. 在子代理启动之前，会评估委派的任务描述，因此看起来危险的任务会在生成时被阻止。
 > 2. 在子代理运行期间，它的每个操作都会经过与父会话相同的[决策顺序](#how-the-classifier-evaluates-actions)，并使用相同的阻止和允许规则。子代理 frontmatter 中的任何 `permissionMode` 都会被忽略。
-> 3. 当子代理完成时，分类器会在父级读取报告之前审查其工作和最终报告。当分类器标记了子代理的工作或报告，或者独立的 API 安全检查拒绝了该审查时，报告仍会被送达，但会在前面附加安全警告。当分类器无法进行审查时，报告送达时会附带一条说明，提醒您在据此采取行动之前先核实子代理的工作。
+> 3. 当 [agent team](https://code.claude.com/docs/zh-CN/agent-teams.md) 队友以外的子代理完成时，分类器会在父级读取报告之前审查其工作和最终报告。
+>
+>    当分类器标记了子代理的工作或报告，或者独立的 API 安全检查拒绝了该审查时，报告仍会被送达，但会在前面附加安全警告。当分类器无法进行审查时，报告送达时会附带一条说明，提醒您在据此采取行动之前先核实子代理的工作。
+>
+> 对于 [`web-fetch` 子代理](https://code.claude.com/docs/zh-CN/tools-reference#web-fetch-subagent)，当您的 `WebFetch(domain:...)` allow 规则或[预先批准的域名](https://code.claude.com/docs/zh-CN/tools-reference.md#webfetch-tool-behavior)涵盖其任务中的每个 URL 时，Claude Code 可以跳过前两项检查。此时该子代理会以 [`dontAsk` 模式](#allow-only-pre-approved-tools-with-dontask-mode)启动，因此任何其他需要批准的获取请求都会被拒绝。第三项检查仍会运行。
 
 > [accordion] 成本和延迟
 >
@@ -648,7 +653,7 @@ Claude Code v2.1.261 及更高版本还会默认阻止以下操作：
 
 如果您设置 `dontAsk` 模式，Claude Code 会自动拒绝所有原本会提示您的工具调用，不过您安装的 [mod](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md) 仍然可以批准其中部分调用。要查看 mod 可以批准哪些调用，请参阅[使用 hook 扩展权限](https://code.claude.com/docs/zh-CN/permissions.md#precedence-among-rules-hooks-and-mods)。不要依赖 `dontAsk` 来阻止 [mod 自身发起的工具调用](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#mods-api-methods)。
 
-Claude 仍然运行在 Manual 模式下不需要批准的操作，例如您工作目录内的文件读取和[只读 Bash 命令](https://code.claude.com/docs/zh-CN/permissions.md#read-only-commands)。与您的 `permissions.allow` 规则匹配的操作以及由 [PreToolUse hook](https://code.claude.com/docs/zh-CN/permissions.md#extend-permissions-with-hooks) 批准的调用也会运行。在 CI 管道或受限环境中使用此模式，您可以预先定义 Claude 可以执行的操作。在此模式下，状态栏显示 `⏵⏵ don't ask on`。
+Claude 仍然运行在 Manual 模式下不需要批准的操作，例如您工作目录内的文件读取和[只读 Bash 命令](https://code.claude.com/docs/zh-CN/permissions.md#read-only-commands)。由您的 `permissions.allow` 规则或 [PreToolUse hook](https://code.claude.com/docs/zh-CN/permissions.md#extend-permissions-with-hooks) 批准的大多数调用也会运行。在 CI 管道或受限环境中使用此模式，您可以预先定义 Claude 可以执行的操作。在此模式下，状态栏显示 `⏵⏵ don't ask on`。
 
 以下调用在原本会显示提示的情况下会被拒绝：
 

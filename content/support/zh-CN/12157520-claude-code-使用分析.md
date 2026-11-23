@@ -46,7 +46,7 @@ Claude Code 使用分析可供以下人员访问：
 
 - **热门命令**：整个组织中最常使用的 Claude Code 命令。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1717579277/46c512f4b3ed05c359cecd78ed5c/e0ce2c19-39e2-411f-9a1f-cb1d46439a42?expires=1795269600&amp;signature=02ed12e1c238c23fb380a29bd0d2d115e9d395a139e112b7a222b2336f3080e1&amp;req=dScmEcx5lINYXvMW1HO4zfiEPqNSiXDICX9h5MbdDjOY9dWDPCqs8HSpOerc%0ASPLdzyBxRS%2BLjtuIaeg%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1717579277/46c512f4b3ed05c359cecd78ed5c/e0ce2c19-39e2-411f-9a1f-cb1d46439a42?expires=1795451400&amp;signature=c949f628127a7f8228887cc58650ba705c852436517e3d03c26a8a860dc7f365&amp;req=dScmEcx5lINYXvMW1HO4zfiEPqNUinjKCX9h5MbdDjMHZHWE9Px4GQBkxXG0%0AFEVQGAwbVjuaRRXjLfw%3D%0A)
 
 ### 用户级指标
 

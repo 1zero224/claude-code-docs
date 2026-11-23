@@ -2,7 +2,7 @@
 
 When you open Claude on a web browser ([claude.ai](https://claude.ai)), the desktop app, or a mobile app, you will see two different options for logging in to your Claude account.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1893216804/f2209c3ec6cf4fc2e803d13bbc9d/40520c9e-ff82-4a7c-adca-5a064fe18d8c?expires=1795269600&amp;signature=381afbce18255a5a15cadad2cfe2ba2f49e1e47bb09df12bf361e5f2f65ec483&amp;req=dSguFct%2Fm4lfXfMW1HO4zXg5B4eO5RuyzWhrqpWiTMlgc2pyual2w%2BpGvSh5%0AK42c5JKzMj4OFlnEQqE%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1893216804/f2209c3ec6cf4fc2e803d13bbc9d/40520c9e-ff82-4a7c-adca-5a064fe18d8c?expires=1795451400&amp;signature=f94a5a3044015f1dc716cb49de78d00193592e878ccedb23fe384ec78b229548&amp;req=dSguFct%2Fm4lfXfMW1HO4zXg5B4eI5hOwzWhrqpWiTMmgxKX6uaMHceRSObSg%0A%2FyUNAA30znFSB9mzu8E%3D%0A)
 
 ## Continue with Google
 
@@ -108,6 +108,8 @@ If you are already logged in to Claude for iOS, you can see the email address yo
 
 1. Open Claude for iOS.
 
-2. Click your initials in the top right corner.
+2. Open the side menu.
 
-3. Look for your email address under Settings.
+3. Tap the gear or your initials at the bottom.
+
+4. Look for your email address under Settings.

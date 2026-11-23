@@ -561,7 +561,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
   在极少数需要访问完整思考输出的情况下，请[联系 Anthropic 销售团队](mailto:sales@anthropic.com)。
 </Note>
 
-要查看模型的推理，请读取 `thinking` 块，而不是在响应文本中通过提示索取推理。某些模型可能会拒绝要求将其内部推理作为响应文本一部分的请求。该拒绝带有 `stop_details.category: "reasoning_extraction"`。有关这些模型的示例以及应改为请求的内容，请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。有关字段参考，请参阅[拒绝的样子](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)。
+要查看模型推理的摘要，请在将 `display` 设置为 `"summarized"` 的情况下读取 `thinking` 块，而不是在响应文本中通过提示索取推理。某些模型可能会拒绝要求将其内部推理作为响应文本一部分的请求。该拒绝带有 `stop_details.category: "reasoning_extraction"`。有关这些模型的列表以及应改为请求的内容，请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。有关字段参考，请参阅[拒绝的样子](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)。
 
 ### 流式传输思考
 

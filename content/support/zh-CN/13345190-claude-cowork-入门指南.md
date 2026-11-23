@@ -198,7 +198,7 @@ Claude 会暂停，直到您选择“仅允许一次”或拒绝。您的选择�
 
 3. 在文本框中输入您的说明，然后点击“保存”：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2525926874/15324ac4155d7802272e8bdef04b/ec66cd09-a4db-4f1d-8f30-226c9d126333?expires=1795269600&amp;signature=d0cb4a47d61071679e2e43383627f2efa59627b85ad808e0a2c9215ad5ee1f88&amp;req=diUlE8B8m4lYXfMW1HO4zcDl693uMFi28iWjaktE9406WeOvtTjCkDaikchf%0As8fS6v%2Fyw1jMJhqW%2Fqk%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2525926874/15324ac4155d7802272e8bdef04b/ec66cd09-a4db-4f1d-8f30-226c9d126333?expires=1795451400&amp;signature=38b19896cb23d779e9560c155fc27160445495b001335a35e32519843eb50842&amp;req=diUlE8B8m4lYXfMW1HO4zcDl693oM1C08iWjaktE942yT7gxrUwRx5owtOOk%0AMEHFyC6ql6lvMizxm7k%3D%0A)
 
 ### 文件夹说明
 

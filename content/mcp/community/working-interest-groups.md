@@ -26,6 +26,7 @@ In the usual path an interest group frames a problem, and a working group solves
 Working groups:
 
 * [MCP Apps](https://modelcontextprotocol.io/community/working-groups/apps.md)
+* [Core Primitives](https://modelcontextprotocol.io/community/working-groups/core-primitives.md)
 * [File Uploads](https://modelcontextprotocol.io/community/working-groups/file-uploads.md)
 * [Filesystems](https://modelcontextprotocol.io/community/working-groups/filesystems.md)
 * [Governance](https://modelcontextprotocol.io/community/working-groups/governance.md)
@@ -141,7 +142,7 @@ A working group is formed when a widely acknowledged problem needs coordinated w
 
 ### Interest group
 
-Fill out the creation template in the `#wg-ig-group-creation` channel on [Discord](https://discord.gg/6CSzBmMkjX). A Core Maintainer reviews the proposal, and the group and its Facilitators need the same sponsorship. Once sponsored, the Facilitators organize the group and submit a charter the same way, with the file under `docs/community/interest-groups/`.
+Fill out the creation template in the `#wg-ig-group-creation` channel on [Discord](https://discord.gg/modelcontextprotocol). A Core Maintainer reviews the proposal, and the group and its Facilitators need the same sponsorship. Once sponsored, the Facilitators organize the group and submit a charter the same way, with the file under `docs/community/interest-groups/`.
 
 ## Amending or retiring a group
 

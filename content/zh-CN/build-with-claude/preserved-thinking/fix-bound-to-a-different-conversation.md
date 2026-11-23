@@ -51,7 +51,7 @@ messages.1.content.0: Invalid `signature` in `thinking` block. The block is boun
     }
     ```
 
-    在 SDK 中，调用 beta Messages 方法并传入标头值，如[测试程序](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation#how-to-tell-whether-your-integration-is-impacted-details)中所示。如果错误[仍要求提供标头](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation#setting-not-received)，则说明标头没有送达。
+    在 SDK 中，调用 beta Messages 方法并传入该 beta，如[测试程序](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation#how-to-tell-whether-your-integration-is-impacted-details)中所示。如果错误[仍要求提供标头](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation#setting-not-received)，则说明标头没有送达。
 
     这会通过丢弃无效的思考来停止错误，但它[可能花费更多](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/fix-bound-to-a-different-conversation#drop-block-cost)，并可能影响输出质量和 “latency”（延迟）。下一个请求会成功，其 `input_transformations` 数组会列出 API 丢弃的每个块。
 

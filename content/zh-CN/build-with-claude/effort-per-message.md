@@ -321,7 +321,7 @@ featureMetadata:
 
 如果它与一条有内容的 `system` 消息相邻，则两条消息都必须遵循[对话中途系统消息的放置规则](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages#limitations)。
 
-使用 Amazon Bedrock InvokeModel API 时，请在请求体的 `anthropic_beta` 数组中发送 beta 值，而不是通过标头发送。有关在该平台上支持按消息设置 effort 的模型，请参阅 [Bedrock 上的对话中系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#mid-conversation-system-messages-on-bedrock)。
+使用 Amazon Bedrock InvokeModel API 时，请在请求体的 `anthropic_beta` 数组中发送 beta，而不是通过标头发送。有关在该平台上支持按消息设置 effort 的模型，请参阅 [Bedrock 上的对话中系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#mid-conversation-system-messages-on-bedrock)。
 
 ## 错误
 

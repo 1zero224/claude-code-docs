@@ -19,6 +19,7 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 ### 2026 年 11 月 16 日
 
 * 在受支持的平台上，Claude Opus 4.6、Claude Opus 4.5、Claude Sonnet 4.5 和 Claude Haiku 4.5 生成的文本带有 Anthropic 的文本水印。[Claude 如何标记 AI 生成的内容](https://support.claude.com/en/articles/16266773-how-claude-marks-ai-generated-content)列出了这些平台。如果向这些模型之一发出的请求将 `temperature`、`top_p` 或 `top_k` 设置为非默认值，则生成的文本可能不带有水印。请参阅[文本水印](https://platform.claude.com/docs/zh-CN/build-with-claude/text-watermark)。
+* 我们为[组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#encryption-key-events) 新增了两种事件类型，这些 webhook 处于 beta 阶段。当您的密钥管理服务持续拒绝客户管理的加密密钥时，我们会发送 `external_key.failed`；当该密钥再次正常工作时，我们会发送 `external_key.recovered`。
 
 ### 2026 年 11 月 12 日
 

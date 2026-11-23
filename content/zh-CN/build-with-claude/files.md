@@ -1056,9 +1056,9 @@ SDK 在两个命名空间中提供 Files API。本页使用稳定命名空间，
 * 它不再发送 `files-api-2025-04-14`。
 * 它返回与稳定命名空间相同的结构，但类型名称带有 `Beta` 前缀。
 
-该表还给出了每个 SDK 的命名空间名称，以及 beta 命名空间在何处接收 `anthropic-beta` 值：
+该表还给出了每个 SDK 的命名空间名称，以及 beta 命名空间在何处接收 beta：
 
-| SDK | 稳定命名空间 | Beta 命名空间 | Beta 命名空间变更的版本 | `anthropic-beta` 值的传递位置 |
+| SDK | 稳定命名空间 | Beta 命名空间 | Beta 命名空间变更的版本 | Beta 的传递位置 |
 | ----- | ----- | ----- | ----- | ----- |
 | Python | `client.files` | `client.beta.files` | 1.2.0 | `betas` |
 | TypeScript | `client.files` | `client.beta.files` | 0.122.0 | `betas` |
@@ -1068,7 +1068,7 @@ SDK 在两个命名空间中提供 Files API。本页使用稳定命名空间，
 | PHP | `$client->files` | `$client->beta->files`（类位于 `Anthropic\Beta` 中） | 0.45.0 | `betas` |
 | Ruby | `client.files` | `client.beta.files` | 1.67.0 | `betas` |
 
-对于处于 beta 阶段的 Files 功能，请使用 beta 命名空间，并按表中所示传递该功能的 `anthropic-beta` 值。例如，在 Managed Agents beta 请求头下，`scope_id` 会将文件列表限制为某一个会话的文件。要使用 `scope_id`，请参阅[列出和下载会话文件](https://platform.claude.com/docs/zh-CN/managed-agents/files#listing-and-downloading-session-files)。
+对于处于 beta 阶段的 Files 功能，请使用 beta 命名空间，并按表中所示传递该功能的 beta。例如，在 Managed Agents beta 请求头下，`scope_id` 会将文件列表限制为某一个会话的文件。要使用 `scope_id`，请参阅[列出和下载会话文件](https://platform.claude.com/docs/zh-CN/managed-agents/files#listing-and-downloading-session-files)。
 
 在表中您所用 SDK 的版本之前的版本中，beta 命名空间的类型与 `files-api-2025-04-14` 返回的结构相匹配。如果您依赖这些类型，请在迁移离开这些类型之前继续使用此类版本。
 

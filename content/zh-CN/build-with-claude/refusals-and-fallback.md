@@ -9,6 +9,7 @@ featureMetadata:
     - claude-fable-5-1
     - claude-mythos-5-1
     - claude-fable-5
+    - claude-mythos-5
     - claude-opus-5-5
     - claude-opus-5
     - claude-sonnet-5-5
@@ -218,11 +219,12 @@ Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude 
 * 模型的私人笔记，或持续记录其推理过程的日志
 * 要求逐字或完整提供的推理
 
-这类措辞可能出现在系统提示、skill 或工具描述中，因此也请检查这些内容。
+这类措辞可能出现在系统提示、skill 或工具描述中，因此也请检查这些内容。之前的助手轮次以及提示中在标签（例如 `<thinking>`）内展示推理过程的示例，也可能触发此类拒绝。
 
-可能返回此类别的模型包括以下几种：
+可能返回此类别的模型如下：
 
 * Claude Fable 5.2、Claude Fable 5.1 和 Claude Fable 5
+* Claude Mythos 5.2、Claude Mythos 5.1 和 Claude Mythos 5
 * Claude Opus 5.5 和 Claude Opus 5
 * Claude Sonnet 5.5
 * Claude Haiku 5.5
@@ -1217,7 +1219,7 @@ SDK 包含一个拒绝回退中间件。您只需在客户端上使用回退模�
 
 | 状态 | 模型 |
 | ----- | ----- |
-| 可用 | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview) |
+| 可用 | [Claude Fable 5.2](https://platform.claude.com/docs/zh-CN/models/fable-5-2/overview), [Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview), [Claude Fable 5.1](https://platform.claude.com/docs/zh-CN/models/fable-5-1/overview), [Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview), [Claude Fable 5](https://platform.claude.com/docs/zh-CN/models/fable-5/overview), [Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview), [Claude Opus 5.5](https://platform.claude.com/docs/zh-CN/models/opus-5-5/overview), [Claude Opus 5](https://platform.claude.com/docs/zh-CN/models/opus-5/overview), [Claude Sonnet 5.5](https://platform.claude.com/docs/zh-CN/models/sonnet-5-5/overview), [Claude Haiku 5.5](https://platform.claude.com/docs/zh-CN/models/haiku-5-5/overview) |
 
 #### [Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)
 

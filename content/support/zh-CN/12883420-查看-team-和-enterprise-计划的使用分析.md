@@ -22,7 +22,7 @@
 
 - Cowork 中的会话
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515895966/9f231a620f47d49e0ee648152189/848c1787-4eaa-4809-8fd2-1dbe2722560f?expires=1795269600&amp;signature=e4ea0fdb7586ff77d37d877cf47c581e08da8049e27955685953d70bcda82eca&amp;req=diUmE8F3mIhZX%2FMW1HO4zZL6wKNwnYx3ExEG4dCAGDb%2F%2F38x8yJcnFiA%2Bboj%0AeC5yNjNn%2Brr0BXfS1E4%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515895966/9f231a620f47d49e0ee648152189/848c1787-4eaa-4809-8fd2-1dbe2722560f?expires=1795451400&amp;signature=cfa6ddd166584fdbd1246a6b6a6cee57c2923c2e8d199373a17fa17b9f4a5b64&amp;req=diUmE8F3mIhZX%2FMW1HO4zZL6wKN2noR1ExEG4dCAGDYOHtMaAG6KOHjEWU61%0AucWCbR8NLe%2FfZ5iILHo%3D%0A)
 
 ### 谁在使用 Claude？
 
@@ -34,7 +34,7 @@
 
 使用 **活跃成员和已分配的席位** 图表上的下拉菜单按产品进行筛选，包括 Claude Design。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896351/4d955858e6662c37489cc1470871/457cf159-8c2a-4403-ba22-cb92cb47e459?expires=1795269600&amp;signature=7adca806aca19c2a9765639c876eda049b7b4becc16da48790ff823cca48f8d1&amp;req=diUmE8F3m4JaWPMW1HO4zYEqezKrRJmpYqPRsgaNdTxSyU0NK17wa8CGz9Wn%0AaI3ZAnWnE5qR4K8Ql90%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896351/4d955858e6662c37489cc1470871/457cf159-8c2a-4403-ba22-cb92cb47e459?expires=1795451400&amp;signature=ce332c1264156a3e13850622c100ae7837da5416315c06a40d3ee424bc1cce0b&amp;req=diUmE8F3m4JaWPMW1HO4zYEqezKtR5GrYqPRsgaNdTxbfeJZgkep4BtITDrT%0ADbUe9tHc3%2Be2Yb%2BgzFg%3D%0A)
 
 ### 他们如何使用 Claude？
 
@@ -48,9 +48,9 @@
 
 - 他们的工作有多大的自主性？(测试版)
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2583875713/e3cb3c329f3b643cb9a3809876b3/image.png?expires=1795269600&amp;signature=72c5adab5d39732211d416cb059d4c4782b11b968d54af5d7d1da62d6392de0f&amp;req=diUvFcF5mIZeWvMW1HO4zciS3K3rnLdtDFD6TO7tG4hTZ6TXgfqBEFIEbimN%0AadaRlTONS2GCbB9iljc%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2583875713/e3cb3c329f3b643cb9a3809876b3/image.png?expires=1795451400&amp;signature=d68e335643181e3961ebff720f2167afa9c4147984bc38c9ff427122f1244cc0&amp;req=diUvFcF5mIZeWvMW1HO4zciS3K3tn79vDFD6TO7tG4jnDW5ovn3SxA3y9x9W%0AfKA%2FRiumHCreiXeTlBo%3D%0A)
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896563/abf008596ce5501297a609696362/fce5423c-4769-4b73-9a0a-c50f6407ebea?expires=1795269600&amp;signature=f24d6b30a907a69ec244b268cb4382807b1417e4ceda556c0834661279b66008&amp;req=diUmE8F3m4RZWvMW1HO4zR%2BID4Jsu%2F7xLS3kobW3ZgQ7bSEswQWdXRMmCho8%0AuFz4X42i3jFl36kxJDI%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896563/abf008596ce5501297a609696362/fce5423c-4769-4b73-9a0a-c50f6407ebea?expires=1795451400&amp;signature=e1652ed150262ea7028be9bffba2ebfad6cfa7edf2cbd75347dcdc684bda7201&amp;req=diUmE8F3m4RZWvMW1HO4zR%2BID4JquPbzLS3kobW3ZgRjO%2Ft46D%2BM0eEAPDMk%0AxTTgUXo9tugwQOxLy6w%3D%0A)
 
 ### 结果如何？
 
@@ -66,7 +66,7 @@
 
 - 估计节省的时间
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896943/dd415f03afe56ca38308ef987f86/189e8ebc-5594-4f4b-bd84-e3c11c824d5b?expires=1795269600&amp;signature=aba0ec18a6d51bfa0993047023ad004cbd917ce7482d24195d97cf4d8f6d40c6&amp;req=diUmE8F3m4hbWvMW1HO4zfJThSE9r9VAiovaLYNN7RmYnhNTv%2BDRy%2Blm1xNj%0AO3ZhX218taqS%2FvRm03Q%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896943/dd415f03afe56ca38308ef987f86/189e8ebc-5594-4f4b-bd84-e3c11c824d5b?expires=1795451400&amp;signature=3485cce952efa77ee0bfb4baa1bb31f9005e47c39ffa120fa07601f7471162e8&amp;req=diUmE8F3m4hbWvMW1HO4zfJThSE7rN1CiovaLYNN7RnEQKn2cPMxmYjt3U5f%0AS9H%2FWiYeYFx5XDn52rU%3D%0A)
 
 ### Claude 的成本是多少？
 
@@ -82,9 +82,9 @@
 
 - 按模型的支出（月至今、季度至今、年至今、1 年）
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896942/b403f2d216fc40b5195911020b8e/446b99f1-3187-4b79-b2be-9f17b1632ff8?expires=1795269600&amp;signature=efee1e41a153f2fe9392f9bd78b775f9f38174a78dc62c88623ceec74d1fb152&amp;req=diUmE8F3m4hbW%2FMW1HO4zYE%2BQtsA6jjbWbBLGZ4vBJWW7Wvl2ehzzQUhIDN6%0AKiQOTXHCGGtVUM879Dw%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896942/b403f2d216fc40b5195911020b8e/446b99f1-3187-4b79-b2be-9f17b1632ff8?expires=1795451400&amp;signature=38c029793c9258b6e55228b8c84ba1ff48d9515bb3df337326a07ca8e27d1f2a&amp;req=diUmE8F3m4hbW%2FMW1HO4zYE%2BQtsG6TDZWbBLGZ4vBJVtLZ5JhesOdBPWhCaY%0AagUemb11PJNGW3sFTa4%3D%0A)
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896941/2239ce38639df339b24d5af1cb50/f829bc2a-ee52-4135-9b13-09ef1b7d66d6?expires=1795269600&amp;signature=44b85b766673697885c29a5d1b23cd8715b303c1089c236d74aa7279ec7b60b1&amp;req=diUmE8F3m4hbWPMW1HO4zTz0N%2B8AIcBWC%2BtvTPa1I7GvfkQLB2JCJ9nRL%2BQj%0A0X38Q1AYhCpru%2BdkPm0%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896941/2239ce38639df339b24d5af1cb50/f829bc2a-ee52-4135-9b13-09ef1b7d66d6?expires=1795451400&amp;signature=4a9f48b08dfffb4c5c1cf9cd5b79d98f9956fdee6737bacc90abd3f45756f0bf&amp;req=diUmE8F3m4hbWPMW1HO4zTz0N%2B8GIshUC%2BtvTPa1I7HLVVbGqlhs1gNEvHXn%0ALrejmZArxZABuoyvJoM%3D%0A)
 
 **注意：**要了解支出限制如何影响您的组织，您也可以查看 **[组织设置 > 使用](https://claude.ai/admin-settings/usage)** 顶部的 **被支出限制阻止** 部分。**被支出限制阻止** 是为基于使用的 Enterprise 计划构建的。没有基于使用的席位的组织只能看到目前有多少成员被阻止或接近其限制。详细了解 **[在 Enterprise 计划上监控使用和支出](https://support.claude.com/en/articles/11526368-how-am-i-billed-for-my-enterprise-plan#h_ae17ec8236)**。
 
@@ -162,7 +162,7 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 - 聊天最多的顶级成员
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515898793/405db0c492da11886c28a2b82731/71a55afc-1cef-4c50-b7e1-86775cb9a168?expires=1795269600&amp;signature=ae201820230ecac4b00ff5e626070b83b971ddd97ef186d80e65db123cea4317&amp;req=diUmE8F3lYZWWvMW1HO4zbhc8PieZ%2B0nTcfMEUwBBiWVxu8RsdMl1rSHA%2BRD%0AvYxz7PLVSeWUlp%2FMTw4%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515898793/405db0c492da11886c28a2b82731/71a55afc-1cef-4c50-b7e1-86775cb9a168?expires=1795451400&amp;signature=2b3230c1ddb4eeba5da771fd030e62b44c29a9a08e99639601735b5bdbd63a15&amp;req=diUmE8F3lYZWWvMW1HO4zbhc8PiYZOUlTcfMEUwBBiUUuLwHbAd7e5mRshYH%0ADu%2FB5sxWPF6Z3NJmCVs%3D%0A)
 
 ### 项目
 
@@ -174,7 +174,7 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 - 项目使用最多的顶级成员
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515899610/91d93108f0767e795fb9e488e882/71607d6d-dff1-4a13-a445-aa1d79850eed?expires=1795269600&amp;signature=480508453661ec0b293fed2e186c55c750ef8af0b6671fde4e8fac69fb25318b&amp;req=diUmE8F3lIdeWfMW1HO4zWhGoDmbnSqkExu5cYiHHN8pVTslT99pzfB%2BSYR2%0AbiIFL4lOWZWoApbqKiM%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515899610/91d93108f0767e795fb9e488e882/71607d6d-dff1-4a13-a445-aa1d79850eed?expires=1795451400&amp;signature=af0822c08ef63ea46d05daae76faddfcf288ecdc9e08aae4c12d8dff7988d1ce&amp;req=diUmE8F3lIdeWfMW1HO4zWhGoDmdniKmExu5cYiHHN89QTs8t4FLzcllMQgD%0AxQT5sZiLdD5yFLjB8X4%3D%0A)
 
 ### 工件
 
@@ -184,7 +184,7 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 - 生成工件最多的前 10 名用户（本月至今、本季度至今、本年至今、过去 1 年）
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515899838/33d737f2357d6e485704669962ae/43faadc3-47da-4a93-bbb7-47a7983e7441?expires=1795269600&amp;signature=0b6f907a3576464ed78fd3da800ce9730e2f75c2fcd95bb16748254caa61bf49&amp;req=diUmE8F3lIlcUfMW1HO4zcSk47%2FQeOfGjHDogqK0V%2By7C1kSXBgehUBkliWq%0AaH2XDj91kOVAIQXAIEo%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515899838/33d737f2357d6e485704669962ae/43faadc3-47da-4a93-bbb7-47a7983e7441?expires=1795451400&amp;signature=925a3404eaadea44928bc2caa5ac6fa8fdafbe63faa192d77cfbce6f8e320bc7&amp;req=diUmE8F3lIlcUfMW1HO4zcSk47%2FWe%2B%2FEjHDogqK0V%2Bzz83OH%2BEsmP4FJNuib%0Atar1FLKkMBOoJNavqDY%3D%0A)
 
 ---
 
@@ -280,7 +280,7 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 - 每日、每周和每月活跃 Cowork 用户
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515901489/8005693d55b7fefbfe9233258d39/106c22a0-3f47-47a6-abbd-4788dd70f218?expires=1795269600&amp;signature=eaf13519edfd26fd2e9849ee913d4de2f80021939fe23a52bac6e2c502de562b&amp;req=diUmE8B%2BnIVXUPMW1HO4zX7WE42zW0iuFSi1Z3SzLLsakUjhBb%2FFgM6IFmo0%0ADCy48ACF8LMh%2BUCyrfs%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515901489/8005693d55b7fefbfe9233258d39/106c22a0-3f47-47a6-abbd-4788dd70f218?expires=1795451400&amp;signature=0c400f8e693e2d2d5400f0eceee71186a036ca51f477c4a04e36b04ae368f1d5&amp;req=diUmE8B%2BnIVXUPMW1HO4zX7WE421WECsFSi1Z3SzLLuEPtgzDV17X03FZsuT%0AVgvBmxunZljWZFW1WfA%3D%0A)
 
 **注意：**Cowork 分析与**[分析 API](https://platform.claude.com/docs/en/manage-claude/analytics-api)** 中的聊天和 Claude Code 数据一起提供。
 
@@ -296,7 +296,7 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 在使用量计费的企业计划上，当您的管理员打开个人使用分析时，组织的任何成员都可以查看按产品、模型和技能分类的自己的使用情况，以及他们相对于为其设置的任何支出限制的位置。个人使用分析可在**[设置 > 使用情况](https://claude.ai/settings/usage)**中获得。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2533906328/1f5cd0a57def40676410f8f379b4/member-usage-30d-model.png?expires=1795269600&amp;signature=159988586631fc436ad38d38a74b0847e1a3ca9e3d0442d82e2a9ebd488fdd5a&amp;req=diUkFcB%2Bm4JdUfMW1HO4zfveBqrHeuLcWGUKUw6QS48%2Fi8fNJXSWJv61YRN1%0ApUetgf%2FrA1VRKvM7lNY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2533906328/1f5cd0a57def40676410f8f379b4/member-usage-30d-model.png?expires=1795451400&amp;signature=9adc8bdee024d26db49ef2ca187a7a7c1938b75337140f92fdf9cbd5c7abd8ec&amp;req=diUkFcB%2Bm4JdUfMW1HO4zfveBqrBeereWGUKUw6QS4%2F5UWKotcIg5dAtylUC%0ALjNbvCkRZXr0Cs4r8TM%3D%0A)
 
 ---
 

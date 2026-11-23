@@ -16,23 +16,23 @@ Claude Cowork 在桌面上适用于所有付费计划（Pro、Max、Ultra、Team
 
 在左侧导航面板中找到**项目**，然后点击“+”按钮查看创建项目的三种不同方式：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183720240/6f6ef438913391703598d86d606c/CleanShot+2026-03-20+at+09_11_43.png?expires=1795269600&amp;signature=da5bc79c22daa2b48f1ff1d9cb86b8cdef2b3b47218f118baeb74cab1fd16a8b&amp;req=diEvFc58nYNbWfMW1HO4zcOgigC41yFzZwSvwegvtgwRiPodNiKWZRELEN1i%0AG9Qukeor22MYPJsx2Is%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183720240/6f6ef438913391703598d86d606c/CleanShot+2026-03-20+at+09_11_43.png?expires=1795451400&amp;signature=6aaa5090dbec821487cad7424203402a1b389a920a11d56ea9905f035f7d914f&amp;req=diEvFc58nYNbWfMW1HO4zcOgigC%2B1ClxZwSvwegvtgwwQVNHFQGx45ie4GqE%0AD2CkF1w0jCeWKPjJOtM%3D%0A)
 
 ### 从头开始
 
 选择“从头开始”允许你设置一个包含说明和文件的新文件夹：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177090014/07832b50003cf7fd3b4e9c7c448b/3385d9b8-c3e7-42b9-ae3f-4d213baa53a7?expires=1795269600&amp;signature=6dcaf1d7dc1a434cdde7f846434053031ce4c9d385bea118f9952c14bdd2a450&amp;req=diEgEcl3nYFeXfMW1HO4zZCoQohHSHyQvb0suCMAnj1PxjHsenLNSCdQv08V%0AIOmpk86Ds%2BnLG%2BwycE4%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177090014/07832b50003cf7fd3b4e9c7c448b/3385d9b8-c3e7-42b9-ae3f-4d213baa53a7?expires=1795451400&amp;signature=2197040f71393057dfca981a81e338a31773e5e9c68b65fbfff287f7d5c9ef10&amp;req=diEgEcl3nYFeXfMW1HO4zZCoQohBS3SSvb0suCMAnj2%2BglHCAnm8G607j%2Bdm%0Act7Zha1fW8uW6TtjCLA%3D%0A)
 
 ### 从 Claude 项目导入
 
 选择“从项目导入”后，你会看到一个“在聊天中搜索项目…”字段：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183717962/acdc11bcc825ae76a13f508365bc/CleanShot+2026-03-20+at+09_12_08.png?expires=1795269600&amp;signature=971dfec9fee60a645f77f33d6663382fb006dcb7174f32c8192b6459759ba170&amp;req=diEvFc5%2FmohZW%2FMW1HO4zQQ7UWZfzJEZjggUT7FIJz%2Bo9QB5ki6lIbjb2HHQ%0AZIybobd5VfoV5sTMZCs%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183717962/acdc11bcc825ae76a13f508365bc/CleanShot+2026-03-20+at+09_12_08.png?expires=1795451400&amp;signature=69dbf3b672d7cbd5ea8d4a37448c0a1ff98dd2da284b36762e0f7f6903923530&amp;req=diEvFc5%2FmohZW%2FMW1HO4zQQ7UWZZz5kbjggUT7FIJz%2FZZ80jRI%2F9dYauN%2BSL%0AlZZ3WC%2Ft1NRdeLwoPmI%3D%0A)
 
 点击该字段将显示一个下拉菜单，显示你最近的项目，但你也可以使用它搜索所有项目。选择聊天项目后（不支持批量上传），你可以为新的 Cowork 项目命名并选择在计算机上的保存位置：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183727973/7a25430123d9e13e7c3cdd411f70/CleanShot+2026-03-20+at+09_13_41.png?expires=1795269600&amp;signature=f3a9689108dadd6add03ea70ba02a13adfd06e1f27d1e42768364062b27c840c&amp;req=diEvFc58mohYWvMW1HO4zU%2FKAyZE%2BirKI7f%2FdY0VL6hS4m232hPZuA2MddTk%0AKesh8SLYd9sNk50bHyI%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2183727973/7a25430123d9e13e7c3cdd411f70/CleanShot+2026-03-20+at+09_13_41.png?expires=1795451400&amp;signature=79ce852fd17e5e43f182c1ed0872974209eafeb0b38b6359be8c217332851b84&amp;req=diEvFc58mohYWvMW1HO4zU%2FKAyZC%2BSLII7f%2FdY0VL6gVKar%2BQtDpAcmFIITu%0AVjHmnfVZTyXjKn60W7w%3D%0A)
 
 点击“创建”将从现有 Claude 项目转移文件和说明，并创建新的 Cowork 项目。
 
@@ -40,11 +40,11 @@ Claude Cowork 在桌面上适用于所有付费计划（Pro、Max、Ultra、Team
 
 如果选择“使用现有文件夹”，系统会提示你选择一个文件作为新 Cowork 项目的上下文：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087935/2f0052dae601d0b7fecdc029e1c3/2e3ca9e7-23b1-436e-bbdb-edcd31c41f15?expires=1795269600&amp;signature=6a82c0fb71574eea572d94924afba29713cc067b55e873ffc956af35e8bb932c&amp;req=diEgEcl2mohcXPMW1HO4zejrnjPUEypZuv8e2Xj2xOXi%2Be3VYm17QiEKSPmO%0AKvXlB8x%2B9rHwHJxLTjY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087935/2f0052dae601d0b7fecdc029e1c3/2e3ca9e7-23b1-436e-bbdb-edcd31c41f15?expires=1795451400&amp;signature=ba274939fdf30d3b99f547eccc706cc689d5bf383d14a214131c19b1c1e03a80&amp;req=diEgEcl2mohcXPMW1HO4zejrnjPSECJbuv8e2Xj2xOXRiQXQzq5Sc4ZlaTwO%0AeDJie0o7DOfDevSkGR0%3D%0A)
 
 选择文件夹后，你可以为新的 Cowork 项目命名、选择在计算机上的保存位置、添加说明和附加任何其他文件。点击“创建”开始使用你的新项目：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087937/f59dbe3fc28448a9597ea097cb4d/96a59acb-4054-4b4b-a208-751f9711f535?expires=1795269600&amp;signature=ee6bd9f7a7a70472ae733983990250b63bb1594cabb0f8cb0355a5489c28e9cd&amp;req=diEgEcl2mohcXvMW1HO4zUq4Vua2has8MfnqHouW6ML3EwMeHgVQTq5yDSHy%0AmNA1JqlBix%2Fj683FbWU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2177087937/f59dbe3fc28448a9597ea097cb4d/96a59acb-4054-4b4b-a208-751f9711f535?expires=1795451400&amp;signature=f1510a41e76e138042d64f4ce826b6c40186d2043bb1f1f7ff40c35c5fea2e98&amp;req=diEgEcl2mohcXvMW1HO4zUq4VuawhqM%2BMfnqHouW6MLGAX7Tpkf0NOc2fzMy%0A02GGM%2B7ZAyUOVXF3fWw%3D%0A)
 
 ---
 

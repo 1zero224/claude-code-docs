@@ -21,7 +21,7 @@ MCP is like having access to the aisles. Skills, meanwhile, are like an employee
 Put more concretely, an MCP server gives Claude access to your external systems, services, and platforms, while skills provide the context Claude needs to use those connections effectively, teaching Claude what to do now that it has this access.
 Without the context that skills provide, Claude has to guess at what you want. With a skill, Claude can follow your playbook instead.
 ## **Why skills and MCP work well together**
-MCP handles connectivity: secure, standardized access to external systems. Whether you're connecting to GitHub, Salesforce, Notion, or your own internal APIs, MCP servers give Claude the ability to reach your tools and data.
+MCP handles connectivity: secure, standardized access to external systems. Whether you're connecting to GitHub, Salesforce, Notion, or your own internal APIs, [MCP servers](https://claude.com/resources/articles/what-is-model-context-protocol) give Claude the ability to reach your tools and data.
 Skills handle expertise: the domain knowledge and workflow logic that turn raw tool access into reliable outcomes. A skill knows when to query your CRM, what to look for in the results, how to format the output, and which edge cases require different handling.
 This separation keeps the architecture composable. A single skill can orchestrate multiple MCP servers, while a single MCP server can support dozens of different skills. Add a new connection, and existing skills can incorporate it. Refine a skill, and it works across all your connected tools.
 #### **When you combine skills and MCP, you get:**

@@ -1,6 +1,8 @@
 # Using Claude Opus 5.5 as your daily driver for knowledge work
 *Opus 5.5 is the default model in Claude on Pro, Max, Ultra, and Team plans. Here's how it compares with our other models, and how to get the most from it for knowledge work.*
   -
+Category[Best practices](https://claude.com/resources/best-practices)
+  -
 AuthorAleksandra Todorova
   -
 DateNovember 12, 2026
@@ -57,10 +59,6 @@ Pick something you'd normally split across several requests, like a research mem
 Explore more product news and best practices for teams building with Claude.
 [
 ArticleNov 17, 2026
-### Linked billing on the Claude Platform
-Claude Platform
-](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
-ArticleNov 17, 2026
 ### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
 How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
 Claude CodeClaude apps
@@ -74,4 +72,9 @@ ArticleNov 13, 2026
 ### Building always-on agents
 Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
 Claude Platform
-](https://claude.com/resources/articles/building-always-on-agents)
+](https://claude.com/resources/articles/building-always-on-agents)[
+ArticleNov 13, 2026
+### The Claude Tag guide for startups
+How leading startups use Claude Tag to ship faster and scale operations
+Claude Tag
+](https://claude.com/resources/articles/claude-tag-guide-for-startups)

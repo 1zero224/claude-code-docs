@@ -105,7 +105,7 @@ When to use PostToolUse:
   - Triggering linters and showing warnings after code changes
   - Sending notifications when certain operations complete
 ### **PreCompact**
-Fires before Claude compacts the conversation context to free up space. Compaction summarizes older parts of the conversation, which means some details get lost. This hook gives you a chance to preserve information before that happens.
+Fires before Claude [compacts the conversation context](https://claude.com/resources/articles/context-management) to free up space. Compaction summarizes older parts of the conversation, which means some details get lost. This hook gives you a chance to preserve information before that happens.
 This PreCompact example backs up the transcript before automatic compaction. The matcher can be "auto" or "manual" so you can distinguish between automatic compaction and user-triggered compaction events.
 Copy
 ```
@@ -179,7 +179,7 @@ When to use Stop:
   - Triggering summary generation at the end of a session
   - Checking that generated code compiles before stopping
 ### **SubagentStop**
-This hook fires whenever a subagent created via the Task tool finishes. Works the same way as Stop, but triggers specifically when a subagent completes its action (rather than the main agent). The configuration of SubagentStop mirrors the Stop hook structure:
+This hook fires whenever a [subagent](https://claude.com/resources/articles/subagents-in-claude-code) created via the Task tool finishes. Works the same way as Stop, but triggers specifically when a subagent completes its action (rather than the main agent). The configuration of SubagentStop mirrors the Stop hook structure:
 Copy
 ```
 {

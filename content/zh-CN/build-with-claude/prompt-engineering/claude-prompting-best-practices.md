@@ -780,7 +780,7 @@ doubt, respond directly.
 
 * **优先使用通用指令而非规定性步骤。** 像"深入思考"这样的提示通常比手写的分步计划产生更好的推理。Claude 的推理常常超出人类所能规定的范围。
 * **多样本示例可与思考配合使用。** 提示中的示例会影响 Claude 在其自身思考块中处理类似问题的方式。请将每个示例呈现为一个问题、要应用的方法以及预期答案。
-* **将手动 “chain-of-thought”（思维链），即 CoT 提示作为后备手段。** 当思考关闭时，您仍然可以通过让 Claude 在回答之前先思考问题，来鼓励逐步推理。请让它将最终答案放在 `<answer>` 标签中，以便您提取。某些模型可能会拒绝要求其写出推理过程（例如放在 `<thinking>` 标签中）的提示。在这些模型上，请改为依赖思考功能。如果成本或延迟很重要，请使用较低的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 级别。有关这类模型的示例，请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。
+* **将手动 “chain-of-thought”（思维链），即 CoT 提示作为后备手段。** 当思考关闭时，您仍然可以通过让 Claude 在回答之前先思考问题，来鼓励逐步推理。请让它将最终答案放在 `<answer>` 标签中，以便您提取。某些模型可能会拒绝要求其写出推理过程（例如放在 `<thinking>` 标签中）的提示。在这些模型上，请改为依赖思考功能。如果成本或延迟很重要，请使用较低的 [effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort) 级别。有关这类模型的列表，请参阅[将推理保留在思考块中](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#keep-reasoning-in-thinking-blocks)。
 * **让 Claude 进行自我检查。** 附加类似"在完成之前，请对照 \[测试标准] 验证您的答案。"的内容。这可以可靠地发现错误，尤其是在编码和数学方面。Claude Opus 5 是个例外：它无需明确指令就能很好地验证自己的工作，而从为早期模型调优的提示中沿用的验证指令可能会导致过度验证，增加令牌消耗和延迟。在 Claude Opus 5 上，请删除这些指令，而不是改写它们。请参阅[任务范围与过度验证](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/prompting-claude-opus-5#task-scope-and-over-verification)。
 
 <Note>

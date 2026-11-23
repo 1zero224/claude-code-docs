@@ -116,7 +116,7 @@
 
 **自己的页面。**可以查看分析的管理员将在应用下找到“聊天和 Cowork 统一”页面。它显示每日活跃用户。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2806001895/531860da20ab38cc20552671aa8a/60d7f385-93e4-44cb-a767-3c68bb033f2e?expires=1795269600&amp;signature=b06a6203d2e874b2876ba0414be1c6890acb8be2f440a70a0f806555db87e1e0&amp;req=dignEMl%2BnIlWXPMW1HO4zX%2FArvXUypuYu58a%2FWgvbywfGFZm0jrtKvAPhQhw%0ACDY6DiMG4v11XH%2Btcu0%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2806001895/531860da20ab38cc20552671aa8a/60d7f385-93e4-44cb-a767-3c68bb033f2e?expires=1795451400&amp;signature=d20b4367e96c08d1bb938cc99e5075d54c70f81737d4781ad71e58e48d66939c&amp;req=dignEMl%2BnIlWXPMW1HO4zX%2FArvXSyZOau58a%2FWgvbyxInGOn8BACM2A4SaRl%0Anps8Usdp3PEgF4gBWas%3D%0A)
 
 **跨仪表板。**您可以在**活跃成员**和**按模型支出**图表中选择“聊天和 Cowork 统一”，**总支出**将其显示为自己的行。支出图表仅在启用使用额度时显示。
 

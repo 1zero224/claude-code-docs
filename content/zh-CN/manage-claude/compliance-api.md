@@ -55,7 +55,15 @@ curl --fail-with-body -sS \
 
 活动源（`GET /v1/compliance/activities`）可供任何携带 `read:compliance_activities` 作用域的密钥使用；有关筛选器、分页和完整的 `Activity` 对象，请参阅[查询活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)。其余端点需要携带相关作用域的 Compliance Access Key。
 
-一个 Claude Enterprise 租户拥有一个父组织（集中管理身份的顶层容器），以及两类关联组织：claude.ai 组织，用户在其中聊天和存储内容；以及 Claude Console 组织，用户在其中管理 Claude API 工作负载。对于覆盖父组织的密钥，目录端点（组织、用户、角色和群组）会返回来自任一类型的所有关联组织的数据。内容端点（聊天、文件、项目、项目附件和会话）仅提供 Claude Enterprise 数据。聊天、文件和项目端点返回 claude.ai 的聊天、文件和项目。会话端点返回用户在其计算机上运行的会话（本地会话）的记录，这些记录是在用户使用其 Claude Enterprise 账户登录期间捕获的，涵盖 Cowork、Claude Code、Claude Science、Claude for Microsoft 365、适用于 Google Docs、Google Sheets 和 Google Slides 的 Claude 加载项以及 Claude in Chrome 中的会话。它们还会返回在 claude.ai 网页版或移动版上启动的 Cowork 会话以及在 Slack 中启动的 Claude Tag 会话的记录，这些会话在云端的 Anthropic 托管环境中运行，或者（对于 Claude Tag）在自托管的运行器池上运行（远程会话）。独立的 Claude Console 组织（没有父组织的组织）不属于 Claude Enterprise 租户；它使用 Admin API 密钥，并且只能查询活动源。
+一个 Claude Enterprise 租户拥有一个父组织（集中管理身份的顶层容器），以及两类关联组织：claude.ai 组织，用户在其中聊天和存储内容；以及 Claude Console 组织，用户在其中管理 Claude API 工作负载。对于覆盖父组织的密钥，目录端点（组织、用户、角色和群组）会返回来自任一类型的所有关联组织的数据。内容端点（聊天、文件、项目、项目附件和会话）仅提供 Claude Enterprise 数据：
+
+| 内容端点 | 返回内容 |
+| ----- | ----- |
+| 聊天、文件和项目端点 | claude.ai 的聊天、文件和项目。 |
+| 本地会话端点 | 用户在其计算机上运行的会话（本地会话）的记录，这些记录是在用户使用其 Claude Enterprise 账户登录期间捕获的，涵盖 Cowork、Claude Code、Claude Science、Claude for Microsoft 365、适用于 Google Docs、Google Sheets 和 Google Slides 的 Claude 加载项以及 Claude in Chrome 中的会话。 |
+| 远程会话端点 | 远程会话的记录：在 claude.ai 网页版或移动版上启动的 Cowork 会话，以及在 Slack 中启动的 Claude Tag 会话。远程会话在云端的 Anthropic 托管环境中运行。Claude Tag 会话也可以在自托管的运行器池上运行。 |
+
+独立的 Claude Console 组织（没有父组织的组织）不属于 Claude Enterprise 租户；它使用 Admin API 密钥，并且只能查询活动源。
 
 所有 `/v1/compliance/*` 端点共享每个父组织每分钟 600 个请求的 “rate limit”（速率限制）（对于独立的 Claude Console 组织，则按每个组织计算）。本地会话端点仅计入该共享限制，而远程会话端点在此之上还有第二个请求配额。有关响应标头和重试约定，请参阅 [429 Too Many Requests](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#429-too-many-requests)。
 

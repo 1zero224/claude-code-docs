@@ -845,7 +845,7 @@ claude mcp add --transport http hubspot --scope user https://mcp.hubspot.com/ant
 2. Project 作用域
 3. User 作用域
 4. [插件提供的服务器](https://code.claude.com/docs/zh-CN/plugins/components.md#mcp-servers)
-5. [claude.ai 连接器](#use-mcp-servers-from-claude-ai)
+5. [claude.ai 连接器](#use-mcp-servers-from-claude-ai)。在 `claude -p`、Agent SDK 和 VS Code 会话中，连接器的优先级高于插件提供的服务器。
 
 Claude Code 在三个作用域之间按名称匹配重复项。对于插件和连接器，则按端点匹配，因此如果某个插件或连接器指向的 URL 或命令与上述某个已启用的服务器相同，则视为重复项。
 
@@ -1676,7 +1676,7 @@ MCP 服务器可以在任务进行中使用引出功能向您请求结构化输�
 
 服务器可以通过两种方式请求输入：
 
-* **表单模式**：Claude Code 显示一个对话框，其中包含由服务器定义的表单字段（例如，用户名和密码提示）。填写字段并提交。
+* **表单模式**：Claude Code 显示一个对话框，其中包含由服务器定义的表单字段，例如项目名称和截止日期。填写字段并提交。
 * **URL 模式**：Claude Code 询问是否在浏览器中打开链接。服务器使用此模式处理在终端外完成的流程，例如登录。
 
 在 URL 模式中，Claude Code 将 URL 作为命令行参数传递给系统的 URL 处理程序，并限制该参数的长度。当 URL 在为命令行转义后超过该限制时，你只能拒绝该请求。每个需要转义的字符，例如 `%` 或 `&`，都会计为上限的四倍：其自身字符加上三个转义字符。没有这些字符的 URL 在大约 8,000 个字符处达到上限。主要由百分比转义组成的 URL，其中每三个字符中有一个是 `%`，在大约 4,000 处达到上限。

@@ -14,7 +14,7 @@ Anthropic 使用数据密钥加密您存储的数据。借助客户管理的加�
   ![您的密钥始终位于您云中的 KMS 内，并封装 Anthropic 的数据密钥，这些数据密钥用于加密您的数据。您的云可以记录每次调用。](https://platform.claude.com/docs/zh-CN/images/cmek/key-wrapping.svg)
 </Frame>
 
-Anthropic 不保留您密钥的任何副本，因此没有该密钥，Claude [就无法读取它所保护的数据](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-key-lifecycle)。
+Anthropic 不保留您密钥的任何副本。请参阅[每项操作的作用](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-key-lifecycle#what-each-action-does)。
 
 ## 一个密钥保护什么
 

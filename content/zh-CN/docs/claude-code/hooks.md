@@ -1662,7 +1662,6 @@ hook 可能恰好在您中断的同一时刻阻止该提示词。此时提示词
 
 * 去除 markdown 以实现简洁显示
 * 转换 Agent SDK 应用程序向其用户显示的文本
-* 从 Claude 的回复中隐去 API 密钥或内部主机名
 
 Claude Code 会保留每一批内容，直到您的 hook 返回，因此请让 hook 保持快速。如果 hook 失败或超时，Claude Code 会显示原始文本。此事件的默认超时时间为 10 秒；如果您的 hook 需要更多时间，请在 hook 条目中设置 `timeout` 字段。
 
@@ -2161,8 +2160,10 @@ Claude Code 仅在使用 `-p` 标志的[非交互模式](https://code.claude.com
 
 ### PermissionRequest
 
-在 Claude Code 即将向您请求使用某个工具的权限时运行。在无法显示提示的会话中，例如[非交互模式](https://code.claude.com/docs/zh-CN/headless.md)下的后台子代理，Claude Code 仍会运行这些 hook；如果没有 hook 返回决策，它会拒绝该工具调用。对于到达 `--permission-prompt-tool` 或 Agent SDK [`canUseTool` 回调](https://code.claude.com/docs/zh-CN/agent-sdk/permissions)的调用，hook 会与您的宿主并行运行，以先做出决策的一方为准。
-使用 [PermissionRequest 决策控制](#permissionrequest-decision-control)代表用户允许或拒绝。
+在 Claude Code 即将请求您授予工具使用权限时运行。对于到达 `--permission-prompt-tool` 或 Agent SDK [`canUseTool` 回调](https://code.claude.com/docs/zh-CN/agent-sdk/permissions)的调用，hook 与您的宿主并行运行，先做出决定的一方生效。
+使用 [PermissionRequest 决策控制](#permissionrequest-decision-control)可代表用户允许或拒绝。
+
+在既没有 `--permission-prompt-tool` 也没有 `canUseTool` 回调、且不处于 [`dontAsk` 模式](https://code.claude.com/docs/zh-CN/permission-modes#allow-only-pre-approved-tools-with-dontask-mode)的 `-p` 运行中，没有人能回答权限提示。在这种情况下，原本会提示您的调用会被拒绝，除非有某种机制批准它，例如 PermissionRequest hook。
 
 当您需要在 Claude 请求使用工具权限的那一刻获得信号时，请使用此事件。Claude Code 仅在提示等待约六秒后，才会运行 `permission_prompt` 类型的 [Notification](#notification) hook。
 
@@ -2509,7 +2510,9 @@ PostToolUseFailure hook 接收与 PostToolUse 相同的 `tool_name` 和 `tool_in
 
 ### PermissionDenied
 
-当[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)拒绝工具调用时运行，包括在没有分类器判定的情况下拒绝的情形——原因是[独立于自动模式的安全检查拒绝了分类器自身的请求](https://code.claude.com/docs/zh-CN/errors.md#auto-mode-cannot-determine-the-safety-of-an-action)，或分类器的响应无法解析。此 hook 仅在自动模式下触发：当您手动拒绝权限对话框、`PreToolUse` hook 阻止调用或 `deny` 规则匹配时，它不会运行。可用于记录拒绝日志、调整配置，或告知模型可以重试该工具调用。
+在[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)分类器拒绝工具调用时运行。这包括没有判定结果的拒绝，原因是[独立于自动模式的安全检查拒绝了分类器自身的请求](https://code.claude.com/docs/zh-CN/errors.md#auto-mode-cannot-determine-the-safety-of-an-action)，或分类器的响应无法解析。使用 PermissionDenied 记录拒绝、调整配置，或告诉模型可以重试该工具调用。
+
+当您在权限对话框中拒绝、`PreToolUse` hook 阻止了调用，或 `deny` 规则匹配时，该 hook 不会运行。
 
 按工具名称匹配，取值与 PreToolUse 相同。
 
@@ -2596,9 +2599,9 @@ PermissionDenied hook 可以告知模型可以重试被拒绝的工具调用。�
 >
 > * `permission_prompt` 会在您约六秒未进行输入后出现。计时器在权限提示出现时开始，每次按键都会推迟它。要在 Claude 请求使用工具的权限时立即运行 hook，请改用 [PermissionRequest](#permissionrequest)。
 > * `idle_prompt` 会在 Claude 完成回复约 60 秒后出现，且仅当此后您未进行输入，并且没有后台 Agent（例如后台[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)）仍在运行时。Claude Code 在等待 claude.ai 用量限制重置期间不会发送 `idle_prompt`。当等待自行结束时，会改为触发某个 `quota_auto_resume_*` 类型。
-> * 对于 elicitation 表单会出现 `elicitation_dialog`，对于浏览器 URL 请求会出现 `elicitation_url_dialog`，两者均在您约六秒未进行输入后出现。两者与 `permission_prompt` 共享相同的六秒门槛：计时器在对话框出现时开始，每次按键都会推迟它。
+> * 在您约六秒内没有输入后，对于 elicitation 表单预期会收到 `elicitation_dialog`，对于浏览器 URL 请求预期会收到 `elicitation_url_dialog`。
 >
-> 如果权限请求或 elicitation 在另一个对话框显示于屏幕上时到达，同样适用六秒门槛，从请求到达时开始计时。其通知可能在该请求仍排在已打开对话框之后等待时就送达您。
+> 在另一个对话框显示于屏幕上时到达的权限请求或 elicitation，仍保持相同的六秒计时，从请求到达时开始计算。其通知可能在请求仍排在已打开的对话框之后等待时就送达您。
 
 在 Claude Code 将权限请求发送到 Agent SDK 的 [`canUseTool` 回调](https://code.claude.com/docs/zh-CN/agent-sdk/user-input)的会话中（Claude Desktop 和 VS Code 扩展就是以这种方式托管 Claude Code 的），Claude Code 对 `permission_prompt` 的计时有所不同：
 
@@ -2652,13 +2655,17 @@ PermissionDenied hook 可以告知模型可以重试被拒绝的工具调用。�
 }
 ```
 
-Notification hook 无法阻止或修改通知。Claude Code 会丢弃它们的 `systemMessage` 和 `continue` 字段，但仍会发出 [`terminalSequence`](#emit-terminal-notifications)，桌面通知示例正依赖于此。Notification hook 旨在用于副作用，例如将通知转发到外部服务。
+Notification hook 无法阻止或修改通知。Claude Code 会丢弃它们的 `systemMessage` 和 `continue` 字段，但仍会输出 [`terminalSequence`](#emit-terminal-notifications)。
 
 ### SubagentStart
 
 在 Claude 使用 Agent 工具生成子代理时、在 Claude [恢复子代理](https://code.claude.com/docs/zh-CN/sub-agents.md#resume-subagents)时，以及每次进程内 [agent team](https://code.claude.com/docs/zh-CN/agent-teams.md) 队友处理新消息时运行。支持使用匹配器按 Agent 类型名称进行过滤。对于内置 Agent，这是 Agent 名称，例如 `general-purpose`、`Explore` 或 `Plan`。对于[自定义子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)，这是 Agent frontmatter 中的 `name` 字段，而不是文件名。
 
 对于由[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md)提供的子代理，Agent 类型是插件作用域的标识符，例如 `my-plugin:reviewer`，而不是单纯的 frontmatter 名称。冒号会使插件作用域名称走正则表达式匹配路径，因此请用 `^` 和 `$` 锚定匹配器以实现精确匹配：`^my-plugin:reviewer$`。
+
+> [!NOTE]
+>
+> 对于内置的 [`web-fetch` 子代理](https://code.claude.com/docs/zh-CN/tools-reference#web-fetch-subagent)，Claude Code 仅运行来自托管设置的 `SubagentStart` hook。对于在其他任何位置设置的 hook，请改为在 `PreToolUse` hook 中匹配 `WebFetch`。
 
 #### SubagentStart 输入
 
@@ -2690,17 +2697,21 @@ SubagentStart hook 无法阻止子代理的创建，但可以向子代理注入�
 }
 ```
 
-当 hook 针对同一子代理再次运行时，只有当子代理的上下文中尚未包含之前运行的副本时，Claude Code 才会注入返回的上下文。启动时注入的副本会保留在原处，从而保持子代理的[提示缓存](https://code.claude.com/docs/zh-CN/prompt-caching.md#subagents-and-the-cache)不变。在[自动压缩](https://code.claude.com/docs/zh-CN/sub-agents.md#auto-compaction)丢弃该副本之后，Claude Code 会再次注入下一次运行的上下文。
+当该 hook 针对同一子代理再次运行时，只有当子代理的上下文中尚未包含之前运行时注入的副本时，Claude Code 才会注入返回的上下文。在[自动压缩](https://code.claude.com/docs/zh-CN/sub-agents.md#auto-compaction)丢弃该副本后，Claude Code 会再次注入下一次运行的上下文。
 
 ### SubagentStop
 
 在 Claude Code 子代理完成回复时运行。按 Agent 类型匹配，取值与 SubagentStart 相同。
 
+> [!NOTE]
+>
+> 对于内置的 [`web-fetch` 子代理](https://code.claude.com/docs/zh-CN/tools-reference#web-fetch-subagent)，Claude Code 仅运行来自托管设置的 `SubagentStop` hook。对于在其他任何位置设置的 hook，请改为在 `PostToolUse` hook 中匹配 `WebFetch`。
+
 #### SubagentStop 输入
 
-除了[通用输入字段](#common-input-fields)之外，SubagentStop hook 还会接收 `stop_hook_active`、`agent_id`、`agent_type`、`agent_transcript_path` 和 `last_assistant_message`。`agent_type` 字段是用于匹配器过滤的值。`transcript_path` 是主会话的会话记录，而 `agent_transcript_path` 是子代理自己的会话记录，存储在嵌套的 `subagents/` 文件夹中。`last_assistant_message` 字段包含子代理最终回复的文本内容，因此 hook 无需解析会话记录文件即可访问它。
+除了[通用输入字段](#common-input-fields)之外，SubagentStop hook 还会接收 `stop_hook_active`、`agent_id`、`agent_type`、`agent_transcript_path` 和 `last_assistant_message`。`transcript_path` 是主会话的会话记录，而 `agent_transcript_path` 是子代理自己的会话记录，存储在嵌套的 `subagents/` 文件夹中。`last_assistant_message` 字段包含子代理最终回复的文本内容。
 
-并非每个 SubagentStop 事件都来自 Claude 生成的子代理。Claude Code 还会为其自身的一些功能运行内部 Agent，例如[提示词建议](https://code.claude.com/docs/zh-CN/interactive-mode.md#prompt-suggestions)和 [`/btw` 旁支问题](https://code.claude.com/docs/zh-CN/interactive-mode#side-questions-with-%2Fbtw)，当这些 Agent 完成时也会触发 SubagentStop。对于这些事件，`agent_type` 是会话本身所运行的 Agent 名称，例如通过 [`--agent`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 或 [`agent` 设置](https://code.claude.com/docs/zh-CN/settings-reference#agent)设定的名称；当会话未使用 Agent 运行时，则为空字符串。
+Claude Code 会为其自身的某些功能运行内部 Agent，例如[提示词建议](https://code.claude.com/docs/zh-CN/interactive-mode.md#prompt-suggestions)和 [`/btw` 旁支问题](https://code.claude.com/docs/zh-CN/interactive-mode#side-questions-with-%2Fbtw)，当这些 Agent 完成时也会触发 SubagentStop。对于这些事件，`agent_type` 是会话本身运行所用的 Agent 名称，例如通过 [`--agent`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 或 [`agent` 设置](https://code.claude.com/docs/zh-CN/settings-reference#agent)设置的名称；当会话未使用 Agent 运行时则为空字符串。
 
 指定了 Agent 类型的 `matcher` 不会匹配空的 `agent_type`。匹配器被省略、为 `""` 或 `"*"`，或为可匹配空字符串的正则表达式的 hook，也会针对 `agent_type` 为空的事件运行。
 
@@ -2725,7 +2736,7 @@ SubagentStop hook 还会接收 [Stop 输入](#stop-input)中所述的 `backgroun
 }
 ```
 
-SubagentStop hook 使用与 [Stop hook](#stop-decision-control) 相同的决策控制格式，包括将 `hookEventName` 设置为 `"SubagentStop"` 的 `hookSpecificOutput.additionalContext`，用于提供让子代理继续运行的非错误反馈。返回带有 `reason` 的 `decision: "block"` 会让子代理继续运行，并将 `reason` 作为其下一条指令传递给子代理。通过以退出码 2 退出来进行阻止的 hook 会以相同方式传递其 stderr 消息。要在子代理返回后向父会话注入上下文，请改为在 `Agent` 工具上使用 [`PostToolUse`](#posttooluse) hook。
+SubagentStop hook 使用与 [Stop hook](#stop-decision-control) 相同的决策控制格式，包括将 `hookEventName` 设置为 `"SubagentStop"` 的 `hookSpecificOutput.additionalContext`，用于提供让子代理继续运行的非错误反馈。返回带有 `reason` 的 `decision: "block"` 会让子代理继续运行，并将 `reason` 作为下一条指令传递给子代理。若要在子代理返回后向父会话注入上下文，请改为在 `Agent` 工具上使用 [`PostToolUse`](#posttooluse) hook。
 
 ### TaskCreated
 
@@ -2945,7 +2956,7 @@ Claude Code 设有连续 8 次继续的上限：在 stop hook 连续八次让轮
 
 ### StopFailure
 
-当轮次因 API 错误而结束时，代替 [Stop](#stop) 运行。除 [`terminalSequence`](#emit-terminal-notifications) 之外，Claude Code 会忽略该 hook 的输出和退出码。当 Claude 因速率限制、身份验证问题或其他 API 错误而无法完成回复时，可用于记录失败日志、发送警报或采取恢复操作。
+当轮次因 API 错误而结束时，代替 [Stop](#stop) 运行。除 [`terminalSequence`](#emit-terminal-notifications) 之外，Claude Code 会忽略该 hook 的输出和退出码。可用于记录失败日志、发送警报或执行恢复操作。
 
 #### StopFailure 输入
 
@@ -2969,7 +2980,7 @@ Claude Code 设有连续 8 次继续的上限：在 stop hook 连续八次让轮
 }
 ```
 
-StopFailure hook 没有决策控制。它们仅用于通知和日志记录目的。
+StopFailure hook 没有决策控制。
 
 ### TeammateIdle
 
@@ -3348,7 +3359,7 @@ Claude Code 使用 git 查找已更改或未跟踪的文件，因此对于不是
   * **您退出 worktree 会话，或 Claude 调用 `ExitWorktree`**：Claude Code 会像 `git worktree remove --force` 那样删除您的 WorktreeCreate hook 返回的路径，因此 git 能识别的 worktree 会被删除。git 无法识别的 worktree（例如您的 hook 使用非 git 版本控制系统创建的 worktree）会保留在磁盘上。
   * **`claude remote-control` 清理会话的 worktree**：worktree 保留在磁盘上，运行 `claude remote-control` 的终端会显示 `worktree removal failed, kept: <path>`。
   * **您删除后台会话**：请参阅[删除会话会移除什么](https://code.claude.com/docs/zh-CN/agent-view.md#what-deleting-a-session-removes)。
-* **Hook 以 0 退出**：worktree 被视为已删除。Claude Code 不会从 hook 读取其他任何内容，因此请确保您的 hook 已删除该目录。
+* **hook 以 0 退出**：如果 worktree 的目录仍然存在，请自行移除，因为 Claude Code 不会回退到 git。
 * **Hook 以非零退出**：如果之后 `worktree_path` 处的目录仍然存在，则删除失败，worktree 保留在磁盘上，且不会回退到 git。在以非零退出之前已删除目录的 hook 被视为已删除。有关如何报告该失败，请参阅 [WorktreeRemove 输入](#worktreeremove-input)。
 
 Claude Code 从不删除属于 hook 创建的 worktree 的分支，因为它只知道您的 WorktreeCreate hook 返回的路径。如果您的 WorktreeCreate hook 创建了分支，请在 WorktreeRemove hook 中将其删除。Claude Code 会丢弃 WorktreeRemove hook 的 [JSON 输出字段](#json-output)，例如 `systemMessage` 和 `continue`。
@@ -3388,7 +3399,7 @@ Claude Code 会将 WorktreeCreate 返回的路径作为 hook 输入中的 `workt
 }
 ```
 
-WorktreeRemove hook 的退出码决定结果。当 hook 以非零退出且之后 `worktree_path` 处的目录仍然存在时，删除失败：
+当 hook 以非零值退出，且之后 `worktree_path` 处的目录仍然存在时，移除失败：
 
 * 如果您正在删除后台会话，该会话也会保留。[Agent 视图](https://code.claude.com/docs/zh-CN/agent-view.md#what-deleting-a-session-removes)中的拒绝消息会报告 hook 的结束方式（例如 `exited 1`），引用其 stderr 的开头部分，并说明再次删除该会话是否仍会删除该目录。
 * 如果 `claude remote-control` 正在清理会话的 worktree，运行它的终端会显示 `worktree removal failed, kept: <path>`。
@@ -3455,7 +3466,7 @@ Claude Code 会丢弃 PreCompact hook 的 `systemMessage` 和 `continue` 字段�
 }
 ```
 
-PostCompact hook 没有决策控制。它们无法影响压缩结果，但可以执行后续任务。
+PostCompact hook 没有决策控制。
 
 ### PreModelSwitch
 
@@ -3730,7 +3741,7 @@ matcher 字段与 MCP 服务器名称进行匹配。
   "cwd": "/Users/...",
   "hook_event_name": "Elicitation",
   "mcp_server_name": "my-mcp-server",
-  "message": "Please provide your credentials",
+  "message": "Please provide your username",
   "mode": "form",
   "requested_schema": {
     "type": "object",

@@ -76,25 +76,25 @@ To add Claude for Intune for enrolled company-owned devices:
 
 1. In the Microsoft Intune admin center, select "Apps" from the left side navigation panel:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700192269/ce2bf95a18aba11042da50f4c1ad/dda0f9a2-d585-4b09-ae4f-a1ff70b1e010?expires=1795269600&amp;signature=9cddade3c25d37fcf7c1e5007b357ee13b2be781ede0add9bbaaf6248a591667&amp;req=dicnFsh3n4NZUPMW1HO4ze7khjTT5GJmAMLV2Uu0R4WW6FN%2B0JNqh3OyE75r%0AiU0V%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700192269/ce2bf95a18aba11042da50f4c1ad/dda0f9a2-d585-4b09-ae4f-a1ff70b1e010?expires=1795451400&amp;signature=fa1f8d660c6a672c1c57d7d9e0207fd70bb50c4e1d3858885fec3424159ea982&amp;req=dicnFsh3n4NZUPMW1HO4ze7khjTV52pkAMLV2Uu0R4X6OCpF2JKrkppzMXnW%0AVe3l%0A)
 
 2. Under Platforms, select "iOS/iPadOS":
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700195036/b70c6c0bdeff5f2b72568ef4943b/67cc834c-5e91-42da-9d3b-1f32c8dd8c05?expires=1795269600&amp;signature=b2be9e2b741a0ac89ee4e767f76870a46e2c1f2175930877ede425a93b838f27&amp;req=dicnFsh3mIFcX%2FMW1HO4zeH1oUjlt3qSQ7hR7Wh%2Bi72v30lxK%2BE4CWtiYj34%0A4bQ%2F%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700195036/b70c6c0bdeff5f2b72568ef4943b/67cc834c-5e91-42da-9d3b-1f32c8dd8c05?expires=1795451400&amp;signature=0b063f9d6539052642f2ef6be68dea1b4e7a4488276e4453a9e0b4feed54ed4f&amp;req=dicnFsh3mIFcX%2FMW1HO4zeH1oUjjtHKQQ7hR7Wh%2Bi721zccKnof2pEJjtY5P%0AwyGo%0A)
 
 3. Click "+ Create." For the App type, select the "iOS store app," and click the "Select" button on the bottom:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700195791/9a01290b4189e6a39c473af0a448/cfed06da-f35a-4b22-b687-286ea48864c1?expires=1795269600&amp;signature=410db976839ba003e8d00346e985659213f436be6d77dc3410a26938611e18d5&amp;req=dicnFsh3mIZWWPMW1HO4zTni3cMrZJcq2SRx6amjj9EWIVWcK6SLsFwzU1%2F0%0ABTEH%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700195791/9a01290b4189e6a39c473af0a448/cfed06da-f35a-4b22-b687-286ea48864c1?expires=1795451400&amp;signature=614bc481a9e67c346eea4d72e3b417a883472516b225062a7aea39e9c952325f&amp;req=dicnFsh3mIZWWPMW1HO4zTni3cMtZ58o2SRx6amjj9F%2BJBmO2STJdgZv0GOK%0AVW2Z%0A)
 
 4. Search "Claude Intune" and click the "Select" button on the bottom.
 
 5. In **App Information**, set **Minimum operating system** to iOS 18, then click the "Next" button:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700196458/588327ab209e9524c45111a244a1/258697c2-2f82-471b-9104-2bccb1b01614?expires=1795269600&amp;signature=891c8259ce70e4fe6b41cfd95b54bb899958a7d51e1ed7e15881afd072f37314&amp;req=dicnFsh3m4VaUfMW1HO4zbxl5Y1VcTsoDNNSLAHCCFr3VOSPS34ldqGgnQlj%0ArbzE%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700196458/588327ab209e9524c45111a244a1/258697c2-2f82-471b-9104-2bccb1b01614?expires=1795451400&amp;signature=0922eaf35dc27ecd136210f72c32b6412da90e81c34bf2c7b4ffcb53998ebe72&amp;req=dicnFsh3m4VaUfMW1HO4zbxl5Y1TcjMqDNNSLAHCCFotqOWgAKUD%2Bw%2BNfgnN%0ArzoW%0A)
 
 6. For **Assignments**, add the groups that should get the app: under Required to install it automatically, or under Available for enrolled devices so employees can install it from Company Portal. You can use user groups or device groups.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2741107114/8f15b0d179a54c2ca4effaad8577/55bed25a-4b20-47b0-9e89-7f8adc86c04f?expires=1795269600&amp;signature=d28d47ede1713a53be600c6b6f34e6320c050cdeada5881541fe822d730a3c9d&amp;req=dicjF8h%2BmoBeXfMW1HO4zYaZMe2%2Bf%2FqYmN%2B6UXepdg%2FBczK%2FcgTPGfTa0Bhx%0AvTKt%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2741107114/8f15b0d179a54c2ca4effaad8577/55bed25a-4b20-47b0-9e89-7f8adc86c04f?expires=1795451400&amp;signature=c9d4713affcd19e3550030c0374a24a9c93c7a147582f1d596fc21c22a251c03&amp;req=dicjF8h%2BmoBeXfMW1HO4zYaZMe24fPKamN%2B6UXepdg8L5bBmTSocDXGEats0%0AUFpk%0A)
 
 7. Click "Next," review and create.
 
@@ -104,27 +104,27 @@ To add Claude for Intune for enrolled company-owned devices:
 
 1. In the Microsoft Intune admin center, select "Apps" from the left side navigation panel:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700190760/9f6412fe68632cffee29826f7d30/42fdeb30-64af-4089-a976-5094bb6b8292?expires=1795269600&amp;signature=f945e06260cf5f8effee4e74614594e222bd1144c9921d59a5e610ef611c42f6&amp;req=dicnFsh3nYZZWfMW1HO4zQwrZI8AVds6LtTCoSp4D6p5X4V5x5SPHGAZoxjl%0Aq8pJ%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700190760/9f6412fe68632cffee29826f7d30/42fdeb30-64af-4089-a976-5094bb6b8292?expires=1795451400&amp;signature=a80c77a05d715afbdd04a27228e677a99ccd088bf11557abe164e85f7e86f026&amp;req=dicnFsh3nYZZWfMW1HO4zQwrZI8GVtM4LtTCoSp4D6ojCsETXSjQFDEbOdHv%0AmDmb%0A)
 
 2. Under **Manage apps**, select "Protection":
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700200858/a7ddd4265aeb6d61a7a096297cd5/fc9a1fe2-3d0e-4038-9b2c-f96bd19e4020?expires=1795269600&amp;signature=f8fa07b13381394f125284ce630c26fccbf53cd10262b39a00dedc399ccbff9b&amp;req=dicnFst%2BnYlaUfMW1HO4zeBHXBo%2F8%2FTrnJWY0xu8hzKOVSI1w325%2FMYJPC4m%0A1hga%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700200858/a7ddd4265aeb6d61a7a096297cd5/fc9a1fe2-3d0e-4038-9b2c-f96bd19e4020?expires=1795451400&amp;signature=994f80d635e7efde338bd9f0c0ce7e80c07adca597c6d64125e1f1b93aff1e0f&amp;req=dicnFst%2BnYlaUfMW1HO4zeBHXBo58PzpnJWY0xu8hzIfhNJ5ZJw8oJsgp5XJ%0AxVLY%0A)
 
 3. Click "+ Create" and then select "iOS/iPadOS":
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700201382/6240e257b2b498b5fa5ac1111561/11ef4f59-aba1-4d2b-ac58-9aec1dd60a4d?expires=1795269600&amp;signature=0a8371069c5703b40b952a703fdea1a6386f24981aa77135aef3cb7a4b82f550&amp;req=dicnFst%2BnIJXW%2FMW1HO4zc89y05UBHNIV2VWh%2B9zzEojiOwlMOoCa3P15NUN%0AsfaB%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700201382/6240e257b2b498b5fa5ac1111561/11ef4f59-aba1-4d2b-ac58-9aec1dd60a4d?expires=1795451400&amp;signature=4756c5e74c8125118a5d0145c2fae77da128949d9e7e40afb6ec8422f28425ae&amp;req=dicnFst%2BnIJXW%2FMW1HO4zc89y05SB3tKV2VWh%2B9zzEo8egkLRL108YDqEJUM%0Av37U%0A)
 
 4. Enter Name in the **Basics** tab, then click "Next" to **Apps**. Set **Target policy to** "Selected apps." Click "+ Select custom apps":
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700201929/2edf45cedc0bc03204f86d01a49e/4d96c12d-962b-43f6-8b3f-668e3247d4c1?expires=1795269600&amp;signature=0d09b298a76f13989f772c6ca81c40a5f8c284d21230f32c69ca2bb065464040&amp;req=dicnFst%2BnIhdUPMW1HO4zVmMRJQWVTQOKETwku7gMsvVcPlqTWq%2F3TwiHPzh%0A5K58%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700201929/2edf45cedc0bc03204f86d01a49e/4d96c12d-962b-43f6-8b3f-668e3247d4c1?expires=1795451400&amp;signature=7817177bea8671d1bb4e8a26f9ca22e2cc5850724ae9ea339b44f078a6a9f53f&amp;req=dicnFst%2BnIhdUPMW1HO4zVmMRJQQVjwMKETwku7gMsu9GETS5%2FwSvBoBJ9yN%0AZVEV%0A)
 
 5. Type in the bundle ID `com.anthropic.claudeforintune`. Select it so it appears under **Selected Apps** before clicking "Select":
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700202816/3565aea2d1b9c22a5f8d105825c5/3de6d241-6259-463e-a503-a6ca9f2095e0?expires=1795269600&amp;signature=cedd53249d2154c5c6c51af35cdddedb5e71bf0f53326a67b07920f167cd5b42&amp;req=dicnFst%2Bn4leX%2FMW1HO4zf6tYiYqzqNx12LT9vQL0W7Gt3OauHKj2ZOG0j2I%0Ajg4E%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700202816/3565aea2d1b9c22a5f8d105825c5/3de6d241-6259-463e-a503-a6ca9f2095e0?expires=1795451400&amp;signature=ce245cd77c92968d153a9c5768c9ecbee93d232f69c5fa306010c0cf30f76992&amp;req=dicnFst%2Bn4leX%2FMW1HO4zf6tYiYszatz12LT9vQL0W7tg%2BQqBfNJlmRrnqBT%0Ak%2Fk1%0A)
 
 6. In Apps, confirm the bundle ID now appears under **Custom apps** before clicking "Next":
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700203780/24ed354ef0de87bf0a0c1bc129a1/46eed662-f488-48ee-a4d1-8a9a76079884?expires=1795269600&amp;signature=0f82d57a49f3edbe8cc556058729e978e34b81d707ff9a50bfd0436ae2458701&amp;req=dicnFst%2BnoZXWfMW1HO4zQd95NCI3cHZ8F6Cfy2R7u%2FTTvSeDN4v%2FKFmRRUb%0Aa8H8%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2700203780/24ed354ef0de87bf0a0c1bc129a1/46eed662-f488-48ee-a4d1-8a9a76079884?expires=1795451400&amp;signature=dc3a569c728bf79936d8b4e29afa5a1acaa7cd3a0d334f16b333427a24d9e173&amp;req=dicnFst%2BnoZXWfMW1HO4zQd95NCO3snb8F6Cfy2R7u%2FNEPUrx1a1M%2FyCH1ZI%0AgD1Z%0A)
 
 7. Configure the Data protection, Access requirements, and Conditional launch settings as needed.
 

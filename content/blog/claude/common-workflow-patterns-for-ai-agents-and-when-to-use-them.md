@@ -11,7 +11,7 @@ Reading time13 min
   -
 ShareCopy link
 [AI agents](https://www.anthropic.com/research/building-effective-agents) make decisions autonomously, and workflows are how you bring structure to that autonomy. They establish execution patterns that channel agent capabilities toward complex problems requiring coordinated steps, predictable outcomes, and orchestrated timing.
-When you need multiple agents working together, the real decision is which pattern fits your problem.
+When you need multiple agents working together, the real decision is [which pattern fits your problem](https://claude.com/resources/articles/multi-agent-coordination-patterns).
 We've worked with dozens of teams building AI agents, and in production, three patterns cover the vast majority of use cases: sequential, parallel, and evaluator-optimizer.
 Each solves different problems, and picking the wrong one costs you in latency, tokens, or reliability. This piece breaks down all three, with guidance on when each fits and how to combine them.
 ## **How workflows and agents work together**

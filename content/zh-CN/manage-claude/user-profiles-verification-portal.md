@@ -185,7 +185,7 @@ Anthropic 运营着一些计划，组织可以在 Verification Portal（验证�
 
 关联本身不会批准任何内容。它将配置文件连接到终端客户的组织，使该组织已获批准的计划适用于携带该配置文件 ID 的请求，但 Cyber Verification Program 访问级别除外，这些访问级别由终端客户在门户中为每个已关联的配置文件单独开启。配置文件中没有表明其已关联的字段。
 
-要查看哪些计划适用于某个配置文件，请[检索该配置文件](https://platform.claude.com/docs/zh-CN/api/user_profiles/retrieve)并读取 `programs`。它为每个计划提供一个键，例如 `cyber` 和 `efs`，并且每个配置文件都包含所有键。每个键的值为以下之一：
+要查看哪些计划适用于某个配置文件，请[检索该配置文件](https://platform.claude.com/docs/zh-CN/api/user_profiles/retrieve)并读取 `programs`。它为每个计划提供一个键，例如 `cyber`，并且每个配置文件都包含所有键。每个键的值为以下之一：
 
 * `null`：Anthropic 没有可报告的该计划状态。如果 Anthropic 尚未为您的组织启用计划，则每个键都为 `null`。
 * 一个对象：当该计划适用于该配置文件时，其 `status` 为 `active`，否则为 `pending` 或 `rejected`。

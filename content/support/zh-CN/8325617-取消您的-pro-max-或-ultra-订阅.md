@@ -14,13 +14,13 @@
 
 ## 在 Claude 和 Claude Desktop 上取消您的 Pro、Max 或 Ultra 订阅
 
-如果您在 Claude 网页版（**[claude.ai](https://claude.ai)**）或 Claude Desktop（Mac、Windows 或 Linux）上注册了付费计划，请先在网络浏览器中登录您的账户或打开桌面应用。点击左下角的您的首字母或名字，从菜单中选择 “设置”。导航到 **[设置 > 账单](https://claude.ai/settings/billing)** 并点击 “取消” 按钮。
+如果您在 Claude 网页版（**[claude.ai](https://claude.ai)**）或 Claude Desktop（Mac、Windows 或 Linux）上注册了付费计划，请先在网络浏览器上登录您的账户或打开桌面应用。点击左下角的您的首字母或名字，从菜单中选择 “设置”。导航到 **[设置 > 账单](https://claude.ai/settings/billing)** 并点击 “取消” 按钮。
 
 ## 在 Claude iOS 版本上取消您的 Pro、Max 或 Ultra 订阅
 
 如果您通过 Claude iOS 版本订阅了 Pro、Max 或 Ultra 计划，您的订阅和付款将直接在您的 iOS 设备上处理。
 
-要取消您的订阅，请点击 Claude iOS 版本右上角的您的首字母，然后从菜单选项中点击 “账单”。选择 “管理订阅” 并按照取消提示操作。如果您已从设备中删除该应用，您也可以按照此 App Store 资源中的说明取消订阅：**[如果您想取消 Apple 的订阅](https://support.apple.com/en-us/118428)**。
+要在 Claude iOS 版本上取消您的订阅，请打开侧边菜单，点击底部的齿轮图标或您的首字母，然后点击 “账单。” 选择 “管理订阅” 并按照取消提示操作。如果您已从设备中删除该应用，您也可以按照此 App Store 资源中的说明取消订阅：**[如果您想取消 Apple 的订阅](https://support.apple.com/en-us/118428)**。
 
 您可以随时从您注册的平台上取消您的 Pro、Max 或 Ultra 订阅。为避免被收取下一个计费周期的费用，请在下一个计费日期前至少 24 小时取消您的订阅。
 

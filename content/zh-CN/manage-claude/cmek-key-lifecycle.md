@@ -16,7 +16,7 @@ description: 对您的密钥执行的每项操作会对您的数据产生什么�
 | ----- | ----- | ----- |
 | 将密钥附加到工作区（在 Claude Enterprise 上，将其添加到组织） | 您的密钥保护[其生效后](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-how-it-works#when-your-key-takes-effect)写入的数据。在 Claude Platform 上，附加操作还会锁定该工作区的[数据保留设置](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#data-retention)。 | 否。该密钥无法移除或替换。 |
 | 在同一密钥内轮换密钥材料 | 您在自己的 KMS 中按自己的计划轮换。轮换无需在 Claude 中执行任何操作。 | 无需撤消。请保持较早的密钥版本处于启用状态。 |
-| 禁用密钥，或移除（撤销）Anthropic 对您的密钥的访问权限 | 该更改最多可能需要 1 小时才能应用，在这一小时内进行中的请求可能仍会成功。此后，Claude 无法读取或写入该密钥保护的数据，请求会失败。 | 重新启用密钥，或恢复 Anthropic 对您的密钥的访问权限。[有两项限制](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-key-lifecycle#restore-access)。 |
+| 禁用密钥，或移除（撤销）Anthropic 对您的密钥的访问权限 | 该更改最多可能需要 1 小时才能应用，在这一小时内进行中的请求可能仍会成功。此后，请求会失败。在您禁用密钥后约一小时内，Anthropic 将无法再解密您的密钥所保护的数据。 | 重新启用密钥，或恢复 Anthropic 对您的密钥的访问权限。有两项限制。请参阅[禁用的作用，以及哪些内容可以恢复](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-key-lifecycle#restore-access)。 |
 | 在您的 KMS 中删除密钥、安排删除密钥，或销毁其密钥材料 | Anthropic 无法恢复该密钥保护的数据。 | Anthropic 无法撤消。Anthropic 不保留您的密钥的任何副本。 |
 | 在 Claude 中删除该密钥的记录（Claude Console 中的**删除加密密钥**） | 仅当没有任何工作区（包括已归档的工作区）使用该密钥时，您才能执行此操作。 | 否。 |
 
@@ -25,6 +25,8 @@ description: 对您的密钥执行的每项操作会对您的数据产生什么�
 密钥处于禁用状态时，使用该密钥的工作区中的 Messages API 请求会返回[代码为 `cmek_key_disabled` 的 400 错误](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-troubleshooting#cmek-key-disabled)。
 
 重新启用密钥，或恢复 Anthropic 对您的密钥的访问权限，即可恢复对该密钥保护的数据的访问。有两项限制：密钥禁用期间失败的请求不会被重试；禁用密钥不会暂停保留期。
+
+在 Claude API 上，使用[组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#encryption-key-events)（beta）的组织可以在有人禁用密钥或移除 Anthropic 的访问权限后收到一个事件。在密钥恢复正常工作时，该组织会再收到一个事件。对于不发送事件的情况，请参阅[加密密钥事件何时可能不会到达](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#when-an-encryption-key-event-might-not-arrive)。
 
 ## 如果 Anthropic 无法连通您的密钥
 

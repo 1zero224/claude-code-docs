@@ -9,7 +9,7 @@ featureMetadata:
 了解如何以密码学方式验证没有任何[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)事件在提交到您组织的透明度日志后被删除或篡改。
 
 <Note>
-  透明度日志目前处于 beta 阶段，其端点和响应结构在 beta 期间可能会发生变化。它是访问透明度的一部分，访问透明度应请求向符合条件的客户提供，不支持自助开通（请参阅[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)）。一旦启用访问透明度，Anthropic 就会为您的组织维护一个透明度日志。您可以通过 Compliance API 读取它，所用的密钥和权限范围与[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)相同。
+  透明度日志目前处于 beta 阶段，其端点和响应结构在 beta 期间可能会发生变化。它是访问透明度的一部分，访问透明度向符合条件的客户提供（请参阅[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)）。一旦启用访问透明度，Anthropic 就会为您的组织维护一个透明度日志。您可以通过 Compliance API 读取它，所用的密钥和权限范围与[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)相同。
 
   启用后，当您的组织记录第一个访问透明度事件时，您的日志即被创建。在此之前，所有透明度日志端点都会返回 `404`。
 

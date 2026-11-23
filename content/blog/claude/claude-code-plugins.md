@@ -11,7 +11,7 @@ Reading time5 min
   -
 ShareCopy link
 ### Share your Claude Code setup with plugins
-Slash commands, agents, MCP servers, and hooks are all extension points you can use to customize your experience with Claude Code. As we've rolled them out, we've seen users build increasingly powerful setups that they want to share with teammates and the broader community. We built plugins to make this easier.
+Slash commands, agents, MCP servers, and [hooks](https://claude.com/resources/articles/how-to-configure-hooks) are all extension points you can use to customize your experience with Claude Code. As we've rolled them out, we've seen users build increasingly powerful setups that they want to share with teammates and the broader community. We built plugins to make this easier.
 Plugins are a lightweight way to package and share any combination of:
   - **Slash commands**: Create custom shortcuts for frequently-used operations
   - **Subagents**: Install purpose-built agents for specialized development tasks

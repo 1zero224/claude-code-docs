@@ -790,7 +790,7 @@ Anthropic 建议您至少以 30 天滚动周期记录您的活动，以便了解
 
 [对话中系统消息](https://platform.claude.com/docs/zh-CN/build-with-claude/mid-conversation-system-messages)可通过 InvokeModel API 用于 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Opus 4.8、Claude Sonnet 5.5 和 Claude Haiku 5.5。此功能在 Claude Sonnet 5 上不可用，请改用顶层 `system` 字段。对于本页模型表中的其他模型，此功能也不可用。
 
-在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1 和 Claude Opus 5.5 上，`role: "system"` 消息还可以设置 `output_config.effort` 以[在对话中更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)。此功能处于 beta 阶段：请将 `mid-conversation-output-config-2026-07-01` 添加到请求体中的 `anthropic_beta` 数组。如果未添加该值，或在 Claude Fable 5、Claude Opus 5 或 Claude Opus 4.8 上使用，请求将返回 400 错误：`messages.N.output_config: Extra inputs are not permitted`。错误中的 `N` 是该 `system` 消息在 `messages` 中的索引。
+在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1 和 Claude Opus 5.5 上，`role: "system"` 消息还可以设置 `output_config.effort` 以[在对话中更改 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message)。此功能处于 beta 阶段：请将 `mid-conversation-output-config-2026-07-01` 添加到请求体中的 `anthropic_beta` 数组。如果未添加该 beta，或在 Claude Fable 5、Claude Opus 5 或 Claude Opus 4.8 上使用，请求将返回 400 错误：`messages.N.output_config: Extra inputs are not permitted`。错误中的 `N` 是该 `system` 消息在 `messages` 中的索引。
 
 **对于 Converse API 用户：** Converse API 通过其顶层 [`system` 参数](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html)接受系统指令。如需在对话中添加系统指令，请使用 InvokeModel API。
 

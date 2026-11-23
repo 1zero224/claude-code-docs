@@ -194,7 +194,9 @@ API key has expired.
 
 ## 403 Forbidden
 
-`x-api-key` 中的密钥有效，但不具备端点所接受的权限范围（scope）。原样消息会列出该密钥具备的权限范围（`Got:`）以及端点接受的权限范围（读取端点上为 `Needed one of:`，表示具备所列任意一个权限范围即可；删除端点上为 `Needed:`），因此您无需重新查看 Claude Console 或 claude.ai 即可确认密钥具备哪些权限范围。在读取端点上，接受列表中还包括 `read:org_audit`，这是一个只读审计权限范围，涵盖所有 Compliance API 读取端点；请参阅[为 Claude Enterprise 密钥选择权限范围](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys#choose-scopes-for-a-claude-enterprise-key)。Compliance Access Key 的权限范围在创建后不可更改，因此每个权限范围不足的修复方法都会指导您创建新密钥，而不是编辑现有密钥。独立的 Claude Console 组织（没有父组织的组织）无法创建 Compliance Access Key，因此需要此类密钥的修复方法不适用于它；它只能查询活动源。
+`x-api-key` 中的密钥有效，但不具备端点所接受的权限范围（scope）。原样消息会列出该密钥具备的权限范围（`Got:`）以及端点接受的权限范围（读取端点上为 `Needed one of:`，表示具备所列任意一个权限范围即可；删除端点上为 `Needed:`），因此您无需重新查看 Claude Console 或 claude.ai 即可确认密钥具备哪些权限范围。在读取端点上，接受列表中还包括 `read:org_audit`，这是一个只读审计权限范围，涵盖所有 Compliance API 读取端点；请参阅[为 Claude Enterprise 密钥选择权限范围](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys#choose-scopes-for-a-claude-enterprise-key)。Compliance Access Key 的权限范围在创建后不可更改，因此每个权限范围不足的修复方法都会指导您创建新密钥，而不是编辑现有密钥。
+
+独立的 Claude Console 组织（没有父组织的组织）无法创建 Compliance Access Key，因此需要此类密钥的修复方法不适用于它；它只能查询活动源。
 
 ### 作用域不足：活动源
 

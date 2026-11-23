@@ -291,8 +291,7 @@ ArticleNov 13, 2026
 Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
 Claude Platform
 ](https://claude.com/resources/articles/building-always-on-agents)[
-ArticleNov 10, 2026
-### How Curative is building a national provider network with agents on Claude
-Curative’s deal-making agent negotiates 2,000+ provider contracts a week.
-Claude PlatformClaude Code
-](https://claude.com/resources/articles/how-curative-is-building-a-national-provider-network-with-agents-on-claude)
+ArticleNov 12, 2026
+### Using Claude Opus 5.5 as your daily driver for knowledge work
+Opus 5.5 is the default model in Claude on Pro, Max, Ultra, and Team plans. Here's how it compares with our other models, and how to get the most from it for knowledge work.
+](https://claude.com/resources/articles/using-claude-opus-5-5-as-your-daily-driver-for-knowledge-work)

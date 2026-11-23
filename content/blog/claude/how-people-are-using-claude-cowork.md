@@ -44,6 +44,10 @@ The sample is collected at a capped rate—a fixed maximum number of sessions pe
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
+ArticleNov 13, 2026
+### Building strong safety evaluations
+Recommendations for designing, running, and reporting safety evaluations, based on our own experiences.
+(opens in new tab)](https://www.anthropic.com/research/building-strong-safety-evaluations)[
 ArticleNov 9, 2026
 ### Claude can design electronic prototypes from start to finish
 We asked Claude to design three electronic devices: a speakerphone, a voice-assistant hub, and a handheld virtual pet. The prototypes worked without any fixes to their circuitry.
@@ -57,8 +61,4 @@ ArticleOct 22, 2026
 ### Building agents: When to fold subagents into your main agent loop
 When building agents in Claude Platform, using fewer subagents in favor of progressively disclosed context and tools can improve quality while reducing cost and latency. Here’s when and how to migrate.
 Claude Platform
-](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)[
-ArticleOct 22, 2026
-### LLMs are making formal software verification feasible at a much larger scale
-We need ways to prove that code is free of bugs. Formal software verification could provide this guarantee.
-(opens in new tab)](https://www.anthropic.com/research/formal-verification)
+](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)

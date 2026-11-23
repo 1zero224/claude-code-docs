@@ -272,7 +272,7 @@ Claude 会失去您省略的推理。可以省略最早的块、最新的块或�
 
 如果其他人的请求经过您的代码，您的改写会更改他们的历史记录，而他们可能无法看到或修复这些更改。不要隐藏 400 错误。如果您为调用方进行了恢复，请告知对方，因为他们的历史记录中仍然包含该更改。
 
-* 按原样传递 `anthropic-beta` 值和 `thinking.block_binding`。如果您的网关只允许已知字段，请添加 `thinking.block_binding` 和标头值 `thinking-binding-controls-2026-08-01`，否则您的用户无法选择 `"drop_block"`。
+* 按原样传递 `anthropic-beta` 标头和 `thinking.block_binding`。如果您的网关只允许已知字段，请添加 `thinking.block_binding`，并在该标头中添加 `thinking-binding-controls-2026-08-01` beta，否则您的用户无法选择 `"drop_block"`。
 * 不要在移除 beta 标头的同时转发该设置。这样的请求会收到 400 错误。
 * 将文本为空的思考块以及 `input_transformations` 数组返回给调用方。
 * 将 `role: "system"` 消息保留在原位。将其移入 `system` 会使对话中已有的思考失效。

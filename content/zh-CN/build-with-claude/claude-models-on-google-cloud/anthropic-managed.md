@@ -665,11 +665,11 @@ Go 和 Java 与其他 SDK 有所不同：
 
 当 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 处于关闭状态时，它不会记录活动事件。您之后无法恢复这些事件。关于该设置还会改变哪些内容，请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
 
-要为设置过程创建的 Anthropic 组织开启或关闭 Compliance API，请按以下步骤操作：
+要更改设置过程创建的 Anthropic 组织的 Compliance API 设置，请按以下步骤操作：
 
 1. [打开 Claude Console](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#using-the-claude-console)。
 2. 前往 [Claude Console 中的合规页面](https://platform.claude.com/settings/security)（`platform.claude.com/settings/security`）。
-3. 打开或关闭 **Compliance API** 开关。
+3. 使用 **Compliance API** 开关。
 
 #### 客户管理的加密密钥
 

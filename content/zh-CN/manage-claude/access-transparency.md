@@ -12,7 +12,7 @@ description: 通过 Compliance API 接收 Anthropic 人员对您组织数据进�
   * Anthropic 员工每次人工查看您的留存数据（请参阅[涵盖的内容](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#what-access-transparency-covers)）时，都会向您的 [Compliance API 活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)写入一条 `anthropic_access` 活动。
   * 访问仅出于安全审查或事件响应的目的而发生。请参阅[原因代码](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#reason-codes)。
 
-  访问透明度可应符合条件的客户请求提供，并非自助开通。有关资格要求，请参阅您的合同条款或联系您的 Anthropic 客户代表。当 Anthropic [批准您的整个组织使用客户管理密钥](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)时，也会启用访问透明度。您无法在 Claude Console 中或通过 API 关闭访问透明度。
+  访问透明度可供符合条件的客户使用。有关资格要求，请参阅您的合同条款或联系您的 Anthropic 客户代表。当 Anthropic [批准您的整个组织使用客户管理密钥](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)时，也会启用访问透明度。您无法在 Claude Console 中或通过 API 关闭访问透明度。
 </Note>
 
 ## 访问透明度的工作原理
@@ -73,7 +73,7 @@ Anthropic 人员仅在明确规定的条件下访问客户内容。访问透明�
 1. [开启 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)。
 2. 使用 [Compliance Access Key 或 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#which-key-do-you-need)读取[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)。请在开启 Compliance API 之后创建 Admin API 密钥，因为之前创建的密钥无法读取活动源。
 
-在 Claude Platform on AWS 上，请让您的 Anthropic 客户代表开启 Compliance API。然后使用 [`ListComplianceActivities` IAM 操作](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#compliance)读取活动源。
+在 Claude Platform on AWS 上，请使用 Admin 角色从 AWS Console 登录 Claude Console。在[合规](https://platform.claude.com/settings/security)页面上开启 **Compliance API** 开关。然后，读取活动源。您的 IAM 策略必须允许用于该开关的 `UpdateComplianceSettings` 以及用于活动源的 [`ListComplianceActivities`](https://platform.claude.com/docs/zh-CN/api/claude-platform-on-aws-iam-actions#compliance)。`AnthropicFullAccess` 策略包含这两项。
 
 并非每个使用 CMEK 的组织都启用了访问透明度。例如，在以下情况下可能未启用：
 
@@ -216,7 +216,7 @@ JSON 消息示例：
 
 ### 自动化处理不会生成访问事件
 
-`anthropic_access` 事件仅记录人工访问。Anthropic 的自动化安全系统和分类器在正常运行过程中会继续处理您的内容，该处理不会生成 `anthropic_access` 事件。自动化处理唯一可能触发的事件是 `cmek_preserve` 保全记录（请参阅 [CMEK 内容保全](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#cmek-content-preservation)）。活动源为空意味着 Anthropic 没有任何人查看过您的内容；这并不意味着您的内容未被自动化系统处理。
+`anthropic_access` 事件仅记录人工访问。Anthropic 的自动化安全系统和分类器在正常运行过程中会继续处理您的内容，该处理不会生成 `anthropic_access` 事件。自动化处理唯一可能触发的事件是 `cmek_preserve` 保全记录（请参阅 [CMEK 内容保全](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#cmek-content-preservation)）。活动源为空意味着 Anthropic 没有任何人查看过访问透明度涵盖的您的内容；这并不意味着您的内容未被自动化系统处理。
 
 ### 访问透明度不会改变 Anthropic 可以访问的内容
 

@@ -43,7 +43,7 @@ featureMetadata:
 默认情况下，每个 Managed Agents 会话都以全新的上下文开始。当会话结束时，智能体积累的任何状态都会消失。"Memory store"（记忆存储）让智能体能够跨会话携带信息：用户偏好、项目约定、先前的错误以及领域上下文。
 
 <Note>
-  不要在记忆存储请求中将 `agent-memory-2026-07-22` 与 `managed-agents-2026-04-01` 组合使用：同时发送两者会返回 `400` 错误。如果您的代码显式设置了 beta 请求头，请在记忆存储调用中将 `managed-agents-2026-04-01` 替换为 `agent-memory-2026-07-22`，而不是添加第二个值。会话端点（包括将记忆存储附加到会话）仍然使用 `managed-agents-2026-04-01`。
+  不要在记忆存储请求中将 `agent-memory-2026-07-22` 与 `managed-agents-2026-04-01` 组合使用：同时发送两者会返回 `400` 错误。如果您的代码显式设置了 beta 请求头，请在记忆存储调用中将 `managed-agents-2026-04-01` 替换为 `agent-memory-2026-07-22`，而不是添加第二个 beta。会话端点（包括将记忆存储附加到会话）仍然使用 `managed-agents-2026-04-01`。
 
   `GET /v1/memory_stores/{memory_store_id}/memories` 在任一请求头下的行为相同：结果以稳定的、由服务器定义的顺序返回，并且 `path_prefix` 和 `depth` 的应用方式相同。
 </Note>

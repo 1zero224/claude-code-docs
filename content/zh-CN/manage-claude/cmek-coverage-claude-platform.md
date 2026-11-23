@@ -12,6 +12,7 @@ description: 查看您的密钥加密哪些 Claude Platform 数据、哪些功�
 * 文件和附件，无论是随请求内联发送，还是通过 Files API 上传。
 * MCP 和工具配置。
 * [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview)（测试版）数据，包括智能体配置、环境、webhook、会话及其事件、[记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/memory)（测试版）及其记忆和记忆版本，以及[梦境](https://platform.claude.com/docs/zh-CN/managed-agents/dreams)（研究预览）。
+* [组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#if-your-default-workspace-uses-an-encryption-key)（测试版）：端点名称、描述和签名密钥，前提是您的[默认工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#how-workspaces-work)使用密钥。
 * 静态存储的 Batch API 和 Skills API 数据。
 * 由网络搜索、网络获取、代码执行、bash、文本编辑器、MCP 连接器（测试版）、结构化输出、顾问工具（测试版）、计算机使用、浏览器使用和上下文管理（测试版）静态存储的工具数据。
 * 备份和快照，它们继承该密钥。
@@ -26,7 +27,7 @@ description: 查看您的密钥加密哪些 Claude Platform 数据、哪些功�
 | ----- | ----- |
 | Claude Console 中的 Playground | 关闭。 |
 | 结构化输出，包括工具上的 `strict: true`，搭配 Claude Fable 或 Claude Mythos 模型 | 在 CMEK 组织中关闭。使用其他模型时，结构化输出静态存储的数据[使用您的密钥加密](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-coverage-claude-platform#encrypted-with-your-key)。 |
-| [组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#errors)（测试版） | 对于默认工作区使用密钥的组织关闭。请求返回 400 错误。 |
+| [组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#if-your-default-workspace-uses-an-encryption-key)（测试版） | 在 Claude API 上保持可用。在 Anthropic 无法使用您的默认工作区的密钥期间，依赖该密钥的组织 webhook 端点会丢失其事件。 |
 | 零数据保留（ZDR） | 使用您的密钥的工作区会保留数据。请参阅 [CMEK、数据保留和 ZDR](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention)。 |
 
 ## 使用 Anthropic 的密钥加密
@@ -40,6 +41,7 @@ description: 查看您的密钥加密哪些 Claude Platform 数据、哪些功�
 | 活动源、审计日志以及 OpenTelemetry（测试版）等遥测网络流量 | 保留在 Anthropic 的密钥下，以便即使您的密钥无法使用，您也能保持合规。 |
 | Claude Managed Agents（测试版）[保管库凭据](https://platform.claude.com/docs/zh-CN/managed-agents/vaults)值，例如 OAuth 令牌和客户端密钥 | 只写，绝不会在 API 响应中返回。 |
 | [用户配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles) | `name` 和 `metadata` 等配置文件字段。请勿在配置文件 `metadata` 中存储敏感个人数据。 |
+| [组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#if-your-default-workspace-uses-an-encryption-key)（测试版）：端点 URL 和事件类型 | 除名称、描述和签名密钥之外的所有字段。 |
 | Claude Console 反馈 | 成员选择通过**反馈**选项发送的评分和评论。没有任何设置可以将其关闭。 |
 | [OpenTelemetry 目标](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry/api#add-a-destination)（测试版）请求头，例如您的可观测性平台的 API 密钥头 | 只写，绝不会在 API 响应中返回。 |
 | 您组织中用户的账户数据 | 包括姓名、电子邮件地址和头像。 |

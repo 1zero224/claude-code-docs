@@ -3324,7 +3324,7 @@ API 密钥属于组织，在创建者离开后仍然有效。请勿共享这些�
 | 400 | 输入无效，或该操作不适用于此插件或市场（请参阅各端点的相应章节）。当请求包含端点无法识别的查询参数，或组织不是 Claude Enterprise 组织时（`this endpoint is not supported for this organization type`），也会返回此状态。 |
 | 401 | 缺少 `x-api-key` 标头，或无法识别该密钥。 |
 | 403 | 密钥缺少所需的作用域，或者请求试图向成员的插件或个人市场上传内容、更改其提供的版本或为其设置默认值。（允许删除成员的插件。） |
-| 404 | 未找到资源。当请求省略 `anthropic-beta` 值，或您的组织未启用该 API 时，也会返回此状态，使这些端点看起来不存在。 |
+| 404 | 未找到资源。当请求省略此 API 的 beta，或您的组织未启用该 API 时，也会返回此状态，使这些端点看起来不存在。 |
 | 409 | 名称已被占用、某个版本的 `content_scan` 为 `processing`，或有冲突的上传正在进行中。 |
 | 413 | 请求正文超出大小限制：上传为 200 MB，市场验证为 32 MB。 |
 | 429 | 超出速率限制。请参阅[速率限制](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api#rate-limiting)。 |

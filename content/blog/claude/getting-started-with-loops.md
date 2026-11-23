@@ -76,7 +76,7 @@ Copy
 ```
 /loop 5m check my PR, address review comments, and fix failing CI
 ```
-`/loop` runs on your computer, so if you turn it off, it stops. You can move the loop to the cloud by creating a routine with `/schedule`.
+`/loop` runs on your computer, so if you turn it off, it stops. You can move the loop to the cloud by [creating a routine](https://claude.com/resources/articles/introducing-routines-in-claude-code) with `/schedule`.
 ## **Proactive loops**
 ![](https://assets.claude.com/1df86a865356e379c8eb780517c24479c0f59489.png)
   - **Triggered by**: An event or schedule, with no human in real time.
