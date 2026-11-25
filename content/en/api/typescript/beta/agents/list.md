@@ -195,6 +195,7 @@ type AnthropicBeta =
   | "analytics-usage-cost-2026-08-24"
   | "experimental-claude-tag-2026-10-21"
   | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
   | "user-profiles-billing-2026-10-01"
   /** @deprecated This value is no longer needed. Remove it from your requests. */
   | "message-batches-2024-09-24"
@@ -316,9 +317,15 @@ type BetaManagedAgentsModel =
   | "claude-sonnet-4-6"
   | "claude-haiku-4-5"
   | "claude-haiku-4-5-20251001"
-  /** Powerful intelligence for long-running agents and coding */
+  /**
+   * Powerful intelligence for long-running agents and coding
+   * @deprecated Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+   */
   | "claude-opus-4-5"
-  /** Powerful intelligence for long-running agents and coding */
+  /**
+   * Powerful intelligence for long-running agents and coding
+   * @deprecated Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+   */
   | "claude-opus-4-5-20251101"
   /**
    * High-performance model for agents and coding

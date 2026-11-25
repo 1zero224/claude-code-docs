@@ -1,7 +1,7 @@
 ---
 title: Secure your Managed Agents deployment
 url: https://platform.claude.com/docs/en/managed-agents/secure-deployment
-description: The settings that limit what your agents can reach and do, most important first.
+description: The settings that limit what your agents can reach and do, and that protect your Claude API credentials, most important first.
 featureMetadata:
   topic:
     title: Managed Agents
@@ -37,7 +37,7 @@ featureMetadata:
     Claude Models on Google Cloud (Anthropic managed): beta
 ---
 
-This guide lists the settings that limit what an agent on Claude Managed Agents can reach and do, most important first. Each section links to the page that covers the setting in full.
+This guide lists the settings that limit what an agent on Claude Managed Agents can reach and do, and the settings that protect your Claude API credentials. The most important come first. Each section links to the page that covers the setting in full.
 
 | Section | Setting or decision | Recommended |
 | ----- | ----- | ----- |
@@ -50,10 +50,13 @@ This guide lists the settings that limit what an agent on Claude Managed Agents 
 | [Give the agent the smallest tool set](https://platform.claude.com/docs/en/managed-agents/secure-deployment#give-the-agent-the-smallest-tool-set) | `default_config.enabled` (java, php: `defaultConfig.enabled`; csharp, go: `DefaultConfig.Enabled`) on the agent toolset | `false`, then enable the tools the agent needs |
 | [Keep untrusted input away from powerful tools](https://platform.claude.com/docs/en/managed-agents/secure-deployment#keep-untrusted-input-away-from-powerful-tools) | Which tools and credentials an agent holds when it reads untrusted input | No agent that reads untrusted input has a tool on `always_allow` that writes files, runs commands, or changes records |
 | [Set limits and a way to stop](https://platform.claude.com/docs/en/managed-agents/secure-deployment#set-limits-and-a-way-to-stop) | `budget` (csharp, go: `Budget`) on each session and deployment | A cap sized to what you expect a run to cost |
+| [Limit where your Claude API keys work](https://platform.claude.com/docs/en/managed-agents/secure-deployment#limit-where-your-claude-api-keys-work) | Your organization’s IP allowlist, which limits where your requests can come from | Optional, if your requests come from fixed public IP addresses that you control. Add every network first, because one you leave off loses access to covered endpoints and the Claude Console |
 | [Optionally have an offline reviewer read every transcript](https://platform.claude.com/docs/en/managed-agents/secure-deployment-monitoring#optionally-have-an-offline-reviewer-read-every-transcript) | An offline review job you run that reads each session’s events | Optional. A review of each session that went idle or terminated, on a schedule |
 | [Monitor sessions and review retention](https://platform.claude.com/docs/en/managed-agents/secure-deployment-monitoring#monitor-sessions-and-review-retention) | Webhooks and session deletion | An alert when a session goes idle, reaches its budget, or terminates, and a check of why it went idle. Store the events you want to keep in your own logs, and delete sessions you no longer need |
 
 [Security risks and sandbox boundaries](https://platform.claude.com/docs/en/managed-agents/secure-deployment-risks) explains why these settings matter and what they do not protect against. To review and monitor sessions, see [Review and monitor agent sessions](https://platform.claude.com/docs/en/managed-agents/secure-deployment-monitoring).
+
+If you use Claude Models on Google Cloud (Anthropic managed), read [Access through Google Cloud IAM](https://platform.claude.com/docs/en/managed-agents/secure-deployment#access-through-google-cloud-iam) before you rely on workspaces to limit access.
 
 The [Claude API skill](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/claude-api-skill) that ships with Claude Code has a `managed-agents-secure` command that checks an agent, its environments, and its vaults against this guide:
 
@@ -867,6 +870,33 @@ You cannot add a budget to a session created without one. To change or remove a 
 A budget caps spending, but it does not limit what the agent does before the cap. To keep workloads with different trust levels apart, use separate [workspaces](https://platform.claude.com/docs/en/manage-claude/workspaces). Limit each workload to one workspace: where you can, a [Workload Identity Federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation) rule enabled only in it, otherwise an API key scoped to it. Access to several workspaces lets the workload act in any of them.
 
 See [Session budgets](https://platform.claude.com/docs/en/managed-agents/budgets), [Session operations](https://platform.claude.com/docs/en/managed-agents/session-operations#archiving-a-session), and [Scheduled deployments](https://platform.claude.com/docs/en/managed-agents/scheduled-deployments#managing-deployment-lifecycle).
+
+## Limit where your Claude API keys work
+
+If your requests come from fixed public IP addresses that you control, an organization admin can turn on [IP allowlisting](https://platform.claude.com/docs/en/manage-claude/ip-allowlist), which is in beta. [Covered endpoints](https://platform.claude.com/docs/en/manage-claude/ip-allowlist#where-the-allowlist-applies), including those for agents, sessions, and vaults, then reject API key and Workload Identity Federation requests from unlisted addresses. This makes a leaked key much harder to use.
+
+The allowlist covers your entire organization and the Claude Console, so the admin must first [add every network your organization uses](https://platform.claude.com/docs/en/manage-claude/ip-allowlist#avoid-locking-yourself-out). These are easy to miss:
+
+| Add the addresses of | If they are left out |
+| ----- | ----- |
+| Servers that send tool results or approvals | Sessions that wait for them stay paused |
+| [Self-hosted sandbox](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes) workers, and the sandboxes they launch | Sessions can [stay queued](https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes-operations#a-session-stays-queued) or stop making progress |
+| People and scripts that [stop an agent](https://platform.claude.com/docs/en/managed-agents/secure-deployment#set-limits-and-a-way-to-stop) | They cannot interrupt a session, so it keeps running |
+
+Keep these points in mind:
+
+* **Agents:** The allowlist covers your requests, not the agents themselves. A session in a cloud environment has no address to add, even when a scheduled deployment starts it. You still need to [limit the network](https://platform.claude.com/docs/en/managed-agents/secure-deployment#limit-the-network).
+* **Keys in a sandbox:** Do not rely on the allowlist to contain an agent that holds a Claude API key or Claude API access token. [Keep both away from the agent](https://platform.claude.com/docs/en/managed-agents/secure-deployment#keep-credentials-in-vaults), even in a vault.
+* **Platforms:** IP allowlisting is not available on Claude Models on Google Cloud (Anthropic managed) or Claude Platform on AWS.
+
+See [IP allowlisting limitations](https://platform.claude.com/docs/en/manage-claude/ip-allowlist#limitations).
+
+## Access through Google Cloud IAM
+
+On [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed#claude-managed-agents), Google Cloud IAM controls access. Keep these two points in mind:
+
+* **Separating workloads:** An IAM role applies to every workspace in the Google Cloud project. Keep vaults and workloads with different trust levels in separate Google Cloud projects. See [Access on cloud platforms](https://platform.claude.com/docs/en/manage-claude/workspaces#access-on-cloud-platforms).
+* **Stopping an agent:** Revoking Google Cloud access does not stop a running session or a scheduled deployment. To stop them, follow the steps in [Set limits and a way to stop](https://platform.claude.com/docs/en/managed-agents/secure-deployment#set-limits-and-a-way-to-stop).
 
 ## Next steps
 

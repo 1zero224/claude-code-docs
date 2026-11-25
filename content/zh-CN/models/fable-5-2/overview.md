@@ -92,7 +92,7 @@ Claude Fable 5.2 专为高要求的推理和长周期的智能体工作而打造
 * “Adaptive thinking”（自适应思考）始终开启，无法关闭。请使用 [effort 参数](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)控制思考深度。
 * 强制工具使用（`tool_choice` 类型 `any` 和 `tool`）会返回 400 错误。请参阅[思考与工具选择](https://platform.claude.com/docs/zh-CN/models/fable-5-2/whats-new-fable-5-2#thinking-and-tool-choice)。
 * 请省略 `temperature`、`top_p` 和 `top_k`。有关会返回 400 错误的值，请参阅[采样参数](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#sampling-parameters)。
-* Claude Fable 5.2 要求 30 天数据保留，除非获得 Anthropic 明确授权，否则无法在 “zero data retention”（零数据保留）下使用。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
+* Claude Fable 5.2 要求 30 天数据保留，除非获得 Anthropic 明确授权，否则无法在"legacy zero data retention"（旧版零数据保留），即 Legacy ZDR 下使用。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
 * 使用 [Models API](https://platform.claude.com/docs/zh-CN/api/models/list) 以编程方式查询限制和能力。
 
 ## 资源

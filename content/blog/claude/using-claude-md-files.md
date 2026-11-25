@@ -103,7 +103,7 @@ Copy
 - Rate limited to 10 messages per hour
 ```
 Learn more about MCP [fundamentals and best practices](https://claude.com/resources/articles/what-is-model-context-protocol).
-For more information on setting permissions for Claude Code, see settings.json documentation at[ code.claude.com](https://code.claude.com/docs/en/settings).
+For more information on [setting permissions for Claude Code](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents#chapter-4), see settings.json documentation at[ code.claude.com](https://code.claude.com/docs/en/settings).
 ### **Define standard workflows**
 Having Claude jump straight into code changes without planning creates rework. Claude might implement a solution that misses requirements, choose the wrong architectural approach, or make changes that break existing functionality.
 You need Claude to think before acting. Define standard workflows in your CLAUDE.md that Claude should follow for different types of tasks. A solid default workflow addresses four questions before making changes:
@@ -231,6 +231,11 @@ Treat customization as an ongoing practice rather than a one-time setup task. Pr
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
+ArticleNov 23, 2026
+### The enterprise guide to securing coding agents
+How security and technical leaders can understand and bound risk as they scale Claude Code
+Claude Code
+](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents)[
 ArticleNov 17, 2026
 ### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
 How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
@@ -245,9 +250,4 @@ ArticleNov 13, 2026
 ### Building always-on agents
 Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
 Claude Platform
-](https://claude.com/resources/articles/building-always-on-agents)[
-ArticleNov 13, 2026
-### The Claude Tag guide for startups
-How leading startups use Claude Tag to ship faster and scale operations
-Claude Tag
-](https://claude.com/resources/articles/claude-tag-guide-for-startups)
+](https://claude.com/resources/articles/building-always-on-agents)

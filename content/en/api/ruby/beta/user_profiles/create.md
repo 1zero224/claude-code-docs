@@ -9,7 +9,9 @@ url: https://platform.claude.com/docs/en/api/ruby/beta/user_profiles/create
 
 **POST** `/v1/user_profiles`
 
-Create User Profile
+Register one of your end customers and get the ID to send on the requests you make for them.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=ruby#create-a-profile-for-each-end-customer) for what to send.
 
 ## Parameters
 
@@ -208,6 +210,8 @@ Create User Profile
   - `:"experimental-claude-tag-2026-10-21"`
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `:"efs-2026-10-01"`
 
   - `:"user-profiles-billing-2026-10-01"`
 

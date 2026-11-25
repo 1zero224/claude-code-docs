@@ -5,13 +5,17 @@ url: https://platform.claude.com/docs/en/api/csharp/beta/user_profiles
 
 # User Profiles
 
+Register the end customers that your platform serves, so each request can name who it's for. To get started, see the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp).
+
 ## Create User Profile
 
 `BetaUserProfile Beta.UserProfiles.Create(parameters, cancellationToken = default)`
 
 **POST** `/v1/user_profiles`
 
-Create User Profile
+Register one of your end customers and get the ID to send on the requests you make for them.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp#create-a-profile-for-each-end-customer) for what to send.
 
 ### Parameters
 
@@ -152,6 +156,8 @@ Create User Profile
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -376,7 +382,9 @@ Console.WriteLine(betaUserProfile);
 
 **GET** `/v1/user_profiles`
 
-List User Profiles
+List the user profiles in your organization, newest first by default.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp) for how to set up and manage profiles.
 
 ### Parameters
 
@@ -515,6 +523,8 @@ List User Profiles
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -746,7 +756,9 @@ await foreach (var item in page.Paginate())
 
 **GET** `/v1/user_profiles/{user_profile_id}`
 
-Get User Profile
+Get a user profile by ID to check the details stored for it.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp) for how to set up and manage profiles.
 
 ### Parameters
 
@@ -853,6 +865,8 @@ Get User Profile
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -1080,7 +1094,9 @@ Console.WriteLine(betaUserProfile);
 
 **POST** `/v1/user_profiles/{user_profile_id}`
 
-Update User Profile
+Change the details of a user profile, leaving the fields that you don't send as they are.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp#update-a-profile) for how each field is updated.
 
 ### Parameters
 
@@ -1225,6 +1241,8 @@ Update User Profile
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -1452,7 +1470,9 @@ Console.WriteLine(betaUserProfile);
 
 **DELETE** `/v1/user_profiles/{user_profile_id}`
 
-Delete User Profile
+Delete a user profile, for example when the end customer closes their account.
+
+Stop sending the profile's ID first. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp#delete-a-profile) for what happens after a delete.
 
 ### Parameters
 
@@ -1560,6 +1580,8 @@ Delete User Profile
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -1651,7 +1673,9 @@ Console.WriteLine(betaDeletedUserProfile);
 
 **POST** `/v1/user_profiles/{user_profile_id}/enrollment_url`
 
-Create Enrollment URL
+Create a link that sends the profile's end customer to the Verification Portal from Claude Platform on AWS.
+
+On the Claude API, create an action URL instead. See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=csharp) for when to create the link and what the end customer sees.
 
 ### Parameters
 
@@ -1758,6 +1782,8 @@ Create Enrollment URL
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -2155,7 +2181,9 @@ Console.WriteLine(betaUserProfileEnrollmentUrl);
 
 **POST** `/v1/user_profiles/{user_profile_id}/action_urls`
 
-Create Action URL
+Create a link that sends the profile's end customer to the Verification Portal.
+
+See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=csharp) for when to create the link and what the end customer sees.
 
 #### Parameters
 
@@ -2266,6 +2294,8 @@ Create Action URL
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 

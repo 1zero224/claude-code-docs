@@ -252,7 +252,7 @@ When a new session would start on the variable's model, a session you resume wit
 When you pick a model with `/model` and your next session starts on something else, these are the usual causes:
 
 * **You chose it for one session.** Pressing `s` in the picker, launching with `--model`, and running `/model` in non-interactive mode all apply to the current session and leave your saved default alone.
-* **Something with higher priority sets the model.** A `model` value in project or managed settings, `ANTHROPIC_MODEL` in your shell, or an [organization default](#organization-default-model) your admin set to override user choices applies again at every new-session launch. Your `/model` choice is still saved; it's outranked. When project or managed settings set the model, the startup header names the file.
+* **Something with higher priority sets the model.** A `model` value in project or managed settings, `ANTHROPIC_MODEL` in your shell, or an [organization default](#organization-default-model) set to override user choices applies again at every new-session launch. Your `/model` choice is still saved; it's outranked. When project or managed settings set the model, the startup header names the file.
 * **Claude Code couldn't save your choice.** `/model` writes `model` to `~/.claude/settings.json`. If you can't write to that file, for example because another tool generates it or links it to a read-only copy, the model you chose lasts for the session and the next launch reads the old value. Set `model` in the tool that generates the file, or make the file writable. See [A change you made in Claude Code is lost in new sessions](https://code.claude.com/docs/en/settings.md#a-change-you-made-in-claude-code-is-lost-in-new-sessions).
 * **You resumed a session.** A session you resume with `claude --resume` or `--continue` usually [keeps the model it was using](#which-model-a-resumed-session-uses) rather than your current default.
 
@@ -369,15 +369,15 @@ To fully control the model experience, combine these settings:
 * **`model`**: sets the initial model selection when a session starts
 * **`ANTHROPIC_DEFAULT_SONNET_MODEL`** / **`ANTHROPIC_DEFAULT_OPUS_MODEL`** / **`ANTHROPIC_DEFAULT_HAIKU_MODEL`** / **`ANTHROPIC_DEFAULT_FABLE_MODEL`**: control what the `sonnet`, `opus`, `haiku`, and `fable` aliases resolve to, and which version the [account-type default](#default-model-setting) uses
 
-This example starts users on Sonnet 4.5, limits the picker to Sonnet and Haiku, and ensures Default resolves to a model on the allowlist rather than the tier default:
+This example starts users on Sonnet 5, limits the picker to Sonnet 5.x and Haiku, and ensures Default resolves to a model on the allowlist:
 
 ```json theme={null}
 {
-  "model": "claude-sonnet-4-5",
-  "availableModels": ["claude-sonnet-4-5", "haiku"],
+  "model": "claude-sonnet-5",
+  "availableModels": ["claude-sonnet-5", "haiku"],
   "enforceAvailableModels": true,
   "env": {
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-5"
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5"
   }
 }
 ```
@@ -685,7 +685,7 @@ Claude Code saves the level per model, under the [`modelSettings`](https://code.
 >
 > A level you pick from the effort control on a phone or browser connected through [Remote Control](https://code.claude.com/docs/en/remote-control.md#what-connected-devices-see) applies to that session only.
 
-When you set a level with `/effort` in a [`-p` run](https://code.claude.com/docs/en/headless), Claude Code applies it to that session only and doesn't save it as your default.
+When you set a level with `/effort` in a [`-p` run](https://code.claude.com/docs/en/headless), Claude Code applies it to that session only.
 
 The `/effort` slider also has an **Ultracode** toggle. Ultracode is a Claude Code setting rather than a model effort level: with it on, Claude orchestrates [dynamic workflows](https://code.claude.com/docs/en/workflows.md) for substantive tasks, at whichever effort level the session runs at. For where it can be set persistently, see the [`ultracode`](https://code.claude.com/docs/en/settings-reference#ultracode) setting.
 
@@ -742,7 +742,7 @@ To raise that turn to `xhigh` effort as well, type the word in one of these plac
 If the word isn't rainbow when you start a new turn, try one of these:
 
 * Retype it outside anything such as quotes, brackets, a path, or a command, in a prompt that doesn't start with `/`
-* Unset `CLAUDE_CODE_EFFORT_LEVEL` if it's set below `xhigh`, raise your own [`maxEffortLevel`](https://code.claude.com/docs/en/settings-reference#maxeffortlevel) to `xhigh` or above, or ask an organization admin to raise your [organization's limit](#organization-effort-limits)
+* Unset `CLAUDE_CODE_EFFORT_LEVEL` if it's set below `xhigh`, or raise your own [`maxEffortLevel`](https://code.claude.com/docs/en/settings-reference#maxeffortlevel) to `xhigh` or above. If you're in an organization with an [effort limit](#organization-effort-limits), ask an organization admin to raise it
 * Run `/model` in your session to switch to an Opus 5.5, Sonnet 5.5, Haiku 5.5, Fable 5.2, or Fable 5.1 model. Where the word can't raise a turn, such as on Amazon Bedrock, Google Cloud's Agent Platform, or a [Claude apps gateway](https://code.claude.com/docs/en/claude-apps-gateway), [set the effort level](#set-the-effort-level) instead
 
 To turn the keyword off, including its in-context instruction, set `CLAUDE_CODE_DISABLE_ULTRATHINK` to `1` in your shell or in a [settings file](https://code.claude.com/docs/en/env-vars.md#in-settings-files). Requires Claude Code v2.1.316 or later.

@@ -32,7 +32,7 @@ Claude Code runs on the following platforms and configurations:
 
 > [!TIP]
 >
-> Prefer a graphical interface? The [Desktop app](https://code.claude.com/docs/en/desktop-quickstart.md) lets you use Claude Code without the terminal. Download it for [macOS](https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect?utm_source=claude_code\&utm_medium=docs), [Windows](https://claude.com/download?utm_source=claude_code\&utm_medium=docs), or [Linux](https://code.claude.com/docs/en/desktop-linux.md).
+> Prefer a graphical interface? The [Desktop app](https://code.claude.com/docs/en/desktop-quickstart.md) lets you use Claude Code without the terminal. Download it for [macOS](https://claude.ai/claude-code/desktop-download?platform=mac\&utm_source=claude_code\&utm_medium=docs), [Windows](https://claude.ai/claude-code/desktop-download?platform=win\&utm_source=claude_code\&utm_medium=docs), or [Linux](https://code.claude.com/docs/en/desktop-linux.md).
 
 To install Claude Code, open a terminal and run the command for your system. If you haven't used a terminal before, the [terminal guide](https://code.claude.com/docs/en/terminal-guide) shows how to open one and paste the command.
 
@@ -40,7 +40,7 @@ To install Claude Code, open a terminal and run the command for your system. If 
 >
 > **macOS, Linux, WSL:**
 >
-> ```bash theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null}
+> ```bash theme={null}
 > curl -fsSL https://claude.ai/install.sh | bash
 > ```
 >
@@ -48,13 +48,13 @@ To install Claude Code, open a terminal and run the command for your system. If 
 >
 > **Windows PowerShell:**
 >
-> ```powershell theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null}
+> ```powershell theme={null}
 > irm https://claude.ai/install.ps1 | iex
 > ```
 >
 > **Windows CMD:**
 >
-> ```batch theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null}
+> ```batch theme={null}
 > curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
 > ```
 >
@@ -72,7 +72,7 @@ To install Claude Code, open a terminal and run the command for your system. If 
 
 > [tab] Homebrew
 >
-> ```bash theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null}
+> ```bash theme={null}
 > brew install --cask claude-code
 > ```
 >
@@ -84,7 +84,7 @@ To install Claude Code, open a terminal and run the command for your system. If 
 
 > [tab] WinGet
 >
-> ```powershell theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null} theme={null}
+> ```powershell theme={null}
 > winget install Anthropic.ClaudeCode
 > ```
 >

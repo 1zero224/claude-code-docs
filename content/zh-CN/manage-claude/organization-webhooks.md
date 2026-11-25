@@ -1,7 +1,7 @@
 ---
 title: 组织 webhook
 url: https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks
-description: 注册 webhook 端点，以接收有关您组织的用户配置文件和客户管理的加密密钥的事件，并响应每个事件。
+description: 注册 webhook 端点，以接收有关您组织的用户配置文件、客户管理的加密密钥和客户自有存储的事件，并响应每个事件。
 featureMetadata:
   status: beta
   betaHeader: webhooks-2026-10-07
@@ -23,7 +23,7 @@ featureMetadata:
 
   * 已启用 [HIPAA 就绪](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#hipaa-readiness)：无法使用组织 webhook。
   * 可以使用[客户管理的加密密钥](https://platform.claude.com/docs/zh-CN/manage-claude/cmek)：已拥有组织 webhook。
-  * 任何其他组织：请联系您的 Anthropic 客户团队申请访问权限。
+  * 任何其他组织，包括仅拥有[客户自有存储](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/customer-owned-storage)的组织：请联系您的 Anthropic 客户团队申请访问权限。
 
 * 以下凭据之一：
 
@@ -42,6 +42,7 @@ featureMetadata:
 
 * [用户配置文件事件](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#user-profile-events)：Anthropic 限制或封禁您的某个[用户配置文件](https://platform.claude.com/docs/zh-CN/manage-claude/user-profiles)，或者该限制或封禁结束。
 * [加密密钥事件](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#encryption-key-events)：您的 “key management service”（密钥管理服务），即 KMS，持续拒绝您的某个客户管理的加密密钥，或者该密钥恢复正常工作。
+* [客户自有存储事件](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#customer-owned-storage-events)：您的某个存储桶未通过 Anthropic 的每日检查，或者再次通过该检查。
 
 有关其他事件类型，请参阅[创建端点的 API 参考](https://platform.claude.com/docs/zh-CN/api/beta/organization/webhooks/create)中的 `enabled_events`。
 
@@ -162,6 +163,91 @@ Anthropic 仅在配置文件显示出变化之后才发送事件，因此您检�
 
 由于您可能会错过任一事件，您可能会连续收到两次 `external_key.failed`，或者收到 `external_key.recovered`，而在此之前没有 `external_key.failed`。
 
+## 客户自有存储事件
+
+这些事件与您用作[客户自有存储](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/customer-owned-storage)的存储桶有关。Admin API 将此类存储桶称为 External Storage，因此事件类型以 `external_storage` 开头：
+
+| 事件 | 触发条件 |
+| ----- | ----- |
+| `external_storage.failed` | 某个存储桶未通过 [Anthropic 的每日检查](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/external-storage-manage#bucket-health)。 |
+| `external_storage.recovered` | 在 Anthropic 发送 `external_storage.failed` 之后，该存储桶再次通过检查。 |
+
+该检查涵盖工作区用于存放[密封的安全数据](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/customer-owned-storage#what-is-stored)的每个存储桶。它还涵盖处于 [`draining` 状态](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/external-storage-manage?method=api#api-check)的每个存储桶，即工作区已停止使用的存储桶。对于仅接收对话记录和 Safety Cases 的存储桶，请不要依赖这些事件。
+
+只有每日检查才会触发这些事件。没有测试事件。
+
+当存储桶失败或恢复时，Anthropic 通常还会向您组织中角色允许其管理加密密钥的成员（例如 `admin`）发送电子邮件。您无需拥有密钥即可收到这些电子邮件。
+
+要接收这些事件，您的组织需要拥有组织 webhook，如[开始之前](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#before-you-begin)中所述。
+
+该事件在 `data.id` 中指明存储桶，其以 `estrg_` 开头：
+
+```json
+{
+  "type": "event",
+  "id": "whe_2b7e9d4c1a6f8035e2d9b6c3a0f51e84",
+  "created_at": "2026-12-02T06:41:19.305127Z",
+  "data": {
+    "type": "external_storage.failed",
+    "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+    "organization_id": "org_011CZkZBj9RsYd3wNcHvKq6t"
+  }
+}
+```
+
+* **时间：** `created_at` 是 Anthropic 首次尝试发送该事件的时间，而不是检查运行的时间。它可能包含小数秒。
+* **原因和工作区：** 该事件不会说明存储桶失败的原因，也不会说明哪些工作区使用它。
+
+### 响应存储事件
+
+在您为任一事件返回 `2xx` 之后，请使用 `GET /v1/organizations/external_storage/{external_storage_id}` [获取该存储桶](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/external-storage-manage?method=api#api-check)。使用 `data.id` 作为 ID，并使用 Admin API 密钥或 `org:admin` 令牌。本节中的请求需要 `anthropic-beta: efs-2026-10-01` 标头。
+
+该响应不是实时测试。`status.healthy` 表示该存储桶是否通过了最近一次得出结果的检查，`status.last_checked_at` 表示该检查的运行时间。
+
+如果 `status.healthy` 为 `false`：
+
+1. 立即告知您的 Anthropic 客户团队，每次故障告知一次。未能到达您存储桶的密封的安全数据可能会丢失。
+2. 按照[如果您的存储桶停止工作](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/external-storage-manage#if-your-bucket-stops-working)中的说明操作。
+3. 在 `status.last_checked_at` 之后约一天再次获取该存储桶。如果 `status.healthy` 仍为 `false`，请从第 2 步开始重复。
+
+`status.healthy` 通常会保持为 `false`，直到下一次检查通过。不要等待 `external_storage.recovered`，它可能不会到达。如果写入仍然正常，请查找是否有设置更改，例如[添加了生命周期规则](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/external-storage-manage#what-removes-data)，这也会导致检查不通过。
+
+如果在故障之后 `status.healthy` 为 `true`，请告知您的 Anthropic 客户团队该存储桶已恢复正常工作。然后，他们可以确认 Anthropic 是否需要恢复该存储桶故障期间的数据。
+
+要查看某次故障影响了哪些工作区：
+
+1. 使用 `include_default=true` [列出您的工作区](https://platform.claude.com/docs/zh-CN/api/organization/workspaces/list)。
+2. 在 [`inference_data_privacy`](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/external-storage?method=api#api-attach) 下的 `external_storage_id` 字段中查找该存储桶的 ID。
+
+### 存储事件何时到达
+
+该检查每天运行一次，因此事件可能在您的存储桶发生变化一天或更久之后才到达：
+
+* **`external_storage.failed`：** 通常在未通过的检查之后约 15 分钟。当存储桶持续失败时，后续检查不会再次发送该事件。
+* **`external_storage.recovered`：** 通常在下一次通过的每日检查之后几分钟内。
+
+### 存储事件何时可能不会到达
+
+不要将这些事件作为您唯一的信号。还请在发送请求时[留意是否有对象到达您的存储桶](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/external-storage-manage#if-your-bucket-stops-working)，并定期[补齐遗漏的事件](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#catch-up-on-missed-events)。
+
+在以下情况下，您可能会错过其中一个或两个事件：
+
+| 情况 | 您可能错过的内容 | `status.healthy` |
+| ----- | ----- | ----- |
+| 写入在两次检查之间失败并恢复正常 | 两个事件 | 不变 |
+| 仅用于对话记录和 Safety Cases 的 IAM 角色失败 | 两个事件 | 可能不变 |
+| 检查未得出结果 | 两个事件，直到某次检查得出结果 | 不变 |
+| 存储桶在您将这些事件添加到端点之前就已失败 | `external_storage.failed` | `false` |
+| 多个组织（包括您的组织）的存储桶在同一天开始失败 | 两个事件以及电子邮件 | 通常为 `false` |
+| [您默认工作区的密钥](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#if-your-default-workspace-uses-an-encryption-key)失败，且它加密了您端点的某个值 | 在该密钥恢复正常工作之前的所有事件 | 最新 |
+
+其中两种情况需要您自行检查：
+
+* **用于对话记录和 Safety Cases 的 IAM 角色：** 在它们失败时，每日检查仍可能通过，因此请留意您存储桶中的这些对象。
+* **未得出结果的检查：** `status.last_checked_at` 不再更新。IAM 角色被移除或更改可能导致这种情况，因此请检查授予 Anthropic 访问权限的角色。
+
+由于您可能会错过任一事件，您可能会连续收到两次 `external_storage.failed`，或者收到 `external_storage.recovered`，而在此之前没有 `external_storage.failed`。
+
 ## 端点字段
 
 组织 webhook 端点具有以下字段：
@@ -227,7 +313,13 @@ Anthropic 仅在配置文件显示出变化之后才发送事件，因此您检�
 每次都请检查您端点的 `state` 是否为 `enabled`。然后，检查您所使用的每组事件背后的资源：
 
 * **用户配置文件：** 按执行状态列出您的配置文件，如[在收到第一个事件之前](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#before-your-first-event)中所述。未出现在这些列表中的配置文件没有未结的措施。
+
 * **加密密钥：** [列出您的密钥](https://platform.claude.com/docs/zh-CN/api/organization/external_keys/list)，并[逐一验证](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#respond-to-an-encryption-key-event)。如果您没有收到针对该密钥的事件，除非 Messages API 请求失败，否则 `success` 无需进一步检查。
+
+* **客户自有存储：** [列出您的存储桶](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/external-storage-manage?method=api#api-check)，并查看每日检查涵盖的每个存储桶：
+
+  * 如果 `status.healthy` 为 `false`，请按照[响应存储事件](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#respond-to-a-storage-event)中的说明操作。
+  * 如果 `status.last_checked_at` 已超过 2 天，请告知您的 Anthropic 客户团队。
 
 ## 管理端点
 
@@ -494,7 +586,7 @@ Anthropic 仅在配置文件显示出变化之后才发送事件，因此您检�
 
 响应为新端点（如[端点字段](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#endpoint-fields)中所示），外加其 `signing_secret`。
 
-如果您拥有 `admin` 组织角色，也可以改为在 Claude Console 中管理加密密钥事件的端点。请使用 [Webhook](https://platform.claude.com/settings/webhooks) 页面的**组织**选项卡，该页面会在您创建端点或替换其密钥时显示一次签名密钥。
+如果您拥有 `admin` 组织角色，也可以改为在 Claude Console 中管理加密密钥事件和客户自有存储事件的端点。请使用 [Webhook](https://platform.claude.com/settings/webhooks) 页面的**组织**选项卡，该页面会在您创建端点或替换其密钥时显示一次签名密钥。
 
 ## 如果您的默认工作区使用加密密钥
 

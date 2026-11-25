@@ -13,7 +13,8 @@ marketplaces.
 
 Plugins in members' personal marketplaces are listed with the same detail as the
 organization's own, and their files can be downloaded through the version archive
-endpoint, which records each such download on the Compliance API activity feed.
+endpoint. Those downloads can be recorded on the Compliance API activity feed; the
+version archive endpoint says when.
 
 **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope.
 
@@ -180,6 +181,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 

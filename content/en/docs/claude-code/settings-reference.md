@@ -4,7 +4,7 @@
 
 # All settings
 
-> Complete reference for every Claude Code settings.json key: where each one goes, its type and default, and a paste-ready example, with an index of every key.
+> Reference for Claude Code settings.json keys: where each one goes, its type and default, and a paste-ready example, with an index of keys.
 
 [Back to index](#all-settings)
 
@@ -17,7 +17,7 @@ Every key below links to its entry. Scope lists the [files](https://code.claude.
 | Key | Description | Topic | Scope |
 | :- | :- | :- | :- |
 | [`advisorModel`](#advisormodel) | Pick which model answers when Claude asks the [advisor tool](https://code.claude.com/docs/en/advisor.md) | Model and responses | Any file |
-| [`agent`](#agent) | Start every session as a named [subagent](https://code.claude.com/docs/en/sub-agents.md) with its prompt, tools, and model | Agents, sessions, and worktrees | Any file |
+| [`agent`](#agent) | Start sessions as a named [subagent](https://code.claude.com/docs/en/sub-agents.md) with its prompt, tools, and model | Agents, sessions, and worktrees | Any file |
 | [`agentPushNotifEnabled`](#agentpushnotifenabled) | Let Claude send a [push notification to your phone](https://code.claude.com/docs/en/remote-control.md#mobile-push-notifications) when it decides to | Remote, desktop, and notifications | Any file |
 | [`allowAllClaudeAiMcps`](#allowallclaudeaimcps) | Load the [claude.ai connectors](https://code.claude.com/docs/en/mcp.md) Claude Code fetches itself alongside a deployed [`managed-mcp.json`](https://code.claude.com/docs/en/managed-mcp#exclusive-control-with-managed-mcp-json) | MCP | Managed |
 | [`allowClaudeInChromeWithManagedMcp`](#allowclaudeinchromewithmanagedmcp) | Let the built-in [Claude in Chrome](https://code.claude.com/docs/en/chrome.md) server run alongside a deployed [`managed-mcp.json`](https://code.claude.com/docs/en/managed-mcp#exclusive-control-with-managed-mcp-json) | MCP | Managed |
@@ -83,6 +83,7 @@ Every key below links to its entry. Scope lists the [files](https://code.claude.
 | [`disableCommandPluginSources`](#disablecommandpluginsources) | Block [plugins](https://code.claude.com/docs/en/plugins/overview.md) that install by running a marketplace-declared command | Plugins and skills | Managed |
 | [`disableDeepLinkRegistration`](#disabledeeplinkregistration) | Stop Claude Code from registering the [`claude-cli://` handler](https://code.claude.com/docs/en/deep-links) | Remote, desktop, and notifications | Any file |
 | [`disableDesktopLocalSessions`](#disabledesktoplocalsessions) | Turn off [Desktop Code sessions](https://code.claude.com/docs/en/desktop.md#local-sessions-on-managed-devices) that run on the device, leaving SSH to other hosts and cloud | Remote, desktop, and notifications | Managed |
+| [`disableDirectMcpSkills`](#disabledirectmcpskills) | Turn [skills from MCP servers](https://code.claude.com/docs/en/mcp.md#turn-on-skills-for-an-organization) other than connectors on or off for your organization | MCP | Managed |
 | [`disabledMcpjsonServers`](#disabledmcpjsonservers) | Reject specific servers from a project's [`.mcp.json`](https://code.claude.com/docs/en/mcp#project-scope) | MCP | Any file |
 | [`disableMobileSimulatorTools`](#disablemobilesimulatortools) | Block Claude's tools in the [desktop](https://code.claude.com/docs/en/desktop.md) iOS Simulator pane | Tools | Managed |
 | [`disableRemoteControl`](#disableremotecontrol) | Turn off [Remote Control](https://code.claude.com/docs/en/remote-control.md) everywhere it can start | Remote, desktop, and notifications | Any file |
@@ -2526,7 +2527,7 @@ Have Claude Code snapshot files before each edit so [`/rewind`](https://code.cla
 }
 ```
 
-In a `-p` run or an Agent SDK session, Claude Code ignores this key. The SDK turns checkpointing on with its `enableFileCheckpointing` option, and a bare `-p` run needs `CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING=true`. See [File checkpointing in the Agent SDK](https://code.claude.com/docs/en/agent-sdk/file-checkpointing.md).
+In a `-p` run or an Agent SDK session, Claude Code ignores this key unless your organization's [managed settings](https://code.claude.com/docs/en/managed-settings.md) set it to `false`, and then checkpointing stays off. That exception requires Claude Code v2.1.331 or later. Without that `false`, turn checkpointing on with the SDK's `enableFileCheckpointing` option, or with `CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING=true` in a bare `-p` run. See [File checkpointing in the Agent SDK](https://code.claude.com/docs/en/agent-sdk/file-checkpointing.md).
 
 ### `idleCompaction`
 
@@ -2913,7 +2914,7 @@ Each entry's URL, label, and badge count are bounded as follows:
 
 When a turn completes, Claude Code matches each entry's `pattern` regex against the turn output on the main thread, so a slow regex blocks the UI until it finishes. Nested quantifiers such as `(a+)+$` can take exponentially long against certain inputs and freeze the session, so keep each `pattern` linear and avoid nesting `+` or `*`.
 
-Footer badges render alongside a [custom status line](https://code.claude.com/docs/en/statusline.md) when one is configured; neither replaces the other. Use a status line for a script-driven row that computes its own content from session data, and footer badges to turn IDs from the conversation into links without a script.
+Footer badges render alongside a [custom status line](https://code.claude.com/docs/en/statusline.md) when one is configured. Use a status line for a script-driven row that computes its own content from session data, and footer badges to turn IDs from the conversation into links without a script.
 
 ### `keybindingFlavor`
 
@@ -4181,6 +4182,8 @@ The four sub-key entries below list what else each surface blocks and what still
 
 Lock the `skills` surface. Claude Code stops loading skills from `~/.claude/skills/` and `.claude/skills/`, custom commands from `~/.claude/commands/` and `.claude/commands/`, skills and commands under `--add-dir` directories, and skills synced from your claude.ai account. It keeps loading bundled skills, skills in the managed policy directory, and skills from plugins other than [skills-directory plugins](https://code.claude.com/docs/en/plugins/loading.md#skills-directory-plugins-blocked-by-managed-settings).
 
+With the lock on, [skills from MCP servers](https://code.claude.com/docs/en/mcp.md#use-skills-from-mcp-servers) that users, projects, and `--mcp-config` add don't load. Skills from claude.ai connectors still load.
+
 * **Scope**: [`Managed`](#scopes)
 * **Type**: the string `"skills"` in the [`strictPluginOnlyCustomization`](#strictpluginonlycustomization) array
 * **Default**: not locked
@@ -4481,9 +4484,7 @@ A [`deniedMcpServers`](#deniedmcpservers) entry for `claude-in-chrome` still blo
 
 Allowlist the MCP servers people can add. Claude Code blocks any server that doesn't match an entry wherever it's defined, including plugin servers, servers a user passes with `--mcp-config`, and servers from claude.ai.
 
-Built-in servers such as Claude in Chrome, the `ide` server Claude Code connects to in a running [VS Code](https://code.claude.com/docs/en/vs-code.md#the-built-in-ide-mcp-server) or [JetBrains](https://code.claude.com/docs/en/jetbrains.md#the-built-in-ide-mcp-server) IDE, and servers the CLI itself configures are exempt from the allowlist, and the denylist still applies to them. On Claude Code v2.1.268 or later, a [Claude Tag](https://code.claude.com/docs/en/claude-tag.md) session's Slack tools are also exempt from the allowlist, and the denylist still applies to them. In-process `type: "sdk"` servers are exempt from both lists; the [app that started the session](https://code.claude.com/docs/en/mcp.md#how-connectors-reach-claude-code) registers them.
-
-Servers your organization delivers are also exempt from the allowlist, and the denylist still applies to them. The exemption covers every [`managedMcpServers`](#managedmcpservers) entry, and any [`managed-mcp.json`](https://code.claude.com/docs/en/managed-mcp#exclusive-control-with-managed-mcp-json) entry whose values use [no `${VAR}` expansion outside `env`](https://code.claude.com/docs/en/managed-mcp#how-allowlists-and-denylists-apply-to-the-managed-set). See [How a server is evaluated](https://code.claude.com/docs/en/managed-mcp.md#how-a-server-is-evaluated) for the full check order. Before v2.1.259, servers from `managed-mcp.json` had to match too.
+[Some servers skip the allowlist](https://code.claude.com/docs/en/managed-mcp.md#servers-that-skip-the-allowlist-check), such as [`managedMcpServers`](#managedmcpservers) entries. A [Claude Tag](https://code.claude.com/docs/en/claude-tag.md) session's Slack tools skip it on v2.1.268 or later. Denylist entries in managed or user settings still apply to these servers. In-process `type: "sdk"` servers are exempt from both lists.
 
 * **Scope**: [`Any file`](#scopes). For servers users add, entries from every file merge into one allowlist unless [`allowManagedMcpServersOnly`](#allowmanagedmcpserversonly) is set. To keep users from adding entries, deploy both keys in managed settings.
 * **Type**: array of objects, each with exactly one key. Use `serverName`, a string limited to letters, numbers, hyphens, and underscores; `serverCommand`, an array of the command and its arguments matched exactly; or `serverUrl`, a URL pattern with `*` wildcards
@@ -4541,6 +4542,28 @@ Block specific MCP servers. Claude Code refuses to load a matching server wherev
 ```
 
 The denylist takes precedence over [`allowedMcpServers`](#allowedmcpservers), so a server on both lists is blocked. See [Policy-based control with allowlists and denylists](https://code.claude.com/docs/en/managed-mcp.md#policy-based-control-with-allowlists-and-denylists).
+
+### `disableDirectMcpSkills`
+
+Turn [skills from MCP servers](https://code.claude.com/docs/en/mcp.md#turn-on-skills-for-an-organization) on or off for your organization. This key covers every server except claude.ai connectors. For connectors, an Owner uses the **Skills over MCP** switch in [**Organization settings > Connectors**](https://claude.ai/admin-settings/connectors) instead. Skills from MCP servers require Claude Code v2.1.331 or later.
+
+* **Scope**: [`Managed`](#scopes). If you use several [managed sources](https://code.claude.com/docs/en/managed-settings.md#how-claude-code-combines-managed-sources), set `false` in the highest-ranked one. Claude Code ignores a `false` in the Windows HKCU registry
+* **Type**: Boolean
+  * `true`: Claude Code doesn't list or load skills from these servers. The servers keep their tools, and claude.ai connectors keep their skills
+  * `false`: on Team and Enterprise plans, allows these skills. They stay off for servers you lock out with `strictPluginOnlyCustomization`, and if your organization isn't [eligible](https://code.claude.com/docs/en/mcp.md#requirements-for-skills-from-mcp-servers). On other plans, `false` is the same as unset
+* **Default**: unset. These skills are off for Team and Enterprise members who sign in to claude.ai with `/login`. For other sign-ins, see [MCP skill availability](https://code.claude.com/docs/en/mcp.md#requirements-for-skills-from-mcp-servers)
+
+This example allows these skills for Team and Enterprise members:
+
+```json managed-settings.json theme={null}
+{
+  "disableDirectMcpSkills": false
+}
+```
+
+If any [admin source](https://code.claude.com/docs/en/managed-settings.md#keys-read-from-every-admin-source) sets `true`, the skills stay off.
+
+Anthropic doesn't scan these skills. They can contain instructions or code that cause Claude to take unintended actions, including through [prompt injection](https://code.claude.com/docs/en/security.md#protect-against-prompt-injection). Set this to `false` only if you trust the servers your members add.
 
 ### `disableClaudeAiConnectors`
 

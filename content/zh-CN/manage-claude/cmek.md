@@ -64,7 +64,7 @@ description: 使用您在自己的云中持有的密钥来加密 Claude 存储�
 * 您的密钥仅保护[在其生效之后](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-how-it-works#when-your-key-takes-effect)写入的数据。
 * 如果您的密钥被删除，Anthropic 将无法恢复该密钥保护的数据。在您禁用密钥后约一小时内，Anthropic 将无法再解密这些数据。请参阅[每项操作的作用](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-key-lifecycle#what-each-action-does)。
 * 在 Claude Platform 上，附加了密钥的工作区[必须保留数据](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#data-retention)。
-* 当 Anthropic 批准您的整个组织使用 CMEK 时，也会为该组织启用 [Access Transparency（访问透明度）](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)。启用了访问透明度的组织无法直接从浏览器调用 Claude API。
+* 当 Anthropic 批准您的整个组织使用 CMEK 时，也会为该组织启用 [Access Transparency（访问透明度）](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)。在 Claude Platform 上，如果您是通过 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview) 或 Enterprise Data Controls 获得访问权限的，则改为在附加您的第一个密钥时开启访问透明度，除非它已处于开启状态。启用了访问透明度的组织无法直接从浏览器调用 Claude API。
 
 ## 谁可以使用 CMEK
 

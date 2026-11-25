@@ -7,7 +7,7 @@ description: 以编程方式访问您组织的 Claude 活动、聊天、文件�
 “Compliance API”（合规 API）让 Claude Enterprise 和 Claude Console 客户能够以编程方式访问其组织的 “Activity Feed”（活动源）。对于 Claude Enterprise 组织，它还涵盖：所有关联组织中的用户、角色和群组目录；每个组织当前生效的设置；claude.ai 组织中的底层聊天、文件和项目；以及 Cowork、Claude Code、Claude Science、Claude for Microsoft 365、适用于 Google Docs、Google Sheets 和 Google Slides 的 Claude 加载项、Claude in Chrome 以及 Claude Tag 中的会话。安全、法务和合规团队使用它来审计活动、检索或删除内容，并将事件输送到下游工具中。
 
 <Note>
-  有两种密钥类型可以解锁 Compliance API。**Compliance Access Key**（合规访问密钥，在 claude.ai 中创建）可以访问所有端点，而 **Admin API key**（管理员 API 密钥，在 Claude Console 中创建）只能访问活动源。有关完整的密钥类型比较，请参阅[您需要哪种密钥？](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#which-key-do-you-need)。
+  有两种密钥类型可以解锁 Compliance API。**Compliance Access Key**（合规访问密钥，在 claude.ai 中创建）可以访问所有端点（Safety Cases API 的部分功能除外），而 **Admin API key**（管理员 API 密钥，在 Claude Console 中创建）可以访问活动源。在您的组织可以使用 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access) 期间创建的 Admin API 密钥也可以访问该 API。有关完整的密钥类型比较，请参阅[您需要哪种密钥？](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#which-key-do-you-need)。
 </Note>
 
 以下调用返回您组织中最近的活动事件。任何具有 `read:compliance_activities` 作用域的密钥都可以发起此调用。要创建密钥并授予其该作用域，请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
@@ -53,7 +53,7 @@ curl --fail-with-body -sS \
 
 所有端点都位于 `https://api.anthropic.com` 上的 `/v1/compliance/*` 之下，通过 `x-api-key` 标头进行身份验证，并且每个请求都需要携带 [`anthropic-version`](https://platform.claude.com/docs/zh-CN/api/versioning) 标头。要配置密钥，请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
 
-活动源（`GET /v1/compliance/activities`）可供任何携带 `read:compliance_activities` 作用域的密钥使用；有关筛选器、分页和完整的 `Activity` 对象，请参阅[查询活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)。其余端点需要携带相关作用域的 Compliance Access Key。
+活动源（`GET /v1/compliance/activities`）可供任何携带 `read:compliance_activities` 作用域的密钥使用；有关筛选器、分页和完整的 `Activity` 对象，请参阅[查询活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)。其余端点需要携带相关作用域的 Compliance Access Key。例外情况是 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access)：在您的组织可以使用该 API 期间创建的 Admin API 密钥也可以访问它。
 
 一个 Claude Enterprise 租户拥有一个父组织（集中管理身份的顶层容器），以及两类关联组织：claude.ai 组织，用户在其中聊天和存储内容；以及 Claude Console 组织，用户在其中管理 Claude API 工作负载。对于覆盖父组织的密钥，目录端点（组织、用户、角色和群组）会返回来自任一类型的所有关联组织的数据。内容端点（聊天、文件、项目、项目附件和会话）仅提供 Claude Enterprise 数据：
 
@@ -63,7 +63,7 @@ curl --fail-with-body -sS \
 | 本地会话端点 | 用户在其计算机上运行的会话（本地会话）的记录，这些记录是在用户使用其 Claude Enterprise 账户登录期间捕获的，涵盖 Cowork、Claude Code、Claude Science、Claude for Microsoft 365、适用于 Google Docs、Google Sheets 和 Google Slides 的 Claude 加载项以及 Claude in Chrome 中的会话。 |
 | 远程会话端点 | 远程会话的记录：在 claude.ai 网页版或移动版上启动的 Cowork 会话，以及在 Slack 中启动的 Claude Tag 会话。远程会话在云端的 Anthropic 托管环境中运行。Claude Tag 会话也可以在自托管的运行器池上运行。 |
 
-独立的 Claude Console 组织（没有父组织的组织）不属于 Claude Enterprise 租户；它使用 Admin API 密钥，并且只能查询活动源。
+独立的 Claude Console 组织（没有父组织的组织）不属于 Claude Enterprise 租户；它使用 Admin API 密钥。
 
 所有 `/v1/compliance/*` 端点共享每个父组织每分钟 600 个请求的 “rate limit”（速率限制）（对于独立的 Claude Console 组织，则按每个组织计算）。本地会话端点仅计入该共享限制，而远程会话端点在此之上还有第二个请求配额。有关响应标头和重试约定，请参阅 [429 Too Many Requests](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#429-too-many-requests)。
 

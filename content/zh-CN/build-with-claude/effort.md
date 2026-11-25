@@ -431,6 +431,8 @@ See also: [提示最佳实践](https://platform.claude.com/docs/zh-CN/build-with
 
 在 Claude Opus 4.5（唯一支持 effort 的仅扩展思考模型）上，它与 [`budget_tokens`](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking) 配合使用：为您的任务设置努力程度，然后根据任务所需的推理深度设置思考令牌预算。
 
+Claude Opus 4.5 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上弃用。有关退役日期和推荐的替代模型，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#2026-11-23-claude-opus-4-5-model)。[合作伙伴运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)会自行制定退役时间表。
+
 有关各模型的思考可用性，请参阅[各模型配置表](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking-troubleshooting#supported-models)。无论是否启用思考，effort 都能发挥作用。请参阅[effort 的工作原理](https://platform.claude.com/docs/zh-CN/build-with-claude/effort#how-effort-works)。
 
 ## 在对话中途更改 effort

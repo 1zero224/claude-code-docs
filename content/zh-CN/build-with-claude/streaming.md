@@ -347,6 +347,8 @@ event: error
 data: {"type": "error", "error": {"type": "overloaded_error", "message": "Overloaded"}}
 ```
 
+如果您使用 SDK，您的代码不会收到此事件。SDK 会结束流，读取流的代码会改为收到一个错误。要处理这种情况，请参阅[处理流中的错误](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-an-error-in-a-stream)。
+
 ### 其他事件
 
 根据[版本控制策略](https://platform.claude.com/docs/zh-CN/api/versioning)，可能会添加新的事件类型，您的代码应当能够妥善处理未知的事件类型。
@@ -1552,10 +1554,6 @@ data: {"type":"message_stop"}
 
   <Card title="思考" icon="brain" href="https://platform.claude.com/docs/zh-CN/build-with-claude/thinking">
     通过 `thinking_delta` 和 `signature_delta` 事件流式传输思考输出。
-  </Card>
-
-  <Card title="客户端 SDK" icon="code" href="https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview">
-    使用官方 SDK，它们会为您处理流式传输、累积和重新连接。
   </Card>
 
   <Card title="批处理" icon="stack" href="https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing">

@@ -97,21 +97,21 @@ Register for our [webinar](https://claude.com/resources/webinars/building-claude
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 17, 2026
-### Linked billing on the Claude Platform
+ArticleNov 24, 2026
+### Turn artifacts into Mac and Windows apps
+Open the artifacts you use every day like any other app, and let them do more on your computer
+Claude apps
+](https://claude.com/resources/articles/install-as-app)[
+ArticleNov 24, 2026
+### MCP servers can now ship skills, run tasks, and more with Claude
+Claude appsClaude Platform
+](https://claude.com/resources/articles/skills-over-mcp-tasks-and-more)[
+ArticleNov 23, 2026
+### Zero data retention with Enterprise Frontier Safeguards is now in beta
 Claude Platform
-](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
-ArticleNov 17, 2026
-### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
-How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
-Claude CodeClaude apps
-(opens in new tab)](https://claude.dev/blog/chaos-loop-claude-docs-launch/)[
-ArticleNov 16, 2026
-### How the Claude Code team thinks about verification
-How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
+](https://claude.com/resources/articles/zero-data-retention-with-enterprise-frontier-safeguards)[
+ArticleNov 23, 2026
+### The enterprise guide to securing coding agents
+How security and technical leaders can understand and bound risk as they scale Claude Code
 Claude Code
-(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
-ArticleNov 13, 2026
-### Building strong safety evaluations
-Recommendations for designing, running, and reporting safety evaluations, based on our own experiences.
-(opens in new tab)](https://www.anthropic.com/research/building-strong-safety-evaluations)
+](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents)

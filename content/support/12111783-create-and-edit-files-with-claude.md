@@ -48,7 +48,7 @@ These capabilities make it easy to produce professional documents by simply chat
 
 To give Claude access to external data sources, toggle **Allow network egress** on:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2054774005/25bcfffba6c249cd128d6c3f6d52/CleanShot+2026-02-11+at+16_34_47%402x.png?expires=1795451400&amp;signature=fc8a0d7e1dfbed6aaa14509d9b4e7e53ad4db367a04ef5b099f3d27c57c99b81&amp;req=diAiEs55mYFfXPMW1HO4zYFJyghBCZjKPQVowIiib2kwKTxlBmzqrb21kViv%0At9rH8BYjoRd%2FnjEVOgI%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2054774005/25bcfffba6c249cd128d6c3f6d52/CleanShot+2026-02-11+at+16_34_47%402x.png?expires=1795672800&amp;signature=5ec78e79b746dbc0866001bf9d1e68fe5ab929970e2d25e72355ba791b8848e6&amp;req=diAiEs55mYFfXPMW3nq%2BgWwhvHahSvYV6eB%2BPMWT8DghnFBWX98eom8Klz3H%0ARQaWKMf0iCby0H5jvzxFVXMpbmE%3D%0A)
 
 ### Enabling on Claude Mobile
 
@@ -66,37 +66,37 @@ Team and Enterprise organization owners can control network access settings in *
 
 - **Allow network egress to package managers and specific domains:** Claude can access package managers plus additional domains you specify. Add domains individually to whitelist specific resources your organization needs:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1789945362/ad72504d5429960f369b8b91b43c/86f06c0e-6eaa-4574-a4cb-2c38b273613a?expires=1795451400&amp;signature=40b38a948852d0568ba74ce7bef80dad2f4c746cce923f2dd2eed9659091de77&amp;req=dScvH8B6mIJZW%2FMW1HO4zXJcB2hHkChPpMW6Iph6YZcNdURAG9Q2kxtt4zFX%0ACagxCEy9i%2FXUl799Dwc%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1789945362/ad72504d5429960f369b8b91b43c/86f06c0e-6eaa-4574-a4cb-2c38b273613a?expires=1795672800&amp;signature=bcb3cfc66f42ca19eb0289b5b7f9345d341772c05d60118f394e214357584396&amp;req=dScvH8B6mIJZW%2FMW3nq%2BgdQoTgnuUdNfCpbNBj0zeZQvDdUzkzC9zC5x1N%2FX%0A63KdhXL6rM3qMMcgtTNFRhEXmUk%3D%0A)
 
 **All domains:** Claude has full internet access except for domains on Anthropic's legal blocklist. While this provides maximum flexibility for file creation and analysis tasks, it’s also the riskiest option. Please review the **[security considerations below](#h_0ee9d698a1)** before enabling “All domains”:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1789945361/e3188cb8edb9ca7c303615da6378/f1c99a7d-5956-48d5-9ec7-b7ae6c8c3d28?expires=1795451400&amp;signature=17bcfdb108d90f6027fd0b619faa89d5c32dc44c660e99d5a125b0f1ee8e7361&amp;req=dScvH8B6mIJZWPMW1HO4zdnseRGW6z6mqgKIA6CM1tpcO9H1WxzDrGLkm0YA%0AAKjYwB4HoPvCmB9zMS0%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1789945361/e3188cb8edb9ca7c303615da6378/f1c99a7d-5956-48d5-9ec7-b7ae6c8c3d28?expires=1795672800&amp;signature=2790d45aff68caace3d63e0112e6ca4040b080bac69f3d7b05fc5eebd10c19ef&amp;req=dScvH8B6mIJZWPMW3nq%2BgcDM0aePmp1Kl%2B%2Bqj03ykB4%2FzGx9FjisS%2F5BG9ip%0A7w0tryiusAkZjDpdjzWSSsFcrhI%3D%0A)
 
 ---
 
 ## How does disabling network access address security concerns with code execution and file creation?
 
-Disabling network access prevents data from leaving Claude's sandboxed environment—even if something goes wrong.
+Disabling network access prevents code in Claude's sandboxed environment from sending data out. Connectors can still send data.
 
 ### How it works
 
 When Claude executes code or creates files, it operates within an isolated, sandboxed container. This means the work happens in a controlled environment separate from your systems. However, if network access is enabled, there's a potential risk: through prompt injection or other attacks, Claude could theoretically be tricked into sending data to external servers.
 
-Disabling network access eliminates this risk entirely. Your team still gets Claude's full code execution and file creation capabilities - building Excel models, creating presentations, analyzing data—but with the assurance that nothing can be transmitted outside the sandbox.
+Disabling network access reduces this risk. Your team still gets Claude's full code execution and file creation capabilities - building Excel models, creating presentations, analyzing data—and code in the sandbox can't send data out, but connectors still can.
 
 ### A phased approach to network access
 
 Claude is most powerful with network access enabled, allowing it to install new packages and dependencies, pull in real-time data, and interact with web services. For organizations comfortable with that risk profile, enabling access to vetted, trusted domains unlocks the full potential of code execution and file creation. For those taking a more cautious approach, we recommend starting with network access disabled and adjusting as your team builds confidence:
 
-1. **Start with network access off.** This is the most secure configuration. Claude can execute code and create files, but cannot communicate externally.
+1. **Start with network access off.** This is the most secure configuration. Claude can execute code and create files, but code in the sandbox can't communicate externally. Connectors still can.
 
 2. **Enable package managers.** Unlocks pip, npm, and other package managers to install dependencies - significantly expands what Claude can build.
 
 3. **Expand network access as needed.** Add specific domains to an allowlist based on business requirements, maintaining visibility into what's permitted.
 
-This approach gives you defense in depth—even if there were vulnerabilities in the sandbox or a successful prompt injection, disabled network access acts as a final barrier preventing data from leaving Anthropic's infrastructure.
+This approach gives you defense in depth—even if there were vulnerabilities in the sandbox or a successful prompt injection, disabled network access helps prevent code in the sandbox from sending data outside Anthropic's infrastructure. Connectors can still send data.
 
-**Note:** If MCP (Model Context Protocol) integrations are enabled, network communication remains possible through those connections regardless of the network egress setting. Organizations should evaluate MCP configurations separately.
+**Note:** If MCP (Model Context Protocol) integrations are enabled, network communication remains possible through those connections regardless of the network egress setting. This includes file transfers with connectors. Organizations should evaluate MCP configurations separately.
 
 ---
 
@@ -112,7 +112,7 @@ Claude can create Excel spreadsheets (.xlsx), PowerPoint presentations (.pptx), 
 
 With this feature, Claude can also do more advanced data analysis and data science work. Claude can create Python scripts for data analysis. Claude can create data visualizations in image files like PNG. You can also upload CSV, TSV, and other files for data analysis and visualization.
 
-The maximum file size is 30MB per file for both uploads and downloads.
+The maximum file size is 30MB per file for both uploads and downloads. Files you send to or save from connected apps have different limits. Learn more about **[file limits for connected apps](https://support.claude.com/en/articles/18534325)**.
 
 ---
 
@@ -122,7 +122,7 @@ The maximum file size is 30MB per file for both uploads and downloads.
 
 Claude creates Excel spreadsheets (.xlsx), PowerPoint presentations (.pptx), Word documents (.docx), and PDF files. You can download the files Claude creates or save them directly to Google Drive.
 
-The maximum file size is 30MB per file for both uploads and downloads. For PDFs larger than 30MB, Claude can process them through its computing environment without loading them into the context window.
+The maximum file size is 30MB per file for both uploads and downloads. Files you send to or save from connected apps have different limits. For PDFs larger than 30MB, Claude can process them through its computing environment without loading them into the context window.
 
 ### Advanced data analysis
 

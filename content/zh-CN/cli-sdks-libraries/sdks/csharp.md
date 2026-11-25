@@ -138,44 +138,21 @@ await foreach (var message in client.Messages.CreateStreaming(parameters))
 
 ## 错误处理
 
-SDK 会抛出自定义的非受检异常类型：
-
-* `AnthropicApiException`：API 错误的基类。各 HTTP 状态码对应抛出的异常子类请参见下表：
-
-| 状态码 | 异常 |
-| ----- | ----- |
-| 400 | `AnthropicBadRequestException` |
-| 401 | `AnthropicUnauthorizedException` |
-| 403 | `AnthropicForbiddenException` |
-| 404 | `AnthropicNotFoundException` |
-| 422 | `AnthropicUnprocessableEntityException` |
-| 429 | `AnthropicRateLimitException` |
-| 5xx | `Anthropic5xxException` |
-| 其他 | `AnthropicUnexpectedStatusCodeException` |
-
-此外，所有 4xx 错误都继承自 `Anthropic4xxException`。
-
-* `AnthropicSseException`：在成功获得初始 HTTP 响应后，SSE 流式传输过程中遇到的错误。
-
-* `AnthropicIOException`：I/O 网络错误。
-
-* `AnthropicInvalidDataException`：无法解释已成功解析的数据。例如，访问本应为必需的属性，但 API 意外地在响应中省略了该属性。
-
-* `AnthropicException`：所有异常的基类。
+当 API 返回错误响应时，SDK 会抛出 `AnthropicApiException`；当 SDK 无法连接到 API 时，SDK 会抛出 `AnthropicIOException`。这些异常以及 SDK 的其他异常都继承自 `AnthropicException`。[SDK 错误类型](https://platform.claude.com/docs/zh-CN/api/errors#sdk-error-types)列出了各种情况（包括流中的错误），[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)介绍了如何捕获这些异常。
 
 ## 重试
 
-SDK 默认自动重试 2 次，请求之间采用短暂的指数退避。
+默认情况下，SDK 会对某些错误最多重试两次（总共尝试三次）。
 
-仅以下错误类型会被重试：
+SDK 会重试以下错误类型：
 
-* 连接错误（例如，由于网络连接问题）
+* 连接错误和超时
 * 408 Request Timeout
 * 409 Conflict
-* 429 Rate Limit
-* 5xx Internal
+* 429 Too Many Requests
+* 5xx 服务器错误
 
-API 也可能明确指示 SDK 重试或不重试某个请求。
+如果响应带有 `x-should-retry` 标头（`true` 或 `false`），SDK 会遵循该标头而不是状态码。在两次尝试之间，SDK 会按照 `retry-after` 标头指定的时长等待，或者使用短暂的指数退避。
 
 要设置自定义重试次数，请使用 `MaxRetries` 属性配置客户端：
 

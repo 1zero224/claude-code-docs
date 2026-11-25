@@ -5,11 +5,15 @@ url: https://platform.claude.com/docs/en/api/beta/user_profiles
 
 # User Profiles
 
+Register the end customers that your platform serves, so each request can name who it's for. To get started, see the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=http).
+
 ## Create User Profile
 
 **POST** `/v1/user_profiles`
 
-Create User Profile
+Register one of your end customers and get the ID to send on the requests you make for them.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=http#create-a-profile-for-each-end-customer) for what to send.
 
 ### Headers
 
@@ -118,6 +122,8 @@ Create User Profile
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -446,7 +452,9 @@ curl https://api.anthropic.com/v1/user_profiles \
 
 **GET** `/v1/user_profiles`
 
-List User Profiles
+List the user profiles in your organization, newest first by default.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=http) for how to set up and manage profiles.
 
 ### Query parameters
 
@@ -593,6 +601,8 @@ List User Profiles
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -818,7 +828,9 @@ curl https://api.anthropic.com/v1/user_profiles \
 
 **GET** `/v1/user_profiles/{user_profile_id}`
 
-Get User Profile
+Get a user profile by ID to check the details stored for it.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=http) for how to set up and manage profiles.
 
 ### Path parameters
 
@@ -933,6 +945,8 @@ Get User Profile
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -1151,7 +1165,9 @@ curl https://api.anthropic.com/v1/user_profiles/$USER_PROFILE_ID \
 
 **POST** `/v1/user_profiles/{user_profile_id}`
 
-Update User Profile
+Change the details of a user profile, leaving the fields that you don't send as they are.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=http#update-a-profile) for how each field is updated.
 
 ### Path parameters
 
@@ -1266,6 +1282,8 @@ Update User Profile
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -1588,7 +1606,9 @@ curl https://api.anthropic.com/v1/user_profiles/$USER_PROFILE_ID \
 
 **DELETE** `/v1/user_profiles/{user_profile_id}`
 
-Delete User Profile
+Delete a user profile, for example when the end customer closes their account.
+
+Stop sending the profile's ID first. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=http#delete-a-profile) for what happens after a delete.
 
 ### Path parameters
 
@@ -1704,6 +1724,8 @@ Delete User Profile
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -1787,7 +1809,9 @@ curl https://api.anthropic.com/v1/user_profiles/$USER_PROFILE_ID \
 
 **POST** `/v1/user_profiles/{user_profile_id}/enrollment_url`
 
-Create Enrollment URL
+Create a link that sends the profile's end customer to the Verification Portal from Claude Platform on AWS.
+
+On the Claude API, create an action URL instead. See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=http) for when to create the link and what the end customer sees.
 
 ### Path parameters
 
@@ -1902,6 +1926,8 @@ Create Enrollment URL
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -2291,7 +2317,9 @@ curl https://api.anthropic.com/v1/user_profiles/$USER_PROFILE_ID/enrollment_url 
 
 **POST** `/v1/user_profiles/{user_profile_id}/action_urls`
 
-Create Action URL
+Create a link that sends the profile's end customer to the Verification Portal.
+
+See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=http) for when to create the link and what the end customer sees.
 
 #### Path parameters
 
@@ -2406,6 +2434,8 @@ Create Action URL
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 

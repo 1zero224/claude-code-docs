@@ -117,6 +117,8 @@ Create Deployment
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -1102,20 +1104,23 @@ curl https://api.anthropic.com/v1/deployments \
     -H 'anthropic-beta: managed-agents-2026-04-01' \
     -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
-          "agent": "string",
-          "environment_id": "x",
+          "agent": {
+            "id": "agent_011CZkYpogX7uDKUyvBTophP",
+            "type": "agent"
+          },
+          "environment_id": "env_011CZkZ9X2dpNyB7HsEFoRfW",
           "initial_events": [
             {
               "content": [
                 {
-                  "text": "Where is my order #1234?",
+                  "text": "Compile yesterday'\''s orders into report.md.",
                   "type": "text"
                 }
               ],
               "type": "user.message"
             }
           ],
-          "name": "x",
+          "name": "Daily order report",
           "schedule": {
             "expression": "0 9 * * 1-5",
             "timezone": "America/Los_Angeles",

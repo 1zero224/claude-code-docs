@@ -519,6 +519,8 @@ Create Deployment
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `:"efs-2026-10-01"`
+
   - `:"user-profiles-billing-2026-10-01"`
 
   - `:"message-batches-2024-09-24"`
@@ -1097,10 +1099,10 @@ require "anthropic"
 anthropic = Anthropic::Client.new(api_key: "my-anthropic-api-key")
 
 beta_managed_agents_deployment = anthropic.beta.deployments.create(
-  agent: "string",
-  environment_id: "x",
-  initial_events: [{content: [{text: "Where is my order #1234?", type: :text}], type: :"user.message"}],
-  name: "x"
+  agent: {id: "agent_011CZkYpogX7uDKUyvBTophP", type: :agent},
+  environment_id: "env_011CZkZ9X2dpNyB7HsEFoRfW",
+  initial_events: [{content: [{text: "Compile yesterday's orders into report.md.", type: :text}], type: :"user.message"}],
+  name: "Daily order report"
 )
 
 puts(beta_managed_agents_deployment)
@@ -1312,6 +1314,8 @@ List Deployments
   - `:"experimental-claude-tag-2026-10-21"`
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `:"efs-2026-10-01"`
 
   - `:"user-profiles-billing-2026-10-01"`
 
@@ -2068,6 +2072,8 @@ Get Deployment
   - `:"experimental-claude-tag-2026-10-21"`
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `:"efs-2026-10-01"`
 
   - `:"user-profiles-billing-2026-10-01"`
 
@@ -3224,6 +3230,8 @@ Update Deployment
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `:"efs-2026-10-01"`
+
   - `:"user-profiles-billing-2026-10-01"`
 
   - `:"message-batches-2024-09-24"`
@@ -3974,6 +3982,8 @@ Archive Deployment
   - `:"experimental-claude-tag-2026-10-21"`
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `:"efs-2026-10-01"`
 
   - `:"user-profiles-billing-2026-10-01"`
 
@@ -4726,6 +4736,8 @@ Run Deployment Now
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `:"efs-2026-10-01"`
+
   - `:"user-profiles-billing-2026-10-01"`
 
   - `:"message-batches-2024-09-24"`
@@ -5148,6 +5160,8 @@ Pause Deployment
   - `:"experimental-claude-tag-2026-10-21"`
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `:"efs-2026-10-01"`
 
   - `:"user-profiles-billing-2026-10-01"`
 
@@ -5899,6 +5913,8 @@ Unpause Deployment
   - `:"experimental-claude-tag-2026-10-21"`
 
   - `:"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `:"efs-2026-10-01"`
 
   - `:"user-profiles-billing-2026-10-01"`
 

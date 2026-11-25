@@ -39,7 +39,7 @@ You’ll use the threat model in two places. In discovery, as scope**:** partiti
 “One team scanning a large project had a 40% false positive rate and dug into why. The findings were reproducible and the PoCs proved exploitability. But the dev team who owned the code dismissed them as false positives because the bugs didn't fit the project's threat model. Another team's CISO put it succinctly: "[The model has] good context of the code, but not good context of us."”
 **Try the [threat-model skill](https://github.com/anthropics/defending-code-reference-harness/tree/main/.claude/skills/threat-model).** It walks through both steps described in this section—`bootstrap` derives a draft from your code, CVEs, and git history, and interview walks a system owner through Shostack’s four questions to refine it. The output is a `THREAT_MODEL.md` file which is used in the Discovery and Triage steps.
 ## **2. Sandbox: Run agents safely and verify exploitability**
-**One purpose of the sandbox is to protect your systems.** To enable models to run safely and autonomously, you need a strong isolation layer. Without it, the agent may overshoot the target and do something unexpected.
+**One purpose of the sandbox is to [protect your systems](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents#chapter-4).** To enable models to run safely and autonomously, you need a strong isolation layer. Without it, the agent may overshoot the target and do something unexpected.
 “One team told the model it had no network access—when it actually did—and the model discovered it could fetch from GitHub anyway. Another team observed an agent answer a GitHub issue mid-scan. Neither action was malicious, but both demonstrated the need to enforce constraints via code and configuration.”
 Match the isolation to your threat model. Containers are fine for the discovery agent reading code, but run the target and its PoCs in a microVM (like Firecracker) or a full VM with egress locked down so nothing can reach your production systems. And never have credentials (`~/.aws`, `~/.ssh`, `.env`) available to the agent.
 Give the sandbox network access only while you’re setting it up. Pull the dependencies, build, install tools, deploy the target, and run the existing tests to confirm everything works. Then, snapshot the environment and remove its network access. During scanning, allow traffic only to the model API, routed through a local proxy. Load the snapshot at the start of each run so every scan begins from the same clean slate.
@@ -124,6 +124,11 @@ Written by Eugene Yan and Henna Dattani, with contributions from Michael Molash,
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
+ArticleNov 23, 2026
+### The enterprise guide to securing coding agents
+How security and technical leaders can understand and bound risk as they scale Claude Code
+Claude Code
+](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents)[
 ArticleNov 17, 2026
 ### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
 How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
@@ -138,9 +143,4 @@ ArticleNov 13, 2026
 ### Building always-on agents
 Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
 Claude Platform
-](https://claude.com/resources/articles/building-always-on-agents)[
-ArticleNov 13, 2026
-### The Claude Tag guide for startups
-How leading startups use Claude Tag to ship faster and scale operations
-Claude Tag
-](https://claude.com/resources/articles/claude-tag-guide-for-startups)
+](https://claude.com/resources/articles/building-always-on-agents)

@@ -618,7 +618,7 @@ env | grep -E 'CLAUDE_CODE_USE_(BEDROCK|VERTEX)'
 将模型请求发送到 Amazon Bedrock 或 Google Cloud 的 Agent Platform 的会话与 Anthropic API 上的会话存在以下不同：
 
 * **来自 claude.ai 的策略**：[服务器托管设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md)不会传递到这些会话。Owner 在 Claude Code 管理设置中设定的组织策略也不会传递到这些会话，因此 Claude Code 不会在会话中强制执行这些策略。请将您依赖的规则放入 runner 镜像的[托管设置文件](https://code.claude.com/docs/zh-CN/managed-settings.md#delivery-mechanisms)中。
-* **账户 skill**：这些会话不会下载用户的 claude.ai 账户中已启用的 skill。请参阅[每个会话的配置是如何组装的](#how-each-session’s-config-is-assembled)。
+* **账户 skill 和插件**：这些会话不会下载用户的 claude.ai 账户中已启用的 skill 或插件。请参阅[每个会话的配置是如何组装的](#how-each-session’s-config-is-assembled)。
 * **文件**：用户在 claude.ai 或移动端、桌面端应用中附加到会话的文件不会传递到会话，Claude 也无法通过 [`SendUserFile` 工具](https://code.claude.com/docs/zh-CN/tools-reference)回传文件。请改为将输入文件放在仓库中或 runner 上。
 * **模型选择**：Anthropic 的控制平面会发送每个会话的模型；当会话启动时未指定模型，Claude Code 会使用该提供商的默认模型。您无法通过 runner 环境中的 `ANTHROPIC_MODEL` 或 `ANTHROPIC_DEFAULT_MODEL` 选择模型，但可以固定别名解析到的模型：
   * **`ANTHROPIC_MODEL` 和 `ANTHROPIC_DEFAULT_MODEL`**：runner 会从其传递给会话的环境中移除这两个变量，尽管提供商页面的示例设置了 `ANTHROPIC_MODEL`。
@@ -783,19 +783,14 @@ fi
 # shellcheck disable=SC2086  # $base is either "" or "FETCH_HEAD", intentional word-split
 unpushed=$(git -C "$d" rev-list HEAD --not $base --remotes=origin --count 2>/dev/null) || unpushed=0
 if [ "$unpushed" -gt 0 ]; then
-  branch=$(git -C "$d" symbolic-ref --short -q HEAD)
-  if [ -n "$branch" ]; then
-    # $branch is attacker-influenced — git-check-ref-format(1) allows `"`
-    # in ref names. `\` is forbidden (rule 10) but escaped anyway as cheap
-    # defense-in-depth.
-    # Escape JSON metacharacters before interpolating into the hand-built
-    # payload so a branch like x","continue":false can't inject keys into
-    # the hook-output JSON the harness parses. $unpushed is safe — the
-    # -gt guard above rejects anything that isn't a plain integer.
-    branch_esc=$(printf '%s' "$branch" | sed 's/\\/\\\\/g; s/"/\\"/g')
-    printf '{"decision":"block","reason":"There are %s unpushed commit(s) on branch '\''%s'\''. Please push these changes to the remote repository."}' "$unpushed" "$branch_esc"
-  else
+  # The branch name is not trusted text, so the message leaves it out.
+  # $unpushed is a count from git rev-list, or 0.
+  # With -q, symbolic-ref exits 1 on a detached HEAD.
+  git -C "$d" symbolic-ref -q HEAD >/dev/null 2>&1
+  if [ $? -eq 1 ]; then
     printf '{"decision":"block","reason":"There are %s unpushed commit(s) on a detached HEAD. Please create a branch and push it to the remote repository."}' "$unpushed"
+  else
+    printf '{"decision":"block","reason":"There are %s unpushed commit(s) on the branch checked out in the project directory. Please push these changes to the remote repository."}' "$unpushed"
   fi
   exit 0
 fi
@@ -825,14 +820,13 @@ Stop hook 检查的是每个子模块所处的提交，而不是其中的文件�
 
 ### 替换旧版 Stop hook 脚本
 
-在您的 `stop-hook-nudge.sh` 副本中搜索 `GIT_OPTIONAL_LOCKS`。如果找不到，说明您使用的是旧版副本。请在所有安装位置将其替换为[当前脚本](#prompt-sessions-to-push-their-work)，然后重启运行器。保留您的 Stop hook 设置，但在大型检出上可调高 `timeout`。
+在您的 `stop-hook-nudge.sh` 副本中搜索文本 `checked out in the project directory`。如果找不到，说明您使用的是旧版副本。请立即在所有安装位置将其替换为[当前脚本](#prompt-sessions-to-push-their-work)，然后重启运行器。保留您的 Stop hook 设置，但在大型检出上可调高 `timeout`。
 
-* **时机**：如果您的会话在启用 [Bash 沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)的情况下运行，请立即替换。否则，请在下次构建镜像或重启运行器时替换。
-* **变化**：子模块中未提交的文件不再提示 Claude。而 `.gitmodules` 标记为 `ignore = all` 的子模块中的新提交现在会提示 Claude。
+替换脚本后，关于未推送提交的提示将不再包含分支名称。如果您的旧版副本曾因子模块中未提交的文件而提示 Claude，该提示将不再出现。有关当前脚本如何处理子模块，请参阅[子模块与 Stop hook](#submodules-and-the-stop-hook)。
 
 > [!WARNING]
 >
-> hook 在 Bash 沙箱之外运行，因此当前脚本的 git 调用会跳过某些可能启动检出的 git 设置中所指定程序的 git 功能，但并不会跳过全部此类功能。不要仅依赖沙箱，并请按照[加固您的部署](https://code.claude.com/docs/zh-CN/self-hosted-environments-deploy.md#harden-your-deployment)中的说明隔离会话。
+> hook 在 [Bash 沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md)之外运行，因此当前脚本的 git 调用会跳过某些可能启动检出的 git 设置中所指定程序的 git 功能，但并不会跳过全部此类功能。不要仅依赖沙箱，并请按照[加固您的部署](https://code.claude.com/docs/zh-CN/self-hosted-environments-deploy.md#harden-your-deployment)中的说明隔离会话。
 
 ## 权限和工具批准
 
@@ -861,7 +855,7 @@ exec "$CLAUDE_RUNNER_CLAUDE_BIN" "$@" --permission-mode auto
 
 ### 每个会话的配置如何组装
 
-运行器为每个会话提供自己的配置目录，该目录以运行器在启动时一次性捕获的主机 `~/.claude/` 快照为初始内容：您的运行器镜像中的 `settings.json`、`CLAUDE.md`、hook、Agent、命令和 skill 会作为用户级基线应用于每个会话。如果您更改正在运行的主机上的配置，更改仅在您重启运行器后生效。
+自托管运行器为每个会话提供自己的配置目录，该目录以运行器在启动时一次性捕获的主机 `~/.claude/` 快照为初始内容。您的运行器镜像中的 `settings.json`、`CLAUDE.md`、hook、Agent、命令和 skill 会作为用户级基线应用于会话。如果您更改正在运行的主机上的配置，更改仅在您重启运行器后生效。
 
 设置 `SELF_HOSTED_RUNNER_HOST_CONFIG_DIR` 可从其他路径获取初始内容，或将其指向空目录以禁用初始内容填充。
 
@@ -871,6 +865,10 @@ exec "$CLAUDE_RUNNER_CLAUDE_BIN" "$@" --permission-mode auto
 * **托管设置**：会话会从运行器镜像中的标准系统路径读取 [`managed-settings.json`](https://code.claude.com/docs/zh-CN/settings#where-settings-live)。关于其中的键是否与[服务器托管设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md)一起应用，请参阅 [Claude Code 如何合并托管来源](https://code.claude.com/docs/zh-CN/managed-settings.md#how-claude-code-combines-managed-sources)。
 
 有关这些来源的应用顺序，请参阅[设置优先级](https://code.claude.com/docs/zh-CN/settings.md#settings-precedence)。
+
+> [!NOTE]
+>
+> 在 [PR Steward](https://code.claude.com/docs/zh-CN/pr-steward-setup.md#choose-the-environment-pr-steward-runs-in) 会话中，Claude Code 不会从运行器加载任何 `CLAUDE.md` 或规则文件，这包括您的运行器镜像和仓库的检出内容。PR Steward [从仓库的默认分支](https://code.claude.com/docs/zh-CN/pr-steward-pull-requests.md#save-pr-steward-instructions-for-everyone-in-a-repository)读取仓库的指令文件，因此请将它应遵循的内容放在那里。
 
 当 Anthropic 的控制平面为会话提供 [Claude Code hook](https://code.claude.com/docs/zh-CN/hooks.md) 时，运行器会将它们与您自己的配置并行安装，而不是覆盖您的配置。需要 Claude Code v2.1.229 或更高版本；较旧的运行器会忽略所提供的 hook。所提供的 hook 会运行 `python3`，因此请在您的[运行器镜像](https://code.claude.com/docs/zh-CN/self-hosted-environments-deploy.md#build-the-runner-image)中安装 `python3`。
 
@@ -914,7 +912,7 @@ exec "$CLAUDE_RUNNER_CLAUDE_BIN" "$@" --permission-mode auto
 * **`--capacity 1`（默认值）并使用内置检出**：会话在其仓库列表中的第一个仓库中启动。该仓库的 `.claude/settings.json` 作为项目设置生效，其 [`.mcp.json`](#mcp-servers) 会被加载，而其他仓库的则不会。
 * **`--capacity` 大于 1，或使用 [`checkout` hook](#checkout)**：会话在包含各检出内容的按会话目录中启动。没有任何仓库的 `.claude/settings.json` 作为项目设置生效，没有任何仓库的 `.mcp.json` 会被加载，并且 hook 命令中的 [`$CLAUDE_PROJECT_DIR`](https://code.claude.com/docs/zh-CN/hooks#reference-scripts-by-path) 是该目录，而不是某个检出目录。
 
-无论会话在何处启动，每个仓库的 `CLAUDE.md` 都会被加载。在项目线程之外，其 skill 也会被加载。运行器将每个仓库作为[附加目录](https://code.claude.com/docs/zh-CN/permissions.md#additional-directories-grant-file-access-not-configuration)传递给 Claude Code，因此在项目线程之外，Claude Code 还会从每个仓库的 `.claude/settings.json` 中读取 `enabledPlugins` 和 `extraKnownMarketplaces` 键。如果您使用 [`--trust-workspace false`](https://code.claude.com/docs/zh-CN/self-hosted-environments-reference#runner-cli-flags) 启动运行器，Claude Code 会跳过这两个键。跳过 `enabledPlugins` 需要 Claude Code v2.1.323 或更高版本。
+无论会话在何处启动，每个仓库的 `CLAUDE.md` 都会被加载。在项目线程之外，其 skill 也会被加载。运行器将每个仓库作为[附加目录](https://code.claude.com/docs/zh-CN/permissions.md#additional-directories-grant-file-access-not-configuration)传递给 Claude Code。在项目线程之外，`enabledPlugins` 和 `extraKnownMarketplaces` 键也可以来自每个仓库的 `.claude/settings.json`。如果您使用 [`--trust-workspace false`](https://code.claude.com/docs/zh-CN/self-hosted-environments-reference#runner-cli-flags) 启动运行器，Claude Code 会跳过这两个键。跳过 `enabledPlugins` 需要 Claude Code v2.1.323 或更高版本。
 
 要在每个会话中运行某个 hook 或应用某条权限规则，请将其放在运行器主机上的 `~/.claude/settings.json` 中。无论会话在何处启动，运行器都会[将该主机文件填充到每个会话中](#how-each-session’s-config-is-assembled)。在 `Read` 或 `Edit` 规则中，请将路径写为以 `//` 开头的绝对路径或以 `~/` 开头的相对于主目录的[模式](https://code.claude.com/docs/zh-CN/permissions.md#read-and-edit)，因为其他模式会以设置来源或当前目录为锚点。
 

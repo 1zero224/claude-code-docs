@@ -10,9 +10,9 @@
 
 ## 找出为什么 mod 不起作用
 
-当 mod 不起作用时，请检查 Claude Code 从 mod 文件读取的内容，以及它在跳过某些内容时写入的行。对于第一项，在您的 shell 中运行 [`claude plugin validate`](https://code.claude.com/docs/zh-CN/plugins/mods/create#check-what-claude-code-reads-from-your-mod)，使用 mod 的目录，如 `claude plugin validate ./first-mod`。它可以捕获拼写错误的事件、错误的清单和 Claude Code 无法读取的模块，而无需启动会话。
+当 mod 不起作用时，请检查 Claude Code 从 mod 文件读取的内容，以及它在跳过某些内容时写入的行。要检查这些文件，请在您的 shell 中运行 [`claude plugin validate`](https://code.claude.com/docs/zh-CN/plugins/mods/create#check-what-claude-code-reads-from-your-mod)，使用 mod 的目录，如 `claude plugin validate ./first-mod`。它可以捕获错误的清单和 Claude Code 无法读取的模块，而无需启动会话。
 
-当模块未加载、hook 被跳过或另一个 mod 拒绝您的 mod 时，Claude Code 会写入一行，其中命名您的 mod。您读取该行的位置取决于会话：
+在某些情况下，例如代码错误导致 mod 无法加载、hook 被跳过或另一个 mod 拒绝您的 mod 时，Claude Code 会写入一行，其中命名您的 mod。根据会话类型，在会话记录、调试日志或 stderr 中查找该行：
 
 * **热重新加载插件目录的会话**：会话记录中的一行暗色文本。这是您使用 `--plugin-dir` 启动的交互式会话，或者是针对 Claude 编写的 mod [启用了热重新加载](https://code.claude.com/docs/zh-CN/plugins/mods/create.md#ask-claude-for-a-mod)的会话。
 * **任何其他交互式会话，例如运行您从市场安装的 mod 的会话**：[调试日志](#read-the-debug-log)。要获取一个，请使用 `claude --debug` 启动会话。
@@ -61,6 +61,7 @@ mod 添加的任何内容都不会出现，`/plugin` 中的 [`mods active` 行](
 | :- | :- |
 | `hooks modules are turned off for installed plugins in this process: the rollout switch served off` | Anthropic 已远程关闭已安装的 mod。 |
 | `hooks modules are turned off for installed plugins in this process: the rollout switch was saved off by an earlier session` | 该会话使用了先前会话保存的值，该值可能已过时。请重新启动 Claude Code 以刷新该值。 |
+| `hooks modules a person installed wait for the rollout switch in this process` | 在[云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web.md)中，您的 mod 正在等待加载，因此请再发送一条消息。如果该行包含 `could not be read`，或者您看到 `Mods you installed aren't running in this session`，请改为启动新会话。 |
 | `disableAllHooks in managed settings` | 您的组织关闭了来自已安装插件的 hooks |
 | `only managed plugins and built-in plugins run` | 设置了 `allowManagedHooksOnly`，或在托管设置以外的设置文件中设置了 `disableAllHooks` |
 | `installed plugins that are not managed load no hooks module in this mode (--bare)` | 您使用 `--bare` 启动了 Claude Code |
@@ -68,13 +69,15 @@ mod 添加的任何内容都不会出现，`/plugin` 中的 [`mods active` 行](
 
 ### 来自内置保护的消息
 
-在[内置守卫](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#know-what-happens-by-default)加载的地方，它可以拒绝 mod 或其答案之一。部分消息会指明您的组织管理员为更改该规则而设置的选项。
+在[内置守卫](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#know-what-happens-by-default)加载的地方，它可以拒绝 mod，或拒绝其某个答案或调用。部分消息会指明您的组织管理员为更改该规则而设置的选项。
 
 | 消息包含 | 这意味着什么 | 它出现在哪里 |
 | :- | :- | :- |
 | `mods are limited to your organization's by policy (allowManagedModsOnly)` | 您的组织仅允许 [其自己的 mod](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#install-your-organizations-mods)，因此您的 mod 被拒绝 | 调试日志，以及 [热重新加载插件目录的会话](#find-out-why-a-mod-does-nothing) 中的会话记录 |
-| `tried to lift a deny rule in your settings` | 您的 mod 的 [`tool.check`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#tools) hook 批准了 `deny` 规则拒绝的调用。该调用保持被拒绝。 | 会话记录和调试日志，会话中每个 mod 一次。在 `claude -p` 运行中，仅调试日志。 |
+| `tried to lift` 或 `tried to reword`，例如 `tried to lift a deny rule in your settings` | 您的 mod 中的某个 hook（例如 [`tool.check`](https://code.claude.com/docs/zh-CN/plugins/mods/events#approve-or-refuse-a-tool-call-before-the-user-is-asked)）试图放宽或改写该消息所指明的决定。该决定保持不变。请返回 `await next(e)` 给出的结果，或更严格的决定。 | 会话记录和调试日志。在 `claude -p` 运行中，为调试日志。 |
 | `the rules and hooks in your settings could not be checked for this call, so it is refused` | 守卫在检查 mod 批准的调用时失败，因此它拒绝了该调用 | Claude 为被拒绝的调用读取的原因 |
+| `is not for plugins outside policy to change` | 您的 mod 试图更改守卫拒绝更改的环境变量。请删除该 `$.env.set` 调用。 | `$.env.set` 抛出的错误 |
+| `would be named as a tool of one of the organization's servers` | 原因之一是插件名称与您组织的某个 MCP 服务器或插件名称相同。请重命名该插件，并更新匹配该工具旧[完整名称](https://code.claude.com/docs/zh-CN/plugins/mods/api.md#add-a-tool)的 hook。如果错误仍然存在，请询问管理员 [`managed-mcp.json`](https://code.claude.com/docs/zh-CN/managed-mcp#deploy-managed-mcp-json) 是否可读且有效。 | `$.tool.register` 抛出的错误 |
 
 ### `validate` 通过且不列出 `hooks` 行
 
@@ -142,6 +145,17 @@ Claude 在交互式会话中编写了 mod，但没有任何内容加载，而且
 该行命名 mod 和事件，然后说 `hook skipped:` 和一个原因，如 `first-mod: tool.call hook skipped: threw Error: boom`。hook 抛出了异常、运行超过了其[时间限制](https://code.claude.com/docs/zh-CN/plugins/mods/reference.md#limits)，或返回了错误形状的结果。该行对每个事件和失败类型出现一次，直到 mod 重新加载。
 
 修复错误。调试日志对每次出现都有一行。
+
+### `call refused` 或 `result withheld`
+
+这两行中的任何一行都表示 Claude Code 无法将某个值复制到检查操作的 hook（例如 `tool.call` hook），或无法从该 hook 复制出值。将[会话记录或调试日志中的行](#find-out-why-a-mod-does-nothing)与以下内容对照，以确定该操作是否已运行：
+
+* `call refused`：Claude Code 代替您的 hook 拒绝了该操作
+* `result withheld`：工具已执行的操作保持已执行状态，Claude 读取的是一条说明，而不是其结果
+
+Claude 收到的返回内容可能包含 `could not be given to a hook that checks it` 或 `a hook that checks this result could not hand back its answer`。
+
+如果该行包含 `could not be given its argument`，说明您的 hook 没有运行，因此保持其原样即可。如果该行包含 `is not plain data: nesting deeper than 28000 levels`，请减少您的 hook 返回或传递的值中的嵌套层级。
 
 ### `no command.run hook answered it`
 
@@ -294,9 +308,10 @@ hooks: ui.render (AbovePrompt) refused: a row past the limits of the band; nothi
 
 ### `$.ui.open` 运行且没有窗格出现
 
-调用不是来自用户做的事情，且终端宽度小于[该窗格所需的宽度](https://code.claude.com/docs/zh-CN/plugins/mods/interface.md#when-a-pane-waits-for-a-wider-terminal)。
+请检查调用的结果。当 `isPlaced` 为 `false` 时，`reason` 的开头会说明原因，例如以下情况：
 
-从命令或按钮打开窗格，或检查调用的 `isPlaced` 结果。请参阅 [在正确的时间打开窗格](https://code.claude.com/docs/zh-CN/plugins/mods/interface.md#open-a-pane-at-the-right-time)。
+* **`unasked below`**：从命令或按钮打开窗格，或使用[更宽的终端](https://code.claude.com/docs/zh-CN/plugins/mods/interface.md#when-a-pane-waits-for-a-wider-terminal)。
+* **`no-surface`**：没有附加任何可供绘制的对象，例如在 `claude -p` 或 Agent SDK 运行中。请改为从 `command.run` hook 返回 `{ text }`。
 
 ### toast 不出现
 
@@ -339,7 +354,7 @@ mod 运行，您所做的更改或它保留的值不存在。
 
 ### 您的编辑不生效
 
-您正在编辑您安装的插件。Claude Code 运行已安装版本的缓存副本。
+如果您的插件是[在安装时复制的](https://code.claude.com/docs/zh-CN/plugins/loading.md#in-place-and-copied-plugins)，Claude Code 会运行该副本。
 
 使用指向您的工作副本的 `--plugin-dir` 进行开发，如 `claude --plugin-dir ./first-mod`，它在您保存时重新加载。
 
@@ -367,10 +382,10 @@ mod 运行，您所做的更改或它保留的值不存在。
 | `settings.read bypassed by cc-plugin-sec-default`，所在行在其前面列出了您的 mod | [内置守卫](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#know-what-happens-by-default)跳过了您的 hook。请让您组织的管理员[将该 mod 安装为组织的 mod 之一](https://code.claude.com/docs/zh-CN/plugins/mods/admin.md#install-your-organizations-mods)。 |
 | `settings.read: the answer for <key> is no value the key can hold` | Claude Code 拒绝了某个 hook 为该键返回的值。该 hook 可能是您的，也可能是其他 mod 的。请按照[适用于您情况的步骤](#settings-read-key-refused)操作。 |
 | `settings.read: the merge never settles for <key>` | 该行列出的键保留设置来源中的值。请在设置文件中设置它们。 |
-| `answered settings.read without next()`，位于某个 mod 名称之后 | 如果所列 mod [在您的 mod 之前运行](https://code.claude.com/docs/zh-CN/plugins/mods/events.md#the-order-mods-run-in)，则您的 hook 会受到影响。此时您的 hook 在该次读取中未运行。[关闭该 mod](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#turn-mods-on-or-off)，或者如果它是由您的组织部署的，请让其管理员关闭。 |
+| `answered settings.read without next()`，出现在某个 mod 的名称之后 | 如果所指名的 mod [在您的 mod 之前运行](https://code.claude.com/docs/zh-CN/plugins/mods/events.md#the-order-mods-run-in)，您的 hook 就会受到影响。此时您的 hook 不会在该次读取时运行。请[关闭该 mod](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#turn-mods-on-or-off)；如果您所在的组织部署了该 mod，请让您的管理员将其关闭。 |
 | `settings.read: refused to the engine` | 您的值未生效，因为 Claude Code 自身的读取被拒绝。[找出拒绝它的原因](#settings-read-refused)。 |
 
-如果没有任何一行能解释该键，请检查在您的 mod 之前运行的 mod 中是否有[更改该键](https://code.claude.com/docs/zh-CN/plugins/mods/events.md#settings-read-example)的 `settings.read` hook。关闭该 mod，或让您组织的管理员关闭。如果没有 hook 更改该键，请在设置文件中设置该键。
+如果没有任何一行能解释该键，请检查在您的 mod 之前运行的 mod 中是否有[更改该键](https://code.claude.com/docs/zh-CN/plugins/mods/events.md#settings-read-example)的 `settings.read` hook。关闭该 mod，或者如果它是由您的组织部署的，请让其管理员关闭。如果没有 hook 更改该键，请在设置文件中设置该键。
 
 ### `the answer for <key> is no value the key can hold`
 
@@ -398,9 +413,9 @@ settings.read: refused to the engine (engine: $.settings.read: <reason>); the se
 在您的代码中搜索括号中的原因：
 
 * **您的代码中有该文本**：您的 hook 拒绝了读取。当 [`next.origin`](https://code.claude.com/docs/zh-CN/plugins/mods/events#settings-read-origin) 显示为 Claude Code 自身的读取时，让它返回 `{ value }`。
-* **您的代码中没有该原因**：逐个[关闭](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#turn-mods-on-or-off)您的其他 mod。如果某个 mod 是由您的组织部署的，请让其管理员将其关闭。每关闭一个后：
-  1. 从 shell 使用 `claude --debug-file ./settings-read-2.log` 启动会话，后接会话启动时所用的标志。每次使用一个新路径。
-  2. 在该文件中搜索 `refused to the engine`。如果该行存在，则关闭下一个 mod。如果不存在，则说明您最后关闭的 mod 拒绝了读取，请保持其关闭状态。
+* **您的代码中没有它**：逐个[关闭](https://code.claude.com/docs/zh-CN/plugins/mods/overview.md#turn-mods-on-or-off)您的其他 mod；如果您所在的组织部署了某个 mod，请让您的管理员来关闭。每关闭一个后：
+  1. 从您的 shell 使用 `claude --debug-file ./settings-read-2.log` 启动会话，后面加上该会话原先启动时使用的标志。每次使用一个新路径。
+  2. 在该文件中搜索 `refused to the engine`。如果该行存在，则关闭下一个 mod。如果不存在，则说明您最后关闭的那个 mod 拒绝了该读取，因此请保持其关闭状态。
 
 如果已没有其他 mod 而该行仍然存在，请在[设置文件](https://code.claude.com/docs/zh-CN/settings.md)中设置您的 hook 返回的键。在读取被拒绝期间，其中的值仍然有效。
 

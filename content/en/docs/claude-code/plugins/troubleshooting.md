@@ -30,15 +30,13 @@ Search for the exact message you saw. Each message is listed under the stage tha
 
 You typed `/plugin` somewhere other than a Claude Code terminal session, and Claude replied with this line instead of opening anything.
 
-You get this reply in a session that has no terminal to draw the `/plugin` panel in: [non-interactive mode](https://code.claude.com/docs/en/headless.md) with `claude -p`, the Agent SDK, the Claude desktop app's Code tab, the VS Code extension panel, and the browser at claude.ai/code.
+For example, you see this reply in [non-interactive mode](https://code.claude.com/docs/en/headless.md) with `claude -p`, the Agent SDK, and the VS Code extension panel.
 
 In the VS Code extension panel, only a `/plugin` line with something after it, such as `/plugin install <plugin>@<marketplace>`, gets this reply. `/plugin` or `/plugins` typed alone opens the **Manage plugins** dialog.
 
 Install the plugin from the surface you're on instead:
 
-* **Claude desktop app, local or SSH session**: use the **Desktop app** tab under [Install a plugin](https://code.claude.com/docs/en/plugins/install.md#install-a-plugin)
 * **VS Code extension**: use the **VS Code** tab under [Install a plugin](https://code.claude.com/docs/en/plugins/install.md#install-a-plugin)
-* **Claude Code on the web, or a desktop cloud session**: a cloud session has no plugin browser. See the **Cloud session** tab under [Install a plugin](https://code.claude.com/docs/en/plugins/install.md#install-a-plugin) for what a cloud session loads
 * **A terminal you have access to**: run `claude` and type `/plugin` there, or run `claude plugin install <plugin>@<marketplace>` in your shell without starting a session
 
 When a terminal install works, `/plugin` prints an install summary that starts with `✓ Installed <plugin>.` and `claude plugin install` prints `Installed plugin: <plugin>@<marketplace>`.
@@ -858,10 +856,10 @@ A plugin's hooks don't run, or one blocks an action. Either the **Errors** tab s
 
 #### Hooks fail to load
 
-The **Errors** tab shows one of these messages:
+The **Errors** tab or `claude plugin list` shows messages such as these:
 
-* **`Couldn't load hooks from <path>: <reason>`** or **`Failed to load hooks from <path>: <reason>`**: fix the problem that `<reason>` names, such as invalid JSON or a missing top-level `hooks` key. To catch a JSON syntax problem in `hooks/hooks.json` before you publish the plugin, run `claude plugin validate <plugin-directory>` in your shell
-* **`hooks path not found: <path>`**: the manifest's `hooks` field names a file that doesn't exist at that path relative to the plugin root. Fix the path or add the file
+* **`Couldn't load hooks from <path>`**, **`Failed to load hooks from <path>`**, or **`Hook load failed`**: fix the named problem, such as invalid JSON or a missing top-level `hooks` key. To catch a JSON syntax problem in `hooks/hooks.json` before you publish the plugin, run `claude plugin validate <plugin-directory>` in your shell
+* **`hooks path not found: <path>`** or **`Path not found: <path> (hooks)`**: no file exists at `<path>`. Fix the path or add the file
 * **`hooks path escapes plugin directory: <path>`**: see [Path escapes plugin directory](https://code.claude.com/docs/en/errors.md#path-escapes-plugin-directory)
 
 #### `hook error` notices in the transcript
@@ -1185,6 +1183,11 @@ The same managed settings that block a [marketplace source](#marketplace-source-
 An install was refused with this line, an enable with the same line ending `cannot be enabled`, or an install or update with one naming the reason: `Plugin "<name>" is from marketplace "<marketplace>", which is blocked by your organization's policy`, or `Plugin "<name>" depends on "<dep>", which is blocked by your organization's policy`.
 
 Managed settings block this plugin, its marketplace, or a dependency it needs. Ask your administrator which entry applies. A blocked dependency means the plugin can't install until the dependency's marketplace is allowed.
+
+When you install from `/plugin`, ask your administrator about other forms of the message too, such as:
+
+* `Plugin "<name>" is blocked by your organization's policy and can't be installed`
+* `Can't install "<name>": dependency "<dep>" is blocked by your organization's policy`
 
 ### `--plugin-dir is disabled by your organization's managed settings (disableSideloadFlags)`
 

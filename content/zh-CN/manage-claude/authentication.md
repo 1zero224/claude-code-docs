@@ -1,18 +1,19 @@
 ---
 title: 身份验证
 url: https://platform.claude.com/docs/zh-CN/manage-claude/authentication
-description: 使用 API 密钥、工作负载身份联合或 App Attest 向 Claude API 进行身份验证。
+description: 选择您的代码如何向 Claude API 证明其身份：CLI 登录、工作负载身份联合、App Attest 或 API 密钥。
 ---
 
-Claude API 支持三种对请求进行身份验证的方式：
+发往 Claude API 的每个请求都带有一个凭据，用于向 API 表明调用者是谁，例如您本人，或让程序拥有自己身份的"service account"（服务账户）。请根据代码的运行位置选择方法。除 API 密钥外，每种方法发送的都是短期令牌而非长期有效的密钥，这可以在令牌泄露时限制损害。
 
 | 方法 | 凭据 | 最适合 |
 | ----- | ----- | ----- |
-| [API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#api-keys) | 作为 bearer 令牌在 `Authorization` 标头中发送的静态 `sk-ant-api...` 密钥 | 本地开发、原型设计、脚本以及您控制密钥存储的服务器 |
+| CLI 登录（请参阅 `ant` CLI 的[交互式登录](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/cli/authentication#interactive-login)部分） | `ant auth login` 存储在您计算机上的短期访问令牌 | 在您自己的计算机上进行本地开发和编写脚本 |
 | [Workload Identity Federation（WIF）](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#workload-identity-federation) | 从您的身份提供商的身份令牌交换而来的短期 bearer 令牌 | 云平台（AWS、Google Cloud 和 Azure）上的生产工作负载、CI/CD 流水线以及 Kubernetes，在这些场景中您希望消除静态密钥 |
 | [App Attest](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#app-attest) | 颁发给您已注册的 iOS 或 macOS 应用的真实、经过证明的安装实例的短期访问令牌 | 分发给最终用户的 iOS 和 macOS 应用，其中应用直接调用 Claude API，没有后端或代理 |
+| [API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#api-keys) | 作为 bearer 令牌在 `Authorization` 标头中发送的静态 `sk-ant-api...` 密钥 | 没有身份提供商的服务器，或要求提供密钥的工具 |
 
-API 密钥和工作负载身份联合授予对 Claude API 端点的相同访问权限。选择 API 密钥可以快速上手：用于您自己开发的个人密钥，或用于任何共享用途的服务账户密钥。当您的工作负载已经拥有可以联合的平台颁发身份时，请转向工作负载身份联合。对于您分发给最终用户的 iOS 和 macOS 应用，请使用 App Attest。
+在您自己的计算机上，请使用 `ant` CLI 登录。之后，只要未设置 `ANTHROPIC_API_KEY`，SDK 和 CLI 就会自行找到您的凭据。在 CI 中，或在具有身份提供商的服务器或集群上，请使用工作负载身份联合。对于您分发给最终用户的 iOS 和 macOS 应用，请使用 App Attest。对于没有身份提供商的服务器或要求提供密钥的工具，请选择 API 密钥。个人使用请选择个人密钥，任何共享用途请选择服务账户密钥。
 
 ## API 密钥
 
@@ -30,7 +31,7 @@ API 密钥是您在 Claude Console 中生成的静态密钥，并在每个请求
 
 个人密钥和服务账户密钥是基于身份的：每个密钥都属于您的组织已在管理的某个用户或服务账户，每个请求都以该身份执行。当该身份被移出组织时，密钥即失效。这意味着密钥不会意外地比拥有它们的人员或工作负载存续得更久。对于新的集成，请优先使用它们而不是工作区密钥。
 
-将个人密钥用于您自己的开发和脚本。共享的个人密钥充当一个人，当该人离开时就会失效。对于共享或自动化的工作负载（CI、生产服务），请让组织管理员创建一个服务账户，以便工作负载拥有自己的身份。
+如果某个只有您自己运行的工具要求提供密钥，请使用个人密钥。共享的个人密钥代表某一个人的身份，该人离开后就会失效。对于共享或自动化的工作负载（CI、生产服务），请让组织管理员创建一个服务账户，以便工作负载拥有自己的身份。
 
 工作区 API 密钥有效，但属于旧版。请优先使用基于身份的密钥或[工作负载身份联合](https://platform.claude.com/docs/zh-CN/manage-claude/workload-identity-federation)。要进行迁移，请参阅[替换工作区 API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#replacing-workspace-api-keys)。
 
@@ -351,7 +352,7 @@ Console 的 API 密钥表格会显示每个密钥的过期时间，Admin API 也
 
 请从您自己的后端调用 Claude API，而不是从在用户浏览器中运行的代码调用。任何使用网页的人都可以读取该页面代码中的 API 密钥。通常，您的 Web 前端会调用您的后端，由后端持有密钥并调用 Claude API。
 
-直接从浏览器发送的请求是跨源（CORS）请求。只有当这些请求包含 `anthropic-dangerous-direct-browser-access: true` 标头时，API 才会接受它们；当您将 `dangerouslyAllowBrowser` 设置为 `true` 时，TypeScript SDK 会发送该标头。对于以这种方式暴露密钥可以接受的情况，请参阅 TypeScript SDK 指南中的[浏览器使用](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/typescript#runtime-support)。
+直接从浏览器发送的请求是跨源（CORS）请求。只有当这些请求包含 `anthropic-dangerous-direct-browser-access: true` 标头时，API 才会接受它们。当您将 `dangerouslyAllowBrowser` 设置为 `true` 时，TypeScript SDK 会发送该标头。对于以这种方式暴露密钥可以接受的情况，请参阅 TypeScript SDK 指南中的[运行时支持](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/typescript#runtime-support)。
 
 启用了[零数据保留（ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)或 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api) 的组织无法直接从浏览器调用 API，即使带有该标头也不行。其他组织设置也可能产生相同的效果，并且没有任何设置可以为这些组织允许浏览器请求。即使 API 密钥有效，API 也会返回 401 `authentication_error`，其消息以 `CORS requests are not allowed for this Organization` 开头。关联到 Claude Enterprise 父组织的 Claude Console 组织会从父组织继承 Compliance API 设置。因此，即使您的 Claude Console 设置中没有显示 Compliance API 部分，该限制也可能适用。
 

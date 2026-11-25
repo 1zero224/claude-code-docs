@@ -124,7 +124,7 @@ Where the [built-in guard](#know-what-happens-by-default) loads, a hook that a u
 | `session.append{door=hook-context}` | The stored row for context from a settings hook |
 | `session.append{door=compaction}` | The stored rows for a compaction's summary and boundary |
 
-The guard also passes over a user's hooks in some other cases, such as the descriptions of your organization's tools, on [`tool.describe`](https://code.claude.com/docs/en/plugins/mods/reference#tools), and the stored row for a skill's text. `/plugin` shows no note for those. If a hook on another event does nothing, see [Find out why a mod does nothing](https://code.claude.com/docs/en/plugins/mods/troubleshoot.md#find-out-why-a-mod-does-nothing).
+The guard also passes over a user's hooks in some other cases, such as the descriptions of your organization's tools, on [`tool.describe`](https://code.claude.com/docs/en/plugins/mods/reference#tools). `/plugin` shows no note for that case. If a hook on another event does nothing, see [Find out why a mod does nothing](https://code.claude.com/docs/en/plugins/mods/troubleshoot.md#find-out-why-a-mod-does-nothing).
 
 The note appears in the plugin's details and in the **Errors** tab of `/plugin`. It requires Claude Code v2.1.299 or later. It names each hook from the table as the mod registered it, as in this example:
 
@@ -186,13 +186,21 @@ Don't approve a mod that fails this command, because some failures don't stop it
 | `$.process.run`, `$.process.spawn` | Starts programs as the user |
 | `$.http.fetch` | Makes network requests |
 | `$.env.get`, `$.settings.read` | Reads environment variables and settings, which can hold API keys. An `env reads:` line in the output names each variable. |
-| `$.env.set` | Sets an environment variable for Claude Code and for every command and MCP server it starts afterward, which can change what those programs run. An `env writes:` line names each variable. |
+| `$.env.set` | Sets an environment variable for Claude Code and for commands and MCP servers it starts afterward, which can change what those programs run. An `env writes:` line names each variable. |
 | `$.mcp.call` | Calls a tool on a connected MCP server, with no permission prompt |
 | `$.model.complete` | Uses the user's plan or API key for model calls |
 | `$.prompt.submit` | Submits a prompt, and can send it as the user's own words |
 | `$.session.send` | Sends a message that another session's, subagent's, or [teammate's](https://code.claude.com/docs/en/agent-teams.md) Claude reads |
 
-In the `hooks:` line, [`tool.call`](https://code.claude.com/docs/en/plugins/mods/reference#tools) and [`prompt.submit`](https://code.claude.com/docs/en/plugins/mods/reference#prompts-and-what-claude-reads) mean the mod sees every tool call and every prompt, and can change them. [`session.append`](https://code.claude.com/docs/en/plugins/mods/reference#session) means the mod can rewrite each row of the conversation before it's stored, apart from [the rows the guard passes over](#hooks-the-guard-passes-over). [`ui.render{component=AskUserQuestion}`](https://code.claude.com/docs/en/plugins/mods/interface#change-what-claude-code-already-draws) means the mod can redraw the dialog Claude uses to ask the user a question. `tool.check` means the mod can approve or deny a tool call before a permission prompt appears. [Know what happens by default](#know-what-happens-by-default) lists which of your rules and hooks take precedence over its answer.
+In the `hooks:` lines, look for the events that let a mod change what runs, what Claude reads, or what the user sees:
+
+| Hook | What it means | Example |
+| :- | :- | :- |
+| [`tool.call`](https://code.claude.com/docs/en/plugins/mods/reference#tools), [`prompt.submit`](https://code.claude.com/docs/en/plugins/mods/reference#prompts-and-what-claude-reads) | Sees every tool call and every prompt, and can change them | Change a Bash command before it runs |
+| `tool.check` | Can approve or deny a tool call before a permission prompt appears. [Know what happens by default](#know-what-happens-by-default) lists which of your rules and hooks take precedence over its answer. | Approve a Bash command with no prompt |
+| [`session.append`](https://code.claude.com/docs/en/plugins/mods/reference#session) | Can rewrite each row of the conversation before it's stored, except [the rows the guard passes over](#hooks-the-guard-passes-over) and rows that hold a [skill from an MCP server](https://code.claude.com/docs/en/mcp.md#use-skills-from-mcp-servers) | Replace the text of a tool result |
+| [`skill.prompt`](https://code.claude.com/docs/en/plugins/mods/reference#prompts-and-what-claude-reads) | Can change a skill's text before Claude reads it, including a skill from an MCP server | Add instructions to a skill |
+| [`ui.render{component=AskUserQuestion}`](https://code.claude.com/docs/en/plugins/mods/interface#change-what-claude-code-already-draws) | Can redraw the dialog Claude uses to ask the user a question | Show its own text above a question |
 
 ## Choose how much to allow
 

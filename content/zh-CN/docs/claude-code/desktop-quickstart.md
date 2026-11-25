@@ -10,11 +10,11 @@
 
 Claude Code 位于应用侧边栏顶部的 **Code** 选项卡中。本页面将指导您安装应用并在其中开始您的第一个会话。Claude Code 需要 [Pro、Max、Ultra、Team 或 Enterprise 订阅](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=desktop_quickstart_pricing)。
 
-> [card] [下载 macOS 版本](https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect?utm_source=claude_code\&utm_medium=docs)
+> [card] [下载 macOS 版本](https://claude.ai/claude-code/desktop-download?platform=mac\&utm_source=claude_code\&utm_medium=docs)
 >
 > 适用于 Intel 和 Apple Silicon 的通用版本
 
-> [card] [下载 Windows 版本](https://claude.ai/api/desktop/win32/x64/setup/latest/redirect?utm_source=claude_code\&utm_medium=docs)
+> [card] [下载 Windows 版本](https://claude.ai/claude-code/desktop-download?platform=win-x64\&utm_source=claude_code\&utm_medium=docs)
 >
 > 适用于 x64 处理器
 
@@ -22,7 +22,7 @@ Claude Code 位于应用侧边栏顶部的 **Code** 选项卡中。本页面将�
 >
 > Ubuntu 和 Debian 的 apt 或 .deb
 
-对于 Windows ARM64，请下载 [ARM64 安装程序](https://claude.ai/api/desktop/win32/arm64/setup/latest/redirect?utm_source=claude_code\&utm_medium=docs)。在 Linux 上，使用 apt 安装；请参阅 [Claude Desktop on Linux](https://code.claude.com/docs/zh-CN/desktop-linux.md)。
+对于 Windows ARM64，请下载 [ARM64 安装程序](https://claude.ai/claude-code/desktop-download?platform=win-arm64\&utm_source=claude_code\&utm_medium=docs)。在 Linux 上，使用 apt 安装；请参阅 [Claude Desktop on Linux](https://code.claude.com/docs/zh-CN/desktop-linux.md)。
 
 > [!NOTE]
 >
@@ -100,7 +100,7 @@ Claude Code 位于应用侧边栏顶部的 **Code** 选项卡中。本页面将�
 
 您已经进行了第一次编辑。有关 Desktop 可以执行的所有操作的完整参考，请参阅 [使用 Claude Code Desktop](https://code.claude.com/docs/zh-CN/desktop.md)。以下是一些可以尝试的操作。
 
-**中断并调整方向。** 您可以随时重定向 Claude。点击停止按钮立即中断，或输入更正并按 **Enter** 发送，无需停止正在运行的操作。无论哪种方式，您都不必等待它完成或重新开始。
+**中断并调整方向。** 您可以随时重定向 Claude。点击停止按钮立即中断，或输入更正并按 **Enter** 发送，无需停止正在运行的操作。
 
 **为 Claude 提供更多上下文。** 在提示框中输入 `@filename` 以将特定文件拉入对话。Claude 拥有的上下文越多，结果就越好。请参阅 [添加文件和上下文](https://code.claude.com/docs/zh-CN/desktop.md#add-files-and-context-to-prompts)。
 

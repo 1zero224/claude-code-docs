@@ -241,7 +241,7 @@ az keyvault key set-attributes \
 
         您会看到**工作区设置已更新。** 一旦您的密钥[生效](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-how-it-works#when-your-key-takes-effect)，您的云服务提供商的审计日志中就会显示 Anthropic 对您的密钥的调用。
 
-        在 [ZDR 组织](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#zdr-organizations)中，选择工作区后，请选择**标准数据保留**，以便显示**加密密钥**。点击**保存**后，在数据保留条款上点击**接受**。
+        在具有[旧版零数据保留（Legacy ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#zdr-organizations)的组织中，选择工作区后，请选择**标准数据保留**，以便显示**加密密钥**。点击**保存**后，在数据保留条款上点击**接受**。
       </Step>
     </Steps>
   </Tab>

@@ -17,7 +17,7 @@ Admin API 密钥用于对管理和报告您组织情况的 API 的调用进行�
 | **密钥前缀** | `sk-ant-admin01-...` | `sk-ant-api01-...` |
 | **谁可以创建** | 具有**管理员**角色的组织成员 | **主要所有者：**&#x4EFB;意作用域<br />**组织所有者（organization owner）：**&#x4EC5;限 Compliance API 作用域，且仅限其自身组织 |
 | **作用域** | 无需选择：每个密钥都对接受它的端点拥有完全访问权限 | 创建密钥时[选择作用域](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys#choose-scopes-for-a-claude-enterprise-key)。密钥仅适用于您的作用域所涵盖的 API |
-| **适用于** | [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api)<br />[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)<br />[Compliance API 活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)<br />[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)（旧版）<br />[速率限制 API](https://platform.claude.com/docs/zh-CN/manage-claude/rate-limits-api)<br />[Claude Code 分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/claude-code-analytics-api) | Admin API [用户管理](https://platform.claude.com/docs/zh-CN/manage-claude/user-management)<br />[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)<br />[Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api)<br />[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)（旧版）<br />[Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api)<br />[插件 API](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api)<br />[Claude Tag API](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api)<br />[支出限额 API](https://platform.claude.com/docs/zh-CN/manage-claude/spend-limits-api) |
+| **适用于** | [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api)<br />[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)<br />[Compliance API 活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)<br />[Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access)，适用于在其可用期间创建的密钥<br />[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)（旧版）<br />[速率限制 API](https://platform.claude.com/docs/zh-CN/manage-claude/rate-limits-api)<br />[Claude Code 分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/claude-code-analytics-api) | Admin API [用户管理](https://platform.claude.com/docs/zh-CN/manage-claude/user-management)<br />[用量和成本分析 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-analytics-api)<br />[Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api)<br />[用量和成本 API](https://platform.claude.com/docs/zh-CN/manage-claude/usage-cost-api)（旧版）<br />[Claude Enterprise Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api)<br />[插件 API](https://platform.claude.com/docs/zh-CN/manage-claude/plugins-api)<br />[Claude Tag API](https://platform.claude.com/docs/zh-CN/manage-claude/claude-tag-api)<br />[支出限额 API](https://platform.claude.com/docs/zh-CN/manage-claude/spend-limits-api) |
 
 大多数密钥只能访问您创建它们时所在的组织。某些密钥（例如具有 Compliance API、群组或审计作用域的密钥）在您的公司将其组织关联到[父组织](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#which-key-do-you-need)下时，可以访问更多组织。如果您的公司同时使用 Claude Console 和 Claude Enterprise，请在每个组织中各创建一个密钥。
 
@@ -31,6 +31,10 @@ Admin API 密钥用于对管理和报告您组织情况的 API 的调用进行�
   </Step>
 
   <Step title="创建密钥">
+    <Warning>
+      在您的组织可以使用 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access) 期间创建的密钥，还可以读取该组织被标记的消息并响应其 Safety Cases。您无法排除此访问权限，因此请限制可以创建和持有密钥的人员。
+    </Warning>
+
     点击**创建管理密钥**，为其命名，选择[密钥过期时间](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#key-expiration)，然后点击**添加**。
   </Step>
 

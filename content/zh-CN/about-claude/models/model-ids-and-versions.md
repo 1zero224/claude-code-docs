@@ -44,15 +44,19 @@ Claude Opus 4.6 是最后一个包含 `-v1` 后缀的 Bedrock 模型 ID（`anthr
 claude-{name}-{major}-{minor}-{YYYYMMDD}
 ```
 
-例如：`claude-sonnet-4-5-20250929`、`claude-haiku-4-5-20251001`
+例如：`claude-haiku-4-5-20251001`
 
-在 Amazon Bedrock 上，这些模型使用以下格式：
+在 Claude API 上，Claude 4.5 模型还有更短的 “alias”（别名），例如 `claude-haiku-4-5`。每个别名都指向其所属次版本最新的带日期快照。
+
+在 Amazon Bedrock（`bedrock-runtime`）上，带日期的 ID 使用以下格式：
 
 ```text wrap
 anthropic.claude-{name}-{major}-{minor}-{YYYYMMDD}-v1:0
 ```
 
-例如：`anthropic.claude-sonnet-4-5-20250929-v1:0`
+例如：`anthropic.claude-haiku-4-5-20251001-v1:0`
+
+要调用这些模型，请在 ID 前添加推理配置文件前缀，例如 `global.` 或 `us.`。有关详细信息，请参阅 Amazon Bedrock（`bedrock-runtime`）页面上的 [API 模型 ID](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#api-model-ids)。
 
 在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#api-model-ids) 上，格式与 Claude API 一致。
 
@@ -64,7 +68,7 @@ claude-{name}-{major}-{minor}@{YYYYMMDD}
 
 例如：`claude-haiku-4-5@20251001`
 
-在 Claude API 上，这些模型还有更短的 “alias”（别名）（例如 `claude-sonnet-4-5`），指向该次版本最新的带日期快照。
+[Amazon Bedrock（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#supported-models)、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#available-models) 和 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments) 以不带日期的 ID 列出这些模型。每个链接都会打开该平台的模型表，其中列出了应使用的 ID。
 
 ## 无日期 ID 是固定快照
 
@@ -72,7 +76,7 @@ claude-{name}-{major}-{minor}@{YYYYMMDD}
 
 对于 4.6 代及之后的模型，无日期 ID 就是该版本的规范模型 ID。它映射到单一、固定的模型快照。Anthropic 不会更新现有模型 ID 的权重或配置。当有更新版本可用时，它会以新的模型 ID 发布。
 
-这与 Claude API 上为早期模型提供的无日期别名不同。诸如 `claude-sonnet-4-5` 之类的别名是一个便捷指针，会解析为该次版本最新的带日期快照。而诸如 `claude-sonnet-4-6` 之类的 4.6 代 ID 并不是别名，它本身就是快照。
+4.6 代及之后的 ID（例如 `claude-sonnet-4-6`）看起来与 [4.6 代之前](https://platform.claude.com/docs/zh-CN/about-claude/models/model-ids-and-versions#before-the-4-6-generation)中的别名相似。但它并不是别名，它本身就是快照。
 
 每个模型 ID，无论带日期还是无日期，都有各自独立的弃用和停用时间表。
 

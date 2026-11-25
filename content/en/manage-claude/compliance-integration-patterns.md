@@ -20,6 +20,8 @@ This page assumes you have read the following pages:
 * [Retrieve and delete chats, files, and projects](https://platform.claude.com/docs/en/manage-claude/compliance-content-data), which defines the chat, file, and project endpoints and the `deleted_at` semantics referenced in [Plan content retention](https://platform.claude.com/docs/en/manage-claude/compliance-integration-patterns#plan-content-retention).
 * [Retrieve session transcripts](https://platform.claude.com/docs/en/manage-claude/compliance-sessions), which defines the local and remote session endpoints.
 
+For the base URL and credentials on [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed) and [Claude Platform on AWS](https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws), see [How the Compliance API works](https://platform.claude.com/docs/en/manage-claude/compliance-api#how-the-compliance-api-works).
+
 ## Choose a feed-consumption pattern
 
 The Activity Feed supports two consumption patterns: periodic window polling bounded by `created_at.gte` and `created_at.lt`, and cursor-driven incremental reads that persist a cursor from one response and pass it on the next request. Both return identical `Activity` objects; the difference is the state your client persists between calls.
@@ -148,7 +150,7 @@ Activity volume is not a completeness check. The `claude_*_viewed` activity type
 
 The content endpoints (chats, files, projects, project attachments, and local and remote session transcripts) serve Claude Enterprise data only. The Activity Feed surfaces administrative and resource events organization-wide. The Compliance API does not include:
 
-* Prompt text or model responses from Claude Console, or from Claude API workloads authenticated with an API key.
+* Prompt text or model responses from Claude Console, or from Claude API workloads authenticated with an API key. The exception is a [flagged message](https://platform.claude.com/docs/en/manage-claude/enterprise-frontier-safeguards/safety-cases-api#read-a-message) that the Safety Cases API returns.
 * On-device activity in local sessions that is never sent to Anthropic, such as local files that Claude did not read.
 * Claude Code usage authenticated with a Claude Console API key, run through any [cloud platform](https://platform.claude.com/docs/en/api/overview#claude-api-vs-cloud-platforms), or run in a [Claude Code cloud session](https://code.claude.com/docs/en/claude-code-on-the-web). A Claude Code cloud session runs on cloud infrastructure instead of the user’s machine.
 * Local sessions from products other than Cowork and Claude Code in organizations with [HIPAA readiness](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#hipaa-readiness) enabled, and local sessions for which [zero data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope) is in effect.

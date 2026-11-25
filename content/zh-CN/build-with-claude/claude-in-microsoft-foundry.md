@@ -76,8 +76,8 @@ Anthropic 的[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-lib
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.12.0")
-        implementation("com.anthropic:anthropic-java-foundry:3.12.0")
+        implementation("com.anthropic:anthropic-java:3.14.0")
+        implementation("com.anthropic:anthropic-java-foundry:3.14.0")
         ```
       </Tab>
 
@@ -86,12 +86,12 @@ Anthropic 的[客户端 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-lib
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-foundry</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         ```
       </Tab>
@@ -618,7 +618,11 @@ Microsoft Foundry 中的 Claude 支持大多数 Claude 功能。[功能概述](h
 
 ### 上下文窗口
 
-除 Claude Opus 4.5、Claude Sonnet 4.5（已弃用）和 Claude Haiku 4.5 之外，所有[可用模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)在 Microsoft Foundry 上都具有 [1M 令牌的上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)。这三个模型具有 200k 令牌的上下文窗口。
+在 Microsoft Foundry 上，除以下列表中的模型外，所有[可用模型](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry#api-model-ids-and-deployments)都具有 [1M 令牌的上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)。这些模型具有 200k 令牌的上下文窗口：
+
+* Claude Opus 4.5（已弃用）
+* Claude Sonnet 4.5（已弃用）
+* Claude Haiku 4.5
 
 ### Microsoft Foundry 中的 Claude 不支持的 Claude 功能
 
@@ -668,7 +672,7 @@ Microsoft Foundry 中的 Claude 支持大多数 Claude 功能。[功能概述](h
 | Claude Opus 4.8 | `claude-opus-4-8` | ✓ | ✓ |
 | Claude Opus 4.7 | `claude-opus-4-7` |  | ✓ |
 | Claude Opus 4.6 | `claude-opus-4-6` |  | ✓ |
-| Claude Opus 4.5 | `claude-opus-4-5` |  | ✓ |
+| Claude Opus 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `claude-opus-4-5` |  | ✓ |
 | Claude Sonnet 5.5 | `claude-sonnet-5-5` | ✓ | ✓ |
 | Claude Sonnet 5 | `claude-sonnet-5` | ✓ | ✓ |
 | Claude Sonnet 4.6 | `claude-sonnet-4-6` |  | ✓ |

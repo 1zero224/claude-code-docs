@@ -2187,7 +2187,11 @@ Claude 通常以 `screenshot` 结束一个批次，以便在决定下一步操�
 | 工具版本 | Beta 标头 | 搭配使用的模型 | 参数 |
 | ----- | ----- | ----- | ----- |
 | `computer_20251124` | `computer-use-2025-11-24` | Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5、Claude Mythos 5、Claude Opus 5、Claude Sonnet 5、Claude Opus 4.8、Claude Opus 4.7、Claude Opus 4.6、Claude Sonnet 4.6 和 Claude Opus 4.5 | [API 参考](https://platform.claude.com/docs/zh-CN/api/beta/messages/create) |
-| `computer_20250124` | `computer-use-2025-01-24` | Claude Sonnet 4.5（[已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）、Claude Haiku 4.5、Claude Opus 4.1（[已退役，Claude Models on Google Cloud (Google managed) 和 Bedrock 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）、Claude Sonnet 4（[已退役，Claude Models on Google Cloud (Google managed) 和 Bedrock 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）以及 Claude Opus 4（[已退役，Claude Models on Google Cloud (Google managed) 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)） | [API 参考](https://platform.claude.com/docs/zh-CN/api/beta/messages/create) |
+| `computer_20250124` | `computer-use-2025-01-24` | Claude Sonnet 4.5、Claude Haiku 4.5、Claude Opus 4.1、Claude Sonnet 4 和 Claude Opus 4 | [API 参考](https://platform.claude.com/docs/zh-CN/api/beta/messages/create) |
+
+Claude Opus 4.1、Claude Sonnet 4 和 Claude Opus 4 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上退役。
+
+Claude Opus 4.5 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上弃用。Claude Sonnet 4.5 已在相同平台上弃用。有关退役日期和推荐的替代模型，请参阅模型弃用页面上的[弃用历史](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#deprecation-history)。[合作伙伴运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)会自行制定退役时间表。
 
 在 Amazon Bedrock 上，Claude Fable 5.2、Claude Mythos 5.2、Claude Opus 5.5、Claude Sonnet 5.5 和 Claude Haiku 5.5 也接受搭配 `computer-use-2025-11-24` beta 标头的 `computer_20251124` 工具。使用 Amazon Bedrock 的 InvokeModel API 时，请在请求正文的 `anthropic_beta` 数组中发送 `computer-use-2025-11-24`，而不是在标头中发送。有关该 API，请参阅 [Amazon Bedrock 上的 Claude（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy)。
 

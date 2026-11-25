@@ -4,6 +4,8 @@ url: https://platform.claude.com/docs/zh-CN/api/errors
 description: 了解 Claude API 返回的 HTTP 状态码、错误响应结构和请求 ID，并使用 SDK 的类型化异常处理错误。
 ---
 
+要查找某个 API 错误对应的 SDK 错误，请参阅 [SDK 错误类型](https://platform.claude.com/docs/zh-CN/api/errors#sdk-error-types)。要在代码中捕获它，请参阅[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)。
+
 ## HTTP 错误
 
 API 遵循可预测的 HTTP 错误代码格式：
@@ -26,7 +28,9 @@ API 遵循可预测的 HTTP 错误代码格式：
 
 * 429 - `rate_limit_error`：您的组织已达到[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits)、达到其使用层级的每月支出上限，或达到 Claude Code 工作区的支出限制。层级支出上限导致的 429 没有 `retry-after` 标头，并且在访问恢复之前会持续失败；有关如何识别它，请参阅[达到支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#reaching-your-spend-cap)。即使您未超出速率限制，用量急剧增加也可能导致 429；请参阅[爬坡限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#ramp-limits)。
 
-* 500 - `api_error`：Anthropic 系统内部发生了意外错误。请使用 “exponential backoff”（指数退避）重试请求；如果错误持续存在，请携带[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id) 联系支持团队。如果错误类型为 `timeout_error`，请参阅 504 条目。
+  要在代码中区分支出上限和速率限制，请检查[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes)。
+
+* 500 - `api_error`：Anthropic 系统内部发生了意外错误。仅当响应的 `x-should-retry` 标头不为 `false` 时才重试（请参阅[重试](https://platform.claude.com/docs/zh-CN/api/errors#retries)）。如果错误持续存在，请携带[请求 ID](https://platform.claude.com/docs/zh-CN/api/errors#request-id) 联系支持团队。如果错误类型为 `timeout_error`，请参阅 504 条目。
 
 * 504 - `timeout_error`：请求在处理过程中超时。API 也会以其他状态码返回 `timeout_error`，例如当请求在响应开始之前达到服务器的时间限制时返回 500。对于长时间运行的 Messages API 请求，请使用[流式传输 Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/streaming)。有关更多选项，请参阅[长请求](https://platform.claude.com/docs/zh-CN/api/errors#long-requests)。
 
@@ -36,9 +40,22 @@ API 遵循可预测的 HTTP 错误代码格式：
     当 API 在所有用户范围内遇到高流量时，可能会出现 529 错误。
   </Warning>
 
-官方 SDK 会使用指数退避自动重试暂时性故障（例如连接错误、速率限制和 5xx 服务器错误），默认重试两次，并在存在 `retry-after` 标头时遵循该标头。SDK 客户端接受 `max_retries` (typescript, php: `maxRetries`; java: `.maxRetries()`; csharp: `MaxRetries`; go: `option.WithMaxRetries()`) 来配置或禁用此行为。
-
 当通过 “server-sent events”（服务器发送事件），即 SSE 接收[流式传输](https://platform.claude.com/docs/zh-CN/build-with-claude/streaming)响应时，错误可能在 API 返回 200 响应之后发生。在这种情况下，错误处理不遵循这些标准机制。有关流中错误的结构，请参阅[错误事件](https://platform.claude.com/docs/zh-CN/build-with-claude/streaming#error-events)。
+
+SDK 不会重试流中的错误。要捕获此类错误，请参阅[处理流中的错误](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-an-error-in-a-stream)。
+
+### 重试
+
+默认情况下，SDK 最多会将失败的请求重试两次（总共尝试三次）。要更改重试次数，请在客户端上设置 `max_retries` (typescript, php: `maxRetries`; java: `.maxRetries()`; csharp: `MaxRetries`; go: `option.WithMaxRetries()`)。值为 `0` 时将关闭重试。
+
+对于每次失败的尝试，SDK 会确定两件事：
+
+* **SDK 是否重试：** 如果响应带有 `x-should-retry` 标头（`true` 或 `false`），SDK 会遵循该标头。否则，SDK 会重试连接错误、超时，以及状态码 408、409、429 和 500 及以上。
+* **SDK 等待多长时间：** 如果响应带有 `retry-after` 标头，SDK 会按该标头指示的时长等待。否则，它会使用 0.5 到 8 秒的指数退避。
+
+Go SDK 对某些创建方法进行重试的情形更少。请参阅 [Go SDK 中创建方法的重试](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/go#retries-for-create-methods)。
+
+如果不使用 SDK，请在您自己的代码中遵循 `x-should-retry` 和 `retry-after`，并使用退避和重试次数限制。
 
 ## 请求大小限制
 
@@ -70,17 +87,241 @@ API 始终以 JSON 形式返回错误，其中包含一个顶级 `error` 对象�
 
 根据 [API 版本控制策略](https://platform.claude.com/docs/zh-CN/api/versioning)，这些对象中的值可能会扩展，并且可能会出现新的 `type` 值。
 
+### 错误代码
+
+某些错误还带有错误代码，位于 `error.details.error_code` 中。一个 `type` 可以涵盖多种原因，而错误代码会指明其中一种。
+
+例如，达到速率限制和达到您的[每月支出上限](https://platform.claude.com/docs/zh-CN/api/rate-limits#reaching-your-spend-cap)都会导致 429 `rate_limit_error`。在 Messages API 上，支出上限的响应会添加一个代码：
+
+```json JSON
+{
+  "type": "error",
+  "error": {
+    "type": "rate_limit_error",
+    "message": "You have reached your API usage limits: ...",
+    "details": { "error_code": "enforced_spend_limit_reached" }
+  },
+  "request_id": "req_018EeWyXxfu5pfWkrYcMdjWG"
+}
+```
+
+返回此 429 的其他 API（例如 Claude Managed Agents）不会添加该代码。在这些 API 中，只有 `message` 能区分这两种原因，而您不应在代码中匹配它。支出上限导致的 429 在访问恢复之前会持续失败，因此请限制您在收到 429 后的重试次数。
+
+错误代码的集合可能会增加。如果某个错误没有代码，或者带有您无法识别的代码，请根据其 `type` 或 HTTP 状态进行处理。
+
+有关完整的代码列表，请参阅 API 参考中的 [`ErrorDetails`](https://platform.claude.com/docs/zh-CN/api/$shared#error_details)。要查找某个方法可能返回的代码，请参阅[处理特定错误代码](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-a-specific-error-code)。
+
 ## SDK 错误类型
 
-官方 SDK 会针对这些错误抛出类型化异常，而不是返回原始 JSON。例如，404 会表现为 `anthropic.NotFoundError` (typescript: `Anthropic.NotFoundError`; ruby: `Anthropic::Errors::NotFoundError`; java: `com.anthropic.errors.NotFoundException`; csharp: `AnthropicNotFoundException`; php: `Anthropic\Core\Exceptions\NotFoundException`; go: `*anthropic.Error`)。Go SDK 对所有状态码只有一种错误类型 `*anthropic.Error`：请根据 `StatusCode` 进行分支处理。请捕获 SDK 的类型化类，而不是对错误消息进行字符串匹配，并优先处理最具体的类。您所用 SDK 的页面记录了完整的异常层次结构：
+本节列出了针对每种错误在 SDK 中需要捕获或检查的内容。要编写处理程序，请参阅[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)。
 
-* [Python](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/python#handling-errors) · [TypeScript](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/typescript#handling-errors) · [C#](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/csharp#error-handling) · [Go](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/go#error-handling) · [Java](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/java#error-handling) · [PHP](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/php#error-handling) · [Ruby](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/ruby#handling-errors)
+<Tabs>
+  <Tab title="Python">
+    除非某行指明了其他位置，否则这些类都位于 `anthropic` 包中。一个类也会捕获其子类，因此请将范围更窄的类放在前面。例如，`RateLimitError` 也会捕获 `EnforcedSpendLimitReachedError`。
+
+    | 要处理的情况 | 捕获 |
+    | ----- | ----- |
+    | 某一个[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes) | 其专属的类，例如 `anthropic.EnforcedSpendLimitReachedError`（请参阅[处理特定错误代码](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-a-specific-error-code)） |
+    | 400 | `BadRequestError` |
+    | 401 | `AuthenticationError` |
+    | 403 | `PermissionDeniedError` |
+    | 404 | `NotFoundError` |
+    | 409 | `ConflictError` |
+    | 413 | `ContentTooLargeError` |
+    | 422 | `UnprocessableEntityError` |
+    | 429 | `RateLimitError` |
+    | 504 | `GatewayTimeoutError` |
+    | 529 | `OverloadedError` |
+    | 所有 5xx，例如 500、504 和 529 | `InternalServerError` |
+    | 所有错误响应 | `APIStatusError` |
+    | 流中的错误事件 | `APIStatusError` |
+    | 客户端超时（SDK 停止等待） | `APITimeoutError` |
+    | 响应到达之前的所有连接失败，包括客户端超时 | `APIConnectionError` |
+    | 在流传输中途断开或停滞的连接 | `httpx2.TransportError`（`httpx2` 是 SDK 的 HTTP 库） |
+    | 此表中的所有错误，断开的流除外 | `APIError` |
+
+    对于没有对应行的状态（例如 402），请捕获 `APIStatusError` 并比较其 `status_code`。
+
+    要访问底层异常或原始响应，请参阅 [Python 中的错误处理](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/python#handling-errors)。
+  </Tab>
+
+  <Tab title="TypeScript">
+    除非某行另有说明，否则这些类是 `Anthropic` 的属性。一个类也会捕获其子类，因此请将范围更窄的类放在前面。例如，`RateLimitError` 也会捕获 `EnforcedSpendLimitReachedError`。
+
+    | 要处理的情况 | 捕获 |
+    | ----- | ----- |
+    | 某一个[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes) | 其专属的类，例如 `Anthropic.EnforcedSpendLimitReachedError`（请参阅[处理特定错误代码](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-a-specific-error-code)） |
+    | 400 | `BadRequestError` |
+    | 401 | `AuthenticationError` |
+    | 403 | `PermissionDeniedError` |
+    | 404 | `NotFoundError` |
+    | 409 | `ConflictError` |
+    | 413 | `ContentTooLargeError` |
+    | 422 | `UnprocessableEntityError` |
+    | 429 | `RateLimitError` |
+    | 504 | `GatewayTimeoutError` |
+    | 529 | `OverloadedError` |
+    | 所有 5xx，例如 500、504 和 529 | `InternalServerError` |
+    | 客户端超时（SDK 停止等待） | `APIConnectionTimeoutError` |
+    | 响应到达之前的所有连接失败，包括客户端超时 | `APIConnectionError` |
+    | 在流传输中途断开的连接 | 来自 `client.messages.stream()` 的 `AnthropicError`。使用 `stream: true` 时，请捕获运行时自身的错误，例如 `TypeError`。 |
+    | 流中的错误事件 | `APIError` |
+    | 此表中的所有错误，断开的流除外 | `APIError` |
+
+    对于没有对应行的状态（例如 402），请捕获 `APIError` 并比较其 `status`。
+
+    要读取响应标头，请参阅[在 TypeScript 中处理错误](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/typescript#handling-errors)。
+  </Tab>
+
+  <Tab title="C#">
+    除非某行指明了其他位置，否则这些类都位于 `Anthropic.Exceptions` 命名空间中。一个类也会捕获其子类，因此请将范围更窄的类放在前面。例如，`AnthropicRateLimitException` 也会捕获 `AnthropicEnforcedSpendLimitReachedException`。
+
+    | 要处理的情况 | 捕获 |
+    | ----- | ----- |
+    | 某一个[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes) | 其专属的类，例如 `Anthropic.Models.AnthropicEnforcedSpendLimitReachedException`（请参阅[处理特定错误代码](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-a-specific-error-code)） |
+    | 400 | `AnthropicBadRequestException` |
+    | 401 | `AnthropicUnauthorizedException` |
+    | 403 | `AnthropicForbiddenException` |
+    | 404 | `AnthropicNotFoundException` |
+    | 409 | `AnthropicConflictException` |
+    | 413 | `AnthropicContentTooLargeException` |
+    | 422 | `AnthropicUnprocessableEntityException` |
+    | 429 | `AnthropicRateLimitException` |
+    | 504 | `AnthropicGatewayTimeoutException` |
+    | 529 | `AnthropicOverloadedException` |
+    | 所有 4xx | `Anthropic4xxException` |
+    | 所有 5xx，例如 500、504 和 529 | `Anthropic5xxException` |
+    | 所有错误响应 | `AnthropicApiException` |
+    | 流中的错误事件 | `AnthropicSseException` |
+    | 所有错误响应以及流中的所有错误事件 | `AnthropicServiceException` |
+    | 响应到达之前的连接失败 | `AnthropicIOException` |
+    | 在流传输中途断开的连接 | .NET 自身的 `IOException`，位于 `System.IO` 中 |
+    | 客户端超时（SDK 停止等待） | .NET 自身的 `TaskCanceledException`，位于 `System.Threading.Tasks` 中 |
+    | 此表中的所有错误，客户端超时和断开的流除外 | `AnthropicException` |
+
+    对于没有专属行的状态（例如 402），请捕获 `Anthropic4xxException` 并比较其 `StatusCode`。
+  </Tab>
+
+  <Tab title="Go">
+    Go SDK 只有一种错误类型 `*anthropic.Error`。您需要比较其字段，而不是捕获某个类。在此表中，`apierr` 是由 `errors.As()` 填充的 `*anthropic.Error` 变量。
+
+    | 要处理的情况 | 检查 |
+    | ----- | ----- |
+    | 某一个[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes) | `apierr.ErrorCode() == anthropic.ErrorCodeEnforcedSpendLimitReached` |
+    | 某一个 HTTP 状态 | `apierr.StatusCode == http.StatusTooManyRequests` |
+    | 所有错误响应 | `errors.As(err, &apierr)` |
+    | 流中的错误事件 | `errors.As(stream.Err(), &apierr)` |
+    | 连接失败、客户端超时，或在流传输中途断开的连接 | 任何其他不为 `nil` 的 `err` |
+
+    每个错误代码都有其专属的常量（请参阅[处理特定错误代码](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-a-specific-error-code)）。
+
+    要打印 `*anthropic.Error` 的原始请求和响应，请参阅 [Go 中的错误处理](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/go#error-handling)。
+  </Tab>
+
+  <Tab title="Java">
+    除非某行指明了其他位置，否则这些类都位于 `com.anthropic.errors` 包中。一个类也会捕获其子类，因此请将范围更窄的类放在前面。例如，`RateLimitException` 也会捕获 `EnforcedSpendLimitReachedException`。
+
+    | 要处理的情况 | 捕获 |
+    | ----- | ----- |
+    | 某一个[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes) | 其专属的类，例如 `com.anthropic.models.EnforcedSpendLimitReachedException`（请参阅[处理特定错误代码](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-a-specific-error-code)） |
+    | 400 | `BadRequestException` |
+    | 401 | `UnauthorizedException` |
+    | 403 | `PermissionDeniedException` |
+    | 404 | `NotFoundException` |
+    | 409 | `ConflictException` |
+    | 413 | `ContentTooLargeException` |
+    | 422 | `UnprocessableEntityException` |
+    | 429 | `RateLimitException` |
+    | 504 | `GatewayTimeoutException` |
+    | 529 | `OverloadedException` |
+    | 所有 5xx，例如 500、504 和 529 | `InternalServerException` |
+    | 流中的错误事件 | `SseException` |
+    | 所有错误响应以及流中的所有错误事件 | `AnthropicServiceException` |
+    | 连接失败、客户端超时，或在流传输中途断开的连接 | `AnthropicIoException` |
+    | 此表中的所有错误 | `AnthropicException` |
+
+    对于没有对应行的状态（例如 402），请捕获 `AnthropicServiceException` 并比较其 `statusCode()`。
+
+    错误的 `errorCode()` 和 `type()` 均返回 `Optional`。
+
+    要读取响应标头，请参阅 [Java 中的错误处理](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/java#error-handling)。
+  </Tab>
+
+  <Tab title="PHP">
+    除非某行指明了其他位置，否则这些类都位于 `Anthropic\Core\Exceptions` 命名空间中。一个类也会捕获其子类，因此请将范围更窄的类放在前面。例如，`RateLimitException` 也会捕获 `EnforcedSpendLimitReachedException`。
+
+    | 要处理的情况 | 捕获 |
+    | ----- | ----- |
+    | 某一个[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes) | 其专属的类，例如 `Anthropic\EnforcedSpendLimitReachedException`（请参阅[处理特定错误代码](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-a-specific-error-code)） |
+    | 400 | `BadRequestException` |
+    | 401 | `AuthenticationException` |
+    | 403 | `PermissionDeniedException` |
+    | 404 | `NotFoundException` |
+    | 409 | `ConflictException` |
+    | 413 | `ContentTooLargeException` |
+    | 422 | `UnprocessableEntityException` |
+    | 429 | `RateLimitException` |
+    | 504 | `GatewayTimeoutException` |
+    | 529 | `OverloadedException` |
+    | 所有 5xx，例如 500、504 和 529 | `InternalServerException` |
+    | 所有错误响应 | `APIStatusException` |
+    | 流中的错误事件 | `APIStatusException` |
+    | 响应到达之前的连接失败，或客户端超时 | `APIConnectionException` |
+    | 在流传输中途断开的连接 | HTTP 客户端自身的异常，或者没有异常（请参阅此表之后的段落）。使用 Guzzle 7 时，连接重置会引发 PHP 的 `\RuntimeException`。 |
+    | 此表中的所有错误，断开的流除外 | `APIException` |
+
+    如果服务器在流传输中途关闭连接，流会在没有错误的情况下结束。请检查是否收到了 `message_stop` 事件。
+
+    对于没有对应行的状态（例如 402），请捕获 `APIStatusException` 并比较其 `status`。
+
+    要访问底层异常，请参阅 [PHP 中的错误处理](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/php#error-handling)。
+  </Tab>
+
+  <Tab title="Ruby">
+    除非某行指明了其他位置，否则这些类都位于 `Anthropic::Errors` 模块中。一个类也会捕获其子类，因此请将范围更窄的类放在前面。例如，`RateLimitError` 也会捕获 `EnforcedSpendLimitReachedError`。
+
+    | 要处理的情况 | 捕获 |
+    | ----- | ----- |
+    | 某一个[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes) | 其专属的类，例如 `Anthropic::EnforcedSpendLimitReachedError`（请参阅[处理特定错误代码](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-a-specific-error-code)） |
+    | 400 | `BadRequestError` |
+    | 401 | `AuthenticationError` |
+    | 403 | `PermissionDeniedError` |
+    | 404 | `NotFoundError` |
+    | 409 | `ConflictError` |
+    | 413 | `ContentTooLargeError` |
+    | 422 | `UnprocessableEntityError` |
+    | 429 | `RateLimitError` |
+    | 504 | `GatewayTimeoutError` |
+    | 529 | `OverloadedError` |
+    | 所有 5xx，例如 500、504 和 529 | `InternalServerError` |
+    | 所有错误响应 | `APIStatusError` |
+    | 流中的错误事件 | `APIStatusError` |
+    | 客户端超时（SDK 停止等待） | `APITimeoutError` |
+    | 所有连接失败，包括客户端超时和在流传输中途断开的连接 | `APIConnectionError` |
+    | 此表中的所有错误 | `APIError` |
+
+    对于没有对应行的状态（例如 402），请捕获 `APIStatusError` 并比较其 `status`。
+
+    错误的 `error_code` 和 `type` 是 Symbol。
+
+    要访问底层异常，请参阅 [Ruby 中的错误处理](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/ruby#handling-errors)。
+  </Tab>
+</Tabs>
+
+上表按 HTTP 状态和错误代码划分，而不是按 `error.type` 划分：
+
+* 带有 `overloaded_error` 的 503 算作 5xx，而不算作 529。
+* 流中的错误事件永远不会匹配状态行或错误代码的类。其 HTTP 状态是流的 200，或者不存在。
+
+如果要改为按 `error.type` 处理，请检查错误的 `type` (csharp: `Type`; go: `Type()`; java: `type()`; php: `getType()`)，如[处理流中的错误](https://platform.claude.com/docs/zh-CN/api/handle-errors#handle-an-error-in-a-stream)中所示。
 
 ## 请求 ID
 
 每个 API 响应都包含一个唯一的 `request-id` 标头。此标头包含类似 `req_018EeWyXxfu5pfWkrYcMdjWG` 的值。相同的标识符在[错误响应正文](https://platform.claude.com/docs/zh-CN/api/errors#error-shapes)中显示为 `request_id` 字段。当就特定请求联系支持团队时，请包含此 ID 以帮助快速解决您的问题。
 
 在 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上，响应包含两个请求 ID：AWS 请求 ID（`x-amzn-requestid`，主要，在 CloudTrail 中建立索引）和 Anthropic 请求 ID（`request-id`，次要）。使用 AWS 请求 ID 进行 CloudTrail 查找，使用 Anthropic 请求 ID 处理 Anthropic 支持工单。
+
+当 API 返回错误响应时，请从 SDK 错误的 `request_id` (typescript: `requestID`; csharp, go: `RequestID`; java: `requestId()`; php: `getRequestID()`) 中读取 ID。有关示例，请参阅[按类型捕获错误](https://platform.claude.com/docs/zh-CN/api/handle-errors#catch-errors-by-kind)。当请求成功时，请从响应中读取 ID。
 
 Python 和 TypeScript SDK 在顶层响应对象上以 `_request_id` 属性公开请求 ID。C#、Go、Java 和 PHP SDK 通过其原始响应访问器公开请求 ID，Ruby SDK 则通过[中间件](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/middleware)公开。在除 Ruby 之外的所有 SDK 中，使用 `with_raw_response` (typescript: `.withResponse()`; java: `.withRawResponse()`; csharp: `WithRawResponse`; go: `option.WithResponseInto()`; php: `->raw`) 读取任何其他[响应标头](https://platform.claude.com/docs/zh-CN/api/overview#response-headers)，例如 `anthropic-organization-id` 和 [`anthropic-workspace-id`](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces#identify-the-workspace-behind-an-api-response)。在 Ruby 中，请使用相同的中间件。在 Claude Platform on AWS 上，还可以使用原始响应访问器读取 AWS 请求 ID（`x-amzn-requestid`）：
 
@@ -578,7 +819,7 @@ block_binding: Extra inputs are not permitted
     为了减少滥用并管理 API 上的容量，对组织可以使用 Claude API 的量设置了限制。
   </Card>
 
-  <Card title="流式消息" icon="lightning" href="https://platform.claude.com/docs/zh-CN/build-with-claude/streaming">
-    使用服务器发送事件增量流式传输 Messages API 响应，包括文本、工具使用和扩展思考增量。
+  <Card title="处理错误" icon="code" href="https://platform.claude.com/docs/zh-CN/api/handle-errors">
+    使用 SDK 按错误代码、HTTP 状态或连接失败捕获 Claude API 错误，并处理在流中到达的错误。
   </Card>
 </CardGroup>

@@ -615,12 +615,11 @@ featureMetadata:
 在 Claude API、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)、[Claude Models on Google Cloud (Google managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed) 和 [Microsoft Foundry](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 上，最小可缓存提示长度为：
 
 * Claude Fable 5.2、[Claude Mythos 5.2](https://platform.claude.com/docs/zh-CN/models/mythos-5-2/overview)、Claude Fable 5.1、[Claude Mythos 5.1](https://platform.claude.com/docs/zh-CN/models/mythos-5-1/overview)、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Fable 5、[Claude Mythos 5](https://platform.claude.com/docs/zh-CN/models/mythos-5/overview) 和 Claude Haiku 5.5 为 512 个令牌
+* Claude Opus 4.8、Claude Sonnet 5、Claude Sonnet 4.6、Claude Sonnet 4.5（[在 Anthropic 运营的平台上已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)）、Claude Opus 4.1、Claude Opus 4 和 Claude Sonnet 4 为 1,024 个令牌
 * [Claude Mythos Preview](https://anthropic.com/glasswing) 和 Claude Opus 4.7 为 2,048 个令牌
-* Claude Opus 4.6 和 Claude Opus 4.5 为 4,096 个令牌
-* Claude Opus 4.8、Claude Sonnet 5、Claude Sonnet 4.6、Claude Sonnet 4.5（[已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）、Claude Opus 4.1（[已停用，Claude Models on Google Cloud (Google managed) 和 Bedrock 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）、Claude Opus 4（[已停用，Claude Models on Google Cloud (Google managed) 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）和 Claude Sonnet 4（[已停用，Claude Models on Google Cloud (Google managed) 和 Bedrock 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）为 1,024 个令牌
-* Claude Haiku 4.5 为 4,096 个令牌
+* Claude Opus 4.6、Claude Opus 4.5（[在 Anthropic 运营的平台上已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)）和 Claude Haiku 4.5 为 4,096 个令牌
 
-这些最小值适用于上述每个平台中该模型可用的平台。
+这些最小值适用于上述每个平台上可用的每个模型。Claude Opus 4.1、Claude Sonnet 4 和 Claude Opus 4 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上退役。
 
 较短的提示无法被缓存，即使标记了 `cache_control` 也是如此。任何缓存少于此令牌数的请求都将在不缓存的情况下处理，并且不会返回错误。要检查提示是否已被缓存，请查看[响应用量字段](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching#tracking-cache-performance)：如果 `cache_creation_input_tokens` 和 `cache_read_input_tokens` 均为 0，则说明提示未被缓存（很可能是因为未达到最小长度要求）。
 

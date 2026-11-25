@@ -124,7 +124,7 @@ helm install cma \
     <File filename="Dockerfile">
       ```dockerfile
       FROM your-base-image
-      ARG ANT_VERSION=2.12.1
+      ARG ANT_VERSION=2.14.0
       ARG TARGETARCH
       RUN ARCH=$([ "$TARGETARCH" = "arm64" ] && echo arm64 || echo amd64) && \
           curl -fsSL "https://github.com/anthropics/anthropic-cli/releases/download/v${ANT_VERSION}/ant_${ANT_VERSION}_linux_${ARCH}.tar.gz" \

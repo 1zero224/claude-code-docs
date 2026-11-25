@@ -115,6 +115,8 @@ Create Deployment
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -1068,6 +1070,7 @@ import com.anthropic.client.AnthropicClient;
 import com.anthropic.client.okhttp.AnthropicOkHttpClient;
 import com.anthropic.models.beta.deployments.BetaManagedAgentsDeployment;
 import com.anthropic.models.beta.deployments.DeploymentCreateParams;
+import com.anthropic.models.beta.sessions.BetaManagedAgentsAgentParams;
 import com.anthropic.models.beta.sessions.events.BetaManagedAgentsUserMessageEventParams;
 import java.util.List;
 
@@ -1078,10 +1081,10 @@ public final class Main {
         AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
         DeploymentCreateParams params = DeploymentCreateParams.builder()
-            .agent("string")
-            .environmentId("x")
-            .addUserMessageInitialEvent(List.of(BetaManagedAgentsUserMessageEventParams.Content.ofText("Where is my order #1234?")))
-            .name("x")
+            .agent(BetaManagedAgentsAgentParams.of("agent_011CZkYpogX7uDKUyvBTophP"))
+            .environmentId("env_011CZkZ9X2dpNyB7HsEFoRfW")
+            .addUserMessageInitialEvent(List.of(BetaManagedAgentsUserMessageEventParams.Content.ofText("Compile yesterday's orders into report.md.")))
+            .name("Daily order report")
             .build();
         BetaManagedAgentsDeployment betaManagedAgentsDeployment = client.beta().deployments().create(params);
     }
@@ -1286,6 +1289,8 @@ List Deployments
     - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `EFS_2026_10_01("efs-2026-10-01")`
 
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -2052,6 +2057,8 @@ Get Deployment
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -2811,6 +2818,8 @@ Update Deployment
     - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `EFS_2026_10_01("efs-2026-10-01")`
 
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -3946,6 +3955,8 @@ Archive Deployment
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -4706,6 +4717,8 @@ Run Deployment Now
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -5137,6 +5150,8 @@ Pause Deployment
     - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `EFS_2026_10_01("efs-2026-10-01")`
 
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -5897,6 +5912,8 @@ Unpause Deployment
     - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `EFS_2026_10_01("efs-2026-10-01")`
 
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 

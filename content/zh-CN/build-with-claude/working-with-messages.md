@@ -49,7 +49,7 @@ Anthropic 提供两种使用 Claude 进行构建的方式，每种方式适用�
 ## 基本请求和响应
 
 <Note>
-  Claude 4.7 及更高版本的模型以及 Claude Mythos Preview，以及从 [API 版本 `2026-10-21`](https://platform.claude.com/docs/zh-CN/api/migration-2026-10-21#sampling-parameters) 开始的所有模型 不支持 `temperature`、`top_p` 和 `top_k` 采样参数。将它们设置为非默认值会返回 400 错误，而从 `2026-10-21` 开始，设置任何值都会返回该错误。请在请求负载中省略这些参数，改用提示来引导模型的行为。请参阅[迁移指南中的破坏性变更](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#opus-46-breaking-changes)。
+  Claude 4.7 及更高版本的模型以及 Claude Mythos Preview，以及从 [API 版本 `2026-10-21`](https://platform.claude.com/docs/zh-CN/api/migration-2026-10-21#sampling-parameters) 开始的所有模型均不支持 `temperature`、`top_p` 和 `top_k` 采样参数。将它们设置为非默认值会返回 400 错误，而从 `2026-10-21` 开始，设置任何值都会返回该错误。请在请求负载中省略这些参数，改用提示来引导模型的行为。请参阅[迁移指南中的破坏性变更](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#opus-46-breaking-changes)。
 </Note>
 
 <CodeGroup>
@@ -362,11 +362,20 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
 
 ## 预填充 Claude 的响应
 
-您可以在输入消息列表的最后位置预填充 Claude 响应的一部分。使用此技术来塑造 Claude 的响应。以下示例使用 `"max_tokens": 1` 从 Claude 获取单个多项选择答案。
+“Prefill”（预填充）是您在 `assistant` 消息中编写并放在 `messages` 最后位置的文本。位于 `messages` 中其他任何位置的 `assistant` 消息都不是预填充。Claude 会接续预填充的文本，响应中只包含接续的内容。
 
-<Warning>
-  Claude 4.6 及更高版本的模型和 [Claude Mythos Preview](https://anthropic.com/glasswing) 不支持预填充。对这些模型使用预填充的请求会返回 400 错误。请改为在支持的模型上使用[结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)，或使用系统提示指令。有关迁移模式，请参阅[迁移指南](https://platform.claude.com/docs/zh-CN/about-claude/models/migration-guide)。
-</Warning>
+使用预填充来设定响应的开头方式，例如让响应以固定格式开始，或跳过开场白。
+
+API 是否接受预填充取决于模型，而不取决于 API 版本：
+
+* **Claude 4.5 及更早版本的模型：** 除非该模型在您使用的平台上已退役，否则 API 接受预填充。对已退役模型的所有请求都会失败。要查看模型的状态，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。
+* **所有其他模型：** API 会返回 400 错误（请参阅 Claude API 错误页面的[不支持预填充](https://platform.claude.com/docs/zh-CN/api/errors#prefill-not-supported)部分）。请改用[预填充的替代方案](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages#alternatives-to-a-prefill)之一。
+
+Claude Opus 4.5 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上弃用。Claude Sonnet 4.5 已在相同平台上弃用。有关退役日期和推荐的替代模型，请参阅模型弃用页面上的[弃用历史](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#deprecation-history)。[合作伙伴运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)会自行制定退役时间表。
+
+Claude Opus 4.5 和 Claude Sonnet 4.5 的推荐替代模型不接受预填充。
+
+以下示例在 Claude Opus 4.5 上运行，并设置多项选择答案的格式。预填充 `The answer is (` 恰好在答案字母之前结束，这样 Claude 会首先写出该字母。由于该答案只有一个字母，此示例还将 `max_tokens` 设置为 `1`。对于较长的答案，请设置更高的 `max_tokens`。
 
 <CodeGroup>
   ```bash cURL
@@ -376,35 +385,31 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
     -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
-      "model": "claude-sonnet-4-5",
+      "model": "claude-opus-4-5-20251101",
       "max_tokens": 1,
       "messages": [
-        {"role": "user", "content": "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"},
+        {"role": "user", "content": "What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"},
         {"role": "assistant", "content": "The answer is ("}
       ]
     }'
   ```
 
   ```bash CLI
-  ant messages create <<'YAML'
-  model: claude-sonnet-4-5
-  max_tokens: 1
-  messages:
-    - role: user
-      content: "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"
-    - role: assistant
-      content: "The answer is ("
-  YAML
+  ant messages create \
+    --model claude-opus-4-5-20251101 \
+    --max-tokens 1 \
+    --message '{role: user, content: "What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"}' \
+    --message '{role: assistant, content: "The answer is ("}'
   ```
 
   ```python Python
   message = anthropic.Anthropic().messages.create(
-      model="claude-sonnet-4-5",
+      model="claude-opus-4-5-20251101",
       max_tokens=1,
       messages=[
           {
               "role": "user",
-              "content": "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae",
+              "content": "What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae",
           },
           {"role": "assistant", "content": "The answer is ("},
       ],
@@ -416,12 +421,12 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
   const anthropic = new Anthropic();
 
   const message = await anthropic.messages.create({
-    model: "claude-sonnet-4-5",
+    model: "claude-opus-4-5-20251101",
     max_tokens: 1,
     messages: [
       {
         role: "user",
-        content: "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"
+        content: "What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"
       },
       { role: "assistant", content: "The answer is (" }
     ]
@@ -434,10 +439,10 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
 
   var parameters = new MessageCreateParams
   {
-      Model = Model.ClaudeSonnet4_5,
+      Model = Model.ClaudeOpus4_5_20251101,
       MaxTokens = 1,
       Messages = [
-          new UserMessageParam { Content = "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae" },
+          new UserMessageParam { Content = "What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae" },
           new AssistantMessageParam { Content = "The answer is (" }
       ]
   };
@@ -450,10 +455,10 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
   client := anthropic.NewClient()
 
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     anthropic.ModelClaudeSonnet4_5,
+  	Model:     anthropic.ModelClaudeOpus4_5_20251101,
   	MaxTokens: 1,
   	Messages: []anthropic.MessageParam{
-  		anthropic.NewUserMessage(anthropic.NewTextBlock("What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae")),
+  		anthropic.NewUserMessage(anthropic.NewTextBlock("What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae")),
   		anthropic.NewAssistantMessage(anthropic.NewTextBlock("The answer is (")),
   	},
   })
@@ -467,9 +472,9 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
   AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
   MessageCreateParams params = MessageCreateParams.builder()
-      .model(Model.CLAUDE_SONNET_4_5)
+      .model(Model.CLAUDE_OPUS_4_5_20251101)
       .maxTokens(1L)
-      .addUserMessage("What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae")
+      .addUserMessage("What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae")
       .addAssistantMessage("The answer is (")
       .build();
 
@@ -483,24 +488,24 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
   $message = $client->messages->create(
       maxTokens: 1,
       messages: [
-          ['role' => 'user', 'content' => 'What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae'],
+          ['role' => 'user', 'content' => 'What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae'],
           ['role' => 'assistant', 'content' => 'The answer is ('],
       ],
-      model: 'claude-sonnet-4-5',
+      model: Model::CLAUDE_OPUS_4_5_20251101,
   );
-  echo $message->content[0]->text;
+  echo json_encode($message, JSON_PRETTY_PRINT), PHP_EOL;
   ```
 
   ```ruby Ruby
   client = Anthropic::Client.new
 
   message = client.messages.create(
-    model: Anthropic::Model::CLAUDE_SONNET_4_5,
+    model: Anthropic::Model::CLAUDE_OPUS_4_5_20251101,
     max_tokens: 1,
     messages: [
       {
         role: "user",
-        content: "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"
+        content: "What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"
       },
       { role: "assistant", content: "The answer is (" }
     ]
@@ -520,7 +525,7 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
       "text": "C"
     }
   ],
-  "model": "claude-sonnet-4-5",
+  "model": "claude-opus-4-5-20251101",
   "stop_reason": "max_tokens",
   "stop_sequence": null,
   "usage": {
@@ -529,6 +534,40 @@ Messages API 是无状态的，这意味着您始终需要将完整的对话历�
   }
 }
 ```
+
+请注意此响应中的两个字段：
+
+* **`text`：** 值为 `C`。它只包含接续的内容，不包含预填充。
+* **`stop_reason`：** 值为 `max_tokens`，因为此示例使响应在一个令牌后结束。
+
+要获取完整文本 `The answer is (C`，请在您的代码中将预填充与 `text` 值拼接起来。
+
+在 Claude 4.5 及更早版本的模型上，预填充受以下限制：
+
+* **空白字符：** 如果预填充以空白字符结尾，API 会返回 400 错误。
+* **结构化输出：** 如果请求同时设置了 `output_config.format`，API 会返回 400 错误（请参阅"结构化输出"页面的[功能兼容性](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#feature-compatibility)部分）。
+* **[扩展思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking)：** 如果请求同时将 `thinking.type` 设置为 `enabled`，预填充不会导致错误。API 会将思考视为关闭，因此响应中没有 `thinking` 块。
+
+每个 400 错误中的 `message` 都会说明其原因。
+
+### 预填充的替代方案
+
+请以一条 `user` 消息结束 `messages`，以代替预填充。然后，根据您希望从响应中获得的内容选择一种方法：
+
+* **遵循 schema 的 JSON：** 使用[结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)，它会约束响应遵循该 schema。
+* **其他输出格式：** 在系统提示（即请求的 [`system` 字段](https://platform.claude.com/docs/zh-CN/api/messages/create#create.system)）中描述该格式。
+* **无开场白：** 在系统提示中要求直接回答。
+
+与预填充不同，系统提示指令并不能保证响应的开头方式，因此请在您的代码中检查响应的文本。
+
+有关用什么来代替其他常见的预填充，请参阅"提示最佳实践"页面的[从预填充响应迁移](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices#migrating-away-from-prefilled-responses)部分。
+
+要将此多项选择示例迁移到不接受预填充的模型，请按照以下步骤操作：
+
+1. 更改模型并移除 `assistant` 消息。
+2. 在系统提示中要求只返回答案的字母。
+3. 将 `max_tokens` 设置得足够高，以容纳整个响应。在[默认开启思考的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#configuring-thinking)上，思考令牌也会计入 `max_tokens`。
+4. 从响应的 `text` 块中读取该字母。该块可能位于 `thinking` 块之后。不要将该字母与预填充拼接。
 
 ## 视觉
 

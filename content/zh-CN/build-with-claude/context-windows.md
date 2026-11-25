@@ -35,13 +35,23 @@ description: 了解上下文窗口的工作原理、扩展思考和工具使用�
 
 ## 各模型的上下文窗口大小
 
-Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5、Claude Mythos 5、Claude Opus 5.5、Claude Opus 5、Claude Opus 4.8、Claude Opus 4.7、Claude Opus 4.6、Claude Sonnet 5.5、Claude Sonnet 5、Claude Sonnet 4.6、Claude Haiku 5.5 以及 [Claude Mythos Preview](https://anthropic.com/glasswing) 拥有 1M 令牌的上下文窗口。对其中任何一个模型的单个请求最多可生成 128k 个输出令牌（`max_tokens`）。其他 Claude 模型，包括 Claude Sonnet 4.5（已弃用），拥有 200k 令牌的上下文窗口。
+以下模型拥有 1M 令牌的上下文窗口：
+
+* Claude Fable 5.2、Claude Fable 5.1 和 Claude Fable 5
+* Claude Mythos 5.2、Claude Mythos 5.1、Claude Mythos 5 和 [Claude Mythos Preview](https://anthropic.com/glasswing)
+* Claude Opus 5.5、Claude Opus 5、Claude Opus 4.8、Claude Opus 4.7 和 Claude Opus 4.6
+* Claude Sonnet 5.5、Claude Sonnet 5 和 Claude Sonnet 4.6
+* Claude Haiku 5.5
+
+其他 Claude 模型拥有 200k 令牌的上下文窗口。
+
+对拥有 1M 令牌上下文窗口的模型发出的单个 Messages API 请求最多可生成 128k 个输出令牌（`max_tokens`）。
 
 对于每个拥有 1M 令牌上下文窗口的模型，1M 都是默认值：您不需要 beta 标头，长上下文请求按[标准定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#long-context-pricing)计费，但 Claude Haiku 5.5 除外，在该模型上超过 100,000 个令牌的提示费用更高。
 
 单个请求最多可包含 600 张图像或 PDF 页面（对于拥有 200k 令牌上下文窗口的模型为 100）。如果您发送大量图像或大型文档，可能会在达到令牌限制之前先达到[请求大小限制](https://platform.claude.com/docs/zh-CN/api/overview#request-size-limits)。
 
-请参阅[所有模型](https://platform.claude.com/docs/zh-CN/models/overview#all-models)表，了解各模型的上下文窗口大小列表。
+请参阅[所有模型](https://platform.claude.com/docs/zh-CN/models/overview#all-models)表，了解各模型的上下文窗口大小和输出限制。
 
 ## 启用思考时的上下文窗口
 
@@ -108,16 +118,20 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
   * API 使用加密签名来验证思考块的真实性。
 
 <Note>
-  大多数当前的 Claude 模型都支持[交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#interleaved-thinking)，它让 Claude 能够在工具调用之间进行思考，包括在收到工具结果之后。在支持自适应思考的模型上，它是自动启用的；Claude Opus 4.5、Claude Sonnet 4.5（已弃用）以及更早的 Claude 4 模型需要 `interleaved-thinking-2025-05-14` beta 标头，而 Claude Haiku 4.5 不支持它。
-
-  有关将工具与思考结合使用的更多信息，请参阅[思考与工具使用](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-with-tool-use)。
+  [交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#interleaved-thinking)让 Claude 能够在工具调用之间进行思考，包括在收到工具结果之后。当请求使用自适应思考时，它是自动启用的。使用手动扩展思考时，是否支持取决于模型：请参阅[手动模式下的交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#interleaved-thinking)。
 </Note>
+
+有关将工具与思考结合使用的更多信息，请参阅[思考与工具使用](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#thinking-with-tool-use)。
 
 要减少工具定义本身消耗的上下文，请参阅[管理工具上下文](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/manage-tool-context)，或使用[工具搜索工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/tool-search-tool)延迟加载工具定义。
 
 ## 上下文感知
 
-Claude Sonnet 5、Claude Sonnet 4.6、Claude Sonnet 4.5（已弃用）和 Claude Haiku 4.5 具有 **“context awareness”（上下文感知）：** 这些模型会在整个对话过程中跟踪其剩余的上下文窗口（即它们的 “token budget”（令牌预算））。这使模型能够根据剩余空间来管理长时间运行的任务，而不是猜测还剩多少令牌。上下文感知是自动的：您无需启用任何内容，也永远不需要自己发送本节中显示的标签。API 会注入它们。
+只有 Claude Sonnet 4.5 和 Claude Haiku 4.5 具有 **“context awareness”（上下文感知）：** 这些模型会在整个对话过程中跟踪其剩余的上下文窗口。这使模型能够根据剩余空间来管理长时间运行的任务，而不是猜测还剩多少令牌。上下文感知是自动的：您无需启用任何内容，也永远不需要自己发送本节中显示的标签。API 会注入它们。
+
+其他模型都不会收到这些标签。要为模型提供明确的预算，请在[支持任务预算的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets#feature-support)上使用[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)。任务预算目前处于 beta 阶段。
+
+Claude Sonnet 4.5 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上弃用。有关其退役日期和推荐的替代模型，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#2026-09-30-claude-sonnet-4-5-model)。[合作伙伴运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)会自行制定退役时间表。
 
 ### 工作原理
 
@@ -127,7 +141,7 @@ Claude Sonnet 5、Claude Sonnet 4.6、Claude Sonnet 4.5（已弃用）和 Claude
 <budget:token_budget>200000</budget:token_budget>
 ```
 
-该预算与您的请求可用的上下文窗口相匹配：Claude Sonnet 5 和 Claude Sonnet 4.6 为 1M 个令牌，Claude Sonnet 4.5（已弃用）和 Claude Haiku 4.5 为 200k 个令牌。本节中的示例展示的是拥有 200k 令牌上下文窗口的模型。
+该令牌预算与您的请求可用的上下文窗口相匹配：两个模型均为 200k 个令牌。
 
 每次工具调用后，API 会向 Claude 提供其剩余容量的更新：
 
@@ -136,8 +150,6 @@ Claude Sonnet 5、Claude Sonnet 4.6、Claude Sonnet 4.5（已弃用）和 Claude
 ```
 
 图像令牌包含在这些预算中。
-
-Claude Opus 4.7 及更高版本的 Opus 模型、Claude Sonnet 5.5、Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5、Claude Mythos 5 和 Claude Haiku 5.5 不会收到这些注入的标签。在这些模型上，您可以使用[任务预算](https://platform.claude.com/docs/zh-CN/build-with-claude/task-budgets)（目前处于 beta 阶段）为模型提供明确的预算。
 
 <Tip>
   对于跨多个会话的智能体，请设计您的状态工件，以便在新会话开始时能够快速恢复上下文。[记忆工具的多会话模式](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool#multisession-software-development-pattern)介绍了一种具体方法。另请参阅[适用于长时间运行智能体的有效框架](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)。

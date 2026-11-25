@@ -21,12 +21,15 @@ const client = new Anthropic({
 });
 
 const betaManagedAgentsDeployment = await client.beta.deployments.create({
-  agent: "string",
-  environment_id: "x",
+  agent: { id: "agent_011CZkYpogX7uDKUyvBTophP", type: "agent" },
+  environment_id: "env_011CZkZ9X2dpNyB7HsEFoRfW",
   initial_events: [
-    { content: [{ text: "Where is my order #1234?", type: "text" }], type: "user.message" }
+    {
+      content: [{ text: "Compile yesterday's orders into report.md.", type: "text" }],
+      type: "user.message"
+    }
   ],
-  name: "x"
+  name: "Daily order report"
 });
 
 console.log(betaManagedAgentsDeployment.id);
@@ -273,6 +276,7 @@ type AnthropicBeta =
   | "analytics-usage-cost-2026-08-24"
   | "experimental-claude-tag-2026-10-21"
   | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
   | "user-profiles-billing-2026-10-01"
   /** @deprecated This value is no longer needed. Remove it from your requests. */
   | "message-batches-2024-09-24"

@@ -129,6 +129,8 @@ matched as the JWT's `iss` claim and is not fetched.
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -402,8 +404,8 @@ curl https://api.anthropic.com/v1/organizations/federation_issuers \
     -H 'anthropic-version: 2026-10-21' \
     -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
-          "issuer_url": "x",
-          "name": "x"
+          "issuer_url": "https://token.actions.githubusercontent.com",
+          "name": "github-actions"
         }'
 ```
 

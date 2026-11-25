@@ -42,7 +42,7 @@ For component types a plugin can hold, with an example of each, see [Plugin comp
 
 Skills, subagents, hooks, and MCP servers all work on their own, without a plugin. A skill you save in `~/.claude/skills/`, for example, is available in every project on your machine. To set one up on its own, see [Skills](https://code.claude.com/docs/en/skills.md), [Subagents](https://code.claude.com/docs/en/sub-agents.md), [Hooks](https://code.claude.com/docs/en/hooks-guide.md), or [MCP](https://code.claude.com/docs/en/mcp.md).
 
-Use a plugin when you want several skills, subagents, hooks, or MCP servers packaged as one unit. Install one to get a setup someone else built, with one command and updates from its marketplace. Make one to give your own setup to teammates, install it in many projects, or publish versioned releases.
+Use a plugin when you want several skills, subagents, hooks, or MCP servers packaged as one unit. Install one to get a setup someone else built, with one command and updates from its marketplace. Make one to share your own setup, install it in many projects, or publish versioned releases.
 
 ### What an enabled plugin adds to your sessions
 
@@ -72,7 +72,7 @@ This diagram shows the path from a marketplace to your session. A marketplace li
 
 ![Diagram of the marketplace path in three boxes, left to right. A marketplace, a catalog of plugins, lists a plugin. The plugin is one directory installed as a unit, holding skills, agents, hooks, MCP servers, and other components. You install the plugin into Claude Code, which loads its components.](https://mintcdn.com/claude-code/2Q_GtOEovg5qaBem/images/plugins-model.svg?fit=max\&auto=format\&n=2Q_GtOEovg5qaBem\&q=85\&s=4196344954b7c2e27fc0bd6a9a1113a1)
 
-[Install and manage plugins](https://code.claude.com/docs/en/plugins/install.md#install-a-plugin) has the install steps for each place you run Claude Code. While you're developing a plugin, you don't need a marketplace: load it straight from its folder with `--plugin-dir`, as [Develop without a marketplace](https://code.claude.com/docs/en/plugins/create.md#develop-without-a-marketplace) shows.
+[Install and manage plugins](https://code.claude.com/docs/en/plugins/install.md#install-a-plugin) has the install steps for each place you run Claude Code. While you're developing a plugin, load it straight from its folder with `--plugin-dir`, as [Develop without a marketplace](https://code.claude.com/docs/en/plugins/create.md#develop-without-a-marketplace) shows.
 
 ### Make an installed plugin available in your session
 
@@ -122,6 +122,6 @@ Once you've installed or built a plugin, these pages cover what comes next:
 
 * **Share what you built**: [Publish and distribute a plugin](https://code.claude.com/docs/en/plugins/publish.md), through your own marketplace or [Anthropic's directory](https://code.claude.com/docs/en/plugins/publish.md#submit-to-anthropics-directory)
 * **Check whether it works and is used**: [Test plugins with evals](https://code.claude.com/docs/en/plugin-evals.md) and [Measure plugin cost and usage](https://code.claude.com/docs/en/plugins/measure.md)
-* **Run a marketplace for your team**: [Create a marketplace](https://code.claude.com/docs/en/plugins/create-marketplace.md), then [Host and maintain a marketplace](https://code.claude.com/docs/en/plugins/host-marketplace.md)
+* **Run a marketplace**: [Create a marketplace](https://code.claude.com/docs/en/plugins/create-marketplace.md), then [Host and maintain a marketplace](https://code.claude.com/docs/en/plugins/host-marketplace.md)
 * **Set plugin policy for an organization**: [Manage plugins for your organization](https://code.claude.com/docs/en/plugins/org.md)
 * **Fix a problem**: [Troubleshoot plugins](https://code.claude.com/docs/en/plugins/troubleshooting.md)

@@ -88,7 +88,9 @@ Claude Code 还会在对话中途附加系统上下文，例如文件更改通�
 
 Fable 模型、Opus 5.5、Sonnet 5.5 和 Opus 5 上的[自动模型回退](https://code.claude.com/docs/zh-CN/model-config.md#automatic-model-fallback)也是一次模型切换。当安全分类器将某个请求标记为属于具有备用模型的类别时，Claude Code 会在该模型上重新运行请求，会话也会在该模型上继续。
 
-当 skill 或命令的 frontmatter 指定的 [`model`](https://code.claude.com/docs/zh-CN/skills#frontmatter-reference) 不同于会话当前模型时，该轮次也是一次模型切换：下一个请求读取整个对话历史记录而没有缓存命中。会话模型在您的下一个提示词时恢复。`context: fork` skill 则设置的是[分叉子代理的模型](https://code.claude.com/docs/zh-CN/skills.md#run-skills-in-a-subagent)。
+#### 设置模型的 skill 和命令
+
+当 skill 或命令的 [`model` 值生效](https://code.claude.com/docs/zh-CN/skills#frontmatter-reference)且不同于会话当前模型时，该轮次就是一次模型切换。下一个请求会读取整个对话历史记录而没有缓存命中。会话模型在您的下一个提示词时恢复。使用 `context: fork` 时，该值会改为应用于一个拥有[自己的缓存](#subagents-and-the-cache)的[子代理](https://code.claude.com/docs/zh-CN/skills.md#run-skills-in-a-subagent)。
 
 ### 更改 effort 级别
 
@@ -174,7 +176,7 @@ Claude Code 永远不会因插件的 skill、命令、Agent、hook、监视器�
 
 ### 压缩对话
 
-[压缩](https://code.claude.com/docs/zh-CN/context-window.md#what-survives-compaction)会用摘要替换您的消息历史记录。按照设计，这会使对话层失效：下一个请求拥有一个新的、更短的历史记录，与旧的历史记录不共享前缀。
+[压缩](https://code.claude.com/docs/zh-CN/context-window.md#what-survives-compaction)会用摘要替换您的消息历史记录。这会使对话层失效：下一个请求拥有一个新的、更短的历史记录，与旧的历史记录不共享前缀。
 
 * **系统提示词**：当对话的提示词是最新的时，下一个请求会从缓存中读取此层。如果该提示词已过时，例如在您[恢复对话](#resuming-a-session)之后，Claude Code 会切换为当前的提示词，下一个请求会重建此层的缓存一次。
 * **项目上下文**：Claude Code 会从磁盘重新加载此层。它与对话一起缓存，因此在 `/compact` 或自动压缩之后，即使其文件未改变，其缓存也会被重建。
@@ -240,7 +242,7 @@ API 限制每个请求可以携带的图像和 PDF 数量。有关当前数值�
 
 ### 调用 skill 和命令
 
-[Skills](https://code.claude.com/docs/zh-CN/skills.md) 和[命令](https://code.claude.com/docs/zh-CN/commands.md)在调用点将其指令作为用户消息注入。对话中早期的任何内容都不会改变。frontmatter 中命名 `model` 的 skill 或命令可以是该轮的[模型切换](#switching-models)。
+[Skills](https://code.claude.com/docs/zh-CN/skills.md) 和[命令](https://code.claude.com/docs/zh-CN/commands.md)在调用点将其指令作为用户消息注入。对话中早期的任何内容都不会改变。[`model` 值生效](https://code.claude.com/docs/zh-CN/skills#frontmatter-reference)的 skill 或命令可能构成该轮次的[模型切换](#switching-models)。
 
 ### 运行 `/recap`
 

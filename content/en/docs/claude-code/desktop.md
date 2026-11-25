@@ -8,11 +8,11 @@
 
 In the Claude Desktop app, Claude Code is the **Code** tab. The app also has chat and [Cowork](https://claude.com/product/cowork), which handles Dispatch and longer agentic work. This page is the reference for the Code tab.
 
-> [card] [Download for macOS](https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect?utm_source=claude_code\&utm_medium=docs)
+> [card] [Download for macOS](https://claude.ai/claude-code/desktop-download?platform=mac\&utm_source=claude_code\&utm_medium=docs)
 >
 > Universal build for Intel and Apple Silicon
 
-> [card] [Download for Windows](https://claude.ai/api/desktop/win32/x64/setup/latest/redirect?utm_source=claude_code\&utm_medium=docs)
+> [card] [Download for Windows](https://claude.ai/claude-code/desktop-download?platform=win-x64\&utm_source=claude_code\&utm_medium=docs)
 >
 > For x64 processors
 
@@ -20,7 +20,7 @@ In the Claude Desktop app, Claude Code is the **Code** tab. The app also has cha
 >
 > apt or .deb for Ubuntu and Debian
 
-For Windows ARM64, download the [ARM64 installer](https://claude.ai/api/desktop/win32/arm64/setup/latest/redirect?utm_source=claude_code\&utm_medium=docs). On Linux, install with apt; see [Claude Desktop on Linux](https://code.claude.com/docs/en/desktop-linux.md).
+For Windows ARM64, download the [ARM64 installer](https://claude.ai/claude-code/desktop-download?platform=win-arm64\&utm_source=claude_code\&utm_medium=docs). On Linux, install with apt; see [Claude Desktop on Linux](https://code.claude.com/docs/en/desktop-linux.md).
 
 After installing, launch Claude, sign in, and click the **Code** tab. For a walkthrough of your first session, see the [Get started guide](https://code.claude.com/docs/en/desktop-quickstart.md).
 
@@ -176,7 +176,7 @@ After the restart, open an HTML file from an SSH or WSL session on that computer
 
 The Browser pane is a tabbed browser, so you can open documentation, issue trackers, or any other site next to your running app. To open the Browser, press **Cmd+Shift+B** on macOS or **Ctrl+Shift+B** on Windows, or [select **Browser**](#arrange-your-workspace). You can sign in to sites in the pane, including popup sign-in flows such as Google OAuth.
 
-The first time you click an external link in the chat, a dialog asks whether links open in the Browser pane or in your default browser. To change your choice later, use **Open links in built-in browser** in the Browser pane's **⋮** menu. **Cmd**-click on macOS or **Ctrl**-click on Windows opens a link in your default browser directly.
+The first time you click an external link in the chat, a dialog asks whether links open in the Browser pane or in your default browser. To change your choice later, use **Open links in built-in browser** in the Browser pane's **⋮** menu. If it isn't there, open **More settings** in that menu. **Cmd**-click on macOS or **Ctrl**-click on Windows opens a link in your default browser directly.
 
 Claude can read and interact with external pages using the same tools it uses to [verify your app](#preview-your-app), with two additional safety checks:
 
@@ -216,7 +216,7 @@ To have Claude review your changes before you commit, enter `/code-review` in th
 
 In local, [SSH](#ssh-sessions), and [WSL](https://code.claude.com/docs/en/desktop-wsl.md) sessions, the findings appear as a **Code review** card, grouped by file. Use the card to act on them:
 
-* Click **Walk through in Changes** to open the diff view and step through the findings one at a time. A finding in the current diff appears at its line, where you can click **Fix this one** or dismiss it.
+* Click **Walk through in changes** to open the diff view and step through the findings one at a time. A finding in the current diff appears at its line, where you can click **Fix this one** or dismiss it.
 * Click **Apply fixes** to ask Claude to fix the findings that are still open.
 
 In any session, you can also ask Claude in the prompt box to fix what the review found. For what `/code-review` looks for and the arguments it takes, see [Review locally with `/code-review`](https://code.claude.com/docs/en/code-review-local).
@@ -630,7 +630,7 @@ Dispatch is one of several ways to work with Claude when you're away from your t
 
 Connect external services, add reusable workflows, customize Claude's behavior, and configure preview servers. To manage connectors, skills, and plugins in one place, click **Customize** or **Plugins** in the sidebar. [Cowork](https://claude.com/product/cowork) in the Desktop app sources its skills, plugins, and connectors from this configuration, which syncs through your claude.ai account, not from the CLI's `~/.claude` directory.
 
-Claude Code also loads the skills and plugins enabled for your claude.ai account in terminal sessions where you sign in with the same account. See [Skills synced from claude.ai](https://code.claude.com/docs/en/skills.md#how-synced-skills-behave) and [Plugins synced from claude.ai](https://code.claude.com/docs/en/plugins/loading.md#synced-plugins).
+To find out where else the skills and plugins enabled for your claude.ai account load, see [Skills synced from claude.ai](https://code.claude.com/docs/en/skills.md#how-synced-skills-behave) and [Plugins synced from claude.ai](https://code.claude.com/docs/en/plugins/loading.md#synced-plugins).
 
 ### Connect external tools
 
@@ -678,7 +678,7 @@ You can scope plugins to your user account, a specific project, or local-only. I
 
 > [!NOTE]
 >
-> The plugin browser is not available in cloud sessions, and plugins you install from the desktop app for your user account or as local-only aren't available there. See [What carries over from your setup](https://code.claude.com/docs/en/cloud-environments.md#what-carries-over-from-your-setup). Plugins aren't available in WSL sessions.
+> Plugins you install on your computer at user or local scope aren't available in cloud sessions. To use one there, see the **Cloud session** tab under [Install a plugin](https://code.claude.com/docs/en/plugins/install.md#install-a-plugin). Plugins aren't available in WSL sessions.
 
 For the full plugin reference including creating your own plugins, see [plugins](https://code.claude.com/docs/en/plugins/overview.md).
 
@@ -708,7 +708,7 @@ You can define multiple configurations to run different servers from the same pr
 
 When `autoVerify` is enabled, Claude automatically verifies code changes after editing files. It takes screenshots, checks for errors, and confirms changes work before completing its response.
 
-Auto-verify is on by default. Disable it per-project by adding `"autoVerify": false` to `.claude/launch.json`, or turn off **Auto-verify changes** in the Browser pane's **⋮** menu.
+Auto-verify is on by default. Disable it per-project by adding `"autoVerify": false` to `.claude/launch.json`, or turn off **Auto-verify changes** in the Browser pane's **⋮** menu. If it isn't there, open **More settings** in that menu.
 
 ```json theme={null}
 {
@@ -1901,7 +1901,7 @@ An entry that you can't select is gray. Hover over it to see the reason:
 * **A broken settings file**: while your own settings file is broken, your administrator's entries may be gray, with a message that names the file. [Fix the file](https://code.claude.com/docs/en/settings.md#fix-a-broken-settings-file).
 * **A new host**: [**Create another**](#create-another-machine) is gray for one minute after Desktop saves a host. Select it after that minute. Before Claude Desktop v4.4212.0, **Replace Dev box's host** is gray for 10 minutes.
 * **Hooks are off or restricted**: your own entries work only where your own hooks can run. Remove `disableAllHooks` from your settings, or ask your administrator.
-* **Settings are still loading**: every entry is gray until Desktop has loaded your organization's [server-managed settings](https://code.claude.com/docs/en/server-managed-settings.md), usually a few seconds after launch. If the entries stay gray, check your connection to claude.ai.
+* **Settings are still loading**: every entry is gray until Desktop has loaded any [server-managed settings](https://code.claude.com/docs/en/server-managed-settings.md), usually a few seconds after launch. If the entries stay gray, check your connection to claude.ai.
 
 #### Pre-configure SSH connections for your team
 
@@ -2095,9 +2095,26 @@ Which managed settings reach a Desktop session depends on where that session run
 
 In local and SSH sessions, the desktop app delivers each user's connected claude.ai connectors to Claude Code directly. No MCP setting or `managed-mcp.json` reaches those connectors, whichever settings source or file location you use. To block a connector's tools in these sessions, use your organization's [connector tool controls](https://code.claude.com/docs/en/mcp.md#organization-controls-on-connector-tools). [How connectors reach Claude Code](https://code.claude.com/docs/en/mcp.md#how-connectors-reach-claude-code) shows which settings govern connectors in each kind of session.
 
-`permissions.disableBypassPermissionsMode` and `disableAutoMode` also work in user and project settings, but placing them in managed settings prevents users from overriding them.
+To keep users from overriding `permissions.disableBypassPermissionsMode` or `disableAutoMode`, set it in managed settings.
 
 For the permission, plugin, and delivery keys only a managed source can set, see [Keys only managed settings can set](https://code.claude.com/docs/en/managed-settings.md#managed-only-settings).
+
+#### Deploy skills for all users
+
+To give every user the same skills in local and SSH sessions, deploy them as [enterprise skills](https://code.claude.com/docs/en/skills.md#where-skills-live), which you install once on a machine for all of its users. Install them on the machine where the session runs:
+
+* **Local sessions**: each user's computer
+* **SSH sessions**: each remote host
+
+Install each skill at the path for that machine's platform:
+
+| Platform | Path |
+| :- | :- |
+| macOS | `/Library/Application Support/ClaudeCode/.claude/skills/<skill-name>/SKILL.md` |
+| Linux | `/etc/claude-code/.claude/skills/<skill-name>/SKILL.md` |
+| Windows | `C:\Program Files\ClaudeCode\.claude\skills\<skill-name>\SKILL.md` |
+
+To confirm that your skills load, test with a skill whose [frontmatter](https://code.claude.com/docs/en/skills.md#frontmatter-reference) sets only `name` and `description`. Start a new session and send a message, then type `/` and the first letters of the skill's name in the prompt box. The skill appears in the list.
 
 #### Claude Code settings that behave differently in the Code tab
 
@@ -2320,6 +2337,7 @@ The following features aren't available in Desktop, except where noted:
 * **Linux (beta)**: Computer Use isn't yet available in the Linux desktop app. See [Claude Desktop on Linux](https://code.claude.com/docs/en/desktop-linux.md).
 * **Inline code suggestions**: Desktop doesn't offer autocomplete-style code completions. It works through conversational prompts and explicit code changes, and can [suggest your next prompt](#accept-a-suggested-prompt) after Claude replies.
 * **Agent teams**: coordinated teams, where Claude as the team lead assigns tasks to teammates from a shared task list, are available in the [CLI](https://code.claude.com/docs/en/agent-teams.md), not in Desktop. For multi-agent work inside one session, use [dynamic workflows](https://code.claude.com/docs/en/workflows.md), which run in Desktop; Claude can also [message and manage your other sessions](#work-across-sessions) directly.
+* **Code Mode**: Desktop sessions start without the experimental [Code Mode](https://code.claude.com/docs/en/code-mode.md), even if you turn it on in your settings. To use it, run the CLI in a terminal.
 * **Terminal-dialog commands**: built-in commands that open an interactive panel in the terminal behave differently in the Code tab. Edit [settings files](https://code.claude.com/docs/en/settings.md) directly to manage permission rules and configuration, or run the commands from the standalone CLI.
   * Commands with no argument form, such as `/permissions`, reply with `isn't available in this environment`.
   * `/config` opens **Settings > Code** or **Settings > Claude Code**.
@@ -2358,6 +2376,8 @@ If a new session shows the [environment](#start-a-session) above the prompt box 
 In the earlier layout, choose the environment and any project folder or repository above the prompt box, and the permission mode and model in the row under it. The earlier layout lacks the [session details panel](#see-session-details) and [saved local and SSH environments](#create-a-saved-environment).
 
 ### 403 or authentication errors in the Code tab
+
+For a card that says `For security, Claude Code needs a recent sign-in.`, see [Claude Code needs a recent sign-in](https://code.claude.com/docs/en/errors.md#claude-code-needs-a-recent-sign-in).
 
 If you see `Error 403: Forbidden` or other authentication failures when using the Code tab:
 

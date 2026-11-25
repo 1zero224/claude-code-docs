@@ -16,7 +16,7 @@ description: 关于 Compliance API 访问、作用域、保留期限和集成的
   </Accordion>
 
   <Accordion title="在 Claude Console 中启用 Compliance API 后，我可以将其关闭吗？">
-    可以。对于独立的 Claude Console 组织，组织管理员可以在 Claude Console 的[合规](https://platform.claude.com/settings/security)页面（`platform.claude.com/settings/security`）上关闭 **Compliance API** 开关，即开启它的同一位置。在 Compliance API 关闭期间，不会为您的组织记录任何活动事件，因此[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)不会收到新事件。Compliance API 关闭期间未记录的活动之后无法恢复。重新开启 Compliance API 后，将从那一刻起恢复记录；已经记录的活动不会被删除。访问透明度事件是一个例外。如果您的组织已加入[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)，关闭 Compliance API 会停止您对这些事件的访问，而不是停止对它们的记录。在 Compliance API 关闭期间，这些事件仍会被记录，并且在 Compliance API 重新开启后，活动源会返回它们。
+    对于独立的 Claude Console 组织，由组织管理员在 Claude Console 的[合规](https://platform.claude.com/settings/security)页面（`platform.claude.com/settings/security`）上关闭 **Compliance API** 开关，即开启它的同一位置。如果您无法将其关闭，请联系您的 Anthropic 客户团队或 [Anthropic 支持](https://support.claude.com)。在 Compliance API 关闭期间，不会为您的组织记录任何活动事件，因此[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)不会收到新事件。Compliance API 关闭期间未记录的活动之后无法恢复。重新开启 Compliance API 后，将从那一刻起恢复记录；已经记录的活动不会被删除。访问透明度事件是一个例外。如果您的组织已加入[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)，关闭 Compliance API 会停止您对这些事件的访问，而不是停止对它们的记录。在 Compliance API 关闭期间，这些事件仍会被记录，并且在 Compliance API 重新开启后，活动源会返回它们。
   </Accordion>
 
   <Accordion title="关闭 Compliance API 会删除已捕获的事件吗？">
@@ -33,7 +33,7 @@ description: 关于 Compliance API 访问、作用域、保留期限和集成的
     要调用 Compliance API，您需要改为创建以下两种密钥类型之一：
 
     * **如需完整的 Compliance API 访问权限（[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)以及聊天、文件、项目、会话、用户、组织元数据和组织设置），**&#x7531;父组织的主要所有者（或组织所有者，用于仅限其自身组织的密钥）在 claude.ai 中创建 [Compliance Access Key](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)（合规访问密钥）。
-    * **如仅需活动源访问权限，**&#x7531;您的 Claude Console 组织中的组织管理员在 Claude Console 中创建 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#create-an-admin-api-key)。该组织必须已启用 Compliance API，并且管理员必须在 Compliance API 处于启用状态时创建 Admin API 密钥，该密钥才会携带 `read:compliance_activities` 作用域。
+    * **如需活动源和 Safety Cases API 访问权限，**&#x7531;您的 Claude Console 组织中的组织管理员在 Claude Console 中创建 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#create-an-admin-api-key)。该组织必须已启用 Compliance API，并且管理员必须在 Compliance API 处于启用状态时创建 Admin API 密钥，该密钥才会携带 `read:compliance_activities` 作用域。如果管理员在您的组织可以使用 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access) 期间创建该密钥，该密钥也可以访问该 API。通过该 API，该密钥可以读取被标记的消息并响应 Safety Cases。您无法排除此访问权限，因此请限制可以创建和持有密钥的人员。
   </Accordion>
 
   <Accordion title="我可以将常规的 Claude API 密钥用于 Compliance API 吗？">
@@ -41,7 +41,7 @@ description: 关于 Compliance API 访问、作用域、保留期限和集成的
   </Accordion>
 
   <Accordion title="为什么我的 Admin API 密钥在聊天或文件端点上返回 403？">
-    Admin API 密钥唯一的 Compliance API “scope”（作用域）是 `read:compliance_activities`，它仅授权访问活动源。其他所有 Compliance API 端点都需要只有在 claude.ai 中创建的 Compliance Access Key 才能携带的作用域。使用 Admin API 密钥调用内容或目录端点会返回 403，并指明该端点系列所需的作用域：聊天、文件、项目、项目附件、会话、用户和群组成员需要 `read:compliance_user_data`，组织、角色、群组和有效组织设置需要 `read:compliance_org_data`。例如，列出聊天会返回以下响应。
+    Admin API 密钥唯一的 Compliance API “scope”（作用域）是 `read:compliance_activities`，它仅授权访问活动源。其他所有 Compliance API 端点都需要只有在 claude.ai 中创建的 Compliance Access Key 才能携带的作用域。例外情况是 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access)：在该 API 可用期间创建的 Admin API 密钥也会携带该 API 的作用域。使用 Admin API 密钥调用内容或目录端点会返回 403，并指明该端点系列所需的作用域：聊天、文件、项目、项目附件、会话、用户和群组成员需要 `read:compliance_user_data`，组织、角色、群组和有效组织设置需要 `read:compliance_org_data`。例如，列出聊天会返回以下响应。
 
     ```json Response
     {
@@ -52,7 +52,7 @@ description: 关于 Compliance API 访问、作用域、保留期限和集成的
     }
     ```
 
-    要访问内容端点，您的父组织的主要所有者（或组织所有者，仅限其自身组织）必须[创建 Compliance Access Key](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)，并携带 `read:compliance_user_data`（删除操作还需 `delete:compliance_user_data`），或者为组织、角色、组和有效设置端点携带 `read:compliance_org_data`。独立的 Claude Console 组织（即没有父组织的组织）无法创建 Compliance Access Key，因此无法使用内容端点；它只能查询活动源。有关完整的按端点分类的目录，请参阅[处理 Compliance API 错误](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#403-forbidden)。
+    要访问内容端点，您的父组织的主要所有者（或组织所有者，仅限其自身组织）必须[创建 Compliance Access Key](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)，并携带 `read:compliance_user_data`（删除操作还需 `delete:compliance_user_data`），或者为组织、角色、组和有效设置端点携带 `read:compliance_org_data`。独立的 Claude Console 组织（即没有父组织的组织）无法创建 Compliance Access Key，因此无法使用内容端点。有关完整的按端点分类的目录，请参阅[处理 Compliance API 错误](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#403-forbidden)。
   </Accordion>
 </AccordionGroup>
 
@@ -66,7 +66,7 @@ description: 关于 Compliance API 访问、作用域、保留期限和集成的
   <Accordion title="活动源是否包含提示或消息内容？">
     不包含。活动源记录谁在何时做了什么（身份验证、聊天创建、文件上传、项目更改、管理操作以及类似的资源事件），但不会捕获聊天或消息中的提示文本或模型响应。
 
-    要检索消息正文和文件内容，请使用携带 `read:compliance_user_data` 的 Compliance Access Key 调用聊天、消息和文件端点。同一密钥和作用域可通过[本地会话端点](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)检索用户机器上的会话（例如 Cowork 和 Claude Code 会话）的转录记录，并通过[远程会话端点](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-remote-sessions)检索云端 Cowork 和 Claude Tag 会话的转录记录。这些端点仅提供 Claude Enterprise 内容；Claude Console 工作负载以及使用 API 密钥进行身份验证的 Claude API 工作负载会通过活动源公开管理和资源事件，但不会通过 Compliance API 公开提示文本或模型响应。
+    要检索消息正文和文件内容，请使用携带 `read:compliance_user_data` 的 Compliance Access Key 调用聊天、消息和文件端点。同一密钥和作用域可通过[本地会话端点](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)检索用户机器上的会话（例如 Cowork 和 Claude Code 会话）的转录记录，并通过[远程会话端点](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-remote-sessions)检索云端 Cowork 和 Claude Tag 会话的转录记录。这些端点仅提供 Claude Enterprise 内容；Claude Console 工作负载以及使用 API 密钥进行身份验证的 Claude API 工作负载会通过活动源公开管理和资源事件，但不会通过 Compliance API 公开提示文本或模型响应。例外情况是 Safety Cases API 返回的[被标记消息](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#read-a-message)。
   </Accordion>
 
   <Accordion title="Cowork、Claude Code 以及其他 Claude 应用和加载项中的会话会出现在 Compliance API 中吗？">
@@ -107,7 +107,7 @@ description: 关于 Compliance API 访问、作用域、保留期限和集成的
   </Accordion>
 
   <Accordion title="Compliance API 不捕获哪些内容？">
-    Compliance API 有已知的覆盖边界：活动源记录资源事件但不记录提示或响应文本；Claude Console 工作负载以及使用 API 密钥进行身份验证的 Claude API 工作负载完全不公开消息内容；被您的保留策略移除、被用户在 claude.ai 中删除或通过 Compliance API 硬删除的内容不可恢复。有关完整的覆盖边界和传送契约，请参阅[传送保证与完整性](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-integration-patterns#delivery-guarantees-and-completeness)。
+    Compliance API 有已知的覆盖边界：活动源记录资源事件但不记录提示或响应文本；Claude Console 工作负载以及使用 API 密钥进行身份验证的 Claude API 工作负载除 Safety Cases API 返回的[被标记消息](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#read-a-message)外不公开任何消息内容；被您的保留策略移除、被用户在 claude.ai 中删除或通过 Compliance API 硬删除的内容不可恢复。有关完整的覆盖边界和传送契约，请参阅[传送保证与完整性](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-integration-patterns#delivery-guarantees-and-completeness)。
 
     会话转录记录也有其自身的边界。本地会话仅在其请求到达 Claude API 时被捕获，因此从未到达 API 的设备端活动不会被捕获。使用 Claude Console API 密钥进行身份验证的 Claude Code 会话、通过第三方云平台（Amazon Bedrock、Google Cloud 或 Microsoft Foundry）运行的 Claude Code 会话，以及在云基础设施而非用户机器上运行的 [Claude Code 云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web)（包括 Claude Code 云端定时任务，原称例程）也不会被捕获；启用了 HIPAA 就绪的组织仅能获取 Cowork 和 Claude Code 的本地会话数据，存储期限为 30 天；适用零数据保留的会话会被排除。任何会话转录记录（无论本地还是远程）都不包含思考块或工具定义。使用["customer-managed encryption keys"（客户管理的加密密钥）](https://platform.claude.com/docs/zh-CN/manage-claude/cmek)的组织照常接收本地会话转录记录。在密钥无法使用期间，消息端点会返回 [503 Service Unavailable](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#local-sessions-temporarily-unavailable) 而不是转录记录内容，但会话元数据仍会被列出。
 

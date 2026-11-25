@@ -129,11 +129,11 @@ Claude Platform on AWS 没有**验证**步骤，因此密钥的问题会在您�
 CMEK keys can only be attached to workspaces in this organization that have inference data retention enabled.
 ```
 
-[您的组织使用零数据保留（ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#zdr-organizations)，而密钥需要一个保留数据的工作区。请先将该工作区切换为**标准数据保留**。
+[您的组织使用旧版零数据保留（Legacy ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#zdr-organizations)，而密钥需要一个保留数据的工作区。请先将该工作区切换为**标准数据保留**。
 
 ### 工作区没有加密密钥设置
 
-只有[保留数据的工作区](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#data-retention)才有此设置，因此请先为该工作区选择**标准数据保留**。ZDR 组织的默认工作区无法切换，因此请使用其他工作区。
+只有[保留数据的工作区](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention#data-retention)才有此设置，因此请先为该工作区选择**标准数据保留**。Legacy ZDR 组织的默认工作区无法切换，因此请使用其他工作区。
 
 ### 没有加密密钥部分
 

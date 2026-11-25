@@ -517,6 +517,8 @@ Create Deployment
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -1099,20 +1101,23 @@ client = Anthropic(
     ),  # This is the default and can be omitted
 )
 beta_managed_agents_deployment = client.beta.deployments.create(
-    agent="string",
-    environment_id="x",
+    agent={
+        "id": "agent_011CZkYpogX7uDKUyvBTophP",
+        "type": "agent",
+    },
+    environment_id="env_011CZkZ9X2dpNyB7HsEFoRfW",
     initial_events=[
         {
             "content": [
                 {
-                    "text": "Where is my order #1234?",
+                    "text": "Compile yesterday's orders into report.md.",
                     "type": "text",
                 }
             ],
             "type": "user.message",
         }
     ],
-    name="x",
+    name="Daily order report",
 )
 print(beta_managed_agents_deployment.id)
 ```

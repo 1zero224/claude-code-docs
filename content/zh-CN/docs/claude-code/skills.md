@@ -213,9 +213,10 @@ Claude Code 在启动时使用 `--add-dir` 传递的目录中监视 `.claude/ski
 | 相同名称在 | 运行哪一个 |
 | :- | :- |
 | Enterprise、personal 和 project 中的两个 | Enterprise 优先于 personal，personal 优先于 project。在 `~/.claude/skills/` 和项目的 `.claude/skills/` 中都有 `deploy` 时，`/deploy` 运行 personal 的 |
-| 这些位置中的任何一个和 [捆绑 skill](#bundled-skills) | 您的 skill 替换捆绑命令，但不替换其别名。项目 `code-review` skill 替换 `/code-review`，捆绑别名 `/review` 永远不会运行您的 skill |
+| 这些位置中的任何一个和名称不是 `ship`、`ship-local` 或 `steward` 的 [随附 skill](#bundled-skills) | 您的 skill 替换随附命令，但不替换其别名。项目 `code-review` skill 替换 `/code-review`，随附别名 `/review` 不会运行您的 skill |
 | 这些位置中的任何一个和 [内置命令](https://code.claude.com/docs/zh-CN/commands.md) | 在本地终端会话中，您的 skill 替换内置命令，但不替换其别名。项目 `usage` skill 替换 `/usage`，内置别名 `/cost` 仍然运行内置命令 |
 | Skill 和 `.claude/commands/` 中的文件 | Skill |
+| 您的名为 `ship`、`ship-local` 或 `steward` 的 skill 或命令 | 在 `/ship` 可用的情况下，运行随附的 `/ship` 或 `/steward`。Claude Code [不会加载您的](https://code.claude.com/docs/zh-CN/ship-command-troubleshooting.md#a-custom-%2Fship-or-%2Fsteward-command-stopped-loading) |
 | 项目根 skill 和嵌套 skill | 两者都加载。请参阅 [monorepos 和子目录](#discovery-from-parent-and-nested-directories) |
 | Enterprise、personal 或 project skill 和 [项目外已添加目录](#skills-from-additional-directories) 中的 skill | Enterprise、personal 或 project skill，而已添加目录中的 skill 以带前缀的名称运行。请参阅 [运行已添加目录中的同名 skill](#run-a-same-named-skill-from-an-added-directory) |
 | 项目外的两个 [已添加目录](#skills-from-additional-directories) | 按 `--add-dir` 或 `/add-dir` 的顺序，最先添加的目录中的 skill。另一个以 [带前缀的名称](#run-a-same-named-skill-from-an-added-directory) 运行 |
@@ -257,7 +258,7 @@ Claude Code 仅在使用您的 claude.ai 账户登录的会话中同步，并 [�
 * 不使用由 `/login` 存储的登录的会话，例如使用 API 密钥进行身份验证的会话，或 `ANTHROPIC_AUTH_TOKEN`、`CLAUDE_CODE_OAUTH_TOKEN` 或 `apiKeyHelper` 脚本提供凭证的会话
 * 不获取功能标志的会话，例如 Amazon Bedrock 上的会话或您设置 `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` 的会话
 * [bare mode](https://code.claude.com/docs/zh-CN/headless.md#start-faster-with-bare-mode) 中的会话或您使用 `--safe-mode` 启动的会话
-* 您的组织的托管设置 [将 skills 锁定到插件源](https://code.claude.com/docs/zh-CN/settings-reference.md#strictpluginonlycustomization-skills) 的会话，或您使用 [`--setting-sources`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 列表启动的会话，该列表省略了 `user`
+* 托管设置 [将 skill 锁定到插件源](https://code.claude.com/docs/zh-CN/settings-reference.md#strictpluginonlycustomization-skills) 的会话，或您使用省略了 `user` 的 [`--setting-sources`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 列表启动的会话
 
 如果您在会话期间使用 `/login` 登录，请重新启动 Claude Code 以开始同步。
 
@@ -271,7 +272,9 @@ Anthropic 的某些 skills，例如 `pdf` 和 `xlsx`，总是同步。对于其�
 
 要停止在机器上同步，请在您的用户设置中将 [`syncClaudeAiSkills`](https://code.claude.com/docs/zh-CN/settings-reference#syncclaudeaiskills) 设置为 `false`。Claude Code 停止下载，下次启动时它会将已同步的 skills 移动到 `~/.claude/skills/.trash/`，不再加载它们。您的组织可以通过在 claude.ai 上关闭 Skills 来为所有人关闭同步。要在保持 Skills 打开的情况下停止同步，它可以在 [托管设置](https://code.claude.com/docs/zh-CN/managed-settings.md) 中设置相同的密钥。
 
-如果您的组织在 claude.ai 上关闭 Skills，Claude Code 会删除下载的 skills，它们停止加载。删除的 skills 移动到 `~/.claude/skills/.trash/`，您可以在 [保留扫描](https://code.claude.com/docs/zh-CN/claude-directory.md#cleaned-up-automatically) 删除它们之前恢复文件。一旦您的组织重新打开 Skills，Claude Code 会在下一次同步时下载您启用的 skills。
+> [!NOTE]
+>
+> 如果您的组织在 claude.ai 上关闭 Skills，Claude Code 会删除下载的 skill，它们停止加载。删除的 skill 移动到 `~/.claude/skills/.trash/`，在 Claude Code [删除它们](https://code.claude.com/docs/zh-CN/claude-directory.md#cleaned-up-automatically) 之前，您可以恢复这些文件。一旦您的组织重新打开 Skills，Claude Code 会在下一次同步时下载您启用的 skill。
 
 #### 当同步 skill 名称与另一个命令匹配时
 
@@ -317,9 +320,22 @@ Claude Code 对同步 skill 的正文的处理取决于会话运行的位置：
 * 在您桌面上的 Cowork 会话中，正文保持本地 skill 具有的行为，除了 Claude Code 将每个 `!` 命令行替换为 [`disableSkillShellExecution` 占位符](#inject-dynamic-context)，就像它对您在那里提供的每个 skill 所做的那样。
 * 在终端或 VS Code 会话中，Claude Code 不运行 [`!` 命令](#inject-dynamic-context)，不附加 `@` 引用所指的文件，也不替换 `${CLAUDE_PROJECT_DIR}` 和 `${CLAUDE_SESSION_ID}` 占位符。`@` 引用和这两个占位符都作为文字文本到达 Claude。`!` 命令行也作为文字文本到达 Claude，或在该设置打开时作为 `disableSkillShellExecution` 占位符到达。此处理需要 Claude Code v2.1.228 或更高版本。
 
+### 来自 MCP 服务器的 skill
+
+[MCP 服务器可以提供 skill](https://code.claude.com/docs/zh-CN/mcp.md#use-skills-from-mcp-servers)。使用它们需要 Claude Code v2.1.331 或更高版本。Claude 将 skill 的支持文件作为 [MCP 资源](https://code.claude.com/docs/zh-CN/mcp.md#use-mcp-resources) 从服务器读取。有关提示词和规则，请参阅 [MCP skill 的批准](https://code.claude.com/docs/zh-CN/mcp.md#approvals-for-mcp-skills)。
+
+#### 不适用的 skill 功能
+
+由于内容由服务器提供，您无法在 MCP skill 中使用 [本地 skill](#where-skills-live) 的以下功能：
+
+* **Frontmatter 字段**：Claude Code 忽略 `allowed-tools`、`disallowed-tools`、`hooks`、`model`、`effort`、`context`、`agent`、`background`、`shell`、`paths` 和 `metadata`
+* **[`!` 命令](#inject-dynamic-context)**：它们不会运行
+* **`@` 引用**：文件不会被附加
+* **`${CLAUDE_PROJECT_DIR}` 和 `${CLAUDE_SESSION_ID}`**：它们不会被替换
+
 ### 在会话期间编辑 skill
 
-Claude Code 监视 skill 目录的文件更改，除了在 [bare mode](https://code.claude.com/docs/zh-CN/headless.md#start-faster-with-bare-mode) 中。当您在 `~/.claude/skills/`、项目 `.claude/skills/` 或 `--add-dir` 目录内的 `.claude/skills/` 中添加、编辑或删除 skill 时，Claude Code 在当前会话中获取更改，无需重新启动。
+Claude Code 监视 skill 目录的文件更改，除了在 [bare 模式](https://code.claude.com/docs/zh-CN/headless.md#start-faster-with-bare-mode) 中。当您在 `~/.claude/skills/`、项目 `.claude/skills/` 或 `--add-dir` 目录内的 `.claude/skills/` 中添加、编辑或删除 skill 时，Claude Code 在当前会话中获取更改。
 
 如果新 skill 没有出现，请运行 [`/reload-skills`](https://code.claude.com/docs/zh-CN/commands#all-commands)。
 
@@ -409,7 +425,7 @@ Your skill instructions here...
 | `user-invocable` | 否 | 当只有 Claude 应调用该 skill 时设置为 `false`：Claude Code 会将其从 `/` 菜单中隐藏，并且在您输入 `/name` 时不会运行它。适用于用户不应直接调用的背景知识。默认值：`true`。 |
 | `allowed-tools` | 否 | 在调用此 skill 的轮次中，Claude 无需请求权限即可使用的工具。当您发送下一条消息时，该授予即被清除。接受以空格或逗号分隔的字符串，或 YAML 列表。请参阅[为 skill 预先批准工具](#pre-approve-tools-for-a-skill)。 |
 | `disallowed-tools` | 否 | 在此 skill 处于活动状态时，从 Claude 可用工具池中移除的工具。适用于永远不应调用某些工具的自主 skill，例如对后台循环禁用 `AskUserQuestion`。接受以空格或逗号分隔的字符串，或 YAML 列表。当您发送下一条消息时，该限制即被清除。与拒绝规则一样，只要还有其他工具存在，该字段就无法移除 [`EndConversation`](https://code.claude.com/docs/zh-CN/tools-reference#endconversation-tool-behavior)。 |
-| `model` | 否 | 此 skill 处于活动状态时使用的模型。该覆盖适用于当前轮次的剩余部分，且不会保存到设置中。当您发送下一个提示词时，会话模型即恢复。接受与 [`/model`](https://code.claude.com/docs/zh-CN/model-config) 相同的值，或使用 `inherit` 保留当前活动的模型。被组织的 [`availableModels`](https://code.claude.com/docs/zh-CN/model-config#restrict-model-selection) 允许列表排除的值不会被使用，会话将保留其当前模型。在[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)下，以及在[分类器审查命令时的计划模式](https://code.claude.com/docs/zh-CN/permission-modes.md#analyze-before-you-edit-with-plan-mode)下，自动模式不支持的模型同样不会被使用，会话将保留其当前模型。使用 `context: fork` 时，该值改为设置[分叉子代理的模型](#run-skills-in-a-subagent)，被排除的值遵循[与子代理模型覆盖相同的规则](https://code.claude.com/docs/zh-CN/model-config.md#restrict-model-selection)。 |
+| `model` | 否 | 当您[使用 `/name` 运行此 skill](#where-you-write-the-skills-name) 时，该轮次使用的模型。接受 [`/model`](https://code.claude.com/docs/zh-CN/model-config) 的值，或使用 `inherit` 表示当前活动的模型。当由 Claude 运行该 skill 时，会话保留其模型。当您的[组织阻止该值](https://code.claude.com/docs/zh-CN/model-config.md#restrict-model-selection)、[计划模式升级](https://code.claude.com/docs/zh-CN/model-config.md#opusplan-model-setting)处于活动状态，或[自动模式的分类器已启用](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)且不支持该值时，情况同样如此。使用 `context: fork` 时，该值为分叉子代理的[单次调用模型](https://code.claude.com/docs/zh-CN/sub-agents.md#choose-a-model)。 |
 | `effort` | 否 | 当前轮次剩余部分的 [effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level)。覆盖会话的 effort 级别，但不会覆盖 [`CLAUDE_CODE_EFFORT_LEVEL`](https://code.claude.com/docs/zh-CN/env-vars#variables) 环境变量。使用 `context: fork` 时，该值改为设置分叉子代理的 effort 级别。省略该字段时，级别由 [effort 解析顺序](https://code.claude.com/docs/zh-CN/model-config.md#adjust-effort-level)决定。对于使用其他模型的分叉，请参阅[子代理和队友的 effort 级别](https://code.claude.com/docs/zh-CN/model-config.md#effort-level-of-subagents-and-teammates)。选项：`low`、`medium`、`high`、`xhigh`、`max`；可用级别取决于模型。 |
 | `context` | 否 | 设置为 `fork` 可在分叉的子代理上下文中运行。请参阅[在子代理中运行 skill](#run-skills-in-a-subagent)。 |
 | `agent` | 否 | 设置 `context: fork` 时使用的子代理类型。 |
@@ -672,9 +688,14 @@ Fix GitHub issue $ARGUMENTS following our coding standards.
 5. Create a commit
 ```
 
-当您运行 `/fix-issue 123` 时，Claude 会收到 "Fix GitHub issue 123 following our coding standards..."
+当您运行 `/fix-issue 123` 时，Claude 会收到 `Fix GitHub issue 123 following our coding standards...`
 
-如果您在调用 skill 时传递了参数，但 skill 内容中没有占位符接收参数，Claude Code 会将 `ARGUMENTS: <your input>` 附加到 skill 内容的末尾，以便 Claude 仍能看到您输入的内容。占位符是指 `$ARGUMENTS`、索引形式（例如 `$1`）或命名参数。在其位置上没有参数的索引占位符会保留为字面文本，不算作接收了参数。命名占位符即使在其位置上没有参数也算作接收了参数，因为它会展开为空字符串。
+如果您在调用 skill 时传递了参数，但 skill 内容中没有占位符接收参数，Claude Code 会将 `ARGUMENTS: <your input>` 附加到 skill 内容的末尾，以便 Claude 仍能看到您输入的内容。占位符是指 `$ARGUMENTS`、索引形式（例如 `$1`）或命名参数。
+
+当其位置上没有参数时，只有命名占位符才算作接收了参数：
+
+* **索引占位符，例如 `$1`**：保留为字面文本
+* **命名占位符，例如 `$issue`**：展开为空字符串
 
 要按位置访问单个参数，请使用 `$ARGUMENTS[N]` 或更简短的 `$N`：
 
@@ -800,6 +821,8 @@ PowerShell 工具对它运行的命令应用相同的超时、后台化和输出
 
 在自动模式中，原本需要你批准的命令不会中止调用。技能加载时带有指令，告诉 Claude 首先运行该命令，然后 Claude 自己的调用通过[自动模式的常规检查](https://code.claude.com/docs/zh-CN/permission-modes.md#how-the-classifier-evaluates-actions)。调用仍然会在[分叉技能](#run-skills-in-a-subagent)中中止，该技能设置 `agent`，以及在 Claude 没有[运行注入命令的 shell 工具](#how-injected-commands-run)的会话中。
 
+`PreToolUse` hook 不会为 skill 加载时运行的注入命令触发。要记录或阻止通过权限检查的注入命令，请使用 [`PreSkillShellCommand` hook](https://code.claude.com/docs/zh-CN/hooks#preskillshellcommand)。
+
 ### 在子代理中运行技能
 
 当你希望技能在隔离中运行时，将 `context: fork` 添加到你的 frontmatter。Claude Code 启动 `agent` 字段中设置的类型的新子代理，并将技能内容作为其提示提供给它。子代理看不到你的对话历史，因此技能的说明必须独立存在。
@@ -868,9 +891,11 @@ Research $ARGUMENTS thoroughly:
 
 ### 限制 Claude 的技能访问
 
-默认情况下，Claude 可以调用任何未设置 `disable-model-invocation: true` 的 skill。定义了 [`allowed-tools`](#pre-approve-tools-for-a-skill) 的 skill 会在调用该 skill 的轮次中授予 Claude 使用这些工具的权限，无需逐次批准；当您发送下一条消息时，该授予即被清除。您的[权限设置](https://code.claude.com/docs/zh-CN/permissions.md)仍然管理所有其他工具的基线批准行为。一些内置命令也可以通过 Skill 工具使用，包括 `/init` 和 `/security-review`。其他内置命令（例如 `/compact`）则不可用。
+默认情况下，Claude 可以调用任何未设置 `disable-model-invocation: true` 的 skill。定义了 [`allowed-tools`](#pre-approve-tools-for-a-skill) 的 skill 会在调用该 skill 的轮次中授予 Claude 使用这些工具的权限，无需逐次批准；当您发送下一条消息时，该授予即被清除。您的[权限设置](https://code.claude.com/docs/zh-CN/permissions.md)仍然管理所有其他工具的基线批准行为。对于[来自 MCP 服务器的 skill](#skills-from-mcp-servers)，Claude 不会获得任何 `allowed-tools` 授予。
 
-控制 Claude 可以调用哪些技能的三种方法：
+一些内置命令也可以通过 Skill 工具使用，包括 `/init` 和 `/security-review`。其他内置命令（例如 `/compact`）则不可用。
+
+您可以通过以下方式控制 Claude 调用哪些 skill：
 
 **通过在 `/permissions` 中拒绝 Skill 工具来禁用所有技能**：
 
@@ -909,6 +934,8 @@ Claude Code 仅针对技能自己的名称和 Claude 调用中的名称匹配 `a
 * `Skill(anthropic-skills:pdf)` 批准同步的 `pdf` 技能
 * `Skill(anthropic-skills *)` 批准每个同步的技能
 * `Skill(anthropic *)` 不涵盖 `anthropic-skills:pdf`，因为命名空间外的前缀不匹配其中的名称
+
+对于[来自 MCP 服务器的 skill](#skills-from-mcp-servers)，请改为[为其服务器设置规则](https://code.claude.com/docs/zh-CN/mcp.md#block-a-servers-skills-or-ask-first)。您无法通过针对该 skill 名称的 `allow` 规则跳过其提示。
 
 **通过向其 frontmatter 添加 `disable-model-invocation: true` 来隐藏单个技能**。这将技能从 Claude 的上下文中完全删除。
 
@@ -1053,7 +1080,7 @@ This creates `codebase-map.html` in the current directory and opens it in your d
 * 一个**条形图**，按文件类型（按大小排名前 8）分解代码库
 * 一个**可折叠树**，你可以在其中展开和折叠目录，带有颜色编码的文件类型指示器
 
-该脚本需要 Python 3，但仅使用内置库，因此无需安装任何包：
+该脚本需要 Python 3，但仅使用内置库：
 
 ```python expandable theme={null}
 #!/usr/bin/env python3
@@ -1252,7 +1279,9 @@ Claude Code 会将 `description` 和 `when_to_use` 字段中的 `<` 和 `>` 显�
 
 在 v2.1.280 之前，`~/.claude/skills/` 中名为 `manifest.json` 的文件会导致 Claude Code 将该文件列出的 skill 文件夹移动到 `~/.claude/skills/.trash/` 下的带时间戳的文件夹中，这些 skills 停止加载。
 
-要恢复一个 skill，将其文件夹从带时间戳的文件夹移回 `~/.claude/skills/`。在 [保留扫描](https://code.claude.com/docs/zh-CN/claude-directory.md#cleaned-up-automatically) 删除垃圾条目之前执行此操作，默认情况下在移动到垃圾箱后 30 天。
+> [!TIP]
+>
+> 要恢复一个 skill，请将其文件夹从带时间戳的文件夹移回 `~/.claude/skills/`。请在 Claude Code [删除它](https://code.claude.com/docs/zh-CN/claude-directory.md#cleaned-up-automatically)之前执行此操作。
 
 ## 相关资源
 

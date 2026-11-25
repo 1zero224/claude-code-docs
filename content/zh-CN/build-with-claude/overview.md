@@ -84,7 +84,9 @@ Claude Platform 中可跨其各个 API 使用的功能。每项功能的页面�
 | [Bash 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool) | 让 Claude 请求执行 shell 命令，这些命令在一个于命令之间保持状态的 bash 会话中运行。 |
 | [代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool) | 让 Claude 在沙箱容器中运行 Python 和 Bash 代码。 |
 | [上下文编辑](https://platform.claude.com/docs/zh-CN/build-with-claude/context-editing) | 随着对话历史增长，从中清除选定的内容，例如旧的工具结果或旧的思考块。 |
+| [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview) | 为使用 Claude 最强大模型且具备资格的组织提供零数据保留（ZDR）。密封的安全数据（即您的提示和响应的加密副本）会写入您自有的存储。Anthropic Human Review 始终关闭，因此由您自己的团队审核自动化安全监控发现的已标记案例。 |
 | [强制工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#forcing-tool-use) | 让 Claude 调用某个工具或某个特定工具，而不是直接回答。 |
+| [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/linked-billing) | 让您的客户通过其自己的 Claude 组织为您产品中的 Claude 用量付费。 |
 | [记忆工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool) | 让 Claude 在记忆文件目录中跨对话存储和读取信息。 |
 | ↳ [记忆工具辅助工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/memory-tool#implement-the-memory-handler) | 处理记忆工具接口和工具使用循环的 SDK 辅助工具，您的代码只需提供存储。 |
 | [消息流式传输](https://platform.claude.com/docs/zh-CN/build-with-claude/streaming) | 在生成 Messages API 响应的同时，以服务器发送事件的形式增量接收该响应。 |

@@ -9,7 +9,9 @@ url: https://platform.claude.com/docs/en/api/java/beta/user_profiles/list
 
 **GET** `/v1/user_profiles`
 
-List User Profiles
+List the user profiles in your organization, newest first by default.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=java) for how to set up and manage profiles.
 
 ## Parameters
 
@@ -148,6 +150,8 @@ List User Profiles
     - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `EFS_2026_10_01("efs-2026-10-01")`
 
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 

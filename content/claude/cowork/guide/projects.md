@@ -51,13 +51,13 @@ Select a project in the sidebar to start a new Cowork session with that project'
 
 A project folder that is reached through a symbolic link isn't mounted if the link sits inside another of the project's folders, or inside a folder that a Cowork task on your task list uses, and leads outside that folder. The session starts without it and the app tells you. Replace it in the project with the actual folder you want.
 
-You can't make hard links in a folder connected to a Cowork session, so `ln` without `-s` fails there. Copy the file instead. `cp -a` on a folder that holds hard-linked files reports an error, and the copy has only one name of each hard-linked file. Extracting an archive that holds hard links does the same. Use `cp -r`.
+You can't make hard links in a folder connected to a Cowork session, so `ln` without `-s`, `cp -l`, and `git clone --local` fail there. Copy the file instead, and clone without `--local`. `cp -a`, `rsync -H`, and `mv` from outside the folder report an error on a folder that holds hard-linked files, and the copy has only one name of each hard-linked file. Extracting an archive that holds hard links does the same. Use `cp -r`, or `rsync` without `-H`.
 
 [Dispatch](https://claude.com/docs/cowork/guide/dispatch.md) can also route background tasks into a project, so long-running work picks up the same folders, instructions, and memory.
 
-When you drag files or folders into a project, individual files are copied into the project's first folder and folders are mounted as additional project folders. A copied file never replaces a file that is already in that folder. A file or folder that is already inside one of the project's folders stays where it is and isn't copied or mounted. If the first folder already has a file with the same name, the copy is saved with a number added to its name, such as `notes (1).txt` for `notes.txt`. If that name and every numbered name up to `notes (19).txt` are already taken, the file isn't copied. Claude reads individual files up to 50 MB.
+When you drag files or folders into a project, individual files are copied into the project's first folder and folders are mounted as additional project folders. A copied file never replaces a file that is already in that folder. A file or folder that is already inside one of the project's folders stays where it is and isn't copied or mounted. If the first folder already has a file with the same name, the copy is saved with a number added to its name, such as `notes (1).txt` for `notes.txt`. If that name and every numbered name up to `notes (19).txt` are already taken, the file isn't copied. If some files or folders can't be added, the app names up to three and counts the rest. If one is a `\\server\share` path, none are added. Claude reads individual files up to 50 MB.
 
-Cowork asks for your permission each time you open a Microsoft Office or OpenDocument file that can contain macros, such as a `.docm`, `.xls`, or `.odt` file.
+Cowork asks for your permission each time you open a Microsoft Office or OpenDocument file that can contain macros, such as a `.docm`, `.xls`, or `.odt` file. For other files, Cowork asks once per task, the first time you open the file in another app.
 
 ## Cowork projects and claude.ai projects
 

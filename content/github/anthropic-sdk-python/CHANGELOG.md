@@ -1,5 +1,62 @@
 # Changelog
 
+## [2.14.0](https://github.com/anthropics/anthropic-sdk-python/compare/v2.13.0...v2.14.0) (2026-11-24)
+
+### Features
+
+* **api:** add Google-managed data controls for Google Cloud projects
+* **api:** add Google-managed data controls for user profiles
+* **api:** add support for compliance review cases, notices, and items
+
+
+### Bug Fixes
+
+* **client:** honor proxy and trust_env when proxy variables are set
+
+  `DefaultHttpxClient` and `DefaultAsyncHttpxClient` read `HTTP_PROXY`, `HTTPS_PROXY`, `ALL_PROXY` and `NO_PROXY` even when the caller passed `proxy=` or `trust_env=False`, and the variables won. Now `proxy=` is used for every request and the variables are not read, and `trust_env=False` ignores them, as in plain `httpx2`.
+
+  What you may notice: with `proxy=` set, a host listed in `NO_PROXY` used to be reached directly and now goes through your proxy. To keep a host off the proxy, pass `mounts={"all://that.host": None}`.
+
+
+### Chores
+
+* **docs:** drop the provisional naming note from the Google Cloud client README
+* **docs:** name both causes of the tool use limit error
+* **docs:** update example workspace and API key IDs
+
+
+### Documentation
+
+* show what enum values mean
+
+## [2.13.0](https://github.com/anthropics/anthropic-sdk-python/compare/v2.12.0...v2.13.0) (2026-11-23)
+
+### Features
+
+* **api:** add an error code to Message Batches creation
+* **api:** add External Storage to the Admin API beta
+* **api:** add webhook events for external storage failure and recovery
+
+
+### Bug Fixes
+
+* **client:** build the right class for tool results with unknown values
+
+
+### Chores
+
+* **api:** mark Claude Opus 4.5 as deprecated (end-of-life January 22, 2027)
+* **client:** read deprecated models from generated data and stop warning on retired ones
+* **docs:** clarify when plugin archive downloads are recorded and who gave a share
+* **docs:** correct organization-type notes in usage and cost reports
+* **docs:** describe the user profile endpoints and link to the guide
+* **docs:** use realistic example values in more request bodies
+
+
+### Documentation
+
+* **api:** shorten the human_review description
+
 ## [2.12.0](https://github.com/anthropics/anthropic-sdk-python/compare/v2.11.0...v2.12.0) (2026-11-20)
 
 ### Features

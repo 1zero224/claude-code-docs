@@ -12,9 +12,50 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
   有关 Claude Code 的更新，请参阅 `claude-code` 仓库中的[完整 CHANGELOG.md](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md)。
 </Tip>
 
+### 2026 年 11 月 23 日
+
+* A fix is live for an undercount of web searches in the [List User Activity](https://platform.claude.com/docs/en/api/beta/organization/analytics/users/list) endpoint of the [Claude Enterprise Analytics API](https://platform.claude.com/docs/en/manage-claude/analytics-api). The top-level `web_search_count` did not count every search tool that Claude uses in chats, so it left out some searches. It now includes them, so it can be higher. Most of the added searches come from [Chat and Cowork unified](https://platform.claude.com/docs/en/manage-claude/analytics-api#how-metrics-are-defined).
+* The web search fix applies to data for November 17, 2026 (UTC), and later, so counts that you already pulled for those days can change. It does not recount earlier days.
+* A fix is live for an undercount in the [Get Connector Usage](https://platform.claude.com/docs/en/api/beta/organization/analytics/connectors/list) endpoint of the [Claude Enterprise Analytics API](https://platform.claude.com/docs/en/manage-claude/analytics-api). In chats that the [session counting change](https://platform.claude.com/docs/en/release-notes/overview#analytics-api-chat-session-counting) reached, `individual_auth_distinct_user_count` and `managed_auth_distinct_user_count` left out users who used a connector. For most organizations, these counts now include most of those users. They can be higher, and can show a number where they used to be `null`.
+* The connector fix applies to data for November 19, 2026 (UTC), and later, so counts that you already pulled for those days can change. It does not recount earlier days.
+* On November 24, 2026, a fix for an undercount of project activity in the [Claude Enterprise Analytics API](https://platform.claude.com/docs/en/manage-claude/analytics-api) will go live. The [Get Chat Project Usage](https://platform.claude.com/docs/en/api/beta/organization/analytics/apps/chat/projects/list) endpoint leaves out some messages in project chats. One example is messages sent after a chat moves into a Cowork cloud session. After the fix, it will count most of those messages. `message_count`, `distinct_conversation_count`, and `distinct_user_count` can then be higher, and more projects can appear in the results.
+* The [List User Activity](https://platform.claude.com/docs/en/api/beta/organization/analytics/users/list) endpoint will change in the same way when you filter by `project_id`. `message_count` and `distinct_conversation_count` can be higher, `last_activity_date` can be later, and more users can appear. Without the filter, some of these messages count in `chat_cowork_unified_metrics.sessions.message_count`. So the chat `message_count` for a user can be higher with the filter than without it.
+* The project fix will apply to data for November 20, 2026 (UTC), and later, so counts that you already pulled for those days can change. It does not recount earlier days.
+* 我们宣布弃用 Claude Opus 4.5 模型（`claude-opus-4-5-20251101` 和 `claude-opus-4-5`），该模型计划于 2027 年 1 月 22 日在 Claude API 上退役。我们建议迁移到 Claude Opus 5.5。请参阅[从 Claude Opus 4.5 或更早版本迁移](https://platform.claude.com/docs/zh-CN/models/opus-5-5/migration-guide#migrating-from-claude-opus-45)。要查看其他平台适用的日期，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。
+* 我们已在 Claude Platform、Claude Platform on AWS 和 Claude Models on Google Cloud (Anthropic managed) 上推出 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview)（EFS）测试版。EFS 是面向使用 [Claude 最强大模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)的符合条件组织的 “Zero Data Retention”（零数据保留），即 ZDR。Anthropic 不会保留您的提示和响应。它们的加密副本称为 “Sealed Safety Data”（密封的安全数据），会存入您自己云账户中的一个存储桶。使用 Anthropic 管理的存储的工作区不属于 EFS，因为 Anthropic 会存储该工作区的密封的安全数据。如需获取访问权限，请参阅[设置指南](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/setup-console)。
+* 我们为[组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#customer-owned-storage-events)（目前处于 beta 阶段）新增了两种事件类型。当您用作[客户自有存储](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/customer-owned-storage)的存储桶未通过我们的每日检查时，我们会发送 `external_storage.failed`；当其再次通过检查时，我们会发送 `external_storage.recovered`。
+
+### 2026 年 11 月 20 日
+
+* The [Claude Enterprise Analytics API](https://platform.claude.com/docs/en/manage-claude/analytics-api) has a new rule for when a chat in [Chat and Cowork unified](https://platform.claude.com/docs/en/manage-claude/analytics-api#how-metrics-are-defined) counts as a session.
+
+  * **New rule:** A session starts the first time on a UTC day that Claude successfully runs a Bash command, creates a file, or edits a file in the chat. It ends when that day ends.
+  * **Previous rule:** A chat counted as a session after it moved into a Cowork cloud session (a sandbox where Claude runs code), including on later days. Uploading some types of files could cause that move.
+  * **Rollout:** The change reaches chats gradually, and existing chats can change later than new ones. Until then, a chat follows the previous rule. Activity from before then is not recounted. The API does not show which rule a chat follows.
+
+* In [List User Activity](https://platform.claude.com/docs/en/api/beta/organization/analytics/users/list), these counts can change. `chat` and `sessions` are the objects in `chat_cowork_unified_metrics`.
+
+  * **Sessions:** `sessions.distinct_session_count` can be higher, or lower for some users.
+  * **Messages:** They count in `chat` before the session starts and in `sessions` after. `message_count` can be higher or lower in each.
+  * **Chats:** `chat.distinct_conversation_count` can be higher. A chat counts there on each day that it gets a message, even one that counts in `sessions`.
+  * **Tool actions and file edits:** They count in `sessions` during the session. `action_count` and `file_edit_count` can be higher or lower.
+  * **Connectors:** In most chats, `connectors_used_count` and `distinct_connectors_used_count` split the same way as messages. Added up across both objects, each can be higher or lower.
+  * **Skills and plugins:** Their use counts in `sessions`, even on a day with no session.
+  * **Artifacts:** Counts can move between `chat` and `sessions`.
+
+* For chats that the change reached, the API does not get the names of some skills and plugins that Anthropic did not make, such as your own.
+
+  * **List User Activity:** `distinct_skills_used_count` can leave out these skills. Added up across both objects, it can be lower.
+  * **[Get Skill Usage](https://platform.claude.com/docs/en/api/beta/organization/analytics/skills/list):** Spend for these skills can leave out these chats. `estimated_overage_spend` can be lower, and `attributed_list_price` can be lower or `null`.
+  * **[Get Plugin Usage](https://platform.claude.com/docs/en/api/beta/organization/analytics/plugins/list):** These plugins can appear under the `plugin_name` value `third-party`.
+
+* In [Get Connector Usage](https://platform.claude.com/docs/en/api/beta/organization/analytics/connectors/list), `individual_auth_distinct_user_count` and `managed_auth_distinct_user_count` can leave out some users of chats that the change reached, so they can be lower.
+
+* Other counts from the connector, skill, and plugin usage endpoints can be higher or lower.
+
 ### 2026 年 11 月 17 日
 
-* 我们已推出 beta 版 [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections)，需使用 `user-profiles-billing-2026-10-01` beta 标头。您的客户现在可以通过自己的 Claude 组织为您应用中的 Claude 用量付费。客户关联其组织后，请在每个 `/v1/messages` 或 `/v1/chat/completions` 请求上设置 `billing_policy` 以选择由谁付费。客户可以在 Claude Console 中为您的应用设置支出上限，或取消关联您的应用。Linked billing 适用于其组织直接向 Anthropic 支付 API 用量费用的客户。
+* 我们已推出 beta 版 [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/linked-billing)，需使用 `user-profiles-billing-2026-10-01` beta 标头。您的客户现在可以通过自己的 Claude 组织为您应用中的 Claude 用量付费。客户关联其组织后，请在每个 `/v1/messages` 或 `/v1/chat/completions` 请求上设置 `billing_policy` 以选择由谁付费。客户可以在 Claude Console 中为您的应用设置支出上限，或取消关联您的应用。Linked billing 适用于其组织直接向 Anthropic 支付 API 用量费用的客户。
 
 ### 2026 年 11 月 16 日
 
@@ -43,6 +84,10 @@ Claude Platform 发布说明列出了 Claude API、客户端 SDK 和 Claude Cons
 * [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 现已包含 Security posture 数据，面向 Claude Enterprise 组织提供 beta 版本。[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)会记录 claude.ai **组织设置**中 **Security posture** 页面上对声明的更改。`GET /v1/compliance/organizations/{organization_id}/security_posture` 端点会返回组织当前的 Security posture 结果。请参阅 [Compliance API 中的 Security posture](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-security-posture/overview)。
 * 您现在可以在 Claude Console 中为您的组织设置 “IP allowlist”（IP 允许列表），该功能处于 beta 阶段。来自不在您列表中的地址、发往受覆盖服务的请求将被拒绝，从而限制泄露的 API 密钥可在何处使用。您可以添加 IPv4 和 IPv6 地址或 CIDR 范围，每个组织最多 1,000 个。请参阅 [IP 允许列表](https://platform.claude.com/docs/zh-CN/manage-claude/ip-allowlist)，了解覆盖范围以及设置方法。
 * 您现在可以使用 Admin API 在所有位置将您的 Claude Enterprise（claude.ai）组织成员登出 Claude。此功能处于 beta 阶段。请参阅 [Admin API 参考](https://platform.claude.com/docs/zh-CN/api/beta/organization)。该成员会保留在组织中，并且可以重新登录。有关 beta 标头以及该请求不会结束的内容，请参阅[在所有位置登出成员](https://platform.claude.com/docs/zh-CN/manage-claude/user-management#sign-a-member-out-everywhere)。
+
+### 2026 年 11 月 4 日
+
+* 我们已在 SDK 中添加了[错误代码](https://platform.claude.com/docs/zh-CN/api/errors#error-codes)，因此您无需解析响应正文即可处理某一特定原因导致的错误。现在，每个 API 错误都会携带 API 的错误代码、消息和详细信息，并且每个错误代码都有其自己的异常类（在 Go 中为常量）。要使用错误代码，请更新到[最新版本的 SDK](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/overview#latest-versions)。请参阅[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)。
 
 ### 2026 年 11 月 3 日
 

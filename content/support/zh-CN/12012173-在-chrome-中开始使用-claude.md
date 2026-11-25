@@ -40,7 +40,7 @@ Claude Code 和 Chrome 扩展程序一起工作，用于构建-测试-验证工�
 
 4. 打开连接器开关，然后下载并安装扩展程序（如果您还没有安装）。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604933811/ae37c41fc808dbdf48d135338334/6cc9ba4b-9d31-43a2-ab80-8048b5f9d791?expires=1795451400&amp;signature=f1d76d43670acf790f9d5233ff4f2ceb375f0055095dcc716e1447402ae0c629&amp;req=diYnEsB9noleWPMW1HO4zUOPbfnCk%2BOJnt%2F2nPMwUPjJVpAvX4kfAoP36g1X%0ABwKqOLrEudli%2FtK2Q6Y%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604933811/ae37c41fc808dbdf48d135338334/6cc9ba4b-9d31-43a2-ab80-8048b5f9d791?expires=1795622400&amp;signature=ba611b893915fb11c4b1661b0411aec16a43a4ed01d2623b2515ce971fd40e55&amp;req=diYnEsB9noleWPMW1HO4zUOPbfnAlOCJnt%2F2nPMwUPgBjmWH7TJIfbRq7MCz%0As9ItxrGXPXeDyld5aPY%3D%0A)
 
 完成这些步骤将把 Chrome 中的 Claude 添加到您与 Claude 的聊天中的 “Connectors” 下拉菜单。这在默认情况下是禁用的，因此您需要为每个对话手动启用它。
 

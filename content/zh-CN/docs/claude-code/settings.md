@@ -72,7 +72,7 @@ Claude Code 还会保留第五个文件 [`~/.claude.json`](https://code.claude.c
 
 ### 将个人设置保留在仓库之外
 
-要在某个项目中仅为自己更改设置而不影响队友，请将其保存在项目内的 `.claude/settings.local.json` 中。Claude Code 会在已提交的 `.claude/settings.json` 之上应用该文件，因此如果团队文件设置了 `"model": "claude-sonnet-5"` 而您想使用 Opus，请在本地文件中放入 `"model": "claude-opus-5-5"`，这样只有您的会话会发生变化。
+要在某个项目中仅为自己更改设置，请将其保存在项目内的 `.claude/settings.local.json` 中。Claude Code 会在已提交的 `.claude/settings.json` 之上应用该文件，因此如果已提交的文件设置了 `"model": "claude-sonnet-5"` 而您想使用 Opus，请在本地文件中放入 `"model": "claude-opus-5-5"`，这样只有您的会话会发生变化。
 
 Claude Code 也会写入此文件，将其排除在您的提交之外，并且无需信任步骤即可应用其允许规则：
 
@@ -155,7 +155,7 @@ Claude Code 的系统提示未发布。要给 Claude 常设指令，使用 [`CLA
 
 ### 为一个会话更改设置
 
-要尝试一个值而不保存它，在启动 Claude Code 时设置它。该值适用于该会话，您的设置文件保持原样。您有三种方式做到：
+要尝试一个值而不保存它，在启动 Claude Code 时设置它。您有三种方式做到：
 
 * **`--settings`**：将键作为 JSON 传递，内联或作为文件路径。Claude Code 在您的用户、项目和本地文件上方以及托管设置下方应用它。使用 `--settings` 时，您无法设置 [`Managed` 或 `Global config`](https://code.claude.com/docs/zh-CN/settings-reference#scopes) 键，也无法设置某些用户设置键，例如 [`prependPlugins`](https://code.claude.com/docs/zh-CN/settings-reference#prependplugins)。
 * **该键的标志**：某些键有自己的标志，如 `--model` 用于 `model` 和 `--effort` 用于 `effortLevel` 和 `modelSettings`。
@@ -203,7 +203,21 @@ Claude Code 仅在会话启动时读取某些键一次，因此对其中一个�
 
 在您继续后，运行 `/status` 以查看受影响的文件，`claude doctor` 以查看每个错误的详情。
 
-`-p` 运行不显示对话框。除非[托管设置文档无法解析](https://code.claude.com/docs/zh-CN/errors.md#managed-settings-document-could-not-be-parsed)，Claude Code 会跳过损坏的用户、项目或本地文件或其损坏的值，并继续处理其余部分。在忽略某项设置的 `-p` 运行之后，请从终端运行 `claude doctor` 以查看它删除了什么。
+#### `-p` 运行中的损坏设置
+
+`-p` 运行不显示对话框。除非[托管设置文档无法解析](https://code.claude.com/docs/zh-CN/errors.md#managed-settings-document-could-not-be-parsed)，Claude Code 会跳过损坏的用户、项目或本地文件或其损坏的值，并继续处理其余部分。
+
+使用默认的 `text` [输出格式](https://code.claude.com/docs/zh-CN/headless.md#get-structured-output)时，stderr 会列出未加载或被跳过的内容：
+
+```text theme={null}
+These settings did not load, so nothing in them is in effect, including hooks, permission rules and sandbox settings, though environment variables they already set can stay:
+  /home/you/.claude/settings.json (cleanupPeriodDays): Expected number, but received string
+These settings entries were skipped; the rest of each source is in effect:
+  /home/you/app/.claude/settings.json (permissions.allow): Invalid permission rule "Bash(ls) x" was skipped: Malformed Tool(content) rule. Rules take the form Tool or Tool(content) and must end at the closing ")"; parentheses inside the content are literal
+Fix each problem listed, then start Claude Code again. For settings sent with applyFlagSettings, shown as SDK inline settings, send them again instead.
+```
+
+在忽略某项设置的 `-p` 运行之后，请从终端运行 `claude doctor` 以查看它删除了什么。
 
 ## 设置优先级
 
@@ -216,7 +230,7 @@ Settings precedence, highest first: managed settings, command line, project loca
 1. **托管设置**：由您的组织部署的设置，通过 `managed-settings.json` 文件、MDM 策略或来自 claude.ai 控制台的[服务器托管设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md)提供。您自己的设置文件或 `--settings` 中的任何内容都无法覆盖托管的键，而 `--model` 等标志只能从您的组织允许的模型中进行选择。托管的 [`model`](https://code.claude.com/docs/zh-CN/settings-reference#model) 只是初始默认值，而非锁定；起锁定作用的是 [`availableModels`](https://code.claude.com/docs/zh-CN/settings-reference#availablemodels) 和 [`deniedModels`](https://code.claude.com/docs/zh-CN/settings-reference#deniedmodels)。当您的组织提供多个托管来源时，[托管层级内的优先级](https://code.claude.com/docs/zh-CN/managed-settings.md#precedence-within-the-managed-tier)规则说明了 Claude Code 从每个来源读取哪些内容。
 2. **命令行**：启动 `claude` 时通过 `--settings <file-or-json>` 传入的 JSON，仅对该会话有效；请参阅[为单个会话更改设置](#change-a-setting-for-one-session)。在此处设置的键会覆盖项目和用户设置文件中的同一个键，而未在此处设置的键则保留这些文件中的值。其他标志（例如 `--model`）只为会话设置一项内容，不属于此层级堆栈；[设置参考](https://code.claude.com/docs/zh-CN/settings-reference.md)中每个键的条目说明了哪些标志会覆盖该键。
 3. **项目本地设置**（`.claude/settings.local.json`）：您针对此项目的个人设置。
-4. **共享项目设置**（`.claude/settings.json`）：您的团队提交到源代码管理中的设置。
+4. **共享项目设置**（`.claude/settings.json`）：提交到源代码管理中的设置。
 5. **用户设置**（`~/.claude/settings.json`）：适用于所有项目的个人设置。
 
 环境变量不是此层级堆栈中的一个级别。当某个行为同时具有 shell 变量和设置键时，采用哪一个是按每一对单独决定的，而非按级别决定：在 shell 中导出的 `ANTHROPIC_MODEL` 优先于任何文件中的 `model` 键，而 `ANTHROPIC_DEFAULT_MODEL` 仅在没有任何文件设置 `model` 时才生效。[环境变量参考](https://code.claude.com/docs/zh-CN/env-vars.md#precedence)说明了哪些键具有对应的变量，以及 Claude Code 优先读取哪一个。设置文件中的 `env` 块是一个普通的键，遵循上述级别。
@@ -330,7 +344,7 @@ Settings precedence, highest first: managed settings, command line, project loca
 * **包含多个仓库的共享项目设置**：在 Anthropic 托管的环境中，包含多个仓库的会话会在各克隆的上层目录启动，并且只从每个仓库的 `.claude/settings.json` 中读取 `enabledPlugins` 和 `extraKnownMarketplaces` 这两个键，而不会读取权限规则、hook、`env` 或其他键。仓库所声明的市场仍然[不会在云端会话中添加](https://code.claude.com/docs/zh-CN/cloud-environments.md#what-carries-over-from-your-setup)。对于自托管环境，请参阅[应用哪个仓库的设置](https://code.claude.com/docs/zh-CN/self-hosted-environments-configuration.md#repository-settings-in-sessions-with-several-repositories)。
 * **用户和项目本地设置** (`~/.claude/settings.json` 和 `.claude/settings.local.json`)：不读取。两者都保持在您的机器上，本地文件不在克隆中。
 * **托管设置**：您设备上的 `managed-settings.json` 文件或 MDM 配置文件不会到达云会话。您组织的[服务器管理设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md)会；[表面覆盖](https://code.claude.com/docs/zh-CN/model-config.md#surface-coverage)列出哪些云会话接收它们。[自托管环境](https://code.claude.com/docs/zh-CN/self-hosted-environments)也读取其运行器镜像中的托管设置文件。[Claude Code 如何组合托管来源](https://code.claude.com/docs/zh-CN/managed-settings.md#how-claude-code-combines-managed-sources)说该文件何时适用。
-* **`/config`**：在浏览器中的 claude.ai/code 上，它会打开您的 claude.ai **Code** 或 **Claude Code** 设置页面，而不是更改某个值。要为云端会话更改设置，请在环境上设置[环境变量](https://code.claude.com/docs/zh-CN/cloud-environments.md#set-environment-variables)。在项目线程之外只有一个仓库的会话中，您也可以改为将该键提交到该仓库的 `.claude/settings.json`。
+* **`/config`**：在浏览器中的 claude.ai/code 上，它会打开 **Settings > Code**，而不是更改某个值。要为云端会话更改设置，请在环境上设置[环境变量](https://code.claude.com/docs/zh-CN/cloud-environments.md#set-environment-variables)。在项目线程之外只有一个仓库的会话中，您也可以改为将该键提交到该仓库的 `.claude/settings.json`。
 
 [从您的设置中携带什么](https://code.claude.com/docs/zh-CN/cloud-environments.md#what-carries-over-from-your-setup)列出其余的：`CLAUDE.md`、skills、MCP 服务器、plugins 和凭证。
 

@@ -84,7 +84,7 @@
 
 ### 从头开始启动新项目
 
-从头开始启动项目意味着打开 **New project** 对话框，命名工作流，并可选地为其提供目标以及它处理的代码库和文件。只有名称是必需的，因此您可以先创建项目，然后在工作进行时填入其余部分。
+从头开始启动项目意味着打开 **New project** 对话框，命名工作流，并可选地为其提供目标以及它处理的仓库和文件。
 
 **1. 打开 Projects**
 
@@ -270,7 +270,7 @@ Claude 会回复一张**允许 Claude 在您计算机上的文件夹中工作**�
 
 线程在[自动模式](https://code.claude.com/docs/zh-CN/permission-modes.md#eliminate-prompts-with-auto-mode)中运行，因此 Claude 在该文件夹中运行命令和编辑文件而不每次都询问你。如果自动模式在该计算机的 Claude Code 中不可用或已关闭，线程在没有它的情况下运行，它引发的任何权限提示都会在线程中等待你的答案，如[解除等待批准的线程](#unblock-a-thread-waiting-on-approval)所述。
 
-要以其他模式运行线程，请使用 [`--settings`](https://code.claude.com/docs/zh-CN/remote-control#start-a-remote-control-session) 启动 `claude remote-control`。然后，该文件中或该计算机设置中的 [`permissions.defaultMode`](https://code.claude.com/docs/zh-CN/permission-modes#start-in-a-different-mode) 可以选择其他模式。
+要以其他模式运行线程，请使用 [`--settings`](https://code.claude.com/docs/zh-CN/remote-control#start-a-remote-control-session) 和一个将 [`disableAutoMode`](https://code.claude.com/docs/zh-CN/settings-reference#disableautomode) 设置为 `"disable"` 的文件启动 `claude remote-control`。然后，该文件中或该计算机设置中的 [`permissions.defaultMode`](https://code.claude.com/docs/zh-CN/permission-modes#start-in-a-different-mode) 可以选择其他模式，例如 `default`、`plan` 或 `dontAsk`。
 
 线程运行时，其标题中的笔记本电脑图标会显示您的计算机是否已连接。点击该图标可查看线程正在使用哪个文件夹，或关闭连接。当该计算机处于睡眠状态时，线程会暂停；如果桌面应用或 `claude remote-control` 退出，线程会停止。
 
@@ -367,7 +367,7 @@ This project holds p95 latency for the payments API under 200 ms: profiling, que
 云线程不具备仅安装在您机器上的 skill、MCP 服务器、插件和工具。Claude 通过 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md) 在您机器上运行的线程会使用那里安装的内容。要让这些内容对云线程可用：
 
 * skill：为您的 claude.ai 账户启用它们，云线程会加载[您在那里启用的 skill](https://code.claude.com/docs/zh-CN/skills.md#skills-in-cowork-and-cloud-sessions)，但[自托管环境中的某些线程](https://code.claude.com/docs/zh-CN/self-hosted-environments-configuration.md#how-each-session’s-config-is-assembled)除外。对于提交到仓库中的 skill，请参阅[线程从您的仓库中获取什么](#what-threads-pick-up-from-your-repositories)。
-* 插件：为您的 claude.ai 账户启用它们，云线程会加载它们，但 Claude 设置的定时任务除外。
+* 插件：在 [claude.ai/customize/plugins](https://claude.ai/customize/plugins) 为您的 claude.ai 账户启用它们，Claude 启动的云线程会加载它们。
 * MCP 服务器：云线程从您 claude.ai 账户上的连接器获取 MCP 工具，这些连接器是您在 [claude.ai/customize/connectors](https://claude.ai/customize/connectors) 一次性连接的 MCP 服务器。每个云线程都可以使用所有这些连接器，无需按项目设置。项目对话本身没有连接器，因此请将需要连接器的工作作为任务发送给云线程。[连接器如何到达 Claude Code](https://code.claude.com/docs/zh-CN/mcp.md#how-connectors-reach-claude-code) 列出了云端会话的规则以及关闭连接器的设置。
 * 命令行工具和包：在环境的[设置脚本](https://code.claude.com/docs/zh-CN/cloud-environments.md#setup-scripts)中安装它们。
 
@@ -469,9 +469,9 @@ Claude 不发布线程采取的每一步，因此显示为运行且项目对话�
 2. 对于从错误假设开始的线程，从 **Threads** 标签页打开该线程并从其菜单将其标记为已解决，或告诉它改为做什么。其分支和任何 Pull Request 会保留在 GitHub 上，直到您删除它们。
 3. 一次修复间隙，在[项目说明](#give-a-project-standing-context)或[环境](#choose-an-environment-for-threads)中，然后在再次发送其余工作作为新线程之前发送一个线程。
 
-### Claude 没有响应
+### Claude's replies aren't getting through
 
-当 Claude 正在运行但其回复没有到达项目时，项目对话会显示"Claude hasn't responded"横幅。点击横幅上的 **Restart Claude**，或转到 **Project settings > Advanced** 并在 **Restart Claude** 行中点击 **Restart**。Claude 会重新连接到对话；它正在编写的任何回复都会丢失，线程不受影响。
+如果项目对话显示"Claude's replies aren't getting through"横幅，请点击横幅上的 **Restart Claude**。您也可以转到 **Project settings > Advanced** 并在 **Restart Claude** 行中点击 **Restart**。Claude 会重新连接到对话；它正在编写的任何回复都会丢失，线程不受影响。
 
 ### 代码库访问错误
 

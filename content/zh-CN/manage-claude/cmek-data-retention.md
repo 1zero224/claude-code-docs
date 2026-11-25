@@ -4,17 +4,19 @@ url: https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention
 description: 为什么带有密钥的工作区会保留数据，这对 ZDR 意味着什么，以及 Anthropic 可以在您的密钥之外保存哪些内容。
 ---
 
-在 Claude Platform 上，客户管理的加密密钥（CMEK）和[零数据保留（ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)不能共用一个工作区。在 Claude Enterprise 上，组织可以同时使用 CMEK 和 Claude Code ZDR，但之后[无法启用 Claude Docs 或 Claude Sheets](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed)。
+在 Claude Platform 上，客户管理的加密密钥（CMEK）和[旧版零数据保留（Legacy ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)不能共用一个工作区。在 Claude Enterprise 上，组织可以同时使用 CMEK 和 Claude Code ZDR，但之后[无法启用 Claude Docs 或 Claude Sheets](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-coverage-claude-enterprise#turned-off-or-changed)。
+
+但是，在 Claude Platform 上，您可以将密钥附加到使用 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview)（EFS）的工作区。EFS 属于 ZDR，并且该工作区的密封的安全数据会写入您自己拥有的存储中。EFS 处于测试阶段。有关步骤，请参阅 EFS 指南中的[附加客户管理密钥](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/customer-managed-keys#attach-a-customer-managed-key)。
 
 ## 密钥需要一个保留数据的工作区
 
-CMEK 对存储的数据进行加密，而在 Claude Platform 上的 ZDR 下，Anthropic 不会存储您的提示或响应。因此，您只能将密钥附加到采用**标准数据保留**（30 天）的工作区。
+CMEK 对存储的数据进行加密，而在 Claude Platform 上的 Legacy ZDR 下，Anthropic 不会存储您的提示或响应。在使用 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview)（EFS）的工作区中，Anthropic 在将您的密封的安全数据写入您的存储桶之前，会使用您的密钥对其进行加密。因此，您只能将密钥附加到采用**标准数据保留**（30 天）的工作区或使用 EFS 的工作区。
 
-附加密钥后，您无法为该工作区关闭数据保留。要恢复 ZDR，请创建一个新工作区并将您的流量迁移到该工作区。
+附加密钥后，您无法为该工作区关闭数据保留。要改回使用不保留数据的工作区，请创建一个新工作区并将您的流量迁移到该工作区。
 
-## 在 ZDR 组织中
+## 在 Legacy ZDR 组织中
 
-Claude Platform 上的 ZDR 组织可以使用 CMEK。您将一个工作区切换到**标准数据保留**，接受数据保留条款，并将您的密钥附加到该工作区。您切换的工作区不能是默认工作区，因为默认工作区的保留设置遵循组织的设置。您的其他工作区保持 ZDR。
+Claude Platform 上的 Legacy ZDR 组织可以使用 CMEK。您将一个工作区切换到**标准数据保留**，接受数据保留条款，并将您的密钥附加到该工作区。您切换的工作区不能是默认工作区，因为默认工作区的保留设置遵循组织的设置。您的其他工作区保持 Legacy ZDR。
 
 [选择您的设置页面](https://platform.claude.com/docs/zh-CN/manage-claude/cmek#set-it-up)，并按照该页面的附加步骤操作。
 

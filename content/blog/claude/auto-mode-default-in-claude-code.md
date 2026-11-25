@@ -13,7 +13,7 @@ ShareCopy link
 ***Update, October 22, 2026:** Auto mode is rolling out next week as the default for new sessions in most Claude apps on Pro, Max, and Team plans. Instead of asking you to approve each action, an automated check reviews them: safe actions go ahead, and risky ones are blocked while Claude looks for another route. Enterprise admins will get an email before auto mode becomes the default for their organizations.*
 *Before making auto mode the default in Claude Code, we tested it internally and with third-party red-teaming. We used those findings to strengthen how* *auto mode* *works across all our products. The data in this article below is specifically for* *Claude Code.*
 We're making [auto mode](https://code.claude.com/docs/en/auto-mode-config) the default in Claude Code. Starting on August 14, new sessions on Pro, Max, and Team plans will run in auto mode. If you've already set a different default yourself, you may get a one-time prompt asking whether you want to switch to auto mode. If you have a pinned default, nothing changes for you. The auto mode classifier uses a small number of extra tokens per tool call, and we're no longer charging Claude Code users on Pro, Max, Ultra, and Team plans for that classifier overhead, effective today.
-Auto mode remains opt-in for now on Claude Enterprise, the Claude API, Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform, and Microsoft Foundry, giving admins time to review the change. In the coming month, working with our cloud partners, we plan to make it the default across all of these and no longer charge for classifier overhead. In the meantime, Enterprise admins can make Claude Code's auto mode the default through managed settings.
+Auto mode remains opt-in for now on Claude Enterprise, the Claude API, Claude Platform on AWS, Amazon Bedrock, Google Cloud's Agent Platform, and Microsoft Foundry, giving admins time to review the change. In the coming month, working with our cloud partners, we plan to make it the default across all of these and no longer charge for classifier overhead. In the meantime, Enterprise admins can [make Claude Code's auto mode the default through managed settings](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents#chapter-5).
 Auto mode is designed to balance users’ desire not to be interrupted with a system that helps avoid harmful actions: instead of prompts, it routes each tool call through a classifier targeted at blocking actions that are irreversible, destructive, or aimed outside your environment. When the classifier blocks something, Claude usually finds a safer way to proceed on its own or asks you directly for the go-ahead; if it can't make progress—three blocks in a row, or twenty across a session—Claude Code falls back to manual approvals.
 We spent the last several months testing whether auto mode is as safe or safer than an average user clicking through prompts. We ran internal red-teaming, third-party red-teaming and prompt-injection evaluations, a controlled study with 1,053 paid testers, and analysis of real production sessions. On every measure we tested, auto mode matched or outperformed manual review.
 Auto mode also lets Claude work autonomously for longer stretches. This makes models built for long-running work, like Claude Opus 5, more practical to leave running for hours on large tasks. Reducing overhead for users also increases output. Among Teams & Enterprise adopters, auto mode users ship about 25% more PRs. Unblocking Claude allows tasks to run longer uninterrupted and get more work done. Teams at Adobe, Nuro, Gusto, and Garner Health already [run auto mode](https://claude.com/resources/articles/auto-mode-in-production) as their production default.
@@ -39,7 +39,7 @@ After hardening, Apollo re-tested on a separate held-out attack set that we neve
 These attacks are synthetic and adversarial by design, built to find where the classifier fails, and more malicious than anything Claude would do unprompted. The 7% miss rate is measured against this set and should not be taken as the miss rate on real traffic.
 ### Auto mode reduces prompt injection risk
 ![](https://assets.claude.com/33d72ad3ddac7f76f35b91dad9fd6dd5ae38c4f1.png)With auto mode enabled, no attack in an independent evaluation was successful against any of our models. GPT-5.6 Sol running in Codex v0.144.5 Auto-review permission mode had a 5.83% attack success rate. GPT-5.6 Sol was run on “max” reasoning effort to test performance with its highest level of reasoning, and all Claude models were run on high effort.
-The auto mode classifier adds an additional layer of defense against [prompt injection attacks](https://www.anthropic.com/research/prompt-injection-defenses) that try to force the agent to deviate from the user’s instructions. When running with auto mode, tool results are scanned by probes for potentially malicious instructions, and auto mode checks that actions are aligned with user intent. We tested auto mode compared to an unguarded model to illustrate the power of this defense-in-depth approach.
+The auto mode classifier adds an additional layer of defense against [prompt injection attacks](https://www.anthropic.com/research/prompt-injection-defenses) that try to force the agent to deviate from the user’s instructions. When running with auto mode, tool results are scanned by probes for potentially malicious instructions, and auto mode checks that actions are aligned with user intent. We tested auto mode compared to an unguarded model to illustrate the power of this [defense-in-depth approach](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents#chapter-3).
 We commissioned an evaluation from a third party, Trajectory Labs, who tested different models within the latest publicly available versions of Claude Code and Codex as of July 17th 2026.1 They tested 72 indirect prompt injection scenarios held out from Anthropic. Each scenario was tested 10 times. Successful attacks would, in a non-testing environment, result in irreversible actions that could harm the user such as sensitive-data exfiltration, financial fraud, or credential phishing. The attacks were optimized against Claude Opus 4.7, which is not in the reported set, so every model in the evaluation faced them as unseen attacks. In addition to auto mode, the evaluations looked at Claude Code’s *bypassPermissions* mode and Codex’s *Full Access* mode.
 Both Codex and Claude Code were evaluated using an identical browser integration produced by Trajectory Labs, PBC. This integration provides a set of MCP tools which are a thin wrapper around common Chrome APIs such as `navigate`. Safeguards built into first-party browser integrations such as the Chrome extensions provided by OpenAI and Anthropic were not tested. As such, these results should be viewed as a measurement of the underlying model, rather than the complete set of safeguards which might exist in a given deployment.
 **In this evaluation, none of the 720 attack attempts succeeded against Claude Fable 5, Opus 5, or Sonnet 5 running auto mode.** On the other hand, 5.83% of the attacks succeeded against GPT-5.6 Sol running Codex's *Auto-review* mode. Notably, this is greater than the 0.09% average attack success rate against our latest models running in *bypassPermissions* mode without additional safeguards. The tests showed a 19.03% attack success rate against GPT-5.6 Sol when running in *Full Access* mode. Attack success rates differ between tasks where tools return results as text and tasks that require interacting with a browser through screenshots, as shown below.
@@ -107,20 +107,21 @@ Finally, while we believe auto mode reduces risk for most users, it relies on cl
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 17, 2026
-### Linked billing on the Claude Platform
+ArticleNov 24, 2026
+### Turn artifacts into Mac and Windows apps
+Open the artifacts you use every day like any other app, and let them do more on your computer
+Claude apps
+](https://claude.com/resources/articles/install-as-app)[
+ArticleNov 24, 2026
+### MCP servers can now ship skills, run tasks, and more with Claude
+Claude appsClaude Platform
+](https://claude.com/resources/articles/skills-over-mcp-tasks-and-more)[
+ArticleNov 23, 2026
+### Zero data retention with Enterprise Frontier Safeguards is now in beta
 Claude Platform
-](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
-ArticleNov 12, 2026
-### Operate Claude Managed Agents inside your security perimeter
-Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
-Claude PlatformClaude Managed Agents
-](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
-ArticleNov 12, 2026
-### Introducing Claude for Manufacturing
-A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
-](https://claude.com/resources/articles/claude-for-manufacturing)[
-ArticleNov 12, 2026
-### Introducing Claude Meetings
-Add Claude to your video call and get the work started while you talk
-](https://claude.com/resources/articles/claude-meetings)
+](https://claude.com/resources/articles/zero-data-retention-with-enterprise-frontier-safeguards)[
+ArticleNov 23, 2026
+### Introducing Claude Ship
+Open a pull request and get back to building. Claude can now review pull requests, fix them, and approve the ones that a team's policy allows.
+Claude Ship
+](https://claude.com/resources/articles/introducing-claude-ship)

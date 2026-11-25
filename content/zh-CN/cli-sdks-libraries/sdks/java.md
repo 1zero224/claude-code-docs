@@ -15,7 +15,7 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
 <Tabs>
   <Tab title="Gradle">
     ```kotlin
-    implementation("com.anthropic:anthropic-java:3.12.0")
+    implementation("com.anthropic:anthropic-java:3.14.0")
     ```
   </Tab>
 
@@ -24,7 +24,7 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java</artifactId>
-        <version>3.12.0</version>
+        <version>3.14.0</version>
     </dependency>
     ```
   </Tab>
@@ -37,8 +37,8 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
 <Tabs>
   <Tab title="Gradle">
     ```kotlin
-    implementation("com.anthropic:anthropic-java:3.12.0")
-    implementation("com.anthropic:anthropic-java-mcp:3.12.0")
+    implementation("com.anthropic:anthropic-java:3.14.0")
+    implementation("com.anthropic:anthropic-java-mcp:3.14.0")
     ```
   </Tab>
 
@@ -47,12 +47,12 @@ Anthropic Java SDK 为使用 Java 编写的应用程序提供了便捷的 Claude
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java</artifactId>
-        <version>3.12.0</version>
+        <version>3.14.0</version>
     </dependency>
     <dependency>
         <groupId>com.anthropic</groupId>
         <artifactId>anthropic-java-mcp</artifactId>
-        <version>3.12.0</version>
+        <version>3.14.0</version>
     </dependency>
     ```
   </Tab>
@@ -596,44 +596,9 @@ try (HttpResponse response = client.files().download(params)) {
 
 ## 错误处理
 
-SDK 会抛出自定义的非受检异常类型：
+请求失败时，SDK 会抛出 `AnthropicException` 的子类。原因包括连接失败以及来自 API 的错误响应。这些异常是非受检异常。[SDK 错误类型](https://platform.claude.com/docs/zh-CN/api/errors#sdk-error-types)列出了各种情况（包括流中的错误），[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)介绍了如何捕获这些异常。
 
-* `AnthropicServiceException` - HTTP 错误的基类
-* `AnthropicIoException` - I/O 网络错误
-* `AnthropicRetryableException` - 表示可重试失败的通用错误
-* `AnthropicInvalidDataException` - 无法解释已成功解析的数据（例如，访问本应必需但 API 意外省略的属性时）
-* `AnthropicException` - 所有异常的基类
-
-### 状态码映射
-
-| 状态码 | 异常 |
-| ----- | ----- |
-| 400 | `BadRequestException` |
-| 401 | `UnauthorizedException` |
-| 403 | `PermissionDeniedException` |
-| 404 | `NotFoundException` |
-| 422 | `UnprocessableEntityException` |
-| 429 | `RateLimitException` |
-| 5xx | `InternalServerException` |
-| 其他 | `UnexpectedStatusCodeException` |
-
-在初始 HTTP 响应成功后，如果在 SSE 流式传输期间遇到错误，则会抛出 `SseException`。
-
-```java
-import com.anthropic.errors.*;
-
-try {
-    Message message = client.messages().create(params);
-} catch (RateLimitException e) {
-    IO.println("Rate limited, retry after: " + e.headers());
-} catch (UnauthorizedException e) {
-    IO.println("Invalid API key");
-} catch (AnthropicServiceException e) {
-    IO.println("API error: " + e.statusCode());
-} catch (AnthropicIoException e) {
-    IO.println("Network error: " + e.getMessage());
-}
-```
+每个针对错误响应的异常都继承自 `AnthropicServiceException`。要读取响应头，请捕获该类并调用 `headers()`。例如，`e.headers().values("retry-after")` 会以列表形式返回该响应头的值。
 
 ## 请求 ID
 
@@ -652,17 +617,17 @@ Optional<String> requestId = message.requestId();
 
 ## 重试
 
-SDK 默认自动重试 2 次，请求之间采用较短的 “exponential backoff”（指数退避）。
+默认情况下，SDK 会对某些错误最多重试两次（总共三次尝试）。
 
-仅以下错误类型会被重试：
+SDK 会重试以下错误类型：
 
-* 连接错误（例如，由于网络连接问题）
+* 连接错误和超时
 * 408 Request Timeout
 * 409 Conflict
-* 429 Rate Limit
-* 5xx Internal
+* 429 Too Many Requests
+* 5xx 服务器错误
 
-API 也可能明确指示 SDK 重试或不重试某个请求。
+如果响应带有 `x-should-retry` 响应头（`true` 或 `false`），SDK 会遵循该响应头而不是状态码。在两次尝试之间，SDK 会按照 `retry-after` 响应头指示的时长等待，或者采用短暂的指数退避。
 
 要设置自定义重试次数，请使用 `maxRetries` 方法配置客户端：
 

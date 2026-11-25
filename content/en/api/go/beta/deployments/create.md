@@ -487,6 +487,8 @@ Create Deployment
 
     - `const AnthropicBetaCEClaudeCodeManagedSettings2026_10_06 AnthropicBeta = "ce-claude-code-managed-settings-2026-10-06"`
 
+    - `const AnthropicBetaEfs2026_10_01 AnthropicBeta = "efs-2026-10-01"`
+
     - `const AnthropicBetaUserProfilesBilling2026_10_01 AnthropicBeta = "user-profiles-billing-2026-10-01"`
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
@@ -1076,19 +1078,21 @@ func main() {
 	)
 	betaManagedAgentsDeployment, err := client.Beta.Deployments.New(context.TODO(), anthropic.BetaDeploymentNewParams{
 		Agent: anthropic.BetaDeploymentNewParamsAgentUnion{
-			OfString: anthropic.String("string"),
+			OfBetaManagedAgentsAgents: &anthropic.BetaManagedAgentsAgentParams{
+				ID: "agent_011CZkYpogX7uDKUyvBTophP",
+			},
 		},
-		EnvironmentID: "x",
+		EnvironmentID: "env_011CZkZ9X2dpNyB7HsEFoRfW",
 		InitialEvents: []anthropic.BetaManagedAgentsDeploymentInitialEventParamsUnion{{
 			OfUserMessage: &anthropic.BetaManagedAgentsUserMessageEventParams{
 				Content: []anthropic.BetaManagedAgentsUserMessageEventParamsContentUnion{{
 					OfText: &anthropic.BetaManagedAgentsTextBlockParam{
-						Text: "Where is my order #1234?",
+						Text: "Compile yesterday's orders into report.md.",
 					},
 				}},
 			},
 		}},
-		Name: "x",
+		Name: "Daily order report",
 	})
 	if err != nil {
 		panic(err.Error())

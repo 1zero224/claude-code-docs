@@ -123,6 +123,8 @@ Change the settings a Slack channel stores. The update is partial: a setting lef
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -521,8 +523,8 @@ curl https://api.anthropic.com/v1/organizations/claude_tag/slack_channels/$ID \
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {

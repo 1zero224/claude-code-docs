@@ -12,7 +12,7 @@
 >
 > 服务器管理的设置可供 [Claude for Teams](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=server_settings_teams#team-&-enterprise) 和 [Claude for Enterprise](https://anthropic.com/contact-sales?utm_source=claude_code\&utm_medium=docs\&utm_content=server_settings_enterprise) 客户使用。
 >
-> 如果您在 claude.ai 的 **Organization settings > Desktop 3P** 下设置了提供商或网关，请改为按照 [Enterprise Admin Console 指南](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code)操作。
+> 如果您在 claude.ai 的 [**Organization settings > Desktop 3P**](https://claude.ai/admin-settings/desktop-deployment) 下设置了提供商或网关，请改为按照 [Enterprise Admin Console 指南](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code)操作。
 
 ## 要求
 
@@ -190,7 +190,7 @@ Hooks 使用与 `settings.json` 中相同的格式。
 
 ### 跨托管来源的按键例外
 
-以下键是"不合并"规则的例外：
+默认情况下，Claude Code 从[一个托管来源](#settings-precedence)读取大多数键。例外情况包括：
 
 * **跨来源锁定键**：一小组键，例如沙箱允许列表锁定，[在托管设置页面中列出](https://code.claude.com/docs/zh-CN/managed-settings.md#precedence-within-the-managed-tier)。当任何由管理员控制的托管来源设置了这些键时，Claude Code 都会遵循它们；用户可写的 HKCU 注册表层级除外。
 

@@ -2,6 +2,38 @@
 title: 通过 API 使用 Agent Skills
 url: https://platform.claude.com/docs/zh-CN/build-with-claude/skills-guide
 description: 了解如何通过 API 使用 Agent Skills 扩展 Claude 的能力。
+featureMetadata:
+  status: stable
+  zdr:
+    eligibility: not-eligible
+    note: 技能数据按标准政策保留。
+  supportedModels:
+    - claude-fable-5-2
+    - claude-mythos-5-2
+    - claude-fable-5-1
+    - claude-mythos-5-1
+    - claude-fable-5
+    - claude-mythos-5
+    - claude-mythos-preview
+    - claude-opus-5-5
+    - claude-opus-5
+    - claude-sonnet-5-5
+    - claude-sonnet-5
+    - claude-haiku-5-5
+    - claude-haiku-4-5-20251001
+    - claude-opus-4-8
+    - claude-opus-4-7
+    - claude-opus-4-6
+    - claude-sonnet-4-6
+    - claude-opus-4-5-20251101
+    - claude-sonnet-4-5-20250929
+  supportedPlatforms:
+    Claude API: stable
+    Claude Platform on AWS: stable
+    Claude Models on Google Cloud (Anthropic managed): stable
+    Microsoft Foundry (hosted on Anthropic):
+      availability: stable
+      note: 仅限托管在 Anthropic 上的部署；Foundry 不支持技能版本下载端点（`GET /v1/skills/{skill_id}/versions/{version}/content`）。
 ---
 
 Agent Skills 通过有组织的指令、脚本和资源文件夹来扩展 Claude 的能力。本指南向您展示如何在 Claude API 中使用预构建 Skills 和自定义 Skills。

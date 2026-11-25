@@ -95,7 +95,7 @@ Tell the lead what you want in natural language. It handles team coordination, t
 
 Agent teams support two display modes:
 
-* **In-process**: all teammates run inside your main terminal. Use the up and down arrow keys in the agent panel to select a teammate, then press Enter to view it and type to message it directly. Works in any terminal, no extra setup required.
+* **In-process**: all teammates run inside your main terminal. Use the up and down arrow keys in the agent panel to select a teammate, then press Enter to view it and type to message it directly. Works in any terminal.
 * **Split panes**: each teammate gets its own pane. You can see everyone's output at once and click into a pane to interact directly. Requires tmux, or iTerm2.
 
 > [!NOTE]
@@ -170,7 +170,7 @@ Before v2.1.251, `CLAUDE_CODE_SUBAGENT_MODEL` came first in this order.
 >
 > `teammateDefaultModel` was removed in v2.1.234; Claude Code ignores a leftover value. Name the model in your prompt instead.
 
-Claude Code checks the model it selects for a teammate against your organization's [`availableModels`](https://code.claude.com/docs/en/model-config#restrict-model-selection) allowlist. When the allowlist blocks a value, Claude Code substitutes another model:
+Claude Code checks the model it selects for a teammate against any [`availableModels`](https://code.claude.com/docs/en/model-config#restrict-model-selection) allowlist. When the allowlist blocks a value, Claude Code substitutes another model:
 
 * **Family alias such as `opus`**: On the Anthropic API and Claude Platform on AWS, Claude Code runs the teammate on the newest version of that family the allowlist permits. On providers with provider-specific model IDs, where the [substitution doesn't operate](https://code.claude.com/docs/en/model-config.md#restrict-model-selection), a blocked alias falls back like any other blocked value per the next bullet
 * **Any other blocked value, including a family alias on providers where the substitution doesn't operate, or one whose family has no permitted version**: Claude Code runs the teammate on the lead's model instead. If you set `CLAUDE_CODE_SUBAGENT_MODEL`, Claude Code tries that model first, under these same rules
@@ -339,7 +339,7 @@ A teammate also receives the spawn prompt from the lead. The lead's conversation
 
 **How teammates share information:**
 
-* **Automatic message delivery**: when teammates send messages, they're delivered automatically to recipients. The lead doesn't need to poll for updates.
+* **Automatic message delivery**: when teammates send messages, they're delivered automatically to recipients.
 * **Idle notifications**: when a teammate finishes and stops, it automatically notifies the lead and includes its final answer in the notification. A teammate whose turn ends on an API error notifies the lead that it failed and includes the error text.
 * **Shared task list**: [agents that have the Task tools](https://code.claude.com/docs/en/tools-reference.md#task-tool-availability) can see task status and claim available work.
 * **Teammate messaging**: send a message to one specific teammate by name. To reach everyone, send one message per recipient.

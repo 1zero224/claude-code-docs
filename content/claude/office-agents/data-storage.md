@@ -4,7 +4,7 @@
 
 # Data storage and retention
 
-> Where Claude for M365 stores chat history, skills, and credentials on each user's device, why reinstalling or switching add-ins keeps that data, and how long it is kept.
+> Where Claude for M365 stores chat history, skills, and credentials on each user's device, why reinstalling or switching add-ins keeps that data, how long it is kept, and why the add-in asks users to sign in again.
 
 Claude for M365 stores chat history, uploaded skills, connector registrations,
 and sign-in credentials on each user's own device, in the browser storage of
@@ -73,7 +73,7 @@ holds and what it is scoped to.
 | `claude-memory` | Only with a Claude account sign-in, and only when memory is on: notes that Claude saves so it can use them in later conversations, such as the user's role, their feedback on Claude's work, and details of their projects. A note can include content from a document Claude read. Each note holds its file name, its text, the user's ID, and the time it was last changed | One user |
 | `claude-office-inflight` | Crash-detection records. There is one record for each add-in pane that is running a tool call. It holds a random ID for the pane, the conversation's ID, the tool's name, the Office app and its version, the start time, and, in Excel, Word, and PowerPoint, the document's file path or URL if it had one when the add-in opened. When the add-in opens and finds a record from a call that began more than 10 minutes earlier, which usually means Office or the add-in closed during the call, it sends a usage event for that record and deletes it. The event carries the pane's and the conversation's IDs, the Office app and its version, the time from the call's start until the record was found, and the tool's name, with a connector's tool reported only as a connector tool. It does not carry the document's path. [Data retention](#data-retention) gives when each record is deleted | The device profile, not the individual user |
 | `claude-office-snipped-results` | Parts of the current conversation that were moved out of Claude's working context, which can include document content. A saved conversation keeps its own copy in `claude-chat-history`. [Data retention](#data-retention) gives when this store is emptied | The device profile, not the individual user |
-| Local storage | Settings, onboarding and terms flags, the active sign-in profile, and file identifiers for two markers: a file where the user started a new chat, kept until a message is sent or a saved conversation is opened there, and a file whose last conversation the pane is reopening, kept until it shows | The browser profile |
+| Local storage | Settings, onboarding and terms flags, the active sign-in profile, and file identifiers for two markers: a file where the user started a new chat, kept until a message is sent or a saved conversation is opened there, and a file whose last conversation the pane is reopening, kept until it shows. Where sensitivity label checks are on for your organization, also the IDs of the Microsoft Entra tenants linked to it, the IDs of the labels it blocks, and when the add-in last checked them | The browser profile |
 
 Conversations, memory notes, and the Outlook writing style guide are scoped to
 the individual user. Uploaded skills, connector registrations, crash-detection
@@ -185,6 +185,40 @@ treat it as you would any other shared secret.
 > `claude-mcp-gateways`, so deleting only its local storage folder does not
 > remove every credential. A rebuilt machine signs in again regardless.
 
+## When users have to sign in again
+
+A sign-in with a claude.ai account, including one to an organization that
+[manages the add-in from the Enterprise Admin Console](https://claude.com/docs/office-agents/admin-console.md),
+expires 27 to 30 days after the user signed in, however often they use the
+add-in. Users then sign in again. A sign-in can end sooner, for example when it
+is revoked, or when the user signs out in a task pane that shares the same
+storage.
+
+If the add-in asks users to sign in with their Claude account each time they
+open it or their browser, the browser or device is probably not keeping the
+storage that holds the sign-in. Check for these causes:
+
+* Blocked third-party storage: in Office on the web, where browsers treat the
+  add-in's [storage as third-party](#where-the-data-sits-on-macos), a browser
+  setting or policy that blocks third-party cookies or site data is likely to
+  stop the add-in from saving the sign-in.
+* Safari: in Office on the web, Safari is likely to drop the sign-in each time
+  it quits, because it keeps an embedded site's storage only until then.
+* Private browsing: in Office on the web, closing a private window is likely to
+  remove the sign-in.
+* Clearing on exit: a browser setting or policy that clears site data, or that
+  uses temporary profiles, is likely to remove it each time the browser closes.
+* Profile cleanup: on desktop, a virtual desktop that does not keep the user
+  profile, or cleanup that deletes Office's add-in storage, is likely to remove
+  it.
+
+To keep the sign-in in Office on the web, use a normal window in a browser
+other than Safari, with a profile that keeps site data and allows it for
+embedded sites.
+
+An Office app or Office account with
+[storage of its own](#sign-in-and-credentials) needs its own sign-in.
+
 ## Where the data sits on Windows
 
 On Windows the store is split by signed-in Office account. Local storage is one
@@ -274,6 +308,7 @@ the table.
 | `claude-office-inflight` | Each record is deleted when its tool call ends, or when the user stops Claude, starts a new chat, or opens a saved conversation. It is also deleted while Claude waits for the user to answer a question or approve an action, and written again afterwards. If Office or the add-in closes or reloads during the call, the record is deleted the next time a Claude for M365 add-in that uses the same store opens, once more than 10 minutes have passed since the call began |
 | `claude-office-snipped-results` | Emptied when the user starts a new chat or deletes all chats. Replaced with a saved conversation's parts when a saved conversation is opened. Content left when the add-in closes stays until Claude next moves content out of its working context or asks for moved content back, a saved conversation is opened, or a new chat starts |
 | Claude for Outlook data | Also deleted at a sign-out or an account switch. See [Outlook data deleted when a sign-in ends](#outlook-data-deleted-when-a-sign-in-ends) |
+| Sensitivity label list in local storage | Removed when the user signs out. A list that is 7 days old is removed the next time the add-in reads it |
 | Everything else | Kept until the user deletes it or the browser profile is wiped |
 
 Users clear their own conversations from the add-in's settings. Under "Chat
@@ -313,7 +348,8 @@ tell whether data stored under an earlier Office identity is this user's. If
 that identity has data, the add-in leaves it and says that some of it could not
 be deleted. The user can close and reopen the add-in, then delete again.
 
-There is no expiry by age and no administrator-configurable retention window.
+Apart from the sensitivity label list, there is no expiry by age. There is also
+no administrator-configurable retention window.
 Claude for M365 also does not inherit custom data retention settings configured
 for your organization. If your policy requires a retention limit on this data,
 the practical control is the device profile lifecycle, such as roaming-profile
@@ -372,7 +408,7 @@ review to the paths that carry content off the endpoint.
 | Identifiers from Office on usage events | When the user is signed in to Office, usage events also carry the Entra ID tenant ID, the domain of the user's email address, and the hash described in [What chat history is keyed to](#what-chat-history-is-keyed-to). The hash is unsalted, so anyone who knows the user's Entra ID object ID can match it |
 | Error reports sent to Sentry, with a Claude account sign-in | The user's account ID, the type of error, where in the add-in's code it happened, the name of the tool that failed, and other details about what failed, such as IDs and counts. A report also lists the hosts the add-in contacted, which can include a connector's host, and the add-in pages visited before the error. Before sending a report, the add-in removes the error text, a failed tool's input, and the names of files, skills, and connectors from the fields known to carry them. The filter matches field names, so it does not remove such text from a field it does not name. Until November 2026, error reports also included the text of the error and those names, which could include conversation and document content |
 | Error reports sent to Sentry, in third-party platform deployments | Once the add-in has loaded the user's sign-in, each report holds only the type of error, where in the code it happened, the add-in's version, the Office app with its platform and version, the sign-in type, and the name of the built-in tool that failed. Reports sent before that point, such as those from the sign-in page, also include other details about what failed, the hosts the add-in contacted, and the add-in pages visited |
-| Diagnostic traces, logs, and metrics sent to Anthropic | Counts, durations, error types, the model, request IDs, the names of built-in tools, and a session ID. With a Claude account sign-in, traces also carry the organization ID. Before sending traces and logs, the add-in removes every field that is not on an allowlist, so they exclude conversation text, document contents, file names, and the names of your connectors and their tools. Before sending metrics, the add-in removes a list of fields that includes file names and connector names |
+| Diagnostic traces, logs, and metrics sent to Anthropic | Counts, durations, error types, the model, request IDs, the names of built-in tools, the Office app and its platform, and a session ID. Traces also carry the Office version and, with a Claude account sign-in, the organization ID. Before sending traces and logs, the add-in removes every field that is not on an allowlist, so they exclude conversation text, document contents, file names, and the names of your connectors and their tools. Before sending metrics, the add-in removes a list of fields that includes file names and connector names |
 | Telemetry sent to a custom OpenTelemetry collector you configure | A collector set in the claude.ai admin console, in the manifest, in Entra ID claims, or by your bootstrap endpoint receives the full audit trail, including prompt content and tool inputs and outputs. That path skips the allowlist filter by design. A collector named in an administrator-managed settings document, such as the one the Enterprise Admin Console delivers, receives only the kinds of content that document selects, and no conversation or tool content if it selects none. While a custom collector is set, traces and logs go only to that collector, and metrics still go to Anthropic. See [Audit and observability](https://claude.com/docs/office-agents/enterprise-readiness.md#audit-and-observability) |
 
 When you

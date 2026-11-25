@@ -1767,7 +1767,7 @@ Claude Enterprise 组织具有一套不同的角色，包括所有者和主要�
 
 ## 合规 API
 
-使用[合规 API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 检索您组织的审计和活动数据。Admin API 密钥只能读取活动源（Activity Feed）。如需完整访问权限，请参阅[设置合规 API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
+使用[合规 API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 检索您组织的审计和活动数据。Admin API 密钥只能读取活动源（Activity Feed）。例外情况是 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access)：在您的组织可使用该 API 期间创建的 Admin API 密钥也可以访问该 API。通过该 API，该密钥可以读取被标记的消息并响应 Safety Cases。如需完整访问权限，请参阅[设置合规 API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access)。
 
 ## 组织 webhook
 

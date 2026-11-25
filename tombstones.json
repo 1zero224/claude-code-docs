@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "URLs confirmed gone upstream. Kept so a page that died once does not report as a fresh failure on every later run, which would bury the failure that is actually new. An entry clears itself if the URL answers again -- but only while something still probes it. Entries whose local file was removed are no longer fetched, so they stay as a record of the restructure rather than a live check.",
-  "updated": "2026-11-23",
+  "updated": "2026-11-25",
   "urls": {
     "https://claude.com/docs/claude-science/annotations": {
       "since": "2026-09-01",
@@ -51,13 +51,61 @@
       "since": "2026-11-19",
       "reason": "HTTP 404"
     },
+    "https://code.claude.com/docs/en/agent-sdk/slash-commands": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/agent-sdk/skills"
+    },
     "https://code.claude.com/docs/en/claude-tag": {
       "since": "2026-09-30",
       "reason": "moved -> https://claude.com/docs/claude-tag/overview"
     },
+    "https://code.claude.com/docs/en/desktop-changelog": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/desktop"
+    },
+    "https://code.claude.com/docs/en/discover-plugins": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/plugins/install"
+    },
+    "https://code.claude.com/docs/en/iam": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/authentication"
+    },
+    "https://code.claude.com/docs/en/plugin-dependencies": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/plugins/dependencies"
+    },
+    "https://code.claude.com/docs/en/plugin-hints": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/plugins/cli-hints"
+    },
+    "https://code.claude.com/docs/en/plugin-marketplaces": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/plugins/create-marketplace"
+    },
+    "https://code.claude.com/docs/en/plugin-relevance": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/plugins/relevance"
+    },
+    "https://code.claude.com/docs/en/plugins": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/plugins/overview"
+    },
+    "https://code.claude.com/docs/en/plugins-reference": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/plugins/manifest-reference"
+    },
     "https://code.claude.com/docs/en/sdk/migration-guide": {
       "since": "2026-08-25",
       "reason": "soft-404 (HTML shell)"
+    },
+    "https://code.claude.com/docs/en/slash-commands": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/skills"
+    },
+    "https://code.claude.com/docs/en/web-scheduled-tasks": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://code.claude.com/docs/en/routines"
     },
     "https://modelcontextprotocol.io/community/auth/charter": {
       "since": "2026-08-25",
@@ -1067,6 +1115,22 @@
       "since": "2026-08-25",
       "reason": "moved -> https://platform.claude.com/docs/en/manage-claude/api-and-data-retention"
     },
+    "https://platform.claude.com/docs/en/manage-claude/oauth-apps/app-review": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://platform.claude.com/docs/en/manage-claude/oauth-apps/linked-billing/test-and-publish"
+    },
+    "https://platform.claude.com/docs/en/manage-claude/oauth-apps/branding-samples": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://platform.claude.com/docs/en/manage-claude/oauth-apps/linked-billing/link-button"
+    },
+    "https://platform.claude.com/docs/en/manage-claude/oauth-apps/oauth-reference": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://platform.claude.com/docs/en/manage-claude/oauth-apps/endpoints-and-parameters"
+    },
+    "https://platform.claude.com/docs/en/manage-claude/oauth-apps/organization-billing-connections": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://platform.claude.com/docs/en/manage-claude/oauth-apps/linked-billing"
+    },
     "https://platform.claude.com/docs/en/manage-claude/overview": {
       "since": "2026-08-25",
       "reason": "moved -> https://platform.claude.com/docs/en/manage-claude/admin-api"
@@ -1383,6 +1447,22 @@
       "since": "2026-08-25",
       "reason": "moved -> https://platform.claude.com/docs/en/test-and-evaluate/strengthen-guardrails/increase-consistency"
     },
+    "https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/app-review": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/linked-billing/test-and-publish"
+    },
+    "https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/branding-samples": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/linked-billing/link-button"
+    },
+    "https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/oauth-reference": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/endpoints-and-parameters"
+    },
+    "https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections": {
+      "since": "2026-11-25",
+      "reason": "moved -> https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/linked-billing"
+    },
     "https://support.claude.com/en/articles/10366473-where-can-i-find-full-receipts-and-invoices-for-my-claude-api-and-console-payments": {
       "since": "2026-08-25",
       "reason": "HTTP 404"
@@ -1519,6 +1599,10 @@
       "since": "2026-10-16",
       "reason": "HTTP 404"
     },
+    "https://support.claude.com/en/articles/17889756-anthropic-ipo-international-retail-brokers-and-selling-agents": {
+      "since": "2026-11-25",
+      "reason": "HTTP 404"
+    },
     "https://support.claude.com/en/articles/7996906-reporting-blocking-and-removing-content-from-claude": {
       "since": "2026-08-25",
       "reason": "moved -> https://support.claude.com/en/articles/7996906-report-block-and-remove-content-from-claude"
@@ -1590,6 +1674,10 @@
     "https://support.claude.com/zh-CN/articles/16923645-claude-docs-\u5165\u95e8\u6307\u5357": {
       "since": "2026-11-12",
       "reason": "moved -> https://support.claude.com/zh-CN/articles/16923645-claude-docs-\u5165\u95e8"
+    },
+    "https://support.claude.com/zh-CN/articles/17889756-anthropic-ipo-\u56fd\u9645\u96f6\u552e\u7ecf\u7eaa\u5546\u548c\u9500\u552e\u4ee3\u7406": {
+      "since": "2026-11-25",
+      "reason": "HTTP 404"
     }
   }
 }

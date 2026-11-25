@@ -135,9 +135,13 @@ Create Session
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -217,9 +221,13 @@ Create Session
 
             - `ClaudeOpus4_5("claude-opus-4-5")`
 
+              **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
               Powerful intelligence for long-running agents and coding
 
             - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+              **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
               Powerful intelligence for long-running agents and coding
 
@@ -1305,6 +1313,8 @@ Create Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -1465,9 +1475,13 @@ Create Session
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -2445,39 +2459,39 @@ Create Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -2841,6 +2855,8 @@ List Sessions
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -3001,9 +3017,13 @@ List Sessions
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -3981,39 +4001,39 @@ List Sessions
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -4299,6 +4319,8 @@ Get Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -4459,9 +4481,13 @@ Get Session
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -5439,39 +5465,39 @@ Get Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -5774,6 +5800,8 @@ Update Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -5934,9 +5962,13 @@ Update Session
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -6914,39 +6946,39 @@ Update Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -7227,6 +7259,8 @@ Delete Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -7422,6 +7456,8 @@ Archive Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -7582,9 +7618,13 @@ Archive Session
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -8562,39 +8602,39 @@ Archive Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -8915,9 +8955,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -8997,9 +9041,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -9705,17 +9753,17 @@ Console.WriteLine(betaManagedAgentsSession);
 
   Prompt-cache creation token usage broken down by cache lifetime.
 
-  - `int Ephemeral1hInputTokens`
+  - `long Ephemeral1hInputTokens`
 
     Tokens used to create 1-hour ephemeral cache entries.
 
-    format: int32
+    format: int64
 
-  - `int Ephemeral5mInputTokens`
+  - `long Ephemeral5mInputTokens`
 
     Tokens used to create 5-minute ephemeral cache entries.
 
-    format: int32
+    format: int64
 
 ### Beta Managed Agents Commit Checkout
 
@@ -10413,9 +10461,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -11393,39 +11445,39 @@ Console.WriteLine(betaManagedAgentsSession);
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -11555,9 +11607,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -12973,9 +13029,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
             - `ClaudeOpus4_5("claude-opus-4-5")`
 
+              **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
               Powerful intelligence for long-running agents and coding
 
             - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+              **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
               Powerful intelligence for long-running agents and coding
 
@@ -13767,9 +13827,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -14435,9 +14499,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -15095,9 +15163,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -15753,9 +15825,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -16413,9 +16489,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -17097,9 +17177,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
             - `ClaudeOpus4_5("claude-opus-4-5")`
 
+              **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
               Powerful intelligence for long-running agents and coding
 
             - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+              **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
               Powerful intelligence for long-running agents and coding
 
@@ -17821,9 +17905,13 @@ Console.WriteLine(betaManagedAgentsSession);
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -18613,29 +18701,29 @@ Console.WriteLine(betaManagedAgentsSession);
 
     Tokens used to create prompt cache entries, broken down by cache TTL.
 
-    - `int Ephemeral1hInputTokens`
+    - `long Ephemeral1hInputTokens`
 
       Tokens used to create 1-hour ephemeral cache entries.
 
-      format: int32
+      format: int64
 
-    - `int Ephemeral5mInputTokens`
+    - `long Ephemeral5mInputTokens`
 
       Tokens used to create 5-minute ephemeral cache entries.
 
-      format: int32
+      format: int64
 
-  - `int CacheReadInputTokens`
+  - `long CacheReadInputTokens`
 
     Total tokens read from prompt cache.
 
-    format: int32
+    format: int64
 
-  - `int InputTokens`
+  - `long InputTokens`
 
     Total input tokens consumed across all turns.
 
-    format: int32
+    format: int64
 
   - `BetaMonetaryAmount? ListCost`
 
@@ -18651,11 +18739,11 @@ Console.WriteLine(betaManagedAgentsSession);
 
       Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-  - `int OutputTokens`
+  - `long OutputTokens`
 
     Total output tokens generated across all turns.
 
-    format: int32
+    format: int64
 
   - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -18705,29 +18793,29 @@ Console.WriteLine(betaManagedAgentsSession);
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount ListCost`
 
@@ -18743,11 +18831,11 @@ Console.WriteLine(betaManagedAgentsSession);
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage ServerToolUse`
 
@@ -19318,6 +19406,8 @@ List Events
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -21207,9 +21297,13 @@ List Events
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -22041,39 +22135,39 @@ List Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `int Ephemeral1hInputTokens`
+        - `long Ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `int Ephemeral5mInputTokens`
+        - `long Ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `int CacheReadInputTokens`
+      - `long CacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `int InputTokens`
+      - `long InputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaMonetaryAmount ListCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `int OutputTokens`
+      - `long OutputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaManagedAgentsServerToolUsage ServerToolUse`
 
@@ -22875,6 +22969,8 @@ Send Events
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -23533,6 +23629,8 @@ Stream Events
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -25422,9 +25520,13 @@ Stream Events
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -26306,39 +26408,39 @@ Stream Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `int Ephemeral1hInputTokens`
+        - `long Ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `int Ephemeral5mInputTokens`
+        - `long Ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `int CacheReadInputTokens`
+      - `long CacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `int InputTokens`
+      - `long InputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaMonetaryAmount ListCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `int OutputTokens`
+      - `long OutputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaManagedAgentsServerToolUsage ServerToolUse`
 
@@ -26777,6 +26879,8 @@ Add Session Resource
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -27002,6 +27106,8 @@ List Session Resources
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -27321,6 +27427,8 @@ Get Session Resource
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -27633,6 +27741,8 @@ Update Session Resource
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -27940,6 +28050,8 @@ Delete Session Resource
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -28162,6 +28274,8 @@ List Session Threads
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -28328,9 +28442,13 @@ List Session Threads
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -28990,29 +29108,29 @@ List Session Threads
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
@@ -29028,11 +29146,11 @@ List Session Threads
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -29263,6 +29381,8 @@ Get Session Thread
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -29429,9 +29549,13 @@ Get Session Thread
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -30091,29 +30215,29 @@ Get Session Thread
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
@@ -30129,11 +30253,11 @@ Get Session Thread
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -30358,6 +30482,8 @@ Archive Session Thread
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -30524,9 +30650,13 @@ Archive Session Thread
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -31186,29 +31316,29 @@ Archive Session Thread
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
@@ -31224,11 +31354,11 @@ Archive Session Thread
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -31460,6 +31590,8 @@ List Session Thread Events
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -33349,9 +33481,13 @@ List Session Thread Events
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -34183,39 +34319,39 @@ List Session Thread Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `int Ephemeral1hInputTokens`
+        - `long Ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `int Ephemeral5mInputTokens`
+        - `long Ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `int CacheReadInputTokens`
+      - `long CacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `int InputTokens`
+      - `long InputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaMonetaryAmount ListCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `int OutputTokens`
+      - `long OutputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaManagedAgentsServerToolUsage ServerToolUse`
 
@@ -34665,6 +34801,8 @@ Stream Session Thread Events
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -36554,9 +36692,13 @@ Stream Session Thread Events
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -37438,39 +37580,39 @@ Stream Session Thread Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `int Ephemeral1hInputTokens`
+        - `long Ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `int Ephemeral5mInputTokens`
+        - `long Ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `int CacheReadInputTokens`
+      - `long CacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `int InputTokens`
+      - `long InputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaMonetaryAmount ListCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `int OutputTokens`
+      - `long OutputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaManagedAgentsServerToolUsage ServerToolUse`
 

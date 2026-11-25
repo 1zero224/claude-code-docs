@@ -20,7 +20,7 @@ As [we outlined](https://claude.com/resources/articles/claude-for-chrome) when w
 In a prompt injection attack, malicious actors hide instructions in web content such as a web page, an email, or a form field. You may never see them, but these instructions can redirect the agent to do something you never asked for. For example, if you’ve asked Claude to draft replies to your emails, a hidden instruction in one message could tell Claude to forward your other emails to the attacker instead.
 At launch, we described how we tested Claude’s defenses against these attacks and the safeguards we had in place at the time; we later released a more detailed description of our [browser-use safeguards](https://www.anthropic.com/research/prompt-injection-defenses). Since then, we’ve improved how we train both the model and our [probes](https://www.anthropic.com/research/next-generation-constitutional-classifiers), and added an additional set of classifiers that make it possible for Claude to safely take more autonomous actions in Chrome. In the next section, we discuss the results of our evaluations, which show the efficacy of these safeguards.
 **Claude recognizes more attacks. **We train Claude against a growing library of prompt injection attacks, sourced from our internal automated attackers, external red-teamers, and real-world monitoring. When a new attack succeeds against a current model, it’s added to the library, where it informs the training of future models and our deployed safeguards so they learn to recognize it. Since we first wrote about our [prompt injection defenses for browser use](https://www.anthropic.com/research/prompt-injection-defenses) in November 2025, we’ve made Claude substantially more resistant to these attacks.
-**Probes screen web content before Claude acts on it.** Web content reaches Claude through tool results. To take an action like reading a page or opening an email, the model makes a tool call; the tool result lets the model read the output (in this case, the content of the page or the email). We train probes to scan those results for potential prompt injections. When a probe detects a likely attack, Claude is warned to treat the content with suspicion and, if needed, to check with you before taking an action. We first deployed these probes with Claude Opus 4.5, and have since expanded the types of attacks they cover.
+**Probes screen web content before Claude acts on it.** Web content reaches Claude through tool results. To take an action like reading a page or opening an email, the model makes a tool call; the tool result lets the model read the output (in this case, the content of the page or the email). We train [probes to scan those results for potential prompt injections](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents#chapter-3). When a probe detects a likely attack, Claude is warned to treat the content with suspicion and, if needed, to check with you before taking an action. We first deployed these probes with Claude Opus 4.5, and have since expanded the types of attacks they cover.
 **Actions are verified before they run**. In Claude in Chrome, Claude will now automatically approve actions it determines to be safe, using the same mechanism as [auto mode](https://claude.com/resources/articles/auto-mode-default-in-claude-code) in Claude Code. (You can switch this off in your settings if you’d prefer to continue to approve Claude’s actions manually.) A classifier reviews actions Claude is about to take, such as navigating to a new website or entering text into a page, and checks them against what you originally asked for. If the action doesn’t match your request, it’s blocked.
 ## Measuring Claude’s robustness against prompt injection
 We’ve tested these safeguards to ensure that Claude in Chrome is safe to use for browser-based work. Here, we report the results from our most recent evaluations.
@@ -37,20 +37,21 @@ You’ll still need to use the Claude desktop app to work with files on your com
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
-ArticleNov 17, 2026
-### Linked billing on the Claude Platform
+ArticleNov 24, 2026
+### Turn artifacts into Mac and Windows apps
+Open the artifacts you use every day like any other app, and let them do more on your computer
+Claude apps
+](https://claude.com/resources/articles/install-as-app)[
+ArticleNov 24, 2026
+### MCP servers can now ship skills, run tasks, and more with Claude
+Claude appsClaude Platform
+](https://claude.com/resources/articles/skills-over-mcp-tasks-and-more)[
+ArticleNov 23, 2026
+### Zero data retention with Enterprise Frontier Safeguards is now in beta
 Claude Platform
-](https://claude.com/resources/articles/linked-billing-on-claude-platform)[
-ArticleNov 12, 2026
-### Operate Claude Managed Agents inside your security perimeter
-Introducing self-hosted Claude Managed Agents. Now you can run agents in your own environment, whether that’s in your own cloud or on-premise. You host the agents, credentials, and session history, and choose where requests to Claude are sent.
-Claude PlatformClaude Managed Agents
-](https://claude.com/resources/articles/self-hosted-claude-managed-agents)[
-ArticleNov 12, 2026
-### Introducing Claude for Manufacturing
-A new plugin with 17 skills and four connectors helps manufacturers draft quotes, quality reports, and supplier requests from the systems they already run.
-](https://claude.com/resources/articles/claude-for-manufacturing)[
-ArticleNov 12, 2026
-### Introducing Claude Meetings
-Add Claude to your video call and get the work started while you talk
-](https://claude.com/resources/articles/claude-meetings)
+](https://claude.com/resources/articles/zero-data-retention-with-enterprise-frontier-safeguards)[
+ArticleNov 23, 2026
+### Introducing Claude Ship
+Open a pull request and get back to building. Claude can now review pull requests, fix them, and approve the ones that a team's policy allows.
+Claude Ship
+](https://claude.com/resources/articles/introducing-claude-ship)

@@ -349,46 +349,14 @@ client.files.upload(
 
 ## 错误处理
 
-当 SDK 无法连接到 API，或 API 返回 4xx 或 5xx 状态码时，会引发 `APIError` 的子类：
+当 SDK 无法连接到 API，或者 API 返回错误响应（4xx 或 5xx）时，会引发 `anthropic.APIError` 的子类。[SDK 错误类型](https://platform.claude.com/docs/zh-CN/api/errors#sdk-error-types)列出了这些类，[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)介绍了如何捕获它们。
 
-```python
-import anthropic
-# ...
-try:
-    message = client.messages.create(
-        max_tokens=1024,
-        messages=[
-            {
-                "role": "user",
-                "content": "Hello, Claude",
-            }
-        ],
-        model="claude-opus-5-5",
-    )
-except anthropic.APIConnectionError as e:
-    print("The server could not be reached")
-    print(e.__cause__)  # an underlying Exception, likely raised within httpx2
-except anthropic.RateLimitError as e:
-    print("A 429 status code was received; wait before retrying.")
-except anthropic.APIStatusError as e:
-    print("Another non-200-range status code was received")
-    print(e.status_code)
-    print(e.response)
-```
+其中有两个类包含有关失败的更多详细信息：
 
-错误码如下：
-
-| 状态码 | 错误类型 |
-| ----- | ----- |
-| 400 | `BadRequestError` |
-| 401 | `AuthenticationError` |
-| 403 | `PermissionDeniedError` |
-| 404 | `NotFoundError` |
-| 409 | `ConflictError` |
-| 422 | `UnprocessableEntityError` |
-| 429 | `RateLimitError` |
-| >=500 | `InternalServerError` |
-| 不适用 | `APIConnectionError` |
+| 类 | 引发时机 | 详细信息所在位置 |
+| ----- | ----- | ----- |
+| `APIConnectionError` | SDK 无法访问 API，或请求超时（子类 `APITimeoutError`） | `__cause__` 保存底层异常 |
+| `APIStatusError` | API 返回错误响应 | `status_code` 保存状态码，`response` 保存原始 `httpx2.Response` 及其响应头 |
 
 ## 请求 ID
 
@@ -411,9 +379,11 @@ print(message._request_id)  # for example, req_018EeWyXxfu5pfWkrYcMdjWG
 
 ## 重试
 
-默认情况下，SDK 会对某些错误重试两次，并采用短暂的指数退避。它会重试连接错误（例如网络问题）、408 Request Timeout、409 Conflict、429 Rate Limit 以及 >=500 Internal 错误。
+默认情况下，SDK 会对某些错误最多重试两次（总共三次尝试）。它会重试连接错误、超时、408 Request Timeout、409 Conflict、429 Too Many Requests 以及 5xx 服务器错误。
 
-您可以使用 `max_retries` 选项来配置或禁用此行为：
+如果响应包含 `x-should-retry` 响应头（`true` 或 `false`），SDK 会遵循该响应头而不是状态码。在两次尝试之间，SDK 会按照 `retry-after` 响应头指示的时长等待，或者采用短暂的指数退避。
+
+使用 `max_retries` 选项来配置或禁用重试：
 
 ```python
 # 为所有请求配置默认值：

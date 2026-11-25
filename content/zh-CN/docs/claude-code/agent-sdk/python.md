@@ -940,7 +940,7 @@ options = ClaudeAgentOptions(
 * [`API_TIMEOUT_MS`](https://code.claude.com/docs/zh-CN/env-vars)：每次请求尝试可以等待响应标头的时长，以毫秒为单位。它不限制标头到达后流式响应的持续时间。默认 `600000`。适用于主循环和所有子代理。
 * `CLAUDE_CODE_MAX_RETRIES`：最大 API 重试次数。默认 `10`，上限为 `15`。每次重试都有自己的 `API_TIMEOUT_MS` 窗口。
 
-  对于需要等待更长时间中断的无人值守运行，设置 [`CLAUDE_CODE_RETRY_WATCHDOG=1`](https://code.claude.com/docs/zh-CN/errors#tune-retry-behavior)：它会无限期重试瞬时容量错误，并且在 Claude Code v2.1.199 或更高版本上，将其他瞬时错误的默认值提高到 `300` 并移除此变量的上限。
+  对于需要等待更长时间中断的无人值守运行，设置 [`CLAUDE_CODE_RETRY_WATCHDOG=1`](https://code.claude.com/docs/zh-CN/errors#tune-retry-behavior) 以持续重试瞬时容量错误。在 v2.1.199 或更高版本上设置了 `CLAUDE_CODE_RETRY_WATCHDOG` 时，该上限不适用，其他瞬时错误的默认值为 `300`。
 * `CLAUDE_ASYNC_AGENT_STALL_TIMEOUT_MS`：子代理的停滞监视器。当流监视器开启时，默认值为 `CLAUDE_STREAM_IDLE_TIMEOUT_MS` 加 5 分钟，即 `600000`，除非您提高该变量。当流监视器关闭时，默认值为 `600000`。在 v2.1.257 之前，默认值始终为 `600000`。
 
   计时器在每个流事件时重置。停滞时，Claude Code 中止子代理并向父 Agent 报告停滞。对于后台子代理，它也会将任务标记为失败并附加任何部分结果。
@@ -2672,7 +2672,7 @@ asyncio.run(main())
     "resolvedModel": str | None,  # 转入后台时正在使用的模型
     "modelsUsed": list[str] | None,  # 转入后台之前按顺序使用的模型，连续重复项已合并
     "prompt": str,  # Agent 运行的提示词
-    "outputFile": str,  # 写入 Agent 输出的文件路径
+    "outputFile": str,  # 任务输出文件的路径
     "canReadOutputFile": bool | None,  # 是否可以直接读取输出文件
 }
 ```
@@ -2809,6 +2809,7 @@ Claude Code 根据子代理的最后一次 API 请求（而非整个运行过程
     "taskId": str,  # 后台监视任务的 ID
     "timeoutMs": int,  # 监视实际生效的截止时间（毫秒）
     "persistent": bool | None,  # False：每个监视都有截止时间
+    "keptInSandboxByCheck": bool | None,
 }
 ```
 

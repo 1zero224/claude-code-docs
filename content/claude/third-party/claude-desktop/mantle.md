@@ -19,7 +19,7 @@ Mantle supports a bearer token only. There is no in-app AWS sign-in or named-pro
 
 ## Set up AWS
 
-Enable Claude models in Amazon Bedrock for the region you will set as `inferenceBedrockRegion`, and obtain a Mantle bearer token for that account. See [Set up AWS](https://claude.com/docs/third-party/claude-desktop/bedrock.md#set-up-aws) on the Amazon Bedrock page for the model-access step; the IAM Identity Center steps there are not needed for Mantle.
+Enable Claude models in your AWS account, and obtain a Mantle bearer token for that account. See [Set up AWS](https://claude.com/docs/third-party/claude-desktop/bedrock.md#set-up-aws) on the Amazon Bedrock page for the step that enables the models; the IAM Identity Center steps there are not needed for Mantle.
 
 ## Prepare devices
 
@@ -35,8 +35,9 @@ Open the [in-app configuration window](https://claude.com/docs/third-party/claud
 
 | Field | Value |
 | - | - |
-| AWS region | e.g. `us-east-1` |
-| AWS bearer token | your Mantle bearer token |
+| Credential kind | **Static API key**, or **Helper script** for a [credential helper](https://claude.com/docs/third-party/claude-desktop/configuration.md#inferencecredentialhelper) |
+| AWS region | for example, `us-east-1` |
+| AWS bearer token | when **Credential kind** is **Static API key**, enter your Mantle bearer token |
 | Bedrock base URL | *optional* |
 
 If you set **Bedrock base URL**, provide the full SDK base URL including the `/anthropic` path (for example `https://bedrock-mantle.us-east-1.api.aws/anthropic`); it replaces the default `bedrock-mantle.<region>.api.aws/anthropic` endpoint.
@@ -69,7 +70,7 @@ Origin-pinned (A URL that a bootstrap server delivers must share the origin of b
 
 Since 1.2581.0
 
-**Bedrock base URL.** For VPC endpoints or gateway proxies. Enter https\:// and the host, with no path.
+**Bedrock base URL.** Bedrock: https\:// and the host of a VPC endpoint or gateway proxy, no path. Bedrock Mantle: the full SDK base URL with the /anthropic path.
 
 ***
 
@@ -149,6 +150,15 @@ Since 1.2581.0
 
 **AWS profile name.** AWS named profile to use for Bedrock inference credentials.
 
+> [accordion] More detail
+>
+> Code sessions over SSH to a Linux or macOS host sign in with the profile of this name on that host. This computer's AWS credentials are not sent.
+>
+> * **Set up:** each user needs it on each such host.
+> * **Permissions:** give it Bedrock access only. Claude's `aws` commands there use it too.
+> * **Launcher:** with `claudeCodeProcessWrapperEnabled` on, a host's launcher leads.
+> * **Unset, or files outside the home:** see `inferenceBedrockAwsDir`.
+
 ***
 
 #### `inferenceBedrockAwsDir`
@@ -160,6 +170,10 @@ Consent required (A value that a bootstrap server delivers applies only after th
 Since 1.2581.0
 
 **AWS config directory.** Folder with AWS config/credentials. Defaults to \~/.aws when no bearer token is set.
+
+> [accordion] More detail
+>
+> Code sessions over SSH read the AWS files from the same folder under the user's home folder on the host. If it is not inside the home folder on this computer, they need a launcher. With `inferenceBedrockProfile` unset, the `default` profile is used, but never from `~/.aws`: there a launcher is needed too. Use regular files, not links, in a folder of their own, and keep any `credential_process` program where the user cannot write.
 
 ***
 

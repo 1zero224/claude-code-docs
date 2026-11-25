@@ -123,6 +123,11 @@ The more you can encode for Claude to follow, the more often Claude's response w
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
+ArticleNov 23, 2026
+### The enterprise guide to securing coding agents
+How security and technical leaders can understand and bound risk as they scale Claude Code
+Claude Code
+](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents)[
 ArticleNov 17, 2026
 ### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
 How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
@@ -137,9 +142,4 @@ ArticleNov 13, 2026
 ### Building always-on agents
 Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
 Claude Platform
-](https://claude.com/resources/articles/building-always-on-agents)[
-ArticleNov 13, 2026
-### The Claude Tag guide for startups
-How leading startups use Claude Tag to ship faster and scale operations
-Claude Tag
-](https://claude.com/resources/articles/claude-tag-guide-for-startups)
+](https://claude.com/resources/articles/building-always-on-agents)

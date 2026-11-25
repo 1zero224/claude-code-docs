@@ -5,7 +5,7 @@ description: Anthropic 服务对入站和出站连接均使用固定 IP 地址�
 ---
 
 <Note>
-  **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** 入站端点（`aws-external-anthropic.{region}.api.aws`）解析为 AWS IP 范围。出站工具调用（MCP 连接器、网页搜索和网页抓取）源自本页列出的 Anthropic 范围。有关入站允许列表配置，请参阅 [AWS IP 地址范围](https://docs.aws.amazon.com/vpc/latest/userguide/aws-ip-ranges.html)。
+  **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** 入站端点（`aws-external-anthropic.{region}.api.aws`）解析为 AWS IP 范围。有关入站允许列表配置，请参阅 [AWS IP 地址范围](https://docs.aws.amazon.com/vpc/latest/userguide/aws-ip-ranges.html)。
 </Note>
 
 ## 入站 IP 地址

@@ -14,7 +14,7 @@ With customer-managed encryption keys (CMEK), you create a key in your own AWS K
 
 ## Choose your setup page
 
-Choose the service that holds your key. Claude Platform on AWS, which also uses AWS KMS, has its own page.
+Choose the service that holds your key. [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed) uses Google Cloud KMS keys. Claude Platform on AWS uses AWS KMS but has its own page.
 
 <CardGroup cols={2}>
   <Card title="AWS KMS" href="https://platform.claude.com/docs/en/manage-claude/cmek-aws-kms">
@@ -22,7 +22,7 @@ Choose the service that holds your key. Claude Platform on AWS, which also uses 
   </Card>
 
   <Card title="Google Cloud KMS" href="https://platform.claude.com/docs/en/manage-claude/cmek-google-cloud-kms">
-    For Claude Platform and Claude Enterprise.
+    For Claude Platform, Claude Enterprise, and Claude Models on Google Cloud (Anthropic managed).
   </Card>
 
   <Card title="Azure Key Vault" href="https://platform.claude.com/docs/en/manage-claude/cmek-azure-key-vault">
@@ -34,7 +34,7 @@ Choose the service that holds your key. Claude Platform on AWS, which also uses 
   </Card>
 </CardGroup>
 
-On Claude Platform, you can also add and attach your key [with the Admin API](https://platform.claude.com/docs/en/manage-claude/cmek-admin-api).
+On Claude Platform, you can also [add and attach an encryption key with the Admin API](https://platform.claude.com/docs/en/manage-claude/cmek-admin-api).
 
 ## Understand CMEK before you set it up
 
@@ -64,7 +64,7 @@ Which product you use decides what your key encrypts, what stays under Anthropic
 * Your key protects only data written [after it takes effect](https://platform.claude.com/docs/en/manage-claude/cmek-how-it-works#when-your-key-takes-effect).
 * If your key is deleted, Anthropic can’t recover the data it protects. Within about an hour of disabling your key, Anthropic can no longer decrypt that data. See [What each action does](https://platform.claude.com/docs/en/manage-claude/cmek-key-lifecycle#what-each-action-does).
 * On Claude Platform, a workspace with a key [must retain data](https://platform.claude.com/docs/en/manage-claude/cmek-data-retention#data-retention).
-* When Anthropic approves your whole organization for CMEK, it also enables [Access Transparency](https://platform.claude.com/docs/en/manage-claude/access-transparency#access-transparency-with-customer-managed-keys) for that organization. Organizations with Access Transparency can’t call the Claude API directly from a browser.
+* When Anthropic approves your whole organization for CMEK, it also enables [Access Transparency](https://platform.claude.com/docs/en/manage-claude/access-transparency#access-transparency-with-customer-managed-keys) for that organization. On Claude Platform, if you got access through [Enterprise Frontier Safeguards](https://platform.claude.com/docs/en/manage-claude/enterprise-frontier-safeguards/overview) or Enterprise Data Controls, attaching your first key turns on Access Transparency instead, unless it’s already on. Organizations with Access Transparency can’t call the Claude API directly from a browser.
 
 ## Who can use CMEK
 
@@ -72,6 +72,7 @@ CMEK is optional. To turn it on for an eligible organization, contact your Anthr
 
 * Claude Platform: Organization Admin
 * Claude Platform on AWS: Admin
+* Claude Models on Google Cloud (Anthropic managed): [Claude Admin](https://platform.claude.com/docs/en/build-with-claude/claude-models-on-google-cloud/anthropic-managed#iam-roles) (`roles/claude.admin`)
 * Claude Enterprise: Owner or Primary Owner
 
 ## After setup

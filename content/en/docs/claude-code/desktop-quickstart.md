@@ -10,11 +10,11 @@ The desktop app gives you Claude Code with a graphical interface. You can ask Cl
 
 Claude Code is in the **Code** tab at the top of the app's sidebar. This page walks through installing the app and starting your first session there. Claude Code requires a [Pro, Max, Ultra, Team, or Enterprise subscription](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=desktop_quickstart_pricing).
 
-> [card] [Download for macOS](https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect?utm_source=claude_code\&utm_medium=docs)
+> [card] [Download for macOS](https://claude.ai/claude-code/desktop-download?platform=mac\&utm_source=claude_code\&utm_medium=docs)
 >
 > Universal build for Intel and Apple Silicon
 
-> [card] [Download for Windows](https://claude.ai/api/desktop/win32/x64/setup/latest/redirect?utm_source=claude_code\&utm_medium=docs)
+> [card] [Download for Windows](https://claude.ai/claude-code/desktop-download?platform=win-x64\&utm_source=claude_code\&utm_medium=docs)
 >
 > For x64 processors
 
@@ -22,7 +22,7 @@ Claude Code is in the **Code** tab at the top of the app's sidebar. This page wa
 >
 > apt or .deb for Ubuntu and Debian
 
-For Windows ARM64, download the [ARM64 installer](https://claude.ai/api/desktop/win32/arm64/setup/latest/redirect?utm_source=claude_code\&utm_medium=docs). On Linux, install with apt; see [Claude Desktop on Linux](https://code.claude.com/docs/en/desktop-linux.md).
+For Windows ARM64, download the [ARM64 installer](https://claude.ai/claude-code/desktop-download?platform=win-arm64\&utm_source=claude_code\&utm_medium=docs). On Linux, install with apt; see [Claude Desktop on Linux](https://code.claude.com/docs/en/desktop-linux.md).
 
 > [!NOTE]
 >
@@ -100,7 +100,7 @@ In Manual mode, you'll see:
 
 You've made your first edit. For the full reference on everything Desktop can do, see [Use Claude Code Desktop](https://code.claude.com/docs/en/desktop.md). Here are some things to try next.
 
-**Interrupt and steer.** You can redirect Claude at any point. Click the stop button to interrupt immediately, or type a correction and press **Enter** to send it without stopping the running action. Either way, you don't have to wait for it to finish or start over.
+**Interrupt and steer.** You can redirect Claude at any point. Click the stop button to interrupt immediately, or type a correction and press **Enter** to send it without stopping the running action.
 
 **Give Claude more context.** Type `@filename` in the prompt box to pull a specific file into the conversation. The more context Claude has, the better the results. See [Add files and context](https://code.claude.com/docs/en/desktop.md#add-files-and-context-to-prompts).
 

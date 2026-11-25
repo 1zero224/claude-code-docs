@@ -121,6 +121,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -454,7 +456,7 @@ curl https://api.anthropic.com/v1/organizations/telemetry_destinations \
     -H 'anthropic-beta: telemetry-destinations-2026-08-11' \
     -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
-          "endpoint_url": "x",
+          "endpoint_url": "https://gateway.example.com",
           "workspaces": {
             "type": "all"
           }

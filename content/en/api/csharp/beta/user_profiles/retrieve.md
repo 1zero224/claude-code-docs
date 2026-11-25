@@ -9,7 +9,9 @@ url: https://platform.claude.com/docs/en/api/csharp/beta/user_profiles/retrieve
 
 **GET** `/v1/user_profiles/{user_profile_id}`
 
-Get User Profile
+Get a user profile by ID to check the details stored for it.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp) for how to set up and manage profiles.
 
 ## Parameters
 
@@ -116,6 +118,8 @@ Get User Profile
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 

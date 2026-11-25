@@ -1004,7 +1004,22 @@ Assistant: [thinking] + [text: "..."] (thinking enabled - new turn)
   连续的工具调用并不需要交错思考。无论是否使用交错思考，Claude 都可以串联工具调用。交错改变的是思考块在工具调用之间出现的位置，而不是工具调用能否串联。
 </Note>
 
-使用自适应思考时，交错思考在所有支持自适应思考的模型上都会自动启用。在 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5、Claude Mythos 5、Claude Mythos Preview、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5、Claude Opus 4.8 和 Claude Opus 4.7 上，工具调用之间的推理始终出现在思考块中。Claude Haiku 4.5 不支持交错思考。在使用手动扩展思考的模型上，交错需要 beta 标头，并且会改变思考预算的计算方式。[手动模式下的交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#interleaved-thinking)介绍了各模型的规则以及特定平台的标头行为。
+使用自适应思考时，交错思考在[所有支持自适应思考的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#configuring-thinking)上都会自动启用。在以下模型上，工具调用之间的推理始终出现在思考块中：
+
+* Claude Fable 5.2
+* Claude Mythos 5.2
+* Claude Fable 5.1
+* Claude Mythos 5.1
+* Claude Fable 5
+* Claude Mythos 5
+* Claude Mythos Preview
+* Claude Opus 5.5
+* Claude Opus 5
+* Claude Sonnet 5.5
+* Claude Opus 4.8
+* Claude Opus 4.7
+
+在使用手动扩展思考的模型上，交错需要 beta 标头，并且会改变思考预算的计算方式。[手动模式下的交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking#interleaved-thinking)介绍了各模型的规则以及特定平台的标头行为。
 
 使用交错思考时，思考额度可以跨越整个助手轮次，而不是单个响应。交错思考仅支持[通过 Messages API 使用的工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/overview)。
 

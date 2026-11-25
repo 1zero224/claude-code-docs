@@ -535,6 +535,8 @@ The Models API response can be used to determine which models are available for 
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -1046,6 +1048,8 @@ The Models API response can be used to determine information about a specific mo
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -4493,19 +4497,23 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                           - `ClaudeHaiku4_5_20251001("claude-haiku-4-5-20251001")`
 
-                          - `ClaudeOpus4_5("claude-opus-4-5")`
-
-                            Powerful intelligence for long-running agents and coding
-
-                          - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
-
-                            Powerful intelligence for long-running agents and coding
-
                           - `ClaudeMythosPreview("claude-mythos-preview")`
 
                             **Deprecated**: Will reach end-of-life on June 30, 2026. Please migrate to claude-mythos-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
                             New class of intelligence, strongest in coding and cybersecurity
+
+                          - `ClaudeOpus4_5("claude-opus-4-5")`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
+
+                          - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
 
                           - `ClaudeSonnet4_5("claude-sonnet-4-5")`
 
@@ -5361,6 +5369,8 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -8121,19 +8131,23 @@ Learn more about the Messages API in our [user guide](https://platform.claude.co
 
                     - `ClaudeHaiku4_5_20251001("claude-haiku-4-5-20251001")`
 
-                    - `ClaudeOpus4_5("claude-opus-4-5")`
-
-                      Powerful intelligence for long-running agents and coding
-
-                    - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
-
-                      Powerful intelligence for long-running agents and coding
-
                     - `ClaudeMythosPreview("claude-mythos-preview")`
 
                       **Deprecated**: Will reach end-of-life on June 30, 2026. Please migrate to claude-mythos-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
                       New class of intelligence, strongest in coding and cybersecurity
+
+                    - `ClaudeOpus4_5("claude-opus-4-5")`
+
+                      **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                      Powerful intelligence for long-running agents and coding
+
+                    - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+                      **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                      Powerful intelligence for long-running agents and coding
 
                     - `ClaudeSonnet4_5("claude-sonnet-4-5")`
 
@@ -12743,19 +12757,23 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
 
                           - `ClaudeHaiku4_5_20251001("claude-haiku-4-5-20251001")`
 
-                          - `ClaudeOpus4_5("claude-opus-4-5")`
-
-                            Powerful intelligence for long-running agents and coding
-
-                          - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
-
-                            Powerful intelligence for long-running agents and coding
-
                           - `ClaudeMythosPreview("claude-mythos-preview")`
 
                             **Deprecated**: Will reach end-of-life on June 30, 2026. Please migrate to claude-mythos-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
                             New class of intelligence, strongest in coding and cybersecurity
+
+                          - `ClaudeOpus4_5("claude-opus-4-5")`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
+
+                          - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
 
                           - `ClaudeSonnet4_5("claude-sonnet-4-5")`
 
@@ -13482,6 +13500,8 @@ Learn more about token counting in our [user guide](https://platform.claude.com/
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -16738,19 +16758,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                               - `ClaudeHaiku4_5_20251001("claude-haiku-4-5-20251001")`
 
-                              - `ClaudeOpus4_5("claude-opus-4-5")`
-
-                                Powerful intelligence for long-running agents and coding
-
-                              - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
-
-                                Powerful intelligence for long-running agents and coding
-
                               - `ClaudeMythosPreview("claude-mythos-preview")`
 
                                 **Deprecated**: Will reach end-of-life on June 30, 2026. Please migrate to claude-mythos-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
                                 New class of intelligence, strongest in coding and cybersecurity
+
+                              - `ClaudeOpus4_5("claude-opus-4-5")`
+
+                                **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                                Powerful intelligence for long-running agents and coding
+
+                              - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+                                **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                                Powerful intelligence for long-running agents and coding
 
                               - `ClaudeSonnet4_5("claude-sonnet-4-5")`
 
@@ -17979,6 +18003,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -18144,6 +18170,10 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 - `AnthropicOrganizationOnHoldException` (HTTP status 400, error code `organization_on_hold`)
 
   Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
+
+- `AnthropicWorkspaceHumanReviewDisabledException` (HTTP status 400, error code `workspace_human_review_disabled`)
+
+  The request's Workspace has Human Review turned off, and this operation is not available there. Use a Workspace with Human Review on.
 
 - `AnthropicEnforcedSpendLimitReachedException` (HTTP status 429, error code `enforced_spend_limit_reached`)
 
@@ -18484,6 +18514,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -18806,6 +18838,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -19127,6 +19161,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -19439,6 +19475,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -19652,6 +19690,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -22420,19 +22460,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                           - `ClaudeHaiku4_5_20251001("claude-haiku-4-5-20251001")`
 
-                          - `ClaudeOpus4_5("claude-opus-4-5")`
-
-                            Powerful intelligence for long-running agents and coding
-
-                          - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
-
-                            Powerful intelligence for long-running agents and coding
-
                           - `ClaudeMythosPreview("claude-mythos-preview")`
 
                             **Deprecated**: Will reach end-of-life on June 30, 2026. Please migrate to claude-mythos-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
                             New class of intelligence, strongest in coding and cybersecurity
+
+                          - `ClaudeOpus4_5("claude-opus-4-5")`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
+
+                          - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
 
                           - `ClaudeSonnet4_5("claude-sonnet-4-5")`
 
@@ -23659,9 +23703,13 @@ Create Agent
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -23741,9 +23789,13 @@ Create Agent
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -24543,6 +24595,8 @@ Create Agent
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -24709,9 +24763,13 @@ Create Agent
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -25598,6 +25656,8 @@ List Agents
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -25764,9 +25824,13 @@ List Agents
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -26640,6 +26704,8 @@ Get Agent
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -26806,9 +26872,13 @@ Get Agent
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -27670,9 +27740,13 @@ Update Agent
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -27752,9 +27826,13 @@ Update Agent
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -28528,6 +28606,8 @@ Update Agent
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -28694,9 +28774,13 @@ Update Agent
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -29560,6 +29644,8 @@ Archive Agent
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -29726,9 +29812,13 @@ Archive Agent
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -30604,6 +30694,8 @@ List Agent Versions
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -30770,9 +30862,13 @@ List Agent Versions
 
       - `ClaudeOpus4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -31755,6 +31851,8 @@ Create a new environment with the specified configuration.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -32125,6 +32223,8 @@ List environments with pagination support.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -32485,6 +32585,8 @@ Retrieve a specific environment by ID.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -32957,6 +33059,8 @@ Update an existing environment's configuration.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -33326,6 +33430,8 @@ Delete an environment by ID. Returns a confirmation of the deletion.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -33536,6 +33642,8 @@ Archive an environment by ID. Archived environments cannot be used to create new
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -33900,6 +34008,8 @@ This endpoint accepts a Claude API key. It rejects the environment key and the w
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -34208,6 +34318,8 @@ Long poll for work items in the queue.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -34490,6 +34602,8 @@ Acknowledge receipt of a work item, transitioning it from 'queued' to 'starting'
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -34779,6 +34893,8 @@ Record a heartbeat for a work item to maintain the lease.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -35011,6 +35127,8 @@ Stop a work item, initiating graceful or forced shutdown.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -35318,6 +35436,8 @@ This endpoint accepts the environment key as a bearer token. It rejects a Claude
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -35607,6 +35727,8 @@ This endpoint accepts a Claude API key. It rejects the environment key and the w
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -35908,6 +36030,8 @@ Get statistics about the work queue for an environment.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -36154,9 +36278,13 @@ Create Session
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -36236,9 +36364,13 @@ Create Session
 
             - `ClaudeOpus4_5("claude-opus-4-5")`
 
+              **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
               Powerful intelligence for long-running agents and coding
 
             - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+              **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
               Powerful intelligence for long-running agents and coding
 
@@ -37324,6 +37456,8 @@ Create Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -37484,9 +37618,13 @@ Create Session
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -38464,39 +38602,39 @@ Create Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -38860,6 +38998,8 @@ List Sessions
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -39020,9 +39160,13 @@ List Sessions
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -40000,39 +40144,39 @@ List Sessions
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -40318,6 +40462,8 @@ Get Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -40478,9 +40624,13 @@ Get Session
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -41458,39 +41608,39 @@ Get Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -41793,6 +41943,8 @@ Update Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -41953,9 +42105,13 @@ Update Session
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -42933,39 +43089,39 @@ Update Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -43246,6 +43402,8 @@ Delete Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -43441,6 +43599,8 @@ Archive Session
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -43601,9 +43761,13 @@ Archive Session
 
         - `ClaudeOpus4_5("claude-opus-4-5")`
 
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
           Powerful intelligence for long-running agents and coding
 
         - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+          **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
           Powerful intelligence for long-running agents and coding
 
@@ -44581,39 +44745,39 @@ Archive Session
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
       Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -45021,6 +45185,8 @@ List Events
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -46910,9 +47076,13 @@ List Events
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -47744,39 +47914,39 @@ List Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `int Ephemeral1hInputTokens`
+        - `long Ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `int Ephemeral5mInputTokens`
+        - `long Ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `int CacheReadInputTokens`
+      - `long CacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `int InputTokens`
+      - `long InputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaMonetaryAmount ListCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `int OutputTokens`
+      - `long OutputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaManagedAgentsServerToolUsage ServerToolUse`
 
@@ -48578,6 +48748,8 @@ Send Events
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -49236,6 +49408,8 @@ Stream Events
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -51125,9 +51299,13 @@ Stream Events
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -52009,39 +52187,39 @@ Stream Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `int Ephemeral1hInputTokens`
+        - `long Ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `int Ephemeral5mInputTokens`
+        - `long Ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `int CacheReadInputTokens`
+      - `long CacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `int InputTokens`
+      - `long InputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaMonetaryAmount ListCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `int OutputTokens`
+      - `long OutputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaManagedAgentsServerToolUsage ServerToolUse`
 
@@ -52480,6 +52658,8 @@ Add Session Resource
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -52705,6 +52885,8 @@ List Session Resources
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -53024,6 +53206,8 @@ Get Session Resource
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -53336,6 +53520,8 @@ Update Session Resource
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -53643,6 +53829,8 @@ Delete Session Resource
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -53865,6 +54053,8 @@ List Session Threads
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -54031,9 +54221,13 @@ List Session Threads
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -54693,29 +54887,29 @@ List Session Threads
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
@@ -54731,11 +54925,11 @@ List Session Threads
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -54966,6 +55160,8 @@ Get Session Thread
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -55132,9 +55328,13 @@ Get Session Thread
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -55794,29 +55994,29 @@ Get Session Thread
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
@@ -55832,11 +56032,11 @@ Get Session Thread
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -56061,6 +56261,8 @@ Archive Session Thread
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -56227,9 +56429,13 @@ Archive Session Thread
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -56889,29 +57095,29 @@ Archive Session Thread
 
       Tokens used to create prompt cache entries, broken down by cache TTL.
 
-      - `int Ephemeral1hInputTokens`
+      - `long Ephemeral1hInputTokens`
 
         Tokens used to create 1-hour ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-      - `int Ephemeral5mInputTokens`
+      - `long Ephemeral5mInputTokens`
 
         Tokens used to create 5-minute ephemeral cache entries.
 
-        format: int32
+        format: int64
 
-    - `int CacheReadInputTokens`
+    - `long CacheReadInputTokens`
 
       Total tokens read from prompt cache.
 
-      format: int32
+      format: int64
 
-    - `int InputTokens`
+    - `long InputTokens`
 
       Total input tokens consumed across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaMonetaryAmount? ListCost`
 
@@ -56927,11 +57133,11 @@ Archive Session Thread
 
         Uppercase ISO-4217 currency code. `USD` is the only currency currently supported; the accepted set is closed and grows only when a new currency is priced.
 
-    - `int OutputTokens`
+    - `long OutputTokens`
 
       Total output tokens generated across all turns.
 
-      format: int32
+      format: int64
 
     - `BetaManagedAgentsServerToolUsage? ServerToolUse`
 
@@ -57163,6 +57369,8 @@ List Session Thread Events
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -59052,9 +59260,13 @@ List Session Thread Events
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -59886,39 +60098,39 @@ List Session Thread Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `int Ephemeral1hInputTokens`
+        - `long Ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `int Ephemeral5mInputTokens`
+        - `long Ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `int CacheReadInputTokens`
+      - `long CacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `int InputTokens`
+      - `long InputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaMonetaryAmount ListCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `int OutputTokens`
+      - `long OutputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaManagedAgentsServerToolUsage ServerToolUse`
 
@@ -60368,6 +60580,8 @@ Stream Session Thread Events
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -62257,9 +62471,13 @@ Stream Session Thread Events
 
           - `ClaudeOpus4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -63141,39 +63359,39 @@ Stream Session Thread Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `int Ephemeral1hInputTokens`
+        - `long Ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `int Ephemeral5mInputTokens`
+        - `long Ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `int CacheReadInputTokens`
+      - `long CacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `int InputTokens`
+      - `long InputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaMonetaryAmount ListCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `int OutputTokens`
+      - `long OutputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `BetaManagedAgentsServerToolUsage ServerToolUse`
 
@@ -63971,6 +64189,8 @@ Create Deployment
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -64546,22 +64766,29 @@ Create Deployment
 ```csharp
 using System;
 using Anthropic.Models.Beta.Deployments;
+using Anthropic.Models.Beta.Sessions;
 using Anthropic.Models.Beta.Sessions.Events;
 
 DeploymentCreateParams parameters = new()
 {
-    Agent = "string",
-    EnvironmentID = "x",
+    Agent = new BetaManagedAgentsAgentParams()
+    {
+        ID = "agent_011CZkYpogX7uDKUyvBTophP",
+        Version = 0,
+    },
+    EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW",
     InitialEvents =
     [
         new BetaManagedAgentsUserMessageEventParams(
 
             [
-                new BetaManagedAgentsTextBlock("Where is my order #1234?")
+                new BetaManagedAgentsTextBlock(
+                    "Compile yesterday's orders into report.md."
+                ),
             ]
         ),
     ],
-    Name = "x",
+    Name = "Daily order report",
 };
 
 var betaManagedAgentsDeployment = await client.Beta.Deployments.Create(parameters);
@@ -64767,6 +64994,8 @@ List Deployments
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -65526,6 +65755,8 @@ Get Deployment
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -66656,6 +66887,8 @@ Update Deployment
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -67410,6 +67643,8 @@ Archive Deployment
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -68166,6 +68401,8 @@ Run Deployment Now
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -68592,6 +68829,8 @@ Pause Deployment
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -69347,6 +69586,8 @@ Unpause Deployment
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -70147,6 +70388,8 @@ List Deployment Runs
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -70577,6 +70820,8 @@ Get Deployment Run
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -71013,6 +71258,8 @@ Create a Vault
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -71252,6 +71499,8 @@ List Vaults
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -71487,6 +71736,8 @@ Retrieve a Vault
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -71730,6 +71981,8 @@ Update a Vault
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -71962,6 +72215,8 @@ Delete a Vault
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -72160,6 +72415,8 @@ Archive a Vault
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -72571,6 +72828,8 @@ Create a Credential
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -72945,6 +73204,8 @@ List Credentials
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -73310,6 +73571,8 @@ Retrieve a Credential
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -73811,6 +74074,8 @@ Update a Credential
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -74171,6 +74436,8 @@ Delete a Credential
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -74374,6 +74641,8 @@ Archive a Credential
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -74735,6 +75004,8 @@ Validate an MCP OAuth Credential
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -75049,6 +75320,8 @@ Create a Memory Store
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -75313,6 +75586,8 @@ List Memory Stores
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -75559,6 +75834,8 @@ Retrieve a Memory Store
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -75827,6 +76104,8 @@ Update a Memory Store
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -76074,6 +76353,8 @@ Delete a Memory Store
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -76274,6 +76555,8 @@ Archive a Memory Store
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -76541,6 +76824,8 @@ Create a Memory
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -76835,6 +77120,8 @@ List Memories
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -77124,6 +77411,8 @@ Retrieve a Memory
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -77412,6 +77701,8 @@ Update a Memory
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -77682,6 +77973,8 @@ Delete a Memory
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -77939,6 +78232,8 @@ List Memory Versions
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -78299,6 +78594,8 @@ Retrieve a Memory Version
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -78645,6 +78942,8 @@ Redact a Memory Version
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -78999,6 +79298,8 @@ Upload File
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -79299,6 +79600,8 @@ List Files
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -79582,6 +79885,8 @@ Download File
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -79784,6 +80089,8 @@ Get File Metadata
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -80061,6 +80368,8 @@ Delete File
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -80288,6 +80597,8 @@ Create Skill
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -80598,6 +80909,8 @@ List Skills
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -80878,6 +81191,8 @@ Get Skill
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -81151,6 +81466,8 @@ Delete Skill
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -81372,6 +81689,8 @@ Create Skill Version
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -81647,6 +81966,8 @@ List Skill Versions
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -81902,6 +82223,8 @@ Download a skill version's content as a zip archive.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -82088,6 +82411,8 @@ Get Skill Version
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -82341,6 +82666,8 @@ Delete Skill Version
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -82444,13 +82771,17 @@ Console.WriteLine(betaDeletedSkillVersion);
 
 ## Beta › User Profiles
 
+Register the end customers that your platform serves, so each request can name who it's for. To get started, see the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp).
+
 ### Create User Profile
 
 `BetaUserProfile Beta.UserProfiles.Create(parameters, cancellationToken = default)`
 
 **POST** `/v1/user_profiles`
 
-Create User Profile
+Register one of your end customers and get the ID to send on the requests you make for them.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp#create-a-profile-for-each-end-customer) for what to send.
 
 #### Parameters
 
@@ -82591,6 +82922,8 @@ Create User Profile
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -82815,7 +83148,9 @@ Console.WriteLine(betaUserProfile);
 
 **GET** `/v1/user_profiles`
 
-List User Profiles
+List the user profiles in your organization, newest first by default.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp) for how to set up and manage profiles.
 
 #### Parameters
 
@@ -82954,6 +83289,8 @@ List User Profiles
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -83185,7 +83522,9 @@ await foreach (var item in page.Paginate())
 
 **GET** `/v1/user_profiles/{user_profile_id}`
 
-Get User Profile
+Get a user profile by ID to check the details stored for it.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp) for how to set up and manage profiles.
 
 #### Parameters
 
@@ -83292,6 +83631,8 @@ Get User Profile
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -83519,7 +83860,9 @@ Console.WriteLine(betaUserProfile);
 
 **POST** `/v1/user_profiles/{user_profile_id}`
 
-Update User Profile
+Change the details of a user profile, leaving the fields that you don't send as they are.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp#update-a-profile) for how each field is updated.
 
 #### Parameters
 
@@ -83664,6 +84007,8 @@ Update User Profile
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -83891,7 +84236,9 @@ Console.WriteLine(betaUserProfile);
 
 **DELETE** `/v1/user_profiles/{user_profile_id}`
 
-Delete User Profile
+Delete a user profile, for example when the end customer closes their account.
+
+Stop sending the profile's ID first. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=csharp#delete-a-profile) for what happens after a delete.
 
 #### Parameters
 
@@ -83999,6 +84346,8 @@ Delete User Profile
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -84090,7 +84439,9 @@ Console.WriteLine(betaDeletedUserProfile);
 
 **POST** `/v1/user_profiles/{user_profile_id}/enrollment_url`
 
-Create Enrollment URL
+Create a link that sends the profile's end customer to the Verification Portal from Claude Platform on AWS.
+
+On the Claude API, create an action URL instead. See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=csharp) for when to create the link and what the end customer sees.
 
 #### Parameters
 
@@ -84198,6 +84549,8 @@ Create Enrollment URL
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -84300,7 +84653,9 @@ Console.WriteLine(betaUserProfileEnrollmentUrl);
 
 **POST** `/v1/user_profiles/{user_profile_id}/action_urls`
 
-Create Action URL
+Create a link that sends the profile's end customer to the Verification Portal.
+
+See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=csharp) for when to create the link and what the end customer sees.
 
 #### Parameters
 
@@ -84411,6 +84766,8 @@ Create Action URL
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -84700,6 +85057,8 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -85211,6 +85570,8 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -85663,6 +86024,8 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -86108,6 +86471,8 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -86552,6 +86917,8 @@ See the [Dreams guide](https://platform.claude.com/docs/en/managed-agents/dreams
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -87000,6 +87367,8 @@ Creates a tunnel. Creation allocates a fresh hostname and provisions the tunnel;
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -87221,6 +87590,8 @@ Fetches a tunnel by ID.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -87454,6 +87825,8 @@ Lists tunnels. Results are ordered by creation time, newest first; archived tunn
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -87683,6 +88056,8 @@ Archives a tunnel. Archival is irreversible: every non-archived certificate on t
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -87905,6 +88280,8 @@ Reveals a tunnel's connector token. The value is fetched live on each call; Anth
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -88113,6 +88490,8 @@ Rotates a tunnel's connector token. Rotation invalidates the current token for n
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -88324,6 +88703,8 @@ Registers a public CA certificate on a tunnel. Anthropic verifies the gateway's 
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -88561,6 +88942,8 @@ Fetches a tunnel certificate by ID.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -88809,6 +89192,8 @@ Lists the certificates registered on a tunnel. Archived certificates are exclude
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -89048,6 +89433,8 @@ Archives a tunnel certificate, removing it from the set Anthropic trusts for the
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -90934,6 +91321,8 @@ matched as the JWT's `iss` claim and is not fetched.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -91129,8 +91518,8 @@ using Anthropic.Models.Beta.Organization.Federation.Issuers;
 
 IssuerCreateParams parameters = new()
 {
-    IssuerUrl = "x",
-    Name = "x",
+    IssuerUrl = "https://token.actions.githubusercontent.com",
+    Name = "github-actions",
 };
 
 var betaFederationIssuer = await client.Beta.Organization.Federation.Issuers.Create(parameters);
@@ -91295,6 +91684,8 @@ Archived issuers are excluded unless `include_archived=true`.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -91640,6 +92031,8 @@ Retrieve a federation issuer by its ID (`fdis_...`).
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -92065,6 +92458,8 @@ session.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -92418,6 +92813,8 @@ issuer cannot be changed), or recreate them against another issuer.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -92828,6 +93225,8 @@ manage rules whose `oauth_scope` is `workspace:developer` or
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -93018,16 +93417,22 @@ using Anthropic.Models.Beta.Organization.Federation.Rules;
 
 RuleCreateParams parameters = new()
 {
-    IssuerID = "issuer_id",
+    IssuerID = "fdis_01SDCCSbTxrXDpWc1phhtcfK",
     Match = new()
     {
         Audience = "audience",
-        Claims = new Dictionary<string, string>() { { "foo", "string" } },
+        Claims = new Dictionary<string, string>()
+        {
+            { "event_name", "push" },
+            { "ref", "refs/heads/main" },
+            { "repository_id", "123456789" },
+            { "repository_owner_id", "987654321" },
+        },
         Condition = "condition",
         SubjectPrefix = "subject_prefix",
     },
-    Name = "x",
-    OAuthScope = "x",
+    Name = "prod-deploy-pipeline",
+    OAuthScope = "workspace:developer",
     Target = new()
     {
         ServiceAccountID = "svac_01SDCCSbTxrXDpWc1phhtcfK",
@@ -93214,6 +93619,8 @@ unless `include_archived=true`.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -93565,6 +93972,8 @@ Retrieve a federation rule by its ID (`fdrl_...`).
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -93973,6 +94382,8 @@ Console session.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -94332,6 +94743,8 @@ other scopes require a Console session.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -94703,6 +95116,8 @@ other scopes require a Console session.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -94790,7 +95205,7 @@ using Anthropic.Models.Beta.Organization.Federation.Rules.Workspaces;
 WorkspaceAddParams parameters = new()
 {
     FederationRuleID = "federation_rule_id",
-    WorkspaceID = "workspace_id",
+    WorkspaceID = "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
 };
 
 var betaFederationRuleWorkspace = await client.Beta.Organization.Federation.Rules.Workspaces.Add(parameters);
@@ -94942,6 +95357,8 @@ rules with `applies_to_all_workspaces` or a legacy single
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -95173,6 +95590,8 @@ Console session.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -95941,6 +96360,8 @@ accounts.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -96213,6 +96634,8 @@ archived service accounts.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -96469,6 +96892,8 @@ Retrieve a service account by its ID (`svac_...`).
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -96742,6 +97167,8 @@ interactive credential (a user OAuth token or a Console session).
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -97007,6 +97434,8 @@ those rules first or change their target to another service account.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -97286,6 +97715,8 @@ rejected.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -97544,6 +97975,8 @@ page to recover.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -97786,6 +98219,8 @@ to the implicit `workspace_user` membership. Archived workspaces return
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -97874,6 +98309,2042 @@ Console.WriteLine(workspace);
   "service_account_id": "service_account_id",
   "type": "service_account_workspace_member_deleted",
   "workspace_id": "workspace_id"
+}
+```
+
+## Beta › Organization › External Storage
+
+### Create External Storage
+
+`BetaExternalStorage Beta.Organization.ExternalStorage.Create(parameters, cancellationToken = default)`
+
+**POST** `/v1/organizations/external_storage`
+
+Register a bucket in the organization's own cloud account. It is saved
+as `pending_configuration` and verified when activated.
+
+#### Parameters
+
+- `ExternalStorageCreateParams parameters`
+
+  - `required ProviderConfig providerConfig`
+
+    - `class BetaAwsExternalStorageConfigParam`
+
+      An Amazon S3 bucket.
+
+      - `JsonElement Type = "aws"`
+
+      - `required string AccountID`
+
+        12-digit ID of the AWS account that owns the bucket.
+
+      - `required string BucketName`
+
+        The bucket's name, without `s3://`: 3 to 63 lower-case letters, digits and hyphens, starting and ending with a letter or digit.
+
+      - `required string Region`
+
+        The bucket's AWS region. Activating the storage fails if Anthropic can't use buckets in that region.
+
+    - `class BetaGcpExternalStorageConfigParam`
+
+      A Google Cloud Storage bucket.
+
+      - `JsonElement Type = "gcp"`
+
+      - `required string BucketName`
+
+        The bucket's name, without `gs://`: 3 to 63 lower-case letters, digits and hyphens, starting and ending with a letter or digit. It can't start with `goog` or contain `google`.
+
+      - `required string ProjectNumber`
+
+        Project number, not project ID, of the Google Cloud project that holds the bucket.
+
+      - `required string Region`
+
+        The bucket's Google Cloud region, such as `us-east5`: one of the single regions that the setup guide lists. Dual-regions and multi-regions aren't supported.
+
+  - `string? displayName`
+
+    Human-friendly display name.
+
+    minLength: 1, maxLength: 255
+
+  - `string? userProfileID`
+
+    The user profile to bind the storage to. It can't be changed later. The storage can be attached only to Workspaces with this profile, and the bucket's setup must name the same ID.
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    This endpoint is in beta: requests must send `efs-2026-10-01` in this header.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+#### Returns
+
+- `class BetaExternalStorage`
+
+  A storage bucket in the organization's own cloud account. Anthropic writes
+  inference data to it from each Workspace it is attached to.
+
+  - `JsonElement Type = "external_storage"`
+
+  - `required string ID`
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `required DateTimeOffset CreatedAt`
+
+    format: date-time
+
+  - `required string? DisplayName`
+
+    Human-friendly display name. Null if none was set.
+
+  - `required BetaExternalStorageProviderConfig ProviderConfig`
+
+    - `class BetaAwsExternalStorageConfig`
+
+      An Amazon S3 bucket.
+
+      - `JsonElement Type = "aws"`
+
+      - `required string AccountID`
+
+        12-digit ID of the AWS account that owns the bucket.
+
+      - `required string BucketName`
+
+        The bucket's name, without `s3://`.
+
+      - `required string Region`
+
+        The bucket's AWS region.
+
+    - `class BetaGcpExternalStorageConfig`
+
+      A Google Cloud Storage bucket.
+
+      - `JsonElement Type = "gcp"`
+
+      - `required string BucketName`
+
+        The bucket's name, without `gs://`.
+
+      - `required string ProjectNumber`
+
+        Number of the Google Cloud project that holds the bucket.
+
+      - `required string Region`
+
+        The bucket's Google Cloud region.
+
+  - `required string? SetupTemplateVersion`
+
+    The version of Anthropic's setup template whose IAM role names this storage was found to use at activation. Null if no version was recorded, as for storage not yet activated or not on S3.
+
+  - `required Status Status`
+
+    - `class BetaPendingConfigurationExternalStorageStatus`
+
+      The storage isn't verified yet.
+
+      - `JsonElement Type = "pending_configuration"`
+
+    - `class BetaAvailableExternalStorageStatus`
+
+      The storage is verified, no Workspace has it attached, and Anthropic doesn't use
+      the bucket.
+
+      - `JsonElement Type = "available"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaActiveExternalStorageStatus`
+
+      At least one Workspace has the storage attached.
+
+      - `JsonElement Type = "active"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaDrainingExternalStorageStatus`
+
+      No Workspace has the storage attached. A Workspace can attach it again, unless
+      `removal_started` is true.
+
+      - `JsonElement Type = "draining"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+      - `required bool RemovalStarted`
+
+        True once a delete has started removing this storage, which can't be undone. It then can't be attached, and another delete finishes the removal.
+
+  - `required DateTimeOffset UpdatedAt`
+
+    format: date-time
+
+  - `required string? UserProfileID`
+
+    The user profile the storage is bound to, or null.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
+
+- `AnthropicBetaGrantRequiredException` (HTTP status 400, error code `grant_required`)
+
+  Anthropic has not approved External Storage for the organization, for the Workspace or, for storage bound to a user profile, for that user profile. Contact your Anthropic account team.
+
+- `AnthropicBetaOrganizationNotEligibleException` (HTTP status 400, error code `organization_not_eligible`)
+
+  The feature isn't offered to this organization. The error's `message` names the kind of organization or, when it names none, says to contact your Anthropic account team.
+
+- `AnthropicBetaProviderNotAllowedException` (HTTP status 400, error code `provider_not_allowed`)
+
+  The request can't use External Storage on this cloud provider. The error's message says why.
+
+- `AnthropicBetaUnsupportedRegionException` (HTTP status 400, error code `unsupported_region`)
+
+  `provider_config.region` is not a region where External Storage is available.
+
+- `AnthropicUserProfileNotFoundException` (HTTP status 400, error code `user_profile_not_found`)
+
+  The request depends on a user profile that does not exist in the organization or is no longer active. The request either names this user profile by ID, or names a resource, such as an External Key, that is bound to it.
+
+- `AnthropicSandboxEgressRestrictedException` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+- `AnthropicBetaStorageAlreadyRegisteredException` (HTTP status 409, error code `storage_already_registered`)
+
+  The organization already has External Storage for this bucket that it has not deleted. List the organization's External Storage to find it.
+
+- `AnthropicBetaAuthorizationCheckUnavailableException` (HTTP status 503, error code `authorization_check_unavailable`)
+
+  One of the organization's approvals from Anthropic could not be read right now, so nothing was done. Retry after the `Retry-After` delay.
+
+#### Example
+
+```csharp
+using System;
+using Anthropic.Models.Beta.Organization.ExternalStorage;
+
+ExternalStorageCreateParams parameters = new()
+{
+    ProviderConfig = new BetaAwsExternalStorageConfigParam()
+    {
+        AccountID = "111122223333",
+        BucketName = "acme-safety-retention",
+        Region = "us-east-2",
+    },
+};
+
+var betaExternalStorage = await client.Beta.Organization.ExternalStorage.Create(parameters);
+
+Console.WriteLine(betaExternalStorage);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "display_name",
+  "provider_config": {
+    "account_id": "111122223333",
+    "bucket_name": "acme-safety-retention",
+    "region": "us-east-2",
+    "type": "aws"
+  },
+  "setup_template_version": "2",
+  "status": {
+    "type": "pending_configuration"
+  },
+  "type": "external_storage",
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+}
+```
+
+### List External Storage
+
+`ExternalStorageListPage Beta.Organization.ExternalStorage.List(parameters, cancellationToken = default)`
+
+**GET** `/v1/organizations/external_storage`
+
+List the organization's External Storage, newest first.
+
+#### Parameters
+
+- `ExternalStorageListParams parameters`
+
+  - `long limit` (query parameter)
+
+    Number of results per page.
+
+    minimum: 1, maximum: 1000
+
+  - `string? page` (query parameter)
+
+    Opaque cursor from a previous response's `next_page`.
+
+  - `IReadOnlyList<string>? userProfileIds` (query parameter)
+
+    Returns only External Storage bound to one of these user profile IDs (`uprof_...`). An empty entry matches storage bound to no user profile. At most 10 entries, counting repeats.
+
+    maxItems: 10
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    This endpoint is in beta: requests must send `efs-2026-10-01` in this header.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+#### Returns
+
+- `class BetaExternalStorage`
+
+  A storage bucket in the organization's own cloud account. Anthropic writes
+  inference data to it from each Workspace it is attached to.
+
+  - `JsonElement Type = "external_storage"`
+
+  - `required string ID`
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `required DateTimeOffset CreatedAt`
+
+    format: date-time
+
+  - `required string? DisplayName`
+
+    Human-friendly display name. Null if none was set.
+
+  - `required BetaExternalStorageProviderConfig ProviderConfig`
+
+    - `class BetaAwsExternalStorageConfig`
+
+      An Amazon S3 bucket.
+
+      - `JsonElement Type = "aws"`
+
+      - `required string AccountID`
+
+        12-digit ID of the AWS account that owns the bucket.
+
+      - `required string BucketName`
+
+        The bucket's name, without `s3://`.
+
+      - `required string Region`
+
+        The bucket's AWS region.
+
+    - `class BetaGcpExternalStorageConfig`
+
+      A Google Cloud Storage bucket.
+
+      - `JsonElement Type = "gcp"`
+
+      - `required string BucketName`
+
+        The bucket's name, without `gs://`.
+
+      - `required string ProjectNumber`
+
+        Number of the Google Cloud project that holds the bucket.
+
+      - `required string Region`
+
+        The bucket's Google Cloud region.
+
+  - `required string? SetupTemplateVersion`
+
+    The version of Anthropic's setup template whose IAM role names this storage was found to use at activation. Null if no version was recorded, as for storage not yet activated or not on S3.
+
+  - `required Status Status`
+
+    - `class BetaPendingConfigurationExternalStorageStatus`
+
+      The storage isn't verified yet.
+
+      - `JsonElement Type = "pending_configuration"`
+
+    - `class BetaAvailableExternalStorageStatus`
+
+      The storage is verified, no Workspace has it attached, and Anthropic doesn't use
+      the bucket.
+
+      - `JsonElement Type = "available"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaActiveExternalStorageStatus`
+
+      At least one Workspace has the storage attached.
+
+      - `JsonElement Type = "active"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaDrainingExternalStorageStatus`
+
+      No Workspace has the storage attached. A Workspace can attach it again, unless
+      `removal_started` is true.
+
+      - `JsonElement Type = "draining"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+      - `required bool RemovalStarted`
+
+        True once a delete has started removing this storage, which can't be undone. It then can't be attached, and another delete finishes the removal.
+
+  - `required DateTimeOffset UpdatedAt`
+
+    format: date-time
+
+  - `required string? UserProfileID`
+
+    The user profile the storage is bound to, or null.
+
+#### Example
+
+```csharp
+using System;
+using Anthropic.Models.Beta.Organization.ExternalStorage;
+
+ExternalStorageListParams parameters = new();
+
+var page = await client.Beta.Organization.ExternalStorage.List(parameters);
+await foreach (var item in page.Paginate())
+{
+    Console.WriteLine(item);
+}
+```
+
+##### Response (200)
+
+```json
+{
+  "data": [
+    {
+      "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+      "created_at": "2024-10-30T23:58:27.427722Z",
+      "display_name": "display_name",
+      "provider_config": {
+        "account_id": "111122223333",
+        "bucket_name": "acme-safety-retention",
+        "region": "us-east-2",
+        "type": "aws"
+      },
+      "setup_template_version": "2",
+      "status": {
+        "type": "pending_configuration"
+      },
+      "type": "external_storage",
+      "updated_at": "2024-10-30T23:58:27.427722Z",
+      "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+    }
+  ],
+  "next_page": "next_page"
+}
+```
+
+### Get External Storage
+
+`BetaExternalStorage Beta.Organization.ExternalStorage.Retrieve(parameters, cancellationToken = default)`
+
+**GET** `/v1/organizations/external_storage/{external_storage_id}`
+
+Get one External Storage in the organization.
+
+#### Parameters
+
+- `ExternalStorageRetrieveParams parameters`
+
+  - `required string externalStorageID` (path parameter)
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    This endpoint is in beta: requests must send `efs-2026-10-01` in this header.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+#### Returns
+
+- `class BetaExternalStorage`
+
+  A storage bucket in the organization's own cloud account. Anthropic writes
+  inference data to it from each Workspace it is attached to.
+
+  - `JsonElement Type = "external_storage"`
+
+  - `required string ID`
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `required DateTimeOffset CreatedAt`
+
+    format: date-time
+
+  - `required string? DisplayName`
+
+    Human-friendly display name. Null if none was set.
+
+  - `required BetaExternalStorageProviderConfig ProviderConfig`
+
+    - `class BetaAwsExternalStorageConfig`
+
+      An Amazon S3 bucket.
+
+      - `JsonElement Type = "aws"`
+
+      - `required string AccountID`
+
+        12-digit ID of the AWS account that owns the bucket.
+
+      - `required string BucketName`
+
+        The bucket's name, without `s3://`.
+
+      - `required string Region`
+
+        The bucket's AWS region.
+
+    - `class BetaGcpExternalStorageConfig`
+
+      A Google Cloud Storage bucket.
+
+      - `JsonElement Type = "gcp"`
+
+      - `required string BucketName`
+
+        The bucket's name, without `gs://`.
+
+      - `required string ProjectNumber`
+
+        Number of the Google Cloud project that holds the bucket.
+
+      - `required string Region`
+
+        The bucket's Google Cloud region.
+
+  - `required string? SetupTemplateVersion`
+
+    The version of Anthropic's setup template whose IAM role names this storage was found to use at activation. Null if no version was recorded, as for storage not yet activated or not on S3.
+
+  - `required Status Status`
+
+    - `class BetaPendingConfigurationExternalStorageStatus`
+
+      The storage isn't verified yet.
+
+      - `JsonElement Type = "pending_configuration"`
+
+    - `class BetaAvailableExternalStorageStatus`
+
+      The storage is verified, no Workspace has it attached, and Anthropic doesn't use
+      the bucket.
+
+      - `JsonElement Type = "available"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaActiveExternalStorageStatus`
+
+      At least one Workspace has the storage attached.
+
+      - `JsonElement Type = "active"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaDrainingExternalStorageStatus`
+
+      No Workspace has the storage attached. A Workspace can attach it again, unless
+      `removal_started` is true.
+
+      - `JsonElement Type = "draining"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+      - `required bool RemovalStarted`
+
+        True once a delete has started removing this storage, which can't be undone. It then can't be attached, and another delete finishes the removal.
+
+  - `required DateTimeOffset UpdatedAt`
+
+    format: date-time
+
+  - `required string? UserProfileID`
+
+    The user profile the storage is bound to, or null.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
+
+- `AnthropicBetaInvalidStorageArnException` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+#### Example
+
+```csharp
+using System;
+using Anthropic.Models.Beta.Organization.ExternalStorage;
+
+ExternalStorageRetrieveParams parameters = new()
+{
+    ExternalStorageID = "external_storage_id"
+};
+
+var betaExternalStorage = await client.Beta.Organization.ExternalStorage.Retrieve(parameters);
+
+Console.WriteLine(betaExternalStorage);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "display_name",
+  "provider_config": {
+    "account_id": "111122223333",
+    "bucket_name": "acme-safety-retention",
+    "region": "us-east-2",
+    "type": "aws"
+  },
+  "setup_template_version": "2",
+  "status": {
+    "type": "pending_configuration"
+  },
+  "type": "external_storage",
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+}
+```
+
+### Update External Storage
+
+`BetaExternalStorage Beta.Organization.ExternalStorage.Update(parameters, cancellationToken = default)`
+
+**POST** `/v1/organizations/external_storage/{external_storage_id}`
+
+Rename External Storage or clear its name, in any status.
+
+#### Parameters
+
+- `ExternalStorageUpdateParams parameters`
+
+  - `required string externalStorageID` (path parameter)
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `required string? displayName`
+
+    Human-friendly display name; null clears it.
+
+    minLength: 1, maxLength: 255
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    This endpoint is in beta: requests must send `efs-2026-10-01` in this header.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+#### Returns
+
+- `class BetaExternalStorage`
+
+  A storage bucket in the organization's own cloud account. Anthropic writes
+  inference data to it from each Workspace it is attached to.
+
+  - `JsonElement Type = "external_storage"`
+
+  - `required string ID`
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `required DateTimeOffset CreatedAt`
+
+    format: date-time
+
+  - `required string? DisplayName`
+
+    Human-friendly display name. Null if none was set.
+
+  - `required BetaExternalStorageProviderConfig ProviderConfig`
+
+    - `class BetaAwsExternalStorageConfig`
+
+      An Amazon S3 bucket.
+
+      - `JsonElement Type = "aws"`
+
+      - `required string AccountID`
+
+        12-digit ID of the AWS account that owns the bucket.
+
+      - `required string BucketName`
+
+        The bucket's name, without `s3://`.
+
+      - `required string Region`
+
+        The bucket's AWS region.
+
+    - `class BetaGcpExternalStorageConfig`
+
+      A Google Cloud Storage bucket.
+
+      - `JsonElement Type = "gcp"`
+
+      - `required string BucketName`
+
+        The bucket's name, without `gs://`.
+
+      - `required string ProjectNumber`
+
+        Number of the Google Cloud project that holds the bucket.
+
+      - `required string Region`
+
+        The bucket's Google Cloud region.
+
+  - `required string? SetupTemplateVersion`
+
+    The version of Anthropic's setup template whose IAM role names this storage was found to use at activation. Null if no version was recorded, as for storage not yet activated or not on S3.
+
+  - `required Status Status`
+
+    - `class BetaPendingConfigurationExternalStorageStatus`
+
+      The storage isn't verified yet.
+
+      - `JsonElement Type = "pending_configuration"`
+
+    - `class BetaAvailableExternalStorageStatus`
+
+      The storage is verified, no Workspace has it attached, and Anthropic doesn't use
+      the bucket.
+
+      - `JsonElement Type = "available"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaActiveExternalStorageStatus`
+
+      At least one Workspace has the storage attached.
+
+      - `JsonElement Type = "active"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaDrainingExternalStorageStatus`
+
+      No Workspace has the storage attached. A Workspace can attach it again, unless
+      `removal_started` is true.
+
+      - `JsonElement Type = "draining"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+      - `required bool RemovalStarted`
+
+        True once a delete has started removing this storage, which can't be undone. It then can't be attached, and another delete finishes the removal.
+
+  - `required DateTimeOffset UpdatedAt`
+
+    format: date-time
+
+  - `required string? UserProfileID`
+
+    The user profile the storage is bound to, or null.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
+
+- `AnthropicBetaInvalidStorageArnException` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+- `AnthropicSandboxEgressRestrictedException` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+#### Example
+
+```csharp
+using System;
+using Anthropic.Models.Beta.Organization.ExternalStorage;
+
+ExternalStorageUpdateParams parameters = new()
+{
+    ExternalStorageID = "external_storage_id",
+    DisplayName = "x",
+};
+
+var betaExternalStorage = await client.Beta.Organization.ExternalStorage.Update(parameters);
+
+Console.WriteLine(betaExternalStorage);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "display_name",
+  "provider_config": {
+    "account_id": "111122223333",
+    "bucket_name": "acme-safety-retention",
+    "region": "us-east-2",
+    "type": "aws"
+  },
+  "setup_template_version": "2",
+  "status": {
+    "type": "pending_configuration"
+  },
+  "type": "external_storage",
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+}
+```
+
+### Delete External Storage
+
+`BetaDeletedExternalStorage Beta.Organization.ExternalStorage.Delete(parameters, cancellationToken = default)`
+
+**DELETE** `/v1/organizations/external_storage/{external_storage_id}`
+
+Delete External Storage. Storage that is pending configuration, available, or active
+but never attached is deleted at once, unless an Enterprise Frontier Safeguards workspace
+policy lists it. Other storage gets a 400 that says what to do next. On `draining`
+storage that 400 can mean this delete started a removal that can't be undone. To check,
+get the storage: if `status.removal_started` is true, delete it again later to finish.
+
+#### Parameters
+
+- `ExternalStorageDeleteParams parameters`
+
+  - `required string externalStorageID` (path parameter)
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    This endpoint is in beta: requests must send `efs-2026-10-01` in this header.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+#### Returns
+
+- `class BetaDeletedExternalStorage`
+
+  - `JsonElement Type = "external_storage_deleted"`
+
+  - `required string ID`
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
+
+- `AnthropicBetaExternalStorageInUseException` (HTTP status 400, error code `external_storage_in_use`)
+
+  The External Storage is `active` or `draining`, so this delete didn't erase it. The message says what to do next. On `draining` storage this delete may have started a removal that can't be undone: get the storage and read `status.removal_started`.
+
+- `AnthropicBetaExternalStorageInWorkspacePolicyException` (HTTP status 400, error code `external_storage_in_workspace_policy`)
+
+  The External Storage can't be deleted while an Enterprise Frontier Safeguards workspace policy lists it as allowed storage.
+
+- `AnthropicBetaInvalidStorageArnException` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+- `AnthropicSandboxEgressRestrictedException` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+#### Example
+
+```csharp
+using System;
+using Anthropic.Models.Beta.Organization.ExternalStorage;
+
+ExternalStorageDeleteParams parameters = new()
+{
+    ExternalStorageID = "external_storage_id"
+};
+
+var betaDeletedExternalStorage = await client.Beta.Organization.ExternalStorage.Delete(parameters);
+
+Console.WriteLine(betaDeletedExternalStorage);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "type": "external_storage_deleted"
+}
+```
+
+### Activate External Storage
+
+`BetaExternalStorage Beta.Organization.ExternalStorage.Activate(parameters, cancellationToken = default)`
+
+**POST** `/v1/organizations/external_storage/{external_storage_id}/activate`
+
+Verify pending External Storage and make it available. Storage that is
+already available, active or draining comes back unchanged, without any
+check.
+
+#### Parameters
+
+- `ExternalStorageActivateParams parameters`
+
+  - `required string externalStorageID` (path parameter)
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    This endpoint is in beta: requests must send `efs-2026-10-01` in this header.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+#### Returns
+
+- `class BetaExternalStorage`
+
+  A storage bucket in the organization's own cloud account. Anthropic writes
+  inference data to it from each Workspace it is attached to.
+
+  - `JsonElement Type = "external_storage"`
+
+  - `required string ID`
+
+    The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+  - `required DateTimeOffset CreatedAt`
+
+    format: date-time
+
+  - `required string? DisplayName`
+
+    Human-friendly display name. Null if none was set.
+
+  - `required BetaExternalStorageProviderConfig ProviderConfig`
+
+    - `class BetaAwsExternalStorageConfig`
+
+      An Amazon S3 bucket.
+
+      - `JsonElement Type = "aws"`
+
+      - `required string AccountID`
+
+        12-digit ID of the AWS account that owns the bucket.
+
+      - `required string BucketName`
+
+        The bucket's name, without `s3://`.
+
+      - `required string Region`
+
+        The bucket's AWS region.
+
+    - `class BetaGcpExternalStorageConfig`
+
+      A Google Cloud Storage bucket.
+
+      - `JsonElement Type = "gcp"`
+
+      - `required string BucketName`
+
+        The bucket's name, without `gs://`.
+
+      - `required string ProjectNumber`
+
+        Number of the Google Cloud project that holds the bucket.
+
+      - `required string Region`
+
+        The bucket's Google Cloud region.
+
+  - `required string? SetupTemplateVersion`
+
+    The version of Anthropic's setup template whose IAM role names this storage was found to use at activation. Null if no version was recorded, as for storage not yet activated or not on S3.
+
+  - `required Status Status`
+
+    - `class BetaPendingConfigurationExternalStorageStatus`
+
+      The storage isn't verified yet.
+
+      - `JsonElement Type = "pending_configuration"`
+
+    - `class BetaAvailableExternalStorageStatus`
+
+      The storage is verified, no Workspace has it attached, and Anthropic doesn't use
+      the bucket.
+
+      - `JsonElement Type = "available"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaActiveExternalStorageStatus`
+
+      At least one Workspace has the storage attached.
+
+      - `JsonElement Type = "active"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+    - `class BetaDrainingExternalStorageStatus`
+
+      No Workspace has the storage attached. A Workspace can attach it again, unless
+      `removal_started` is true.
+
+      - `JsonElement Type = "draining"`
+
+      - `required bool Healthy`
+
+        Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring.
+
+      - `required DateTimeOffset LastCheckedAt`
+
+        When the bucket's latest recorded check ran, in RFC 3339.
+
+        format: date-time
+
+      - `required bool RemovalStarted`
+
+        True once a delete has started removing this storage, which can't be undone. It then can't be attached, and another delete finishes the removal.
+
+  - `required DateTimeOffset UpdatedAt`
+
+    format: date-time
+
+  - `required string? UserProfileID`
+
+    The user profile the storage is bound to, or null.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
+
+- `AnthropicBetaGrantRequiredException` (HTTP status 400, error code `grant_required`)
+
+  Anthropic has not approved External Storage for the organization, for the Workspace or, for storage bound to a user profile, for that user profile. Contact your Anthropic account team.
+
+- `AnthropicBetaInvalidStorageArnException` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+- `AnthropicBetaOrganizationNotEligibleException` (HTTP status 400, error code `organization_not_eligible`)
+
+  The feature isn't offered to this organization. The error's `message` names the kind of organization or, when it names none, says to contact your Anthropic account team.
+
+- `AnthropicBetaProviderNotAllowedException` (HTTP status 400, error code `provider_not_allowed`)
+
+  The request can't use External Storage on this cloud provider. The error's message says why.
+
+- `AnthropicBetaStorageVerificationFailedException` (HTTP status 400, error code `storage_verification_failed`)
+
+  The External Storage failed verification, so the request changed nothing. `failed_checks` lists what to fix.
+
+- `AnthropicUserProfileNotFoundException` (HTTP status 400, error code `user_profile_not_found`)
+
+  The request depends on a user profile that does not exist in the organization or is no longer active. The request either names this user profile by ID, or names a resource, such as an External Key, that is bound to it.
+
+- `AnthropicSandboxEgressRestrictedException` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+- `AnthropicBetaAuthorizationCheckUnavailableException` (HTTP status 503, error code `authorization_check_unavailable`)
+
+  One of the organization's approvals from Anthropic could not be read right now, so nothing was done. Retry after the `Retry-After` delay.
+
+#### Example
+
+```csharp
+using System;
+using Anthropic.Models.Beta.Organization.ExternalStorage;
+
+ExternalStorageActivateParams parameters = new()
+{
+    ExternalStorageID = "external_storage_id"
+};
+
+var betaExternalStorage = await client.Beta.Organization.ExternalStorage.Activate(parameters);
+
+Console.WriteLine(betaExternalStorage);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "display_name",
+  "provider_config": {
+    "account_id": "111122223333",
+    "bucket_name": "acme-safety-retention",
+    "region": "us-east-2",
+    "type": "aws"
+  },
+  "setup_template_version": "2",
+  "status": {
+    "type": "pending_configuration"
+  },
+  "type": "external_storage",
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
 }
 ```
 
@@ -98404,6 +100875,8 @@ Every request must include the beta header `anthropic-beta: admin-user-sign-out-
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -98600,206 +101073,9 @@ List Workspaces
 
     minimum: 1, maximum: 1000
 
-#### Returns
-
-- `class BetaWorkspace`
-
-  - `JsonElement Type = "workspace"`
-
-    Object type.
-
-    For Workspaces, this is always `"workspace"`.
-
-  - `required string ID`
-
-    ID of the Workspace.
-
-  - `required DateTimeOffset? ArchivedAt`
-
-    RFC 3339 datetime string indicating when the Workspace was archived, or `null` if the Workspace is not archived.
-
-    format: date-time
-
-  - `required string CompartmentID`
-
-    Identifier for this Workspace's encryption compartment. When you configure an
-    AWS KMS customer-managed encryption key (CMEK) that isn't bound to a user
-    profile, reference this value in your KMS key-policy condition so the key is
-    scoped to this compartment. On GCP and Azure, Anthropic enforces the compartment
-    binding automatically; you do not need to reference this value in your key
-    configuration. See the CMEK integration guide for the required key
-    configuration; unless your organization is on Claude Platform on AWS, it
-    includes a separate value used during key validation. On Claude Platform on AWS
-    there is no separate validation value: your organization's own key is validated
-    against this Workspace's own value when it is attached, so if its key policy
-    uses the compartment condition, add this value to it before attaching the key.
-
-  - `required DateTimeOffset CreatedAt`
-
-    RFC 3339 datetime string indicating when the Workspace was created.
-
-    format: date-time
-
-  - `required BetaDataResidency DataResidency`
-
-    Data residency configuration.
-
-    - `required AllowedInferenceGeos AllowedInferenceGeos`
-
-      Permitted inference geo values. 'unrestricted' means all geos are allowed.
-
-      - `IReadOnlyList<BetaAllowedInferenceGeo>`
-
-        - `Global("global")`
-
-        - `Us("us")`
-
-      - `class Unrestricted:`
-
-    - `required DefaultInferenceGeo DefaultInferenceGeo`
-
-      Default inference geo applied when requests omit the parameter.
-
-      - `Global("global")`
-
-      - `Us("us")`
-
-    - `required WorkspaceGeo WorkspaceGeo`
-
-      Geographic region for workspace data storage. Immutable after creation.
-
-  - `required string DisplayColor`
-
-    Hex color code representing the Workspace in the Anthropic Console.
-
-  - `required string? ExternalKeyID`
-
-    ID of the customer-managed encryption key (CMEK) configuration to use for this
-    Workspace. Setting this field requires CMEK to be enabled for your
-    organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. On
-    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
-    organization's own key must be a single-Region key in the same Region as the
-    Workspace. If that key is outside the Workspace's AWS account, it can be attached
-    only by updating an active Workspace. On that platform the key is validated
-    against this Workspace when it is attached, so a key-policy problem is reported
-    as an error on this request. This field is write-once: once a key is attached to
-    a Workspace it cannot be detached or replaced. To rotate key material, rotate
-    the underlying key on your cloud KMS; the `external_key_id` stays the same.
-
-  - `required string Name`
-
-    Name of the Workspace.
-
-  - `required IReadOnlyDictionary<string, string> Tags`
-
-    User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
-
-  - `required string? UserProfileID`
-
-    ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
-
-#### Example
-
-```csharp
-using System;
-using Anthropic.Models.Beta.Organization.Workspaces;
-
-WorkspaceListParams parameters = new();
-
-var page = await client.Beta.Organization.Workspaces.List(parameters);
-await foreach (var item in page.Paginate())
-{
-    Console.WriteLine(item);
-}
-```
-
-##### Response (200)
-
-```json
-{
-  "data": [
-    {
-      "id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
-      "archived_at": "2024-11-01T23:59:27.427722Z",
-      "compartment_id": "f8a7b6c5-4d3e-4f1a-8b9c-0d1e2f3a4b5c",
-      "created_at": "2024-10-30T23:58:27.427722Z",
-      "data_residency": {
-        "allowed_inference_geos": "unrestricted",
-        "default_inference_geo": "global",
-        "workspace_geo": "us"
-      },
-      "display_color": "#6C5BB9",
-      "external_key_id": "ekey_01SDCCSbTxrXDpWc1phhtcfK",
-      "name": "Workspace Name",
-      "tags": {
-        "env": "prod",
-        "team": "platform"
-      },
-      "type": "workspace",
-      "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
-    }
-  ],
-  "first_id": "first_id",
-  "has_more": true,
-  "last_id": "last_id"
-}
-```
-
-### Create Workspace
-
-`BetaWorkspace Beta.Organization.Workspaces.Create(parameters, cancellationToken = default)`
-
-**POST** `/v1/organizations/workspaces`
-
-Create Workspace
-
-#### Parameters
-
-- `WorkspaceCreateParams parameters`
-
-  - `required string name`
-
-    Name of the Workspace.
-
-    minLength: 1, maxLength: 255
-
-  - `BetaDataResidencyCreateConfig? dataResidency`
-
-    Data residency configuration for the workspace. If omitted, defaults to `workspace_geo: "us"`, `allowed_inference_geos: "unrestricted"`, and `default_inference_geo: "global"`.
-
-  - `string? displayColor`
-
-    Hex color code representing the Workspace in the Anthropic Console.
-
-    maxLength: 7, pattern: ^#[0-9A-Fa-f]{6}$
-
-  - `string? externalKeyID`
-
-    ID of the customer-managed encryption key (CMEK) configuration to use for this
-    Workspace. Setting this field requires CMEK to be enabled for your
-    organization. When set, data stored for this Workspace is encrypted with the
-    referenced key. Create key configurations with the External Keys API. On
-    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
-    organization's own key must be a single-Region key in the same Region as the
-    Workspace. If that key is outside the Workspace's AWS account, it can be attached
-    only by updating an active Workspace. On that platform the key is validated
-    against this Workspace when it is attached, so a key-policy problem is reported
-    as an error on this request. This field is write-once: once a key is attached to
-    a Workspace it cannot be detached or replaced. To rotate key material, rotate
-    the underlying key on your cloud KMS; the `external_key_id` stays the same.
-
-  - `IReadOnlyDictionary<string, string>? tags`
-
-    User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
-
-  - `string? userProfileID`
-
-    ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. The user profile can't be replaced or removed later; only deleting the user profile clears it.
-
   - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
 
-    Optional header to specify the beta version(s) you want to use.
+    Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields.
 
     - `ComputerUse2024_10_22("computer-use-2024-10-22")`
 
@@ -98894,6 +101170,8 @@ Create Workspace
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -99036,37 +101314,43 @@ Create Workspace
 
     ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
 
-#### Errors
+  - `BetaInferenceDataPrivacy InferenceDataPrivacy`
 
-Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
+    Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Returned only to requests that send the `efs-2026-10-01` `anthropic-beta` value, and each member only to organizations enabled for it.
 
-- `AnthropicExternalKeyValidationFailedException` (HTTP status 400, error code `external_key_validation_failed`)
+    - `BetaAnthropicHumanReview HumanReview`
 
-  The External Key failed Anthropic's validation, so the request was refused. The message gives the reason, if there is one.
+      The Workspace's human review setting. Human review is off only while this is `disabled` and Anthropic's approval stands.
 
-- `AnthropicExternalKeyValidationTimedOutException` (HTTP status 400, error code `external_key_validation_timed_out`)
+      - `required Type Type`
 
-  Anthropic's validation of the External Key did not finish in time, so the request was refused. Wait a moment, then send the request again.
+        - `Disabled("disabled")`
 
-- `AnthropicKeyProfileMismatchException` (HTTP status 400, error code `key_profile_mismatch`)
+        - `Enabled("enabled")`
 
-  After this request, the External Key and the Workspace would not have the same user profile. A key and its Workspace must have the same user profile, or both have none.
+    - `BetaStorageMember SafeguardsStorage`
 
-- `AnthropicUserProfileNotFoundException` (HTTP status 400, error code `user_profile_not_found`)
+      Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. A recent change may not have taken effect yet.
 
-  The request depends on a user profile that does not exist in the organization or is no longer active. The request either names this user profile by ID, or names a resource, such as an External Key, that is bound to it.
+      - `class BetaInternalStorage`
 
-- `AnthropicWorkspacePolicyViolationException` (HTTP status 400, error code `workspace_policy_violation`)
+        No External Storage for this purpose.
 
-  The request breaks the organization's Workspace Policy. The message says which rule it broke; an organization admin can see and change the policy in the Console.
+        - `JsonElement Type = "internal"`
 
-- `AnthropicSandboxEgressRestrictedException` (HTTP status 403, error code `sandbox_egress_restricted`)
+      - `class BetaExternalStorageMember`
 
-  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+        The organization's External Storage that `external_storage_id` names.
 
-- `AnthropicExternalKeyChangedException` (HTTP status 409, error code `external_key_changed`)
+        - `JsonElement Type = "external"`
 
-  The external key changed while the request was validating it. Send the request again.
+        - `required string ExternalStorageID`
+
+          The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+    - `BetaStorageMember TranscriptsStorage`
+
+      Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. A recent change may not have taken effect yet.
 
 #### Example
 
@@ -99074,53 +101358,254 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 using System;
 using Anthropic.Models.Beta.Organization.Workspaces;
 
-WorkspaceCreateParams parameters = new() { Name = "Workspace Name" };
+WorkspaceListParams parameters = new();
 
-var betaWorkspace = await client.Beta.Organization.Workspaces.Create(parameters);
-
-Console.WriteLine(betaWorkspace);
+var page = await client.Beta.Organization.Workspaces.List(parameters);
+await foreach (var item in page.Paginate())
+{
+    Console.WriteLine(item);
+}
 ```
 
 ##### Response (200)
 
 ```json
 {
-  "id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
-  "archived_at": "2024-11-01T23:59:27.427722Z",
-  "compartment_id": "f8a7b6c5-4d3e-4f1a-8b9c-0d1e2f3a4b5c",
-  "created_at": "2024-10-30T23:58:27.427722Z",
-  "data_residency": {
-    "allowed_inference_geos": "unrestricted",
-    "default_inference_geo": "global",
-    "workspace_geo": "us"
-  },
-  "display_color": "#6C5BB9",
-  "external_key_id": "ekey_01SDCCSbTxrXDpWc1phhtcfK",
-  "name": "Workspace Name",
-  "tags": {
-    "env": "prod",
-    "team": "platform"
-  },
-  "type": "workspace",
-  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+  "data": [
+    {
+      "id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
+      "archived_at": "2024-11-01T23:59:27.427722Z",
+      "compartment_id": "f8a7b6c5-4d3e-4f1a-8b9c-0d1e2f3a4b5c",
+      "created_at": "2024-10-30T23:58:27.427722Z",
+      "data_residency": {
+        "allowed_inference_geos": "unrestricted",
+        "default_inference_geo": "global",
+        "workspace_geo": "us"
+      },
+      "display_color": "#6C5BB9",
+      "external_key_id": "ekey_01SDCCSbTxrXDpWc1phhtcfK",
+      "name": "Workspace Name",
+      "tags": {
+        "env": "prod",
+        "team": "platform"
+      },
+      "type": "workspace",
+      "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+      "inference_data_privacy": {
+        "human_review": {
+          "type": "disabled"
+        },
+        "safeguards_storage": {
+          "type": "internal"
+        },
+        "transcripts_storage": {
+          "type": "internal"
+        }
+      }
+    }
+  ],
+  "first_id": "first_id",
+  "has_more": true,
+  "last_id": "last_id"
 }
 ```
 
-### Get Workspace
+### Create Workspace
 
-`BetaWorkspace Beta.Organization.Workspaces.Retrieve(parameters, cancellationToken = default)`
+`BetaWorkspace Beta.Organization.Workspaces.Create(parameters, cancellationToken = default)`
 
-**GET** `/v1/organizations/workspaces/{workspace_id}`
+**POST** `/v1/organizations/workspaces`
 
-Get Workspace
+Create Workspace
 
 #### Parameters
 
-- `WorkspaceRetrieveParams parameters`
+- `WorkspaceCreateParams parameters`
 
-  - `required string workspaceID` (path parameter)
+  - `required string name`
 
-    ID of the Workspace.
+    Name of the Workspace.
+
+    minLength: 1, maxLength: 255
+
+  - `BetaDataResidencyCreateConfig? dataResidency`
+
+    Data residency configuration for the workspace. If omitted, defaults to `workspace_geo: "us"`, `allowed_inference_geos: "unrestricted"`, and `default_inference_geo: "global"`.
+
+  - `string? displayColor`
+
+    Hex color code representing the Workspace in the Anthropic Console.
+
+    maxLength: 7, pattern: ^#[0-9A-Fa-f]{6}$
+
+  - `string? externalKeyID`
+
+    ID of the customer-managed encryption key (CMEK) configuration to use for this
+    Workspace. Setting this field requires CMEK to be enabled for your
+    organization. When set, data stored for this Workspace is encrypted with the
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+    organization's own key must be a single-Region key in the same Region as the
+    Workspace. If that key is outside the Workspace's AWS account, it can be attached
+    only by updating an active Workspace. On that platform the key is validated
+    against this Workspace when it is attached, so a key-policy problem is reported
+    as an error on this request. This field is write-once: once a key is attached to
+    a Workspace it cannot be detached or replaced. To rotate key material, rotate
+    the underlying key on your cloud KMS; the `external_key_id` stays the same.
+
+  - `BetaInferenceDataPrivacyCreateParam? inferenceDataPrivacy`
+
+    Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Requires the `efs-2026-10-01` `anthropic-beta` value. When omitted, `safeguards_storage` and `transcripts_storage` are `internal` and `human_review` is `enabled`. Cannot be null. An Admin API key can't set this field, because it doesn't belong to a user or a service account. Use an API key that belongs to one, or an OAuth token.
+
+  - `IReadOnlyDictionary<string, string>? tags`
+
+    User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
+
+  - `string? userProfileID`
+
+    ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. The user profile can't be replaced or removed later; only deleting the user profile clears it.
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    Optional header to specify the beta version(s) you want to use.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 #### Returns
 
@@ -99221,6 +101706,472 @@ Get Workspace
 
     ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
 
+  - `BetaInferenceDataPrivacy InferenceDataPrivacy`
+
+    Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Returned only to requests that send the `efs-2026-10-01` `anthropic-beta` value, and each member only to organizations enabled for it.
+
+    - `BetaAnthropicHumanReview HumanReview`
+
+      The Workspace's human review setting. Human review is off only while this is `disabled` and Anthropic's approval stands.
+
+      - `required Type Type`
+
+        - `Disabled("disabled")`
+
+        - `Enabled("enabled")`
+
+    - `BetaStorageMember SafeguardsStorage`
+
+      Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. A recent change may not have taken effect yet.
+
+      - `class BetaInternalStorage`
+
+        No External Storage for this purpose.
+
+        - `JsonElement Type = "internal"`
+
+      - `class BetaExternalStorageMember`
+
+        The organization's External Storage that `external_storage_id` names.
+
+        - `JsonElement Type = "external"`
+
+        - `required string ExternalStorageID`
+
+          The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+    - `BetaStorageMember TranscriptsStorage`
+
+      Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. A recent change may not have taken effect yet.
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
+
+- `AnthropicBetaApprovalRequiredException` (HTTP status 400, error code `approval_required`)
+
+  Turning human review off needs Anthropic's approval for the organization, and the organization doesn't have it. Contact Anthropic support to request approval.
+
+- `AnthropicExternalKeyValidationFailedException` (HTTP status 400, error code `external_key_validation_failed`)
+
+  The External Key failed Anthropic's validation, so the request was refused. The message gives the reason, if there is one.
+
+- `AnthropicExternalKeyValidationTimedOutException` (HTTP status 400, error code `external_key_validation_timed_out`)
+
+  Anthropic's validation of the External Key did not finish in time, so the request was refused. Wait a moment, then send the request again.
+
+- `AnthropicBetaExternalStorageNotAvailableException` (HTTP status 400, error code `external_storage_not_available`)
+
+  External Storage isn't available for this Workspace, so only `internal` storage is accepted. The error's `message` says why.
+
+- `AnthropicBetaGrantRequiredException` (HTTP status 400, error code `grant_required`)
+
+  Anthropic has not approved External Storage for the organization, for the Workspace or, for storage bound to a user profile, for that user profile. Contact your Anthropic account team.
+
+- `AnthropicBetaHumanReviewNotAvailableException` (HTTP status 400, error code `human_review_not_available`)
+
+  Human review can't be set as requested on this Workspace, so the request changed nothing. The error's `message` says what to do instead.
+
+- `AnthropicBetaHumanReviewOnWithExternalStorageException` (HTTP status 400, error code `human_review_on_with_external_storage`)
+
+  The request would leave the Workspace with `inference_data_privacy.safeguards_storage` set to External Storage and `inference_data_privacy.human_review` enabled. Anthropic doesn't offer human review of data in a customer's own storage. Set `human_review` to `disabled`, or `safeguards_storage` to `internal`.
+
+- `AnthropicBetaInvalidStorageArnException` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+- `AnthropicKeyProfileMismatchException` (HTTP status 400, error code `key_profile_mismatch`)
+
+  After this request, the External Key and the Workspace would not have the same user profile. A key and its Workspace must have the same user profile, or both have none.
+
+- `AnthropicBetaOrganizationNotEligibleException` (HTTP status 400, error code `organization_not_eligible`)
+
+  The feature isn't offered to this organization. The error's `message` names the kind of organization or, when it names none, says to contact your Anthropic account team.
+
+- `AnthropicBetaStorageNotAttachableException` (HTTP status 400, error code `storage_not_attachable`)
+
+  This External Storage can't be attached to the setting named in `field`. The error's `message` says why.
+
+- `AnthropicStorageProfileMismatchException` (HTTP status 400, error code `storage_profile_mismatch`)
+
+  The Workspace's storage and its user profile don't match: the Workspace and its storage must have the same user profile, or both have none.
+
+- `AnthropicBetaStorageVerificationFailedException` (HTTP status 400, error code `storage_verification_failed`)
+
+  The External Storage failed verification, so the request changed nothing. `failed_checks` lists what to fix.
+
+- `AnthropicBetaTranscriptsStorageRequiredException` (HTTP status 400, error code `transcripts_storage_required`)
+
+  In an organization managed through AWS or Google Cloud, the request would leave the Workspace with `inference_data_privacy.human_review` disabled and `inference_data_privacy.transcripts_storage` not set to External Storage. With human review disabled, the organization reviews its own flagged requests, and it receives them only in that storage.
+
+- `AnthropicUserProfileNotFoundException` (HTTP status 400, error code `user_profile_not_found`)
+
+  The request depends on a user profile that does not exist in the organization or is no longer active. The request either names this user profile by ID, or names a resource, such as an External Key, that is bound to it.
+
+- `AnthropicWorkspacePolicyViolationException` (HTTP status 400, error code `workspace_policy_violation`)
+
+  The request breaks the organization's Workspace Policy. The message says which rule it broke; an organization admin can see and change the policy in the Console.
+
+- `AnthropicSandboxEgressRestrictedException` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+- `AnthropicExternalKeyChangedException` (HTTP status 409, error code `external_key_changed`)
+
+  The external key changed while the request was validating it. Send the request again.
+
+- `AnthropicBetaAuthorizationCheckUnavailableException` (HTTP status 503, error code `authorization_check_unavailable`)
+
+  One of the organization's approvals from Anthropic could not be read right now, so nothing was done. Retry after the `Retry-After` delay.
+
+- `AnthropicWorkspaceCreatedIncompleteException` (HTTP status 503, error code `workspace_created_incomplete`)
+
+  The Workspace was created, but some of what the request asked for did not take effect, or may not have. Don't send the create again. The error's `message` says what to do with the Workspace at `workspace_id`.
+
+#### Example
+
+```csharp
+using System;
+using Anthropic.Models.Beta.Organization.Workspaces;
+
+WorkspaceCreateParams parameters = new() { Name = "Workspace Name" };
+
+var betaWorkspace = await client.Beta.Organization.Workspaces.Create(parameters);
+
+Console.WriteLine(betaWorkspace);
+```
+
+##### Response (200)
+
+```json
+{
+  "id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ",
+  "archived_at": "2024-11-01T23:59:27.427722Z",
+  "compartment_id": "f8a7b6c5-4d3e-4f1a-8b9c-0d1e2f3a4b5c",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "data_residency": {
+    "allowed_inference_geos": "unrestricted",
+    "default_inference_geo": "global",
+    "workspace_geo": "us"
+  },
+  "display_color": "#6C5BB9",
+  "external_key_id": "ekey_01SDCCSbTxrXDpWc1phhtcfK",
+  "name": "Workspace Name",
+  "tags": {
+    "env": "prod",
+    "team": "platform"
+  },
+  "type": "workspace",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+  "inference_data_privacy": {
+    "human_review": {
+      "type": "disabled"
+    },
+    "safeguards_storage": {
+      "type": "internal"
+    },
+    "transcripts_storage": {
+      "type": "internal"
+    }
+  }
+}
+```
+
+### Get Workspace
+
+`BetaWorkspace Beta.Organization.Workspaces.Retrieve(parameters, cancellationToken = default)`
+
+**GET** `/v1/organizations/workspaces/{workspace_id}`
+
+Get Workspace
+
+#### Parameters
+
+- `WorkspaceRetrieveParams parameters`
+
+  - `required string workspaceID` (path parameter)
+
+    ID of the Workspace.
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+#### Returns
+
+- `class BetaWorkspace`
+
+  - `JsonElement Type = "workspace"`
+
+    Object type.
+
+    For Workspaces, this is always `"workspace"`.
+
+  - `required string ID`
+
+    ID of the Workspace.
+
+  - `required DateTimeOffset? ArchivedAt`
+
+    RFC 3339 datetime string indicating when the Workspace was archived, or `null` if the Workspace is not archived.
+
+    format: date-time
+
+  - `required string CompartmentID`
+
+    Identifier for this Workspace's encryption compartment. When you configure an
+    AWS KMS customer-managed encryption key (CMEK) that isn't bound to a user
+    profile, reference this value in your KMS key-policy condition so the key is
+    scoped to this compartment. On GCP and Azure, Anthropic enforces the compartment
+    binding automatically; you do not need to reference this value in your key
+    configuration. See the CMEK integration guide for the required key
+    configuration; unless your organization is on Claude Platform on AWS, it
+    includes a separate value used during key validation. On Claude Platform on AWS
+    there is no separate validation value: your organization's own key is validated
+    against this Workspace's own value when it is attached, so if its key policy
+    uses the compartment condition, add this value to it before attaching the key.
+
+  - `required DateTimeOffset CreatedAt`
+
+    RFC 3339 datetime string indicating when the Workspace was created.
+
+    format: date-time
+
+  - `required BetaDataResidency DataResidency`
+
+    Data residency configuration.
+
+    - `required AllowedInferenceGeos AllowedInferenceGeos`
+
+      Permitted inference geo values. 'unrestricted' means all geos are allowed.
+
+      - `IReadOnlyList<BetaAllowedInferenceGeo>`
+
+        - `Global("global")`
+
+        - `Us("us")`
+
+      - `class Unrestricted:`
+
+    - `required DefaultInferenceGeo DefaultInferenceGeo`
+
+      Default inference geo applied when requests omit the parameter.
+
+      - `Global("global")`
+
+      - `Us("us")`
+
+    - `required WorkspaceGeo WorkspaceGeo`
+
+      Geographic region for workspace data storage. Immutable after creation.
+
+  - `required string DisplayColor`
+
+    Hex color code representing the Workspace in the Anthropic Console.
+
+  - `required string? ExternalKeyID`
+
+    ID of the customer-managed encryption key (CMEK) configuration to use for this
+    Workspace. Setting this field requires CMEK to be enabled for your
+    organization. When set, data stored for this Workspace is encrypted with the
+    referenced key. Create key configurations with the External Keys API. On
+    Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your
+    organization's own key must be a single-Region key in the same Region as the
+    Workspace. If that key is outside the Workspace's AWS account, it can be attached
+    only by updating an active Workspace. On that platform the key is validated
+    against this Workspace when it is attached, so a key-policy problem is reported
+    as an error on this request. This field is write-once: once a key is attached to
+    a Workspace it cannot be detached or replaced. To rotate key material, rotate
+    the underlying key on your cloud KMS; the `external_key_id` stays the same.
+
+  - `required string Name`
+
+    Name of the Workspace.
+
+  - `required IReadOnlyDictionary<string, string> Tags`
+
+    User-defined tags as string key-value pairs. Keys may not begin with `anthropic`.
+
+  - `required string? UserProfileID`
+
+    ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
+
+  - `BetaInferenceDataPrivacy InferenceDataPrivacy`
+
+    Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Returned only to requests that send the `efs-2026-10-01` `anthropic-beta` value, and each member only to organizations enabled for it.
+
+    - `BetaAnthropicHumanReview HumanReview`
+
+      The Workspace's human review setting. Human review is off only while this is `disabled` and Anthropic's approval stands.
+
+      - `required Type Type`
+
+        - `Disabled("disabled")`
+
+        - `Enabled("enabled")`
+
+    - `BetaStorageMember SafeguardsStorage`
+
+      Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. A recent change may not have taken effect yet.
+
+      - `class BetaInternalStorage`
+
+        No External Storage for this purpose.
+
+        - `JsonElement Type = "internal"`
+
+      - `class BetaExternalStorageMember`
+
+        The organization's External Storage that `external_storage_id` names.
+
+        - `JsonElement Type = "external"`
+
+        - `required string ExternalStorageID`
+
+          The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+    - `BetaStorageMember TranscriptsStorage`
+
+      Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. A recent change may not have taken effect yet.
+
 #### Example
 
 ```csharp
@@ -99255,7 +102206,18 @@ Console.WriteLine(betaWorkspace);
     "team": "platform"
   },
   "type": "workspace",
-  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+  "inference_data_privacy": {
+    "human_review": {
+      "type": "disabled"
+    },
+    "safeguards_storage": {
+      "type": "internal"
+    },
+    "transcripts_storage": {
+      "type": "internal"
+    }
+  }
 }
 ```
 
@@ -99298,6 +102260,10 @@ Update Workspace
     a Workspace it cannot be detached or replaced. To rotate key material, rotate
     the underlying key on your cloud KMS; the `external_key_id` stays the same.
 
+  - `BetaInferenceDataPrivacyUpdateParam? inferenceDataPrivacy`
+
+    Changes to where the Workspace's retained inference data and transcript copies go, and to whether Anthropic's human review applies. Requires the `efs-2026-10-01` `anthropic-beta` value. An omitted member is unchanged. Cannot be null. An Admin API key can't set this field, because it doesn't belong to a user or a service account. Use an API key that belongs to one, or an OAuth token.
+
   - `string name`
 
     Name of the Workspace.
@@ -99311,6 +102277,148 @@ Update Workspace
   - `string userProfileID`
 
     ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. Once set, it can't be replaced or removed (sending the same ID again changes nothing); only deleting the user profile clears it. It can't be set on a Workspace whose External Key isn't bound to this user profile. The default Workspace can't have a user profile.
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 #### Returns
 
@@ -99411,9 +102519,51 @@ Update Workspace
 
     ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
 
+  - `BetaInferenceDataPrivacy InferenceDataPrivacy`
+
+    Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Returned only to requests that send the `efs-2026-10-01` `anthropic-beta` value, and each member only to organizations enabled for it.
+
+    - `BetaAnthropicHumanReview HumanReview`
+
+      The Workspace's human review setting. Human review is off only while this is `disabled` and Anthropic's approval stands.
+
+      - `required Type Type`
+
+        - `Disabled("disabled")`
+
+        - `Enabled("enabled")`
+
+    - `BetaStorageMember SafeguardsStorage`
+
+      Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. A recent change may not have taken effect yet.
+
+      - `class BetaInternalStorage`
+
+        No External Storage for this purpose.
+
+        - `JsonElement Type = "internal"`
+
+      - `class BetaExternalStorageMember`
+
+        The organization's External Storage that `external_storage_id` names.
+
+        - `JsonElement Type = "external"`
+
+        - `required string ExternalStorageID`
+
+          The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+    - `BetaStorageMember TranscriptsStorage`
+
+      Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. A recent change may not have taken effect yet.
+
 #### Errors
 
 Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
+
+- `AnthropicBetaApprovalRequiredException` (HTTP status 400, error code `approval_required`)
+
+  Turning human review off needs Anthropic's approval for the organization, and the organization doesn't have it. Contact Anthropic support to request approval.
 
 - `AnthropicExternalKeyValidationFailedException` (HTTP status 400, error code `external_key_validation_failed`)
 
@@ -99423,9 +102573,57 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 
   Anthropic's validation of the External Key did not finish in time, so the request was refused. Wait a moment, then send the request again.
 
+- `AnthropicBetaExternalStorageNotAvailableException` (HTTP status 400, error code `external_storage_not_available`)
+
+  External Storage isn't available for this Workspace, so only `internal` storage is accepted. The error's `message` says why.
+
+- `AnthropicBetaGrantRequiredException` (HTTP status 400, error code `grant_required`)
+
+  Anthropic has not approved External Storage for the organization, for the Workspace or, for storage bound to a user profile, for that user profile. Contact your Anthropic account team.
+
+- `AnthropicBetaHumanReviewNotAvailableException` (HTTP status 400, error code `human_review_not_available`)
+
+  Human review can't be set as requested on this Workspace, so the request changed nothing. The error's `message` says what to do instead.
+
+- `AnthropicBetaHumanReviewOnWithExternalStorageException` (HTTP status 400, error code `human_review_on_with_external_storage`)
+
+  The request would leave the Workspace with `inference_data_privacy.safeguards_storage` set to External Storage and `inference_data_privacy.human_review` enabled. Anthropic doesn't offer human review of data in a customer's own storage. Set `human_review` to `disabled`, or `safeguards_storage` to `internal`.
+
+- `AnthropicBetaInvalidStorageArnException` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
 - `AnthropicKeyProfileMismatchException` (HTTP status 400, error code `key_profile_mismatch`)
 
   After this request, the External Key and the Workspace would not have the same user profile. A key and its Workspace must have the same user profile, or both have none.
+
+- `AnthropicBetaOrganizationNotEligibleException` (HTTP status 400, error code `organization_not_eligible`)
+
+  The feature isn't offered to this organization. The error's `message` names the kind of organization or, when it names none, says to contact your Anthropic account team.
+
+- `AnthropicBetaStorageAttachLimitReachedException` (HTTP status 400, error code `storage_attach_limit_reached`)
+
+  The Workspace has reached its limit of 100 different External Storage resources attached over its lifetime. Detached storage counts toward the limit until it is deleted.
+
+- `AnthropicBetaStorageNotAttachableException` (HTTP status 400, error code `storage_not_attachable`)
+
+  This External Storage can't be attached to the setting named in `field`. The error's `message` says why.
+
+- `AnthropicStorageProfileMismatchException` (HTTP status 400, error code `storage_profile_mismatch`)
+
+  The Workspace's storage and its user profile don't match: the Workspace and its storage must have the same user profile, or both have none.
+
+- `AnthropicBetaStorageProfileStillRequiredException` (HTTP status 400, error code `storage_profile_still_required`)
+
+  This storage is bound to a different user profile from storage the Workspace has attached, or from active or draining storage it once had for safeguards data. Detaching storage the Workspace uses only for transcripts clears this. Detaching safeguards storage doesn't, so use a new Workspace instead.
+
+- `AnthropicBetaStorageVerificationFailedException` (HTTP status 400, error code `storage_verification_failed`)
+
+  The External Storage failed verification, so the request changed nothing. `failed_checks` lists what to fix.
+
+- `AnthropicBetaTranscriptsStorageRequiredException` (HTTP status 400, error code `transcripts_storage_required`)
+
+  In an organization managed through AWS or Google Cloud, the request would leave the Workspace with `inference_data_privacy.human_review` disabled and `inference_data_privacy.transcripts_storage` not set to External Storage. With human review disabled, the organization reviews its own flagged requests, and it receives them only in that storage.
 
 - `AnthropicUserProfileNotFoundException` (HTTP status 400, error code `user_profile_not_found`)
 
@@ -99442,6 +102640,22 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 - `AnthropicExternalKeyChangedException` (HTTP status 409, error code `external_key_changed`)
 
   The external key changed while the request was validating it. Send the request again.
+
+- `AnthropicBetaStorageChangedConcurrentlyException` (HTTP status 409, error code `storage_changed_concurrently`)
+
+  Another request changed this storage setting while this one was running, so this request left it as it is. Read the Workspace and send the request again if you still want the change.
+
+- `AnthropicBetaWorkspaceChangedConcurrentlyException` (HTTP status 409, error code `workspace_changed_concurrently`)
+
+  Another request changed the Workspace, so this request left the setting named in `field` as it is. The error's `message` says which of this request's other changes are in place. Read the Workspace and send the request again if you still want the change.
+
+- `AnthropicBetaAuthorizationCheckUnavailableException` (HTTP status 503, error code `authorization_check_unavailable`)
+
+  One of the organization's approvals from Anthropic could not be read right now, so nothing was done. Retry after the `Retry-After` delay.
+
+- `AnthropicChangeOutcomeUnknownException` (HTTP status 503, error code `change_outcome_unknown`)
+
+  Some of the request's changes may have been saved and others not. Send the same request again to finish it; changes already saved aren't repeated.
 
 #### Example
 
@@ -99477,7 +102691,18 @@ Console.WriteLine(betaWorkspace);
     "team": "platform"
   },
   "type": "workspace",
-  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+  "inference_data_privacy": {
+    "human_review": {
+      "type": "disabled"
+    },
+    "safeguards_storage": {
+      "type": "internal"
+    },
+    "transcripts_storage": {
+      "type": "internal"
+    }
+  }
 }
 ```
 
@@ -99494,6 +102719,148 @@ Archive Workspace
 - `WorkspaceArchiveParams parameters`
 
   - `required string workspaceID` (path parameter)
+
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
 
 #### Returns
 
@@ -99594,6 +102961,44 @@ Archive Workspace
 
     ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile.
 
+  - `BetaInferenceDataPrivacy InferenceDataPrivacy`
+
+    Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Returned only to requests that send the `efs-2026-10-01` `anthropic-beta` value, and each member only to organizations enabled for it.
+
+    - `BetaAnthropicHumanReview HumanReview`
+
+      The Workspace's human review setting. Human review is off only while this is `disabled` and Anthropic's approval stands.
+
+      - `required Type Type`
+
+        - `Disabled("disabled")`
+
+        - `Enabled("enabled")`
+
+    - `BetaStorageMember SafeguardsStorage`
+
+      Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. A recent change may not have taken effect yet.
+
+      - `class BetaInternalStorage`
+
+        No External Storage for this purpose.
+
+        - `JsonElement Type = "internal"`
+
+      - `class BetaExternalStorageMember`
+
+        The organization's External Storage that `external_storage_id` names.
+
+        - `JsonElement Type = "external"`
+
+        - `required string ExternalStorageID`
+
+          The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region.
+
+    - `BetaStorageMember TranscriptsStorage`
+
+      Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. A recent change may not have taken effect yet.
+
 #### Errors
 
 Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=csharp).
@@ -99601,6 +103006,10 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 - `AnthropicSandboxEgressRestrictedException` (HTTP status 403, error code `sandbox_egress_restricted`)
 
   The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+- `AnthropicStorageAttachedDuringArchiveException` (HTTP status 409, error code `storage_attached_during_archive`)
+
+  The Workspace was archived, but External Storage was attached to it during the archive and is still attached. To detach it, archive the Workspace again as a caller with the `org:external-storage:use` permission.
 
 #### Example
 
@@ -99636,7 +103045,18 @@ Console.WriteLine(betaWorkspace);
     "team": "platform"
   },
   "type": "workspace",
-  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+  "inference_data_privacy": {
+    "human_review": {
+      "type": "disabled"
+    },
+    "safeguards_storage": {
+      "type": "internal"
+    },
+    "transcripts_storage": {
+      "type": "internal"
+    }
+  }
 }
 ```
 
@@ -100696,6 +104116,8 @@ omitted from the results.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -100940,6 +104362,8 @@ accounts cannot be added and are rejected.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -101036,7 +104460,7 @@ using Anthropic.Models.Beta.Organization.Workspaces.ServiceAccounts;
 ServiceAccountAddParams parameters = new()
 {
     WorkspaceID = "workspace_id",
-    ServiceAccountID = "service_account_id",
+    ServiceAccountID = "svac_01SDCCSbTxrXDpWc1phhtcfK",
     WorkspaceRole = BetaNoBillingWorkspaceRole.WorkspaceAdmin,
 };
 
@@ -101184,6 +104608,8 @@ account returns 404.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -101423,6 +104849,8 @@ rejected.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -101667,6 +105095,8 @@ membership. Archived workspaces return 400.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -101971,6 +105401,148 @@ organization reads the state inherited from the parent's configuration.
 
 - `ComplianceSettingRetrieveParams parameters`
 
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
 #### Returns
 
 - `class BetaComplianceSettings`
@@ -101988,6 +105560,16 @@ organization reads the state inherited from the parent's configuration.
     - `class BetaComplianceSettingsStateDisabled`
 
       - `JsonElement Type = "disabled"`
+
+  - `BetaAccessTransparency AccessTransparency`
+
+    Read-only. Whether Access Transparency is on for the organization. Returned only when the request sends the `anthropic-beta: efs-2026-10-01` header and Access Transparency is available to the organization; otherwise omitted. If the status can't be read, getting Compliance Settings returns an error; an update still saves, but then reports `disabled` whatever the real status, so get the settings again to check it.
+
+    - `required Type Type`
+
+      - `Disabled("disabled")`
+
+      - `Enabled("enabled")`
 
 #### Example
 
@@ -102009,7 +105591,10 @@ Console.WriteLine(betaComplianceSettings);
   "state": {
     "type": "enabled"
   },
-  "type": "compliance_settings"
+  "type": "compliance_settings",
+  "access_transparency": {
+    "type": "disabled"
+  }
 }
 ```
 
@@ -102045,6 +105630,148 @@ compliance settings.
 
     Desired state. Accepts the string shorthand "enabled" or "disabled" in place of the object form; the response always returns the canonical object form.
 
+  - `IReadOnlyList<AnthropicBeta> betas` (header parameter)
+
+    Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields.
+
+    - `ComputerUse2024_10_22("computer-use-2024-10-22")`
+
+    - `ComputerUse2025_01_24("computer-use-2025-01-24")`
+
+    - `Output128k2025_02_19("output-128k-2025-02-19")`
+
+    - `McpClient2025_04_04("mcp-client-2025-04-04")`
+
+    - `McpClient2025_11_20("mcp-client-2025-11-20")`
+
+    - `DevFullThinking2025_05_14("dev-full-thinking-2025-05-14")`
+
+    - `InterleavedThinking2025_05_14("interleaved-thinking-2025-05-14")`
+
+    - `CodeExecution2025_05_22("code-execution-2025-05-22")`
+
+    - `Context1m2025_08_07("context-1m-2025-08-07")`
+
+    - `ContextManagement2025_06_27("context-management-2025-06-27")`
+
+    - `ModelContextWindowExceeded2025_08_26("model-context-window-exceeded-2025-08-26")`
+
+    - `FastMode2026_02_01("fast-mode-2026-02-01")`
+
+    - `Output300k2026_03_24("output-300k-2026-03-24")`
+
+    - `UserProfiles2026_03_24("user-profiles-2026-03-24")`
+
+    - `UserProfiles2026_08_18("user-profiles-2026-08-18")`
+
+    - `UserProfiles2026_09_04("user-profiles-2026-09-04")`
+
+    - `AdvisorTool2026_03_01("advisor-tool-2026-03-01")`
+
+    - `ManagedAgents2026_04_01("managed-agents-2026-04-01")`
+
+    - `Dreaming2026_04_21("dreaming-2026-04-21")`
+
+    - `ThinkingTokenCount2026_05_13("thinking-token-count-2026-05-13")`
+
+    - `ServerSideFallback2026_06_01("server-side-fallback-2026-06-01")`
+
+    - `ServerSideFallback2026_07_01("server-side-fallback-2026-07-01")`
+
+    - `FallbackCredit2026_06_01("fallback-credit-2026-06-01")`
+
+    - `FallbackCredit2026_07_01("fallback-credit-2026-07-01")`
+
+    - `AgentMemory2026_07_22("agent-memory-2026-07-22")`
+
+    - `MidConversationToolChanges2026_07_01("mid-conversation-tool-changes-2026-07-01")`
+
+    - `Compact2026_01_12("compact-2026-01-12")`
+
+    - `ComputerUse2025_11_24("computer-use-2025-11-24")`
+
+    - `McpTunnels2026_06_22("mcp-tunnels-2026-06-22")`
+
+    - `StructuredOutputs2025_11_13("structured-outputs-2025-11-13")`
+
+    - `TaskBudgets2026_03_13("task-budgets-2026-03-13")`
+
+    - `ThinkingDisplayUpdates2026_08_18("thinking-display-updates-2026-08-18")`
+
+    - `MidConversationOutputConfig2026_07_01("mid-conversation-output-config-2026-07-01")`
+
+    - `ThinkingBindingControls2026_08_01("thinking-binding-controls-2026-08-01")`
+
+    - `MidConversationSystemClearAt2026_08_21("mid-conversation-system-clear-at-2026-08-21")`
+
+    - `Compact2026_09_04("compact-2026-09-04")`
+
+    - `InlineTools2026_09_15("inline-tools-2026-09-15")`
+
+    - `McpClient2026_09_15("mcp-client-2026-09-15")`
+
+    - `CEPlugins2026_09_01("ce-plugins-2026-09-01")`
+
+    - `SpendLimitReads2026_09_26("spend-limit-reads-2026-09-26")`
+
+    - `TelemetryDestinations2026_08_11("telemetry-destinations-2026-08-11")`
+
+    - `Webhooks2026_10_07("webhooks-2026-10-07")`
+
+    - `AdminUserSignOut2026_10_08("admin-user-sign-out-2026-10-08")`
+
+    - `MessageThreads2026_08_12("message-threads-2026-08-12")`
+
+    - `AnalyticsUsageCost2026_08_24("analytics-usage-cost-2026-08-24")`
+
+    - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
+
+    - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
+
+    - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
+
+    - `MessageBatches2024_09_24("message-batches-2024-09-24")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `PromptCaching2024_07_31("prompt-caching-2024-07-31")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Pdfs2024_09_25("pdfs-2024-09-25")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenCounting2024_11_01("token-counting-2024-11-01")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `TokenEfficientTools2025_02_19("token-efficient-tools-2025-02-19")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `FilesApi2025_04_14("files-api-2025-04-14")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/files#migrate-from-files-api-2025-04-14
+
+    - `ExtendedCacheTtl2025_04_11("extended-cache-ttl-2025-04-11")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `Skills2025_10_02("skills-2025-10-02")`
+
+      **Deprecated**: Sending this value selects the beta response shapes. Removing it moves you to the current shapes, so follow the migration steps: https://platform.claude.com/docs/en/build-with-claude/skills-guide#migrate-from-skills-2025-10-02
+
+    - `CacheDiagnosis2026_04_07("cache-diagnosis-2026-04-07")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
+    - `CEUserManagement2026_07_13("ce-user-management-2026-07-13")`
+
+      **Deprecated**: This value is no longer needed. Remove it from your requests.
+
 #### Returns
 
 - `class BetaComplianceSettings`
@@ -102062,6 +105789,16 @@ compliance settings.
     - `class BetaComplianceSettingsStateDisabled`
 
       - `JsonElement Type = "disabled"`
+
+  - `BetaAccessTransparency AccessTransparency`
+
+    Read-only. Whether Access Transparency is on for the organization. Returned only when the request sends the `anthropic-beta: efs-2026-10-01` header and Access Transparency is available to the organization; otherwise omitted. If the status can't be read, getting Compliance Settings returns an error; an update still saves, but then reports `disabled` whatever the real status, so get the settings again to check it.
+
+    - `required Type Type`
+
+      - `Disabled("disabled")`
+
+      - `Enabled("enabled")`
 
 #### Errors
 
@@ -102094,7 +105831,10 @@ Console.WriteLine(betaComplianceSettings);
   "state": {
     "type": "enabled"
   },
-  "type": "compliance_settings"
+  "type": "compliance_settings",
+  "access_transparency": {
+    "type": "disabled"
+  }
 }
 ```
 
@@ -104160,6 +107900,12 @@ bucket; every combination is returned across pages. With no `group_by[]`
 and no `time_bucket_width`, a single row aggregates the whole range.
 Includes all usage, whether or not it is attributable to a seat user.
 Requires an API key with the `read:analytics` scope, or an Admin API key.
+This endpoint is in beta and is not available to organizations with HIPAA
+readiness enabled: their API requests return a 400 error. A parent
+organization's report across its child organizations leaves out the child
+organizations that have HIPAA readiness enabled. If the parent has child
+organizations and all of them have HIPAA readiness enabled, the request
+returns a 400 error.
 
 #### Parameters
 
@@ -104193,13 +107939,13 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? agentIds` (query parameter)
 
-    Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. Claude Platform organizations only.
+    Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values.
 
     maxItems: 100
 
   - `IReadOnlyList<string>? apiKeyIds` (query parameter)
 
-    Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. Claude Platform organizations only.
+    Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`.
 
     maxItems: 100
 
@@ -104237,7 +107983,7 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? deploymentIds` (query parameter)
 
-    Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. Claude Platform organizations only.
+    Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values.
 
     maxItems: 100
 
@@ -104249,7 +107995,7 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? environmentIds` (query parameter)
 
-    Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. Claude Platform organizations only.
+    Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values.
 
     maxItems: 100
 
@@ -104337,7 +108083,7 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? organizationIds` (query parameter)
 
-    Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values.
+    Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. The report leaves out child organizations with HIPAA readiness enabled, and naming one returns a 400 error. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values.
 
     maxItems: 100
 
@@ -104383,7 +108129,7 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<BetaAnalyticsServiceTier>? serviceTiers` (query parameter)
 
-    Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization.
+    Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values.
 
     maxItems: 100
 
@@ -104401,7 +108147,7 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? sessionIds` (query parameter)
 
-    Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. Claude Platform organizations only.
+    Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values.
 
     maxItems: 100
 
@@ -104427,13 +108173,13 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? userProfileIds` (query parameter)
 
-    Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. Claude Platform organizations only.
+    Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values.
 
     maxItems: 100
 
   - `IReadOnlyList<string>? workspaceIds` (query parameter)
 
-    Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization.
+    Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values.
 
     maxItems: 100
 
@@ -104534,6 +108280,8 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -104761,7 +108509,7 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
     - `required BetaAnalyticsServiceTier? ServiceTier`
 
-      Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution) and for Claude Enterprise usage.
+      Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution).
 
       - `Batch("batch")`
 
@@ -104793,11 +108541,11 @@ Requires an API key with the `read:analytics` scope, or an Admin API key.
 
     - `required string? UserProfileID`
 
-      User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile and for Claude Enterprise usage.
+      User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile.
 
     - `required string? WorkspaceID`
 
-      Workspace the usage occurred in, as a tagged workspace ID, including the organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for Claude Enterprise usage.
+      Workspace the usage occurred in, as a tagged workspace ID, including a Claude Platform organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for usage in a Claude Enterprise organization's default workspace, which is its only workspace.
 
   - `required DateTimeOffset StartingAt`
 
@@ -104945,7 +108693,13 @@ cost in the range, ranked by spend or ordered by time bucket; every
 combination is returned across pages. With no `group_by[]` and no
 `time_bucket_width`, a single row aggregates the whole range. Includes
 all cost, whether or not it is attributable to a seat user. Requires an
-API key with the `read:analytics` scope, or an Admin API key.
+API key with the `read:analytics` scope, or an Admin API key. This
+endpoint is in beta and is not available to organizations with HIPAA
+readiness enabled: their API requests return a 400 error. A parent
+organization's report across its child organizations leaves out the child
+organizations that have HIPAA readiness enabled. If the parent has child
+organizations and all of them have HIPAA readiness enabled, the request
+returns a 400 error.
 
 #### Parameters
 
@@ -104979,13 +108733,13 @@ API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? agentIds` (query parameter)
 
-    Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. Claude Platform organizations only.
+    Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values.
 
     maxItems: 100
 
   - `IReadOnlyList<string>? apiKeyIds` (query parameter)
 
-    Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. Claude Platform organizations only.
+    Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`.
 
     maxItems: 100
 
@@ -105023,7 +108777,7 @@ API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? deploymentIds` (query parameter)
 
-    Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. Claude Platform organizations only.
+    Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values.
 
     maxItems: 100
 
@@ -105035,7 +108789,7 @@ API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? environmentIds` (query parameter)
 
-    Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. Claude Platform organizations only.
+    Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values.
 
     maxItems: 100
 
@@ -105127,7 +108881,7 @@ API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? organizationIds` (query parameter)
 
-    Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values.
+    Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. The report leaves out child organizations with HIPAA readiness enabled, and naming one returns a 400 error. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values.
 
     maxItems: 100
 
@@ -105173,7 +108927,7 @@ API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<BetaAnalyticsServiceTier>? serviceTiers` (query parameter)
 
-    Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization.
+    Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values.
 
     maxItems: 100
 
@@ -105191,7 +108945,7 @@ API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? sessionIds` (query parameter)
 
-    Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. Claude Platform organizations only.
+    Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values.
 
     maxItems: 100
 
@@ -105217,13 +108971,13 @@ API key with the `read:analytics` scope, or an Admin API key.
 
   - `IReadOnlyList<string>? userProfileIds` (query parameter)
 
-    Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. Claude Platform organizations only.
+    Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values.
 
     maxItems: 100
 
   - `IReadOnlyList<string>? workspaceIds` (query parameter)
 
-    Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization.
+    Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values.
 
     maxItems: 100
 
@@ -105324,6 +109078,8 @@ API key with the `read:analytics` scope, or an Admin API key.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -105583,7 +109339,7 @@ API key with the `read:analytics` scope, or an Admin API key.
 
     - `required BetaAnalyticsServiceTier? ServiceTier`
 
-      Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution) and for Claude Enterprise usage.
+      Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution).
 
       - `Batch("batch")`
 
@@ -105629,11 +109385,11 @@ API key with the `read:analytics` scope, or an Admin API key.
 
     - `required string? UserProfileID`
 
-      User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile and for Claude Enterprise usage.
+      User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile.
 
     - `required string? WorkspaceID`
 
-      Workspace the usage occurred in, as a tagged workspace ID, including the organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for Claude Enterprise usage.
+      Workspace the usage occurred in, as a tagged workspace ID, including a Claude Platform organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for usage in a Claude Enterprise organization's default workspace, which is its only workspace.
 
   - `required DateTimeOffset StartingAt`
 
@@ -107370,6 +111126,8 @@ Anthropic account team.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -107951,6 +111709,8 @@ come in a fixed order that is not creation order.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -110999,6 +114759,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -111449,6 +115211,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -111885,6 +115649,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -112218,7 +115984,8 @@ marketplaces.
 
 Plugins in members' personal marketplaces are listed with the same detail as the
 organization's own, and their files can be downloaded through the version archive
-endpoint, which records each such download on the Compliance API activity feed.
+endpoint. Those downloads can be recorded on the Compliance API activity feed; the
+version archive endpoint says when.
 
 **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope.
 
@@ -112383,6 +116150,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -112811,6 +116580,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -113046,6 +116817,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -113444,6 +117217,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -113799,6 +117574,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -114031,9 +117808,9 @@ Console.WriteLine(betaPluginVersion);
 
 **GET** `/v1/organizations/plugins/{plugin_id}/versions/{version}/content`
 
-Download one version's `.zip` archive, exactly as stored. Each download of a
-Plugin from a member's personal plugin marketplace is recorded on the Compliance API
-activity feed.
+Download one version's `.zip` archive, exactly as stored. Downloads of Plugins from
+members' personal plugin marketplaces can be recorded on the Compliance API activity
+feed.
 
 The response body is the archive (`Content-Type: application/zip`), sent as an
 attachment whose filename is derived from the Plugin's name; name saved files from
@@ -114046,9 +117823,11 @@ Every read scope above (`read:plugins`, `read:org_audit`, and
 marketplaces, including files that claude.ai's admin settings do not show, and a
 `read:org_audit` or `read:compliance_org_data` key created for all of your parent
 organization's linked organizations can do this in any organization under it that has
-access to this API, by passing `organization_id`. Each such download records a
-`claude_plugin_archive_accessed` event on the Compliance API activity feed,
-identifying the key, the plugin, the version, and the member. Downloads of
+access to this API, by passing `organization_id`. The Compliance API activity feed can
+record such a download as a `claude_plugin_archive_accessed` event, which identifies
+the key, the plugin, the version, and the member. It does so only while activity
+events are captured for the plugin's organization, and a record is not guaranteed even
+then. The files are served whether or not the download is recorded. Downloads of
 organization-owned plugins are not recorded.
 
 Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled.
@@ -114166,6 +117945,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -114392,6 +118173,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -114686,6 +118469,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -114977,6 +118762,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -115113,10 +118900,9 @@ Console.WriteLine(betaDeletedPluginInstallationSetting);
 List the shares the owner of a member-owned Plugin has given — to every member of
 the organization, to an RBAC Group, or to one member — most recently granted first.
 
-Shares are read-only in this API: members give and withdraw them in claude.ai, and
-who gave a share is recorded on the Compliance API activity feed rather than on the
-share. An organization-owned Plugin has installation settings instead, so this path
-returns 404 for one.
+Shares are read-only in this API: members give and withdraw them in claude.ai. The
+Plugin's `owner` gave each share listed. An organization-owned Plugin has installation
+settings instead of shares, so this path returns 404 for one.
 
 **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope.
 
@@ -115256,6 +119042,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -115303,8 +119091,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 - `class BetaPluginShare`
 
   One share the owner of a member-owned Plugin has given. Shares are
-  read-only in this API and have no ID of their own; who gave a share is
-  recorded on the Compliance API activity feed, not here.
+  read-only in this API and have no ID of their own. The Plugin's `owner` is
+  the member who gave the share.
 
   - `JsonElement Type = "plugin_share"`
 
@@ -115544,6 +119332,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -115841,6 +119631,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -116147,6 +119939,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -116469,6 +120263,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -116772,6 +120568,8 @@ Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-0
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -117095,6 +120893,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -117315,7 +121115,7 @@ using Anthropic.Models.Beta.Organization.TelemetryDestinations;
 
 TelemetryDestinationCreateParams parameters = new()
 {
-    EndpointUrl = "x",
+    EndpointUrl = "https://gateway.example.com",
     Workspaces = new BetaTelemetryDestinationWorkspacesAllParams(),
 };
 
@@ -117484,6 +121284,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -117865,6 +121667,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -118285,6 +122089,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -118664,6 +122470,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -118856,6 +122664,8 @@ Send one test span, named `anthropic.test`, to the destination with its register
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -119084,6 +122894,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -119305,6 +123117,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -119523,6 +123337,8 @@ See the [OpenTelemetry export guide](https://platform.claude.com/docs/en/manage-
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -119637,6 +123453,10 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
     - `ExternalKeyFailed("external_key.failed")`
 
     - `ExternalKeyRecovered("external_key.recovered")`
+
+    - `ExternalStorageFailed("external_storage.failed")`
+
+    - `ExternalStorageRecovered("external_storage.recovered")`
 
     - `UserProfileEnforcementActionOpened("user_profile.enforcement_action_opened")`
 
@@ -119756,6 +123576,8 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -119829,6 +123651,10 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
     - `ExternalKeyFailed("external_key.failed")`
 
     - `ExternalKeyRecovered("external_key.recovered")`
+
+    - `ExternalStorageFailed("external_storage.failed")`
+
+    - `ExternalStorageRecovered("external_storage.recovered")`
 
     - `UserProfileEnforcementActionOpened("user_profile.enforcement_action_opened")`
 
@@ -120039,6 +123865,8 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -120113,6 +123941,10 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
     - `ExternalKeyFailed("external_key.failed")`
 
     - `ExternalKeyRecovered("external_key.recovered")`
+
+    - `ExternalStorageFailed("external_storage.failed")`
+
+    - `ExternalStorageRecovered("external_storage.recovered")`
 
     - `UserProfileEnforcementActionOpened("user_profile.enforcement_action_opened")`
 
@@ -120300,6 +124132,8 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -120374,6 +124208,10 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
     - `ExternalKeyFailed("external_key.failed")`
 
     - `ExternalKeyRecovered("external_key.recovered")`
+
+    - `ExternalStorageFailed("external_storage.failed")`
+
+    - `ExternalStorageRecovered("external_storage.recovered")`
 
     - `UserProfileEnforcementActionOpened("user_profile.enforcement_action_opened")`
 
@@ -120468,6 +124306,10 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
     - `ExternalKeyFailed("external_key.failed")`
 
     - `ExternalKeyRecovered("external_key.recovered")`
+
+    - `ExternalStorageFailed("external_storage.failed")`
+
+    - `ExternalStorageRecovered("external_storage.recovered")`
 
     - `UserProfileEnforcementActionOpened("user_profile.enforcement_action_opened")`
 
@@ -120591,6 +124433,8 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -120665,6 +124509,10 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
     - `ExternalKeyFailed("external_key.failed")`
 
     - `ExternalKeyRecovered("external_key.recovered")`
+
+    - `ExternalStorageFailed("external_storage.failed")`
+
+    - `ExternalStorageRecovered("external_storage.recovered")`
 
     - `UserProfileEnforcementActionOpened("user_profile.enforcement_action_opened")`
 
@@ -120845,6 +124693,8 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -121054,6 +124904,8 @@ Every request must include the beta header `anthropic-beta: webhooks-2026-10-07`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -121253,6 +125105,8 @@ Every request must include the beta header `anthropic-beta: ce-claude-code-manag
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -121496,6 +125350,8 @@ A write that returns `503` may have applied. Retrying it is safe.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -121760,6 +125616,8 @@ Every request must include the beta header `anthropic-beta: ce-claude-code-manag
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -121999,6 +125857,8 @@ Every request must include the beta header `anthropic-beta: ce-claude-code-manag
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -122265,6 +126125,8 @@ A write that returns `503` may have applied. Retrying it is safe.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -122555,6 +126417,8 @@ A write that returns `503` may have applied. Retrying it is safe.
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -122766,6 +126630,8 @@ Every request must include the beta header `anthropic-beta: ce-claude-code-manag
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -122983,6 +126849,8 @@ A write that returns `503` may have applied. Retrying it is safe.
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -123224,6 +127092,8 @@ Set a Slack channel up for Claude Tag and return it with its identifier. If the 
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -123527,8 +127397,8 @@ SlackChannelCreateParams parameters = new()
 {
     Slack = new()
     {
-        ChannelID = "xx",
-        WorkspaceID = "xx",
+        ChannelID = "C0456EFGH",
+        WorkspaceID = "T0123ABCD",
     },
 };
 
@@ -123556,8 +127426,8 @@ Console.WriteLine(betaClaudeTagSlackChannel);
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -123723,6 +127593,8 @@ List the set-up Slack channels of one Slack workspace, newest first by `created_
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -124039,8 +127911,8 @@ await foreach (var item in page.Paginate())
         }
       },
       "slack": {
-        "channel_id": "xx",
-        "workspace_id": "xx"
+        "channel_id": "C0456EFGH",
+        "workspace_id": "T0123ABCD"
       },
       "sources": {
         "enabled": {
@@ -124195,6 +128067,8 @@ Get one Slack channel and its settings. By default `settings` holds what the cha
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -124507,8 +128381,8 @@ Console.WriteLine(betaClaudeTagSlackChannel);
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -124660,6 +128534,8 @@ Change the settings a Slack channel stores. The update is partial: a setting lef
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -124994,8 +128870,8 @@ Console.WriteLine(betaClaudeTagSlackChannel);
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -125143,6 +129019,8 @@ Remove a Slack channel from Claude Tag. This deletes the channel's stored settin
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -125376,6 +129254,8 @@ List the set-up Slack workspaces the organization owns, newest first by `created
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -125849,6 +129729,8 @@ Get one Slack workspace and its settings. By default `settings` holds what the w
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -126316,6 +130198,8 @@ Change the settings a Slack workspace stores. The update is partial: a setting l
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -126811,6 +130695,8 @@ List the organization's Bundles, newest first by `created_at`. A Bundle that Cla
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -127057,6 +130943,8 @@ Get one Bundle. What the Bundle grants (connectors, repositories and credentials
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -127302,6 +131190,8 @@ Change a Bundle's instructions. The update is partial: a field left out is uncha
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -127569,6 +131459,8 @@ List the Slack channels and Slack workspaces a Bundle is attached to, newest fir
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -127827,6 +131719,8 @@ Attach a Bundle to a Slack channel or a Slack workspace. A Bundle attached to a 
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -127944,7 +131838,9 @@ using Anthropic.Models.Beta.Organization.ClaudeTag.Bundles.Targets;
 TargetCreateParams parameters = new()
 {
     BundleID = "capp_011CZkZjLP1cWxj5EtMmdgbq",
-    Target = new BetaClaudeTagSlackChannelBundleTargetCreate("xxxxxxxx"),
+    Target = new BetaClaudeTagSlackChannelBundleTargetCreate(
+        "slch_01SvpyRQK3nN6eH9uhRA7n1q"
+    ),
 };
 
 var betaClaudeTagBundleTarget = await client.Beta.Organization.ClaudeTag.Bundles.Targets.Create(parameters);
@@ -128080,6 +131976,8 @@ Get one Bundle Target. Returns 404 when `target_id` is the identifier of another
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
@@ -128334,6 +132232,8 @@ Detach a Bundle from a Slack channel or a Slack workspace. A repeated detach ret
     - `ExperimentalClaudeTag2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `Efs2026_10_01("efs-2026-10-01")`
 
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 

@@ -136,6 +136,8 @@ other scopes require a Console session.
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -232,7 +234,7 @@ curl https://api.anthropic.com/v1/organizations/federation_rules/$FEDERATION_RUL
     -H 'anthropic-version: 2026-10-21' \
     -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
-          "workspace_id": "workspace_id"
+          "workspace_id": "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
         }'
 ```
 
@@ -388,6 +390,8 @@ rules with `applies_to_all_workspaces` or a legacy single
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -621,6 +625,8 @@ Console session.
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 

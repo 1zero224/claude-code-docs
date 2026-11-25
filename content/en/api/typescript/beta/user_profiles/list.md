@@ -8,6 +8,10 @@ url: https://platform.claude.com/docs/en/api/typescript/beta/user_profiles/list
 - Signature: `client.beta.userProfiles.list(params?: UserProfileListParams, options?: RequestOptions): PageCursor<BetaUserProfile>`
 - Endpoint: `GET /v1/user_profiles`
 
+List the user profiles in your organization, newest first by default.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=typescript) for how to set up and manage profiles.
+
 ## Example request
 
 ```ts
@@ -171,6 +175,7 @@ type AnthropicBeta =
   | "analytics-usage-cost-2026-08-24"
   | "experimental-claude-tag-2026-10-21"
   | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
   | "user-profiles-billing-2026-10-01"
   /** @deprecated This value is no longer needed. Remove it from your requests. */
   | "message-batches-2024-09-24"

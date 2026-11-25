@@ -32,7 +32,7 @@ Claude Fable 5.2 可在 Claude API、[Amazon Bedrock（`bedrock-runtime`）](htt
 * **绑定账户的思考：**&#x43;laude Fable 5.2 和 Claude Mythos 5.2 的思考块仅在生成它们的账户或与之关联的账户中有效。当其他账户发送这些思考块之一时，API 会在模型接收之前丢弃该块，请求仍会成功。在 Claude API 和 Claude Models on Google Cloud (Google managed) 上，如果使用 `thinking-binding-controls-2026-08-01` beta 标头，响应会在 `input_transformations` 中列出每个被丢弃的块，并附带 `reason: "organization_binding_mismatch"`。请参阅[账户和云平台](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking#account-bound-thinking)。
 * **上下文窗口和输出：**&#x9ED8;认提供 [1M 令牌上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows)，每个请求最多可输出 128k 令牌。
 * **定价：**&#x6BCF;百万输入令牌 8 美元，每百万输出令牌 40 美元，而 Claude Fable 5.1 和 Claude Mythos 5.1 分别为 10 美元和 50 美元。提示缓存读取为每百万令牌 0.20 美元，而这些模型为 0.25 美元。请参阅[定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing)。
-* **数据保留：**&#x8FD9;两个模型都要求 30 天数据保留，除非获得 Anthropic 明确授权，否则在 “zero data retention”（零数据保留），即 ZDR 安排下不可用，并且被指定为 Covered Models，与 Claude Fable 5.1 和 Claude Mythos 5.1 相同。在 Claude API 上，来自未启用 30 天保留的组织或工作区的请求会返回 400 `invalid_request_error`。有 ZDR 安排的组织应联系其 Anthropic 客户团队，或为单个工作区配置保留。有关各平台的详细信息，请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
+* **数据保留：**&#x8FD9;两个模型都要求 30 天数据保留，除非获得 Anthropic 明确授权，否则在 “legacy zero data retention”（旧版零数据保留），即 Legacy ZDR 安排下不可用，并且被指定为 Covered Models，与 Claude Fable 5.1 和 Claude Mythos 5.1 相同。在 Claude API 上，来自未启用 30 天保留的组织或工作区的请求会返回 400 `invalid_request_error`。有 Legacy ZDR 安排的组织应联系其 Anthropic 客户团队，或为单个工作区配置保留。有关各平台的详细信息，请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
 * **Priority Tier：**&#x4E24;个模型均不支持 [Priority Tier](https://platform.claude.com/docs/zh-CN/api/service-tiers#supported-models)。
 * **快速模式：**&#x4E24;个模型均在 Messages API 请求中支持[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)。有关每个模型支持的平台，请参阅[快速模式的可用性](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode#feature-availability)。
 
@@ -155,7 +155,7 @@ model = "claude-fable-5-2"  # After
 
 ### 变更内容
 
-1. **需要数据保留：**&#x43;laude Fable 5.2 要求 30 天数据保留，除非获得 Anthropic 明确授权，否则在零数据保留（ZDR）安排下不可用。如果您的组织或工作区在 ZDR 下运行 Claude Opus 5.5，请在切换之前为某个工作区启用 30 天保留，或联系您的 Anthropic 客户团队。否则，在 Claude API 上，对 Claude Fable 5.2 的每个请求都会返回 400 `invalid_request_error`。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
+1. **需要数据保留：**&#x43;laude Fable 5.2 要求 30 天数据保留，除非获得 Anthropic 明确授权，否则在旧版零数据保留（Legacy ZDR）安排下不可用。如果您的组织或工作区在 Legacy ZDR 下运行 Claude Opus 5.5，请在切换之前为某个工作区启用 30 天保留，或联系您的 Anthropic 客户团队。否则，在 Claude API 上，对 Claude Fable 5.2 的每个请求都会返回 400 `invalid_request_error`。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
 
 2. **未通过前缀检查会返回 400 错误：**&#x5728; Claude Fable 5.2 上，每个请求都会进行[前缀检查](https://platform.claude.com/docs/zh-CN/build-with-claude/preserved-thinking/prefix-checks#prefix-check)。如果您在对话中途更改 `system`、`tools` 或早期消息，然后将思考块发回，就会未通过前缀检查。如果未通过前缀检查，请求会收到 400 错误。要在切换之前测试您的代码，请参阅[如何找出未通过前缀检查的请求](https://platform.claude.com/docs/zh-CN/models/fable-5-2/migration-guide#fable-5-2-preserved-thinking)。
 
@@ -185,7 +185,7 @@ model = "claude-fable-5-2"  # After
 
 ### 迁移清单
 
-* 如果您的组织有 ZDR 安排，请首先为工作区启用 30 天保留，或与您的 Anthropic 客户团队确认资格。
+* 如果您的组织有 Legacy ZDR 安排，请首先为工作区启用 30 天保留，或与您的 Anthropic 客户团队确认资格。
 * 将模型 ID 从 `claude-opus-5-5` 更新为 `claude-fable-5-2`。
 * 在迁移生产流量之前检查您的[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#rate-limits)。Claude Fable 5.2 的速率限制独立于 Claude Opus 5.5，且每个层级的令牌限制更低。
 * 如果您的代码自行构建 `messages` 数组，请运行[未通过前缀检查会返回 400 错误](https://platform.claude.com/docs/zh-CN/models/fable-5-2/migration-guide#fable-5-2-preserved-thinking)中的测试。
@@ -321,7 +321,7 @@ model = "claude-fable-5-2"  # After
 
 8. **定价：** Claude Fable 5.2 的费用为每百万输入令牌 $8 USD、每百万输出令牌 $40 USD，而 Claude Opus 5 为 $5 USD 和 $25 USD。提示缓存读取为每百万令牌 $0.20 USD，相比之下为 $0.50 USD。请参阅[定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing)。
 
-9. **需要数据保留：** Claude Fable 5.2 需要 30 天的数据保留，除非获得 Anthropic 的明确授权，否则不适用于"zero data retention"（零数据保留），即 ZDR 安排。Claude Opus 5 可在 ZDR 下使用。在 Claude API 上，来自没有 30 天保留的组织或工作区的请求会返回 400 `invalid_request_error`。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
+9. **需要数据保留：** Claude Fable 5.2 需要 30 天的数据保留，除非获得 Anthropic 的明确授权，否则不适用于"legacy zero data retention"（旧版零数据保留），即 Legacy ZDR 安排。Claude Opus 5 可在 Legacy ZDR 下使用。在 Claude API 上，来自没有 30 天保留的组织或工作区的请求会返回 400 `invalid_request_error`。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
 
 10. **快速模式：** Claude Opus 5 在研究预览阶段支持[快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)（`speed: "fast"`），需要使用 `fast-mode-2026-02-01` beta 标头。Claude Fable 5.2 在 Claude API 上的 Messages API 请求中支持快速模式，无需该标头。发送该标头的请求可继续正常工作。Claude Fable 5.2 的快速模式费用为每百万输入令牌 $16 USD、每百万输出令牌 $80 USD，而 Claude Opus 5 的快速模式为 $10 USD 和 $50 USD。请参阅[快速模式定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#fast-mode-pricing)。
 
@@ -341,7 +341,7 @@ model = "claude-fable-5-2"  # After
 
 ### 迁移清单
 
-* 如果您的组织有 ZDR 安排，请首先为工作区启用 30 天保留，或向您的 Anthropic 客户团队确认资格。
+* 如果您的组织有 Legacy ZDR 安排，请首先为工作区启用 30 天保留，或向您的 Anthropic 客户团队确认资格。
 * 将模型 ID 从 `claude-opus-5` 更新为 `claude-fable-5-2`。
 * 在转移生产流量之前，请检查您的[速率限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#rate-limits)。Claude Fable 5.2 的速率限制与 Claude Opus 5 的相互独立，且在每个层级的令牌限制都更低。
 * 删除任何 `thinking: {type: "disabled"}` 配置。通过较低的 effort 级别控制令牌开销，重新审视 `max_tokens`，并按 `type` 选择内容块。
@@ -365,7 +365,7 @@ model = "claude-fable-5-2"  # After
 
 * 接受 `thinking: {type: "disabled"}`、强制工具选择、`computer_20251124` 工具和快速模式（该模式[已在 Claude Opus 4.8 上弃用](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)）。
 * 将工具调用之间的文本以 `text` 块形式返回。
-* 可在零数据保留（ZDR）安排下使用。
+* 可在旧版零数据保留（Legacy ZDR）安排下使用。
 * 价格为每百万输入令牌 5 美元、每百万输出令牌 25 美元，提示缓存读取为 0.50 美元。
 
 本部分补充 Claude Opus 5 部分未涵盖的差异。

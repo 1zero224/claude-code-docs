@@ -6,7 +6,7 @@
 
 > Where Claude Code reads CLAUDE.md, settings.json, hooks, skills, commands, subagents, workflows, rules, and auto memory. Explore the .claude directory in your project and ~/.claude in your home directory.
 
-Claude Code reads instructions, settings, skills, subagents, and memory from your project directory and from `~/.claude` in your home directory. Commit project files to git to share them with your team; files in `~/.claude` are personal configuration that applies across all your projects.
+Claude Code reads instructions, settings, skills, subagents, and memory from your project directory and from `~/.claude` in your home directory. Commit project files to git to share them; files in `~/.claude` are personal configuration that applies across all your projects.
 
 On Windows, `~/.claude` resolves to `%USERPROFILE%\.claude`. If you set [`CLAUDE_CONFIG_DIR`](https://code.claude.com/docs/en/env-vars), every `~/.claude` path on this page lives under that directory instead. The same applies to `.claude.json`, which otherwise sits at `~/.claude.json`.
 
@@ -38,7 +38,7 @@ Lists gitignored files to copy from your main repository into each new worktree.
 
 **`.claude/`**
 
-Project settings, rules, skills, subagents, and other configuration. If you use git, commit most of these files so your team shares them, and keep personal ones such as `settings.local.json` out of your commits.
+Project settings, rules, skills, subagents, and other configuration. If you use git, commit most of these files to share them, and keep personal ones such as `settings.local.json` out of your commits.
 
 **`.claude/settings.json`**
 
@@ -78,7 +78,7 @@ Holds single-file commands: a prompt saved as `.claude/commands/deploy.md` runs 
 
 **When it loads**: Read at startup in the terminal, so restart Claude Code after you add or edit a style
 
-Each Markdown file defines an [output style](https://code.claude.com/docs/en/output-styles.md#how-output-styles-work), a set of instructions that adjusts how Claude works. Put a style here if your team shares it, like a review mode everyone uses. See [`~/.claude/output-styles/`](#ce-global-output-styles) for how to select one.
+Each Markdown file defines an [output style](https://code.claude.com/docs/en/output-styles.md#how-output-styles-work), a set of instructions that adjusts how Claude works. To share a style, such as a review mode, with everyone on the project, commit it here. See [`~/.claude/output-styles/`](#ce-global-output-styles) for how to select one.
 
 **`.claude/agents/`**
 
@@ -321,7 +321,7 @@ Claude Code deletes the files in the paths below once they're older than [`clean
 | `feedback-bundles/` | Redacted transcript archives written by `/feedback` on third-party providers or when no Anthropic credentials are configured, for sending to your Anthropic account team |
 | `feedback/drafts/` | Queued [Claude-drafted feedback](https://code.claude.com/docs/en/tools-reference.md#sendfeedback-tool-behavior) awaiting your review in `/feedback`. Swept after `cleanupPeriodDays` or 30 days, whichever is shorter. When the queue is at its 10-draft limit, Claude Code deletes the oldest draft to make room. |
 | `usage-data/` | `report.html` and timestamped report copies written by [`/insights`](https://code.claude.com/docs/en/costs#analyze-your-usage-patterns), plus cached per-session analysis data used to build them |
-| `skills/.trash/`, `plugins/.trash/` | [Skills](https://code.claude.com/docs/en/skills.md#how-synced-skills-behave) and [plugins](https://code.claude.com/docs/en/plugins/loading.md#synced-plugins) that the claude.ai sync removed, such as after you turn one off on claude.ai or stop syncing. The files stay here so you can recover them until the sweep deletes them |
+| `skills/.trash/`, `plugins/.trash/` | [Skills](https://code.claude.com/docs/en/skills.md#how-synced-skills-behave) and [plugins](https://code.claude.com/docs/en/plugins/loading.md#synced-plugins) that the claude.ai sync removed, such as after you turn one off on claude.ai or stop syncing. Recover them here. Claude Code can delete a folder before the age cutoff when it's over 7 days old and has three newer copies, or when `.trash/` holds over 1,024 folders |
 | `plugins/installed_plugins.set-aside.<date>.<hash>.json`, `plugins/installed_plugins.unreadable.<date>.<hash>.kept` | Dated copies Claude Code makes before rewriting [`installed_plugins.json`](https://code.claude.com/docs/en/plugins/loading#find-plugins-on-disk): install records it dropped, and the contents of a file it couldn't read. |
 | `plugins/data/.set-aside/` | Data directories of plugins from a marketplace that your organization replaced with one of the same name. Their age counts from the day Claude Code moved them, and a shorter `cleanupPeriodDays` in project settings doesn't apply. To keep one, move it somewhere else before the sweep deletes it. |
 | `plugins/mcpb/` | The files Claude Code extracted from the [MCP bundles](https://code.claude.com/docs/en/plugins/components.md#include-a-packaged-mcpb-server) that plugins declare. A bundle's age counts from the last session that used it. |

@@ -72,7 +72,7 @@ Worktree 是一个新的检出，因此请在那里初始化您的开发环境�
 
 * **Claude Code 发现 worktree 中有另一个会话**：即使您选择删除，worktree 和分支也会保留。请按照 `Worktree kept at` 消息操作
 * **worktree 是干净的**：对于未命名的会话，Claude 会自动删除 worktree 及其分支。[已命名](https://code.claude.com/docs/zh-CN/sessions.md#name-your-sessions)的会话会先提示你，以便你可以保留 worktree 供以后使用
-* **worktree 中有工作**：Claude 会提示你保留或删除 worktree。保留会保留目录和分支。要稍后返回，请运行 Claude Code 在退出时打印的 `claude --worktree <name> --resume` 命令。删除会删除 worktree 目录及其分支，以及其中的所有工作
+* **worktree 中有工作**：Claude 会提示您保留或删除 worktree。保留会保留目录和分支，以便您可以[稍后返回](#resume-a-worktree-session)。删除会删除 worktree 目录及其分支，以及其中的所有工作
 * **已检出另一个分支**：如果 worktree 位于其自身分支以外的另一个分支上，且该分支包含 worktree 起始提交之后的提交，Claude 会提示您保留或删除 worktree。无论选择哪一项，都会保留该另一个分支及其提交。删除会删除 worktree 目录以及 worktree 自身的分支，即 Claude 随 worktree 一起创建的分支
 * **无法验证 worktree 的状态**：当 Claude Code 无法计算 worktree 的更改或无法检查其子模块检出时，它会提示你而不是自动删除 worktree。提示会说明它无法检查的内容
 
@@ -81,6 +81,10 @@ Worktree 是一个新的检出，因此请在那里初始化您的开发环境�
 在 Windows 上，删除 worktree 不会删除其外部的文件。如果 worktree 内的文件夹是指向其他地方的链接，例如 NTFS 接合点或目录符号链接，Claude Code 只会删除该链接。
 
 ## 恢复 worktree 会话
+
+要返回到您保留的 worktree，请从主检出运行 `claude --worktree <name> --resume <session-id>`，并使用退出时打印的会话 ID。对于 `<name>`，请输入 `.claude/worktrees/` 下的文件夹名称，并将其中的所有 `+` 替换为 `/`。
+
+### 不使用 `--worktree` 恢复
 
 当您恢复一个在其 worktree 内以[隔离](#how-claude-code-enforces-isolation)状态结束且未[退出它](#clean-up-worktrees)的会话时，Claude Code 会将会话返回到该 worktree 并保持其隔离。这适用于交互式恢复、[非交互模式](https://code.claude.com/docs/zh-CN/headless.md)中带有 `-p` 的 `--continue` 和 `--resume`，以及 Agent SDK。回到 worktree 内后，[当会话拥有该工具时](#claude-has-no-enterworktree-tool)，Claude 可以使用 [`ExitWorktree`](https://code.claude.com/docs/zh-CN/tools-reference) 工具退出它。
 
@@ -96,6 +100,8 @@ Worktree 是一个新的检出，因此请在那里初始化您的开发环境�
 > [!NOTE]
 >
 > 在 v2.1.212 之前，非交互式恢复停留在启动目录中，`ExitWorktree` 报告没有活跃的 worktree 会话可以退出。
+
+### 会话记录位置
 
 当 Claude 进入或退出 Claude Code 使用 git 创建的 worktree 时，会话记录会随之移动。Claude Code 在会话的新工作目录下记录会话，与 [`/cd`](https://code.claude.com/docs/zh-CN/commands) 的方式相同，因此 `/desktop` 和 `--resume` 会在那里找到它。退出时以相同的方式将其移回。由 [`WorktreeCreate` hook](#non-git-version-control) 创建的 worktree 会在启动目录保留其会话记录。
 
@@ -135,7 +141,7 @@ Apply the requested refactor across every affected file, then run the tests
 and report the results.
 ```
 
-每个子代理都会获得一个临时 worktree，当子代理完成且没有更改时 Claude Code 会自动删除；带有更改的 worktree 会保留在磁盘上，直到下面的[定期扫描](#clean-up-subagent-and-background-session-worktrees)可以删除它而不会丢失工作。对于由您的 [WorktreeCreate hook](https://code.claude.com/docs/zh-CN/hooks.md#worktreecreate) 创建的 worktree，请改为参阅 [WorktreeRemove](https://code.claude.com/docs/zh-CN/hooks.md#worktreeremove)。
+子代理完成时，如果 git 显示该 worktree 中有已更改的文件、未跟踪的文件或新的提交，Claude Code 会保留该 worktree。否则，Claude Code 可以立即删除该 worktree。保留的 worktree 会一直留在磁盘上，直到[定期扫描](#clean-up-subagent-and-background-session-worktrees)可以删除它而不会丢失工作。对于由您的 [WorktreeCreate hook](https://code.claude.com/docs/zh-CN/hooks.md#worktreecreate) 创建的 worktree，请改为参阅 [WorktreeRemove](https://code.claude.com/docs/zh-CN/hooks.md#worktreeremove)。
 
 子代理 worktrees 使用与 `--worktree` 相同的[基础分支](#choose-the-base-branch)，因此它们从您的存储库的默认分支分支，除非 `worktree.baseRef` 设置为 `"head"`。
 
@@ -145,19 +151,17 @@ and report the results.
 
 Claude Code 运行定期扫描，删除 Claude 为子代理和[后台会话](https://code.claude.com/docs/zh-CN/agent-view.md#how-file-edits-are-isolated)创建的 worktrees，一旦它们超过您的 [`cleanupPeriodDays`](https://code.claude.com/docs/zh-CN/settings-reference#cleanupperioddays) 设置，遵循[保留扫描规则](https://code.claude.com/docs/zh-CN/claude-directory.md#cleaned-up-automatically)。
 
-当您[后台](https://code.claude.com/docs/zh-CN/agent-view.md#send-the-session-to-the-background)一个 `--worktree` 会话时，其 worktree 变成后台会话 worktree，扫描可以删除。扫描在这些情况下保留 worktree：
+当您将 `--worktree` 会话[转入后台](https://code.claude.com/docs/zh-CN/agent-view.md#send-the-session-to-the-background)时，其 worktree 会成为后台会话 worktree，清理过程可以将其移除。在以下等情况下，清理过程会保留 worktree：
 
 * worktree 仍然保留工作：已更改或未跟踪的文件，或未推送的提交。
 * worktree 中已检出的子模块保留已更改或未跟踪的文件，或 Claude Code 无法检查 worktree 的子模块。此检查需要 Claude Code v2.1.274 或更高版本。
 * Claude Code 无法确定存储库配置定义的过滤驱动程序，或在其中找到它无法关闭的设置，或[四种也阻止 worktree 创建的情况](#git-lfs-content-is-missing-from-a-worktree-claude-code-created)中的任何一种适用。
 * worktree 属于您未后台的 `--worktree` 会话，无论其年龄如何。
-* 您自己使用 `git worktree add` 创建了 worktree，即使您随后在其中运行了 `--worktree <name>` 会话并后台了该会话。
-
-Claude Code 将标记写入它使用 git 创建的每个 worktree 的 git 元数据中，扫描会保留任何没有标记的 worktree，包括 [`WorktreeCreate` hook](#non-git-version-control) 创建的 worktree。
+* 您在 `.claude/worktrees/` 之外使用 `git worktree add` 创建了该 worktree。
 
 #### Worktree 锁与手动删除
 
-当代理运行时，Claude Code 在其 worktree 上持有 `git worktree lock`，以便并发清理无法删除它，当代理完成时释放锁。Claude Code 在为后台会话创建的 worktree 上持有相同的锁，同时会话运行，因此扫描会保留 worktree 并且 `git worktree remove` 拒绝删除它。
+Claude Code 会在其为 Agent 创建的 worktree 上加 `git worktree lock`，以便在 Agent 首次运行期间（在任何[恢复](https://code.claude.com/docs/zh-CN/sub-agents.md#resume-subagents)之前），并发清理无法删除它。Claude Code 为转入后台的会话创建的 worktree 在会话运行期间也带有相同的锁，因此扫描会保留该 worktree，并且 `git worktree remove` 会拒绝删除它。
 
 扫描也会释放 Claude Code 为其进程已退出的会话设置的锁，因此被杀死的后台会话不会永久锁定其 worktree。扫描永远不会释放您自己使用 `git worktree lock` 设置的锁。
 
@@ -200,11 +204,11 @@ Claude Code 的 worktree 创建默认值涵盖大多数会话：它在 `.claude/
 claude --worktree "#1234"
 ```
 
-Claude Code 仅从 URL 读取编号。它总是从您的存储库的 `origin` 远程获取，并按 `origin` 的主机选择获取路径：
+Claude Code 会忽略您传递的 URL 中的主机和仓库，并按 `origin` 的主机选择获取路径：
 
 * **github.com**：获取 `pull/<number>/head`
 * **gitlab.com**：获取 `merge-requests/<number>/head`
-* **GitHub Enterprise、自管理 GitLab 或任何其他主机**：首先尝试 `pull/<number>/head`，然后尝试 `merge-requests/<number>/head`
+* **GitHub Enterprise、自管理 GitLab 或任何其他主机**：对拉取请求 URL 使用 `pull/`，对合并请求 URL 使用 `merge-requests/`，对 `#` 编号则使用存在的那一个。如果两者都存在且指向不同的提交，请按照 `Cannot use PR/MR #<number>` 消息操作。
 
 此获取操作从不等待您终端中的输入。如果 git 或 ssh 会要求输入密码、密钥密码短语或确认新的 SSH 主机，获取会直接失败，Claude Code 会退出并显示 `Error creating worktree: Failed to fetch PR/MR #<number>` 消息。`ssh-agent` 持有的密钥仍然可用，因此请在开始之前将您的密钥加载到其中，并手动运行一次 `git fetch` 以记录新主机。
 
@@ -257,7 +261,7 @@ Claude Code 仅从 git 状态检测合并的情况：worktree 推送到的远程
 Worktree 获得自己的文件和分支，但它与主检出共享以下内容：
 
 * **仓库的 `.git` 目录**：worktree 中的 git 命令会写入主仓库共享的 `.git` 目录。启用[沙箱](https://code.claude.com/docs/zh-CN/sandboxing.md#filesystem-isolation)后，`git commit` 等命令可以在位于 worktree 根目录的会话中正常工作，而 `--worktree` 正是在该位置启动会话。默认情况下，[如果您在 worktree 的子目录中运行 `claude`，这些命令会因 `index.lock` 错误而失败](https://code.claude.com/docs/zh-CN/sandboxing#git-index-lock)。
-* **插件**：从主检出在[项目作用域](https://code.claude.com/docs/zh-CN/plugins/loading.md#find-where-a-plugin-is-enabled)安装的插件也会在同一仓库的 worktree 中加载，因此您无需为每个 worktree 重新安装它们。
+* **插件**：从主检出在[项目作用域](https://code.claude.com/docs/zh-CN/plugins/loading.md#find-where-a-plugin-is-enabled)安装的插件也会在同一仓库的 worktree 中加载。
 * **权限批准**：在 worktree 会话中为 Bash 命令选择"是，不再询问"会将规则保存到主检出的 `.claude/settings.local.json`。该规则适用于主检出和仓库的每个其他 worktree，并且在 worktree 被删除后仍会保留。
 
   在 Windows 以及 Claude Code [不使用仓库根目录](https://code.claude.com/docs/zh-CN/settings.md#where-claude-code-looks-for-each-file)的其他情况下，规则保留在该 worktree 中。请参阅[批准保存的位置](https://code.claude.com/docs/zh-CN/permissions.md#permission-system)。

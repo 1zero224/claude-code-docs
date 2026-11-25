@@ -183,7 +183,7 @@ When teams first start building agents, they can get surprisingly far through a 
 The final point Uriah makes is that this process can take some work. "It didn't start this clean. Our first version overfitted. It would 'fix' things by encoding the specific case, and we were accumulating patches instead of getting smarter. We changed the approach to force general principles and to cap how many specifics can enter a change at all."
 Tip
 AI agents are not deterministic, but a lot of highly regulated work requires processes to be done the same way every time. Claude Code has features that can help combine frontier intelligence with deterministic processes.
-[Hooks](https://code.claude.com/docs/en/hooks) are user-defined commands that fire at fixed points in Claude Code's lifecycle and can serve as hard gates. They execute every time regardless of what the model decides. For example they can be used to block a write that fails a lint, require a test pass before commit, or strip secrets before anything leaves the sandbox.
+[Hooks](https://code.claude.com/docs/en/hooks) are user-defined commands that fire at fixed points in Claude Code's lifecycle and can serve as hard gates. They execute every time regardless of what the model decides. For example they can be used to block a write that fails a lint, require a test pass before commit, or [strip secrets before anything leaves the sandbox](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents#chapter-4).
 [Dynamic workflows](https://code.claude.com/docs/en/workflows#orchestrate-subagents-at-scale-with-dynamic-workflows) orchestrate subagents with deterministic sequencing, separate context windows, and focused goals. `/goal` is helpful for long complex tasks where Claude may prematurely call the job done, prefer its own findings when reviewing, and drift from its original goals.
 ## 04 Build for rebuilding
 Model capability keeps shifting underneath these teams, so very little is treated as permanent.
@@ -239,6 +239,16 @@ These insights come from your peers building at the frontier and we hope you fou
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
+ArticleNov 23, 2026
+### KPMG's Todd Lohr on AI when your data is also your clients' data
+Todd Lohr, KPMG US Vice Chair and Head of Client Technology & Innovation, on adopting frontier AI and building safeguards at the same time, and what that means for a firm that holds its clients' most sensitive data.
+Claude Enterprise
+](https://claude.com/resources/articles/kpmg-todd-lohr-on-ai-when-your-data-is-also-your-clients-data)[
+ArticleNov 23, 2026
+### The enterprise guide to securing coding agents
+How security and technical leaders can understand and bound risk as they scale Claude Code
+Claude Code
+](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents)[
 ArticleNov 17, 2026
 ### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
 How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
@@ -248,14 +258,4 @@ ArticleNov 16, 2026
 ### How the Claude Code team thinks about verification
 How end-to-end, property and differential tests let coding agents verify their work with evidence, and what the Claude Code team does to keep its verifiers honest.
 Claude Code
-(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)[
-ArticleNov 13, 2026
-### Building always-on agents
-Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
-Claude Platform
-](https://claude.com/resources/articles/building-always-on-agents)[
-ArticleNov 13, 2026
-### The Claude Tag guide for startups
-How leading startups use Claude Tag to ship faster and scale operations
-Claude Tag
-](https://claude.com/resources/articles/claude-tag-guide-for-startups)
+(opens in new tab)](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)

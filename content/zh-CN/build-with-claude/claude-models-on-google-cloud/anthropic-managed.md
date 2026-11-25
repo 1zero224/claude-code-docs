@@ -177,8 +177,8 @@ Claude Models on Google Cloud (Anthropic managed) 的 [SDK 客户端](https://pl
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.12.0")
-        implementation("com.anthropic:anthropic-java-google-cloud:3.12.0")
+        implementation("com.anthropic:anthropic-java:3.14.0")
+        implementation("com.anthropic:anthropic-java-google-cloud:3.14.0")
         ```
       </Tab>
 
@@ -187,12 +187,12 @@ Claude Models on Google Cloud (Anthropic managed) 的 [SDK 客户端](https://pl
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-google-cloud</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         ```
       </Tab>
@@ -421,7 +421,7 @@ Claude Models on Google Cloud (Anthropic managed) 使用与 Claude API 相同的
 | Claude Opus 4.8 | `claude-opus-4-8` |
 | Claude Opus 4.7 | `claude-opus-4-7` |
 | Claude Opus 4.6 | `claude-opus-4-6` |
-| Claude Opus 4.5 | `claude-opus-4-5-20251101` |
+| Claude Opus 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `claude-opus-4-5-20251101` |
 | Claude Sonnet 5.5 | `claude-sonnet-5-5` |
 | Claude Sonnet 5 | `claude-sonnet-5` |
 | Claude Sonnet 4.6 | `claude-sonnet-4-6` |
@@ -563,6 +563,7 @@ Go 和 Java 与其他 SDK 有所不同：
 * [数据驻留](https://platform.claude.com/docs/zh-CN/manage-claude/data-residency)
 * [Effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort)
   * [按消息设置 effort](https://platform.claude.com/docs/zh-CN/build-with-claude/effort-per-message) (Beta)
+* [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview) (Beta)
 * [快速模式](https://platform.claude.com/docs/zh-CN/build-with-claude/fast-mode)
 * [Files API](https://platform.claude.com/docs/zh-CN/build-with-claude/files)
 * [强制工具使用](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/define-tools#forcing-tool-use)
@@ -691,7 +692,7 @@ Claude Models on Google Cloud (Anthropic managed) 不支持以下内容：
 * **MCP 隧道：** [MCP 隧道](https://platform.claude.com/docs/zh-CN/agents-and-tools/mcp-tunnels/overview)在 Claude Models on Google Cloud (Anthropic managed) 上不可用。
 * **[自托管沙箱中的记忆存储](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-memory)：** 在 Claude Models on Google Cloud (Anthropic managed) 上，自托管沙箱不支持记忆存储。要使用记忆存储，请在[云环境](https://platform.claude.com/docs/zh-CN/managed-agents/environments)中运行会话。
 * **预构建的自托管沙箱工作器：** `ant` CLI 以及 Python、TypeScript 和 Go SDK 中的[自托管工作器](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-sandboxes-workers)不支持 Claude Models on Google Cloud (Anthropic managed)。请改为实现您自己的工作器，直接调用[环境工作端点](https://platform.claude.com/docs/zh-CN/api/beta/environments/work)。有关您的工作器所需的角色和权限，请参阅[环境的 IAM 权限](https://platform.claude.com/docs/zh-CN/api/claude-models-on-google-cloud-anthropic-managed-iam-permissions#environments)。
-* **Linked billing（beta）：** [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections) 在 Claude Models on Google Cloud (Anthropic managed) 上不可用。
+* **Linked billing（beta）：** [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/linked-billing) 在 Claude Models on Google Cloud (Anthropic managed) 上不可用。
 
 ### 上下文窗口
 

@@ -42,7 +42,7 @@ Claude Code 插件是一个目录，包含 skills、agents、hooks、MCP 服务�
 
 Skills、子代理、hooks 和 MCP 服务器都可以独立工作，无需插件。例如，您在 `~/.claude/skills/` 中保存的 skill 在您计算机上的每个项目中都可用。要单独设置其中一个，请参阅 [Skills](https://code.claude.com/docs/zh-CN/skills.md)、[Subagents](https://code.claude.com/docs/zh-CN/sub-agents.md)、[Hooks](https://code.claude.com/docs/zh-CN/hooks-guide.md) 或 [MCP](https://code.claude.com/docs/zh-CN/mcp.md)。
 
-当您想将多个 skills、子代理、hooks 或 MCP 服务器打包为一个单元时，请使用插件。安装一个以获得某人构建的设置，只需一个命令和来自其市场的更新。创建一个以将您自己的设置提供给团队成员，在许多项目中安装它，或发布版本化的发布版本。
+当您想将多个 skill、子代理、hook 或 MCP 服务器打包为一个单元时，请使用插件。安装一个以获得他人构建的设置，只需一个命令，并可从其市场获得更新。创建一个以分享您自己的设置、在许多项目中安装它，或发布版本化的发布版本。
 
 ### 启用的插件为您的会话添加的内容
 
@@ -72,7 +72,7 @@ Claude Code 在您第一次启动交互式终端会话时添加 Anthropic 的官
 
 ![市场路径的图表，分为三个框，从左到右。市场是插件的目录，列出一个插件。插件是一个作为单元安装的目录，包含 skills、agents、hooks、MCP 服务器和其他组件。您将插件安装到 Claude Code 中，它加载其组件。](https://mintcdn.com/claude-code/2Q_GtOEovg5qaBem/images/plugins-model.svg?fit=max\&auto=format\&n=2Q_GtOEovg5qaBem\&q=85\&s=4196344954b7c2e27fc0bd6a9a1113a1)
 
-[安装和管理插件](https://code.claude.com/docs/zh-CN/plugins/install.md#install-a-plugin)有您运行 Claude Code 的每个位置的安装步骤。在您开发插件时，您不需要市场：使用 `--plugin-dir` 直接从其文件夹加载它，如[在没有市场的情况下开发](https://code.claude.com/docs/zh-CN/plugins/create.md#develop-without-a-marketplace)所示。
+[安装和管理插件](https://code.claude.com/docs/zh-CN/plugins/install.md#install-a-plugin)有您运行 Claude Code 的每个位置的安装步骤。在您开发插件时，使用 `--plugin-dir` 直接从其文件夹加载它，如[在没有市场的情况下开发](https://code.claude.com/docs/zh-CN/plugins/create.md#develop-without-a-marketplace)所示。
 
 ### 在您的会话中使您安装的插件可用
 
@@ -122,6 +122,6 @@ Claude Code 在您第一次启动交互式终端会话时添加 Anthropic 的官
 
 * **分享您构建的内容**：[发布和分发插件](https://code.claude.com/docs/zh-CN/plugins/publish.md)，通过您自己的市场或 [Anthropic 的目录](https://code.claude.com/docs/zh-CN/plugins/publish.md#submit-to-anthropics-directory)
 * **检查它是否有效和被使用**：[使用 evals 测试插件](https://code.claude.com/docs/zh-CN/plugin-evals.md)和[测量插件成本和使用情况](https://code.claude.com/docs/zh-CN/plugins/measure.md)
-* **为您的团队运行市场**：[创建市场](https://code.claude.com/docs/zh-CN/plugins/create-marketplace.md)，然后[托管和维护市场](https://code.claude.com/docs/zh-CN/plugins/host-marketplace.md)
+* **运行市场**：[创建市场](https://code.claude.com/docs/zh-CN/plugins/create-marketplace.md)，然后[托管和维护市场](https://code.claude.com/docs/zh-CN/plugins/host-marketplace.md)
 * **为组织设置插件策略**：[为您的组织管理插件](https://code.claude.com/docs/zh-CN/plugins/org.md)
 * **修复问题**：[插件故障排除](https://code.claude.com/docs/zh-CN/plugins/troubleshooting.md)

@@ -121,6 +121,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -2888,19 +2890,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                           - `ClaudeHaiku4_5_20251001("claude-haiku-4-5-20251001")`
 
-                          - `ClaudeOpus4_5("claude-opus-4-5")`
-
-                            Powerful intelligence for long-running agents and coding
-
-                          - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
-
-                            Powerful intelligence for long-running agents and coding
-
                           - `ClaudeMythosPreview("claude-mythos-preview")`
 
                             **Deprecated**: Will reach end-of-life on June 30, 2026. Please migrate to claude-mythos-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
                             New class of intelligence, strongest in coding and cybersecurity
+
+                          - `ClaudeOpus4_5("claude-opus-4-5")`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
+
+                          - `ClaudeOpus4_5_20251101("claude-opus-4-5-20251101")`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
 
                           - `ClaudeSonnet4_5("claude-sonnet-4-5")`
 

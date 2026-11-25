@@ -64,7 +64,7 @@ Unknown query parameter: 'created_at[gte]'. Did you mean 'created_at.gte'?
 
 **原因：** 请求中包含了端点未定义的查询参数；Compliance API 会拒绝无法识别的参数，而不是忽略它们。消息会指出该参数的名称；对于相近的错误写法（例如用方括号表示法代替点号，或缺少 `[]` 后缀），消息还会建议正确的参数名称。
 
-**修复：** 使用端点对应的 [Compliance API 参考](https://platform.claude.com/docs/zh-CN/api/compliance)页面中列出的参数名称。范围过滤器使用点号表示法（例如 `created_at.gte`），数组过滤器需要 `[]` 后缀（例如 `activity_types[]`），分页参数则根据端点不同为 `after_id`、`before_id` 或 `page`。
+**修复：** 使用端点对应的 [Compliance API 参考](https://platform.claude.com/docs/zh-CN/api/compliance)页面中列出的参数名称。范围过滤器使用点号表示法（例如 `created_at.gte`），数组过滤器需要 `[]` 后缀（例如 `activity_types[]`），分页参数则根据端点不同为 `after_id`、`before_id` 或 `page`。[Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api) 是例外：其范围过滤器使用方括号（例如 `updated_at[gte]`）。
 
 ### 无效的参数值
 
@@ -196,7 +196,7 @@ API key has expired.
 
 `x-api-key` 中的密钥有效，但不具备端点所接受的权限范围（scope）。原样消息会列出该密钥具备的权限范围（`Got:`）以及端点接受的权限范围（读取端点上为 `Needed one of:`，表示具备所列任意一个权限范围即可；删除端点上为 `Needed:`），因此您无需重新查看 Claude Console 或 claude.ai 即可确认密钥具备哪些权限范围。在读取端点上，接受列表中还包括 `read:org_audit`，这是一个只读审计权限范围，涵盖所有 Compliance API 读取端点；请参阅[为 Claude Enterprise 密钥选择权限范围](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api-keys#choose-scopes-for-a-claude-enterprise-key)。Compliance Access Key 的权限范围在创建后不可更改，因此每个权限范围不足的修复方法都会指导您创建新密钥，而不是编辑现有密钥。
 
-独立的 Claude Console 组织（没有父组织的组织）无法创建 Compliance Access Key，因此需要此类密钥的修复方法不适用于它；它只能查询活动源。
+独立的 Claude Console 组织（没有父组织的组织）无法创建 Compliance Access Key，因此需要此类密钥的修复方法不适用于它；它能查询活动源。在 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access) 对您的组织可用期间创建的 Admin API 密钥也可以访问该 API。任何其他 Admin API 密钥都会从该 API 收到 403 错误。如果该 API 对您的组织可用，请另外创建一个 [Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#create-an-admin-api-key)。
 
 ### 作用域不足：活动源
 
@@ -224,7 +224,7 @@ Missing required scopes. Got: ['read:compliance_user_data'] Needed one of: ['rea
 **原因：** 使用了不带 `read:compliance_org_data` 的密钥调用组织、角色、群组或有效设置端点，或 Security posture 端点。导致此错误的常见途径有两种：
 
 * Compliance Access Key（`sk-ant-api01-...`）在创建时未包含 `read:compliance_org_data` 作用域。
-* 使用了 Claude Console Admin API 密钥（`sk-ant-admin01-...`）。Admin API 密钥仅具备 `read:compliance_activities`，无法读取组织元数据。
+* 使用了 Claude Console Admin API 密钥（`sk-ant-admin01-...`）。Admin API 密钥无法读取组织元数据。
 
 **修复：** [创建一个新的 Compliance Access Key](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)，并选中 `read:compliance_org_data`。Admin API 密钥无法读取组织元数据；必须使用 Compliance Access Key。
 
@@ -251,7 +251,7 @@ Missing required scopes. Got: ['read:compliance_activities'] Needed one of: ['re
 **原因：** 使用了不带 `read:compliance_user_data` 的密钥调用聊天、消息、文件、项目、会话、组织用户或群组成员端点。导致此错误的常见途径有两种：
 
 * Compliance Access Key（`sk-ant-api01-...`）在创建时未包含 `read:compliance_user_data` 作用域。
-* 使用了 Claude Console Admin API 密钥（`sk-ant-admin01-...`）。Admin API 密钥仅具备 `read:compliance_activities`，且无法被授予 `read:compliance_user_data`，因此它们无法调用聊天、文件、项目、项目附件、会话、用户或群组成员端点。
+* 使用了 Claude Console Admin API 密钥（`sk-ant-admin01-...`）。Admin API 密钥仅具备 `read:compliance_activities`，且无法被授予 `read:compliance_user_data`，因此它们无法调用聊天、文件、项目、项目附件、会话、用户或群组成员端点。例外是 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access) 的作用域：在该 API 对您的组织可用期间创建的 Admin API 密钥也具备这些作用域。
 
 **修复：** 使用在 claude.ai 中创建并选中 `read:compliance_user_data` 的 [Compliance Access Key](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)。如果该请求确实应仅限于活动源，请改为将 Admin API 密钥指向 `GET /v1/compliance/activities`。
 

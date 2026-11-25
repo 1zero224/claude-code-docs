@@ -32,7 +32,7 @@ Every line loads into every session for every engineer working in the repo, whet
 **Tip:** Keep CLAUDE.md under 200 lines, give it an owner, and review changes to it like code. The content itself should follow the same rules as any prompt: [writing effective prompts](https://claude.com/resources/articles/best-practices-for-prompt-engineering) means being explicit, explaining the why behind constraints, and showing examples.
 Think of this file as giving Claude an overview of your codebase, or as an index pointing to other files where Claude can find more information as needed.
 In monorepos, give each team's directory its own subdirectory CLAUDE.md so teams only load their own conventions, and developers can use the claudeMdExcludes setting to skip files from teams whose code they never touch.
-For standards that must apply to every repository in the organization — security policies, compliance requirements — a centrally managed CLAUDE.md can be deployed to developer machines via MDM or config management, and it can't be excluded by individual settings.
+For [standards that must apply to every repository in the organization](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents#chapter-5) — security policies, compliance requirements — a centrally managed CLAUDE.md can be deployed to developer machines via MDM or config management, and it can't be excluded by individual settings.
 More on setting up CLAUDE.md in our blog post, [CLAUDE.md files: Customizing Claude Code for your codebase](https://claude.com/resources/articles/using-claude-md-files).
 ### Rules
 [**Rules**](https://code.claude.com/docs/en/memory#organize-rules-with-claude/rules/) are markdown files in `.claude/rules/` that give Claude specific constraints or conventions.
@@ -107,6 +107,11 @@ Once you have a few of these working, you can bundle many of them (skills, subag
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
+ArticleNov 23, 2026
+### The enterprise guide to securing coding agents
+How security and technical leaders can understand and bound risk as they scale Claude Code
+Claude Code
+](https://claude.com/resources/articles/enterprise-guide-to-securing-coding-agents)[
 ArticleNov 17, 2026
 ### Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests
 How Claude spent two weeks load testing a staging cluster, breaking the Claude Docs service on purpose and fixing what fell over before launch, and what made the service legible enough for Claude to close the loop.
@@ -121,9 +126,4 @@ ArticleNov 13, 2026
 ### Building always-on agents
 Always-on agents run indefinitely, deciding how and when to act across many sessions. This guide walks through their core primitives and how they fit together.
 Claude Platform
-](https://claude.com/resources/articles/building-always-on-agents)[
-ArticleNov 13, 2026
-### The Claude Tag guide for startups
-How leading startups use Claude Tag to ship faster and scale operations
-Claude Tag
-](https://claude.com/resources/articles/claude-tag-guide-for-startups)
+](https://claude.com/resources/articles/building-always-on-agents)

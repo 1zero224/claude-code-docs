@@ -12,7 +12,7 @@ Server-managed settings let organization Owners centrally configure Claude Code 
 >
 > Server-managed settings are available for [Claude for Teams](https://claude.com/pricing?utm_source=claude_code\&utm_medium=docs\&utm_content=server_settings_teams#team-&-enterprise) and [Claude for Enterprise](https://anthropic.com/contact-sales?utm_source=claude_code\&utm_medium=docs\&utm_content=server_settings_enterprise) customers.
 >
-> If you set your provider or gateway at claude.ai under **Organization settings > Desktop 3P**, follow the [Enterprise Admin Console guide](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code) instead.
+> If you set your provider or gateway at claude.ai under [**Organization settings > Desktop 3P**](https://claude.ai/admin-settings/desktop-deployment), follow the [Enterprise Admin Console guide](https://claude.com/docs/third-party/claude-desktop/admin-console-claude-code) instead.
 
 ## Requirements
 
@@ -190,7 +190,7 @@ If you clear your server-managed configuration in the admin console with the int
 
 ### Per-key exceptions across managed sources
 
-These keys are exceptions to the no-merge rule:
+By default, Claude Code reads most keys from [one managed source](#settings-precedence). Exceptions include:
 
 * **Cross-source lock keys**: a small set of keys, such as the sandbox allowlist locks, [listed on the managed settings page](https://code.claude.com/docs/en/managed-settings.md#precedence-within-the-managed-tier). Claude Code honors them when any admin-controlled managed source sets them; the user-writable HKCU registry tier is excluded.
 

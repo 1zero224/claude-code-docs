@@ -252,7 +252,7 @@ Claude Code doesn't recognize the model "<model>". Did you mean "<suggestion>"?
 当您使用 `/model` 选择了模型，但下一个会话却在其他模型上启动时，常见原因如下：
 
 * **您只为一个会话选择了它。** 在选择器中按 `s`、使用 `--model` 启动以及在非交互模式中运行 `/model` 都仅适用于当前会话，不会改变已保存的默认值。
-* **优先级更高的项设置了模型。** 项目或托管设置中的 `model` 值、shell 中的 `ANTHROPIC_MODEL`，或管理员设置为覆盖用户选择的[组织默认值](#organization-default-model)，会在每次启动新会话时再次生效。您的 `/model` 选择仍然已保存，只是优先级较低。当项目或托管设置设置了模型时，启动标题会指明该文件。
+* **优先级更高的项设置了模型。** 项目或托管设置中的 `model` 值、shell 中的 `ANTHROPIC_MODEL`，或设置为覆盖用户选择的[组织默认值](#organization-default-model)，会在每次启动新会话时再次生效。您的 `/model` 选择仍然已保存，只是优先级较低。当项目或托管设置设置了模型时，启动标题会指明该文件。
 * **Claude Code 无法保存您的选择。** `/model` 会将 `model` 写入 `~/.claude/settings.json`。如果您无法写入该文件（例如因为另一个工具生成了该文件，或将其链接到只读副本），您所选的模型仅在当前会话中有效，下次启动时会读取旧值。请在生成该文件的工具中设置 `model`，或使该文件可写。参阅 [您在 Claude Code 中所做的更改在新会话中丢失](https://code.claude.com/docs/zh-CN/settings.md#a-change-you-made-in-claude-code-is-lost-in-new-sessions)。
 * **您恢复了一个会话。** 使用 `claude --resume` 或 `--continue` 恢复的会话通常会[保持其原先使用的模型](#which-model-a-resumed-session-uses)，而不是当前的默认值。
 
@@ -369,15 +369,15 @@ Claude Code 代表您进行的模型更改以相同的方式检查：
 * **`model`**：在会话启动时设置初始模型选择
 * **`ANTHROPIC_DEFAULT_SONNET_MODEL`** / **`ANTHROPIC_DEFAULT_OPUS_MODEL`** / **`ANTHROPIC_DEFAULT_HAIKU_MODEL`** / **`ANTHROPIC_DEFAULT_FABLE_MODEL`**：控制 `sonnet`、`opus`、`haiku` 和 `fable` 别名解析为什么，以及[帐户类型默认](#default-model-setting)使用哪个版本
 
-此示例在 Sonnet 4.5 上启动用户，将选择器限制为 Sonnet 和 Haiku，并确保默认值解析为允许列表上的模型，而不是层级默认值：
+此示例让用户在 Sonnet 5 上启动，将选择器限制为 Sonnet 5.x 和 Haiku，并确保默认值解析为允许列表上的模型：
 
 ```json theme={null}
 {
-  "model": "claude-sonnet-4-5",
-  "availableModels": ["claude-sonnet-4-5", "haiku"],
+  "model": "claude-sonnet-5",
+  "availableModels": ["claude-sonnet-5", "haiku"],
   "enforceAvailableModels": true,
   "env": {
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-5"
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5"
   }
 }
 ```
@@ -685,7 +685,7 @@ Claude Code 在用户设置中的 [`modelSettings`](https://code.claude.com/docs
 >
 > 您从通过 [Remote Control](https://code.claude.com/docs/zh-CN/remote-control.md#what-connected-devices-see) 连接的手机或浏览器上的 effort 控件中选择的级别仅适用于该会话。
 
-当您在 [`-p` 运行](https://code.claude.com/docs/zh-CN/headless)中使用 `/effort` 设置级别时，Claude Code 仅将其应用于该会话，不将其保存为您的默认值。
+当您在 [`-p` 运行](https://code.claude.com/docs/zh-CN/headless)中使用 `/effort` 设置级别时，Claude Code 仅将其应用于该会话。
 
 `/effort` 滑块也有一个 **Ultracode** 切换。Ultracode 是 Claude Code 设置而不是模型 effort 级别：启用它时，Claude 为实质性任务编排[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)，在会话运行的任何 effort 级别。关于它可以在哪里持久设置，请参阅 [`ultracode`](https://code.claude.com/docs/zh-CN/settings-reference#ultracode) 设置。
 
@@ -742,7 +742,7 @@ Opus 5.5 [默认为 `medium`](#adjust-effort-level)，比 Opus 5 的默认值 `h
 如果您开始新轮次时该词没有以彩虹色显示，请尝试以下方法之一：
 
 * 在不以 `/` 开头的提示词中重新键入该词，并确保它不在引号、括号、路径或命令等任何内容之内
-* 如果 `CLAUDE_CODE_EFFORT_LEVEL` 设置为低于 `xhigh` 的级别，请取消设置它。或者将您自己的 [`maxEffortLevel`](https://code.claude.com/docs/zh-CN/settings-reference#maxeffortlevel) 提高到 `xhigh` 或更高，或请组织管理员提高您的[组织限制](#organization-effort-limits)
+* 如果 `CLAUDE_CODE_EFFORT_LEVEL` 设置为低于 `xhigh` 的级别，请取消设置它，或将您自己的 [`maxEffortLevel`](https://code.claude.com/docs/zh-CN/settings-reference#maxeffortlevel) 提高到 `xhigh` 或更高。如果您所在的组织设有 [effort 限制](#organization-effort-limits)，请让组织管理员提高该限制
 * 在会话中运行 `/model` 切换到 Opus 5.5、Sonnet 5.5、Haiku 5.5、Fable 5.2 或 Fable 5.1 模型。在该词无法提升轮次的情况下（例如在 Amazon Bedrock、Google Cloud's Agent Platform 或 [Claude apps gateway](https://code.claude.com/docs/zh-CN/claude-apps-gateway) 上），请改为[设置 effort 级别](#set-the-effort-level)
 
 要关闭该关键字（包括其上下文内指令），请在您的 shell 或[设置文件](https://code.claude.com/docs/zh-CN/env-vars.md#in-settings-files)中将 `CLAUDE_CODE_DISABLE_ULTRATHINK` 设置为 `1`。需要 Claude Code v2.1.316 或更高版本。

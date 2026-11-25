@@ -2,17 +2,17 @@
 > Fetch the complete documentation index at: https://code.claude.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Desktop application
+# 桌面应用
 
 > 充分利用 Claude Code Desktop：使用 Git 隔离的并行会话、拖放窗格布局、集成终端和文件编辑器、侧边聊天、计算机使用、从手机 Dispatch 会话、可视化 diff 审查、应用预览、PR 监控、连接器和企业配置。
 
 在 Claude Desktop 应用中，Claude Code 就是 **Code** 选项卡。该应用还包含聊天和 [Cowork](https://claude.com/product/cowork)，后者负责 Dispatch 和更长的代理工作。本页是 Code 选项卡的参考。
 
-> [card] [下载 macOS 版本](https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect?utm_source=claude_code\&utm_medium=docs)
+> [card] [下载 macOS 版本](https://claude.ai/claude-code/desktop-download?platform=mac\&utm_source=claude_code\&utm_medium=docs)
 >
 > 适用于 Intel 和 Apple Silicon 的通用版本
 
-> [card] [下载 Windows 版本](https://claude.ai/api/desktop/win32/x64/setup/latest/redirect?utm_source=claude_code\&utm_medium=docs)
+> [card] [下载 Windows 版本](https://claude.ai/claude-code/desktop-download?platform=win-x64\&utm_source=claude_code\&utm_medium=docs)
 >
 > 适用于 x64 处理器
 
@@ -20,7 +20,7 @@
 >
 > Ubuntu 和 Debian 的 apt 或 .deb
 
-对于 Windows ARM64，请下载 [ARM64 安装程序](https://claude.ai/api/desktop/win32/arm64/setup/latest/redirect?utm_source=claude_code\&utm_medium=docs)。在 Linux 上，使用 apt 安装；请参阅 [Claude Desktop on Linux](https://code.claude.com/docs/zh-CN/desktop-linux.md)。
+对于 Windows ARM64，请下载 [ARM64 安装程序](https://claude.ai/claude-code/desktop-download?platform=win-arm64\&utm_source=claude_code\&utm_medium=docs)。在 Linux 上，使用 apt 安装；请参阅 [Claude Desktop on Linux](https://code.claude.com/docs/zh-CN/desktop-linux.md)。
 
 安装后，启动 Claude，登录，然后点击 **Code** 选项卡。有关首次会话的演练，请参阅[快速开始指南](https://code.claude.com/docs/zh-CN/desktop-quickstart.md)。
 
@@ -176,7 +176,7 @@ Claude 根据您的项目创建初始服务器配置。如果您的应用使用�
 
 浏览器窗格是一个选项卡式浏览器，因此您可以在运行的应用旁边打开文档、问题跟踪器或任何其他网站。要打开浏览器，在 macOS 上按 **Cmd+Shift+B** 或在 Windows 上按 **Ctrl+Shift+B**，或[选择 **Browser**](#arrange-your-workspace)。您可以在窗格中登录网站，包括弹出式登录流程，例如 Google OAuth。
 
-您第一次点击聊天中的外部链接时，会出现一个对话框，询问链接是在浏览器窗格中打开还是在您的默认浏览器中打开。要在之后更改您的选择，请使用浏览器窗格 **⋮** 菜单中的 **Open links in built-in browser**。在 macOS 上 **Cmd** 点击或在 Windows 上 **Ctrl** 点击会直接在您的默认浏览器中打开链接。
+您第一次点击聊天中的外部链接时，会出现一个对话框，询问链接是在浏览器窗格中打开还是在您的默认浏览器中打开。要在之后更改您的选择，请使用浏览器窗格 **⋮** 菜单中的 **Open links in built-in browser**。如果该选项不在其中，请在该菜单中打开 **More settings**。在 macOS 上 **Cmd** 点击或在 Windows 上 **Ctrl** 点击会直接在您的默认浏览器中打开链接。
 
 Claude 可以使用与[验证您的应用](#preview-your-app)相同的工具读取和交互外部页面，并进行两项额外的安全检查：
 
@@ -216,7 +216,7 @@ Claude 读取您的评论并进行请求的更改，这些更改显示为您可�
 
 在本地、[SSH](#ssh-sessions) 和 [WSL](https://code.claude.com/docs/zh-CN/desktop-wsl.md) 会话中，结果会显示为一张按文件分组的 **Code review** 卡片。使用该卡片处理这些结果：
 
-* 点击 **Walk through in Changes** 打开 diff 视图，逐条查看结果。当前 diff 中的结果会显示在其对应的行上，您可以在那里点击 **Fix this one** 或忽略它。
+* 点击 **Walk through in changes** 打开 diff 视图，逐条查看结果。当前 diff 中的结果会显示在其对应的行上，您可以在那里点击 **Fix this one** 或忽略它。
 * 点击 **Apply fixes** 让 Claude 修复仍未处理的结果。
 
 在任何会话中，您也可以在输入框中要求 Claude 修复审查发现的问题。有关 `/code-review` 检查的内容及其接受的参数，请参阅[使用 `/code-review` 在本地审查](https://code.claude.com/docs/zh-CN/code-review-local)。
@@ -630,7 +630,7 @@ Dispatch 是您离开终端时与 Claude 协作的几种方式之一。有关与
 
 连接外部服务、添加可重用工作流、自定义 Claude 的行为并配置预览服务器。要在一个地方管理连接器、skill 和插件，请点击侧边栏中的**自定义**或 **Plugins**。桌面应用中的 [Cowork](https://claude.com/product/cowork) 从此配置获取其 skill、插件和连接器，该配置通过您的 claude.ai 账户同步，而不是从 CLI 的 `~/.claude` 目录获取。
 
-Claude Code 还会在你使用同一账户登录的终端会话中加载为你的 claude.ai 账户启用的 skills 和插件。请参阅[从 claude.ai 同步的 Skills](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave) 和[从 claude.ai 同步的插件](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)。
+要了解为您的 claude.ai 账户启用的 skill 和插件还会在哪些其他位置加载，请参阅[从 claude.ai 同步的 Skills](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave) 和[从 claude.ai 同步的插件](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)。
 
 ### 连接外部工具
 
@@ -678,7 +678,7 @@ Claude Code 还会在你使用同一账户登录的终端会话中加载为你�
 
 > [!NOTE]
 >
-> 插件浏览器在云端会话中不可用，您从桌面应用为用户账户安装或以仅本地方式安装的插件在云端会话中也不可用。请参阅[从您的设置中继承的内容](https://code.claude.com/docs/zh-CN/cloud-environments.md#what-carries-over-from-your-setup)。插件在 WSL 会话中不可用。
+> 您在计算机上以用户作用域或本地作用域安装的插件在云端会话中不可用。要在云端会话中使用插件，请参阅[安装插件](https://code.claude.com/docs/zh-CN/plugins/install.md#install-a-plugin)下的 **Cloud session** 选项卡。插件在 WSL 会话中不可用。
 
 有关完整的插件参考，包括创建您自己的插件，请参阅[插件](https://code.claude.com/docs/zh-CN/plugins/overview.md)。
 
@@ -708,7 +708,7 @@ Claude 自动检测你的开发服务器设置并将配置存储在启动会话�
 
 启用 `autoVerify` 时，Claude 在编辑文件后自动验证代码更改。它拍摄屏幕截图、检查错误并在完成响应之前确认更改有效。
 
-自动验证默认开启。可通过在 `.claude/launch.json` 中添加 `"autoVerify": false` 来按项目禁用它，或在 Browser 窗格的 **⋮** 菜单中关闭 **Auto-verify changes**。
+自动验证默认开启。可通过在 `.claude/launch.json` 中添加 `"autoVerify": false` 来按项目禁用它，或在 Browser 窗格的 **⋮** 菜单中关闭 **Auto-verify changes**。如果该选项不在其中，请在该菜单中打开 **More settings**。
 
 ```json theme={null}
 {
@@ -1901,7 +1901,7 @@ echo(!host!
 * **设置文件损坏**：当您自己的设置文件损坏时，管理员的条目可能显示为灰色，并附带指出该文件的消息。[修复该文件](https://code.claude.com/docs/zh-CN/settings.md#fix-a-broken-settings-file)。
 * **新主机**：Desktop 保存主机后的一分钟内，[**Create another**](#create-another-machine) 显示为灰色。请在一分钟后再选择它。在 Claude Desktop v4.4212.0 之前，**Replace Dev box's host** 会显示为灰色 10 分钟。
 * **hook 已关闭或受限**：您自己的条目只在您自己的 hook 可以运行的地方生效。请从您的设置中移除 `disableAllHooks`，或询问您的管理员。
-* **设置仍在加载**：在 Desktop 加载您组织的[服务器托管设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md)之前，所有条目都显示为灰色，通常在启动后几秒钟内完成。如果条目一直是灰色，请检查您与 claude.ai 的连接。
+* **设置仍在加载**：在 Desktop 加载完所有[服务器托管设置](https://code.claude.com/docs/zh-CN/server-managed-settings.md)之前（通常在启动后几秒钟内），所有条目都会显示为灰色。如果条目一直显示为灰色，请检查您与 claude.ai 的连接。
 
 #### 为您的团队预配置 SSH 连接
 
@@ -2095,9 +2095,26 @@ Team 或 Enterprise 计划上的组织可以通过管理员控制台控制、托
 
 在本地和 SSH 会话中，桌面应用直接将每个用户连接的 claude.ai 连接器传递给 Claude Code。无论您使用哪个设置源或文件位置，都没有 MCP 设置或 `managed-mcp.json` 到达这些连接器。要在这些会话中阻止连接器的工具，请使用您的组织的[连接器工具控制](https://code.claude.com/docs/zh-CN/mcp.md#organization-controls-on-connector-tools)。[连接器如何到达 Claude Code](https://code.claude.com/docs/zh-CN/mcp.md#how-connectors-reach-claude-code)显示在每种会话中哪些设置管理连接器。
 
-`permissions.disableBypassPermissionsMode` 和 `disableAutoMode` 也在用户和项目设置中工作，但将它们放在托管设置中可防止用户覆盖它们。
+要防止用户覆盖 `permissions.disableBypassPermissionsMode` 或 `disableAutoMode`，请在托管设置中设置它。
 
 有关仅托管源可以设置的权限、插件和交付键，请参阅[仅托管设置可以设置的键](https://code.claude.com/docs/zh-CN/managed-settings.md#managed-only-settings)。
+
+#### 为所有用户部署 Skill
+
+要在本地和 SSH 会话中为每个用户提供相同的 skill，请将它们部署为[企业 skill](https://code.claude.com/docs/zh-CN/skills.md#where-skills-live)，您只需在一台机器上安装一次，即可供该机器的所有用户使用。请将它们安装在会话运行所在的机器上：
+
+* **本地会话**：每个用户的计算机
+* **SSH 会话**：每台远程主机
+
+请将每个 skill 安装在对应该机器平台的路径下：
+
+| 平台 | 路径 |
+| :- | :- |
+| macOS | `/Library/Application Support/ClaudeCode/.claude/skills/<skill-name>/SKILL.md` |
+| Linux | `/etc/claude-code/.claude/skills/<skill-name>/SKILL.md` |
+| Windows | `C:\Program Files\ClaudeCode\.claude\skills\<skill-name>\SKILL.md` |
+
+要确认您的 skill 已加载，请使用一个 [frontmatter](https://code.claude.com/docs/zh-CN/skills.md#frontmatter-reference) 仅设置 `name` 和 `description` 的 skill 进行测试。启动一个新会话并发送一条消息，然后在输入框中键入 `/` 和该 skill 名称的前几个字母。该 skill 会出现在列表中。
 
 #### 在 Code 选项卡中行为不同的 Claude Code 设置
 
@@ -2320,6 +2337,7 @@ Desktop 应用会将 `claude_desktop_config.json` 中的 MCP 服务器加载到�
 * **Linux (beta)**：Linux 桌面应用中尚不提供计算机使用。请参阅 [Claude Desktop on Linux](https://code.claude.com/docs/zh-CN/desktop-linux.md)。
 * **内联代码建议**：Desktop 不提供自动完成风格的代码补全。它通过对话式提示词和显式代码更改工作，并可以在 Claude 回复后[建议您的下一个提示词](#accept-a-suggested-prompt)。
 * **Agent team**：协调的团队（由 Claude 作为团队负责人从共享任务列表中为队友分配任务）在 [CLI](https://code.claude.com/docs/zh-CN/agent-teams.md) 中可用，不在 Desktop 中。对于一个会话内的多 Agent 工作，请使用[动态工作流](https://code.claude.com/docs/zh-CN/workflows.md)，它可在 Desktop 中运行；Claude 也可以直接[向您的其他会话发送消息并管理它们](#work-across-sessions)。
+* **Code Mode**：Desktop 会话启动时不包含实验性的 [Code Mode](https://code.claude.com/docs/zh-CN/code-mode.md)，即使您在设置中启用了它。要使用它，请在终端中运行 CLI。
 * **Terminal-dialog 命令**：在终端中打开交互式面板的内置命令，其行为在 Code 选项卡中有所不同。直接编辑[设置文件](https://code.claude.com/docs/zh-CN/settings.md)来管理权限规则和配置，或从独立 CLI 运行命令。
   * 没有参数形式的命令，例如 `/permissions`，会回复 `isn't available in this environment`。
   * `/config` 打开 **设置 > Code** 或 **设置 > Claude Code**。
@@ -2358,6 +2376,8 @@ Desktop 应用会将 `claude_desktop_config.json` 中的 MCP 服务器加载到�
 在早期布局中，在输入框上方选择环境以及任何项目文件夹或仓库，在其下方的一行中选择权限模式和模型。早期布局没有[会话详细信息面板](#see-session-details)和[已保存的本地和 SSH 环境](#create-a-saved-environment)。
 
 ### Code 选项卡中的 403 或身份验证错误
+
+如果卡片显示 `For security, Claude Code needs a recent sign-in.`，请参阅 [Claude Code 需要最近登录](https://code.claude.com/docs/zh-CN/errors.md#claude-code-needs-a-recent-sign-in)。
 
 如果在使用 Code 选项卡时看到 `Error 403: Forbidden` 或其他身份验证失败：
 

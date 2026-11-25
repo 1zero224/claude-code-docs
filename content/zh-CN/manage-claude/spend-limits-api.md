@@ -27,12 +27,12 @@ Spend Limits API（支出限额 API）让您可以为每位 Claude Enterprise �
 | **支出限额** | `GET /v1/organizations/spend_limits/effective`<br />`GET /v1/organizations/spend_limits/{spend_limit_id}`<br />`POST /v1/organizations/spend_limits`<br />`DELETE /v1/organizations/spend_limits/{spend_limit_id}` | 读取每位成员的有效支出限额和本期至今支出；设置或清除按用户的覆盖值。 |
 | **支出限额提高请求** | `GET /v1/organizations/spend_limit_increase_requests`<br />`GET /v1/organizations/spend_limit_increase_requests/{id}`<br />`POST /v1/organizations/spend_limit_increase_requests/{id}/approve`<br />`POST /v1/organizations/spend_limit_increase_requests/{id}/deny` | 列出成员提出的提高支出限额请求，并附带做出决定所需的上下文；批准或拒绝每个请求。 |
 
-使用**支出限额**端点来回答"每位成员适用什么支出限额、它来自哪里、以及他们距离限额还有多远？"这类问题，并设置按用户的覆盖值。使用**支出限额提高请求**端点来处理成员提交的请求队列。
-
 ## 前提条件
 
-* 您的组织必须使用 Claude Enterprise 计划。
-* 您的组织必须已开启用量额度（usage credits）。您的主要所有者可以在 claude.ai 账单设置中开启。
+您的组织必须使用 Claude Enterprise 计划。请参阅[我的 Enterprise 计划如何计费？](https://support.claude.com/en/articles/11526368)，了解您的计划是基于用量还是基于席位。
+
+* **基于用量的 Enterprise 计划：**&#x60A8;无需设置[用量额度（usage credits）](https://support.claude.com/en/articles/12005970)。
+* **基于席位的 Enterprise 计划：**&#x8BF7;在 [claude.ai 组织设置](https://claude.ai/admin-settings/usage)中开启用量额度。该开关的标签为 **Turn on usage credits** 或 **Enable extra usage**。有关步骤，请参阅[管理 Team 和基于席位的 Enterprise 计划的用量额度](https://support.claude.com/en/articles/12005970)。如果您无法开启该开关，请向您的主要所有者、组织所有者或您的 Anthropic 客户团队寻求帮助。
 
 SDK 在 `client.beta.organization.spend_limits` (typescript: `client.beta.organization.spendLimits`; csharp, go: `client.Beta.Organization.SpendLimits`; java: `client.beta().organization().spendLimits()`; php: `$client->beta->organization->spendLimits`) 下提供这些端点，`ant` CLI 则在 `ant beta:organization:spend-limits` 下提供。两者都会为您发送 `anthropic-version` 标头。示例从 `ANTHROPIC_API_KEY` 环境变量中读取 Admin API 密钥。在您遍历结果时，SDK 和 CLI 会自动为您获取更多页面，因此 `limit` 设置的是每页大小，而不是总数（请参阅[分页](https://platform.claude.com/docs/zh-CN/manage-claude/spend-limits-api#pagination)）。
 
@@ -182,7 +182,7 @@ SDK 在 `client.beta.organization.spend_limits` (typescript: `client.beta.organi
 
 ### 周期
 
-`period`（周期）是执行支出限额并重置支出的循环窗口。支出限额由其 `(scope, period)` 对来标识。目前 `monthly` 是唯一支持的周期；月度支出在每个日历月第一天的 00:00 UTC 重置。请将 `period` 视为开放集合。
+`period`（周期）是执行支出限额并重置支出的循环窗口。支出限额由其 `(scope, period)` 对来标识。`monthly` 是唯一支持的周期；月度支出在每个日历月第一天的 00:00 UTC 重置。请将 `period` 视为开放集合。
 
 ### 金额与货币
 

@@ -243,6 +243,8 @@ List Events
 
     - `const AnthropicBetaCEClaudeCodeManagedSettings2026_10_06 AnthropicBeta = "ce-claude-code-managed-settings-2026-10-06"`
 
+    - `const AnthropicBetaEfs2026_10_01 AnthropicBeta = "efs-2026-10-01"`
+
     - `const AnthropicBetaUserProfilesBilling2026_10_01 AnthropicBeta = "user-profiles-billing-2026-10-01"`
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
@@ -2131,9 +2133,13 @@ List Events
 
           - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -2969,25 +2975,25 @@ List Events
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
         - `Ephemeral5mInputTokens int64 Optional`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
       - `CacheReadInputTokens int64 Optional`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
       - `InputTokens int64 Optional`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `ListCost BetaMonetaryAmount Optional`
 
@@ -2997,7 +3003,7 @@ List Events
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `ServerToolUse BetaManagedAgentsServerToolUsage Optional`
 
@@ -3810,6 +3816,8 @@ Send Events
 
     - `const AnthropicBetaCEClaudeCodeManagedSettings2026_10_06 AnthropicBeta = "ce-claude-code-managed-settings-2026-10-06"`
 
+    - `const AnthropicBetaEfs2026_10_01 AnthropicBeta = "efs-2026-10-01"`
+
     - `const AnthropicBetaUserProfilesBilling2026_10_01 AnthropicBeta = "user-profiles-billing-2026-10-01"`
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
@@ -4482,6 +4490,8 @@ Stream Events
     - `const AnthropicBetaExperimentalClaudeTag2026_10_21 AnthropicBeta = "experimental-claude-tag-2026-10-21"`
 
     - `const AnthropicBetaCEClaudeCodeManagedSettings2026_10_06 AnthropicBeta = "ce-claude-code-managed-settings-2026-10-06"`
+
+    - `const AnthropicBetaEfs2026_10_01 AnthropicBeta = "efs-2026-10-01"`
 
     - `const AnthropicBetaUserProfilesBilling2026_10_01 AnthropicBeta = "user-profiles-billing-2026-10-01"`
 
@@ -6371,9 +6381,13 @@ Stream Events
 
           - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -7259,25 +7273,25 @@ Stream Events
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
         - `Ephemeral5mInputTokens int64 Optional`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
       - `CacheReadInputTokens int64 Optional`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
       - `InputTokens int64 Optional`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `ListCost BetaMonetaryAmount Optional`
 
@@ -7287,7 +7301,7 @@ Stream Events
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `ServerToolUse BetaManagedAgentsServerToolUsage Optional`
 
@@ -12859,9 +12873,13 @@ func main() {
 
           - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -13697,25 +13715,25 @@ func main() {
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
         - `Ephemeral5mInputTokens int64 Optional`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
       - `CacheReadInputTokens int64 Optional`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
       - `InputTokens int64 Optional`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `ListCost BetaMonetaryAmount Optional`
 
@@ -13725,7 +13743,7 @@ func main() {
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `ServerToolUse BetaManagedAgentsServerToolUsage Optional`
 
@@ -14491,25 +14509,25 @@ func main() {
 
       Tokens used to create 1-hour ephemeral cache entries.
 
-      format: int32
+      format: int64
 
     - `Ephemeral5mInputTokens int64 Optional`
 
       Tokens used to create 5-minute ephemeral cache entries.
 
-      format: int32
+      format: int64
 
   - `CacheReadInputTokens int64 Optional`
 
     Total tokens read from prompt cache.
 
-    format: int32
+    format: int64
 
   - `InputTokens int64 Optional`
 
     Total input tokens consumed across all turns.
 
-    format: int32
+    format: int64
 
   - `ListCost BetaMonetaryAmount Optional`
 
@@ -14529,7 +14547,7 @@ func main() {
 
     Total output tokens generated across all turns.
 
-    format: int32
+    format: int64
 
   - `ServerToolUse BetaManagedAgentsServerToolUsage Optional`
 
@@ -16637,9 +16655,13 @@ func main() {
 
           - `const BetaManagedAgentsModelClaudeOpus4_5 BetaManagedAgentsModel = "claude-opus-4-5"`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `const BetaManagedAgentsModelClaudeOpus4_5_20251101 BetaManagedAgentsModel = "claude-opus-4-5-20251101"`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -17525,25 +17547,25 @@ func main() {
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
         - `Ephemeral5mInputTokens int64 Optional`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
       - `CacheReadInputTokens int64 Optional`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
       - `InputTokens int64 Optional`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `ListCost BetaMonetaryAmount Optional`
 
@@ -17553,7 +17575,7 @@ func main() {
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `ServerToolUse BetaManagedAgentsServerToolUsage Optional`
 

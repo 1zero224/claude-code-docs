@@ -104,42 +104,102 @@ Messages API 是 “stateless”（无状态）的，这意味着您始终需要
 
 ### 预填充 Claude 的响应
 
-您可以在输入消息列表的最后一个位置预填充 Claude 响应的一部分。使用此技术来塑造 Claude 的响应。以下示例使用 `"max_tokens": 1` 从 Claude 获取单个多项选择答案。
+预填充是您在 `assistant` 消息中编写并放在 `messages` 最后位置的文本。`messages` 中其他位置的 `assistant` 消息不是预填充。Claude 会接续预填充的文本，响应中仅包含接续的内容。
 
-<Note>
-  Claude 4.6 及更高版本的模型以及 Claude Mythos Preview 不支持 assistant 消息预填充；发送给这些模型的请求必须以 user 消息结尾。以下示例使用的是支持预填充的模型。
-</Note>
+使用预填充来设定响应的开头方式，例如让响应以固定格式开始，或跳过开场白。
+
+API 是否接受预填充取决于模型：
+
+* **Claude 4.5 及更早版本的模型：** API 接受预填充，除非该模型在您使用的平台上已退役。对已退役模型的所有请求都会失败。要查看模型的状态，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。
+* **所有其他模型：** API 会返回 400 错误（请参阅 Claude API 错误页面的[不支持预填充](https://platform.claude.com/docs/zh-CN/api/errors#prefill-not-supported)部分）。请改用[预填充的替代方法](https://platform.claude.com/docs/zh-CN/claude_api_primer#alternatives-to-a-prefill)之一。
+
+Claude Opus 4.5 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上弃用。Claude Sonnet 4.5 已在相同平台上弃用。有关退役日期和推荐的替代模型，请参阅模型弃用页面上的[弃用历史](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#deprecation-history)。[合作伙伴运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)会自行制定退役时间表。
+
+Claude Opus 4.5 和 Claude Sonnet 4.5 的推荐替代模型不接受预填充。
+
+以下示例在 Claude Opus 4.5 上运行，并设定多项选择答案的格式。预填充 `The answer is (` 恰好在答案字母之前结束，以便 Claude 首先写出该字母。由于答案只有一个字母，该示例还将 `max_tokens` 设置为 `1`。对于较长的答案，请设置更高的 `max_tokens`。
 
 <CodeGroup exclude="shell:cURL, typescript, csharp, go, java, php, ruby">
   ```bash CLI
-  ant messages create <<'YAML'
-  model: claude-sonnet-4-5
-  max_tokens: 1
-  messages:
-    - role: user
-      content: "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"
-    - role: assistant
-      content: "The answer is ("
-  YAML
+  ant messages create \
+    --model claude-opus-4-5-20251101 \
+    --max-tokens 1 \
+    --message '{role: user, content: "What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"}' \
+    --message '{role: assistant, content: "The answer is ("}'
   ```
 
   ```python Python
   import anthropic
 
   message = anthropic.Anthropic().messages.create(
-      model="claude-sonnet-4-5",
+      model="claude-opus-4-5-20251101",
       max_tokens=1,
       messages=[
           {
               "role": "user",
-              "content": "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae",
+              "content": "What is Latin for ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae",
           },
           {"role": "assistant", "content": "The answer is ("},
       ],
   )
-  print(message.content[0].text)
+  print(message)
   ```
 </CodeGroup>
+
+```json Output
+{
+  "id": "msg_01Q8Faay6S7QPTvEUUQARt7h",
+  "type": "message",
+  "role": "assistant",
+  "content": [
+    {
+      "type": "text",
+      "text": "C"
+    }
+  ],
+  "model": "claude-opus-4-5-20251101",
+  "stop_reason": "max_tokens",
+  "stop_sequence": null,
+  "usage": {
+    "input_tokens": 42,
+    "output_tokens": 1
+  }
+}
+```
+
+请注意此响应中的两个字段：
+
+* **`text`：** 值为 `C`。它仅包含接续的内容，不包含预填充。
+* **`stop_reason`：** 值为 `max_tokens`，因为该示例在一个令牌之后结束响应。
+
+要获取完整文本 `The answer is (C`，请在您的代码中将预填充与 `text` 值拼接起来。
+
+在 Claude 4.5 及更早版本的模型上，预填充受以下限制：
+
+* **空白字符：** 如果预填充以空白字符结尾，API 会返回 400 错误。
+* **结构化输出：** 如果请求同时设置了 `output_config.format`，API 会返回 400 错误（请参阅"结构化输出"页面的[功能兼容性](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs#feature-compatibility)部分）。
+* **[扩展思考](https://platform.claude.com/docs/zh-CN/build-with-claude/extended-thinking)：** 如果请求同时将 `thinking.type` 设置为 `enabled`，预填充不会导致错误。API 会将思考视为关闭，因此响应中没有 `thinking` 块。
+
+每个 400 错误中的 `message` 都会说明导致该错误的原因。
+
+#### 预填充的替代方法
+
+请以 `user` 消息结束 `messages` 来代替预填充。然后，根据您希望从响应中获得的内容选择一种方法：
+
+* **遵循 schema 的 JSON：** 使用[结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)，它会约束响应遵循该 schema。
+* **其他输出格式：** 在系统提示（即请求的 [`system` 字段](https://platform.claude.com/docs/zh-CN/api/messages/create#create.system)）中描述格式。
+* **无开场白：** 在系统提示中要求直接给出答案。
+
+与预填充不同，系统提示中的指令无法保证响应的开头方式，因此请在您的代码中检查响应的文本。
+
+关于用什么替代其他常见的预填充，请参阅"提示最佳实践"页面的[从预填充响应迁移](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-engineering/claude-prompting-best-practices#migrating-away-from-prefilled-responses)部分。
+
+要将该多项选择示例迁移到不接受预填充的模型，请按照以下步骤操作：
+
+1. 更改模型并移除 `assistant` 消息。
+2. 在系统提示中要求仅给出答案的字母。
+3. 将 `max_tokens` 设置得足够高，以容纳整个响应。在[默认开启思考的模型](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#configuring-thinking)上，思考令牌也计入 `max_tokens`。
+4. 从响应的 `text` 块中读取该字母。该块可能位于 `thinking` 块之后。不要将该字母与预填充拼接。
 
 ### 视觉
 
@@ -259,8 +319,8 @@ Claude 可以读取请求中的文本和图像。图像支持 `base64` 和 `url`
 * Claude Opus 4.7（`claude-opus-4-7`，仅支持自适应思考）
 * Claude Opus 4.6（`claude-opus-4-6`，支持自适应思考或旧版手动思考）
 * Claude Sonnet 4.6（`claude-sonnet-4-6`，支持自适应思考或旧版手动思考）
-* Claude Opus 4.5（`claude-opus-4-5-20251101`，仅支持旧版手动思考）
-* Claude Sonnet 4.5（`claude-sonnet-4-5-20250929`，[已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)，仅支持旧版手动思考）
+* Claude Opus 4.5（`claude-opus-4-5-20251101`，[在 Anthropic 运营的平台上已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)，仅支持旧版手动思考）
+* Claude Sonnet 4.5（`claude-sonnet-4-5-20250929`，[在 Anthropic 运营的平台上已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)，仅支持旧版手动思考）
 * Claude Haiku 4.5（`claude-haiku-4-5-20251001`，仅支持旧版手动思考）
 
 <Note>
@@ -343,7 +403,7 @@ Claude 可以读取请求中的文本和图像。图像支持 `base64` 和 `url`
 
   weather_data = {"temperature": 72}
 
-  # 第一个请求 - Claude 返回思考内容和工具请求
+  # 第一个请求：Claude 返回思考内容和工具请求
   response = client.messages.create(
       model="claude-opus-5-5",
       max_tokens=16000,
@@ -360,7 +420,7 @@ Claude 可以读取请求中的文本和图像。图像支持 `base64` 和 `url`
       (block for block in response.content if block.type == "tool_use"), None
   )
 
-  # 第二个请求 - 包含思考块和工具结果
+  # 第二个请求：包含思考块和工具结果
   continuation = client.messages.create(
       model="claude-opus-5-5",
       max_tokens=16000,
@@ -491,7 +551,7 @@ Claude 可以读取请求中的文本和图像。图像支持 `base64` 和 `url`
   ```
 </CodeGroup>
 
-在使用交错思考时，并且仅在使用交错思考时（而非常规的手动扩展思考），`budget_tokens` 可以超过 `max_tokens` 参数，因为在这种情况下 `budget_tokens` 表示一个 assistant 轮次内所有思考块的总预算。
+在使用交错思考时，并且仅在使用交错思考时（而非常规的手动扩展思考），`budget_tokens` 可以超过 `max_tokens` 参数，因为在这种情况下 `budget_tokens` 表示一个助手轮次内所有思考块的总预算。
 
 ## 工具使用
 
@@ -529,7 +589,7 @@ Claude 可以读取请求中的文本和图像。图像支持 `base64` 和 `url`
 
 ### 工具定义的最佳实践
 
-**提供极其详细的描述。** 这是迄今为止影响工具性能的最重要因素。您的描述应解释有关该工具的每一个细节，包括：
+**提供极其详细的描述。** 这是影响工具性能的最重要因素，其重要性远超其他因素。您的描述应解释有关该工具的每一个细节，包括：
 
 * 工具的功能
 * 何时应该使用它（以及何时不应该使用）

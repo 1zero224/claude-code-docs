@@ -308,6 +308,7 @@ type AnthropicBeta =
   | "analytics-usage-cost-2026-08-24"
   | "experimental-claude-tag-2026-10-21"
   | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
   | "user-profiles-billing-2026-10-01"
   /** @deprecated This value is no longer needed. Remove it from your requests. */
   | "message-batches-2024-09-24"
@@ -1139,15 +1140,21 @@ type Model =
   | "claude-sonnet-4-6"
   | "claude-haiku-4-5"
   | "claude-haiku-4-5-20251001"
-  /** Powerful intelligence for long-running agents and coding */
-  | "claude-opus-4-5"
-  /** Powerful intelligence for long-running agents and coding */
-  | "claude-opus-4-5-20251101"
   /**
    * New class of intelligence, strongest in coding and cybersecurity
    * @deprecated Will reach end-of-life on June 30, 2026. Please migrate to claude-mythos-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
    */
   | "claude-mythos-preview"
+  /**
+   * Powerful intelligence for long-running agents and coding
+   * @deprecated Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+   */
+  | "claude-opus-4-5"
+  /**
+   * Powerful intelligence for long-running agents and coding
+   * @deprecated Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+   */
+  | "claude-opus-4-5-20251101"
   /**
    * High-performance model for agents and coding
    * @deprecated Will reach end-of-life on November 30, 2026. Please migrate to claude-sonnet-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
@@ -4431,6 +4438,10 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 
   Anthropic has disabled the organization for trust and safety reasons. An organization disabled for any other reason, such as billing, does not get this code. `appeal_url`, when present, is where the organization can appeal.
 
+- `WorkspaceHumanReviewDisabledError` (HTTP status 400, error code `workspace_human_review_disabled`)
+
+  The request's Workspace has Human Review turned off, and this operation is not available there. Use a Workspace with Human Review on.
+
 - `EnforcedSpendLimitReachedError` (HTTP status 429, error code `enforced_spend_limit_reached`)
 
   The organization has crossed the monthly API usage threshold of its API tier.
@@ -5271,9 +5282,15 @@ type BetaManagedAgentsModel =
   | "claude-sonnet-4-6"
   | "claude-haiku-4-5"
   | "claude-haiku-4-5-20251001"
-  /** Powerful intelligence for long-running agents and coding */
+  /**
+   * Powerful intelligence for long-running agents and coding
+   * @deprecated Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+   */
   | "claude-opus-4-5"
-  /** Powerful intelligence for long-running agents and coding */
+  /**
+   * Powerful intelligence for long-running agents and coding
+   * @deprecated Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+   */
   | "claude-opus-4-5-20251101"
   /**
    * High-performance model for agents and coding
@@ -8216,13 +8233,13 @@ interface BetaManagedAgentsSessionUsage {
   /** Tokens used to create prompt cache entries, broken down by cache TTL. */
   cache_creation?: BetaManagedAgentsCacheCreationUsage;
   /** Total tokens read from prompt cache. */
-  cache_read_input_tokens?: number; // format: int32
+  cache_read_input_tokens?: number; // format: int64
   /** Total input tokens consumed across all turns. */
-  input_tokens?: number; // format: int32
+  input_tokens?: number; // format: int64
   /** Cumulative list cost of the session across all turns, priced at public list rates. Absent until cost tracking is available for the session. */
   list_cost?: BetaMonetaryAmount | null; // beta header: managed-agents-2026-04-01
   /** Total output tokens generated across all turns. */
-  output_tokens?: number; // format: int32
+  output_tokens?: number; // format: int64
   /** Cumulative server-executed tool usage across all turns. Absent until server-tool tracking is available for the session. */
   server_tool_use?: BetaManagedAgentsServerToolUsage | null; // beta header: managed-agents-2026-04-01
 }
@@ -8350,9 +8367,9 @@ interface BetaManagedAgentsMemoryStoreResource {
 
 interface BetaManagedAgentsCacheCreationUsage {
   /** Tokens used to create 1-hour ephemeral cache entries. */
-  ephemeral_1h_input_tokens?: number; // format: int32
+  ephemeral_1h_input_tokens?: number; // format: int64
   /** Tokens used to create 5-minute ephemeral cache entries. */
-  ephemeral_5m_input_tokens?: number; // format: int32
+  ephemeral_5m_input_tokens?: number; // format: int64
 }
 
 interface BetaManagedAgentsServerToolUsage {
@@ -10025,13 +10042,13 @@ interface BetaManagedAgentsSessionUsageSnapshot {
   /** Tokens used to create prompt cache entries, broken down by cache TTL. */
   cache_creation?: BetaManagedAgentsCacheCreationUsage;
   /** Total tokens read from prompt cache. */
-  cache_read_input_tokens?: number; // format: int32
+  cache_read_input_tokens?: number; // format: int64
   /** Total input tokens consumed across all turns. */
-  input_tokens?: number; // format: int32
+  input_tokens?: number; // format: int64
   /** Cumulative list cost of the session across all turns, priced at public list rates. */
   list_cost?: BetaMonetaryAmount;
   /** Total output tokens generated across all turns. */
-  output_tokens?: number; // format: int32
+  output_tokens?: number; // format: int64
   /** Cumulative server-executed tool usage across all turns. */
   server_tool_use?: BetaManagedAgentsServerToolUsage;
 }
@@ -10992,13 +11009,13 @@ interface BetaManagedAgentsSessionThreadUsage {
   /** Tokens used to create prompt cache entries, broken down by cache TTL. */
   cache_creation?: BetaManagedAgentsCacheCreationUsage;
   /** Total tokens read from prompt cache. */
-  cache_read_input_tokens?: number; // format: int32
+  cache_read_input_tokens?: number; // format: int64
   /** Total input tokens consumed across all turns. */
-  input_tokens?: number; // format: int32
+  input_tokens?: number; // format: int64
   /** Cumulative list cost of this thread across all turns, priced at public list rates. Absent until cost tracking is available for the thread. Each figure is rounded to the nearest cent independently and the session's aggregate `usage.list_cost` additionally includes session runtime, so per-thread costs do not sum exactly to the session figure; the session figure is authoritative and is what a budget is enforced against. */
   list_cost?: BetaMonetaryAmount | null; // beta header: managed-agents-2026-04-01
   /** Total output tokens generated across all turns. */
-  output_tokens?: number; // format: int32
+  output_tokens?: number; // format: int64
   /** Cumulative server-executed tool usage across all turns of this thread. Absent until server-tool tracking is available for the thread. */
   server_tool_use?: BetaManagedAgentsServerToolUsage | null; // beta header: managed-agents-2026-04-01
 }
@@ -11377,12 +11394,15 @@ const client = new Anthropic({
 });
 
 const betaManagedAgentsDeployment = await client.beta.deployments.create({
-  agent: "string",
-  environment_id: "x",
+  agent: { id: "agent_011CZkYpogX7uDKUyvBTophP", type: "agent" },
+  environment_id: "env_011CZkZ9X2dpNyB7HsEFoRfW",
   initial_events: [
-    { content: [{ text: "Where is my order #1234?", type: "text" }], type: "user.message" }
+    {
+      content: [{ text: "Compile yesterday's orders into report.md.", type: "text" }],
+      type: "user.message"
+    }
   ],
-  name: "x"
+  name: "Daily order report"
 });
 
 console.log(betaManagedAgentsDeployment.id);
@@ -15929,7 +15949,7 @@ interface BetaWebhookEvent {
 #### Types
 
 ```ts
-type BetaWebhookEventData = BetaWebhookSessionCreatedEventData | BetaWebhookSessionPendingEventData | BetaWebhookSessionRunningEventData | BetaWebhookSessionIdledEventData | BetaWebhookSessionRequiresActionEventData | BetaWebhookSessionArchivedEventData | BetaWebhookSessionDeletedEventData | BetaWebhookSessionStatusRescheduledEventData | BetaWebhookSessionStatusRunStartedEventData | BetaWebhookSessionStatusIdledEventData | BetaWebhookSessionStatusTerminatedEventData | BetaWebhookSessionThreadCreatedEventData | BetaWebhookSessionThreadIdledEventData | BetaWebhookSessionThreadTerminatedEventData | BetaWebhookSessionOutcomeEvaluationEndedEventData | BetaWebhookVaultCreatedEventData | BetaWebhookVaultArchivedEventData | BetaWebhookVaultDeletedEventData | BetaWebhookVaultCredentialCreatedEventData | BetaWebhookVaultCredentialArchivedEventData | BetaWebhookVaultCredentialDeletedEventData | BetaWebhookVaultCredentialRefreshFailedEventData | BetaWebhookSessionUpdatedEventData | BetaWebhookAgentCreatedEventData | BetaWebhookAgentArchivedEventData | BetaWebhookAgentDeletedEventData | BetaWebhookDeploymentPausedEventData | BetaWebhookDeploymentRunFailedEventData | BetaWebhookDeploymentCreatedEventData | BetaWebhookDeploymentUpdatedEventData | BetaWebhookDeploymentUnpausedEventData | BetaWebhookAgentUpdatedEventData | BetaWebhookDeploymentArchivedEventData | BetaWebhookDeploymentRunStartedEventData | BetaWebhookDeploymentDeletedEventData | BetaWebhookDeploymentRunSucceededEventData | BetaWebhookEnvironmentCreatedEventData | BetaWebhookEnvironmentUpdatedEventData | BetaWebhookEnvironmentArchivedEventData | BetaWebhookEnvironmentDeletedEventData | BetaWebhookMemoryStoreCreatedEventData | BetaWebhookMemoryStoreArchivedEventData | BetaWebhookMemoryStoreDeletedEventData | BetaWebhookSessionBudgetReachedEventData | BetaWebhookUserProfileEnforcementActionOpenedEventData | BetaWebhookUserProfileEnforcementActionResolvedEventData | BetaWebhookUserProfileProgramStatusUpdatedEventData | BetaWebhookExternalKeyFailedEventData | BetaWebhookExternalKeyRecoveredEventData;
+type BetaWebhookEventData = BetaWebhookSessionCreatedEventData | BetaWebhookSessionPendingEventData | BetaWebhookSessionRunningEventData | BetaWebhookSessionIdledEventData | BetaWebhookSessionRequiresActionEventData | BetaWebhookSessionArchivedEventData | BetaWebhookSessionDeletedEventData | BetaWebhookSessionStatusRescheduledEventData | BetaWebhookSessionStatusRunStartedEventData | BetaWebhookSessionStatusIdledEventData | BetaWebhookSessionStatusTerminatedEventData | BetaWebhookSessionThreadCreatedEventData | BetaWebhookSessionThreadIdledEventData | BetaWebhookSessionThreadTerminatedEventData | BetaWebhookSessionOutcomeEvaluationEndedEventData | BetaWebhookVaultCreatedEventData | BetaWebhookVaultArchivedEventData | BetaWebhookVaultDeletedEventData | BetaWebhookVaultCredentialCreatedEventData | BetaWebhookVaultCredentialArchivedEventData | BetaWebhookVaultCredentialDeletedEventData | BetaWebhookVaultCredentialRefreshFailedEventData | BetaWebhookSessionUpdatedEventData | BetaWebhookAgentCreatedEventData | BetaWebhookAgentArchivedEventData | BetaWebhookAgentDeletedEventData | BetaWebhookDeploymentPausedEventData | BetaWebhookDeploymentRunFailedEventData | BetaWebhookDeploymentCreatedEventData | BetaWebhookDeploymentUpdatedEventData | BetaWebhookDeploymentUnpausedEventData | BetaWebhookAgentUpdatedEventData | BetaWebhookDeploymentArchivedEventData | BetaWebhookDeploymentRunStartedEventData | BetaWebhookDeploymentDeletedEventData | BetaWebhookDeploymentRunSucceededEventData | BetaWebhookEnvironmentCreatedEventData | BetaWebhookEnvironmentUpdatedEventData | BetaWebhookEnvironmentArchivedEventData | BetaWebhookEnvironmentDeletedEventData | BetaWebhookMemoryStoreCreatedEventData | BetaWebhookMemoryStoreArchivedEventData | BetaWebhookMemoryStoreDeletedEventData | BetaWebhookSessionBudgetReachedEventData | BetaWebhookUserProfileEnforcementActionOpenedEventData | BetaWebhookUserProfileEnforcementActionResolvedEventData | BetaWebhookUserProfileProgramStatusUpdatedEventData | BetaWebhookExternalKeyFailedEventData | BetaWebhookExternalKeyRecoveredEventData | BetaWebhookExternalStorageFailedEventData | BetaWebhookExternalStorageRecoveredEventData;
 
 interface BetaWebhookSessionCreatedEventData {
   type: "session.created";
@@ -16335,6 +16355,20 @@ interface BetaWebhookExternalKeyRecoveredEventData {
   id: string;
   organization_id: string;
 }
+
+interface BetaWebhookExternalStorageFailedEventData {
+  type: "external_storage.failed";
+  /** ID (`estrg_...`) of the External Storage whose bucket failed Anthropic's check or passes it again. */
+  id: string;
+  organization_id: string;
+}
+
+interface BetaWebhookExternalStorageRecoveredEventData {
+  type: "external_storage.recovered";
+  /** ID (`estrg_...`) of the External Storage whose bucket failed Anthropic's check or passes it again. */
+  id: string;
+  organization_id: string;
+}
 ```
 
 ### Parse Unverified
@@ -16370,10 +16404,16 @@ body: string;
 
 ## Beta › User Profiles
 
+Register the end customers that your platform serves, so each request can name who it's for. To get started, see the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=typescript).
+
 ### Create User Profile
 
 - Signature: `client.beta.userProfiles.create(params: UserProfileCreateParams, options?: RequestOptions): BetaUserProfile`
 - Endpoint: `POST /v1/user_profiles`
+
+Register one of your end customers and get the ID to send on the requests you make for them.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=typescript#create-a-profile-for-each-end-customer) for what to send.
 
 #### Example request
 
@@ -16538,6 +16578,10 @@ interface BetaUserProfileExternalUserDetails {
 - Signature: `client.beta.userProfiles.list(params?: UserProfileListParams, options?: RequestOptions): PageCursor<BetaUserProfile>`
 - Endpoint: `GET /v1/user_profiles`
 
+List the user profiles in your organization, newest first by default.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=typescript) for how to set up and manage profiles.
+
 #### Example request
 
 ```ts
@@ -16620,6 +16664,10 @@ interface UserProfileListParams {
 - Signature: `client.beta.userProfiles.retrieve(userProfileID: string, params?: UserProfileRetrieveParams, options?: RequestOptions): BetaUserProfile`
 - Endpoint: `GET /v1/user_profiles/{user_profile_id}`
 
+Get a user profile by ID to check the details stored for it.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=typescript) for how to set up and manage profiles.
+
 #### Example request
 
 ```ts
@@ -16684,6 +16732,10 @@ interface UserProfileRetrieveParams {
 
 - Signature: `client.beta.userProfiles.update(userProfileID: string, params: UserProfileUpdateParams, options?: RequestOptions): BetaUserProfile`
 - Endpoint: `POST /v1/user_profiles/{user_profile_id}`
+
+Change the details of a user profile, leaving the fields that you don't send as they are.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=typescript#update-a-profile) for how each field is updated.
 
 #### Example request
 
@@ -16767,6 +16819,10 @@ interface UserProfileUpdateParams {
 - Signature: `client.beta.userProfiles.delete(userProfileID: string, params?: UserProfileDeleteParams, options?: RequestOptions): BetaDeletedUserProfile`
 - Endpoint: `DELETE /v1/user_profiles/{user_profile_id}`
 
+Delete a user profile, for example when the end customer closes their account.
+
+Stop sending the profile's ID first. See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=typescript#delete-a-profile) for what happens after a delete.
+
 #### Example request
 
 ```ts
@@ -16821,6 +16877,10 @@ interface BetaDeletedUserProfile {
 
 - Signature: `client.beta.userProfiles.createEnrollmentURL(userProfileID: string, params?: UserProfileCreateEnrollmentURLParams, options?: RequestOptions): BetaUserProfileEnrollmentURL`
 - Endpoint: `POST /v1/user_profiles/{user_profile_id}/enrollment_url`
+
+Create a link that sends the profile's end customer to the Verification Portal from Claude Platform on AWS.
+
+On the Claude API, create an action URL instead. See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=typescript) for when to create the link and what the end customer sees.
 
 #### Example request
 
@@ -16882,6 +16942,10 @@ interface BetaUserProfileEnrollmentURL {
 
 - Signature: `client.beta.userProfiles.actionURLs.create(userProfileID: string, params: ActionURLCreateParams, options?: RequestOptions): BetaUserProfileActionURL`
 - Endpoint: `POST /v1/user_profiles/{user_profile_id}/action_urls`
+
+Create a link that sends the profile's end customer to the Verification Portal.
+
+See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=typescript) for when to create the link and what the end customer sees.
 
 #### Example request
 
@@ -18936,8 +19000,8 @@ const client = new Anthropic({
 });
 
 const betaFederationIssuer = await client.beta.organization.federation.issuers.create({
-  issuer_url: "x",
-  name: "x"
+  issuer_url: "https://token.actions.githubusercontent.com",
+  name: "github-actions"
 });
 
 console.log(betaFederationIssuer.id);
@@ -19428,10 +19492,10 @@ const client = new Anthropic({
 });
 
 const betaFederationRule = await client.beta.organization.federation.rules.create({
-  issuer_id: "issuer_id",
+  issuer_id: "fdis_01SDCCSbTxrXDpWc1phhtcfK",
   match: {},
-  name: "x",
-  oauth_scope: "x",
+  name: "prod-deploy-pipeline",
+  oauth_scope: "workspace:developer",
   target: { service_account_id: "svac_01SDCCSbTxrXDpWc1phhtcfK", type: "service_account" }
 });
 
@@ -20005,7 +20069,7 @@ const client = new Anthropic({
 
 const betaFederationRuleWorkspace =
   await client.beta.organization.federation.rules.workspaces.add("federation_rule_id", {
-    workspace_id: "workspace_id"
+    workspace_id: "wrkspc_01JwQvzr7rXLA5AGx3HKfFUJ"
   });
 
 console.log(betaFederationRuleWorkspace.created_by_actor_id);
@@ -21117,6 +21181,597 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 
   The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
 
+## Beta › Organization › External Storage
+
+### Create External Storage
+
+- Signature: `client.beta.organization.externalStorage.create(params: ExternalStorageCreateParams, options?: RequestOptions): BetaExternalStorage`
+- Endpoint: `POST /v1/organizations/external_storage`
+- Beta header: `anthropic-beta: efs-2026-10-01`
+
+Register a bucket in the organization's own cloud account. It is saved
+as `pending_configuration` and verified when activated.
+
+#### Example request
+
+```ts
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic({
+  apiKey: process.env["ANTHROPIC_API_KEY"] // This is the default and can be omitted
+});
+
+const betaExternalStorage = await client.beta.organization.externalStorage.create({
+  provider_config: {
+    account_id: "111122223333",
+    bucket_name: "acme-safety-retention",
+    region: "us-east-2",
+    type: "aws"
+  }
+});
+
+console.log(betaExternalStorage.id);
+```
+
+#### Example response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "display_name",
+  "provider_config": {
+    "account_id": "111122223333",
+    "bucket_name": "acme-safety-retention",
+    "region": "us-east-2",
+    "type": "aws"
+  },
+  "setup_template_version": "2",
+  "status": {
+    "type": "pending_configuration"
+  },
+  "type": "external_storage",
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+}
+```
+
+#### Parameters
+
+```ts
+interface ExternalStorageCreateParams {
+  provider_config: BetaAWSExternalStorageConfigParam | BetaGCPExternalStorageConfigParam;
+  /** Human-friendly display name. */
+  display_name?: string | null; // minLength: 1, maxLength: 255
+  /** The user profile to bind the storage to. It can't be changed later. The storage can be attached only to Workspaces with this profile, and the bucket's setup must name the same ID. */
+  user_profile_id?: string | null;
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  betas?: Array<AnthropicBeta>; // header parameter
+}
+```
+
+#### Returns
+
+```ts
+/** A storage bucket in the organization's own cloud account. Anthropic writes inference data to it from each Workspace it is attached to. */
+interface BetaExternalStorage {
+  type: "external_storage";
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  id: string;
+  created_at: string; // format: date-time
+  /** Human-friendly display name. Null if none was set. */
+  display_name: string | null;
+  provider_config: BetaAWSExternalStorageConfig | BetaGCPExternalStorageConfig;
+  /** The version of Anthropic's setup template whose IAM role names this storage was found to use at activation. Null if no version was recorded, as for storage not yet activated or not on S3. */
+  setup_template_version: string | null;
+  status: BetaPendingConfigurationExternalStorageStatus | BetaAvailableExternalStorageStatus | BetaActiveExternalStorageStatus | BetaDrainingExternalStorageStatus;
+  updated_at: string; // format: date-time
+  /** The user profile the storage is bound to, or null. */
+  user_profile_id: string | null;
+}
+```
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=typescript).
+
+- `BetaGrantRequiredError` (HTTP status 400, error code `grant_required`)
+
+  Anthropic has not approved External Storage for the organization, for the Workspace or, for storage bound to a user profile, for that user profile. Contact your Anthropic account team.
+
+- `BetaOrganizationNotEligibleError` (HTTP status 400, error code `organization_not_eligible`)
+
+  The feature isn't offered to this organization. The error's `message` names the kind of organization or, when it names none, says to contact your Anthropic account team.
+
+- `BetaProviderNotAllowedError` (HTTP status 400, error code `provider_not_allowed`)
+
+  The request can't use External Storage on this cloud provider. The error's message says why.
+
+- `BetaUnsupportedRegionError` (HTTP status 400, error code `unsupported_region`)
+
+  `provider_config.region` is not a region where External Storage is available.
+
+- `UserProfileNotFoundError` (HTTP status 400, error code `user_profile_not_found`)
+
+  The request depends on a user profile that does not exist in the organization or is no longer active. The request either names this user profile by ID, or names a resource, such as an External Key, that is bound to it.
+
+- `SandboxEgressRestrictedError` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+- `BetaStorageAlreadyRegisteredError` (HTTP status 409, error code `storage_already_registered`)
+
+  The organization already has External Storage for this bucket that it has not deleted. List the organization's External Storage to find it.
+
+- `BetaAuthorizationCheckUnavailableError` (HTTP status 503, error code `authorization_check_unavailable`)
+
+  One of the organization's approvals from Anthropic could not be read right now, so nothing was done. Retry after the `Retry-After` delay.
+
+#### Types
+
+```ts
+/** An Amazon S3 bucket. */
+interface BetaAWSExternalStorageConfigParam {
+  type: "aws";
+  /** 12-digit ID of the AWS account that owns the bucket. */
+  account_id: string;
+  /** The bucket's name, without `s3://`: 3 to 63 lower-case letters, digits and hyphens, starting and ending with a letter or digit. */
+  bucket_name: string;
+  /** The bucket's AWS region. Activating the storage fails if Anthropic can't use buckets in that region. */
+  region: string;
+}
+
+/** A Google Cloud Storage bucket. */
+interface BetaGCPExternalStorageConfigParam {
+  type: "gcp";
+  /** The bucket's name, without `gs://`: 3 to 63 lower-case letters, digits and hyphens, starting and ending with a letter or digit. It can't start with `goog` or contain `google`. */
+  bucket_name: string;
+  /** Project number, not project ID, of the Google Cloud project that holds the bucket. */
+  project_number: string;
+  /** The bucket's Google Cloud region, such as `us-east5`: one of the single regions that the setup guide lists. Dual-regions and multi-regions aren't supported. */
+  region: string;
+}
+
+/** An Amazon S3 bucket. */
+interface BetaAWSExternalStorageConfig {
+  type: "aws";
+  /** 12-digit ID of the AWS account that owns the bucket. */
+  account_id: string;
+  /** The bucket's name, without `s3://`. */
+  bucket_name: string;
+  /** The bucket's AWS region. */
+  region: string;
+}
+
+/** A Google Cloud Storage bucket. */
+interface BetaGCPExternalStorageConfig {
+  type: "gcp";
+  /** The bucket's name, without `gs://`. */
+  bucket_name: string;
+  /** Number of the Google Cloud project that holds the bucket. */
+  project_number: string;
+  /** The bucket's Google Cloud region. */
+  region: string;
+}
+
+/** The storage isn't verified yet. */
+interface BetaPendingConfigurationExternalStorageStatus {
+  type: "pending_configuration";
+}
+
+/** The storage is verified, no Workspace has it attached, and Anthropic doesn't use the bucket. */
+interface BetaAvailableExternalStorageStatus {
+  type: "available";
+  /** Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring. */
+  healthy: boolean;
+  /** When the bucket's latest recorded check ran, in RFC 3339. */
+  last_checked_at: string; // format: date-time
+}
+
+/** At least one Workspace has the storage attached. */
+interface BetaActiveExternalStorageStatus {
+  type: "active";
+  /** Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring. */
+  healthy: boolean;
+  /** When the bucket's latest recorded check ran, in RFC 3339. */
+  last_checked_at: string; // format: date-time
+}
+
+/** No Workspace has the storage attached. A Workspace can attach it again, unless `removal_started` is true. */
+interface BetaDrainingExternalStorageStatus {
+  type: "draining";
+  /** Whether the bucket passed its latest recorded check. It can stay `true` after the bucket stops working, so don't use it for monitoring. */
+  healthy: boolean;
+  /** When the bucket's latest recorded check ran, in RFC 3339. */
+  last_checked_at: string; // format: date-time
+  /** True once a delete has started removing this storage, which can't be undone. It then can't be attached, and another delete finishes the removal. */
+  removal_started: boolean; // default: false
+}
+```
+
+### List External Storage
+
+- Signature: `client.beta.organization.externalStorage.list(params?: ExternalStorageListParams, options?: RequestOptions): PageCursor<BetaExternalStorage>`
+- Endpoint: `GET /v1/organizations/external_storage`
+- Beta header: `anthropic-beta: efs-2026-10-01`
+
+List the organization's External Storage, newest first.
+
+#### Example request
+
+```ts
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic({
+  apiKey: process.env["ANTHROPIC_API_KEY"] // This is the default and can be omitted
+});
+
+// Automatically fetches more pages as needed.
+for await (const betaExternalStorage of client.beta.organization.externalStorage.list()) {
+  console.log(betaExternalStorage.id);
+}
+```
+
+#### Example response (200)
+
+```json
+{
+  "data": [
+    {
+      "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+      "created_at": "2024-10-30T23:58:27.427722Z",
+      "display_name": "display_name",
+      "provider_config": {
+        "account_id": "111122223333",
+        "bucket_name": "acme-safety-retention",
+        "region": "us-east-2",
+        "type": "aws"
+      },
+      "setup_template_version": "2",
+      "status": {
+        "type": "pending_configuration"
+      },
+      "type": "external_storage",
+      "updated_at": "2024-10-30T23:58:27.427722Z",
+      "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+    }
+  ],
+  "next_page": "next_page"
+}
+```
+
+#### Parameters
+
+```ts
+interface ExternalStorageListParams {
+  /** Number of results per page. */
+  limit?: number; // query parameter, minimum: 1, maximum: 1000
+  /** Opaque cursor from a previous response's `next_page`. */
+  page?: string | null; // query parameter
+  /** Returns only External Storage bound to one of these user profile IDs (`uprof_...`). An empty entry matches storage bound to no user profile. At most 10 entries, counting repeats. */
+  user_profile_ids?: Array<string> | null; // query parameter, maxItems: 10
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  betas?: Array<AnthropicBeta>; // header parameter
+}
+```
+
+### Get External Storage
+
+- Signature: `client.beta.organization.externalStorage.retrieve(externalStorageID: string, params?: ExternalStorageRetrieveParams, options?: RequestOptions): BetaExternalStorage`
+- Endpoint: `GET /v1/organizations/external_storage/{external_storage_id}`
+- Beta header: `anthropic-beta: efs-2026-10-01`
+
+Get one External Storage in the organization.
+
+#### Example request
+
+```ts
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic({
+  apiKey: process.env["ANTHROPIC_API_KEY"] // This is the default and can be omitted
+});
+
+const betaExternalStorage = await client.beta.organization.externalStorage.retrieve(
+  "external_storage_id"
+);
+
+console.log(betaExternalStorage.id);
+```
+
+#### Example response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "display_name",
+  "provider_config": {
+    "account_id": "111122223333",
+    "bucket_name": "acme-safety-retention",
+    "region": "us-east-2",
+    "type": "aws"
+  },
+  "setup_template_version": "2",
+  "status": {
+    "type": "pending_configuration"
+  },
+  "type": "external_storage",
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+}
+```
+
+#### Parameters
+
+```ts
+/** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+externalStorageID: string; // path parameter
+
+interface ExternalStorageRetrieveParams {
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  betas?: Array<AnthropicBeta>; // header parameter
+}
+```
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=typescript).
+
+- `BetaInvalidStorageARNError` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+### Update External Storage
+
+- Signature: `client.beta.organization.externalStorage.update(externalStorageID: string, params: ExternalStorageUpdateParams, options?: RequestOptions): BetaExternalStorage`
+- Endpoint: `POST /v1/organizations/external_storage/{external_storage_id}`
+- Beta header: `anthropic-beta: efs-2026-10-01`
+
+Rename External Storage or clear its name, in any status.
+
+#### Example request
+
+```ts
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic({
+  apiKey: process.env["ANTHROPIC_API_KEY"] // This is the default and can be omitted
+});
+
+const betaExternalStorage = await client.beta.organization.externalStorage.update(
+  "external_storage_id",
+  { display_name: "x" }
+);
+
+console.log(betaExternalStorage.id);
+```
+
+#### Example response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "display_name",
+  "provider_config": {
+    "account_id": "111122223333",
+    "bucket_name": "acme-safety-retention",
+    "region": "us-east-2",
+    "type": "aws"
+  },
+  "setup_template_version": "2",
+  "status": {
+    "type": "pending_configuration"
+  },
+  "type": "external_storage",
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+}
+```
+
+#### Parameters
+
+```ts
+/** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+externalStorageID: string; // path parameter
+
+interface ExternalStorageUpdateParams {
+  /** Human-friendly display name; null clears it. */
+  display_name: string | null; // minLength: 1, maxLength: 255
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  betas?: Array<AnthropicBeta>; // header parameter
+}
+```
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=typescript).
+
+- `BetaInvalidStorageARNError` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+- `SandboxEgressRestrictedError` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+### Delete External Storage
+
+- Signature: `client.beta.organization.externalStorage.delete(externalStorageID: string, params?: ExternalStorageDeleteParams, options?: RequestOptions): BetaDeletedExternalStorage`
+- Endpoint: `DELETE /v1/organizations/external_storage/{external_storage_id}`
+- Beta header: `anthropic-beta: efs-2026-10-01`
+
+Delete External Storage. Storage that is pending configuration, available, or active
+but never attached is deleted at once, unless an Enterprise Frontier Safeguards workspace
+policy lists it. Other storage gets a 400 that says what to do next. On `draining`
+storage that 400 can mean this delete started a removal that can't be undone. To check,
+get the storage: if `status.removal_started` is true, delete it again later to finish.
+
+#### Example request
+
+```ts
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic({
+  apiKey: process.env["ANTHROPIC_API_KEY"] // This is the default and can be omitted
+});
+
+const betaDeletedExternalStorage = await client.beta.organization.externalStorage.delete(
+  "external_storage_id"
+);
+
+console.log(betaDeletedExternalStorage.id);
+```
+
+#### Example response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "type": "external_storage_deleted"
+}
+```
+
+#### Parameters
+
+```ts
+/** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+externalStorageID: string; // path parameter
+
+interface ExternalStorageDeleteParams {
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  betas?: Array<AnthropicBeta>; // header parameter
+}
+```
+
+#### Returns
+
+```ts
+interface BetaDeletedExternalStorage {
+  type: "external_storage_deleted";
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  id: string;
+}
+```
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=typescript).
+
+- `BetaExternalStorageInUseError` (HTTP status 400, error code `external_storage_in_use`)
+
+  The External Storage is `active` or `draining`, so this delete didn't erase it. The message says what to do next. On `draining` storage this delete may have started a removal that can't be undone: get the storage and read `status.removal_started`.
+
+- `BetaExternalStorageInWorkspacePolicyError` (HTTP status 400, error code `external_storage_in_workspace_policy`)
+
+  The External Storage can't be deleted while an Enterprise Frontier Safeguards workspace policy lists it as allowed storage.
+
+- `BetaInvalidStorageARNError` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+- `SandboxEgressRestrictedError` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+### Activate External Storage
+
+- Signature: `client.beta.organization.externalStorage.activate(externalStorageID: string, params?: ExternalStorageActivateParams, options?: RequestOptions): BetaExternalStorage`
+- Endpoint: `POST /v1/organizations/external_storage/{external_storage_id}/activate`
+- Beta header: `anthropic-beta: efs-2026-10-01`
+
+Verify pending External Storage and make it available. Storage that is
+already available, active or draining comes back unchanged, without any
+check.
+
+#### Example request
+
+```ts
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic({
+  apiKey: process.env["ANTHROPIC_API_KEY"] // This is the default and can be omitted
+});
+
+const betaExternalStorage = await client.beta.organization.externalStorage.activate(
+  "external_storage_id"
+);
+
+console.log(betaExternalStorage.id);
+```
+
+#### Example response (200)
+
+```json
+{
+  "id": "estrg_01SDCCSbTxrXDpWc1phhtcfK",
+  "created_at": "2024-10-30T23:58:27.427722Z",
+  "display_name": "display_name",
+  "provider_config": {
+    "account_id": "111122223333",
+    "bucket_name": "acme-safety-retention",
+    "region": "us-east-2",
+    "type": "aws"
+  },
+  "setup_template_version": "2",
+  "status": {
+    "type": "pending_configuration"
+  },
+  "type": "external_storage",
+  "updated_at": "2024-10-30T23:58:27.427722Z",
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+}
+```
+
+#### Parameters
+
+```ts
+/** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+externalStorageID: string; // path parameter
+
+interface ExternalStorageActivateParams {
+  /** This endpoint is in beta: requests must send `efs-2026-10-01` in this header. */
+  betas?: Array<AnthropicBeta>; // header parameter
+}
+```
+
+#### Errors
+
+Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=typescript).
+
+- `BetaGrantRequiredError` (HTTP status 400, error code `grant_required`)
+
+  Anthropic has not approved External Storage for the organization, for the Workspace or, for storage bound to a user profile, for that user profile. Contact your Anthropic account team.
+
+- `BetaInvalidStorageARNError` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
+- `BetaOrganizationNotEligibleError` (HTTP status 400, error code `organization_not_eligible`)
+
+  The feature isn't offered to this organization. The error's `message` names the kind of organization or, when it names none, says to contact your Anthropic account team.
+
+- `BetaProviderNotAllowedError` (HTTP status 400, error code `provider_not_allowed`)
+
+  The request can't use External Storage on this cloud provider. The error's message says why.
+
+- `BetaStorageVerificationFailedError` (HTTP status 400, error code `storage_verification_failed`)
+
+  The External Storage failed verification, so the request changed nothing. `failed_checks` lists what to fix.
+
+- `UserProfileNotFoundError` (HTTP status 400, error code `user_profile_not_found`)
+
+  The request depends on a user profile that does not exist in the organization or is no longer active. The request either names this user profile by ID, or names a resource, such as an External Key, that is bound to it.
+
+- `SandboxEgressRestrictedError` (HTTP status 403, error code `sandbox_egress_restricted`)
+
+  The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+- `BetaAuthorizationCheckUnavailableError` (HTTP status 503, error code `authorization_check_unavailable`)
+
+  One of the organization's approvals from Anthropic could not be read right now, so nothing was done. Retry after the `Retry-After` delay.
+
 ## Beta › Organization › Users
 
 ### List Users
@@ -21451,7 +22106,7 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 
 ### List Workspaces
 
-- Signature: `client.beta.organization.workspaces.list(query?: WorkspaceListParams, options?: RequestOptions): Page<BetaWorkspace>`
+- Signature: `client.beta.organization.workspaces.list(params?: WorkspaceListParams, options?: RequestOptions): Page<BetaWorkspace>`
 - Endpoint: `GET /v1/organizations/workspaces`
 
 #### Example request
@@ -21492,7 +22147,18 @@ for await (const betaWorkspace of client.beta.organization.workspaces.list()) {
         "team": "platform"
       },
       "type": "workspace",
-      "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+      "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+      "inference_data_privacy": {
+        "human_review": {
+          "type": "disabled"
+        },
+        "safeguards_storage": {
+          "type": "internal"
+        },
+        "transcripts_storage": {
+          "type": "internal"
+        }
+      }
     }
   ],
   "first_id": "first_id",
@@ -21517,6 +22183,8 @@ interface WorkspaceListParams {
   include_default?: boolean; // query parameter
   /** Number of items to return per page. Defaults to `20`. Ranges from `1` to `1000`. */
   limit?: number; // query parameter, minimum: 1, maximum: 1000
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  betas?: Array<AnthropicBeta>; // header parameter
 }
 ```
 
@@ -21546,6 +22214,8 @@ interface BetaWorkspace {
   tags: Record<string, string>;
   /** ID of the user profile attached to the Workspace, or null if it has none. Every inference request through a Workspace that has a user profile must name that profile. */
   user_profile_id: string | null;
+  /** Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Returned only to requests that send the `efs-2026-10-01` `anthropic-beta` value, and each member only to organizations enabled for it. */
+  inference_data_privacy?: BetaInferenceDataPrivacy; // beta header: efs-2026-10-01
 }
 ```
 
@@ -21561,7 +22231,34 @@ interface BetaDataResidency {
   workspace_geo: "us";
 }
 
+interface BetaInferenceDataPrivacy {
+  /** The Workspace's human review setting. Human review is off only while this is `disabled` and Anthropic's approval stands. */
+  human_review?: BetaAnthropicHumanReview;
+  /** Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. A recent change may not have taken effect yet. */
+  safeguards_storage?: BetaStorageMember;
+  /** Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. A recent change may not have taken effect yet. */
+  transcripts_storage?: BetaStorageMember;
+}
+
 type BetaAllowedInferenceGeo = "global" | "us";
+
+interface BetaAnthropicHumanReview {
+  type: "disabled" | "enabled";
+}
+
+type BetaStorageMember = BetaInternalStorage | BetaExternalStorageMember;
+
+/** No External Storage for this purpose. */
+interface BetaInternalStorage {
+  type: "internal";
+}
+
+/** The organization's External Storage that `external_storage_id` names. */
+interface BetaExternalStorageMember {
+  type: "external";
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  external_storage_id: string;
+}
 ```
 
 ### Create Workspace
@@ -21606,7 +22303,18 @@ console.log(betaWorkspace.id);
     "team": "platform"
   },
   "type": "workspace",
-  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+  "inference_data_privacy": {
+    "human_review": {
+      "type": "disabled"
+    },
+    "safeguards_storage": {
+      "type": "internal"
+    },
+    "transcripts_storage": {
+      "type": "internal"
+    }
+  }
 }
 ```
 
@@ -21622,6 +22330,8 @@ interface WorkspaceCreateParams {
   display_color?: string | null; // maxLength: 7, pattern: ^#[0-9A-Fa-f]{6}$
   /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same Region as the Workspace. If that key is outside the Workspace's AWS account, it can be attached only by updating an active Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
   external_key_id?: string | null;
+  /** Where the Workspace's retained inference data and transcript copies go, and whether Anthropic's human review applies. Requires the `efs-2026-10-01` `anthropic-beta` value. When omitted, `safeguards_storage` and `transcripts_storage` are `internal` and `human_review` is `enabled`. Cannot be null. An Admin API key can't set this field, because it doesn't belong to a user or a service account. Use an API key that belongs to one, or an OAuth token. */
+  inference_data_privacy?: BetaInferenceDataPrivacyCreateParam | null; // beta header: efs-2026-10-01
   /** User-defined tags as string key-value pairs. Keys may not begin with `anthropic`. */
   tags?: Record<string, string> | null;
   /** ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. The user profile can't be replaced or removed later; only deleting the user profile clears it. */
@@ -21635,6 +22345,10 @@ interface WorkspaceCreateParams {
 
 Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=typescript).
 
+- `BetaApprovalRequiredError` (HTTP status 400, error code `approval_required`)
+
+  Turning human review off needs Anthropic's approval for the organization, and the organization doesn't have it. Contact Anthropic support to request approval.
+
 - `ExternalKeyValidationFailedError` (HTTP status 400, error code `external_key_validation_failed`)
 
   The External Key failed Anthropic's validation, so the request was refused. The message gives the reason, if there is one.
@@ -21643,9 +22357,49 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 
   Anthropic's validation of the External Key did not finish in time, so the request was refused. Wait a moment, then send the request again.
 
+- `BetaExternalStorageNotAvailableError` (HTTP status 400, error code `external_storage_not_available`)
+
+  External Storage isn't available for this Workspace, so only `internal` storage is accepted. The error's `message` says why.
+
+- `BetaGrantRequiredError` (HTTP status 400, error code `grant_required`)
+
+  Anthropic has not approved External Storage for the organization, for the Workspace or, for storage bound to a user profile, for that user profile. Contact your Anthropic account team.
+
+- `BetaHumanReviewNotAvailableError` (HTTP status 400, error code `human_review_not_available`)
+
+  Human review can't be set as requested on this Workspace, so the request changed nothing. The error's `message` says what to do instead.
+
+- `BetaHumanReviewOnWithExternalStorageError` (HTTP status 400, error code `human_review_on_with_external_storage`)
+
+  The request would leave the Workspace with `inference_data_privacy.safeguards_storage` set to External Storage and `inference_data_privacy.human_review` enabled. Anthropic doesn't offer human review of data in a customer's own storage. Set `human_review` to `disabled`, or `safeguards_storage` to `internal`.
+
+- `BetaInvalidStorageARNError` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
 - `KeyProfileMismatchError` (HTTP status 400, error code `key_profile_mismatch`)
 
   After this request, the External Key and the Workspace would not have the same user profile. A key and its Workspace must have the same user profile, or both have none.
+
+- `BetaOrganizationNotEligibleError` (HTTP status 400, error code `organization_not_eligible`)
+
+  The feature isn't offered to this organization. The error's `message` names the kind of organization or, when it names none, says to contact your Anthropic account team.
+
+- `BetaStorageNotAttachableError` (HTTP status 400, error code `storage_not_attachable`)
+
+  This External Storage can't be attached to the setting named in `field`. The error's `message` says why.
+
+- `StorageProfileMismatchError` (HTTP status 400, error code `storage_profile_mismatch`)
+
+  The Workspace's storage and its user profile don't match: the Workspace and its storage must have the same user profile, or both have none.
+
+- `BetaStorageVerificationFailedError` (HTTP status 400, error code `storage_verification_failed`)
+
+  The External Storage failed verification, so the request changed nothing. `failed_checks` lists what to fix.
+
+- `BetaTranscriptsStorageRequiredError` (HTTP status 400, error code `transcripts_storage_required`)
+
+  In an organization managed through AWS or Google Cloud, the request would leave the Workspace with `inference_data_privacy.human_review` disabled and `inference_data_privacy.transcripts_storage` not set to External Storage. With human review disabled, the organization reviews its own flagged requests, and it receives them only in that storage.
 
 - `UserProfileNotFoundError` (HTTP status 400, error code `user_profile_not_found`)
 
@@ -21663,6 +22417,14 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 
   The external key changed while the request was validating it. Send the request again.
 
+- `BetaAuthorizationCheckUnavailableError` (HTTP status 503, error code `authorization_check_unavailable`)
+
+  One of the organization's approvals from Anthropic could not be read right now, so nothing was done. Retry after the `Retry-After` delay.
+
+- `WorkspaceCreatedIncompleteError` (HTTP status 503, error code `workspace_created_incomplete`)
+
+  The Workspace was created, but some of what the request asked for did not take effect, or may not have. Don't send the create again. The error's `message` says what to do with the Workspace at `workspace_id`.
+
 #### Types
 
 ```ts
@@ -21674,11 +22436,38 @@ interface BetaDataResidencyCreateConfig {
   /** Geographic region for workspace data storage. Immutable after creation. Defaults to 'us' if omitted. */
   workspace_geo?: "us" | null;
 }
+
+interface BetaInferenceDataPrivacyCreateParam {
+  /** Whether Anthropic's human review applies to the Workspace. `disabled` needs Anthropic's approval. When omitted, `enabled`. Cannot be null. */
+  human_review?: BetaAnthropicHumanReviewParam;
+  /** Where the data Anthropic's safeguards systems retain for the Workspace goes. `external` sends it, once the attach takes effect, to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. When omitted, `internal`. Cannot be null. */
+  safeguards_storage?: BetaStorageMemberParam;
+  /** Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go. `external` sends them, once the attach takes effect, to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no copies are made. When omitted, `internal`. Cannot be null. */
+  transcripts_storage?: BetaStorageMemberParam;
+}
+
+interface BetaAnthropicHumanReviewParam {
+  type: "disabled" | "enabled";
+}
+
+type BetaStorageMemberParam = BetaInternalStorageParam | BetaExternalStorageMemberParam;
+
+/** No External Storage for this purpose. */
+interface BetaInternalStorageParam {
+  type: "internal";
+}
+
+/** The organization's External Storage that `external_storage_id` names. */
+interface BetaExternalStorageMemberParam {
+  type: "external";
+  /** The External Storage ID, which starts with `estrg_`. Through Claude Platform on AWS, storage whose `provider_config.type` is `aws` has its bucket ARN as its ID instead: `arn:<partition>:s3:::<bucket_name>`, where `<partition>` is the partition of the bucket's region. */
+  external_storage_id: string;
+}
 ```
 
 ### Get Workspace
 
-- Signature: `client.beta.organization.workspaces.retrieve(workspaceID: string, options?: RequestOptions): BetaWorkspace`
+- Signature: `client.beta.organization.workspaces.retrieve(workspaceID: string, params?: WorkspaceRetrieveParams, options?: RequestOptions): BetaWorkspace`
 - Endpoint: `GET /v1/organizations/workspaces/{workspace_id}`
 
 #### Example request
@@ -21716,7 +22505,18 @@ console.log(betaWorkspace.id);
     "team": "platform"
   },
   "type": "workspace",
-  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+  "inference_data_privacy": {
+    "human_review": {
+      "type": "disabled"
+    },
+    "safeguards_storage": {
+      "type": "internal"
+    },
+    "transcripts_storage": {
+      "type": "internal"
+    }
+  }
 }
 ```
 
@@ -21725,11 +22525,16 @@ console.log(betaWorkspace.id);
 ```ts
 /** ID of the Workspace. */
 workspaceID: string; // path parameter
+
+interface WorkspaceRetrieveParams {
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  betas?: Array<AnthropicBeta>; // header parameter
+}
 ```
 
 ### Update Workspace
 
-- Signature: `client.beta.organization.workspaces.update(workspaceID: string, body: WorkspaceUpdateParams, options?: RequestOptions): BetaWorkspace`
+- Signature: `client.beta.organization.workspaces.update(workspaceID: string, params: WorkspaceUpdateParams, options?: RequestOptions): BetaWorkspace`
 - Endpoint: `POST /v1/organizations/workspaces/{workspace_id}`
 
 #### Example request
@@ -21767,7 +22572,18 @@ console.log(betaWorkspace.id);
     "team": "platform"
   },
   "type": "workspace",
-  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+  "inference_data_privacy": {
+    "human_review": {
+      "type": "disabled"
+    },
+    "safeguards_storage": {
+      "type": "internal"
+    },
+    "transcripts_storage": {
+      "type": "internal"
+    }
+  }
 }
 ```
 
@@ -21783,18 +22599,26 @@ interface WorkspaceUpdateParams {
   display_color?: string; // maxLength: 7, pattern: ^#[0-9A-Fa-f]{6}$
   /** ID of the customer-managed encryption key (CMEK) configuration to use for this Workspace. Setting this field requires CMEK to be enabled for your organization. When set, data stored for this Workspace is encrypted with the referenced key. Create key configurations with the External Keys API. On Claude Platform on AWS the value for an AWS KMS key is the key's ARN, and your organization's own key must be a single-Region key in the same Region as the Workspace. If that key is outside the Workspace's AWS account, it can be attached only by updating an active Workspace. On that platform the key is validated against this Workspace when it is attached, so a key-policy problem is reported as an error on this request. This field is write-once: once a key is attached to a Workspace it cannot be detached or replaced. To rotate key material, rotate the underlying key on your cloud KMS; the `external_key_id` stays the same. */
   external_key_id?: string;
+  /** Changes to where the Workspace's retained inference data and transcript copies go, and to whether Anthropic's human review applies. Requires the `efs-2026-10-01` `anthropic-beta` value. An omitted member is unchanged. Cannot be null. An Admin API key can't set this field, because it doesn't belong to a user or a service account. Use an API key that belongs to one, or an OAuth token. */
+  inference_data_privacy?: BetaInferenceDataPrivacyUpdateParam | null; // beta header: efs-2026-10-01
   /** Name of the Workspace. */
   name?: string; // minLength: 1, maxLength: 255
   /** User-defined tags as string key-value pairs. Keys may not begin with `anthropic`. */
   tags?: Record<string, string | null> | null;
   /** ID of a user profile to attach to the Workspace. Every inference request through the Workspace must then name this user profile; the API rejects a request that names none or a different one. Once set, it can't be replaced or removed (sending the same ID again changes nothing); only deleting the user profile clears it. It can't be set on a Workspace whose External Key isn't bound to this user profile. The default Workspace can't have a user profile. */
   user_profile_id?: string;
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  betas?: Array<AnthropicBeta>; // header parameter
 }
 ```
 
 #### Errors
 
 Any method can also return the general [HTTP errors](https://platform.claude.com/docs/en/api/errors?sdk_languages=typescript).
+
+- `BetaApprovalRequiredError` (HTTP status 400, error code `approval_required`)
+
+  Turning human review off needs Anthropic's approval for the organization, and the organization doesn't have it. Contact Anthropic support to request approval.
 
 - `ExternalKeyValidationFailedError` (HTTP status 400, error code `external_key_validation_failed`)
 
@@ -21804,9 +22628,57 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 
   Anthropic's validation of the External Key did not finish in time, so the request was refused. Wait a moment, then send the request again.
 
+- `BetaExternalStorageNotAvailableError` (HTTP status 400, error code `external_storage_not_available`)
+
+  External Storage isn't available for this Workspace, so only `internal` storage is accepted. The error's `message` says why.
+
+- `BetaGrantRequiredError` (HTTP status 400, error code `grant_required`)
+
+  Anthropic has not approved External Storage for the organization, for the Workspace or, for storage bound to a user profile, for that user profile. Contact your Anthropic account team.
+
+- `BetaHumanReviewNotAvailableError` (HTTP status 400, error code `human_review_not_available`)
+
+  Human review can't be set as requested on this Workspace, so the request changed nothing. The error's `message` says what to do instead.
+
+- `BetaHumanReviewOnWithExternalStorageError` (HTTP status 400, error code `human_review_on_with_external_storage`)
+
+  The request would leave the Workspace with `inference_data_privacy.safeguards_storage` set to External Storage and `inference_data_privacy.human_review` enabled. Anthropic doesn't offer human review of data in a customer's own storage. Set `human_review` to `disabled`, or `safeguards_storage` to `internal`.
+
+- `BetaInvalidStorageARNError` (HTTP status 400, error code `invalid_storage_arn`)
+
+  On Claude Platform on AWS, the External Storage ID in the request is neither a bucket ARN nor an `estrg_` ID, or is the `estrg_` ID of AWS storage. Name AWS storage by its bucket ARN, `arn:<partition>:s3:::<bucket_name>`, which responses return as its `id`.
+
 - `KeyProfileMismatchError` (HTTP status 400, error code `key_profile_mismatch`)
 
   After this request, the External Key and the Workspace would not have the same user profile. A key and its Workspace must have the same user profile, or both have none.
+
+- `BetaOrganizationNotEligibleError` (HTTP status 400, error code `organization_not_eligible`)
+
+  The feature isn't offered to this organization. The error's `message` names the kind of organization or, when it names none, says to contact your Anthropic account team.
+
+- `BetaStorageAttachLimitReachedError` (HTTP status 400, error code `storage_attach_limit_reached`)
+
+  The Workspace has reached its limit of 100 different External Storage resources attached over its lifetime. Detached storage counts toward the limit until it is deleted.
+
+- `BetaStorageNotAttachableError` (HTTP status 400, error code `storage_not_attachable`)
+
+  This External Storage can't be attached to the setting named in `field`. The error's `message` says why.
+
+- `StorageProfileMismatchError` (HTTP status 400, error code `storage_profile_mismatch`)
+
+  The Workspace's storage and its user profile don't match: the Workspace and its storage must have the same user profile, or both have none.
+
+- `BetaStorageProfileStillRequiredError` (HTTP status 400, error code `storage_profile_still_required`)
+
+  This storage is bound to a different user profile from storage the Workspace has attached, or from active or draining storage it once had for safeguards data. Detaching storage the Workspace uses only for transcripts clears this. Detaching safeguards storage doesn't, so use a new Workspace instead.
+
+- `BetaStorageVerificationFailedError` (HTTP status 400, error code `storage_verification_failed`)
+
+  The External Storage failed verification, so the request changed nothing. `failed_checks` lists what to fix.
+
+- `BetaTranscriptsStorageRequiredError` (HTTP status 400, error code `transcripts_storage_required`)
+
+  In an organization managed through AWS or Google Cloud, the request would leave the Workspace with `inference_data_privacy.human_review` disabled and `inference_data_privacy.transcripts_storage` not set to External Storage. With human review disabled, the organization reviews its own flagged requests, and it receives them only in that storage.
 
 - `UserProfileNotFoundError` (HTTP status 400, error code `user_profile_not_found`)
 
@@ -21824,6 +22696,22 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 
   The external key changed while the request was validating it. Send the request again.
 
+- `BetaStorageChangedConcurrentlyError` (HTTP status 409, error code `storage_changed_concurrently`)
+
+  Another request changed this storage setting while this one was running, so this request left it as it is. Read the Workspace and send the request again if you still want the change.
+
+- `BetaWorkspaceChangedConcurrentlyError` (HTTP status 409, error code `workspace_changed_concurrently`)
+
+  Another request changed the Workspace, so this request left the setting named in `field` as it is. The error's `message` says which of this request's other changes are in place. Read the Workspace and send the request again if you still want the change.
+
+- `BetaAuthorizationCheckUnavailableError` (HTTP status 503, error code `authorization_check_unavailable`)
+
+  One of the organization's approvals from Anthropic could not be read right now, so nothing was done. Retry after the `Retry-After` delay.
+
+- `ChangeOutcomeUnknownError` (HTTP status 503, error code `change_outcome_unknown`)
+
+  Some of the request's changes may have been saved and others not. Send the same request again to finish it; changes already saved aren't repeated.
+
 #### Types
 
 ```ts
@@ -21833,11 +22721,20 @@ interface BetaDataResidencyUpdateConfig {
   /** Default inference geo applied when requests omit the parameter. Must be a member of `allowed_inference_geos` unless `allowed_inference_geos` is `"unrestricted"`. */
   default_inference_geo?: "global" | "us" | null;
 }
+
+interface BetaInferenceDataPrivacyUpdateParam {
+  /** Whether Anthropic's human review applies to the Workspace from now on. `disabled` needs Anthropic's approval. When omitted, unchanged. Cannot be null. */
+  human_review?: BetaAnthropicHumanReviewParam;
+  /** Where the data Anthropic's safeguards systems retain for the Workspace goes once the change takes effect. `external` sends it to the External Storage that `external_storage_id` names. `internal` means no External Storage: it goes to Anthropic's storage or, on a cloud provider's platform, to that provider's storage. When omitted, unchanged. Cannot be null. */
+  safeguards_storage?: BetaStorageMemberParam;
+  /** Where copies of the Workspace's transcripts and its cases (Anthropic's safety findings about those transcripts) go once the change takes effect. `external` sends them to the External Storage that `external_storage_id` names. `internal` means no External Storage, so no more copies are made. When omitted, unchanged. Cannot be null. */
+  transcripts_storage?: BetaStorageMemberParam;
+}
 ```
 
 ### Archive Workspace
 
-- Signature: `client.beta.organization.workspaces.archive(workspaceID: string, options?: RequestOptions): BetaWorkspace`
+- Signature: `client.beta.organization.workspaces.archive(workspaceID: string, params?: WorkspaceArchiveParams, options?: RequestOptions): BetaWorkspace`
 - Endpoint: `POST /v1/organizations/workspaces/{workspace_id}/archive`
 
 #### Example request
@@ -21875,7 +22772,18 @@ console.log(betaWorkspace.id);
     "team": "platform"
   },
   "type": "workspace",
-  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK"
+  "user_profile_id": "uprof_01SDCCSbTxrXDpWc1phhtcfK",
+  "inference_data_privacy": {
+    "human_review": {
+      "type": "disabled"
+    },
+    "safeguards_storage": {
+      "type": "internal"
+    },
+    "transcripts_storage": {
+      "type": "internal"
+    }
+  }
 }
 ```
 
@@ -21883,6 +22791,11 @@ console.log(betaWorkspace.id);
 
 ```ts
 workspaceID: string; // path parameter
+
+interface WorkspaceArchiveParams {
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  betas?: Array<AnthropicBeta>; // header parameter
+}
 ```
 
 #### Errors
@@ -21892,6 +22805,10 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 - `SandboxEgressRestrictedError` (HTTP status 403, error code `sandbox_egress_restricted`)
 
   The request came from a Claude sandbox with restricted network access, which is not allowed to make this request. Send it from outside the sandbox, or from a sandbox with unrestricted network access.
+
+- `StorageAttachedDuringArchiveError` (HTTP status 409, error code `storage_attached_during_archive`)
+
+  The Workspace was archived, but External Storage was attached to it during the archive and is still attached. To detach it, archive the Workspace again as a caller with the `org:external-storage:use` permission.
 
 ## Beta › Organization › Workspaces › Rate Limits
 
@@ -22563,7 +23480,7 @@ const client = new Anthropic({
 
 const betaServiceAccountWorkspaceMember =
   await client.beta.organization.workspaces.serviceAccounts.add("workspace_id", {
-    service_account_id: "service_account_id",
+    service_account_id: "svac_01SDCCSbTxrXDpWc1phhtcfK",
     workspace_role: "workspace_admin"
   });
 
@@ -22921,7 +23838,7 @@ interface BetaOrganizationRateLimitValue {
 
 ### Get Compliance Settings
 
-- Signature: `client.beta.organization.complianceSettings.retrieve(options?: RequestOptions): BetaComplianceSettings`
+- Signature: `client.beta.organization.complianceSettings.retrieve(params?: ComplianceSettingRetrieveParams, options?: RequestOptions): BetaComplianceSettings`
 - Endpoint: `GET /v1/organizations/compliance_settings`
 
 Retrieve your organization's Compliance Settings.
@@ -22952,7 +23869,19 @@ console.log(betaComplianceSettings.state);
   "state": {
     "type": "enabled"
   },
-  "type": "compliance_settings"
+  "type": "compliance_settings",
+  "access_transparency": {
+    "type": "disabled"
+  }
+}
+```
+
+#### Parameters
+
+```ts
+interface ComplianceSettingRetrieveParams {
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  betas?: Array<AnthropicBeta>; // header parameter
 }
 ```
 
@@ -22963,6 +23892,8 @@ interface BetaComplianceSettings {
   type: "compliance_settings";
   /** Whether the Compliance API is enabled for this organization. */
   state: BetaComplianceSettingsState;
+  /** Read-only. Whether Access Transparency is on for the organization. Returned only when the request sends the `anthropic-beta: efs-2026-10-01` header and Access Transparency is available to the organization; otherwise omitted. If the status can't be read, getting Compliance Settings returns an error; an update still saves, but then reports `disabled` whatever the real status, so get the settings again to check it. */
+  access_transparency?: BetaAccessTransparency; // beta header: efs-2026-10-01
 }
 ```
 
@@ -22970,6 +23901,10 @@ interface BetaComplianceSettings {
 
 ```ts
 type BetaComplianceSettingsState = BetaComplianceSettingsStateEnabled | BetaComplianceSettingsStateDisabled;
+
+interface BetaAccessTransparency {
+  type: "disabled" | "enabled";
+}
 
 interface BetaComplianceSettingsStateEnabled {
   type: "enabled";
@@ -22982,7 +23917,7 @@ interface BetaComplianceSettingsStateDisabled {
 
 ### Update Compliance Settings
 
-- Signature: `client.beta.organization.complianceSettings.update(body: ComplianceSettingUpdateParams, options?: RequestOptions): BetaComplianceSettings`
+- Signature: `client.beta.organization.complianceSettings.update(params: ComplianceSettingUpdateParams, options?: RequestOptions): BetaComplianceSettings`
 - Endpoint: `POST /v1/organizations/compliance_settings`
 
 Update your organization's Compliance Settings.
@@ -23026,7 +23961,10 @@ console.log(betaComplianceSettings.state);
   "state": {
     "type": "enabled"
   },
-  "type": "compliance_settings"
+  "type": "compliance_settings",
+  "access_transparency": {
+    "type": "disabled"
+  }
 }
 ```
 
@@ -23036,6 +23974,8 @@ console.log(betaComplianceSettings.state);
 interface ComplianceSettingUpdateParams {
   /** Desired state. Accepts the string shorthand "enabled" or "disabled" in place of the object form; the response always returns the canonical object form. */
   state: BetaComplianceSettingsStateParam;
+  /** Optional. Send `efs-2026-10-01` in this header to use this endpoint's beta features: additional parameters, accepted values and response fields. */
+  betas?: Array<AnthropicBeta>; // header parameter
 }
 ```
 
@@ -24553,6 +25493,12 @@ bucket; every combination is returned across pages. With no `group_by[]`
 and no `time_bucket_width`, a single row aggregates the whole range.
 Includes all usage, whether or not it is attributable to a seat user.
 Requires an API key with the `read:analytics` scope, or an Admin API key.
+This endpoint is in beta and is not available to organizations with HIPAA
+readiness enabled: their API requests return a 400 error. A parent
+organization's report across its child organizations leaves out the child
+organizations that have HIPAA readiness enabled. If the parent has child
+organizations and all of them have HIPAA readiness enabled, the request
+returns a 400 error.
 
 #### Example request
 
@@ -24639,9 +25585,9 @@ interface UsageListParams {
   actor_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** Filter to usage attributed to specific kinds of identity. Use `group_by[]=actor_type` to break out per-kind values. */
   actor_types?: Array<BetaAnalyticsActorType> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
-  /** Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. Claude Platform organizations only. */
+  /** Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. */
   agent_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
-  /** Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. Claude Platform organizations only. */
+  /** Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. */
   api_key_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. Use `group_by[]=claude_tag_category` to break out per-category values. */
   claude_tag_categories?: Array<BetaAnalyticsClaudeTagCategory> | null; // query parameter, maxItems: 100
@@ -24649,11 +25595,11 @@ interface UsageListParams {
   claude_tag_user_ids?: Array<string> | null; // query parameter, maxItems: 100
   /** Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values. */
   context_windows?: Array<BetaAnalyticsContextWindow> | null; // query parameter, maxItems: 100
-  /** Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. Claude Platform organizations only. */
+  /** Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. */
   deployment_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** End of range, exclusive. Required when `time_bucket_width` is set. Without `time_bucket_width`, defaults to the earlier of now and `starting_at` + 31 days. The range may span at most 31 days. */
   ending_at?: string | null; // query parameter, format: date-time
-  /** Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. Claude Platform organizations only. */
+  /** Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. */
   environment_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** If true, omit rows whose `actor` is a `user_actor` with `deleted: true`. Requires `group_by[]=actor`. Rows for other actor types, and rows whose `actor` is null, are always kept. A page may contain fewer than `limit` rows; use `has_more` and `next_page` to paginate as usual. */
   exclude_deleted_users?: boolean; // query parameter
@@ -24669,7 +25615,7 @@ interface UsageListParams {
   order?: BetaAnalyticsUsageCostSortOrder; // query parameter
   /** Row order. A metric ranks rows by that metric in the `order` direction. `time` orders rows by time bucket in the `order` direction (newest first by default) and, within a bucket, by `total_tokens`, highest first. `time` takes effect only with `time_bucket_width`; without it, `time` is the same as `total_tokens`. Defaults to `total_tokens`. */
   order_by?: BetaAnalyticsUsageOrderBy; // query parameter
-  /** Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values. */
+  /** Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. The report leaves out child organizations with HIPAA readiness enabled, and naming one returns a 400 error. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values. */
   organization_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** Opaque cursor from a previous response's `next_page` field. */
   page?: string | null; // query parameter
@@ -24677,9 +25623,9 @@ interface UsageListParams {
   products?: Array<BetaAnalyticsUsageCostProductFilter> | null; // query parameter, maxItems: 100
   /** Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches. */
   rbac_group_ids?: Array<string> | null; // query parameter, maxItems: 100
-  /** Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization. */
+  /** Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. */
   service_tiers?: Array<BetaAnalyticsServiceTier> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
-  /** Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. Claude Platform organizations only. */
+  /** Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. */
   session_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** Filter to usage originating from specific Slack channels. Use `group_by[]=slack_channel_id` to break out per-channel values. */
   slack_channel_ids?: Array<string> | null; // query parameter, maxItems: 100
@@ -24687,9 +25633,9 @@ interface UsageListParams {
   speeds?: Array<BetaAnalyticsSpeed> | null; // query parameter, maxItems: 100
   /** Time-bucket granularity. When set, rows are returned per time bucket (one per bucket and dimension combination with usage) and each row's `starting_at` and `ending_at` are that bucket's bounds; the time bucket counts toward `limit`. `ending_at` is required when `time_bucket_width` is set, and with `time_bucket_width="1m"` the range may span at most 24 hours. When omitted, each row aggregates the requested range with `starting_at` and `ending_at` each rounded down to the hour. */
   time_bucket_width?: BetaAnalyticsTimeBucketWidth | null; // query parameter
-  /** Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. Claude Platform organizations only. */
+  /** Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. */
   user_profile_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
-  /** Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization. */
+  /** Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. */
   workspace_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** This endpoint is in beta: requests must send `analytics-usage-cost-2026-08-24` in this header. */
   betas?: Array<AnthropicBeta>; // header parameter
@@ -24765,7 +25711,7 @@ interface BetaAnalyticsUsageGroup {
   product: string | null;
   /** RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`. */
   rbac_group_id: string | null;
-  /** Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution) and for Claude Enterprise usage. */
+  /** Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution). */
   service_tier: BetaAnalyticsServiceTier | null; // beta header: analytics-usage-cost-2026-08-24
   /** Claude Managed Agents session that incurred the usage. Populated only when `session_id` is in `group_by[]`; null for usage outside a managed session. */
   session_id: string | null; // beta header: analytics-usage-cost-2026-08-24
@@ -24773,9 +25719,9 @@ interface BetaAnalyticsUsageGroup {
   slack_channel_id: string | null;
   /** Inference speed mode of the usage or cost: `fast` or `standard`. Null unless `speed` is in `group_by[]`. */
   speed: BetaAnalyticsSpeed | null;
-  /** User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile and for Claude Enterprise usage. */
+  /** User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile. */
   user_profile_id: string | null; // beta header: analytics-usage-cost-2026-08-24
-  /** Workspace the usage occurred in, as a tagged workspace ID, including the organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for Claude Enterprise usage. */
+  /** Workspace the usage occurred in, as a tagged workspace ID, including a Claude Platform organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for usage in a Claude Enterprise organization's default workspace, which is its only workspace. */
   workspace_id: string | null; // beta header: analytics-usage-cost-2026-08-24
 }
 
@@ -24883,7 +25829,13 @@ cost in the range, ranked by spend or ordered by time bucket; every
 combination is returned across pages. With no `group_by[]` and no
 `time_bucket_width`, a single row aggregates the whole range. Includes
 all cost, whether or not it is attributable to a seat user. Requires an
-API key with the `read:analytics` scope, or an Admin API key.
+API key with the `read:analytics` scope, or an Admin API key. This
+endpoint is in beta and is not available to organizations with HIPAA
+readiness enabled: their API requests return a 400 error. A parent
+organization's report across its child organizations leaves out the child
+organizations that have HIPAA readiness enabled. If the parent has child
+organizations and all of them have HIPAA readiness enabled, the request
+returns a 400 error.
 
 #### Example request
 
@@ -24964,9 +25916,9 @@ interface CostListParams {
   actor_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** Filter to usage attributed to specific kinds of identity. Use `group_by[]=actor_type` to break out per-kind values. */
   actor_types?: Array<BetaAnalyticsActorType> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
-  /** Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. Claude Platform organizations only. */
+  /** Filter to usage incurred by sessions of specific Claude Managed Agents agents. Use `group_by[]=agent_id` to break out per-agent values. */
   agent_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
-  /** Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. Claude Platform organizations only. */
+  /** Filter to usage authenticated by specific API keys, by tagged API key ID (`apikey_...`), whichever identity the usage is attributed to. Include an empty entry (`api_key_ids[]=`) to also match usage that no API key authenticated. Use `group_by[]=api_key_id` to break out per-key values; usage without a key has a null `api_key_id`. */
   api_key_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** Filter to Claude Tag (Claude in Slack) usage in specific spend categories. Usage with no category never matches. Use `group_by[]=claude_tag_category` to break out per-category values. */
   claude_tag_categories?: Array<BetaAnalyticsClaudeTagCategory> | null; // query parameter, maxItems: 100
@@ -24974,11 +25926,11 @@ interface CostListParams {
   claude_tag_user_ids?: Array<string> | null; // query parameter, maxItems: 100
   /** Filter to specific context-window pricing tiers. Use `group_by[]=context_window` to break out per-tier values. */
   context_windows?: Array<BetaAnalyticsContextWindow> | null; // query parameter, maxItems: 100
-  /** Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. Claude Platform organizations only. */
+  /** Filter to usage incurred by Claude Managed Agents sessions that specific deployments started. Use `group_by[]=deployment_id` to break out per-deployment values. */
   deployment_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** End of range, exclusive. Required when `time_bucket_width` is set. Without `time_bucket_width`, defaults to the earlier of now and `starting_at` + 31 days. The range may span at most 31 days. */
   ending_at?: string | null; // query parameter, format: date-time
-  /** Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. Claude Platform organizations only. */
+  /** Filter to usage incurred by Claude Managed Agents sessions that ran in specific environments. Use `group_by[]=environment_id` to break out per-environment values. */
   environment_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** If true, omit rows whose `actor` is a `user_actor` with `deleted: true`. Requires `group_by[]=actor`. Rows for other actor types, and rows whose `actor` is null, are always kept. A page may contain fewer than `limit` rows; use `has_more` and `next_page` to paginate as usual. */
   exclude_deleted_users?: boolean; // query parameter
@@ -24994,7 +25946,7 @@ interface CostListParams {
   order?: BetaAnalyticsUsageCostSortOrder; // query parameter
   /** Row order. A metric ranks rows by that metric in the `order` direction. `time` orders rows by time bucket in the `order` direction (newest first by default) and, within a bucket, by `amount`, highest first. `time` takes effect only with `time_bucket_width`; without it, `time` is the same as `amount`. Defaults to `amount`. */
   order_by?: BetaAnalyticsCostOrderBy; // query parameter
-  /** Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values. */
+  /** Filter a parent organization's report to specific child organizations, by organization UUID or `org_` ID; an ID that is not one of its child organizations matches nothing. The report leaves out child organizations with HIPAA readiness enabled, and naming one returns a 400 error. Requires an API key created at the parent organization level. Use `group_by[]=organization_id` to break out per-organization values. */
   organization_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** Opaque cursor from a previous response's `next_page` field. */
   page?: string | null; // query parameter
@@ -25002,9 +25954,9 @@ interface CostListParams {
   products?: Array<BetaAnalyticsUsageCostProductFilter> | null; // query parameter, maxItems: 100
   /** Filter to usage attributed to specific RBAC groups. Accepts tagged RBAC group IDs (`rbac_group_...`) or bare group UUIDs. A row matches when the user belonged to any of the listed groups on the (UTC) day the usage occurred; usage with no group attribution never matches. */
   rbac_group_ids?: Array<string> | null; // query parameter, maxItems: 100
-  /** Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization. */
+  /** Filter to specific service tiers. Use `group_by[]=service_tier` to break out per-tier values. */
   service_tiers?: Array<BetaAnalyticsServiceTier> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
-  /** Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. Claude Platform organizations only. */
+  /** Filter to usage incurred by specific Claude Managed Agents sessions, by tagged session ID (`sesn_...`). Use `group_by[]=session_id` to break out per-session values. */
   session_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** Filter to usage originating from specific Slack channels. Use `group_by[]=slack_channel_id` to break out per-channel values. */
   slack_channel_ids?: Array<string> | null; // query parameter, maxItems: 100
@@ -25012,9 +25964,9 @@ interface CostListParams {
   speeds?: Array<BetaAnalyticsSpeed> | null; // query parameter, maxItems: 100
   /** Time-bucket granularity. When set, rows are returned per time bucket (one per bucket and dimension combination with usage) and each row's `starting_at` and `ending_at` are that bucket's bounds; the time bucket counts toward `limit`. `ending_at` is required when `time_bucket_width` is set, and with `time_bucket_width="1m"` the range may span at most 24 hours. When omitted, each row aggregates the requested range with `starting_at` and `ending_at` each rounded down to the hour. */
   time_bucket_width?: BetaAnalyticsTimeBucketWidth | null; // query parameter
-  /** Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. Claude Platform organizations only. */
+  /** Filter to usage attributed to specific user profiles, by tagged user profile ID (`uprof_...`). Use `group_by[]=user_profile_id` to break out per-profile values. */
   user_profile_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
-  /** Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. Claude Platform organizations only; matches nothing for a Claude Enterprise organization. */
+  /** Filter to usage in specific workspaces, by tagged workspace ID (`wrkspc_...`). Use `group_by[]=workspace_id` to break out per-workspace values. */
   workspace_ids?: Array<string> | null; // query parameter, maxItems: 100, beta header: analytics-usage-cost-2026-08-24
   /** This endpoint is in beta: requests must send `analytics-usage-cost-2026-08-24` in this header. */
   betas?: Array<AnthropicBeta>; // header parameter
@@ -25085,7 +26037,7 @@ interface BetaAnalyticsCostGroup {
   product: string | null;
   /** RBAC group (team) the usage is attributed to, in the public tagged `rbac_group_...` spelling — the same spelling the activity resources use for this key, so the same team has one id across resources and it round-trips as an `rbac_group_ids[]` filter value. Populated only when `rbac_group_id` is in `group_by[]`. Any-membership semantics: a user in several groups contributes their full usage to each of those groups' rows, so the named-group rows overlap and their sum can exceed the org total. A null value is the single unassigned row: users in no group on that (UTC) day. For the true org total, run the same query without `group_by[]`. */
   rbac_group_id: string | null;
-  /** Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution) and for Claude Enterprise usage. */
+  /** Service tier the usage was served at. Populated only when `service_tier` is in `group_by[]`; null for usage with no service tier (for example, code execution). */
   service_tier: BetaAnalyticsServiceTier | null; // beta header: analytics-usage-cost-2026-08-24
   /** Claude Managed Agents session that incurred the usage. Populated only when `session_id` is in `group_by[]`; null for usage outside a managed session. */
   session_id: string | null; // beta header: analytics-usage-cost-2026-08-24
@@ -25095,9 +26047,9 @@ interface BetaAnalyticsCostGroup {
   speed: BetaAnalyticsSpeed | null;
   /** Token type when `cost_type` is `tokens`; null otherwise. */
   token_type: BetaAnalyticsTokenType | null;
-  /** User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile and for Claude Enterprise usage. */
+  /** User profile the usage was attributed to, as a tagged `uprof_` ID. Populated only when `user_profile_id` is in `group_by[]`; null for usage that named no profile. */
   user_profile_id: string | null; // beta header: analytics-usage-cost-2026-08-24
-  /** Workspace the usage occurred in, as a tagged workspace ID, including the organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for Claude Enterprise usage. */
+  /** Workspace the usage occurred in, as a tagged workspace ID, including a Claude Platform organization's default workspace. Populated only when `workspace_id` is in `group_by[]`; null for usage in a Claude Enterprise organization's default workspace, which is its only workspace. */
   workspace_id: string | null; // beta header: analytics-usage-cost-2026-08-24
 }
 
@@ -27979,7 +28931,8 @@ marketplaces.
 
 Plugins in members' personal marketplaces are listed with the same detail as the
 organization's own, and their files can be downloaded through the version archive
-endpoint, which records each such download on the Compliance API activity feed.
+endpoint. Those downloads can be recorded on the Compliance API activity feed; the
+version archive endpoint says when.
 
 **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope.
 
@@ -28487,9 +29440,9 @@ interface VersionRetrieveParams {
 - Endpoint: `GET /v1/organizations/plugins/{plugin_id}/versions/{version}/content`
 - Beta header: `anthropic-beta: ce-plugins-2026-09-01`
 
-Download one version's `.zip` archive, exactly as stored. Each download of a
-Plugin from a member's personal plugin marketplace is recorded on the Compliance API
-activity feed.
+Download one version's `.zip` archive, exactly as stored. Downloads of Plugins from
+members' personal plugin marketplaces can be recorded on the Compliance API activity
+feed.
 
 The response body is the archive (`Content-Type: application/zip`), sent as an
 attachment whose filename is derived from the Plugin's name; name saved files from
@@ -28502,9 +29455,11 @@ Every read scope above (`read:plugins`, `read:org_audit`, and
 marketplaces, including files that claude.ai's admin settings do not show, and a
 `read:org_audit` or `read:compliance_org_data` key created for all of your parent
 organization's linked organizations can do this in any organization under it that has
-access to this API, by passing `organization_id`. Each such download records a
-`claude_plugin_archive_accessed` event on the Compliance API activity feed,
-identifying the key, the plugin, the version, and the member. Downloads of
+access to this API, by passing `organization_id`. The Compliance API activity feed can
+record such a download as a `claude_plugin_archive_accessed` event, which identifies
+the key, the plugin, the version, and the member. It does so only while activity
+events are captured for the plugin's organization, and a record is not guaranteed even
+then. The files are served whether or not the download is recorded. Downloads of
 organization-owned plugins are not recorded.
 
 Every request must include the beta header `anthropic-beta: ce-plugins-2026-09-01`. A request without it returns `404`, exactly as if the endpoint did not exist. The Plugins API is in beta and is available to Claude Enterprise organizations only. It is not available to Claude Platform (Claude Console) organizations, or to organizations with HIPAA readiness enabled.
@@ -28865,10 +29820,9 @@ Any method can also return the general [HTTP errors](https://platform.claude.com
 List the shares the owner of a member-owned Plugin has given — to every member of
 the organization, to an RBAC Group, or to one member — most recently granted first.
 
-Shares are read-only in this API: members give and withdraw them in claude.ai, and
-who gave a share is recorded on the Compliance API activity feed rather than on the
-share. An organization-owned Plugin has installation settings instead, so this path
-returns 404 for one.
+Shares are read-only in this API: members give and withdraw them in claude.ai. The
+Plugin's `owner` gave each share listed. An organization-owned Plugin has installation
+settings instead of shares, so this path returns 404 for one.
 
 **Accepted credentials:** an Admin API key with the `read:plugins` or `read:org_audit` scope, or a Compliance Access Key with the `read:compliance_org_data` scope.
 
@@ -28932,7 +29886,7 @@ interface ShareListParams {
 #### Returns
 
 ```ts
-/** One share the owner of a member-owned Plugin has given. Shares are read-only in this API and have no ID of their own; who gave a share is recorded on the Compliance API activity feed, not here. */
+/** One share the owner of a member-owned Plugin has given. Shares are read-only in this API and have no ID of their own. The Plugin's `owner` is the member who gave the share. */
 interface BetaPluginShare {
   /** Always `plugin_share`. */
   type: "plugin_share";
@@ -29460,7 +30414,7 @@ const client = new Anthropic({
 });
 
 const betaTelemetryDestination = await client.beta.organization.telemetryDestinations.create({
-  endpoint_url: "x",
+  endpoint_url: "https://gateway.example.com",
   workspaces: { type: "all" }
 });
 
@@ -30314,7 +31268,7 @@ console.log(betaNewOrganizationWebhookEndpoint.id);
 ```ts
 interface WebhookCreateParams {
   /** The event types to deliver to the endpoint. Must list at least one. */
-  enabled_events: Array<"external_key.failed" | "external_key.recovered" | "user_profile.enforcement_action_opened" | "user_profile.enforcement_action_resolved" | "user_profile.program_status_updated">;
+  enabled_events: Array<"external_key.failed" | "external_key.recovered" | "external_storage.failed" | "external_storage.recovered" | "user_profile.enforcement_action_opened" | "user_profile.enforcement_action_resolved" | "user_profile.program_status_updated">;
   /** The HTTPS URL that deliveries are sent to. */
   url: string; // minLength: 1
   /** Notes about the endpoint. */
@@ -30340,7 +31294,7 @@ interface BetaNewOrganizationWebhookEndpoint {
   /** Why Anthropic disabled the endpoint automatically. An empty string when the endpoint is enabled, or when you disabled it. */
   disabled_reason: string;
   /** The event types delivered to the endpoint. */
-  enabled_events: Array<"external_key.failed" | "external_key.recovered" | "user_profile.enforcement_action_opened" | "user_profile.enforcement_action_resolved" | "user_profile.program_status_updated">;
+  enabled_events: Array<"external_key.failed" | "external_key.recovered" | "external_storage.failed" | "external_storage.recovered" | "user_profile.enforcement_action_opened" | "user_profile.enforcement_action_resolved" | "user_profile.program_status_updated">;
   /** A short label for the endpoint. An empty string when none was given. */
   name: string;
   /** The secret Anthropic signs deliveries to the endpoint with (prefix `whsec_`). No other response returns it, so store it now. To replace it, regenerate the signing secret. */
@@ -30444,7 +31398,7 @@ interface BetaOrganizationWebhookEndpoint {
   /** Why Anthropic disabled the endpoint automatically. An empty string when the endpoint is enabled, or when you disabled it. */
   disabled_reason: string;
   /** The event types delivered to the endpoint. */
-  enabled_events: Array<"external_key.failed" | "external_key.recovered" | "user_profile.enforcement_action_opened" | "user_profile.enforcement_action_resolved" | "user_profile.program_status_updated">;
+  enabled_events: Array<"external_key.failed" | "external_key.recovered" | "external_storage.failed" | "external_storage.recovered" | "user_profile.enforcement_action_opened" | "user_profile.enforcement_action_resolved" | "user_profile.program_status_updated">;
   /** A short label for the endpoint. An empty string when none was given. */
   name: string;
   /** Whether deliveries are sent to the endpoint. */
@@ -30567,7 +31521,7 @@ interface WebhookUpdateParams {
   /** Notes about the endpoint. */
   description?: string;
   /** The event types to deliver to the endpoint. Replaces the whole set; an empty list leaves it unchanged. */
-  enabled_events?: Array<"external_key.failed" | "external_key.recovered" | "user_profile.enforcement_action_opened" | "user_profile.enforcement_action_resolved" | "user_profile.program_status_updated">;
+  enabled_events?: Array<"external_key.failed" | "external_key.recovered" | "external_storage.failed" | "external_storage.recovered" | "user_profile.enforcement_action_opened" | "user_profile.enforcement_action_resolved" | "user_profile.program_status_updated">;
   /** A short label for the endpoint. */
   name?: string;
   /** `disabled` stops deliveries. `enabled` resumes them and clears `disabled_reason`. Events that happen while the endpoint is disabled are never delivered. */
@@ -31458,7 +32412,7 @@ const client = new Anthropic({
 
 const betaClaudeTagSlackChannel =
   await client.beta.organization.claudeTag.slackChannels.create({
-    slack: { channel_id: "xx", workspace_id: "xx" }
+    slack: { channel_id: "C0456EFGH", workspace_id: "T0123ABCD" }
   });
 
 console.log(betaClaudeTagSlackChannel.id);
@@ -31483,8 +32437,8 @@ console.log(betaClaudeTagSlackChannel.id);
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -31770,8 +32724,8 @@ for await (const betaClaudeTagSlackChannel of client.beta.organization.claudeTag
         }
       },
       "slack": {
-        "channel_id": "xx",
-        "workspace_id": "xx"
+        "channel_id": "C0456EFGH",
+        "workspace_id": "T0123ABCD"
       },
       "sources": {
         "enabled": {
@@ -31892,8 +32846,8 @@ console.log(betaClaudeTagSlackChannel.id);
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -32007,8 +32961,8 @@ console.log(betaClaudeTagSlackChannel.id);
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -32964,7 +33918,7 @@ const client = new Anthropic({
 const betaClaudeTagBundleTarget =
   await client.beta.organization.claudeTag.bundles.targets.create(
     "capp_011CZkZjLP1cWxj5EtMmdgbq",
-    { target: { slack_channel_id: "xxxxxxxx", type: "slack_channel" } }
+    { target: { slack_channel_id: "slch_01SvpyRQK3nN6eH9uhRA7n1q", type: "slack_channel" } }
   );
 
 console.log(betaClaudeTagBundleTarget);

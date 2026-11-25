@@ -487,6 +487,8 @@ Create Deployment
 
     - `CEClaudeCodeManagedSettings2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `Efs2026_10_01("efs-2026-10-01")`
+
     - `UserProfilesBilling2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MessageBatches2024_09_24("message-batches-2024-09-24")`
@@ -1062,22 +1064,29 @@ Create Deployment
 ```csharp
 using System;
 using Anthropic.Models.Beta.Deployments;
+using Anthropic.Models.Beta.Sessions;
 using Anthropic.Models.Beta.Sessions.Events;
 
 DeploymentCreateParams parameters = new()
 {
-    Agent = "string",
-    EnvironmentID = "x",
+    Agent = new BetaManagedAgentsAgentParams()
+    {
+        ID = "agent_011CZkYpogX7uDKUyvBTophP",
+        Version = 0,
+    },
+    EnvironmentID = "env_011CZkZ9X2dpNyB7HsEFoRfW",
     InitialEvents =
     [
         new BetaManagedAgentsUserMessageEventParams(
 
             [
-                new BetaManagedAgentsTextBlock("Where is my order #1234?")
+                new BetaManagedAgentsTextBlock(
+                    "Compile yesterday's orders into report.md."
+                ),
             ]
         ),
     ],
-    Name = "x",
+    Name = "Daily order report",
 };
 
 var betaManagedAgentsDeployment = await client.Beta.Deployments.Create(parameters);

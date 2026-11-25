@@ -60,7 +60,7 @@ Agent view 打开后，底部有一个输入框，表格会随着会话启动而
 
 在常规 `claude` 会话中，在空输入框中按 `←` 会打开 agent view，页脚中的 `←` 提示会报告您的后台会话情况：
 
-* **提示**：会话打开后的十秒内，页脚显示 `← for agents`。提示消失后，按 `←` 仍然有效
+* **提示**：会话打开后的十秒内，页脚显示 `← for agents`
 * **等待计数**：当有后台会话等待您输入时，同一位置会统计其数量，例如 `← 2 agents`；当超过 99 个会话等待时显示 `← 99+ agents`。终端处于焦点状态时，计数大约每十秒刷新一次，焦点返回时会立即刷新
 * **完成计数**：当后台会话成功完成且没有会话等待您输入时，页脚会短暂显示已完成的数量，例如两个会话完成时显示 `← 2 done`
 
@@ -239,7 +239,7 @@ agent view 打开时，当本地后台会话开始需要您的输入、完成或
 
 在选中的行上按 `Enter` 或 `→` 即可附加。agent view 会被完整的交互式会话取代。附加时，Claude 会发布一段简短回顾，说明您离开期间发生了什么。
 
-附加后，会话的行为与任何其他 Claude Code 会话相同：[命令](https://code.claude.com/docs/zh-CN/commands.md)、快捷键和功能都可正常使用，但以下情况除外。
+附加后，[命令](https://code.claude.com/docs/zh-CN/commands.md)、快捷键和功能都可正常使用，但以下情况除外。[`/ship` 或 `/steward` 监视](https://code.claude.com/docs/zh-CN/ship-command-troubleshooting#a-session-setting-blocks-a-watch)不会在后台会话中启动。
 
 附加后，`/install-github-app` 和 [`/mcp`](https://code.claude.com/docs/zh-CN/mcp) 设置列表可正常使用，因为终端前有人可以完成它们的对话框。没有人附加时，这些命令无法打开对话框，因此会话会出现在 agent view 的 `Needs input` 下，行中显示类似 `open this session to manage MCP servers` 的内容，会话记录中的回复也会说明同样的情况。附加并再次运行该命令即可继续；附加时需要输入的行会被清除。`/mcp reconnect <server>`、`/mcp enable` 和 `/mcp disable` 无论是否附加都可使用。
 
@@ -444,6 +444,10 @@ Skill、您自己的命令以及会展开为提示词的内置命令（如 `/ini
 #### 将会话发送到后台
 
 运行 `/background` 或其别名 `/bg` 将当前对话移到后台会话。传递一个提示词，例如 `/bg run the test suite and fix any failures`，可以先再给出一条指令。如果您运行 `/bg` 时 Claude 正在回复，回复会在后台会话中继续。
+
+> [!NOTE]
+>
+> 当 [`/ship` 或 `/steward` 监视](https://code.claude.com/docs/zh-CN/ship-command) 处于开启状态时，`/bg` 会将会话保留在前台并打印原因。请参阅 [监视期间的消息](https://code.claude.com/docs/zh-CN/ship-command-troubleshooting.md#messages-during-a-watch)。
 
 如果您在某些类型的后台工作（例如子代理或工作流）正在运行时退出会话，`Background work is running` 对话框会警告这些工作将会停止。选择 `Move to background and exit` 可以像 `/background` 一样将会话移到后台并返回到您的 shell。当 Agent 视图 [已关闭](#turn-off-agent-view) 时不显示该选项。
 
@@ -839,13 +843,13 @@ Claude Code 将 agent view 中列出的每个会话都视为后台会话，无�
 
 ### 监督进程
 
-监督进程是一个后台服务，运行您的后台会话，使其在您关闭 agent view 或终端后继续工作。Claude Code 在您第一次后台化会话或打开 agent view 时启动它，您不需要自己管理它。
+监督进程是一个后台服务，运行您的后台会话，使其在您关闭 agent view 或终端后继续工作。Claude Code 在您第一次后台化会话或打开 agent view 时启动它。
 
 每个会话都是监督进程下的独立 Claude Code 进程，该进程发生的情况取决于会话的状态：
 
 * **工作中、暂停在权限提示或其他对话框上，或已连接**：进程继续运行。运行中的子代理、工作流或监视器计为工作中，待执行的[会话范围定时任务](https://code.claude.com/docs/zh-CN/scheduled-tasks.md)（例如 `/loop` 唤醒）也同样计为工作中。
 * **已完成或等待您的下一条消息，且未连接约一小时**：监督进程停止该进程以释放资源。以向您提问结束其轮次的会话计为等待您的下一条消息。对话保存在磁盘上，下次您连接或回复时，会话从中断处恢复。使用 `Ctrl+T` 固定会话以保持其进程运行。
-* **在监督进程运行时意外退出**：监督进程重新启动该进程。如果通过 `kill` 等方式结束您自己使用 `←` 或 `/background` 后台化的会话，该会话会被标记为已停止，而不是重新启动。对于以关闭结束的会话，请参阅[会话在关闭后显示为失败或已停止](#sessions-show-as-failed-after-shutdown)。
+* **在监督进程运行时意外退出**：监督进程可以重新启动该进程。如果通过 `kill` 等方式结束您自己使用 `←` 或 `/background` 后台化的会话，该会话会被标记为已停止，而不是重新启动。如果会话所在行显示 `∙`，请选中它并按 `Enter` 以重新启动该会话。对于以关闭结束的会话，请参阅[会话在关闭后显示为失败或已停止](#sessions-show-as-failed-after-shutdown)。
 * **自动更新后**：监督进程重新启动自身到新版本，并在后台移动空闲会话。工作中、等待您或已连接的会话不会被中断。
 * **监督进程本身停止**，例如因为其进程被 Claude Code 外部结束：在 macOS 和 Linux 上，除非新的监督进程在约一分钟内连接，否则您的会话会停止。要启动新的监督进程，请在 shell 中运行 `claude agents`。超过这一分钟后，请参阅[在监督进程停止后保持会话运行](#keep-sessions-running-after-the-supervisor-stops)。
 
@@ -912,7 +916,7 @@ Background sessions still running will stop in about a minute. Run 'claude agent
 
 此通知指明了一个未在此会话中运行的后台[子代理](https://code.claude.com/docs/zh-CN/sub-agents.md)。
 
-Claude 会看到此通知并自行回复，因此您无需提示它。如果阅读 Claude 的回复后您仍需要该子代理的工作成果，请向 Claude 提出。
+Claude 会看到此通知并自行回复。如果阅读 Claude 的回复后您仍需要该子代理的工作成果，请向 Claude 提出。
 
 ### 提示词被拒绝为过短
 
@@ -929,7 +933,7 @@ Claude 会看到此通知并自行回复，因此您无需提示它。如果阅�
 
 当[会话记录清理](https://code.claude.com/docs/zh-CN/settings-reference.md#cleanupperioddays)删除了已停止会话的保存对话时，Claude Code 拒绝打开该行：消息说没有可恢复的内容。`claude rm <id>` 会删除该行（除非 [Claude Code 拒绝删除](#what-deleting-a-session-removes)），`claude respawn <id>` 再次运行其原始提示词。请参阅[此会话的保存对话不再在磁盘上](https://code.claude.com/docs/zh-CN/errors.md#this-sessions-saved-conversation-is-no-longer-on-disk)。
 
-仅睡眠不会停止会话。会话在睡眠中被保留，主管在唤醒时重新连接到它们。
+会话在睡眠中被保留，主管在唤醒时重新连接到它们。
 
 ### 打开会话说对话已经打开
 
@@ -1052,6 +1056,8 @@ Agent view 在研究预览期间发展迅速。如果您使用的是较旧的 Cl
 
 | 版本 | 更改 |
 | - | - |
+| v2.1.331 | [`/ship` 或 `/steward` 监视](https://code.claude.com/docs/zh-CN/ship-command-troubleshooting#a-session-setting-blocks-a-watch)不会在后台会话中启动。在此版本之前，可以在后台会话中启动监视。 |
+| v2.1.331 | 当 `/ship` 或 `/steward` 监视处于开启状态时，[`/background`](#send-the-session-to-the-background) 不会将会话移到后台。在此版本之前，会话会被移到后台，监视随之结束。 |
 | v2.1.323 | 在 agent view 的输入框中，[`Ctrl+Y`](#keyboard-shortcuts) 会恢复已清除的文本。 |
 | v2.1.299 | [调度输入框中的 `/effort` 和 `/fast`](#set-the-model-effort-and-fast-mode) 会为您接下来调度的会话设置 effort 级别和快速模式。键入不带值的 `/model`、`/effort` 或 `/fast` 会打开选择器。 |
 | v2.1.299 | Claude Code 仅在任何单独的 `--` 分隔符之前、且不在其他标志的值中时，才[将 `--bg` 和 `--background` 识别为该标志](#from-your-shell)，对于位置有歧义的情况会拒绝而不是猜测。在此版本之前，发送给后台会话的内容为 `--bg` 或 `--background` 的提示词或回复可能会被当作该标志。这可能会反复启动新的后台会话，而不是投递该文本。 |

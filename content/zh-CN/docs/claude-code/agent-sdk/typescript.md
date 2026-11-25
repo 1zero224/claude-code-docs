@@ -631,7 +631,7 @@ const result = query({
 * [`API_TIMEOUT_MS`](https://code.claude.com/docs/zh-CN/env-vars)：每次请求尝试等待响应标头的时长（毫秒）。它不限制标头到达后流式响应持续的时间。默认值为 `600000`。适用于主循环和所有子代理。
 * `CLAUDE_CODE_MAX_RETRIES`：最大 API 重试次数。默认值为 `10`，上限为 `15`。每次重试都有各自的 `API_TIMEOUT_MS` 时间窗口。
 
-  对于需要挺过较长中断的无人值守运行，请设置 [`CLAUDE_CODE_RETRY_WATCHDOG=1`](https://code.claude.com/docs/zh-CN/errors#tune-retry-behavior)：它会无限期重试临时性容量错误，并且在 Claude Code v2.1.199 或更高版本上，会将其他临时性错误的默认重试次数提高到 `300`，并取消此变量的上限。
+  对于需要在较长中断期间持续等待的无人值守运行，请设置 [`CLAUDE_CODE_RETRY_WATCHDOG=1`](https://code.claude.com/docs/zh-CN/errors#tune-retry-behavior)，以便持续重试暂时性的容量错误。在 v2.1.199 或更高版本上设置 `CLAUDE_CODE_RETRY_WATCHDOG` 时，该上限不适用，并且其他暂时性错误的默认值为 `300`。
 * `CLAUDE_ASYNC_AGENT_STALL_TIMEOUT_MS`：子代理的停滞看门狗。当流看门狗开启时，默认值为 `CLAUDE_STREAM_IDLE_TIMEOUT_MS` 加 5 分钟，除非您调高该变量，否则合计为 `600000`。当流看门狗关闭时，默认值为 `600000`。在 v2.1.257 之前，默认值始终为 `600000`。
 
   每个流事件都会重置计时器。发生停滞时，Claude Code 会中止该子代理并向父级报告停滞。对于后台子代理，它还会将该任务标记为失败并附上任何部分结果。
@@ -2088,7 +2088,8 @@ type SDKStartupFailureReason =
   | "org_config_required_unavailable"
   | "org_config_refused"
   | "sandbox_required_unavailable"
-  | "config_file_invalid";
+  | "config_file_invalid"
+  | "sideload_flags_disabled";
 ```
 
 每个值命名一个拒绝：
@@ -2116,6 +2117,7 @@ type SDKStartupFailureReason =
 | `org_config_refused` | Anthropic 拒绝为此次登录提供组织的策略和托管设置，例如因为登录已过期或被吊销，或组织不允许此账户使用 Claude Code。需要 Agent SDK v0.3.293 或更高版本 |
 | `sandbox_required_unavailable` | [`failIfUnavailable`](#sandboxsettings) 已开启且沙箱无法启动。`errors` 中的文本以 `Set sandbox.failIfUnavailable=false to allow unsandboxed execution.` 结尾。需要 Agent SDK v0.3.314 或更高版本 |
 | `config_file_invalid` | `~/.claude.json` 不是有效的 JSON。Claude Code 不会更改该文件，因此在有人修复它之前，重试会以同样的方式失败。`errors` 会指出该文件并说明如何恢复或修复它。请参阅 [\~/.claude.json 中的配置错误](https://code.claude.com/docs/zh-CN/errors.md#configuration-error-in-claude-json)。需要 TypeScript Agent SDK v0.3.318 或更高版本以及 Claude Code v2.1.318 或更高版本 |
+| `sideload_flags_disabled` | 某个标志或启动选项违反了托管的 [`disableSideloadFlags`](https://code.claude.com/docs/zh-CN/settings-reference#disablesideloadflags)。需要 TypeScript Agent SDK v0.3.331 或更高版本以及 Claude Code v2.1.331 或更高版本 |
 
 ### `SDKSystemMessage`
 

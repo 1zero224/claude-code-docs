@@ -58,6 +58,7 @@
 | `unable to get local issuer certificate` | [配置企业 CA 证书](#tls-or-ssl-connection-errors) |
 | `OAuth error`、`That doesn't look like the full code` 或 `403 Forbidden` | [修复身份验证](#login-and-authentication) |
 | `Claude Code access has not been granted for this account` | [获取包含 Claude Code 的角色](#claude-code-access-has-not-been-granted-for-this-account) |
+| `That code wasn't accepted` | 重新登录并粘贴新的代码 |
 | 设置期间 `Unable to connect to Anthropic services` | 请参阅[错误参考](https://code.claude.com/docs/zh-CN/errors.md#unable-to-connect-to-anthropic-services)中的 Unable to connect to Anthropic services |
 | `Could not load the default credentials` 或 `Could not load credentials from any providers` | [Amazon Bedrock、Google Cloud 的 Agent Platform 或 Microsoft Foundry 凭据](#bedrock-agent-platform-or-foundry-credentials-not-loading) |
 | `ChainedTokenCredential authentication failed` 或 `CredentialUnavailableError` | [Amazon Bedrock、Google Cloud 的 Agent Platform 或 Microsoft Foundry 凭据](#bedrock-agent-platform-or-foundry-credentials-not-loading) |
@@ -67,7 +68,7 @@
 
 > [!TIP]
 >
-> 如果您宁愿完全跳过终端，[Claude Code Desktop 应用](https://code.claude.com/docs/zh-CN/desktop-quickstart.md)可让您通过图形界面安装和使用 Claude Code。为 [macOS](https://claude.ai/api/desktop/darwin/universal/dmg/latest/redirect?utm_source=claude_code\&utm_medium=docs) 或 [Windows](https://claude.com/download?utm_source=claude_code\&utm_medium=docs) 下载它，无需任何命令行设置即可开始编码。在 Linux 上，按照 [Linux 安装说明](https://code.claude.com/docs/zh-CN/desktop-linux.md)使用 apt 安装应用。
+> 如果您宁愿完全跳过终端，[Claude Code Desktop 应用](https://code.claude.com/docs/zh-CN/desktop-quickstart.md)可让您通过图形界面安装和使用 Claude Code。为 [macOS](https://claude.ai/claude-code/desktop-download?platform=mac\&utm_source=claude_code\&utm_medium=docs) 或 [Windows](https://claude.ai/claude-code/desktop-download?platform=win\&utm_source=claude_code\&utm_medium=docs) 下载它，无需任何命令行设置即可开始编码。在 Linux 上，按照 [Linux 安装说明](https://code.claude.com/docs/zh-CN/desktop-linux.md)使用 apt 安装应用。
 
 ## 运行诊断检查
 
@@ -1244,7 +1245,11 @@ claude
 
 **1. 检查 Keychain 访问**
 
-运行 `claude doctor` 检查 Keychain 访问。当 Keychain 拒绝写入时，报告列出以 `macOS Keychain is not writable` 开头的警告，后跟建议的修复。当报告未列出 Keychain 警告时，Keychain 可写，您可以跳到最后一步。
+在您运行 Claude Code 的 shell 中，运行 `claude doctor` 并查找以 `macOS Keychain is not writable` 开头的警告。报告显示的内容决定您的下一步：
+
+* **没有此类警告**：跳到最后一步
+* **警告中的修复说明为 `Unlocking the Keychain won't help`**：按照该修复操作。如果该 shell 处于沙箱中，请在沙箱外重新执行这些步骤，以将您的登录移回
+* **警告给出其他修复**：继续下一步
 
 **2. 解锁 Keychain**
 

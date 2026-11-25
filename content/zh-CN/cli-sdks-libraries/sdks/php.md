@@ -75,56 +75,17 @@ $client = new Client(
 
 ## 错误处理
 
-当库无法连接到 API，或者 API 返回非成功状态码（即 4xx 或 5xx 响应）时，会抛出 `Anthropic\Core\Exceptions\APIException` 的子类：
+当 SDK 无法连接到 API，或者 API 返回错误响应（4xx 或 5xx）时，会抛出 `Anthropic\Core\Exceptions\APIException` 的子类。[SDK 错误类型](https://platform.claude.com/docs/zh-CN/api/errors#sdk-error-types)列出了这些类，[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)介绍了如何捕获它们。
 
-```php
-<?php
-// ...
-use Anthropic\Core\Exceptions\APIConnectionException;
-use Anthropic\Core\Exceptions\APIStatusException;
-use Anthropic\Core\Exceptions\RateLimitException;
-use Anthropic\Messages\Model;
-// ...
-try {
-    $message = $client->messages->create(
-        maxTokens: 1024,
-        messages: [['role' => 'user', 'content' => 'Hello, Claude']],
-        model: Model::CLAUDE_OPUS_5_5,
-    );
-} catch (APIConnectionException $e) {
-    echo 'The server could not be reached', PHP_EOL;
-    echo $e->getPrevious()?->getMessage(), PHP_EOL;
-} catch (RateLimitException $_) {
-    echo 'A 429 status code was received; we should back off a bit.', PHP_EOL;
-} catch (APIStatusException $e) {
-    echo 'Another non-200-range status code was received', PHP_EOL;
-    echo $e->getMessage();
-}
-```
-
-错误代码如下：
-
-| 原因 | 错误类型 |
-| ----- | ----- |
-| HTTP 400 | `BadRequestException` |
-| HTTP 401 | `AuthenticationException` |
-| HTTP 403 | `PermissionDeniedException` |
-| HTTP 404 | `NotFoundException` |
-| HTTP 409 | `ConflictException` |
-| HTTP 422 | `UnprocessableEntityException` |
-| HTTP 429 | `RateLimitException` |
-| HTTP >= 500 | `InternalServerException` |
-| 其他 HTTP 错误 | `APIStatusException` |
-| 超时 | `APITimeoutException` |
-| 网络错误 | `APIConnectionException` |
+要查看连接失败或超时的原因，请在 `Anthropic\Core\Exceptions\APIConnectionException` 上调用 `getPrevious()`。该方法会返回底层异常；如果不存在底层异常，则返回 `null`。
 
 ## 重试
 
-默认情况下，某些错误会自动重试两次，并采用短暂的指数退避。
+默认情况下，SDK 会对某些错误最多重试两次（总共三次尝试）。它会重试连接错误、超时、408 Request Timeout、409 Conflict、429 Too Many Requests 以及 5xx 服务器错误。
 
-连接错误（例如由于网络连接问题）、408 Request Timeout、409 Conflict、429 Rate Limit、>=500 内部错误以及超时，默认都会重试。
+如果响应带有 `x-should-retry` 标头（`true` 或 `false`），SDK 会遵循该标头而不是状态码。在两次尝试之间，SDK 会按照 `retry-after` 标头指示的时长等待，或者采用短暂的指数退避。
 
-您可以使用 `maxRetries` 选项来配置或禁用此行为：
+使用 `maxRetries` 请求选项来配置或禁用重试：
 
 ```php
 use Anthropic\Messages\Model;

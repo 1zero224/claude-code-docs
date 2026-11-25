@@ -251,7 +251,7 @@ featureMetadata:
 
 ### 模型可用性
 
-`inference_geo` 参数在 Claude 4.6 及更高版本的模型上受支持。在 Claude Opus 4.5、Claude Sonnet 4.5（已弃用）、Claude Haiku 4.5 或更早的模型上使用 `inference_geo` 的请求会返回 400 错误。
+`inference_geo` 参数在 Claude 4.6 及更高版本的模型上受支持。在更早的模型上使用 `inference_geo` 的请求会返回 400 错误。
 
 <Note>
   `inference_geo` 参数可在 Claude API（第一方）、[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 和 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 上使用。在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上，推理区域由端点 URL 或推理配置文件决定，因此 `inference_geo` 不适用。在 [Microsoft Foundry 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry) 上，`inference_geo` 同样不适用：托管在 Azure 上的部署可以改用 US Data Zone Standard 部署类型，该类型将推理保持在美国境内。`inference_geo` 参数也无法通过 [OpenAI SDK 兼容性端点](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/libraries/openai-sdk)使用。

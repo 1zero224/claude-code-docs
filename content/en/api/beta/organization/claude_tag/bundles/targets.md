@@ -137,6 +137,8 @@ List the Slack channels and Slack workspaces a Bundle is attached to, newest fir
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -396,6 +398,8 @@ Attach a Bundle to a Slack channel or a Slack workspace. A Bundle attached to a 
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -543,7 +547,7 @@ curl https://api.anthropic.com/v1/organizations/claude_tag/bundles/$BUNDLE_ID/ta
     -H 'anthropic-beta: experimental-claude-tag-2026-10-21' \
     -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
-          "slack_channel_id": "xxxxxxxx",
+          "slack_channel_id": "slch_01SvpyRQK3nN6eH9uhRA7n1q",
           "type": "slack_channel"
         }'
 ```
@@ -682,6 +686,8 @@ Get one Bundle Target. Returns 404 when `target_id` is the identifier of another
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -936,6 +942,8 @@ Detach a Bundle from a Slack channel or a Slack workspace. A repeated detach ret
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 

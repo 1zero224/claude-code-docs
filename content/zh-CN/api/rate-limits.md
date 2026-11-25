@@ -181,9 +181,9 @@ OTPM 速率限制在生成输出令牌时实时评估，仅计算实际生成的
 
 *<sup>1 Fable 速率限制是一个总限制，适用于 Claude Fable 5.1 和 Claude Fable 5 的合并流量。Claude Fable 5.2 有单独的速率限制，不属于此合并额度。Claude Mythos 5.2、Claude Mythos 5.1 和 Claude Mythos 5 共享另一个单独的合并限制。</sup>*
 
-*<sup>2 Opus 速率限制是一个总限制，适用于 Claude Opus 4.8、Opus 4.7、Opus 4.6 和 Opus 4.5 的合并流量。Claude Opus 5.5 和 Claude Opus 5 各自有单独的速率限制，不属于此合并额度。</sup>*
+*<sup>2 Opus 速率限制是一个总限制，适用于 Claude Opus 4.8、Opus 4.7、Opus 4.6 和 Opus 4.5 的合并流量。Claude Opus 4.5 在 Claude API 上已弃用。有关其他平台，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。Claude Opus 5.5 和 Claude Opus 5 各自有单独的速率限制，不属于此合并额度。</sup>*
 
-*<sup>3 Sonnet 4.x 速率限制是一个总限制，适用于 Sonnet 4.6 和 Sonnet 4.5（已弃用；请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）的合并流量。Claude Sonnet 5.5 和 Claude Sonnet 5 各自有单独的速率限制，不属于此合并额度。</sup>*
+*<sup>3 Sonnet 4.x 速率限制是一个总限制，适用于 Sonnet 4.6 和 Sonnet 4.5 的合并流量。Claude Sonnet 4.5 在 Claude API 上已弃用。有关其他平台，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。Claude Sonnet 5.5 和 Claude Sonnet 5 各自有单独的速率限制，不属于此合并额度。</sup>*
 
 ### 爬坡限制
 
@@ -281,6 +281,8 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 有默认的快速模�
   **[Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws)：** 在**速率限制**页面上，用于速率限制和支出上限的按钮为**申请更高限额**。要使用它，您需要 Claude Console 中的 [Admin 角色](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#signing-in)以及 `ListAccountRateLimitIncreaseRequests` 和 `CreateAccountRateLimitIncreaseRequest` IAM 操作。有关申请中应包含的内容、哪些人无法使用该按钮以及其他申请方式，请参阅 [Claude Platform on AWS 上的速率限制和配额](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#rate-limits-and-quotas)。
 </Note>
 
+要在 Claude Models on Google Cloud (Anthropic managed) 上申请更高的限制，请参阅 [Claude Models on Google Cloud (Anthropic managed) 上的速率限制](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed#rate-limits)。
+
 ## 为工作区设置更低的限制
 
 有关工作区的更多信息，请参阅[工作区](https://platform.claude.com/docs/zh-CN/manage-claude/workspaces)。
@@ -291,7 +293,7 @@ Claude Fable 5.2、Claude Mythos 5.2 和 Claude Opus 5.5 有默认的快速模�
 
 注意：
 
-* 在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 和 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上，您无法为默认工作区设置支出限制。
+* 在 [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 和 [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 上，无法为默认工作区设置支出限制。
 * 默认工作区中的某些使用量可能不会计入该工作区的支出限制，也可能不会被该限制阻止。这包括来自 Claude Console 的使用量（例如 playground）以及来自 Claude Managed Agents 会话的使用量。它还包括成员使用 Claude Console 账户登录并使用默认工作区时产生的 Claude Code 或 Claude Desktop 使用量。您组织的[支出限制](https://platform.claude.com/docs/zh-CN/api/rate-limits#setting-your-own-spend-limit)适用于所有这些使用量。
 * 如果未设置，工作区限制与组织的限制一致。
 * 工作区限制是按每种限制器类型设置的（例如每分钟请求数、每分钟输入令牌数或每分钟输出令牌数）。

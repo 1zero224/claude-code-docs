@@ -374,39 +374,14 @@ await client.files.upload({
 
 ## 处理错误
 
-当库无法连接到 API， 或者 API 返回非成功状态码（即 4xx 或 5xx 响应）时， 会抛出 `APIError` 的子类：
+当 SDK 无法连接到 API，或者 API 返回错误响应（4xx 或 5xx）时，会抛出 `Anthropic.APIError` 的子类。[SDK 错误类型](https://platform.claude.com/docs/zh-CN/api/errors#sdk-error-types)列出了这些类，[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)介绍了如何捕获它们。
 
-```typescript
-const message = await client.messages
-  .create({
-    max_tokens: 1024,
-    messages: [{ role: "user", content: "Hello, Claude" }],
-    model: "claude-opus-5-5"
-  })
-  .catch(async (err) => {
-    if (err instanceof Anthropic.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
-```
+错误的 `status` 和 `headers` 属性保存响应的状态码和响应头（例如，`err.headers?.get("retry-after")`）。如果没有响应，两者均为 `undefined`。
 
-错误代码如下：
+有两种错误并非来自连接失败或错误响应。对 `APIError` 的检查会匹配第一种，但不会匹配第二种：
 
-| 状态码 | 错误类型 |
-| ----- | ----- |
-| 400 | `BadRequestError` |
-| 401 | `AuthenticationError` |
-| 403 | `PermissionDeniedError` |
-| 404 | `NotFoundError` |
-| 409 | `ConflictError` |
-| 422 | `UnprocessableEntityError` |
-| 429 | `RateLimitError` |
-| >=500 | `InternalServerError` |
-| 不适用 | `APIConnectionError` |
+* **`APIUserAbortError`：** 您使用 `signal` 请求选项（一个 `AbortSignal`）中止了请求，或者在 [`client.messages.stream()` 流](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/typescript#streaming-helpers)上调用了 `abort()`。
+* **`AnthropicError`：** SDK 本身出现故障。例如，它拒绝了一个长时间的非流式请求（请参阅[长时间请求](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/typescript#long-requests)）。`AnthropicError` 是 `APIError` 的父类。
 
 ## 请求 ID
 
@@ -425,9 +400,11 @@ console.log(message._request_id); // req_018EeWyXxfu5pfWkrYcMdjWG
 
 ## 重试
 
-某些错误默认会自动重试 2 次，并采用短暂的指数退避。 连接错误（例如，由于网络连接问题）、408 Request Timeout、409 Conflict、 429 Rate Limit 以及 >=500 Internal 错误默认都会重试。
+默认情况下，SDK 会对某些错误最多重试两次（总共三次尝试）。 它会重试连接错误、超时、408 Request Timeout、409 Conflict、429 Too Many Requests 以及 5xx 服务器错误。
 
-您可以使用 `maxRetries` 选项来配置或禁用此功能：
+如果响应带有 `x-should-retry` 响应头（`true` 或 `false`），SDK 会遵循该响应头而不是状态码。在两次尝试之间，SDK 会按照 `retry-after` 响应头指示的时长等待，或者采用短暂的指数退避。
+
+使用 `maxRetries` 选项来配置或禁用重试：
 
 ```typescript
 // 为所有请求配置默认值：

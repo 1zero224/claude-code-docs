@@ -129,6 +129,8 @@ Get one Slack channel and its settings. By default `settings` holds what the cha
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -435,8 +437,8 @@ curl https://api.anthropic.com/v1/organizations/claude_tag/slack_channels/$ID \
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {

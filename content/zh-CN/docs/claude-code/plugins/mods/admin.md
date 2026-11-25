@@ -124,7 +124,7 @@
 | `session.append{door=hook-context}` | 来自设置 hook 的上下文的存储行 |
 | `session.append{door=compaction}` | 压缩摘要和边界的存储行 |
 
-在其他一些情况下，守卫也会跳过用户的 hook，例如 [`tool.describe`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#tools) 上您组织的工具描述，以及 skill 文本的存储行。对于这些情况，`/plugin` 不会显示说明。如果其他事件上的 hook 没有任何作用，请参阅[查明 mod 为何没有任何作用](https://code.claude.com/docs/zh-CN/plugins/mods/troubleshoot.md#find-out-why-a-mod-does-nothing)。
+在其他一些情况下，守卫也会跳过用户的 hook，例如 [`tool.describe`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#tools) 上您组织的工具描述。对于这种情况，`/plugin` 不会显示说明。如果其他事件上的 hook 没有任何作用，请参阅[查明 mod 为何没有任何作用](https://code.claude.com/docs/zh-CN/plugins/mods/troubleshoot.md#find-out-why-a-mod-does-nothing)。
 
 该说明显示在插件的详细信息中以及 `/plugin` 的 **Errors** 选项卡中。它需要 Claude Code v2.1.299 或更高版本。它会按照 mod 注册时的写法列出表中的每个 hook，如以下示例所示：
 
@@ -186,13 +186,21 @@ claude plugin validate ./some-mod
 | `$.process.run`, `$.process.spawn` | 以用户身份启动程序 |
 | `$.http.fetch` | 发出网络请求 |
 | `$.env.get`, `$.settings.read` | 读取环境变量和设置，可以保存 API 密钥。输出中的 `env reads:` 行命名每个变量。 |
-| `$.env.set` | 为 Claude Code 以及它启动的每个命令和 MCP 服务器设置环境变量，可以改变这些程序运行的内容。`env writes:` 行命名每个变量。 |
+| `$.env.set` | 为 Claude Code 以及它此后启动的命令和 MCP 服务器设置环境变量，可以改变这些程序运行的内容。`env writes:` 行命名每个变量。 |
 | `$.mcp.call` | 在连接的 MCP 服务器上调用工具，不会出现权限提示 |
 | `$.model.complete` | 使用用户的计划或 API 密钥进行模型调用 |
 | `$.prompt.submit` | 提交提示，可以将其作为用户自己的话语发送 |
 | `$.session.send` | 发送另一个会话、子代理或[队友](https://code.claude.com/docs/zh-CN/agent-teams.md)的 Claude 读取的消息 |
 
-在 `hooks:` 行中，[`tool.call`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#tools) 和 [`prompt.submit`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#prompts-and-what-claude-reads) 意味着 mod 看到每个工具调用和每个提示词，并可以更改它们。[`session.append`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#session) 意味着 mod 可以在存储之前重写对话的每一行，但[防护机制跳过的行](#hooks-the-guard-passes-over)除外。[`ui.render{component=AskUserQuestion}`](https://code.claude.com/docs/zh-CN/plugins/mods/interface#change-what-claude-code-already-draws) 意味着 mod 可以重新绘制 Claude 用来询问用户问题的对话框。`tool.check` 意味着 mod 可以在权限提示出现之前批准或拒绝工具调用。[了解默认情况下会发生什么](#know-what-happens-by-default)列出了您的哪些规则和 hook 优先于其答案。
+在 `hooks:` 行中，查找那些让 mod 能够更改运行的内容、Claude 读取的内容或用户看到的内容的事件：
+
+| Hook | 它的含义 | 示例 |
+| :- | :- | :- |
+| [`tool.call`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#tools), [`prompt.submit`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#prompts-and-what-claude-reads) | 看到每个工具调用和每个提示词，并可以更改它们 | 在 Bash 命令运行之前更改它 |
+| `tool.check` | 可以在权限提示出现之前批准或拒绝工具调用。[了解默认情况下会发生什么](#know-what-happens-by-default)列出了您的哪些规则和 hook 优先于其答案。 | 批准 Bash 命令而不出现提示 |
+| [`session.append`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#session) | 可以在存储之前重写对话的每一行，但[防护机制跳过的行](#hooks-the-guard-passes-over)以及包含[来自 MCP 服务器的 skill](https://code.claude.com/docs/zh-CN/mcp.md#use-skills-from-mcp-servers) 的行除外 | 替换工具结果的文本 |
+| [`skill.prompt`](https://code.claude.com/docs/zh-CN/plugins/mods/reference#prompts-and-what-claude-reads) | 可以在 Claude 读取之前更改 skill 的文本，包括来自 MCP 服务器的 skill | 向 skill 添加指令 |
+| [`ui.render{component=AskUserQuestion}`](https://code.claude.com/docs/zh-CN/plugins/mods/interface#change-what-claude-code-already-draws) | 可以重新绘制 Claude 用来询问用户问题的对话框 | 在问题上方显示其自己的文本 |
 
 ## 选择允许的程度
 

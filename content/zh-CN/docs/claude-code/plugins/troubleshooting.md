@@ -30,15 +30,13 @@
 
 您在 Claude Code 终端会话之外的某个地方键入了 `/plugin`，Claude 用这一行回复而不是打开任何东西。
 
-您会在没有终端来绘制 `/plugin` 面板的会话中收到此回复：[非交互模式](https://code.claude.com/docs/zh-CN/headless.md)，使用 `claude -p`、Agent SDK、Claude 桌面应用的 Code 选项卡、VS Code 扩展面板和浏览器上的 claude.ai/code。
+例如，您会在使用 `claude -p` 的[非交互模式](https://code.claude.com/docs/zh-CN/headless.md)、Agent SDK 和 VS Code 扩展面板中看到此回复。
 
 在 VS Code 扩展面板中，只有 `/plugin` 行后面跟着内容（例如 `/plugin install <plugin>@<marketplace>`）才会收到此回复。单独键入 `/plugin` 或 `/plugins` 会打开 **Manage plugins** 对话框。
 
 从您所在的表面安装插件：
 
-* **Claude 桌面应用、本地或 SSH 会话**：使用 [安装插件](https://code.claude.com/docs/zh-CN/plugins/install.md#install-a-plugin) 下的 **Desktop app** 选项卡
 * **VS Code 扩展**：使用 [安装插件](https://code.claude.com/docs/zh-CN/plugins/install.md#install-a-plugin) 下的 **VS Code** 选项卡
-* **网络上的 Claude Code 或桌面云会话**：云会话没有插件浏览器。有关云会话加载的内容，请参阅 [安装插件](https://code.claude.com/docs/zh-CN/plugins/install.md#install-a-plugin) 下的 **Cloud session** 选项卡
 * **您有权访问的终端**：运行 `claude` 并在那里键入 `/plugin`，或在您的 shell 中运行 `claude plugin install <plugin>@<marketplace>` 而不启动会话
 
 当终端安装成功时，`/plugin` 会打印一个以 `✓ Installed <plugin>.` 开头的安装摘要，`claude plugin install` 会打印 `Installed plugin: <plugin>@<marketplace>`。
@@ -858,10 +856,10 @@ claude plugin update formatter@my-marketplace --scope project
 
 #### Hooks 无法加载
 
-**Errors** 选项卡显示以下消息之一：
+**Errors** 选项卡或 `claude plugin list` 显示如下消息：
 
-* **`Couldn't load hooks from <path>: <reason>`** 或 **`Failed to load hooks from <path>: <reason>`**：修复 `<reason>` 指明的问题，例如无效的 JSON 或缺少顶层 `hooks` 键。要在发布插件前捕获 `hooks/hooks.json` 中的 JSON 语法问题，请在您的 shell 中运行 `claude plugin validate <plugin-directory>`
-* **`hooks path not found: <path>`**：清单的 `hooks` 字段命名在该路径相对于插件根处不存在的文件。修复路径或添加文件
+* **`Couldn't load hooks from <path>`**、**`Failed to load hooks from <path>`** 或 **`Hook load failed`**：修复其中指明的问题，例如无效的 JSON 或缺少顶层 `hooks` 键。要在发布插件前捕获 `hooks/hooks.json` 中的 JSON 语法问题，请在您的 shell 中运行 `claude plugin validate <plugin-directory>`
+* **`hooks path not found: <path>`** 或 **`Path not found: <path> (hooks)`**：`<path>` 处不存在文件。修复路径或添加文件
 * **`hooks path escapes plugin directory: <path>`**：请参阅 [Path escapes plugin directory](https://code.claude.com/docs/zh-CN/errors.md#path-escapes-plugin-directory)
 
 #### 成绩单中的 `hook error` 通知
@@ -1185,6 +1183,11 @@ claude plugin install my-plugin@my-marketplace --config api_url=https://example.
 安装被拒绝，显示此行，启用显示相同的行，以 `cannot be enabled` 结尾，或安装或更新显示命名原因的行：`Plugin "<name>" is from marketplace "<marketplace>", which is blocked by your organization's policy`，或 `Plugin "<name>" depends on "<dep>", which is blocked by your organization's policy`。
 
 托管设置阻止此插件、其市场或它需要的依赖项。要求您的管理员哪个条目适用。阻止的依赖项意味着插件在依赖项的市场被允许之前无法安装。
+
+从 `/plugin` 安装时，该消息的其他形式也请询问您的管理员，例如：
+
+* `Plugin "<name>" is blocked by your organization's policy and can't be installed`
+* `Can't install "<name>": dependency "<dep>" is blocked by your organization's policy`
 
 ### `--plugin-dir is disabled by your organization's managed settings (disableSideloadFlags)`
 

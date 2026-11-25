@@ -83,7 +83,7 @@ featureMetadata:
         对于 Linux 环境，请直接下载发布版二进制文件。
 
         ```bash
-        VERSION=2.12.1
+        VERSION=2.14.0
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         case $(uname -m) in
           x86_64) ARCH=amd64 ;;
@@ -152,7 +152,7 @@ featureMetadata:
     对于 Linux 环境，请直接下载发布版二进制文件。
 
     ```bash
-    VERSION=2.12.1
+    VERSION=2.14.0
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     case $(uname -m) in
       x86_64) ARCH=amd64 ;;
@@ -199,7 +199,7 @@ featureMetadata:
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.12.0")
+        implementation("com.anthropic:anthropic-java:3.14.0")
         ```
       </Tab>
 
@@ -208,7 +208,7 @@ featureMetadata:
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         ```
       </Tab>

@@ -46,7 +46,7 @@ description: 诊断并修复思考功能故障：配置导致的 400 错误、�
 
 标记为`始终开启`的模型无法关闭思考。标记为`开启`的模型默认进行思考。Claude Opus 5、Claude Sonnet 5 和 Claude Haiku 5.5 接受 `thinking: {type: "disabled"}`。在 Claude Sonnet 5.5 上，发送 `thinking: {type: "between_tools"}` 以关闭前置思考。
 
-较早的 Claude 4 模型（Claude Opus 4.1、Claude Sonnet 4 和 Claude Opus 4）仅支持扩展思考。有关其可用性，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。除非获得 Anthropic 的明确授权，否则 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5 和 Claude Mythos 5 在[零数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)下不可用。
+较早的 Claude 4 模型（Claude Opus 4.1、Claude Sonnet 4 和 Claude Opus 4）仅支持扩展思考。有关其可用性，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)。除非获得 Anthropic 的明确授权，否则 Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5 和 Claude Mythos 5 在[旧版零数据保留（Legacy ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)下不可用。
 
 ## 400 错误提示不支持 `"thinking.type.enabled"`
 

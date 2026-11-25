@@ -44,6 +44,11 @@ The sample is collected at a capped rate—a fixed maximum number of sessions pe
 ## Related articles
 Explore more product news and best practices for teams building with Claude.
 [
+ArticleNov 23, 2026
+### KPMG's Todd Lohr on AI when your data is also your clients' data
+Todd Lohr, KPMG US Vice Chair and Head of Client Technology & Innovation, on adopting frontier AI and building safeguards at the same time, and what that means for a firm that holds its clients' most sensitive data.
+Claude Enterprise
+](https://claude.com/resources/articles/kpmg-todd-lohr-on-ai-when-your-data-is-also-your-clients-data)[
 ArticleNov 13, 2026
 ### Building strong safety evaluations
 Recommendations for designing, running, and reporting safety evaluations, based on our own experiences.
@@ -56,9 +61,4 @@ ArticleNov 6, 2026
 ### The components of agent memory
 For Claude to learn from experience, it has to decide what's worth remembering before it knows what's next. Here's how "dreaming" helps it organize memory and correct mistakes.
 Claude Platform
-(opens in new tab)](https://www.anthropic.com/research/components-of-agent-memory)[
-ArticleOct 22, 2026
-### Building agents: When to fold subagents into your main agent loop
-When building agents in Claude Platform, using fewer subagents in favor of progressively disclosed context and tools can improve quality while reducing cost and latency. Here’s when and how to migrate.
-Claude Platform
-](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop)
+(opens in new tab)](https://www.anthropic.com/research/components-of-agent-memory)

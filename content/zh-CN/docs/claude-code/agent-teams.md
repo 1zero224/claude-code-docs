@@ -95,7 +95,7 @@ Claude 有时可能会使用 [subagents](https://code.claude.com/docs/zh-CN/sub-
 
 Agent team 支持两种显示模式：
 
-* **进程内**：所有队友都在您的主终端内运行。在 Agent 面板中使用上下方向键选择一个队友，然后按 Enter 查看它，并直接输入内容向其发送消息。适用于任何终端，无需额外设置。
+* **进程内**：所有队友都在您的主终端内运行。在 Agent 面板中使用上下方向键选择一个队友，然后按 Enter 查看它，并直接输入内容向其发送消息。适用于任何终端。
 * **分屏窗格**：每个队友拥有自己的窗格。您可以同时看到所有人的输出，并点击进入某个窗格直接与之交互。需要 tmux 或 iTerm2。
 
 > [!NOTE]
@@ -170,7 +170,7 @@ Claude Code 按以下顺序，取第一个适用的来源作为每个队友的�
 >
 > `teammateDefaultModel` 已在 v2.1.234 中移除；Claude Code 会忽略残留的值。请改为在提示词中指定模型。
 
-Claude Code 会根据您组织的 [`availableModels`](https://code.claude.com/docs/zh-CN/model-config#restrict-model-selection) 允许列表检查它为队友选择的模型。当允许列表阻止某个值时，Claude Code 会替换为另一个模型：
+Claude Code 会根据现有的任何 [`availableModels`](https://code.claude.com/docs/zh-CN/model-config#restrict-model-selection) 允许列表检查它为队友选择的模型。当允许列表阻止某个值时，Claude Code 会替换为另一个模型：
 
 * **系列别名，例如 `opus`**：在 Anthropic API 和 Claude Platform on AWS 上，Claude Code 会在允许列表允许的该系列最新版本上运行队友。在使用提供商特定模型 ID 的提供商上，[替换机制不起作用](https://code.claude.com/docs/zh-CN/model-config.md#restrict-model-selection)，被阻止的别名会像其他被阻止的值一样，按照下一条规则回退
 * **任何其他被阻止的值，包括在替换机制不起作用的提供商上的系列别名，或其系列没有允许版本的别名**：Claude Code 会改为在负责人的模型上运行队友。如果您设置了 `CLAUDE_CODE_SUBAGENT_MODEL`，Claude Code 会先尝试该模型，并遵循同样的规则
@@ -339,7 +339,7 @@ Claude Code 读取您指定的子代理定义，并将其以下部分应用于�
 
 **队友如何共享信息：**
 
-* **自动消息传递**：当队友发送消息时，消息会自动传递给收件人。负责人无需轮询更新。
+* **自动消息传递**：当队友发送消息时，消息会自动传递给收件人。
 * **空闲通知**：当队友完成并停止时，它会自动通知负责人，并在通知中包含其最终答案。轮次因 API 错误而结束的队友会通知负责人其已失败，并包含错误文本。
 * **共享任务列表**：[具有 Task 工具的 Agent](https://code.claude.com/docs/zh-CN/tools-reference.md#task-tool-availability) 可以查看任务状态并认领可用工作。
 * **队友消息传递**：按名称向某个特定队友发送消息。要联系所有人，请为每个收件人各发送一条消息。

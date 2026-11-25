@@ -1922,10 +1922,6 @@ Claude 拒绝生成响应。安全分类器以正常的 HTTP 200 响应而非错
   ```
 </CodeGroup>
 
-<Tip>
-  如果您在使用 Claude Sonnet 4.5（[已弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）或 Claude Opus 4.1（后者[已停用，Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 除外](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)）时频繁遇到 `refusal` 停止原因，可以尝试将 API 调用更新为使用 Claude Haiku 4.5（`claude-haiku-4-5-20251001`），它具有不同的使用限制。详细了解[理解 Sonnet 4.5 的 API 安全过滤器](https://support.claude.com/en/articles/12449294-understanding-sonnet-4-5-s-api-safety-filters)。
-</Tip>
-
 发生拒绝时，[`stop_details`](https://platform.claude.com/docs/zh-CN/api/messages/create#message.stop_details) 对象会标识触发拒绝的策略类别。这些类别以及完整的拒绝响应形态在[拒绝是什么样子的](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#refusal-response)中有介绍。对于 `refusal` 以外的所有停止原因，`stop_details` 均为 `null`。
 
 被拒绝的请求通常可以通过在另一个 Claude 模型上重试来获得响应。这适用于 Claude Fable 5.2、Claude Fable 5.1、Claude Fable 5、Claude Opus 5.5、Claude Opus 5、Claude Sonnet 5.5 和 Claude Haiku 5.5。[拒绝与回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback)介绍了如何在服务器端或您的客户端中设置该重试。Claude Haiku 5.5 没有服务器端回退，因此请通过[客户端回退](https://platform.claude.com/docs/zh-CN/build-with-claude/refusals-and-fallback#client-side-fallback)设置其重试。如果您自行构建从上述任一模型（Claude Haiku 5.5 除外）发起的重试，[回退抵扣](https://platform.claude.com/docs/zh-CN/build-with-claude/fallback-credit)介绍了如何避免两次支付提示缓存费用。
@@ -1936,9 +1932,7 @@ Claude 拒绝生成响应。安全分类器以正常的 HTTP 200 响应而非错
 
 Claude 因达到模型的上下文窗口限制而停止。这使您可以在不知道确切输入大小的情况下请求尽可能多的令牌。
 
-<Note>
-  此停止原因目前仅在 SDK 的 `beta` (csharp, go: `Beta`; java: `beta()`) 命名空间中有类型定义，因此以下示例调用 `client.beta.messages` (csharp, go: `client.Beta.Messages`; java: `client.beta().messages()`; php: `$client->beta->messages`) 并使用带 `Beta` 前缀的类型。在 Sonnet 4.5（已弃用）及更新的模型上，API 无需 beta 标头即可返回此值。对于更早的模型，请添加 `model-context-window-exceeded-2025-08-26` beta 标头以启用它。
-</Note>
+在 Claude 4.5 及更新的模型上，API 可以返回此值。对于更早的模型，请添加 `model-context-window-exceeded-2025-08-26` [beta 标头](https://platform.claude.com/docs/zh-CN/api/beta-headers)以启用它。
 
 <CodeGroup>
   ```bash cURL

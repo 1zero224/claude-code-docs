@@ -6,7 +6,7 @@
 
 > Claude Code 读取 CLAUDE.md、settings.json、hooks、skills、commands、subagents、workflows、rules 和自动内存的位置。探索项目中的 .claude 目录和主目录中的 ~/.claude。
 
-Claude Code 从您的项目目录和主目录中的 `~/.claude` 读取指令、设置、skills、subagents 和内存。将项目文件提交到 git 以与您的团队共享；`~/.claude` 中的文件是个人配置，适用于您的所有项目。
+Claude Code 从您的项目目录和主目录中的 `~/.claude` 读取指令、设置、skill、子代理和记忆。将项目文件提交到 git 即可共享它们；`~/.claude` 中的文件是个人配置，适用于您的所有项目。
 
 在 Windows 上，`~/.claude` 解析为 `%USERPROFILE%\.claude`。如果您设置了 [`CLAUDE_CONFIG_DIR`](https://code.claude.com/docs/zh-CN/env-vars)，此页面上的每个 `~/.claude` 路径都将位于该目录下。这同样适用于 `.claude.json`，否则它位于 `~/.claude.json`。
 
@@ -38,7 +38,7 @@ Configuration files
 
 **`.claude/`**
 
-项目设置、规则、skill、子代理和其他配置。如果您使用 git，请提交其中的大部分文件以便团队共享，并将 `settings.local.json` 等个人文件排除在提交之外。
+项目设置、规则、skill、子代理及其他配置。如果您使用 git，请提交其中大部分文件以便共享，并将 `settings.local.json` 等个人文件排除在提交之外。
 
 **`.claude/settings.json`**
 
@@ -78,7 +78,7 @@ Configuration files
 
 **When it loads**: 在终端启动时读取，因此添加或编辑样式后请重启 Claude Code
 
-每个 Markdown 文件定义一种[输出样式](https://code.claude.com/docs/zh-CN/output-styles.md#how-output-styles-work)，即一组调整 Claude 工作方式的指令。如果某个样式由团队共享（例如所有人都使用的审查模式），请将其放在这里。有关如何选择样式，请参阅 [`~/.claude/output-styles/`](#ce-global-output-styles)。
+每个 Markdown 文件定义一种[输出样式](https://code.claude.com/docs/zh-CN/output-styles.md#how-output-styles-work)，即一组调整 Claude 工作方式的指令。要与项目中的所有人共享某个样式（例如审查模式），请将其提交到这里。有关如何选择样式，请参阅 [`~/.claude/output-styles/`](#ce-global-output-styles)。
 
 **`.claude/agents/`**
 
@@ -321,7 +321,7 @@ Claude Code 删除下面路径中的文件，一旦它们的年龄超过 [`clean
 | `feedback-bundles/` | 由 `/feedback` 在第三方提供商上或当未配置 Anthropic 凭证时写入的编辑后的记录存档，用于发送到您的 Anthropic 账户团队 |
 | `feedback/drafts/` | 排队的 [Claude 起草的反馈](https://code.claude.com/docs/zh-CN/tools-reference.md#sendfeedback-tool-behavior)，等待您在 `/feedback` 中审查。在 `cleanupPeriodDays` 或 30 天后扫除，以较短者为准。当队列达到其 10 个草稿的限制时，Claude Code 删除最旧的草稿以腾出空间。 |
 | `usage-data/` | `report.html` 和由 [`/insights`](https://code.claude.com/docs/zh-CN/costs#analyze-your-usage-patterns) 写入的时间戳报告副本，加上用于构建它们的缓存的每个会话分析数据 |
-| `skills/.trash/`、`plugins/.trash/` | [Skills](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave) 和 [plugins](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)，从 claude.ai 同步中删除，例如在您在 claude.ai 上关闭其中一个或停止同步后。文件保留在此处，以便您可以恢复它们，直到扫描删除它们 |
+| `skills/.trash/`、`plugins/.trash/` | claude.ai 同步删除的 [skill](https://code.claude.com/docs/zh-CN/skills.md#how-synced-skills-behave) 和[插件](https://code.claude.com/docs/zh-CN/plugins/loading.md#synced-plugins)，例如在您于 claude.ai 上关闭其中某一项或停止同步之后。可在此处恢复它们。当某个文件夹存在超过 7 天且已有三个更新的副本时，或者当 `.trash/` 中的文件夹超过 1,024 个时，Claude Code 可能会在达到时间截止值之前删除该文件夹 |
 | `plugins/installed_plugins.set-aside.<date>.<hash>.json`、`plugins/installed_plugins.unreadable.<date>.<hash>.kept` | Claude Code 在重写 [`installed_plugins.json`](https://code.claude.com/docs/zh-CN/plugins/loading#find-plugins-on-disk) 之前制作的日期副本：它删除的安装记录，以及它无法读取的文件的内容。 |
 | `plugins/data/.set-aside/` | 来自某个市场的插件的数据目录，该市场已被您的组织替换为同名市场。其年龄从 Claude Code 移动它们的那天开始计算，项目设置中较短的 `cleanupPeriodDays` 不适用。要保留其中某个目录，请在扫描删除它之前将其移动到其他位置。 |
 | `plugins/mcpb/` | Claude Code 从插件声明的 [MCP 捆绑包](https://code.claude.com/docs/zh-CN/plugins/components.md#include-a-packaged-mcpb-server)中提取的文件。捆绑包的年龄从最后一个使用它的会话开始计算。 |

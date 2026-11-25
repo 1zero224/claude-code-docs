@@ -103,7 +103,7 @@ SDK 在您的应用程序中发出 span。您应用程序的 OpenTelemetry “ex
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.12.0")
+        implementation("com.anthropic:anthropic-java:3.14.0")
         ```
       </Tab>
 
@@ -112,7 +112,7 @@ SDK 在您的应用程序中发出 span。您应用程序的 OpenTelemetry “ex
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         ```
       </Tab>

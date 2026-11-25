@@ -12,14 +12,14 @@ description: 为您的组织启用 Compliance API，然后创建 Compliance Acce
   **所需角色：** 组织管理员（Claude Console），或主要所有者或组织所有者（claude.ai）。
 </Check>
 
-Compliance API 使用两种密钥类型，您创建哪一种取决于您的组织使用哪种 Claude 产品。主要所有者和组织所有者在 claude.ai 中创建 “Compliance Access Key”（合规访问密钥）；这些密钥可解锁完整的 Compliance API。主要所有者的密钥可以覆盖父组织下的每个组织；组织所有者的密钥仅覆盖其自己的组织。组织管理员在 Claude Console 中创建 “Admin API key”（管理 API 密钥）；这些密钥仅解锁 [Activity Feed](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)（活动源）。
+Compliance API 使用两种密钥类型，您创建哪一种取决于您的组织使用哪种 Claude 产品。主要所有者和组织所有者在 claude.ai 中创建 “Compliance Access Key”（合规访问密钥）；这些密钥可解锁完整的 Compliance API，但 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access) 的部分功能除外。主要所有者的密钥可以覆盖父组织下的每个组织；组织所有者的密钥仅覆盖其自己的组织。组织管理员在 Claude Console 中创建 “Admin API key”（管理 API 密钥）；这些密钥仅解锁 [Activity Feed](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)（活动源）。例外是 Safety Cases API：在该 API 对您的组织可用期间创建的 Admin API 密钥也可以访问该 API。通过该 API，该密钥可以读取被标记的消息并响应 Safety Cases。
 
 ## 您需要哪种密钥？
 
 | 密钥类型 | 创建位置 | 用途 | 是否适用于 Compliance API？ |
 | ----- | ----- | ----- | ----- |
-| **Compliance Access Key** (`sk-ant-api01-...`) | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access) | 活动源、聊天、文件、项目、会话（在 Cowork 和 Claude Code 等应用中）、用户、组织元数据和组织设置 | 是（所有端点） |
-| **Admin API 密钥** (`sk-ant-admin01-...`) | Claude Console 中的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面 | [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 和 Compliance API 活动源 | 仅活动源 |
+| **Compliance Access Key** (`sk-ant-api01-...`) | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access) | 活动源、聊天、文件、项目、会话（在 Cowork 和 Claude Code 等应用中）、用户、组织元数据和组织设置 | 是（所有端点，Safety Cases API 的部分功能除外） |
+| **Admin API 密钥** (`sk-ant-admin01-...`) | Claude Console 中的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面 | [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api) 和 Compliance API 活动源 | 活动源以及 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access)（适用于在该 API 可用期间创建的密钥） |
 | **Analytics API 密钥** | [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access) | Claude Enterprise Analytics API（请参阅 [Analytics API](https://platform.claude.com/docs/zh-CN/manage-claude/analytics-api)） | 否 |
 | **Claude API 密钥** (`sk-ant-api03-...`) | Claude Console 中的 [API 密钥](https://platform.claude.com/settings/keys)页面 | 通过 [Claude API](https://platform.claude.com/docs/zh-CN/api/overview) 调用 Claude 模型 | 否 |
 
@@ -31,10 +31,10 @@ Compliance API 使用两种密钥类型，您创建哪一种取决于您的组�
 
 ## 设置 Compliance API
 
-设置是一个流程：为您的组织启用 Compliance API，然后在 claude.ai 中创建 Compliance Access Key。Claude Console 组织则在启用后[创建 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#create-an-admin-api-key)；Admin API 密钥仅能访问[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)。
+设置是一个流程：为您的组织启用 Compliance API，然后在 claude.ai 中创建 Compliance Access Key。Claude Console 组织则在启用后[创建 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#create-an-admin-api-key)；Admin API 密钥能访问[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)。接受 EFS 和 Enterprise Data Controls 条款会为您的组织开启 Compliance API。
 
 <Warning>
-  具有 `read:compliance_user_data` 的 Compliance Access Key 可以读取每个关联组织中的每个聊天、 文件、项目和会话记录，包括主要所有者未曾看过的内容。具有 `delete:compliance_user_data` 的密钥可以永久删除聊天、文件和 项目。请像对待生产数据库凭据一样对待 Compliance Access Key： 将它们存储在密钥管理器中，切勿存储在源代码控制或 SIEM 转发器配置中。
+  具有 `read:compliance_user_data` 的 Compliance Access Key 可以读取每个关联组织中的每个聊天、 文件、项目和会话记录，包括主要所有者未曾看过的内容。具有 `delete:compliance_user_data` 的密钥可以永久删除聊天、文件和 项目。请像对待生产数据库凭据一样对待 Compliance Access Key： 将它们存储在密钥管理器中，切勿存储在源代码控制或 SIEM 转发器配置中。请以同样的方式对待 Admin API 密钥：在 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access) 对您的组织可用期间创建的 Admin API 密钥可以读取被标记消息的提示和响应。
 </Warning>
 
 <Steps>
@@ -48,7 +48,7 @@ Compliance API 使用两种密钥类型，您创建哪一种取决于您的组�
     启用了 Compliance API 的组织无法直接从浏览器调用 Claude API。当父组织启用它时，这包括每个关联的 Claude Console 组织。在启用 Compliance API 之前，请询问使用这些组织的团队，是否有任何应用程序从浏览器代码调用 Claude API。请参阅[基于浏览器的应用程序](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#browser-based-applications)。
 
     <Warning>
-      **关闭 Compliance API 会停止活动记录。**&#x4EFB;何可以开启 Compliance API 的人都可以随时使用同一个 **Compliance API** 开关将其关闭。在 Compliance API 关闭期间，您的组织不会记录任何活动事件，因此[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)不会收到新事件。在 Compliance API 关闭期间未记录的活动以后无法恢复。重新开启 Compliance API 后，将从该时间点起恢复记录；已记录的活动不会被删除。访问透明度事件是一个例外。如果您的组织已加入[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)，关闭 Compliance API 会停止您对这些事件的访问，而不会停止对它们的记录。在 Compliance API 关闭期间，这些事件仍会被记录，并且在重新开启 Compliance API 后，活动源会返回它们。对于 Claude Enterprise 组织，claude.ai 中的 Compliance API 设置还控制[本地会话](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)（用户机器上的会话）的转录内容捕获。启用 Compliance API 时开始捕获，关闭期间停止捕获。在 Compliance API 关闭期间运行的本地会话的转录内容不会被捕获，且以后无法恢复。
+      **关闭 Compliance API 会停止活动记录。**&#x8981;将其关闭，请使用同一个 **Compliance API** 开关。如果您无法将其关闭，请咨询您的 Anthropic 客户团队或 [Anthropic 支持](https://support.claude.com)。在 Compliance API 关闭期间，您的组织不会记录任何活动事件，因此[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)不会收到新事件。在 Compliance API 关闭期间未记录的活动以后无法恢复。重新开启 Compliance API 后，将从该时间点起恢复记录；已记录的活动不会被删除。访问透明度事件是一个例外。如果您的组织已加入[访问透明度](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency)，关闭 Compliance API 会停止您对这些事件的访问，而不会停止对它们的记录。在 Compliance API 关闭期间，这些事件仍会被记录，并且在重新开启 Compliance API 后，活动源会返回它们。对于 Claude Enterprise 组织，claude.ai 中的 Compliance API 设置还控制[本地会话](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)（用户机器上的会话）的转录内容捕获。启用 Compliance API 时开始捕获，关闭期间停止捕获。在 Compliance API 关闭期间运行的本地会话的转录内容不会被捕获，且以后无法恢复。
     </Warning>
 
     独立 Claude Console 组织使用 Admin API 密钥而非 Compliance Access Key：启用后，请跳过其余步骤，改为[创建新的 Admin API 密钥](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#create-an-admin-api-key)。其余步骤用于配置 Compliance Access Key，这些密钥仅适用于属于 Claude Enterprise 租户的组织。
@@ -119,7 +119,7 @@ export ANTHROPIC_ADMIN_KEY=sk-ant-admin01-...
 
 使用不同的变量名可以防止在您同时配置两种密钥时 Admin API 密钥覆盖 Compliance Access Key。本指南中的 cURL 示例从 `$ANTHROPIC_COMPLIANCE_ACCESS_KEY` 读取密钥；使用 Admin API 密钥调用[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)时，请替换为 `$ANTHROPIC_ADMIN_KEY`。
 
-仅当创建密钥时组织已启用 Compliance API，Admin API 密钥才会带有 `read:compliance_activities` 范围；请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)。它们无法被授予任何其他 Compliance API 范围，因此对活动源以外的任何端点的调用都会返回 [403 Forbidden](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#403-forbidden)。
+仅当创建密钥时组织已启用 Compliance API，Admin API 密钥才会带有 `read:compliance_activities` 范围；请参阅[设置 Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api-access#set-up-the-compliance-api)。它们无法被授予任何其他 Compliance API 范围，因此对活动源以外的任何端点的调用都会返回 [403 Forbidden](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#403-forbidden)。例外是 [Safety Cases API](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#get-access)：在该 API 可用期间创建的密钥还会带有该 API 的三个范围。您之前创建的密钥永远不会获得这些范围，因此要访问该 API，请创建一个新密钥。
 
 有关同一密钥在管理您的 Claude Console 组织中的作用，请参阅 [Admin API](https://platform.claude.com/docs/zh-CN/manage-claude/admin-api)。
 
@@ -127,7 +127,7 @@ export ANTHROPIC_ADMIN_KEY=sk-ant-admin01-...
 
 要检查您已有密钥的范围，请使用以下信号之一。
 
-* **密钥前缀。**`sk-ant-admin01-` 表示 Admin API 密钥（仅具有 `read:compliance_activities`，且受上一节所述启用时间的限制）。`sk-ant-api01-` 表示 Compliance Access Key；其范围为您在创建时选择的子集。
+* **密钥前缀。**`sk-ant-admin01-` 表示 Admin API 密钥（仅具有 `read:compliance_activities`，且受上一节所述启用时间的限制；例外情况是在 Safety Cases API 可用期间创建的密钥，该密钥还具有该 API 的范围）。`sk-ant-api01-` 表示 Compliance Access Key；其范围为您在创建时选择的子集。
 * **设置界面。**&#x5BF9;于 Compliance Access Key，请打开 [claude.ai > 组织设置 > API](https://claude.ai/admin-settings/api-access) 中的**密钥**部分，查看该密钥的**作用域**列。Admin API 密钥列在 Claude Console 的[管理员密钥](https://platform.claude.com/settings/admin-keys)页面（`platform.claude.com/settings/admin-keys`）上，没有可选择的范围。
 * **错误响应。**&#x8D85;出密钥范围的调用会返回 403，其消息格式为 `Missing required scopes. Got: [<scopes the key carries>] Needed one of: [<scopes the endpoint accepts>]`（删除端点上为 `Needed: [...]`）。有关完整的错误目录，请参阅[处理 Compliance API 错误](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-errors#403-forbidden)。
 
@@ -148,14 +148,14 @@ export ANTHROPIC_ADMIN_KEY=sk-ant-admin01-...
 
 要在不中断服务的情况下轮换密钥：
 
-1. 创建一个具有相同范围的新密钥。
+1. 创建一个具有相同范围的新密钥。在 Safety Cases API 对您的组织可用期间，新的 Admin API 密钥还会获得该 API 的范围。
 2. 更新您的集成以使用新密钥。
 3. 验证集成使用新密钥能够成功运行。
 4. 删除旧密钥。
 
 轮换前存储的分页游标仍然有效：游标的范围限定于组织，而非密钥。
 
-如果 Compliance Access Key 泄露，请立即删除它，审计[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)中由被泄露密钥产生的 `compliance_api_accessed` 活动，并轮换泄露密钥可能触及的任何下游凭据。传递 `activity_types[]=compliance_api_accessed` 以限定查询范围，然后在您的客户端中保留 `actor.type` 为 `api_actor` 且 `actor.api_key_id` 与被泄露密钥匹配的活动；有关 actor 架构，请参阅[了解 Activity 对象](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed#understand-the-activity-object)。
+如果 Compliance Access Key 或 Admin API 密钥泄露，请立即删除它，审计[活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)中由被泄露密钥产生的 `compliance_api_accessed` 活动，并轮换泄露密钥可能触及的任何下游凭据。传递 `activity_types[]=compliance_api_accessed` 以限定查询范围，然后在您的客户端中保留 `actor.type` 为 `api_actor` 且 `actor.api_key_id` 与被泄露密钥匹配的活动；有关 actor 架构，请参阅[了解 Activity 对象](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed#understand-the-activity-object)。Admin API 密钥对 Admin API 的调用会显示在其他活动类型下。要找到这些调用，请在不使用该筛选条件的情况下查询，并保留 `actor.type` 为 `admin_api_key_actor` 且 `actor.admin_api_key_id` 与该密钥匹配的活动。此 ID 的前缀与该密钥的 `api_key_id` 不同。
 
 对 Compliance API 的某些调用（包括成功的调用）不会在活动源中留下任何活动。因此，找不到该密钥的 `compliance_api_accessed` 活动并不能表明该密钥未被使用。
 

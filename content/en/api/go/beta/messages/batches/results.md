@@ -121,6 +121,8 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
     - `const AnthropicBetaCEClaudeCodeManagedSettings2026_10_06 AnthropicBeta = "ce-claude-code-managed-settings-2026-10-06"`
 
+    - `const AnthropicBetaEfs2026_10_01 AnthropicBeta = "efs-2026-10-01"`
+
     - `const AnthropicBetaUserProfilesBilling2026_10_01 AnthropicBeta = "user-profiles-billing-2026-10-01"`
 
     - `const AnthropicBetaMessageBatches2024_09_24 AnthropicBeta = "message-batches-2024-09-24"`
@@ -2996,19 +2998,23 @@ Learn more about the Message Batches API in our [user guide](https://platform.cl
 
                           - `const ModelClaudeHaiku4_5_20251001 Model = "claude-haiku-4-5-20251001"`
 
-                          - `const ModelClaudeOpus4_5 Model = "claude-opus-4-5"`
-
-                            Powerful intelligence for long-running agents and coding
-
-                          - `const ModelClaudeOpus4_5_20251101 Model = "claude-opus-4-5-20251101"`
-
-                            Powerful intelligence for long-running agents and coding
-
                           - `const ModelClaudeMythosPreview Model = "claude-mythos-preview"`
 
                             **Deprecated**: Will reach end-of-life on June 30, 2026. Please migrate to claude-mythos-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
                             New class of intelligence, strongest in coding and cybersecurity
+
+                          - `const ModelClaudeOpus4_5 Model = "claude-opus-4-5"`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
+
+                          - `const ModelClaudeOpus4_5_20251101 Model = "claude-opus-4-5-20251101"`
+
+                            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
+                            Powerful intelligence for long-running agents and coding
 
                           - `const ModelClaudeSonnet4_5 Model = "claude-sonnet-4-5"`
 

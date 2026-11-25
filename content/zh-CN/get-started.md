@@ -33,7 +33,7 @@ description: 向 Claude 发起您的第一次 API 调用，并构建一个简单
         对于 Linux 环境，请直接下载发布版二进制文件。
 
         ```bash
-        VERSION=2.12.1
+        VERSION=2.14.0
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         case $(uname -m) in
           x86_64) ARCH=amd64 ;;
@@ -180,7 +180,7 @@ description: 向 Claude 发起您的第一次 API 调用，并构建一个简单
             对于 Linux 环境，请直接下载发布版二进制文件。
 
             ```bash
-            VERSION=2.12.1
+            VERSION=2.14.0
             OS=$(uname -s | tr '[:upper:]' '[:lower:]')
             case $(uname -m) in
               x86_64) ARCH=amd64 ;;
@@ -505,7 +505,7 @@ description: 向 Claude 发起您的第一次 API 调用，并构建一个简单
             }
 
             dependencies {
-                implementation("com.anthropic:anthropic-java:3.12.0")
+                implementation("com.anthropic:anthropic-java:3.14.0")
             }
 
             application {
@@ -531,7 +531,7 @@ description: 向 Claude 发起您的第一次 API 调用，并构建一个简单
                 <dependency>
                   <groupId>com.anthropic</groupId>
                   <artifactId>anthropic-java</artifactId>
-                  <version>3.12.0</version>
+                  <version>3.14.0</version>
                 </dependency>
               </dependencies>
             </project>

@@ -49,8 +49,8 @@ description: 设置 Claude Models on Google Cloud (Google managed)（由 Google 
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.12.0")
-        implementation("com.anthropic:anthropic-java-vertex:3.12.0")
+        implementation("com.anthropic:anthropic-java:3.14.0")
+        implementation("com.anthropic:anthropic-java-vertex:3.14.0")
         ```
       </Tab>
 
@@ -59,12 +59,12 @@ description: 设置 Claude Models on Google Cloud (Google managed)（由 Google 
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-vertex</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         ```
       </Tab>
@@ -351,7 +351,7 @@ Claude Models on Google Cloud (Google managed) 提供三种端点类型。您可
 区域端点仅提供 Claude Sonnet 4.6 及更早的模型。对于更新的模型，请使用全局或多区域端点。
 
 <Note>
-  多区域和区域端点的溢价仅适用于 Claude Sonnet 4.5（已弃用）及更高版本的模型。有关保留原有定价的模型，请参阅[云平台定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#cloud-platform-pricing)。对于区域端点，溢价反映了专用区域容量的基础设施成本。
+  多区域和区域端点的溢价仅适用于 Claude 4.5 及更高版本的模型（请参阅[云平台定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#cloud-platform-pricing)）。对于区域端点，溢价反映了专用区域容量的基础设施成本。
 </Note>
 
 以下示例使用 `us` 多区域端点。高亮的行用于设置区域。有关在全局端点上的完整请求，请参阅[发起请求](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/google-managed#accessing-vertex-ai)。
@@ -519,7 +519,7 @@ Claude Models on Google Cloud (Google managed) 为以下模型提供 [1M 令牌�
 * Claude Sonnet 4.6
 * Claude Haiku 5.5
 
-其他 Claude 模型的上下文窗口为 200k 令牌，其中包括 Claude Sonnet 4.5（已弃用）和 Claude Sonnet 4（已弃用）。
+其他 Claude 模型的上下文窗口为 200k 令牌。
 
 Agent Platform 将请求负载限制为 30 MB。当您发送大型文档或大量图像时，可能会在达到令牌限制之前先达到此限制。
 

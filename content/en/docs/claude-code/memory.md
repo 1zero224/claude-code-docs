@@ -67,7 +67,7 @@ For large projects, you can break instructions into topic-specific files using [
 
 ### Set up a project CLAUDE.md
 
-A project CLAUDE.md can be stored in either `./CLAUDE.md` or `./.claude/CLAUDE.md`. Create this file and add instructions that apply to anyone working on the project: build and test commands, coding standards, architectural decisions, naming conventions, and common workflows. These instructions are shared with your team through version control, so focus on project-level standards rather than personal preferences.
+A project CLAUDE.md can be stored in either `./CLAUDE.md` or `./.claude/CLAUDE.md`. Create this file and add instructions that apply to anyone working on the project: build and test commands, coding standards, architectural decisions, naming conventions, and common workflows. These instructions are shared through version control, so focus on project-level standards rather than personal preferences.
 
 To confirm the file loaded, run [`/context all`](https://code.claude.com/docs/en/commands#all-commands) in a session and check the list under **Memory files**. In [fullscreen mode](https://code.claude.com/docs/en/fullscreen.md), `/context` alone collapses that list.
 
@@ -393,7 +393,7 @@ To change which files Claude reads, type `/config` in a Claude Code session to o
 | `claude-md-or-agents-md` | Your `CLAUDE.md` files, or your `AGENTS.md` files when you have no `CLAUDE.md` or `CLAUDE.local.md` in your working directory or above it. This is the default |
 | `claude-md-and-agents-md` | Your `CLAUDE.md` and `AGENTS.md` files together, each directory's `CLAUDE.md` files first and its `AGENTS.md` after them. Claude Code skips an `AGENTS.md` it has already loaded, so one that your `CLAUDE.md` imports or symlinks to isn't read twice |
 | `claude-md` | Your `CLAUDE.md` files only |
-| `managed-only` | Only your organization's managed `CLAUDE.md` and [auto memory](#auto-memory) at launch. Your project, local, and user `CLAUDE.md` files, your `.claude/rules/` files, and every `AGENTS.md` are left out. A subdirectory's `CLAUDE.md` and `.claude/rules/` files, and [path-scoped rules](#path-specific-rules), still load on demand |
+| `managed-only` | Only the managed `CLAUDE.md` and [auto memory](#auto-memory) at launch. Your project, local, and user `CLAUDE.md` files, your `.claude/rules/` files, and every `AGENTS.md` are excluded. A subdirectory's `CLAUDE.md` and `.claude/rules/` files, and [path-scoped rules](#path-specific-rules), still load on demand |
 
 You can also set the value in a settings file instead of `/config`. Add it to [`pluginConfigs`](https://code.claude.com/docs/en/settings-reference#pluginconfigs) under `cc-plugin-agents-md@builtin`, the ID of the built-in plugin that reads `AGENTS.md`. Claude Code reads the entry from `~/.claude/settings.json`, a `--settings` file, or [managed settings](https://code.claude.com/docs/en/managed-settings.md), and ignores it in project and local settings files. This example has Claude read both files:
 
@@ -547,7 +547,7 @@ Claude Code deletes old session transcripts after the [`cleanupPeriodDays`](http
 
 ### How it works
 
-While auto memory is on, the first 200 lines or 25KB of `MEMORY.md`, whichever comes first, load at session start. Content beyond that threshold is not loaded at session start. Claude keeps `MEMORY.md` concise by moving detailed notes into separate topic files.
+While auto memory is on, the first 200 lines or 25KB of `MEMORY.md`, whichever comes first, load at session start. Claude keeps `MEMORY.md` concise by moving detailed notes into separate topic files.
 
 After Claude writes to `MEMORY.md`, Claude Code measures the file against the 200-line and 25KB read limits. If the file is near a limit, Claude Code reminds Claude to shorten it: keep one line per entry, move detail into topic files, and merge or drop stale entries. If the file is over a limit, the write still succeeds, but Claude Code returns an [error telling Claude to rewrite the index](https://code.claude.com/docs/en/errors.md#memory-index-is-over-its-read-limit), because everything past the limit is dropped on the next load.
 

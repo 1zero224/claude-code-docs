@@ -241,6 +241,8 @@ List Events
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -2129,9 +2131,13 @@ List Events
 
           - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
             Powerful intelligence for long-running agents and coding
 
           - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+            **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
             Powerful intelligence for long-running agents and coding
 
@@ -2963,39 +2969,39 @@ List Events
 
         Tokens used to create prompt cache entries, broken down by cache TTL.
 
-        - `Optional<Integer> ephemeral1hInputTokens`
+        - `Optional<Long> ephemeral1hInputTokens`
 
           Tokens used to create 1-hour ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-        - `Optional<Integer> ephemeral5mInputTokens`
+        - `Optional<Long> ephemeral5mInputTokens`
 
           Tokens used to create 5-minute ephemeral cache entries.
 
-          format: int32
+          format: int64
 
-      - `Optional<Integer> cacheReadInputTokens`
+      - `Optional<Long> cacheReadInputTokens`
 
         Total tokens read from prompt cache.
 
-        format: int32
+        format: int64
 
-      - `Optional<Integer> inputTokens`
+      - `Optional<Long> inputTokens`
 
         Total input tokens consumed across all turns.
 
-        format: int32
+        format: int64
 
       - `Optional<BetaMonetaryAmount> listCost`
 
         Cumulative list cost of the session across all turns, priced at public list rates.
 
-      - `Optional<Integer> outputTokens`
+      - `Optional<Long> outputTokens`
 
         Total output tokens generated across all turns.
 
-        format: int32
+        format: int64
 
       - `Optional<BetaManagedAgentsServerToolUsage> serverToolUse`
 

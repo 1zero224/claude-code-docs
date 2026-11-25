@@ -60,7 +60,7 @@ To move a session you already have open into agent view, run `/bg` inside it, or
 
 In a regular `claude` session, pressing `←` on an empty prompt opens agent view, and a `←` hint in the footer reports on your background sessions:
 
-* **Hint**: the footer shows `← for agents` for ten seconds after the session opens. Pressing `←` still works after the hint disappears
+* **Hint**: the footer shows `← for agents` for ten seconds after the session opens
 * **Waiting count**: while background sessions wait on your input, the same spot counts them, such as `← 2 agents`, or `← 99+ agents` when more than 99 wait. The count refreshes about every ten seconds while the terminal is focused and immediately when focus returns
 * **Finished count**: when background sessions finish successfully while none wait on your input, the footer briefly shows how many finished, such as `← 2 done` for two
 
@@ -239,7 +239,7 @@ Use `↑` and `↓` to peek at adjacent sessions without closing the panel, or `
 
 Press `Enter` or `→` on a selected row to attach. Agent view is replaced by the full interactive session. When you attach, Claude posts a short recap of what happened while you were away.
 
-While attached, the session behaves like any other Claude Code session: [commands](https://code.claude.com/docs/en/commands.md), keyboard shortcuts, and features all work, with the exceptions below.
+While you're attached, [commands](https://code.claude.com/docs/en/commands.md), keyboard shortcuts, and features all work, with the exceptions below. A [`/ship` or `/steward` watch](https://code.claude.com/docs/en/ship-command-troubleshooting#a-session-setting-blocks-a-watch) doesn't start in a background session.
 
 While you're attached, `/install-github-app` and the [`/mcp`](https://code.claude.com/docs/en/mcp) settings list work normally, since a human at the terminal can complete their dialogs. When nobody is attached, these commands can't open their dialogs, so the session appears under `Needs input` in agent view with a row such as `open this session to manage MCP servers`, and the transcript reply says the same. Attach and run the command again to continue; the needs-input row clears when you attach. `/mcp reconnect <server>`, `/mcp enable`, and `/mcp disable` work without attaching either way.
 
@@ -444,6 +444,10 @@ Two commands move work from the session you're in to the background: `/backgroun
 #### Send the session to the background
 
 Run `/background` or its alias `/bg` to move the current conversation into a background session. Pass a prompt such as `/bg run the test suite and fix any failures` to give one more instruction first. If Claude is responding when you run `/bg`, the response continues in the background session.
+
+> [!NOTE]
+>
+> While a [`/ship` or `/steward` watch](https://code.claude.com/docs/en/ship-command) is on, `/bg` leaves the session in the foreground and prints the reason. See [Messages during a watch](https://code.claude.com/docs/en/ship-command-troubleshooting.md#messages-during-a-watch).
 
 If you exit a session while some kinds of background work are running, such as subagents or workflows, a `Background work is running` dialog warns that the work stops. Choose `Move to background and exit` to background the session the same way `/background` does and return to your shell. The option isn't shown when agent view is [turned off](#turn-off-agent-view).
 
@@ -839,13 +843,13 @@ To check which kind of session you're in, run [`/status`](https://code.claude.co
 
 ### The supervisor process
 
-The supervisor is a background service that runs your background sessions so they keep working after you close agent view or your terminal. Claude Code starts it the first time you background a session or open agent view, and you don't need to manage it yourself.
+The supervisor is a background service that runs your background sessions so they keep working after you close agent view or your terminal. Claude Code starts it the first time you background a session or open agent view.
 
 Each session is its own Claude Code process under the supervisor, and what happens to that process depends on the session's state:
 
 * **Working, paused on a permission prompt or other dialog, or attached**: the process keeps running. A running subagent, workflow, or monitor counts as working, and so does a pending [session-scoped scheduled task](https://code.claude.com/docs/en/scheduled-tasks.md), such as a `/loop` wakeup.
 * **Finished or waiting for your next message, and unattached for about an hour**: the supervisor stops the process to free resources. A session that ended its turn by asking you a question counts as waiting for your next message. The conversation stays on disk, and the next time you attach or reply, the session resumes where it left off. Pin a session with `Ctrl+T` to keep its process running.
-* **Exited unexpectedly while the supervisor is running**: the supervisor restarts the process. Ending a session you backgrounded yourself with `←` or `/background`, for example with `kill`, marks it stopped instead of restarting it. For sessions that ended with a shutdown, see [Sessions show as failed or stopped after shutdown](#sessions-show-as-failed-after-shutdown).
+* **Exited unexpectedly while the supervisor is running**: the supervisor can restart the process. Ending a session you backgrounded yourself with `←` or `/background`, for example with `kill`, marks it stopped instead of restarting it. If the session's row shows `∙`, select it and press `Enter` to restart the session. For sessions that ended with a shutdown, see [Sessions show as failed or stopped after shutdown](#sessions-show-as-failed-after-shutdown).
 * **After an auto-update**: the supervisor restarts itself onto the new version and moves idle sessions over in the background. Sessions that are working, waiting on you, or attached aren't interrupted.
 * **The supervisor itself stops**, for example because its process was ended from outside Claude Code: on macOS and Linux, your sessions stop unless a new supervisor connects within about a minute. To start one, run `claude agents` in your shell. After that minute, see [Keep sessions running after the supervisor stops](#keep-sessions-running-after-the-supervisor-stops).
 
@@ -912,7 +916,7 @@ Run `/tasks` to see everything that's running, then confirm to background anyway
 
 This notice names a background [subagent](https://code.claude.com/docs/en/sub-agents.md) that isn't running in this session.
 
-Claude sees the notice and replies on its own, so you don't need to prompt it. If you still need that subagent's work after reading Claude's reply, ask Claude for it.
+Claude sees the notice and replies on its own. If you still need that subagent's work after reading Claude's reply, ask Claude for it.
 
 ### Prompt rejected as too short
 
@@ -929,7 +933,7 @@ Shutting down or restarting your machine stops running background sessions. A se
 
 When [transcript cleanup](https://code.claude.com/docs/en/settings-reference.md#cleanupperioddays) has removed a stopped session's saved conversation, Claude Code refuses to open the row: the message says there is nothing to resume. `claude rm <id>` deletes the row, unless [Claude Code refuses](#what-deleting-a-session-removes), and `claude respawn <id>` runs its original prompt again. See [This session's saved conversation is no longer on disk](https://code.claude.com/docs/en/errors.md#this-sessions-saved-conversation-is-no-longer-on-disk).
 
-Sleep alone doesn't stop sessions. Sessions are preserved across sleep and the supervisor reconnects to them on wake.
+Sessions are preserved across sleep and the supervisor reconnects to them on wake.
 
 ### Opening a session says the conversation is already open
 
@@ -1052,6 +1056,8 @@ Agent view has evolved quickly during research preview. If you are on an older C
 
 | Version | Change |
 | - | - |
+| v2.1.331 | A [`/ship` or `/steward` watch](https://code.claude.com/docs/en/ship-command-troubleshooting#a-session-setting-blocks-a-watch) doesn't start in a background session. Before this release, one can start there. |
+| v2.1.331 | [`/background`](#send-the-session-to-the-background) doesn't move a session to the background while a `/ship` or `/steward` watch is on. Before this release, the session moves and the watch ends. |
 | v2.1.323 | In agent view's input, [`Ctrl+Y`](#keyboard-shortcuts) restores cleared text. |
 | v2.1.299 | [`/effort` and `/fast` in the dispatch input](#set-the-model-effort-and-fast-mode) set the effort level and fast mode for the sessions you dispatch next. `/model`, `/effort`, or `/fast` typed with no value opens a picker. |
 | v2.1.299 | Claude Code [reads `--bg` and `--background` as the flag](#from-your-shell) only before any bare `--` separator and outside another flag's value, and refuses an ambiguous position instead of guessing. Before this release, a prompt or reply of `--bg` or `--background` to a background session could be taken for the flag. That could start new background sessions over and over instead of delivering the text. |

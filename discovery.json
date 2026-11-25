@@ -1,7 +1,7 @@
 {
   "version": 1,
   "note": "What the last full run could see outside sources.json. Written by the fetcher so a new source arrives as a diff a human reviews, not as a line in an Actions log nobody reads. Stable facts only: a change here is always news. `path_prefixes` records content formats by URL path, and `review` lists uncovered surfaces.",
-  "updated": "2026-11-23",
+  "updated": "2026-11-25",
   "domains": {
     "anthropic.com": {
       "status": "frozen",
@@ -160,7 +160,7 @@
           "serves_html": true
         },
         "/research/": {
-          "url_count": 221,
+          "url_count": 222,
           "serves_markdown": false,
           "serves_html": true
         },
@@ -223,7 +223,7 @@
           "serves_html": true
         },
         "/docs/": {
-          "url_count": 4699,
+          "url_count": 4970,
           "serves_markdown": true,
           "serves_html": true
         },
@@ -316,7 +316,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 2437,
+          "url_count": 2629,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -329,62 +329,62 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/de/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/en/": {
-          "url_count": 404,
+          "url_count": 405,
           "serves_markdown": true,
           "serves_html": true
         },
         "/es/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/fr/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/id/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/it/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ja/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ko/": {
-          "url_count": 400,
+          "url_count": 401,
           "serves_markdown": true,
           "serves_html": true
         },
         "/pt/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/ru/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/zh-CN/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         },
         "/zh-TW/": {
-          "url_count": 401,
+          "url_count": 402,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -452,7 +452,7 @@
       "serves_markdown": true,
       "path_prefixes": {
         "/docs/": {
-          "url_count": 297,
+          "url_count": 299,
           "serves_markdown": true,
           "serves_html": true
         }
@@ -470,7 +470,7 @@
           "serves_html": true
         },
         "/blog/": {
-          "url_count": 20,
+          "url_count": 21,
           "serves_markdown": true,
           "serves_html": false
         },

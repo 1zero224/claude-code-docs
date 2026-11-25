@@ -80,10 +80,12 @@ featureMetadata:
 | Claude Opus 4.6 (claude-opus-4-6) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
 | Claude Sonnet 4.6 (claude-sonnet-4-6) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
 | Claude Opus 4.5 (claude-opus-4-5-20251101) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
-| Claude Sonnet 4.5 (claude-sonnet-4-5-20250929)（已弃用；请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)） | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
+| Claude Sonnet 4.5 (claude-sonnet-4-5-20250929) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
 | Claude Haiku 4.5 (claude-haiku-4-5-20251001) | `tool_search_tool_regex_20251119`, `tool_search_tool_bm25_20251119` |
 
 Claude Opus 4.1 及更早的模型不支持工具搜索工具。
+
+Claude Opus 4.5 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上弃用。Claude Sonnet 4.5 已在相同平台上弃用。有关退役日期和推荐的替代模型，请参阅模型弃用页面上的[弃用历史](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#deprecation-history)。[合作伙伴运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)会自行制定退役时间表。
 
 ## 工具搜索的工作原理
 

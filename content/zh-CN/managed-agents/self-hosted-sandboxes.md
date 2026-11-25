@@ -229,7 +229,7 @@ featureMetadata:
         对于 Linux 环境，请直接下载发布版二进制文件。
 
         ```bash
-        VERSION=2.12.1
+        VERSION=2.14.0
         OS=$(uname -s | tr '[:upper:]' '[:lower:]')
         case $(uname -m) in
           x86_64) ARCH=amd64 ;;

@@ -73,8 +73,6 @@ Claude 4.7 and later models and Claude Mythos Preview use a newer tokenizer that
 
   区域端点和多区域端点的价格比全局端点高出 10%。Claude API（第一方）默认为全局；有关第一方数据驻留选项和定价，请参阅[数据驻留定价](https://platform.claude.com/docs/zh-CN/about-claude/pricing#data-residency-pricing)。
 
-  **适用范围：** 此定价结构适用于 Claude Sonnet 4.5（已弃用）、Haiku 4.5、Opus 4.5 及更高版本的模型。它不适用于较早的模型（Claude Opus 4.1 及之前的版本）。
-
   有关实现细节和代码示例：
 
   * Amazon Bedrock 全局端点与区域端点：根据您调用的是 `bedrock-mantle` 还是 `bedrock-runtime`，请参阅 [Amazon Bedrock 中的 Claude（`bedrock-mantle`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock#regions) 或 [Amazon Bedrock 上的 Claude（`bedrock-runtime`）](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-on-amazon-bedrock-legacy#global-vs-regional-endpoints)
@@ -489,19 +487,19 @@ Claude Managed Agents 会话消耗的所有令牌均按[模型定价](https://pl
 
 | 明细项目 | 计算 | 费用 |
 | ----- | ----- | ----- |
-| 输入令牌 | 50,000 × $4 / 1,000,000 | 0.20 美元 |
-| 输出令牌 | 15,000 × $20 / 1,000,000 | 0.30 美元 |
-| 会话运行时间 | 1.0 小时 × $0.08 | 0.08 美元 |
+| 输入令牌 | 50,000 × 4 美元 / 1,000,000 | 0.20 美元 |
+| 输出令牌 | 15,000 × 20 美元 / 1,000,000 | 0.30 美元 |
+| 会话运行时间 | 1.0 小时 × 0.08 美元 | 0.08 美元 |
 | **总计** |  | **0.58 美元** |
 
 如果启用了提示缓存，并且其中 40,000 个输入令牌为缓存读取：
 
 | 明细项目 | 计算 | 费用 |
 | ----- | ----- | ----- |
-| 未缓存的输入令牌 | 10,000 × $4 / 1,000,000 | 0.04 美元 |
-| 缓存读取令牌 | 40,000 × $4 × 0.05 / 1,000,000 | 0.008 美元 |
-| 输出令牌 | 15,000 × $20 / 1,000,000 | 0.30 美元 |
-| 会话运行时间 | 1.0 小时 × $0.08 | 0.08 美元 |
+| 未缓存的输入令牌 | 10,000 × 4 美元 / 1,000,000 | 0.04 美元 |
+| 缓存读取令牌 | 40,000 × 4 美元 × 0.05 / 1,000,000 | 0.008 美元 |
+| 输出令牌 | 15,000 × 20 美元 / 1,000,000 | 0.30 美元 |
+| 会话运行时间 | 1.0 小时 × 0.08 美元 | 0.08 美元 |
 | **总计** |  | **0.428 美元** |
 
 ## 其他定价注意事项

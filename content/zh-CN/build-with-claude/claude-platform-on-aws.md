@@ -40,7 +40,7 @@ Claude Platform on AWS 遵循与第一方 Claude API 相同的数据保留政策
 
 支持使用 [AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/privatelink/what-is-privatelink.html) 将您的 VPC 连接到 Claude Platform on AWS 端点（请参阅[通过 AWS PrivateLink 连接](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws#connect-through-aws-privatelink)）。
 
-**何时选择 Bedrock：** 处于受监管行业、需要 FedRAMP High、IL4、IL5 或 HIPAA 就绪，或需要 AWS 作为唯一数据处理方的组织，应使用 [Amazon Bedrock 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)。Bedrock 完全运行在 AWS 控制的基础设施上，由 AWS 作为运营方。
+**何时选择 Bedrock：** 处于受监管行业、需要 FedRAMP High 或 HIPAA 就绪，或需要 AWS 作为唯一数据处理方的组织，应使用 [Amazon Bedrock 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-amazon-bedrock)。Bedrock 完全运行在 AWS 控制的基础设施上，由 AWS 作为运营方。
 
 **您使用的是哪种产品？** Claude 通过几种不同的产品提供：
 
@@ -313,8 +313,8 @@ SDK 不会自动刷新短期密钥。令牌过期时，请生成新令牌并构�
     <Tabs>
       <Tab title="Gradle">
         ```kotlin
-        implementation("com.anthropic:anthropic-java:3.12.0")
-        implementation("com.anthropic:anthropic-java-aws:3.12.0")
+        implementation("com.anthropic:anthropic-java:3.14.0")
+        implementation("com.anthropic:anthropic-java-aws:3.14.0")
         ```
       </Tab>
 
@@ -323,12 +323,12 @@ SDK 不会自动刷新短期密钥。令牌过期时，请生成新令牌并构�
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>com.anthropic</groupId>
             <artifactId>anthropic-java-aws</artifactId>
-            <version>3.12.0</version>
+            <version>3.14.0</version>
         </dependency>
         ```
       </Tab>
@@ -366,7 +366,7 @@ SDK 不会自动刷新短期密钥。令牌过期时，请生成新令牌并构�
 | Claude Opus 4.8 | `claude-opus-4-8` |
 | Claude Opus 4.7 | `claude-opus-4-7` |
 | Claude Opus 4.6 | `claude-opus-4-6` |
-| Claude Opus 4.5 | `claude-opus-4-5` |
+| Claude Opus 4.5 ([deprecated](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations)) | `claude-opus-4-5` |
 | Claude Sonnet 5.5 | `claude-sonnet-5-5` |
 | Claude Sonnet 5 | `claude-sonnet-5` |
 | Claude Sonnet 4.6 | `claude-sonnet-4-6` |
@@ -613,7 +613,7 @@ Claude Platform on AWS 上的会话和自托管 worker 与第一方 Claude Manag
 * **快速模式：** 在 Claude Platform on AWS 上不可用。
 * **OpenAI 兼容 API 端点：** 在 Claude Platform on AWS 上不可用。
 * **MCP 隧道：** 仅支持通过公共互联网公开的 MCP 服务器。
-* **Linked billing（beta）：** [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/organization-billing-connections) 在 Claude Platform on AWS 上不可用。
+* **Linked billing（beta）：** [Linked billing](https://platform.claude.com/docs/zh-CN/manage-claude/oauth-apps/linked-billing) 在 Claude Platform on AWS 上不可用。
 
 ## 数据驻留
 

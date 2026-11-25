@@ -28,7 +28,7 @@ description: 查看您的密钥加密哪些 Claude Platform 数据、哪些功�
 | Claude Console 中的 Playground | 关闭。 |
 | 结构化输出，包括工具上的 `strict: true`，搭配 Claude Fable 或 Claude Mythos 模型 | 在 CMEK 组织中关闭。使用其他模型时，结构化输出静态存储的数据[使用您的密钥加密](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-coverage-claude-platform#encrypted-with-your-key)。 |
 | [组织 webhook](https://platform.claude.com/docs/zh-CN/manage-claude/organization-webhooks#if-your-default-workspace-uses-an-encryption-key)（测试版） | 在 Claude API 上保持可用。在 Anthropic 无法使用您的默认工作区的密钥期间，依赖该密钥的组织 webhook 端点会丢失其事件。 |
-| 零数据保留（ZDR） | 使用您的密钥的工作区会保留数据。请参阅 [CMEK、数据保留和 ZDR](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention)。 |
+| 零数据保留（ZDR） | 您只能将密钥附加到采用**标准数据保留**（30 天）的工作区或使用 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview)（测试版）的工作区。请参阅 [CMEK、数据保留和 ZDR](https://platform.claude.com/docs/zh-CN/manage-claude/cmek-data-retention)。 |
 
 ## 使用 Anthropic 的密钥加密
 

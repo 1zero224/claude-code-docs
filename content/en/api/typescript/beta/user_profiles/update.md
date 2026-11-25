@@ -8,6 +8,10 @@ url: https://platform.claude.com/docs/en/api/typescript/beta/user_profiles/updat
 - Signature: `client.beta.userProfiles.update(userProfileID: string, params: UserProfileUpdateParams, options?: RequestOptions): BetaUserProfile`
 - Endpoint: `POST /v1/user_profiles/{user_profile_id}`
 
+Change the details of a user profile, leaving the fields that you don't send as they are.
+
+See the [User profiles guide](https://platform.claude.com/docs/en/manage-claude/user-profiles?sdk_languages=typescript#update-a-profile) for how each field is updated.
+
 ## Example request
 
 ```ts
@@ -193,6 +197,7 @@ type AnthropicBeta =
   | "analytics-usage-cost-2026-08-24"
   | "experimental-claude-tag-2026-10-21"
   | "ce-claude-code-managed-settings-2026-10-06"
+  | "efs-2026-10-01"
   | "user-profiles-billing-2026-10-01"
   /** @deprecated This value is no longer needed. Remove it from your requests. */
   | "message-batches-2024-09-24"

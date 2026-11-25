@@ -148,7 +148,7 @@ persist(cursor)
 
 内容端点（聊天、文件、项目、项目附件，以及本地和远程会话记录）仅提供 Claude Enterprise 数据。活动源呈现整个组织范围内的管理和资源事件。Compliance API 不包括：
 
-* 来自 Claude Console 的提示文本或模型响应，或来自使用 API 密钥进行身份验证的 Claude API 工作负载的提示文本或模型响应。
+* 来自 Claude Console 的提示文本或模型响应，或来自使用 API 密钥进行身份验证的 Claude API 工作负载的提示文本或模型响应。例外情况是 Safety Cases API 返回的[被标记消息](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/safety-cases-api#read-a-message)。
 * 本地会话中从未发送给 Anthropic 的设备端活动，例如 Claude 未读取的本地文件。
 * 使用 Claude Console API 密钥进行身份验证、通过任何[云平台](https://platform.claude.com/docs/zh-CN/api/overview#claude-api-vs-cloud-platforms)运行，或在 [Claude Code 云端会话](https://code.claude.com/docs/zh-CN/claude-code-on-the-web)中运行的 Claude Code 使用情况。Claude Code 云端会话在云基础设施而非用户计算机上运行。
 * 启用了 [HIPAA 就绪](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#hipaa-readiness)的组织中除 Cowork 和 Claude Code 以外的产品的本地会话，以及适用[零数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)的本地会话。

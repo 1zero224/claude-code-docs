@@ -294,7 +294,7 @@ claude --permission-mode acceptEdits
 
 规划期间 shell 命令的处理方式取决于会话，以下情况中第一个匹配的情况适用：
 
-* **可使用绕过权限的交互式终端会话**：规划命令既不经过分类器，也不会弹出提示。[使用 bypassPermissions 模式跳过所有检查](#skip-all-checks-with-bypasspermissions-mode)介绍了在这种情况下仍会提示的少数几种操作。
+* **可使用绕过权限的交互式终端会话**：规划命令可以在既不经过分类器、也不弹出提示的情况下运行。[使用 bypassPermissions 模式跳过所有检查](#skip-all-checks-with-bypasspermissions-mode)介绍了在这种情况下仍会提示的操作。
 * **[自动模式](https://code.claude.com/docs/zh-CN/auto-mode-config.md)可用且 `useAutoModeDuringPlan` 设置已开启**（默认开启）：分类器会审查除[关键路径删除](#critical-paths)以外的 shell 命令，而不是提示您。获批准的命令会运行，被拒绝的命令会被阻止。
 * **自动模式不可用，或 `useAutoModeDuringPlan` 已关闭**：[内置只读命令集](https://code.claude.com/docs/zh-CN/permissions.md#read-only-commands)以外的命令会提示您批准，即使启用了沙箱的[自动允许模式](https://code.claude.com/docs/zh-CN/sandboxing.md#sandbox-modes)也是如此。
 
@@ -310,7 +310,7 @@ claude --permission-mode plan
 
 计划准备就绪后，Claude 会展示计划并询问如何继续。在该提示中，您可以选择：
 
-* **Yes, and use auto mode**：批准并以[自动模式](#eliminate-prompts-with-auto-mode)开始。如果自动模式[对您的会话不可用](#eliminate-prompts-with-auto-mode)（例如因为您的组织已将其关闭），此选项将显示为 **Yes, auto-accept edits**。如果您在启动会话时启用了绕过权限，此选项则显示为 **Yes, and switch to BYPASS PERMISSIONS (no further prompts) for this session**。
+* **Yes, and use auto mode**：批准并以[自动模式](#eliminate-prompts-with-auto-mode)开始。如果自动模式[对您的会话不可用](#eliminate-prompts-with-auto-mode)，此选项将显示为 **Yes, auto-accept edits**。如果您在启动会话时启用了绕过权限，此选项则显示为 **Yes, and switch to BYPASS PERMISSIONS (no further prompts) for this session**。
 * **Yes, manually approve edits**：批准并逐一审阅每项编辑。
 * **No, keep planning**：保持在计划模式，并告诉 Claude 需要更改什么。
 
@@ -326,7 +326,7 @@ claude --permission-mode plan
 
 ## 使用自动模式消除权限提示
 
-自动模式让 Claude 无需经过常规权限提示即可执行操作。一个独立的分类器模型会在操作运行前对其进行审查，阻止任何超出您请求范围、针对无法识别的基础设施，或看起来受 Claude 读取的恶意内容驱动的操作。显式的 [ask 规则](https://code.claude.com/docs/zh-CN/permissions.md#manage-permissions)仍会强制弹出提示。
+自动模式让 Claude 无需经过常规权限提示即可执行操作。一个独立的分类器模型会在操作运行前对其进行审查，并阻止它[判定为有风险](#what-the-classifier-blocks-by-default)的操作。它会查找超出您请求范围、针对无法识别的基础设施，或受 Claude 读取的恶意内容驱动的操作。
 
 在 Claude Code v2.1.283 或更高版本中，对于所有计划和提供商，自动模式都是交互式终端和 VS Code 会话的[内置初始权限模式](#which-mode-a-session-starts-in)。在更早的版本中，它仅在 Pro、Max、Ultra 和 Team 计划中是内置初始权限模式。
 
@@ -400,7 +400,7 @@ claude --permission-mode plan
 | 在 Claude Sonnet 4.6 上运行 | Sonnet 4.6 |
 | 设置了 [`ANTHROPIC_DEFAULT_SONNET_MODEL`](https://code.claude.com/docs/zh-CN/model-config#environment-variables) | 其值；如果其值为 Claude Sonnet 5.5 或 Claude Opus 5.5，则为 Sonnet 5 |
 
-如果 Sonnet 5 或 `ANTHROPIC_DEFAULT_SONNET_MODEL` 中的模型无法从您的提供商获得，或被您组织的[模型策略](https://code.claude.com/docs/zh-CN/model-config.md#restrict-model-selection)排除，Claude Code 会使用备用模型。该备用模型是您会话的模型，在 [Fable 会话](https://code.claude.com/docs/zh-CN/model-config.md#work-with-fable)中则是 Opus 模型。
+如果 Sonnet 5 或 `ANTHROPIC_DEFAULT_SONNET_MODEL` 中的模型无法从您的提供商获得，或被[模型策略](https://code.claude.com/docs/zh-CN/model-config.md#restrict-model-selection)排除，Claude Code 会使用备用模型。该备用模型是您会话的模型，在 [Fable 会话](https://code.claude.com/docs/zh-CN/model-config.md#work-with-fable)中则是 Opus 模型。
 
 ### 选择分类器模型
 
@@ -419,7 +419,7 @@ claude --permission-mode plan
 | 情况 | 会发生什么 | 处理方法 |
 | - | - | - |
 | [调试日志](#classifier-model-check)报告了 Anthropic 配置的分类器模型 | 由该模型进行审查 | 无需处理 |
-| 您设置了 Claude Opus 5、Sonnet 5.5、Opus 5.5，或被您组织的[模型策略](https://code.claude.com/docs/zh-CN/model-config.md#restrict-model-selection)排除的模型 | 由[默认分类器模型](#default-classifier-model)进行审查 | 设置其他模型 |
+| 您设置了 Claude Opus 5、Sonnet 5.5、Opus 5.5，或被[模型策略](https://code.claude.com/docs/zh-CN/model-config.md#restrict-model-selection)排除的模型 | 由[默认分类器模型](#default-classifier-model)进行审查 | 设置其他模型 |
 | 您的提供商无法提供该模型 | 分类器检查失败，因此 Claude Code 会[拒绝它所检查的每个操作](https://code.claude.com/docs/zh-CN/errors.md#auto-mode-cannot-determine-the-safety-of-an-action) | 设置该提供商可提供的模型，或移除该变量 |
 | 在会话中，`/status` 将 [`Auto mode server`](#server-side-classifier-review) 显示为 `Enabled` | 由服务器进行审查，不使用您的模型 | 无需处理 |
 
@@ -545,7 +545,7 @@ Claude Code v2.1.261 及更高版本还会默认阻止以下操作：
 
 分类器会将您在对话中声明的边界视为阻止信号。如果您告诉 Claude "不要推送"或"在部署前等我审查"，即使默认规则允许，分类器也会阻止[其审查](#how-the-classifier-evaluates-actions)的相应操作。边界会一直有效，直到您在后续消息中解除它。Claude 自己判断某个条件已满足并不能解除边界。
 
-边界不会作为规则存储。分类器在每次检查时都会从会话记录中重新读取这些边界，因此如果[上下文压缩](https://code.claude.com/docs/zh-CN/costs.md#reduce-token-usage)移除了声明边界的消息，该边界可能会丢失。如需硬性保证，请改为添加 [deny 规则](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax)。
+边界不会作为规则存储。分类器在每次检查时都会从会话记录中重新读取这些边界，因此如果[上下文压缩](https://code.claude.com/docs/zh-CN/costs.md#reduce-token-usage)移除了声明边界的消息，该边界可能会丢失。为避免边界丢失，请改为添加 [deny 规则](https://code.claude.com/docs/zh-CN/permissions.md#permission-rule-syntax)。
 
 ### 您在对话中声明的批准
 
@@ -679,14 +679,14 @@ claude --permission-mode dontAsk
 
 `bypassPermissions` 模式禁用权限提示和安全检查，以便工具调用立即执行，包括对[受保护路径](#protected-paths)的写入。
 
-即使在 `bypassPermissions` 模式下，每项[任何模式都不会自动批准的操作](#actions-no-mode-auto-approves)也会触发提示或被拒绝，不过您可以[关闭针对危险 `rm` 命令的提示](#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode)。读取[其他组织的公开 Artifact](https://code.claude.com/docs/zh-CN/artifacts.md#read-an-artifact-shared-with-you) 需要您的批准，而此模式不会请求批准，因此 Claude 无法读取此类 Artifact。[PowerShell 中的 Remove-Item](#remove-item-in-powershell) 拒绝也适用于此模式。
+即使在 `bypassPermissions` 模式下，每项[任何模式都不会自动批准的操作](#actions-no-mode-auto-approves)也会触发提示或被拒绝，不过您可以[关闭针对危险 `rm` 命令的提示](#turn-off-the-critical-path-removal-prompt-in-bypasspermissions-mode)。Artifact 工具无法读取您未在此对话中批准的[其他组织的公开 Artifact](https://code.claude.com/docs/zh-CN/artifacts.md#read-an-artifact-shared-with-you)。[PowerShell 中的 Remove-Item](#remove-item-in-powershell) 拒绝也适用于此模式。
 
 两个[跨会话消息传递](https://code.claude.com/docs/zh-CN/cross-session-messaging.md)保护措施在此模式下仍然适用，在可使用绕过权限的交互式终端计划模式会话中同样适用：
 
 * 针对发送到此机器之外的您的会话的消息，[`isolatePeerMachines`](https://code.claude.com/docs/zh-CN/settings-reference#isolatepeermachines) 批准提示仍会出现。
 * 当没有 [`crossSessionInbound`](https://code.claude.com/docs/zh-CN/cross-session-messaging#control-inbound-messages) 值适用时，Claude Code 会保留来自您另一个会话的入站消息以供您批准，仅当发送会话将自己标识为同样绕过权限提示时才无需询问即可传递。如果您在消息被保留期间离开该权限模式，Claude Code 会重新应用入站规则，并传递现在被接受的任何保留消息。
 
-在可使用绕过权限的交互式终端会话中，Claude Code 也不强制执行[计划模式的](#analyze-before-you-edit-with-plan-mode)阻止。Claude 仍然被指示在不编辑的情况下进行计划，但它在计划期间尝试的文件编辑或 shell 命令无需提示即可运行。显式[询问规则](https://code.claude.com/docs/zh-CN/permissions.md#manage-permissions)和可识别的针对[关键路径](#critical-paths)的 `rm` 和 `rmdir` 删除仍会提示。
+在可使用绕过权限的交互式终端会话中，请勿依赖[计划模式的](#analyze-before-you-edit-with-plan-mode)阻止。Claude 在计划期间尝试的文件编辑或 shell 命令可能无需提示即可运行。显式[询问规则](https://code.claude.com/docs/zh-CN/permissions.md#manage-permissions)和可识别的针对[关键路径](#critical-paths)的 `rm` 和 `rmdir` 删除仍会提示。
 
 在 Claude Code 没有交互式终端运行的任何地方，计划模式都会保留其阻止，包括[非交互式运行](https://code.claude.com/docs/zh-CN/headless.md)（带 `-p`）、[Agent SDK](https://code.claude.com/docs/zh-CN/agent-sdk/permissions.md#plan-mode-plan) 会话和 [VS Code 扩展](https://code.claude.com/docs/zh-CN/vs-code.md)的聊天面板中的对话。在这些环境中，`--allow-dangerously-skip-permissions` 使 `bypassPermissions` 稍后可选。
 
@@ -704,7 +704,7 @@ claude --permission-mode bypassPermissions
 
 第一次使用此模式启动交互式会话时，Claude Code 会显示一个警告对话框，要求您接受对在没有权限检查的情况下执行的操作的责任：
 
-* **如果您接受**：Claude Code 在 `~/.claude/settings.json` 中将 `skipDangerousModePermissionPrompt` 设置为 `true`，因此后续会话会跳过对话框。要再次看到对话框，请从该文件中删除该键或将其设置为 `false`。[`skipDangerousModePermissionPrompt` 参考](https://code.claude.com/docs/zh-CN/settings-reference#skipdangerousmodepermissionprompt)列出了您或您的组织可以设置它的其他设置文件。
+* **如果您接受**：Claude Code 在 `~/.claude/settings.json` 中将 `skipDangerousModePermissionPrompt` 设置为 `true`，因此后续会话会跳过对话框。要再次看到对话框，请从该文件中删除该键或将其设置为 `false`。如果对话框仍未出现，请检查 [`skipDangerousModePermissionPrompt` 参考](https://code.claude.com/docs/zh-CN/settings-reference#skipdangerousmodepermissionprompt)中列出的其他设置文件。
 * **如果您拒绝**：Claude Code 退出。
 
 如果您传递的 [`--setting-sources`](https://code.claude.com/docs/zh-CN/cli-reference#cli-flags) 不包含 `user`，即使您之前已接受，对话框也可能再次出现。要跳过它，请添加 `user`，例如 `--setting-sources user,project`。
@@ -760,7 +760,7 @@ Bypass permissions was requested at launch and ignored · if that was you, ~/.cl
 | 模式 | 受保护路径写入 |
 | :- | :- |
 | `default`、`acceptEdits` | 提示 |
-| `plan` | 在[绕过权限](#skip-all-checks-with-bypasspermissions-mode)可用的交互式终端会话中允许。否则，当[自动模式](#eliminate-prompts-with-auto-mode)在规划期间可用时路由到分类器，当它不可用时提示 |
+| `plan` | 在[绕过权限](#skip-all-checks-with-bypasspermissions-mode)可用的交互式终端会话中可以被允许。否则，当[自动模式](#eliminate-prompts-with-auto-mode)在规划期间可用时路由到分类器，当它不可用时提示 |
 | `auto` | 路由到分类器，由分类器决定 |
 | `dontAsk` | 拒绝 |
 | `bypassPermissions` | 允许 |

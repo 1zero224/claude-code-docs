@@ -12,7 +12,7 @@ description: 通过 Compliance API 接收 Anthropic 人员对您组织数据进�
   * Anthropic 员工每次人工查看您的留存数据（请参阅[涵盖的内容](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#what-access-transparency-covers)）时，都会向您的 [Compliance API 活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)写入一条 `anthropic_access` 活动。
   * 访问仅出于安全审查或事件响应的目的而发生。请参阅[原因代码](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#reason-codes)。
 
-  访问透明度可供符合条件的客户使用。有关资格要求，请参阅您的合同条款或联系您的 Anthropic 客户代表。当 Anthropic [批准您的整个组织使用客户管理密钥](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)时，也会启用访问透明度。您无法在 Claude Console 中或通过 API 关闭访问透明度。
+  访问透明度可供符合条件的客户使用。有关资格要求，请参阅您的合同条款或联系您的 Anthropic 客户代表。当 Anthropic [批准您的整个组织使用客户管理密钥](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#access-transparency-with-customer-managed-keys)时，也会启用访问透明度。在 Claude Platform 上，如果您是通过 Enterprise Frontier Safeguards 或 Enterprise Data Controls 获得访问权限的，则改为在附加您的第一个密钥时开启访问透明度，除非它已处于开启状态。您无法在 Claude Console 中或通过 API 关闭访问透明度。
 </Note>
 
 ## 访问透明度的工作原理
@@ -37,9 +37,12 @@ Anthropic 人员仅在明确规定的条件下访问客户内容。访问透明�
 * **Claude for Enterprise 和 Claude 应用：** claude.ai Enterprise 席位、Claude for Work、Cowork 和 Claude in Chrome 不在涵盖范围内。
 * **Claude 消费者产品：** Claude Free、Pro、Max 或 Ultra 计划。
 * **合作伙伴运营的平台：** Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock。请参阅这些平台的透明度控制措施。
-* **ZDR 不覆盖的任何内容：** 不受 ZDR 覆盖的产品（例如 Files API、Anthropic 托管的有状态应用程序以及 Batch API）也不受访问透明度覆盖。有关更多详细信息，请参阅[零数据保留 (ZDR)](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)。
+* **ZDR 不覆盖的任何内容：** 不受 ZDR 覆盖的产品（例如 Files API、Anthropic 托管的有状态应用程序以及 Batch API）也不受访问透明度覆盖。有关更多详细信息，请参阅[旧版零数据保留（Legacy ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)。
+* **客户自有存储中的数据：** 在 Claude Platform（Claude API）上，访问透明度没有[客户自有存储](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/customer-owned-storage)中数据的记录。
 
 ## 快速开始
+
+如果您的组织拥有 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview) 或 Enterprise Data Controls，但尚未启用访问透明度，则您无需申请。在 Claude Platform 上，当您首次开始连接客户自有存储、附加客户管理密钥或关闭 Anthropic Human Review 时，访问透明度会自动开启。
 
 要启用访问透明度：
 
@@ -61,7 +64,7 @@ Anthropic 人员仅在明确规定的条件下访问客户内容。访问透明�
 
 ### 使用客户管理密钥时的访问透明度
 
-当 Anthropic 批准您的整个组织使用"customer-managed encryption keys"（客户管理的加密密钥），即 [CMEK](https://platform.claude.com/docs/zh-CN/manage-claude/cmek) 时，也会为该组织启用访问透明度。这发生在批准之时、您附加密钥之前，因此您无需单独申请访问透明度。访问透明度仍不涵盖 claude.ai 中的内容。请参阅[访问透明度不涵盖的内容](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#what-access-transparency-does-not-cover)。
+当 Anthropic 批准您的整个组织使用"customer-managed encryption keys"（客户管理的加密密钥），即 [CMEK](https://platform.claude.com/docs/zh-CN/manage-claude/cmek) 时，也会为该组织启用访问透明度。这发生在批准之时、您附加密钥之前。在 Claude Platform 上，如果您是通过 Enterprise Frontier Safeguards 或 Enterprise Data Controls 获得访问权限的，则改为在附加您的第一个密钥时开启访问透明度，除非它已处于开启状态。您无需单独申请访问透明度。访问透明度仍不涵盖 claude.ai 中的内容。请参阅[访问透明度不涵盖的内容](https://platform.claude.com/docs/zh-CN/manage-claude/access-transparency#what-access-transparency-does-not-cover)。
 
 关于该批准，请注意以下几点：
 
@@ -277,5 +280,6 @@ JSON 消息示例：
 * [活动源](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)
 * [API 与数据留存](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention)
 * [客户管理的加密密钥 (CMEK)](https://platform.claude.com/docs/zh-CN/manage-claude/cmek)
+* [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview)
 * [Claude Code 数据使用](https://code.claude.com/docs/zh-CN/data-usage)
 * [信任中心](https://trust.anthropic.com/resources)

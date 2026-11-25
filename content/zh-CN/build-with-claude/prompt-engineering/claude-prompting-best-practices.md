@@ -569,13 +569,13 @@ doubt, respond directly.
 
 <CodeGroup>
   ```bash cURL
-  # 之前：使用手动预算的扩展思考（旧模型）
+  # 之前：使用手动预算的扩展思考
   curl https://api.anthropic.com/v1/messages \
     -H "content-type: application/json" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
     -H "anthropic-version: 2026-10-21" \
     -d '{
-      "model": "claude-sonnet-4-5-20250929",
+      "model": "claude-opus-4-6",
       "max_tokens": 16000,
       "thinking": {"type": "enabled", "budget_tokens": 10000},
       "messages": [
@@ -600,9 +600,9 @@ doubt, respond directly.
   ```
 
   ```bash CLI
-  # 之前：使用手动预算的扩展思考（旧模型）
+  # 之前：使用手动预算的扩展思考
   ant messages create <<'YAML'
-  model: claude-sonnet-4-5-20250929
+  model: claude-opus-4-6
   max_tokens: 16000
   thinking:
     type: enabled
@@ -627,9 +627,9 @@ doubt, respond directly.
   ```
 
   ```python Python
-  # 之前：使用手动预算的扩展思考（旧模型）
+  # 之前：使用手动预算的扩展思考
   client.messages.create(
-      model="claude-sonnet-4-5-20250929",
+      model="claude-opus-4-6",
       max_tokens=16000,
       thinking={"type": "enabled", "budget_tokens": 10000},
       messages=[{"role": "user", "content": "..."}],
@@ -646,9 +646,9 @@ doubt, respond directly.
   ```
 
   ```typescript TypeScript
-  // 之前：使用手动预算的扩展思考（旧模型）
+  // 之前：使用手动预算的扩展思考
   await client.messages.create({
-    model: "claude-sonnet-4-5-20250929",
+    model: "claude-opus-4-6",
     max_tokens: 16000,
     thinking: { type: "enabled", budget_tokens: 10000 },
     messages: [{ role: "user", content: "..." }]
@@ -665,16 +665,16 @@ doubt, respond directly.
   ```
 
   ```csharp C#
-  // 之前：使用手动预算的 extended thinking（扩展思考）（旧版模型）
+  // 之前：使用手动预算的扩展思考
   await client.Messages.Create(new MessageCreateParams
   {
-      Model = Model.ClaudeSonnet4_5_20250929,
+      Model = Model.ClaudeOpus4_6,
       MaxTokens = 16000,
       Thinking = new ThinkingConfigEnabled(budgetTokens: 10000),
       Messages = [new UserMessageParam { Content = "..." }]
   });
 
-  // 之后：使用 effort 的 adaptive thinking（自适应思考）
+  // 之后：使用 effort 的自适应思考
   await client.Messages.Create(new MessageCreateParams
   {
       Model = Model.ClaudeOpus5_5,
@@ -686,9 +686,9 @@ doubt, respond directly.
   ```
 
   ```go Go
-  // 之前：使用手动预算的扩展思考（旧模型）
+  // 之前：使用手动预算的扩展思考
   client.Messages.New(ctx, anthropic.MessageNewParams{
-  	Model:     anthropic.ModelClaudeSonnet4_5_20250929,
+  	Model:     anthropic.ModelClaudeOpus4_6,
   	MaxTokens: 16000,
   	Thinking: anthropic.ThinkingConfigParamUnion{
   		OfEnabled: &anthropic.ThinkingConfigEnabledParam{BudgetTokens: 10000},
@@ -715,9 +715,9 @@ doubt, respond directly.
   ```
 
   ```java Java
-  // 之前：使用手动预算的扩展思考（旧模型）
+  // 之前：使用手动预算的扩展思考
   client.messages().create(MessageCreateParams.builder()
-      .model(Model.CLAUDE_SONNET_4_5_20250929)
+      .model(Model.CLAUDE_OPUS_4_6)
       .maxTokens(16000L)
       .thinking(ThinkingConfigEnabled.builder()
           .budgetTokens(10000L)
@@ -738,17 +738,17 @@ doubt, respond directly.
   ```
 
   ```php PHP
-  // 之前：使用手动预算的扩展思考（旧模型）
+  // 之前：使用手动预算的扩展思考
   $client->messages->create(
-      model: 'claude-sonnet-4-5-20250929',
+      model: Model::CLAUDE_OPUS_4_6,
       maxTokens: 16000,
-      thinking: ['type' => 'enabled', 'budget_tokens' => 10000],
+      thinking: ['type' => 'enabled', 'budgetTokens' => 10000],
       messages: [['role' => 'user', 'content' => '...']],
   );
 
   // 之后：使用 effort 的自适应思考
   $client->messages->create(
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       maxTokens: 16000,
       thinking: ['type' => 'adaptive'],
       outputConfig: ['effort' => 'high'],
@@ -757,9 +757,9 @@ doubt, respond directly.
   ```
 
   ```ruby Ruby
-  # 之前：使用手动预算的扩展思考（旧模型）
+  # 之前：使用手动预算的扩展思考
   client.messages.create(
-    model: "claude-sonnet-4-5-20250929",
+    model: Anthropic::Model::CLAUDE_OPUS_4_6,
     max_tokens: 16000,
     thinking: { type: "enabled", budget_tokens: 10000 },
     messages: [{ role: "user", content: "..." }]
@@ -799,7 +799,9 @@ Claude 的最新模型能够以强大的状态跟踪能力处理长周期推理�
 
 #### 上下文感知与多窗口工作流
 
-Claude Sonnet 5、Claude Sonnet 4.6、Claude Sonnet 4.5（已弃用）和 Claude Haiku 4.5 具备 [context awareness](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows#context-awareness)（上下文感知）功能，使模型能够在整个对话过程中跟踪其剩余的上下文窗口（即其"令牌预算"）。这使 Claude 能够根据自己还有多少工作空间，更有效地执行任务和管理上下文。
+只有 Claude Sonnet 4.5 和 Claude Haiku 4.5 具备[上下文感知](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows#context-awareness)功能。这些模型会在整个对话过程中跟踪其剩余的上下文窗口（即其"令牌预算"），并根据剩余空间来管理任务。
+
+Claude Sonnet 4.5 已在 [Anthropic 运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)上弃用。有关其退役日期和推荐的替代模型，请参阅[模型弃用](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#2026-09-30-claude-sonnet-4-5-model)。[合作伙伴运营的平台](https://platform.claude.com/docs/zh-CN/about-claude/model-deprecations#overview)会自行制定退役时间表。
 
 **管理上下文限制：**
 

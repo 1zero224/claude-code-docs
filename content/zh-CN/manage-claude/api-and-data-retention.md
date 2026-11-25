@@ -6,7 +6,11 @@ description: 了解 Anthropic 的 API 及相关功能如何保留数据，包括
 
 本页涵盖 Claude API（`api.anthropic.com`）、Claude Platform on AWS、[Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 以及 [Microsoft Foundry 中的 Claude](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-in-microsoft-foundry)，在这些平台上，Anthropic 是数据处理方。在 Claude Models on Google Cloud (Google managed) 和 Amazon Bedrock 上，云提供商是数据处理方；有关其等效控制措施，请参阅这些平台的数据保留和合规文档。
 
-Anthropic 为 Claude API 提供两种数据处理安排：["zero data retention"（零数据保留），即 ZDR](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)，以及 [HIPAA 就绪](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#hipaa-readiness)。[功能资格表](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)列出了每种安排所涵盖的 API 功能。有关这些安排之外的 Anthropic 标准保留政策，请参阅[商业数据保留政策](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data)和[消费者数据保留政策](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data)。
+Anthropic 现在为 Claude API 提供三种数据处理安排：["legacy zero data retention"（旧版零数据保留），即 Legacy ZDR](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#zero-data-retention-zdr-scope)、[HIPAA 就绪](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#hipaa-readiness)，以及 [Enterprise Frontier Safeguards（EFS ZDR）](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview)。[功能资格表](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)列出了 Legacy ZDR 和 HIPAA 就绪所涵盖的 API 功能。有关这些安排之外的 Anthropic 标准保留政策，请参阅[商业数据保留政策](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data)和[消费者数据保留政策](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data)。
+
+<Warning>
+  EFS ZDR 处于 Beta 阶段。在 EFS ZDR 推出期间，如果您在我们的文档中（Enterprise Frontier Safeguards 指南之外）看到对"ZDR"的引用，这些引用指的是 Legacy ZDR。
+</Warning>
 
 ## Anthropic 如何处理数据保留
 
@@ -16,29 +20,29 @@ Anthropic 为 Claude API 提供两种数据处理安排：["zero data retention"
 * 只保留功能正常运行在技术上所必需的内容。默认情况下不保留对话内容（您的提示和 Claude 的输出）；例外情况是[受管控模型（Covered Models）](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)，这些模型要求 30 天保留。
 * 保留的数据会在尽可能短的 “time to live”（生存时间），即 TTL 内被清除，并且 Anthropic 致力于让客户控制数据的保留时长。保留的内容以及适用特定 TTL 时的保留时长，均记录在各功能的页面上。
 
-有几种保留模式不属于本页所述的 ZDR 和 HIPAA 安排。可通过 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 访问的数据遵循其自身的保留模式。[活动源（Activity Feed）](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)会保留数据 6 年。来自 claude.ai 的聊天、文件和项目内容遵循您的组织在 [claude.ai > 组织设置 > 数据与隐私](https://claude.ai/admin-settings/data-privacy-controls)中设置的保留政策，除非用户更早将其删除。[本地会话记录](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)来自用户计算机上的会话，例如 Cowork 和 Claude Code 等应用中的会话。这些记录默认存储 6 年；如果您的组织设置了有限的自定义对话保留期（同一个 claude.ai 设置），则按该保留期存储。[远程会话记录](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-remote-sessions)（云端的 Cowork，以及 Claude Tag）没有默认保留期。请参阅[保留与删除](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retention-and-deletion)。Compliance API 不会捕获已启用 ZDR 的本地会话。对于已启用 HIPAA 就绪的组织，它仅捕获 Cowork 和 Claude Code 本地会话，并将其记录存储 30 天。
+有几种保留模式不属于本页所述的 Legacy ZDR 和 HIPAA 安排。可通过 [Compliance API](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-api) 访问的数据遵循其自身的保留模式。[活动源（Activity Feed）](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-activity-feed)会保留数据 6 年。来自 claude.ai 的聊天、文件和项目内容遵循您的组织在 [claude.ai > 组织设置 > 数据与隐私](https://claude.ai/admin-settings/data-privacy-controls)中设置的保留政策，除非用户更早将其删除。[本地会话记录](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-local-sessions)来自用户计算机上的会话，例如 Cowork 和 Claude Code 等应用中的会话。这些记录默认存储 6 年；如果您的组织设置了有限的自定义对话保留期（同一个 claude.ai 设置），则按该保留期存储。[远程会话记录](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retrieve-remote-sessions)（云端的 Cowork，以及 Claude Tag）没有默认保留期。请参阅[保留与删除](https://platform.claude.com/docs/zh-CN/manage-claude/compliance-sessions#retention-and-deletion)。Compliance API 不会捕获已启用 ZDR 的本地会话。对于已启用 HIPAA 就绪的组织，它仅捕获 Cowork 和 Claude Code 本地会话，并将其记录存储 30 天。
 
-## 零数据保留（ZDR）
+## 旧版零数据保留（Legacy ZDR）
 
-在 ZDR 安排下，API 响应返回后，Anthropic 不会以静态方式存储客户的提示或响应。如需为您的组织申请 ZDR，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。ZDR 按组织启用；每个新组织都需要由您的客户团队单独启用 ZDR，且启用不会自动扩展到同一账户下的其他组织。
+在 Legacy ZDR 安排下，API 响应返回后，Anthropic 不会以静态方式存储客户的提示或响应。如需为您的组织申请 ZDR，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。ZDR 按组织启用；每个新组织都需要由您的客户团队单独启用 ZDR，且启用不会自动扩展到同一账户下的其他组织。
 
 具有 ZDR 安排的组织无法直接从浏览器调用 Claude API：API 会拒绝其跨源（CORS）请求。要从 Web 应用程序调用 API，请从您自己的后端发送请求。请参阅[基于浏览器的应用程序](https://platform.claude.com/docs/zh-CN/manage-claude/authentication#browser-based-applications)。
 
-### ZDR 涵盖的范围
+### Legacy ZDR 涵盖的范围
 
-* **Claude Messages 和令牌计数 API：** ZDR 适用于这些端点上[功能资格表](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)中列出的符合资格的功能。使用 `/v1/messages` 但在表中标记为"否"的功能（例如代码执行）不在涵盖范围内。
-* **使用 API 密钥的 Claude Code：** 当 Claude Code 与来自商业组织（受 Anthropic 商业服务条款约束的组织，区别于消费者 Claude 账户）的 API 密钥一起使用时，ZDR 适用。如果在 Claude Code 中启用了指标日志记录，则使用统计等生产力数据不受 ZDR 约束，可能会被保留。Claude Enterprise 上的 Claude Code 不在此安排涵盖范围内，它有单独的 ZDR 方案；请参阅 [ZDR 不涵盖的范围](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#what-zdr-does-not-cover)。
+* **Claude Messages 和令牌计数 API：** Legacy ZDR 适用于这些端点上[功能资格表](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)中列出的符合资格的功能。使用 `/v1/messages` 但在表中标记为"否"的功能（例如代码执行）不在涵盖范围内。
+* **使用 API 密钥的 Claude Code：** 当 Claude Code 与来自商业组织（受 Anthropic 商业服务条款约束的组织，区别于消费者 Claude 账户）的 API 密钥一起使用时，Legacy ZDR 适用。如果在 Claude Code 中启用了指标日志记录，则使用统计等生产力数据不受 Legacy ZDR 约束，可能会被保留。Claude Enterprise 上的 Claude Code 不在此安排涵盖范围内，它有单独的 ZDR 方案；请参阅 [Legacy ZDR 不涵盖的范围](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#what-zdr-does-not-cover)。
 * **Claude Platform on AWS：** [Claude Platform on AWS](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-platform-on-aws) 遵循与第一方 Claude API 相同的数据保留政策。ZDR 可按需提供；请联系您的 Anthropic 客户代表以启用。
 * **Claude Models on Google Cloud (Anthropic managed)：** [Claude Models on Google Cloud (Anthropic managed)](https://platform.claude.com/docs/zh-CN/build-with-claude/claude-models-on-google-cloud/anthropic-managed) 遵循与第一方 Claude API 相同的数据保留政策。ZDR 可按需提供；请联系您的 Anthropic 客户代表以启用。
 
-### ZDR 不涵盖的范围
+### Legacy ZDR 不涵盖的范围
 
 * **Claude Console：** 在 Claude Console 中的任何使用，包括 playground。
 * **Claude Managed Agents：** Claude Managed Agents 是有状态资源；会话记录会一直保留，直到您将其删除。例外情况是自托管的 Claude Managed Agents，在这种情况下由您自行存储会话记录，如[数据保留时长](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept)所述。
 * **Claude 消费者产品：** Claude Free、Pro、Max 和 Ultra 计划，包括这些计划的客户使用 Claude 的网页版、桌面版或移动应用或 Claude Code 的情况。
-* **Claude Teams 和 Claude Enterprise 产品界面：** 这些界面不符合 ZDR 资格。唯一的例外是 Claude Enterprise 上的 Claude Code，它有自己的 ZDR 方案，与本页所述的 ZDR 安排相互独立。该方案仅适用于 Claude Enterprise 上符合条件的账户，并需要 Anthropic 单独启用。请参阅 [Claude Code ZDR 文档](https://code.claude.com/docs/en/zero-data-retention)，该文档仅适用于 Claude Enterprise 组织。
+* **Claude Teams 和 Claude Enterprise 产品界面：** 这些界面不符合 ZDR 资格。唯一的例外是 Claude Enterprise 上的 Claude Code，它有自己的 ZDR 方案，与本页所述的 Legacy ZDR 安排相互独立。该方案仅适用于 Claude Enterprise 上符合条件的账户，并需要 Anthropic 单独启用。请参阅 [Claude Code ZDR 文档](https://code.claude.com/docs/en/zero-data-retention)，该文档仅适用于 Claude Enterprise 组织。
 * **Claude for Excel：** 目前不符合 ZDR 资格。
-* **Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5 和 Claude Mythos 5：** 这些模型要求 30 天数据保留，除非获得 Anthropic 的明确授权，否则无法在 ZDR 下使用。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
+* **Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5 和 Claude Mythos 5：** 这些模型要求 30 天数据保留，除非获得 Anthropic 的明确授权，否则无法在 Legacy ZDR 下使用。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
 * **第三方集成：** 由第三方网站、工具或其他集成处理的数据不在涵盖范围内，但其中一些可能提供类似方案。请查看每项服务的数据处理做法。
 * **被标记的内容和法律保全：** 请参阅[无论何种安排都适用的保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#retention-regardless-of-arrangement)。
 
@@ -94,7 +98,7 @@ Claude API 为处理 “protected health information”（受保护的健康信�
 
 ### HIPAA 就绪入门
 
-设置 HIPAA 就绪的 API 访问有两种方式。大多数组织可以使用 Anthropic 的标准 BAA 直接在 Claude Console 中启用；需要协商 BAA 的组织应与其客户团队合作。
+设置 HIPAA 就绪的 API 访问有两种方式。符合条件的组织可以使用 Anthropic 的标准 BAA 直接在 Claude Console 中启用；需要协商 BAA 的组织应与其客户团队合作。
 
 #### 在 Console 中启用（标准 BAA）
 
@@ -112,9 +116,16 @@ Claude API 为处理 “protected health information”（受保护的健康信�
   </Step>
 </Steps>
 
+#### 获取在 Console 中启用的帮助
+
+如果您是组织管理员，应联系谁取决于 **HIPAA 合规**卡片：
+
+* 如果**启用**按钮处于禁用状态，请联系 [Anthropic 支持团队](https://support.claude.com)或您的客户团队。
+* 如果您看不到该卡片，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。Anthropic 会签署 BAA 并为您的组织启用 HIPAA 就绪。
+
 #### 联系销售（自定义 BAA）
 
-如果您的组织需要协商或自定义的 BAA，或者您的组织无法使用自助启用，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。Anthropic 会签署 BAA 并为您的组织启用 HIPAA 就绪。
+如果您的组织需要协商或自定义的 BAA，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。Anthropic 会签署 BAA 并为您的组织启用 HIPAA 就绪。
 
 #### 使用符合资格的功能进行构建
 
@@ -126,7 +137,7 @@ Claude API 为处理 “protected health information”（受保护的健康信�
 
 ## 特定模型的数据保留要求
 
-Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5 和 Claude Mythos 5 被指定为受管控模型（Covered Models）。请参阅[受管控模型支持文章](https://support.claude.com/en/articles/15425695)。这些模型要求 30 天数据保留。因此，除非获得 Anthropic 的明确授权，否则这些模型均无法使用 ZDR。在 Claude API 上，如果组织的数据保留配置不满足此要求，则其向 Claude Fable 5 发出的请求会返回 `400 invalid_request_error`：
+Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Claude Fable 5 和 Claude Mythos 5 被指定为受管控模型（Covered Models）。请参阅[受管控模型支持文章](https://support.claude.com/en/articles/15425695)。这些模型要求 30 天数据保留。因此，除非获得 Anthropic 的明确授权，否则这些模型均无法使用 Legacy ZDR。借助 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview)，符合条件的组织可以在 Enterprise Frontier Safeguards ZDR 下使用这些模型。在 Claude API 上，如果组织的数据保留配置不满足此要求，则其向 Claude Fable 5 发出的请求会返回 `400 invalid_request_error`：
 
 ```json
 {
@@ -142,7 +153,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 ### 为工作区启用 30 天保留
 
-具有 ZDR 安排的组织可以仅为特定工作区启用 30 天保留，从而在该工作区中使用这些模型。组织中的其他工作区将继续保持零数据保留。默认工作区（Default Workspace）始终遵循组织的设置，因此请使用其他工作区。
+具有 Legacy ZDR 安排的组织可以仅为特定工作区启用 30 天保留，从而在该工作区中使用这些模型。组织中的其他工作区将继续保持 Legacy ZDR。默认工作区（Default Workspace）始终遵循组织的设置，因此请使用其他工作区。
 
 <Steps>
   <Step title="打开工作区的数据保留设置">
@@ -160,19 +171,19 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 ## 功能资格
 
-下表列出了哪些 Claude API 功能符合 ZDR 和 HIPAA 就绪安排的资格。这些表格按照[功能概览](https://platform.claude.com/docs/zh-CN/build-with-claude/overview)的方式对功能进行划分。
+下表列出了哪些 Claude API 功能符合 Legacy ZDR 和 HIPAA 就绪安排的资格。这些表格按照[功能概览](https://platform.claude.com/docs/zh-CN/build-with-claude/overview)的方式对功能进行划分。
 
 每个资格列使用三种值：
 
-* **是：** 该功能在该安排下完全符合资格。对于 ZDR，"是"还假定您使用的模型不要求 30 天数据保留；无论功能资格如何，[受管控模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)都无法在 ZDR 下使用。
+* **是：** 该功能在该安排下完全符合资格。对于 Legacy ZDR，"是"还假定您使用的模型不要求 30 天数据保留；无论功能资格如何，[受管控模型](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)都无法在 Legacy ZDR 下使用，除非获得 Anthropic 的明确授权，或在使用 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview) 的工作区中使用。
 * **是（有条件）：** 您的提示和 Claude 的输出不会被存储，但会短暂保留一个有限的技术工件（在"详细信息"列中注明），以使该功能正常运行。有关约束这些功能的承诺，请参阅 [Anthropic 如何处理数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#how-anthropic-approaches-data-retention)。
-* **否：** 该功能不符合资格。在 HIPAA 就绪下，API 会阻止包含"否"功能的请求并返回 `400` 错误，除非该功能的"详细信息"列另有说明。在 ZDR 下，API **不会**阻止这些功能；使用这类功能即表示您选择让该特定数据脱离 ZDR 安排，并适用该功能自身记录的保留政策。在 ZDR 中标记为"否"的功能通常是有状态的（它们会存储作业、文件或容器状态），这就是它们无法实现零保留的原因。
+* **否：** 该功能不符合资格。在 HIPAA 就绪下，API 会阻止包含"否"功能的请求并返回 `400` 错误，除非该功能的"详细信息"列另有说明。在 Legacy ZDR 下，API **不会**阻止这些功能；使用这类功能即表示您选择让该特定数据脱离 Legacy ZDR 安排，并适用该功能自身记录的保留政策。不过，在 [Anthropic Human Review](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/human-review-and-access-transparency#turn-off-anthropic-human-review) 已关闭的工作区中，例如任何使用 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview) 的工作区，Batch API 会拒绝新的批处理。Anthropic 的 Claude Managed Agents 服务也不会在其中运行会话。在 Legacy ZDR 中标记为"否"的功能通常是有状态的（它们会存储作业、文件或容器状态），这就是它们无法实现零保留的原因。
 
 ### 平台功能
 
-本节列出与 [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) 和 [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 都相关的功能。其中一些功能仅在二者之一中可用。本表给出了每项功能在 Messages API 中的资格。在 Claude Managed Agents 中，没有任何功能符合 ZDR 或 HIPAA 就绪资格，但 ZDR 下的自托管 Managed Agents 除外。请参阅 [Managed Agents 功能](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#managed-agents-features)下的 Claude Managed Agents 行。
+本节列出与 [Messages API](https://platform.claude.com/docs/zh-CN/build-with-claude/working-with-messages) 和 [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) 都相关的功能。其中一些功能仅在二者之一中可用。本表给出了每项功能在 Messages API 中的资格。在 Claude Managed Agents 中，没有任何功能符合 Legacy ZDR 或 HIPAA 就绪资格，但 Legacy ZDR 下的自托管 Managed Agents 除外。请参阅 [Managed Agents 功能](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#managed-agents-features)下的 Claude Managed Agents 行。
 
-| 功能 | 端点 | 具备 ZDR 资格 | 具备 HIPAA 资格 | 详细信息 |
+| 功能 | 端点 | 具备 Legacy ZDR 资格 | 具备 HIPAA 资格 | 详细信息 |
 | :---- | :---- | :---- | :---- | :---- |
 | [Advisor 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/advisor-tool) | `/v1/messages` 使用 `advisor` 工具 | 是 | 否 | 顾问模型的输出在 API 响应中返回；响应后服务器端不存储任何内容。 |
 | [Agent Skills](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview) | `/v1/skills`, `/v1/messages` 使用 `skills` | 否 | 否 | 技能数据按标准政策保留。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/agent-skills/overview#data-retention) |
@@ -203,7 +214,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 ### Messages API 功能
 
-| 功能 | 端点 | 具备 ZDR 资格 | 具备 HIPAA 资格 | 详细信息 |
+| 功能 | 端点 | 具备 Legacy ZDR 资格 | 具备 HIPAA 资格 | 详细信息 |
 | :---- | :---- | :---- | :---- | :---- |
 | [Bash 工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/bash-tool) | `/v1/messages` 使用 `bash` 工具 | 是 | 是 | 在您的环境中运行的客户端工具。 |
 | [代码执行工具](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool) | `/v1/messages` 使用 `code_execution` 工具 | 否 | 否 | 容器数据最多保留 30 天。 [了解更多](https://platform.claude.com/docs/zh-CN/agents-and-tools/tool-use/code-execution-tool#data-retention) |
@@ -216,13 +227,13 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 
 ### Managed Agents 功能
 
-| 功能 | 端点 | 具备 ZDR 资格 | 具备 HIPAA 资格 | 详细信息 |
+| 功能 | 端点 | 具备 Legacy ZDR 资格 | 具备 HIPAA 资格 | 详细信息 |
 | :---- | :---- | :---- | :---- | :---- |
 | [Claude Managed Agents](https://platform.claude.com/docs/zh-CN/managed-agents/overview) | `/v1/agents`, `/v1/sessions`, `/v1/environments` | 否 | 否 | 不具备 ZDR 资格，自托管 Managed Agents 除外。会话是有状态的资源；对话记录会一直保留，直到您将其删除。 [了解更多](https://platform.claude.com/docs/zh-CN/managed-agents/self-hosted-data-and-access#how-long-data-is-kept) 不具备 HIPAA 资格。适用于所有 Managed Agents 子功能。 |
 
 ### 其他功能
 
-| 功能 | 端点 | 具备 ZDR 资格 | 具备 HIPAA 资格 | 详细信息 |
+| 功能 | 端点 | 具备 Legacy ZDR 资格 | 具备 HIPAA 资格 | 详细信息 |
 | ----- | ----- | ----- | ----- | ----- |
 | [1M 令牌上下文窗口](https://platform.claude.com/docs/zh-CN/build-with-claude/context-windows) | `/v1/messages` | 是 | 是 |  |
 | [OpenTelemetry 导出](https://platform.claude.com/docs/zh-CN/manage-claude/opentelemetry) | `/v1/organizations/telemetry_destinations` | 是 | 否 | Beta。Span 的 ZDR 资格与生成它们的功能相同。HIPAA 组织可以导出元数据。SDK span 直接从您的环境发送到您的导出器。交付后，数据由您选择的服务持有，位于 Anthropic 之外，受该服务的保留和访问控制约束。 |
@@ -235,16 +246,16 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 ## 常见问题
 
 <AccordionGroup>
-  <Accordion title="如何知道我的组织是否有 ZDR 安排？">
-    请查看您的合同条款或联系您的 Anthropic 客户代表，以确认您的组织是否已实施 ZDR 安排。
+  <Accordion title="如何知道我的组织是否有 Legacy ZDR 安排？">
+    请查看您的合同条款或联系您的 Anthropic 客户代表，以确认您的组织是否已实施 Legacy ZDR 安排。
   </Accordion>
 
-  <Accordion title="我可以在 ZDR 安排下使用符合 ZDR 资格（有条件）的功能吗？">
+  <Accordion title="我可以在 Legacy ZDR 安排下使用符合 ZDR 资格（有条件）的功能吗？">
     可以。这些功能会保留一组最少且有记录的技术数据，而不是您的提示或 Claude 的输出。有关"是（有条件）"的含义，请参阅[功能资格表](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#feature-eligibility)的说明；有关约束这些功能的承诺，请参阅 [Anthropic 如何处理数据保留](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#how-anthropic-approaches-data-retention)。
   </Accordion>
 
-  <Accordion title="如果我在 ZDR 下使用标记为&#x22;否&#x22;的功能会怎样？">
-    请求不会被阻止。在 ZDR 中标记为"否"的功能本质上是有状态的：Batch API 会存储您的作业，Files API 会存储您的文件，代码执行则在持久化容器中运行。这些功能的数据会按照该功能记录的政策进行保留。使用这些功能即表示您选择让该特定数据脱离 ZDR 安排。
+  <Accordion title="如果我在 Legacy ZDR 下使用标记为&#x22;否&#x22;的功能会怎样？">
+    请求不会被阻止。但在 [Anthropic Human Review](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/human-review-and-access-transparency#turn-off-anthropic-human-review) 已关闭的工作区中，例如任何使用 [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview) 的工作区，Batch API 会拒绝新的批处理。Anthropic 的 Claude Managed Agents 服务也不会在其中运行会话。在 Legacy ZDR 中标记为"否"的功能本质上是有状态的：Batch API 会存储您的作业，Files API 会存储您的文件，代码执行则在持久化容器中运行。这些功能的数据会按照该功能记录的政策进行保留。使用这些功能即表示您选择让该特定数据脱离 Legacy ZDR 安排。
   </Accordion>
 
   <Accordion title="我可以请求删除不符合 ZDR 资格的功能中的数据吗？">
@@ -268,7 +279,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
   </Accordion>
 
   <Accordion title="如何申请 HIPAA 就绪的 API 访问？">
-    符合条件的组织可以直接在 Claude Console 中启用 HIPAA 就绪：由组织管理员在[数据隐私](https://platform.claude.com/settings/data-privacy)页面（`platform.claude.com/settings/data-privacy`）上审阅并签署 Anthropic 的标准 BAA。如果您无法打开该页面或找不到该选项，请让组织管理员为您启用 HIPAA 就绪。有关具体步骤，请参阅 [HIPAA 就绪入门](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#getting-started-with-hipaa-readiness)。如果您的组织需要协商的 BAA，或者您的组织无法使用自助启用，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。
+    符合条件的组织可以直接在 Claude Console 中启用 HIPAA 就绪：由组织管理员在[数据隐私](https://platform.claude.com/settings/data-privacy)页面（`platform.claude.com/settings/data-privacy`）上审阅并签署 Anthropic 的标准 BAA。如果您无法打开该页面或找不到该选项，请让组织管理员为您启用 HIPAA 就绪。有关具体步骤，请参阅 [HIPAA 就绪入门](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#getting-started-with-hipaa-readiness)。如果您的组织需要协商的 BAA，请联系 [Anthropic 销售团队](https://claude.com/contact-sales)。如果组织管理员无法在 Console 中启用 HIPAA 就绪，请参阅[获取在 Console 中启用的帮助](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#get-help-enabling-in-the-console)。
   </Accordion>
 
   <Accordion title="这是否适用于 Amazon Bedrock 或 Google Cloud？">
@@ -282,14 +293,14 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
   <Accordion title="Claude Code 是否符合 ZDR 资格？">
     Claude Code 在两种独立的方案下符合 ZDR 资格：
 
-    * **API 密钥：** 当商业组织拥有 Claude API 的 ZDR 安排（即本页所述的安排）时，与该组织的按需付费 API 密钥一起使用的 Claude Code 在涵盖范围内。
+    * **API 密钥：** 当商业组织拥有 Claude API 的 Legacy ZDR 安排（即本页所述的安排）时，与该组织的按需付费 API 密钥一起使用的 Claude Code 在涵盖范围内。
     * **Claude Enterprise：** 当 Anthropic 为组织启用了单独的方案——Claude Enterprise 上 Claude Code 的 ZDR——时，通过 Claude Enterprise 使用的 Claude Code 在该方案涵盖范围内。
 
     ZDR 按组织启用。每个新组织都需要由您的客户团队单独启用 ZDR。ZDR 不会自动应用于在同一账户下创建的新组织。
 
     此外，如果您在 Claude Code 中启用了指标日志记录，则生产力数据（例如使用统计）不受 ZDR 约束，可能会被保留。
 
-    有关 Claude Enterprise 上 Claude Code 的 ZDR 的完整详细信息，包括被禁用的功能以及如何申请启用，请参阅 [Claude Code ZDR 文档](https://code.claude.com/docs/en/zero-data-retention)。该文档仅适用于 Claude Enterprise 组织，并不描述 Claude API 的 ZDR 安排。
+    有关 Claude Enterprise 上 Claude Code 的 ZDR 的完整详细信息，包括被禁用的功能以及如何申请启用，请参阅 [Claude Code ZDR 文档](https://code.claude.com/docs/en/zero-data-retention)。该文档仅适用于 Claude Enterprise 组织，并不描述 Claude API 的 Legacy ZDR 安排。
   </Accordion>
 
   <Accordion title="Claude for Excel 是否支持 ZDR？">
@@ -304,6 +315,7 @@ Claude Fable 5.2、Claude Mythos 5.2、Claude Fable 5.1、Claude Mythos 5.1、Cl
 ## 相关资源
 
 * [隐私政策](https://www.anthropic.com/legal/privacy)
+* [Enterprise Frontier Safeguards](https://platform.claude.com/docs/zh-CN/manage-claude/enterprise-frontier-safeguards/overview)
 * [结构化输出](https://platform.claude.com/docs/zh-CN/build-with-claude/structured-outputs)
 * [提示缓存](https://platform.claude.com/docs/zh-CN/build-with-claude/prompt-caching)
 * [批量处理](https://platform.claude.com/docs/zh-CN/build-with-claude/batch-processing)

@@ -119,6 +119,8 @@ Set a Slack channel up for Claude Tag and return it with its identifier. If the 
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
 
+  - `"efs-2026-10-01"`
+
   - `"user-profiles-billing-2026-10-01"`
 
   - `"message-batches-2024-09-24"`
@@ -515,8 +517,8 @@ curl https://api.anthropic.com/v1/organizations/claude_tag/slack_channels \
     -H "Authorization: Bearer $ANTHROPIC_API_KEY" \
     -d '{
           "slack": {
-            "channel_id": "xx",
-            "workspace_id": "xx"
+            "channel_id": "C0456EFGH",
+            "workspace_id": "T0123ABCD"
           }
         }'
 ```
@@ -540,8 +542,8 @@ curl https://api.anthropic.com/v1/organizations/claude_tag/slack_channels \
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -713,6 +715,8 @@ List the set-up Slack channels of one Slack workspace, newest first by `created_
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -1026,8 +1030,8 @@ curl https://api.anthropic.com/v1/organizations/claude_tag/slack_channels \
         }
       },
       "slack": {
-        "channel_id": "xx",
-        "workspace_id": "xx"
+        "channel_id": "C0456EFGH",
+        "workspace_id": "T0123ABCD"
       },
       "sources": {
         "enabled": {
@@ -1190,6 +1194,8 @@ Get one Slack channel and its settings. By default `settings` holds what the cha
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -1497,8 +1503,8 @@ curl https://api.anthropic.com/v1/organizations/claude_tag/slack_channels/$ID \
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -1652,6 +1658,8 @@ Change the settings a Slack channel stores. The update is partial: a setting lef
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 
@@ -2051,8 +2059,8 @@ curl https://api.anthropic.com/v1/organizations/claude_tag/slack_channels/$ID \
     }
   },
   "slack": {
-    "channel_id": "xx",
-    "workspace_id": "xx"
+    "channel_id": "C0456EFGH",
+    "workspace_id": "T0123ABCD"
   },
   "sources": {
     "enabled": {
@@ -2206,6 +2214,8 @@ Remove a Slack channel from Claude Tag. This deletes the channel's stored settin
   - `"experimental-claude-tag-2026-10-21"`
 
   - `"ce-claude-code-managed-settings-2026-10-06"`
+
+  - `"efs-2026-10-01"`
 
   - `"user-profiles-billing-2026-10-01"`
 

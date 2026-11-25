@@ -73,18 +73,16 @@ featureMetadata:
 
 `clear_thinking_20251015` 策略用于管理早期助手轮次中的 `thinking` 块。此策略让您可以控制思考内容的保留：您可以选择保留更多思考块以维持推理的连续性，也可以更积极地清除它们以节省上下文空间。
 
-<Tip>
-  **默认行为：** 当请求不包含 `clear_thinking_20251015` 策略时，默认值因模型类别而异。
+当请求不包含 `clear_thinking_20251015` 策略时，默认值因模型类别而异。
 
-  | 模型类别 | 保留所有先前的思考 | 仅保留正在进行的轮次的思考 |
-  | ----- | ----- | ----- |
-  | Opus | Claude Opus 4.5 及更高版本 | Claude Opus 4.1 及更早版本 |
-  | Sonnet | Claude Sonnet 4.6 及更高版本 | Claude Sonnet 4.5（已弃用）及更早版本 |
-  | Haiku | Claude Haiku 5.5 及更高版本 | Claude Haiku 4.5 及更早版本 |
-  | Fable 和 Mythos | 所有模型 | （无） |
+| 模型类别 | 保留所有先前的思考 | 仅保留正在进行的轮次的思考 |
+| ----- | ----- | ----- |
+| Opus | Claude Opus 4.5 及更高版本 | Claude Opus 4.1 及更早版本 |
+| Sonnet | Claude Sonnet 4.6 及更高版本 | Claude Sonnet 4.5 及更早版本 |
+| Haiku | Claude Haiku 5.5 及更高版本 | Claude Haiku 4.5 及更早版本 |
+| Fable 和 Mythos | 所有模型 | （无） |
 
-  使用此策略可覆盖默认值。如果您的代码跨多个模型类别运行，请包含此策略并显式设置 `keep`，而不要依赖各模型的默认值。
-</Tip>
+使用此策略可覆盖默认值。如果您的代码跨多个模型类别运行，请包含此策略并显式设置 `keep`，而不要依赖各模型的默认值。
 
 一个助手对话轮次可能包含多个内容块（例如在使用工具时）和多个思考块（例如使用[交错思考](https://platform.claude.com/docs/zh-CN/build-with-claude/thinking#interleaved-thinking)时）。
 

@@ -4,9 +4,9 @@
 
 使用分析可供 Team 计划的所有者和主要所有者，以及 Enterprise 计划的所有者、主要所有者和管理员使用。Enterprise 管理员可以查看除支出外的所有分析。
 
-使用分析可帮助您直接从管理员仪表板跟踪团队活动、功能采用情况和支出。您可以监控组织如何使用 Claude，并导出详细报告供自己分析。
+使用分析可帮助您跟踪团队活动、功能采用情况和支出，直接从管理员仪表板进行。您可以监控组织如何使用 Claude，并导出详细报告供自己分析。
 
-主要所有者和所有者可以通过单击左下角的首字母缩写并从菜单中选择 **[分析](https://claude.ai/analytics/overview)** 来访问专用分析设置中的分析。此外，Chat、Claude Code、Claude Design 和 Cowork 选项提供特定于产品的分析，Surveys 选项让您可以直接向用户询问他们的体验。
+主要所有者和所有者可以通过单击左下角的首字母缩写并从菜单中选择 **[分析](https://claude.ai/analytics/overview)**来访问专用分析设置中的分析。此外，Chat、Claude Code、Claude Design 和 Cowork 选项提供特定于产品的分析，Surveys 选项让您直接向用户询问他们的体验。
 
 ---
 
@@ -22,7 +22,7 @@
 
 - Cowork 中的会话
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515895966/9f231a620f47d49e0ee648152189/848c1787-4eaa-4809-8fd2-1dbe2722560f?expires=1795451400&amp;signature=cfa6ddd166584fdbd1246a6b6a6cee57c2923c2e8d199373a17fa17b9f4a5b64&amp;req=diUmE8F3mIhZX%2FMW1HO4zZL6wKN2noR1ExEG4dCAGDYOHtMaAG6KOHjEWU61%0AucWCbR8NLe%2FfZ5iILHo%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515895966/9f231a620f47d49e0ee648152189/848c1787-4eaa-4809-8fd2-1dbe2722560f?expires=1795622400&amp;signature=764dffea880043ee4d3c134a9f8e603977030b38fbcf4afe646cf9c066f366a8&amp;req=diUmE8F3mIhZX%2FMW1HO4zZL6wKN0mYd1ExEG4dCAGDZ4wZe7m8ES0LZRrvWC%0AQZjJVuk5f0TN1J00weQ%3D%0A)
 
 ### 谁在使用 Claude？
 
@@ -32,9 +32,9 @@
 
 - 成员
 
-使用 **活跃成员和已分配的席位** 图表上的下拉菜单按产品进行筛选，包括 Claude Design。
+使用 **活跃成员和已分配的席位**图表上的下拉菜单按产品进行筛选，包括 Claude Design。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896351/4d955858e6662c37489cc1470871/457cf159-8c2a-4403-ba22-cb92cb47e459?expires=1795451400&amp;signature=ce332c1264156a3e13850622c100ae7837da5416315c06a40d3ee424bc1cce0b&amp;req=diUmE8F3m4JaWPMW1HO4zYEqezKtR5GrYqPRsgaNdTxbfeJZgkep4BtITDrT%0ADbUe9tHc3%2Be2Yb%2BgzFg%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896351/4d955858e6662c37489cc1470871/457cf159-8c2a-4403-ba22-cb92cb47e459?expires=1795622400&amp;signature=0183819ee6be34cf1595a29eaffd0b8d64e3d29c780f15271e88a2229f20975c&amp;req=diUmE8F3m4JaWPMW1HO4zYEqezKvQJKrYqPRsgaNdTySBqtkJE7wTMgcoZHE%0AqLEgfsJqXH2gb14zLUc%3D%0A)
 
 ### 他们如何使用 Claude？
 
@@ -48,9 +48,9 @@
 
 - 他们的工作有多大的自主性？(测试版)
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2583875713/e3cb3c329f3b643cb9a3809876b3/image.png?expires=1795451400&amp;signature=d68e335643181e3961ebff720f2167afa9c4147984bc38c9ff427122f1244cc0&amp;req=diUvFcF5mIZeWvMW1HO4zciS3K3tn79vDFD6TO7tG4jnDW5ovn3SxA3y9x9W%0AfKA%2FRiumHCreiXeTlBo%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2583875713/e3cb3c329f3b643cb9a3809876b3/image.png?expires=1795622400&amp;signature=ccc254cdb7002ef410bac333669c67390d84d2e9fe9d452ab1f9557f5ce77de1&amp;req=diUvFcF5mIZeWvMW1HO4zciS3K3vmLxvDFD6TO7tG4jKvz4wI1hu5xUIZlsZ%0AFIMiKcpy2fD%2BP8ih8ec%3D%0A)
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896563/abf008596ce5501297a609696362/fce5423c-4769-4b73-9a0a-c50f6407ebea?expires=1795451400&amp;signature=e1652ed150262ea7028be9bffba2ebfad6cfa7edf2cbd75347dcdc684bda7201&amp;req=diUmE8F3m4RZWvMW1HO4zR%2BID4JquPbzLS3kobW3ZgRjO%2Ft46D%2BM0eEAPDMk%0AxTTgUXo9tugwQOxLy6w%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896563/abf008596ce5501297a609696362/fce5423c-4769-4b73-9a0a-c50f6407ebea?expires=1795622400&amp;signature=a444624e4b7a3896cda6c9c7a969b9b55686354e6e6b5807931725421fbb884b&amp;req=diUmE8F3m4RZWvMW1HO4zR%2BID4Jov%2FXzLS3kobW3ZgSQ%2FS5BY3OftjKtmFfa%0AHBQYcFz1lAy23R4n%2BO4%3D%0A)
 
 ### 结果如何？
 
@@ -66,11 +66,11 @@
 
 - 估计节省的时间
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896943/dd415f03afe56ca38308ef987f86/189e8ebc-5594-4f4b-bd84-e3c11c824d5b?expires=1795451400&amp;signature=3485cce952efa77ee0bfb4baa1bb31f9005e47c39ffa120fa07601f7471162e8&amp;req=diUmE8F3m4hbWvMW1HO4zfJThSE7rN1CiovaLYNN7RnEQKn2cPMxmYjt3U5f%0AS9H%2FWiYeYFx5XDn52rU%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896943/dd415f03afe56ca38308ef987f86/189e8ebc-5594-4f4b-bd84-e3c11c824d5b?expires=1795622400&amp;signature=9c8373be5f31ce27453afc7f920caa07b99801d139b0eafe0f9eb2eae189a8de&amp;req=diUmE8F3m4hbWvMW1HO4zfJThSE5q95CiovaLYNN7Rnc8bi4EnTg8bkAhj9i%0AYXRXdwIWJGA2u%2BDJffE%3D%0A)
 
 ### Claude 的成本是多少？
 
-**注意：**如果您使用的是 **[基于席位的 Enterprise 计划](https://support.claude.com/en/articles/13393991-purchase-and-manage-seats-on-enterprise-plans#h_6a78e30e26)**，仅当您的组织 **[启用了使用额度](https://support.claude.com/en/articles/12005970-)** 时，支出报告才会显示。支出数据仅涵盖超额支出——基于席位的配额内的使用不包括在内。
+**注意：**如果您使用的是 **[基于席位的 Enterprise 计划](https://support.claude.com/en/articles/13393991-purchase-and-manage-seats-on-enterprise-plans#h_6a78e30e26)**，仅当您的组织 **[启用了使用额度](https://support.claude.com/en/articles/12005970-)**时，支出报告才会显示。支出数据仅涵盖超额支出——基于席位的配额内的使用不包括在内。
 
 此部分包括以下分析：
 
@@ -78,15 +78,15 @@
 
 - 支出集中度
 
-- 总支出（月至今、季度至今、年至今、1 年）——图表显示您的实际支出和建议零售价
+- 总支出（月至今、季度至今、年至今、1 年）——图表显示您的实际支出和列表价格
 
 - 按模型的支出（月至今、季度至今、年至今、1 年）
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896942/b403f2d216fc40b5195911020b8e/446b99f1-3187-4b79-b2be-9f17b1632ff8?expires=1795451400&amp;signature=38c029793c9258b6e55228b8c84ba1ff48d9515bb3df337326a07ca8e27d1f2a&amp;req=diUmE8F3m4hbW%2FMW1HO4zYE%2BQtsG6TDZWbBLGZ4vBJVtLZ5JhesOdBPWhCaY%0AagUemb11PJNGW3sFTa4%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896942/b403f2d216fc40b5195911020b8e/446b99f1-3187-4b79-b2be-9f17b1632ff8?expires=1795622400&amp;signature=ea058fb4c5252f57ca3b5b227a1890100ff8afcf92bae28bf0f0fa9e46660fbd&amp;req=diUmE8F3m4hbW%2FMW1HO4zYE%2BQtsE7jPZWbBLGZ4vBJWII9XTsba0sWml%2BKc9%0A1PqhZuA6qrGJ9hbsv7Y%3D%0A)
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896941/2239ce38639df339b24d5af1cb50/f829bc2a-ee52-4135-9b13-09ef1b7d66d6?expires=1795451400&amp;signature=4a9f48b08dfffb4c5c1cf9cd5b79d98f9956fdee6737bacc90abd3f45756f0bf&amp;req=diUmE8F3m4hbWPMW1HO4zTz0N%2B8GIshUC%2BtvTPa1I7HLVVbGqlhs1gNEvHXn%0ALrejmZArxZABuoyvJoM%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515896941/2239ce38639df339b24d5af1cb50/f829bc2a-ee52-4135-9b13-09ef1b7d66d6?expires=1795622400&amp;signature=704afc7c5f5a489762bc6598a74b94d625a4f26de5f98c94b5c94abfcee8cdf4&amp;req=diUmE8F3m4hbWPMW1HO4zTz0N%2B8EJctUC%2BtvTPa1I7HDW1rIda%2BINRgxjAkm%0ACoh8ps1Ru51BRQZ%2Fp5M%3D%0A)
 
-**注意：**要了解支出限制如何影响您的组织，您也可以查看 **[组织设置 > 使用](https://claude.ai/admin-settings/usage)** 顶部的 **被支出限制阻止** 部分。**被支出限制阻止** 是为基于使用的 Enterprise 计划构建的。没有基于使用的席位的组织只能看到目前有多少成员被阻止或接近其限制。详细了解 **[在 Enterprise 计划上监控使用和支出](https://support.claude.com/en/articles/11526368-how-am-i-billed-for-my-enterprise-plan#h_ae17ec8236)**。
+**注意：**要了解支出限制如何影响您的组织，您也可以查看 **[组织设置 > 使用](https://claude.ai/admin-settings/usage)**顶部的 **被支出限制阻止**部分。**被支出限制阻止**是为基于使用的 Enterprise 计划构建的。没有基于使用的席位的组织只能看到当前有多少成员被阻止或接近其限制。详细了解 **[在 Enterprise 计划上监控使用和支出](https://support.claude.com/en/articles/11526368-how-am-i-billed-for-my-enterprise-plan#h_ae17ec8236)**。
 
 ## 导出支出报告
 
@@ -96,19 +96,19 @@
 
 1. 导航到 **[设置 > 分析](https://claude.ai/analytics/activity)**。
 
-2. 向下滚动到 **Claude 的成本是多少？** 部分。
+2. 向下滚动到 **Claude 的成本是多少？**部分。
 
-3. 单击 “导出支出报告” 按钮。
+3. 单击 “导出支出报告”按钮。
 
 4. 选择时间段：MTD、上个月、过去 90 天或自定义。
 
-5. 如果选择 “自定义，” 请选择开始和结束日期。您最多可以回溯 90 天，最新可用数据来自昨天。
+5. 如果选择 “自定义，”请选择开始和结束日期。您最多可以回溯 90 天，最新的可用数据来自昨天。
 
 6. 单击 “下载。”
 
 ### 报告中包含什么？
 
-CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇总了为导出选择的整个日期范围。报告包括以下字段：
+CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇总到为导出选择的整个日期范围。报告包括以下字段：
 
 - 用户的电子邮件
 
@@ -156,35 +156,35 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 - 每天的聊天数
 
-- 至少进行过 1 次聊天的用户百分比
+- 拥有 1 次或以上聊天的用户百分比
 
 - 聊天总数（1 周、1 个月、3 个月、1 年）
 
 - 聊天最多的顶级成员
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515898793/405db0c492da11886c28a2b82731/71a55afc-1cef-4c50-b7e1-86775cb9a168?expires=1795451400&amp;signature=2b3230c1ddb4eeba5da771fd030e62b44c29a9a08e99639601735b5bdbd63a15&amp;req=diUmE8F3lYZWWvMW1HO4zbhc8PiYZOUlTcfMEUwBBiUUuLwHbAd7e5mRshYH%0ADu%2FB5sxWPF6Z3NJmCVs%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515898793/405db0c492da11886c28a2b82731/71a55afc-1cef-4c50-b7e1-86775cb9a168?expires=1795622400&amp;signature=40e69101bc3fbe7f92ec35f0a57d0f5d886d35795fb5069bfc146f8f5806b1bb&amp;req=diUmE8F3lYZWWvMW1HO4zbhc8PiaY%2BYlTcfMEUwBBiXkJtsvx%2F298Iqj9nnX%0AgxmIpQ7eDhmjg8OJPYA%3D%0A)
 
 ### 项目
 
 - 每天创建的项目数
 
-- 至少创建过 1 个项目的用户百分比
+- 拥有 1 个或以上项目的用户百分比
 
-- 列出的项目及其关联的用户数、对话数和消息数。
+- 列出的项目及其关联的用户、对话和消息数量。
 
 - 项目使用最多的顶级成员
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515899610/91d93108f0767e795fb9e488e882/71607d6d-dff1-4a13-a445-aa1d79850eed?expires=1795451400&amp;signature=af0822c08ef63ea46d05daae76faddfcf288ecdc9e08aae4c12d8dff7988d1ce&amp;req=diUmE8F3lIdeWfMW1HO4zWhGoDmdniKmExu5cYiHHN89QTs8t4FLzcllMQgD%0AxQT5sZiLdD5yFLjB8X4%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515899610/91d93108f0767e795fb9e488e882/71607d6d-dff1-4a13-a445-aa1d79850eed?expires=1795622400&amp;signature=a9c207ad61c887db3cffcbece2f51de125380a370d9470263eb2dd24bf7bb3e6&amp;req=diUmE8F3lIdeWfMW1HO4zWhGoDmfmSGmExu5cYiHHN%2FR2jsOaKkAqZiyxVck%0Av1pOHiNHG3O%2BFO%2FCeGU%3D%0A)
 
-### 工件
+### 制品
 
-- 每天创建的工件数
+- 每天创建的制品数
 
-- 至少创建过 1 个工件的用户百分比
+- 拥有 1 个或以上制品的用户百分比
 
-- 生成工件最多的前 10 名用户（本月至今、本季度至今、本年至今、过去 1 年）
+- 生成制品最多的前 10 名用户（本月至今、本季度至今、本年至今、1 年）
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515899838/33d737f2357d6e485704669962ae/43faadc3-47da-4a93-bbb7-47a7983e7441?expires=1795451400&amp;signature=925a3404eaadea44928bc2caa5ac6fa8fdafbe63faa192d77cfbce6f8e320bc7&amp;req=diUmE8F3lIlcUfMW1HO4zcSk47%2FWe%2B%2FEjHDogqK0V%2Bzz83OH%2BEsmP4FJNuib%0Atar1FLKkMBOoJNavqDY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515899838/33d737f2357d6e485704669962ae/43faadc3-47da-4a93-bbb7-47a7983e7441?expires=1795622400&amp;signature=c189d7dbb4a254f558a201ed8a96a74802b270e0a13261dcd215b43a4086fcd7&amp;req=diUmE8F3lIlcUfMW1HO4zcSk47%2FUfOzEjHDogqK0V%2Bw%2FGdUdSg8rAcuN16L9%0AjlBBOoUE2jhSKj0963w%3D%0A)
 
 ---
 
@@ -266,7 +266,7 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 数据以 UTC 显示，每日刷新。
 
-**注意：**必须为您的组织启用 Claude Design。在启用了分析 API 的企业计划上，Claude Design 分析也可在**[分析 API](https://platform.claude.com/docs/en/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api)** 中获得。
+**注意：**必须为您的组织启用 Claude Design。在启用了分析 API 的企业计划中，Claude Design 分析也可在**[分析 API](https://platform.claude.com/docs/en/manage-claude/analytics-api#get-access-to-the-claude-enterprise-analytics-api)** 中获得。
 
 ---
 
@@ -280,9 +280,9 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 - 每日、每周和每月活跃 Cowork 用户
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515901489/8005693d55b7fefbfe9233258d39/106c22a0-3f47-47a6-abbd-4788dd70f218?expires=1795451400&amp;signature=0c400f8e693e2d2d5400f0eceee71186a036ca51f477c4a04e36b04ae368f1d5&amp;req=diUmE8B%2BnIVXUPMW1HO4zX7WE421WECsFSi1Z3SzLLuEPtgzDV17X03FZsuT%0AVgvBmxunZljWZFW1WfA%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2515901489/8005693d55b7fefbfe9233258d39/106c22a0-3f47-47a6-abbd-4788dd70f218?expires=1795622400&amp;signature=f3aa07cd480293993b797afa8f702b32930c45cf58a139baaff90ccde1ea35bc&amp;req=diUmE8B%2BnIVXUPMW1HO4zX7WE423X0OsFSi1Z3SzLLsl5FYm5P19kcB7gFVI%0Ax2vVrg0alArbk8bCKJY%3D%0A)
 
-**注意：**Cowork 分析与**[分析 API](https://platform.claude.com/docs/en/manage-claude/analytics-api)** 中的聊天和 Claude Code 数据一起提供。
+**注意：**Cowork 分析可在**[分析 API](https://platform.claude.com/docs/en/manage-claude/analytics-api)** 中与聊天和 Claude Code 数据一起获得。
 
 ---
 
@@ -294,30 +294,54 @@ CSV 中的每一行代表特定人员对特定模型的使用情况，支出汇�
 
 ## 作为成员查看您自己的使用情况
 
-在使用量计费的企业计划上，当您的管理员打开个人使用分析时，组织的任何成员都可以查看按产品、模型和技能分类的自己的使用情况，以及他们相对于为其设置的任何支出限制的位置。个人使用分析可在**[设置 > 使用情况](https://claude.ai/settings/usage)**中获得。
+如果您在企业计划的基于使用量的座位上，您可以在 Claude 网页版或 Claude Desktop 中转到**[设置 > 使用情况](https://claude.ai/settings/usage)** 以查看您自己的使用情况。此页面仅显示您自己的使用情况。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2533906328/1f5cd0a57def40676410f8f379b4/member-usage-30d-model.png?expires=1795451400&amp;signature=9adc8bdee024d26db49ef2ca187a7a7c1938b75337140f92fdf9cbd5c7abd8ec&amp;req=diUkFcB%2Bm4JdUfMW1HO4zfveBqrBeereWGUKUw6QS4%2F5UWKotcIg5dAtylUC%0ALjNbvCkRZXr0Cs4r8TM%3D%0A)
+您组织的管理员也可能在分析和支出报告中看到您的使用情况。查看您的使用情况不会改变您的限制、计划或账单。
+
+**设置 > 使用情况**显示：
+
+- 您本月的支出、为您设置的任何每月支出限制以及何时重置
+
+- 您本周使用 Claude 的时间的每小时视图，以及如果您上周也使用了 Claude，两周的比较
+
+- 您本月按产品和模型的请求份额
+
+- 按估计支出排名的您的技能
+
+- 您按产品的每日支出
+
+- 登录到您账户的设备（您可以从列出的其他浏览器和应用中注销）
+
+本月支出和每日支出显示您计入支出限制的使用情况。它们不是账单金额，可能与您组织的发票不同。
+
+**注意：**最近的使用情况可能需要几个小时才能出现在每小时视图中。“按技能支出”部分显示当前月份至昨天，其成本是估计值，不是您的组织被账单的金额。按技能支出和每日支出仅对基于使用量计费的组织显示。如果您的组织已关闭**成员分析**，您将看不到每小时视图或细分。
+
+**注意：**此视图适用于基于使用量的座位。基于座位的用户和受 FERPA 或 HIPAA 保护的组织中的用户会看到不同的**设置 > 使用情况**页面。
 
 ---
 
 ## 打开或关闭个人使用分析
 
-**注意：**个人使用分析适用于使用量计费的企业组织。**成员分析**切换不会出现在团队计划组织或基于座位的企业组织中。
+**注意：****成员分析**切换开关适用于基于使用量计费的企业组织。它不会出现在团队计划组织或基于座位的企业组织中。
 
-所有者和主要所有者控制成员是否可以看到此视图。该设置适用于整个组织。
+所有者、主要所有者和将账单权限设置为“可以管理”的自定义角色可以使用成员分析切换开关来控制成员是否在**设置 > 使用情况**中看到每小时视图和使用情况细分。该设置适用于整个组织。
+
+要打开或关闭个人使用分析：
 
 1. 导航到**[组织设置 > 使用情况](https://claude.ai/admin-settings/usage)**。
 
-2. 找到**成员分析**切换。
+2. 找到**成员分析**切换开关。
 
-3. 打开或关闭它。
+3. 将其打开或关闭。
 
-**注意：**自 2026 年 7 月 11 日起，个人使用分析默认打开。如果您想保持成员级别的可见性关闭，请更改设置。
+关闭时，用户将不再看到每小时视图、与上周的比较、他们的每日支出或他们使用的产品、模型和技能。他们仍然会看到本月的支出、任何支出限制和他们登录的设备。
+
+**注意：****成员分析**自2026年7月11日起默认启用。要防止用户看到这些细目，请关闭该设置。
 
 ---
 
 ## 以编程方式访问您的分析数据
 
-如果您使用企业计划并想将分析数据拉入您自己的仪表板或报告工具，分析 API 可让您以编程方式访问分析仪表板中提供的相同使用情况和参与指标。要开始使用，请参阅我们的**[分析 API 文档](https://platform.claude.com/docs/en/manage-claude/analytics-api)**。
+如果您使用企业计划并想将分析数据导入您自己的仪表板或报告工具，分析API为您提供对分析仪表板中提供的相同使用情况和参与度指标的编程访问权限。要开始使用，请参阅我们的**[分析API文档](https://platform.claude.com/docs/en/manage-claude/analytics-api)**。
 
-**重要**：只有您组织的主要所有者才能从**[组织设置 > API](https://claude.ai/admin-settings/api-access)** 启用分析 API 并创建分析 API 密钥：在**API** 下，打开分析 API；在**密钥**下，单击 “+创建密钥”并选择 `read:analytics` 范围。所有者和管理员根本看不到该页面上的分析 API。这是预期的，不是权限错误——请要求您的主要所有者启用它并创建密钥。如果您的组织链接到父组织，则由父组织的主要所有者执行此操作。
+**重要提示**：只有您组织的主所有者才能从**[组织设置 > API](https://claude.ai/admin-settings/api-access)**启用分析API并创建分析API密钥：在**API**下，打开分析API；在**密钥**下，点击“+创建密钥”并选择`read:analytics`范围。所有者和管理员在该页面上根本看不到分析API。这是正常的，不是权限错误——请要求您的主所有者启用它并创建密钥。

@@ -14,7 +14,7 @@ Scheduled tasks run locally, in Claude Desktop on the user's device, which must 
 
 A run needs each of the following:
 
-* **The device is awake and Claude Desktop is open**: a task that misses its time runs once after the device wakes or the app opens. If it missed several times, it runs for the latest one only, and the task's **History** shows the earlier ones as one **Skipped** entry. A recurring task's missed time more than seven days old doesn't run and isn't listed.
+* **The device is awake and Claude Desktop is open**: a task that misses its scheduled time runs once after the device wakes or the app opens. If the task missed several scheduled times, it runs for the latest one only, and the task's **History** shows the earlier ones as one **Skipped** entry. A recurring task doesn't run for a missed time that is more than seven days old, and that time isn't listed.
 * **The device can reach your inference provider**: while the device has no network connection, the run waits. If your provider or gateway doesn't answer, or returns a server error such as 500, 503, or 529, before Claude starts to respond, Claude Desktop starts the run again up to eight times over three to four hours, stopping at the task's next scheduled time. The user is notified of the first failure and of the final outcome. Claude Desktop doesn't retry a 401, 403, or 429 response, or a failure after Claude starts to respond.
 * **The user is signed in**: where users sign in to your gateway, inference provider, or bootstrap server, runs wait while the sign-in has expired. Claude Desktop notifies the user to sign in again, and the runs start after that.
 * **The task's connectors are signed in**: otherwise the run continues without the connector, and its notification reads **Reconnect** or **Couldn’t use**, followed by the connector's name
@@ -37,6 +37,12 @@ Each run is a new session, so an approval for that run alone ends with it. For a
 
 The task's page lists these approvals under **Always allowed**, where the user can remove them. An **Allow for all tasks** approval for a [plugin's own server](https://claude.com/docs/third-party/claude-desktop/extensions.md#approvals-that-users-keep-for-a-plugin-server) can also answer a run. The plugin's page lists it, not the task's page.
 
+### Permission mode of a scheduled task in Cowork
+
+By default, a new scheduled task in Cowork runs in **Manually approve**, whether Claude creates the task or the user creates it on the **Scheduled** page. The task doesn't take the mode that the user last picked for Cowork sessions.
+
+Where [`autoModeEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#automodeenabled) is `true`, the user can choose **Automatically approve** under **Permissions** when creating or editing the task. The mode needs a [model that supports it](https://code.claude.com/docs/en/permission-modes#eliminate-prompts-with-auto-mode).
+
 ## Where users see what ran
 
 Users can see how each task's latest run went without opening the run:
@@ -53,4 +59,4 @@ These keys control scheduled tasks for your organization:
 
 * [`scheduledTasksEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#scheduledtasksenabled): turns scheduled tasks on or off in Cowork and Code
 * [`keepAwakeEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#keepawakeenabled): allows keep-awake, or blocks it and hides its toggles
-* [`mcpScheduledTaskApprovalLifetimeDays`](https://claude.com/docs/third-party/claude-desktop/configuration#mcpscheduledtaskapprovallifetimedays): sets how many days a task's approvals of connector tools and file deletion hold, and `0` turns those off. While it's unset, [`mcpPersistentAlwaysAllowEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#mcppersistentalwaysallowenabled) decides whether prompts offer them. [Some approvals aren't covered](https://claude.com/docs/third-party/claude-desktop/configuration.md#tool-approvals-on-scheduled-tasks).
+* [`mcpScheduledTaskApprovalLifetimeDays`](https://claude.com/docs/third-party/claude-desktop/configuration#mcpscheduledtaskapprovallifetimedays): sets how many days a task's approvals of connector tools and file deletion last, and `0` turns those approvals off. While the key is unset, [`mcpPersistentAlwaysAllowEnabled`](https://claude.com/docs/third-party/claude-desktop/configuration#mcppersistentalwaysallowenabled) decides whether prompts offer them. [Some approvals aren't covered](https://claude.com/docs/third-party/claude-desktop/configuration.md#tool-approvals-on-scheduled-tasks).

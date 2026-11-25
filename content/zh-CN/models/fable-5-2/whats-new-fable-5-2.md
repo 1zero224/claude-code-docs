@@ -147,7 +147,7 @@ Claude Mythos 5.2 仅向通过 Anthropic 验证计划（例如 [Cyber Verificati
 
 如需申请访问权限，请申请适用于您用例的计划，或联系您的客户团队。
 
-Claude Fable 5.2 和 Claude Mythos 5.2 要求 30 天数据保留，除非获得 Anthropic 明确授权，否则不支持零数据保留。两者均为[受覆盖模型](https://support.claude.com/en/articles/15425695)。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
+Claude Fable 5.2 和 Claude Mythos 5.2 要求 30 天数据保留，除非获得 Anthropic 明确授权，否则不支持旧版零数据保留（Legacy ZDR）。两者均为[受覆盖模型](https://support.claude.com/en/articles/15425695)。请参阅[特定模型的数据保留要求](https://platform.claude.com/docs/zh-CN/manage-claude/api-and-data-retention#model-specific-data-retention-requirements)。
 
 ## 从 Claude Fable 5.1 迁移
 

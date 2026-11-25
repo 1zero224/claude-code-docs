@@ -115,6 +115,8 @@ Create Agent
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -227,9 +229,13 @@ Create Agent
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -1059,9 +1065,13 @@ Create Agent
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -1957,6 +1967,8 @@ List Agents
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -2123,9 +2135,13 @@ List Agents
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -3005,6 +3021,8 @@ Get Agent
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -3171,9 +3189,13 @@ Get Agent
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -4042,6 +4064,8 @@ Update Agent
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -4186,9 +4210,13 @@ Update Agent
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -4992,9 +5020,13 @@ Update Agent
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -5863,6 +5895,8 @@ Archive Agent
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -6029,9 +6063,13 @@ Archive Agent
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -6918,9 +6956,13 @@ public final class Main {
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -10216,9 +10258,13 @@ public final class Main {
 
   - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+    **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
     Powerful intelligence for long-running agents and coding
 
   - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+    **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
     Powerful intelligence for long-running agents and coding
 
@@ -10300,9 +10346,13 @@ public final class Main {
 
     - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+      **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
       Powerful intelligence for long-running agents and coding
 
     - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+      **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
       Powerful intelligence for long-running agents and coding
 
@@ -10430,9 +10480,13 @@ public final class Main {
 
     - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+      **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
       Powerful intelligence for long-running agents and coding
 
     - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+      **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
       Powerful intelligence for long-running agents and coding
 
@@ -11652,9 +11706,13 @@ public final class Main {
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 
@@ -13326,6 +13384,8 @@ List Agent Versions
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
 
+    - `EFS_2026_10_01("efs-2026-10-01")`
+
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 
     - `MESSAGE_BATCHES_2024_09_24("message-batches-2024-09-24")`
@@ -13492,9 +13552,13 @@ List Agent Versions
 
       - `CLAUDE_OPUS_4_5("claude-opus-4-5")`
 
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
+
         Powerful intelligence for long-running agents and coding
 
       - `CLAUDE_OPUS_4_5_20251101("claude-opus-4-5-20251101")`
+
+        **Deprecated**: Will reach end-of-life on January 22, 2027. Please migrate to claude-opus-5-5. Visit https://docs.anthropic.com/en/docs/resources/model-deprecations for more information.
 
         Powerful intelligence for long-running agents and coding
 

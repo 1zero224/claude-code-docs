@@ -474,13 +474,19 @@ if err != nil {
 }
 ```
 
+要根据错误代码和 HTTP 状态进行分支处理，请参阅[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)。
+
 当发生其他错误时，它们会以未包装的形式返回；例如，如果 HTTP 传输失败，您可能会收到包装了 `*net.OpError` 的 `*url.Error`。
 
 ## 重试
 
-默认情况下，某些错误会自动重试 2 次，并采用短暂的指数退避。 SDK 默认会重试所有连接错误、408 Request Timeout、409 Conflict、429 Rate Limit 以及 >=500 Internal 错误。
+默认情况下，SDK 最多会对某些错误重试两次（总共三次尝试）。对于[某些创建方法](https://platform.claude.com/docs/zh-CN/cli-sdks-libraries/sdks/go#retries-for-create-methods)，SDK 重试的情况更少。
 
-您可以使用 `WithMaxRetries` 选项来配置或禁用此功能：
+对于大多数方法（例如 `client.Messages.New()`），SDK 会重试连接错误、超时、408 Request Timeout、409 Conflict、 429 Too Many Requests 以及 5xx 服务器错误。
+
+对于这些方法，如果响应包含 `x-should-retry` 响应头（`true` 或 `false`），SDK 会遵循该响应头而不是状态码。在两次尝试之间，SDK 会按照 `retry-after` 响应头指定的时长等待，或者采用短暂的指数退避。
+
+使用 `option.WithMaxRetries()` 来配置或禁用重试：
 
 ```go
 // 为所有请求配置默认值：
@@ -502,6 +508,17 @@ client := anthropic.NewClient(
 		option.WithMaxRetries(5),
 	)
 ```
+
+### 创建方法的重试
+
+为避免创建重复的资源，SDK 仅在两种情况下重试某些创建方法（例如 `client.Beta.Agents.New()`）：
+
+* API 返回 429 Too Many Requests 响应。
+* SDK 无法连接到 API，因此从未发送请求。
+
+在这两种情况下，API 都尚未处理该请求，因此重试不会创建第二个资源。
+
+对于任何其他错误，这些方法都会直接返回而不进行重试，即使响应包含 `x-should-retry: true`。在发生服务器错误时，或者在 SDK 发送请求后连接断开或超时的情况下，API 可能已经创建了该资源。请在再次调用该方法之前检查资源是否存在。
 
 ## 超时
 

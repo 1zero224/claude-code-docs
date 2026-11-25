@@ -10,23 +10,23 @@ This page walks an IT administrator through a complete deployment on Google Clou
 
 ## Choose an authentication approach
 
-Google Cloud's Agent Platform authenticates with Google Cloud Application Default Credentials, which can be supplied several ways. The right one depends on whether your users have Google identities and whether you need per-user attribution in Cloud Audit Logs.
+Claude Desktop authenticates to Google Cloud's Agent Platform with Google Cloud Application Default Credentials, which you can supply in several ways. The right way depends on whether your users have Google identities and whether you need per-user attribution in Cloud Audit Logs.
 
 | Scenario | Use | Per-device prerequisite | Per-user Cloud Audit Logs identity | Notes |
 | - | - | - | - | - |
 | Proof of concept, single team | [Service-account key](#credentials-file) (`inferenceVertexCredentialsFile`) | The key file on each device | No (shared service account) | A long-lived secret distributed to every device. Simplest to start; not recommended for broad rollout. |
 | Users have Google Workspace or Cloud Identity accounts | [In-app Google sign-in](#in-app-google-sign-in) (`inferenceVertexOAuth*`) | None | Yes | Users sign in with their Google account inside the app. |
 | Users authenticate with a third-party IdP (Entra ID, Okta, Ping, …) and you don't want to provision Google identities | [In-app Workforce Identity sign-in](#in-app-workforce-identity-sign-in) (`inferenceVertexWorkforce*`) | None | Yes (workforce-pool principal) | Users sign in with their corporate identity inside the app. The app runs PKCE against your IdP and exchanges the ID token at Google STS. |
-| Your organization already has tooling that obtains a bearer token accepted by Google Cloud's Agent Platform | [Credential helper](https://claude.com/docs/third-party/claude-desktop/configuration.md#inferencecredentialhelper) (`inferenceCredentialHelper`) | The helper executable on each device | Depends on what the helper obtains | The app sends the token the helper prints as the bearer on each inference request. |
+| Your organization already has tooling that obtains a bearer token accepted by Google Cloud's Agent Platform | [Credential helper](https://claude.com/docs/third-party/claude-desktop/configuration.md#inferencecredentialhelper) (`inferenceCredentialHelper`) | The helper executable on each device | Depends on what the helper obtains | The helper prints a token, and the app sends that token as the bearer token on each inference request. |
 | You already operate an LLM proxy | [Gateway provider](https://claude.com/docs/third-party/claude-desktop/gateway.md) instead of Google Cloud's Agent Platform | None | At your gateway | The proxy holds the Google Cloud credentials; the app authenticates only to the proxy. |
 
 > [!WARNING]
 >
-> If your Google Workspace or Cloud Identity organization enforces a **Google Cloud session length** of a few hours or less (Admin console → Security → Google Cloud session control), the in-app Google sign-in stores a refresh token that is subject to that policy, and users will be prompted to sign in again each time it expires. For short session policies, either mark your OAuth client as a [trusted app exempt from reauthentication](https://support.google.com/a/answer/9368756), or use a service-account key, Workforce Identity sign-in, or the gateway provider instead.
+> If your Google Workspace or Cloud Identity organization enforces a **Google Cloud session length** of a few hours or less (Admin console → Security → Google Cloud session control), the in-app Google sign-in stores a refresh token that is subject to that policy, and users will be prompted to sign in again each time the refresh token expires. For short session policies, either mark your OAuth client as a [trusted app exempt from reauthentication](https://support.google.com/a/answer/9368756), or use a service-account key, Workforce Identity sign-in, or the gateway provider instead.
 
 ## Set up Google Cloud
 
-These steps are performed once per Google Cloud project, regardless of which authentication approach you chose. You need a project with Owner or Editor access.
+Complete these steps once per Google Cloud project, regardless of which authentication approach you chose. You need a project with Owner or Editor access.
 
 **1. Enable the Vertex AI API**
 
@@ -62,7 +62,7 @@ If your users authenticate with Microsoft Entra ID, Okta, or another identity pr
 
 Create a service account in your project, grant it the **Vertex AI User** role, and download its JSON key. Distribute the key file to a fixed path on each device through your device-management tooling and set `inferenceVertexCredentialsFile` to that path.
 
-`inferenceVertexCredentialsFile` accepts any Application Default Credentials JSON format, so if your environment already produces an `authorized_user` file (from `gcloud auth application-default login`) or an `external_account` Workforce Identity Federation configuration, you can point at that file instead. For `external_account` files, the `credential_source` must be of type `file` or `url` (`executable` sources are not supported), and separate tooling on the device must obtain the IdP token and write it to the configured location; Claude Desktop does not perform that step.
+`inferenceVertexCredentialsFile` accepts any Application Default Credentials JSON format, so if your environment already produces an `authorized_user` file (from `gcloud auth application-default login`) or an `external_account` Workforce Identity Federation configuration, you can set the key to that file's path instead. For `external_account` files, the `credential_source` must be of type `file` or `url` (`executable` sources are not supported), and separate tooling on the device must obtain the IdP token and write it to the configured location; Claude Desktop does not perform that step.
 
 ### In-app Google sign-in
 
@@ -124,7 +124,7 @@ In your IdP, register a native OAuth client for the app. The app does not send a
 
 Register the redirect URI with `127.0.0.1` rather than `localhost`, because the app uses `127.0.0.1` by default and most IdPs do not treat the two as interchangeable. If your IdP accepts only `localhost` in a registered redirect URI, set the `redirectHost` field of [`inferenceVertexWorkforceOidc`](https://claude.com/docs/third-party/claude-desktop/configuration#inferencevertexworkforceoidc) to `localhost` and register `http://localhost/callback` instead, or `http://localhost:<port>/callback` when you set `redirectPort`.
 
-Distribute the workforce-pool provider audience (`inferenceVertexWorkforceAudience`, in the form `//iam.googleapis.com/locations/global/workforcePools/POOL/providers/PROVIDER`) and the IdP OIDC client (`inferenceVertexWorkforceOidc`) in the managed configuration; the app shows a **Sign in with Google Cloud** page on first launch, runs an authorization-code-with-PKCE flow against your IdP in the system browser, exchanges the returned ID token for a Google Cloud access token at `sts.googleapis.com`, and stores the IdP refresh token encrypted with the operating system's secure storage. No `gcloud` CLI, helper script, or Google identity is required.
+Distribute the workforce-pool provider audience (`inferenceVertexWorkforceAudience`, in the form `//iam.googleapis.com/locations/global/workforcePools/POOL/providers/PROVIDER`) and the IdP OIDC client (`inferenceVertexWorkforceOidc`) in the managed configuration. The app then shows a **Sign in with Google Cloud** page on first launch. For the sign-in, the app runs an authorization-code-with-PKCE flow against your IdP in the system browser, exchanges the returned ID token for a Google Cloud access token at `sts.googleapis.com`, and stores the IdP refresh token encrypted with the operating system's secure storage. No `gcloud` CLI, helper script, or Google identity is required.
 
 The app always requests the `offline_access` scope so that the IdP returns a refresh token for silent renewal. If your IdP rejects `offline_access` on this client (for example, a PingFederate public client without the Refresh Token grant type enabled), set the `omitOfflineAccess` field of `inferenceVertexWorkforceOidc` to `true`. Without a refresh token the app cannot refresh silently, so users will be prompted to sign in again each time the IdP's ID token expires, typically about once an hour.
 
@@ -136,17 +136,34 @@ With Google Cloud set up and devices prepared, open the [in-app configuration wi
 
 | Field | Service-account key | In-app Google sign-in |
 | - | - | - |
+| Credential kind | **Cloud vendor profile** | **Interactive sign-in** |
 | GCP project ID | `your-gcp-project` | `your-gcp-project` |
-| GCP region | e.g. `us-east5` | e.g. `us-east5` |
-| GCP credentials file path | `/path/to/sa-key.json` | *leave empty* |
-| Vertex OAuth client ID | *leave empty* | `1234567890-abc123.apps.googleusercontent.com` |
-| Vertex OAuth client secret | *leave empty* | `GOCSPX-xxxxxxxxxxxxxxxxxxxx` |
-| Vertex OAuth scopes | *leave empty* | *leave empty for the default* |
+| GCP region | for example, `us-east5` | for example, `us-east5` |
+| GCP credentials file path | `/path/to/sa-key.json` | *field hidden* |
+| Vertex OAuth client ID | *field hidden* | `1234567890-abc123.apps.googleusercontent.com` |
+| Vertex OAuth client secret | *field hidden* | `GOCSPX-xxxxxxxxxxxxxxxxxxxx` |
+| Vertex OAuth scopes | *field hidden* | *leave empty for the default* |
 | Vertex AI base URL | *optional* | *optional* |
+
+For the other authentication approaches, select a different **Credential kind**:
+
+* **[In-app Workforce Identity sign-in](#in-app-workforce-identity-sign-in)**: select **Workforce Identity**
+* **[Credential helper](https://claude.com/docs/third-party/claude-desktop/configuration.md#inferencecredentialhelper)**: select **Helper script**
 
 Under **Models**, add at least one **Model list** entry using the publisher model ID, for example `claude-sonnet-5`.
 
 Then click **Export** to produce a `.mobileconfig` (macOS) or `.reg` (Windows) file for your MDM. See [Deploy with MDM](https://claude.com/docs/third-party/claude-desktop/mdm.md) for the export and deployment workflow.
+
+### Check the connection to Google Cloud
+
+With the **Vertex AI** provider selected in the [in-app configuration window](https://claude.com/docs/third-party/claude-desktop/in-app-configuration.md#open-the-configuration-window), the **Test connection** button doesn't send a test request to Google Cloud. If your credential helper fails, the result names the error. Otherwise, the result reads `Vertex auth cannot be probed from the main process.`
+
+To check the connection, send a message through it:
+
+1. In the in-app configuration window, click **Apply Changes**.
+2. Click **Save & Restart**. If your changes are already saved, click **Relaunch now** instead.
+3. If **Credential kind** is **Interactive sign-in** or **Workforce Identity**, click **Sign in with Google Cloud** after the app relaunches, and complete the sign-in.
+4. Send a message. A reply from Claude confirms the connection.
 
 ### Configuration keys
 
@@ -261,7 +278,7 @@ One of: `browser`, `broker`
 > [accordion] More detail
 >
 > * **`browser`:** register the redirect URI `http://127.0.0.1:<port>/callback` with your identity provider (for Entra, `http://127.0.0.1/callback`).
-> * **`broker`:** uses Web Account Manager on Windows or Company Portal on macOS, and does not work on Linux. It can satisfy Conditional Access policies requiring a compliant or managed device, or token protection.
+> * **`broker`:** uses Web Account Manager on Windows or Company Portal on macOS, and does not work on Linux. It can satisfy Conditional Access device and token-protection policies.
 >
 > `broker` needs Microsoft Entra ID, with the `issuer` in `inferenceVertexWorkforceOidc` set to `https://login.microsoftonline.com/{tenant-id}/v2.0`. Add the redirect URIs from [Register the Entra ID application](https://claude.com/docs/third-party/claude-desktop/entra-broker.md#register-the-entra-id-application).
 
@@ -319,7 +336,7 @@ Since 1.10628.0
 >
 > > [accordion] More detail
 > >
-> > The app log names a host rejected for a referrer mismatch. Add that hostname here.
+> > If the app rejects the sign-in callback because of its referrer, the app log names the rejected host. Add that hostname here.
 
 ***
 

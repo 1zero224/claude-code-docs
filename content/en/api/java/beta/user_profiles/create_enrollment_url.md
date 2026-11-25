@@ -9,7 +9,9 @@ url: https://platform.claude.com/docs/en/api/java/beta/user_profiles/create_enro
 
 **POST** `/v1/user_profiles/{user_profile_id}/enrollment_url`
 
-Create Enrollment URL
+Create a link that sends the profile's end customer to the Verification Portal from Claude Platform on AWS.
+
+On the Claude API, create an action URL instead. See [Send an end customer a link to the Verification Portal](https://platform.claude.com/docs/en/manage-claude/user-profiles-verification-portal?sdk_languages=java) for when to create the link and what the end customer sees.
 
 ## Parameters
 
@@ -116,6 +118,8 @@ Create Enrollment URL
     - `EXPERIMENTAL_CLAUDE_TAG_2026_10_21("experimental-claude-tag-2026-10-21")`
 
     - `CE_CLAUDE_CODE_MANAGED_SETTINGS_2026_10_06("ce-claude-code-managed-settings-2026-10-06")`
+
+    - `EFS_2026_10_01("efs-2026-10-01")`
 
     - `USER_PROFILES_BILLING_2026_10_01("user-profiles-billing-2026-10-01")`
 

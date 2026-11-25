@@ -113,50 +113,17 @@ anthropic.beta.messages.tool_runner(
 
 ## 错误处理
 
-当库无法连接到 API，或者 API 返回非成功状态码（即 4xx 或 5xx 响应）时，会抛出 `Anthropic::Errors::APIError` 的子类：
+当 SDK 无法连接到 API，或者 API 返回错误响应（4xx 或 5xx）时，会抛出 `Anthropic::Errors::APIError` 的子类。[SDK 错误类型](https://platform.claude.com/docs/zh-CN/api/errors#sdk-error-types)列出了这些类，[处理错误](https://platform.claude.com/docs/zh-CN/api/handle-errors)介绍了如何捕获（rescue）它们。
 
-```ruby
-anthropic = Anthropic::Client.new
-begin
-  message = anthropic.messages.create(
-    max_tokens: 1024,
-    messages: [{role: "user", content: "Hello, Claude"}],
-    model: Anthropic::Model::CLAUDE_OPUS_5_5
-  )
-rescue Anthropic::Errors::APIConnectionError => e
-  puts("The server could not be reached")
-  puts(e.cause)  # an underlying Exception, likely raised within `net/http`
-rescue Anthropic::Errors::RateLimitError => e
-  puts("A 429 status code was received; we should back off a bit.")
-rescue Anthropic::Errors::APIStatusError => e
-  puts("Another non-200-range status code was received")
-  puts(e.status)
-end
-```
-
-错误代码如下：
-
-| 原因 | 错误类型 |
-| ----- | ----- |
-| HTTP 400 | `BadRequestError` |
-| HTTP 401 | `AuthenticationError` |
-| HTTP 403 | `PermissionDeniedError` |
-| HTTP 404 | `NotFoundError` |
-| HTTP 409 | `ConflictError` |
-| HTTP 422 | `UnprocessableEntityError` |
-| HTTP 429 | `RateLimitError` |
-| HTTP >= 500 | `InternalServerError` |
-| 其他 HTTP 错误 | `APIStatusError` |
-| 超时 | `APITimeoutError` |
-| 网络错误 | `APIConnectionError` |
+要查看连接失败或超时的原因，请读取 `Anthropic::Errors::APIConnectionError` 或其子类 `APITimeoutError` 上的 `cause`。`cause` 保存了底层异常。
 
 ## 重试
 
-默认情况下，某些错误会自动重试 2 次，并采用短暂的指数退避。
+默认情况下，SDK 会对某些错误最多重试两次（总共尝试三次）。它会重试连接错误、超时、408 Request Timeout、409 Conflict、429 Too Many Requests 以及 5xx 服务器错误。
 
-连接错误（例如由于网络连接问题）、408 Request Timeout、409 Conflict、429 Rate Limit、>=500 内部错误以及超时，默认都会重试。
+如果响应包含 `x-should-retry` 标头（`true` 或 `false`），SDK 会遵循该标头而不是状态码。在两次尝试之间，SDK 会按照 `retry-after` 标头指示的时长等待，或者采用短暂的指数退避。
 
-您可以使用 `max_retries` 选项来配置或禁用此功能：
+使用 `max_retries` 选项来配置或禁用重试：
 
 ```ruby
 # 为所有请求配置默认值：
