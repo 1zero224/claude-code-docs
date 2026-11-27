@@ -48,7 +48,7 @@
 
 自定义桌面扩展上传允许团队和企业计划利用公共目录中不可用的组织特定工作流。创建自定义桌面扩展后,所有者和主要所有者可以导航至**设置 > 桌面应用**,在**扩展**旁选择“管理”(或在较旧的设置布局中选择**设置 > 扩展**),并点击“高级设置”以访问**扩展开发者**部分:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1681607607/ba6e379d2769d190f0970a0adaed/AD_4nXd4aZkqjJFpiXMPF28Pih7HmSJ9pPsnoWAfVgiLdFRFiTkO92YtXteIjvDHaPl7T0tjfpRTBOlyrMbQ_aciCNDgfIuEvV3szmKvt72x5O51DMSClXOYWk1JIRIzylwkj3joXqZcLw?expires=1795622400&amp;signature=344f6d267db56b27d6fe63a4e4672ba9bf99dd6a33d63880eab68a009d1e2151&amp;req=dSYvF89%2BmodfXvMW1HO4zWbPxUV5NT82Hn9K2IaIG2KZt4DrBN5bvtGu4874%0Ar3td7submrZK%2FnITM8k%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1681607607/ba6e379d2769d190f0970a0adaed/AD_4nXd4aZkqjJFpiXMPF28Pih7HmSJ9pPsnoWAfVgiLdFRFiTkO92YtXteIjvDHaPl7T0tjfpRTBOlyrMbQ_aciCNDgfIuEvV3szmKvt72x5O51DMSClXOYWk1JIRIzylwkj3joXqZcLw?expires=1795793400&amp;signature=9cfd21f0422964190660cb96a342936df7438582f8cc9e325b376a2fa03ad959&amp;req=dSYvF89%2BmodfXvMW1HO4zWbPxUV4Pj42Hn9K2IaIG2JB7M2VTMyl6ngSLN6c%0AGqXM%2FzG6IrNZPFxy3Dc%3D%0A)
 
 点击“安装扩展…”并选择.mcpb文件。按照提示安装和配置您的自定义桌面扩展。如需更深入的信息,请参阅我们的[桌面扩展开发者文档](https://github.com/anthropics/mcpb)。
 

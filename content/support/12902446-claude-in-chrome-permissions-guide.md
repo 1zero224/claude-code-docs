@@ -30,7 +30,7 @@ In "Manually approve," Claude checks with you before it acts. What that looks li
 
 Claude creates a plan from your prompt, which you can approve before Claude starts. The plan specifies which websites you're allowing Claude to access, as well as the approach it will follow:
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1795622400&amp;signature=3d2c4e97170cb9280e1e9dae825f1d810096f81397c3d0daf40af391796d16ec&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZMdL%2FoCzgN0ADj5oqFCMDo1b3h%2F2bDO7cWfZ%0A2e7xviLG6gkbL5dllKI%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1843320727/8d1c859ae9b8e0cdb536d024bf40/9bc3d239-8eb6-4bae-a032-a236f88ee606?expires=1795793400&amp;signature=40448c0e771fd5bc0236bd30163b7d18939fc82cbf4f574507ee44330b8ca1d8&amp;req=dSgjFcp8nYZdXvMW1HO4zYqyZMdK9YGzgN0ADj5oqFDZAT%2BmpVRfOiEbZlm0%0A0T9giLdwaJvGKbSeISw%3D%0A)
 
 Note that Claude will only use the websites listed in the plan, so you’ll need to manually approve any additional access requests.
 
@@ -66,7 +66,7 @@ Only use Skip when you completely trust every action, connector, file, app, etc.
 
 There are some websites on which Claude requires approval for every action. If you navigate to one of these sites, a **New permissions required** prompt will appear in the extension side panel, Claude Cowork, or Claude Code where Claude will ask for permission before accessing the page or taking any action.
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1795622400&amp;signature=60130cf972aafce9c7c7e2aa11854021d3962b820129a476b9bb27237bacbff5&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nq2N2ii7o7A4lHPBihAVt7IBsNh4tTDfC3%2B%2FU%0AGJDDrsGToGx8kkAy0IY%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2604970825/d7b961271be69e7541b406df1efd/d845324e-6b4a-4f54-83b9-0bea86ec09c6?expires=1795793400&amp;signature=791a01b9c7e182923ee5e11650a5b52244e602779d4a553cf12c346e70b37c7e&amp;req=diYnEsB5nYldXPMW1HO4zZ3Nq2N3gS%2Fo7A4lHPBihAVj6QZCSUZOuN%2FZNBhm%0Ave3LHxDjzI5aL%2FIpf8Y%3D%0A)
 
 ### Permission options
 

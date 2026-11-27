@@ -40,7 +40,7 @@
 
 启用后，双击 Option 将打开一个文本框，您可以在其中输入消息并启动新聊天。您也可以点击“新聊天”查看您最近的五个对话。
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1893088365/2ca4b782dda90abea1fe5f4150af/CleanShot+2025-12-18+at+13_14_30%402x.png?expires=1795622400&amp;signature=dbae8dcad5f5d3245f49e0db1d5b6eb7a9654af99251f91ea0c4196421846170&amp;req=dSguFcl2lYJZXPMW1HO4zWggDttXpJ6eRC8c%2FcM5c2L7l4hd%2BELlFjxSEpVo%0AjOaVgX0w3GLd4pEd8%2Fk%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/1893088365/2ca4b782dda90abea1fe5f4150af/CleanShot+2025-12-18+at+13_14_30%402x.png?expires=1795793400&amp;signature=916fca861017c6d7db49473dadb68c303101c820629ab33a343208b70c462926&amp;req=dSguFcl2lYJZXPMW1HO4zWggDttWr5%2BeRC8c%2FcM5c2K0UaF0zfciDzfn2vlZ%0AXG4j5eh3dehf0OTatIQ%3D%0A)
 
 ### 启用语音快捷键（可选）
 

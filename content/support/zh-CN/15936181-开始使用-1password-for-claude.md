@@ -52,7 +52,7 @@
 
 4. 打开**密码管理器**：
 
-![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2546126596/ba71ca47e2df21cec62c243831f8/5b1c67e1-607d-4c73-8f61-d1ceb081082a?expires=1795622400&amp;signature=557ec501c1db584272accf86ee80e6b7f4fe71b80571c03404d72067bb2bbaff&amp;req=diUjEMh8m4RWX%2FMW1HO4zU5ln25or8dnGkiu4hEpcPX9FjxNSUMqbideAQe5%0A6MN5byuaC%2F8OdbFUZlk%3D%0A)
+![](https://downloads.intercomcdn.com/i/o/lupk8zyo/2546126596/ba71ca47e2df21cec62c243831f8/5b1c67e1-607d-4c73-8f61-d1ceb081082a?expires=1795793400&amp;signature=c5dc402ec70c51185e9c5161e3344c1d51c6241850b4b83dd8c4d09acefac938&amp;req=diUjEMh8m4RWX%2FMW1HO4zU5ln25ppMZnGkiu4hEpcPWnN93RKuZi3W9a8FQ%2B%0An%2Bf43IaAtyZbwQyrk5g%3D%0A)
 
 启用后，符合条件的用户将看到上述发现选项。用户仍需要自己安装和设置所需的应用和扩展。
 
